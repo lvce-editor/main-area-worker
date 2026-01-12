@@ -1,5 +1,5 @@
 {
-  "name": "@lvce-editor/status-bar-worker-monorepo",
+  "name": "@lvce-editor/main-area-worker-monorepo",
   "version": "0.0.0-dev",
   "license": "MIT",
   "type": "module",

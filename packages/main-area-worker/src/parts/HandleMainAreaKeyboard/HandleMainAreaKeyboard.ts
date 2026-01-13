@@ -8,10 +8,10 @@ import * as SwitchTab from '../SwitchTab/SwitchTab.ts'
 export const handleMainAreaKeyboard = (
   state: MainAreaState,
   event: {
-    key: string
-    ctrlKey?: boolean
-    metaKey?: boolean
-    shiftKey?: boolean
+    readonly key: string
+    readonly ctrlKey?: boolean
+    readonly metaKey?: boolean
+    readonly shiftKey?: boolean
   },
 ): MainAreaState => {
   const { ctrlKey = false, key, metaKey = false, shiftKey = false } = event

@@ -26,7 +26,6 @@ export const getStatusBarItems = (assetDir: string, platform: number): Promise<a
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 type ListenerFunction = (...args: any[]) => any
 
 // TODO add function to dispose listener

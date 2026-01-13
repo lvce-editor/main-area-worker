@@ -11,7 +11,7 @@ export interface DragState {
 export const startTabDrag = (
   state: MainAreaState,
   tabId: string,
-  groupId: string
+  groupId: string,
 ): { readonly state: MainAreaState; readonly dragState: DragState } => {
   return {
     dragState: {
@@ -22,12 +22,7 @@ export const startTabDrag = (
   }
 }
 
-export const updateTabDrag = (
-  state: MainAreaState,
-  dragState: DragState,
-  targetGroupId: string,
-  targetIndex: number
-): DragState => {
+export const updateTabDrag = (state: MainAreaState, dragState: DragState, targetGroupId: string, targetIndex: number): DragState => {
   return {
     ...dragState,
     targetGroupId,

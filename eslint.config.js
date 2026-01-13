@@ -6,7 +6,7 @@ export default [
   ...actions.default,
   {
     rules: {
-      'typescript-eslint/prefer-readonly-parameter-types': 'off',
+      '@typescript-eslint/prefer-readonly-parameter-types': 'off',
     },
   },
 ]

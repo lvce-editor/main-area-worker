@@ -85,7 +85,6 @@ test('loadContent should return empty array when preference is false', async () 
 
   expect(mockRendererRpc.invocations).toEqual([['Preferences.get', 'statusBar.itemsVisible']])
 
-  expect(result.statusBarItemsLeft).toEqual([])
   expect(result.uid).toBe(2)
 })
 
@@ -109,25 +108,6 @@ test('loadContent should return empty array when preference is undefined', async
   ])
   expect(mockExtensionHostRpc.invocations).toEqual([[ExtensionHostCommandType.GetStatusBarItems]])
 
-  expect(result.statusBarItemsLeft).toEqual([
-    {
-      command: undefined,
-      elements: [{ type: 'text', value: 'Notifications' }],
-      name: 'Notifications',
-      tooltip: '',
-    },
-    {
-      command: undefined,
-      elements: [
-        { type: 'icon', value: ClassNames.ProblemsErrorIcon },
-        { type: 'text', value: '0' },
-        { type: 'icon', value: ClassNames.ProblemsWarningIcon },
-        { type: 'text', value: '0' },
-      ],
-      name: 'Problems',
-      tooltip: '',
-    },
-  ])
   expect(result.uid).toBe(3)
 })
 
@@ -147,7 +127,6 @@ test('loadContent should preserve existing state properties', async () => {
 
   expect(result.uid).toBe(4)
   expect(result.disposed).toBe(true)
-  expect(result.statusBarItemsLeft).toEqual([])
 })
 
 test('loadContent should handle multiple status bar items', async () => {

@@ -414,15 +414,15 @@ test('handleClickTab should return same state when activeGroupId is undefined', 
       direction: 'horizontal',
       groups: [
         {
-          id: 'group1',
-          focused: false,
-          size: 100,
           activeTabId: undefined,
+          focused: false,
+          id: 'group1',
+          size: 100,
           tabs: [
             {
-              id: 'tab1',
               content: 'content',
               editorType: 'text' as const,
+              id: 'tab1',
               isDirty: false,
               title: 'File',
             },

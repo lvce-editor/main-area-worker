@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import type { StatusBarState } from '../src/parts/StatusBarState/StatusBarState.ts'
+import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 import * as GetRenderer from '../src/parts/GetRenderer/GetRenderer.ts'
@@ -56,8 +56,8 @@ test('getRenderer should throw error for other known diff types not implemented'
 
 test('getRenderer should return a function that can be called with state', () => {
   const renderer = GetRenderer.getRenderer(DiffType.RenderItems)
-  const oldState: StatusBarState = createDefaultState()
-  const newState: StatusBarState = createDefaultState()
+  const oldState: MainAreaState = createDefaultState()
+  const newState: MainAreaState = createDefaultState()
 
   expect(typeof renderer).toBe('function')
   expect(() => {

@@ -1,5 +1,5 @@
-import type { StatusBarState } from '../StatusBarState/StatusBarState.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export interface Renderer {
-  (oldState: StatusBarState, newState: StatusBarState): readonly any[]
+  (oldState: MainAreaState, newState: MainAreaState): readonly any[]
 }

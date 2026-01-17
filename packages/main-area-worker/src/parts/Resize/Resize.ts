@@ -1,6 +1,6 @@
-import type { StatusBarState } from '../StatusBarState/StatusBarState.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
-export const resize = (state: StatusBarState, dimensions: any): StatusBarState => {
+export const resize = (state: MainAreaState, dimensions: any): MainAreaState => {
   return {
     ...state,
     ...dimensions,

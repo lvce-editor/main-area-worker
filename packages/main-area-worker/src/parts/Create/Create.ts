@@ -1,11 +1,15 @@
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { set } from '../MainAreaStates/MainAreaStates.ts'
 
 export const create = (uid: number, uri: string, x: number, y: number, width: number, height: number, platform: number, assetDir: string): void => {
-  const state: any = {
+  const state: MainAreaState = {
     assetDir,
+    layout: {
+      activeGroupId: '',
+      direction: 'horizontal',
+      groups: [],
+    },
     platform,
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [],
     uid,
   }
   set(uid, state, state)

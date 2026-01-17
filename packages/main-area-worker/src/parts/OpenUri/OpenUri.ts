@@ -1,8 +1,8 @@
 // @ts-nocheck
 import * as Assert from '../Assert/Assert.ts'
-import * as Id from '../Id/Id.js'
-import * as PathDisplay from '../PathDisplay/PathDisplay.js'
-import * as TabFlags from '../TabFlags/TabFlags.js'
+import * as Id from '../Id/Id.ts'
+import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+import * as TabFlags from '../TabFlags/TabFlags.ts'
 import * as ViewletMainFocusIndex from './ViewletMainFocusIndex.ts'
 
 export const openUri = async (state, uri, focus = true, { preview = false, ...context } = {}): any => {

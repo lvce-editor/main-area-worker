@@ -6,18 +6,18 @@ const renderTab = (tab: Tab, isActive: boolean): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 2,
-      className: `${ClassNames.TAB} ${isActive ? ClassNames.TAB_ACTIVE : ''}`,
+      className: 'MainTab',
       type: VirtualDomElements.Div,
     },
     {
       childCount: 1,
-      className: ClassNames.TAB_TITLE,
+      className: 'TabTitle',
       type: VirtualDomElements.Span,
     },
     text(tab.isDirty ? `*${tab.title}` : tab.title),
     {
       childCount: 1,
-      className: ClassNames.TAB_CLOSE,
+      className: 'TabCloseButton',
       type: VirtualDomElements.Button,
     },
     text('×'),
@@ -28,7 +28,7 @@ const renderTabBar = (group: EditorGroup): readonly VirtualDomNode[] => {
   return [
     {
       childCount: group.tabs.length,
-      className: ClassNames.TAB_BAR,
+      className: 'MainTabs',
       type: VirtualDomElements.Div,
     },
     ...group.tabs.flatMap((tab) => renderTab(tab, tab.id === group.activeTabId)),
@@ -43,7 +43,7 @@ const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] => {
     return [
       {
         childCount: 1,
-        className: ClassNames.CUSTOM_EDITOR,
+        className: 'CustomEditor',
         type: VirtualDomElements.Div,
       },
       text(`Custom Editor: ${tab.customEditorId}`),
@@ -53,12 +53,12 @@ const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 1,
-      className: ClassNames.TEXT_EDITOR,
+      className: 'TextEditor',
       type: VirtualDomElements.Div,
     },
     {
       childCount: 1,
-      className: ClassNames.EDITOR_CONTENT,
+      className: 'EditorContent',
       type: VirtualDomElements.Pre,
     },
     text(tab.content || ''),
@@ -71,13 +71,13 @@ const renderEditorGroup = (group: EditorGroup): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 2,
-      className: `${ClassNames.EDITOR_GROUP} ${group.focused ? ClassNames.EDITOR_GROUP_FOCUSED : ''}`,
+      className: 'EditorGroup',
       type: VirtualDomElements.Div,
     },
     ...renderTabBar(group),
     {
       childCount: activeTab ? 1 : 1,
-      className: ClassNames.EDITOR_CONTAINER,
+      className: 'EditorContainer',
       type: VirtualDomElements.Div,
     },
     ...renderEditor(activeTab),

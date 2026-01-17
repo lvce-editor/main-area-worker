@@ -1,8 +1,8 @@
 import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
-import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
+import type { EditorGroup, MainAreaLayout, Tab } from '../MainAreaState/MainAreaState.ts'
 import { CSS_CLASSES as ClassNames } from '../MainAreaStyles/MainAreaStyles.ts'
 
-const renderTab = (tab: any, isActive: boolean): readonly VirtualDomNode[] => {
+const renderTab = (tab: Tab, isActive: boolean): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 2,
@@ -24,18 +24,21 @@ const renderTab = (tab: any, isActive: boolean): readonly VirtualDomNode[] => {
   ]
 }
 
-const renderTabBar = (group: any): readonly VirtualDomNode[] => {
+const renderTabBar = (group: EditorGroup): readonly VirtualDomNode[] => {
   return [
     {
       childCount: group.tabs.length,
       className: ClassNames.TAB_BAR,
       type: VirtualDomElements.Div,
     },
-    ...group.tabs.flatMap((tab: any) => renderTab(tab, tab.id === group.activeTabId)),
+    ...group.tabs.flatMap((tab) => renderTab(tab, tab.id === group.activeTabId)),
   ]
 }
 
-const renderEditor = (tab: any): readonly VirtualDomNode[] => {
+const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] => {
+  if (!tab) {
+    return [text('Tab not found')]
+  }
   if (tab.editorType === 'custom') {
     return [
       {
@@ -62,7 +65,7 @@ const renderEditor = (tab: any): readonly VirtualDomNode[] => {
   ]
 }
 
-const renderEditorGroup = (group: any): readonly VirtualDomNode[] => {
+const renderEditorGroup = (group: EditorGroup): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
 
   return [

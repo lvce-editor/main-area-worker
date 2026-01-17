@@ -19,7 +19,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     ],
   }
   const result = renderEditorGroup(group)
-  
+
   expect(result.length).toBe(11) // 1 (EditorGroup) + 6 (renderTabBar) + 4 (renderEditor)
   expect(result[0]).toEqual({
     childCount: 2,
@@ -45,7 +45,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
     ],
   }
   const result = renderEditorGroup(group)
-  
+
   expect(result.length).toBe(9) // 1 (EditorGroup) + 6 (renderTabBar) + 2 (renderEditor with "Tab not found")
 })
 
@@ -67,7 +67,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
     ],
   }
   const result = renderEditorGroup(group)
-  
+
   expect(result.length).toBe(10) // 1 (EditorGroup) + 6 (renderTabBar) + 3 (renderEditor with custom)
 })
 
@@ -80,6 +80,6 @@ test('renderEditorGroup should handle empty tabs array', () => {
     tabs: [],
   }
   const result = renderEditorGroup(group)
-  
+
   expect(result.length).toBe(4) // 1 (EditorGroup) + 1 (renderTabBar) + 2 (renderEditor with "Tab not found")
 })

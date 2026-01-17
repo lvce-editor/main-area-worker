@@ -11,7 +11,7 @@ test('renderTab should return correct structure for clean tab', () => {
     title: 'Test File',
   }
   const result = renderTab(tab, false)
-  
+
   expect(result.length).toBe(5)
   expect(result[0]).toEqual({
     childCount: 2,
@@ -49,7 +49,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
     title: 'Test File',
   }
   const result = renderTab(tab, false)
-  
+
   expect(result[2].text).toBe('*Test File')
 })
 
@@ -62,7 +62,7 @@ test('renderTab should handle empty title', () => {
     title: '',
   }
   const result = renderTab(tab, false)
-  
+
   expect(result[2].text).toBe('')
 })
 
@@ -75,6 +75,6 @@ test('renderTab should handle dirty tab with empty title', () => {
     title: '',
   }
   const result = renderTab(tab, false)
-  
+
   expect(result[2].text).toBe('*')
 })

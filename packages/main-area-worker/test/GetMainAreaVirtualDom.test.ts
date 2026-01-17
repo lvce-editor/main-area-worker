@@ -26,7 +26,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     ],
   }
   const result = getMainAreaVirtualDom(layout)
-  
+
   expect(result.length).toBe(13) // 1 (Main) + 1 (EditorGroupsContainer) + 11 (renderEditorGroup)
   expect(result[0]).toEqual({
     childCount: 1,
@@ -78,7 +78,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
     ],
   }
   const result = getMainAreaVirtualDom(layout)
-  
+
   expect(result.length).toBe(24) // 1 (Main) + 1 (EditorGroupsContainer) + 22 (2 * renderEditorGroup)
   expect(result[1].childCount).toBe(2)
 })
@@ -90,7 +90,7 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
     groups: [],
   }
   const result = getMainAreaVirtualDom(layout)
-  
+
   expect(result.length).toBe(2) // 1 (Main) + 1 (EditorGroupsContainer)
   expect(result[1].childCount).toBe(0)
 })

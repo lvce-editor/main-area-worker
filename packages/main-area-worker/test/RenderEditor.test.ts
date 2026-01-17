@@ -4,7 +4,7 @@ import { renderEditor } from '../src/parts/RenderEditor/RenderEditor.ts'
 
 test('renderEditor should return "Tab not found" for undefined tab', () => {
   const result = renderEditor(undefined)
-  
+
   expect(result.length).toBe(1)
   expect(result[0]).toEqual({
     childCount: 0,
@@ -23,7 +23,7 @@ test('renderEditor should return custom editor structure', () => {
     title: 'Custom Tab',
   }
   const result = renderEditor(tab)
-  
+
   expect(result.length).toBe(2)
   expect(result[0]).toEqual({
     childCount: 1,
@@ -46,7 +46,7 @@ test('renderEditor should return text editor structure with content', () => {
     title: 'Test File',
   }
   const result = renderEditor(tab)
-  
+
   expect(result.length).toBe(3)
   expect(result[0]).toEqual({
     childCount: 1,
@@ -74,7 +74,7 @@ test('renderEditor should handle text editor with empty content', () => {
     title: 'Empty File',
   }
   const result = renderEditor(tab)
-  
+
   expect(result.length).toBe(3)
   expect(result[2].text).toBe('')
 })
@@ -88,7 +88,7 @@ test('renderEditor should handle text editor with undefined content', () => {
     title: 'Undefined File',
   }
   const result = renderEditor(tab)
-  
+
   expect(result.length).toBe(3)
   expect(result[2].text).toBe('')
 })

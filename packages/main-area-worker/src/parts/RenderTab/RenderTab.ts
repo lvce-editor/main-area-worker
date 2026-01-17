@@ -2,11 +2,13 @@ import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virt
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 
-export const renderTab = (tab: Tab, isActive: boolean): readonly VirtualDomNode[] => {
+export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 2,
       className: isActive ? 'MainTab MainTabSelected' : 'MainTab',
+      'data-group-index': groupIndex,
+      'data-index': tabIndex,
       onClick: DomEventListenerFunctions.HandleClickTab,
       type: VirtualDomElements.Div,
     },

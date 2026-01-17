@@ -3,7 +3,7 @@ import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderTabBar } from '../RenderTabBar/RenderTabBar.ts'
 
-export const renderEditorGroup = (group: EditorGroup): readonly VirtualDomNode[] => {
+export const renderEditorGroup = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
 
   return [
@@ -12,7 +12,7 @@ export const renderEditorGroup = (group: EditorGroup): readonly VirtualDomNode[]
       className: 'EditorGroup',
       type: VirtualDomElements.Div,
     },
-    ...renderTabBar(group),
+    ...renderTabBar(group, groupIndex),
     {
       childCount: activeTab ? 1 : 1,
       className: 'EditorContainer',

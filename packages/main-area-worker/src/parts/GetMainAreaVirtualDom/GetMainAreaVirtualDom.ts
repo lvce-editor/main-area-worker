@@ -15,6 +15,6 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout): readonly VirtualD
       className: ClassNames.EDITOR_GROUPS_CONTAINER,
       type: VirtualDomElements.Div,
     },
-    ...layout.groups.flatMap(renderEditorGroup),
+    ...layout.groups.flatMap((group, groupIndex) => renderEditorGroup(group, groupIndex)),
   ]
 }

@@ -10,13 +10,9 @@ test('diff should return empty array when states are equal', () => {
   const rightItems: readonly StatusBarItem[] = []
   const oldState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: leftItems,
-    statusBarItemsRight: rightItems,
   }
   const newState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: leftItems,
-    statusBarItemsRight: rightItems,
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([])
@@ -35,13 +31,9 @@ test('diff should return RenderItems when left items differ', () => {
   }
   const oldState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [item1],
-    statusBarItemsRight: [],
   }
   const newState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [item2],
-    statusBarItemsRight: [],
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderItems])
@@ -60,13 +52,9 @@ test('diff should return RenderItems when right items differ', () => {
   }
   const oldState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [item1],
   }
   const newState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [item2],
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderItems])
@@ -86,12 +74,10 @@ test('diff should return RenderItems when both left and right items differ', () 
   const oldState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item1],
-    statusBarItemsRight: [item1],
   }
   const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item2],
-    statusBarItemsRight: [item2],
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderItems])
@@ -110,7 +96,6 @@ test('diff should return RenderItems when left array length differs', () => {
   }
   const newState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
     statusBarItemsRight: [],
   }
   const result = Diff.diff(oldState, newState)
@@ -125,12 +110,9 @@ test('diff should return RenderItems when right array length differs', () => {
   }
   const oldState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [item1],
   }
   const newState: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
     statusBarItemsRight: [],
   }
   const result = Diff.diff(oldState, newState)

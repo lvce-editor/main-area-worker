@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals'
+import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import type { StatusBarItem } from '../src/parts/StatusBarItem/StatusBarItem.ts'
-import type { StatusBarState } from '../src/parts/StatusBarState/StatusBarState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as Diff from '../src/parts/Diff/Diff.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
@@ -8,12 +8,12 @@ import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 test('diff should return empty array when states are equal', () => {
   const leftItems: readonly StatusBarItem[] = []
   const rightItems: readonly StatusBarItem[] = []
-  const oldState: StatusBarState = {
+  const oldState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,
   }
-  const newState: StatusBarState = {
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,
@@ -33,12 +33,12 @@ test('diff should return RenderItems when left items differ', () => {
     name: 'test2',
     tooltip: 'Test tooltip 2',
   }
-  const oldState: StatusBarState = {
+  const oldState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item1],
     statusBarItemsRight: [],
   }
-  const newState: StatusBarState = {
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item2],
     statusBarItemsRight: [],
@@ -58,12 +58,12 @@ test('diff should return RenderItems when right items differ', () => {
     name: 'test2',
     tooltip: 'Test tooltip 2',
   }
-  const oldState: StatusBarState = {
+  const oldState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [item1],
   }
-  const newState: StatusBarState = {
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [item2],
@@ -83,12 +83,12 @@ test('diff should return RenderItems when both left and right items differ', () 
     name: 'test2',
     tooltip: 'Test tooltip 2',
   }
-  const oldState: StatusBarState = {
+  const oldState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item1],
     statusBarItemsRight: [item1],
   }
-  const newState: StatusBarState = {
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item2],
     statusBarItemsRight: [item2],
@@ -103,12 +103,12 @@ test('diff should return RenderItems when left array length differs', () => {
     name: 'test',
     tooltip: 'Test tooltip',
   }
-  const oldState: StatusBarState = {
+  const oldState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item1],
     statusBarItemsRight: [],
   }
-  const newState: StatusBarState = {
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [],
@@ -123,12 +123,12 @@ test('diff should return RenderItems when right array length differs', () => {
     name: 'test',
     tooltip: 'Test tooltip',
   }
-  const oldState: StatusBarState = {
+  const oldState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [item1],
   }
-  const newState: StatusBarState = {
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [],
@@ -140,13 +140,13 @@ test('diff should return RenderItems when right array length differs', () => {
 test('diff should ignore uid when comparing', () => {
   const leftItems: readonly StatusBarItem[] = []
   const rightItems: readonly StatusBarItem[] = []
-  const oldState: StatusBarState = {
+  const oldState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,
     uid: 1,
   }
-  const newState: StatusBarState = {
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,

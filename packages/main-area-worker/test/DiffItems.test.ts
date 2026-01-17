@@ -1,18 +1,18 @@
 import { expect, test } from '@jest/globals'
+import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import type { StatusBarItem } from '../src/parts/StatusBarItem/StatusBarItem.ts'
-import type { StatusBarState } from '../src/parts/StatusBarState/StatusBarState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DiffItems from '../src/parts/DiffItems/DiffItems.ts'
 
 test('isEqual should return true for identical states', () => {
   const leftItems: readonly StatusBarItem[] = []
   const rightItems: readonly StatusBarItem[] = []
-  const state1: StatusBarState = {
+  const state1: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,
   }
-  const state2: StatusBarState = {
+  const state2: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,
@@ -33,12 +33,12 @@ test('isEqual should return true for states with same items', () => {
   }
   const leftItems: readonly StatusBarItem[] = [item1]
   const rightItems: readonly StatusBarItem[] = [item2]
-  const state1: StatusBarState = {
+  const state1: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,
   }
-  const state2: StatusBarState = {
+  const state2: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,
@@ -57,12 +57,12 @@ test('isEqual should return false when left arrays differ', () => {
     name: 'test2',
     tooltip: 'Test tooltip 2',
   }
-  const state1: StatusBarState = {
+  const state1: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item1],
     statusBarItemsRight: [],
   }
-  const state2: StatusBarState = {
+  const state2: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item2],
     statusBarItemsRight: [],
@@ -81,12 +81,12 @@ test('isEqual should return false when right arrays differ', () => {
     name: 'test2',
     tooltip: 'Test tooltip 2',
   }
-  const state1: StatusBarState = {
+  const state1: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [item1],
   }
-  const state2: StatusBarState = {
+  const state2: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [item2],
@@ -105,12 +105,12 @@ test('isEqual should return false when both arrays differ', () => {
     name: 'test2',
     tooltip: 'Test tooltip 2',
   }
-  const state1: StatusBarState = {
+  const state1: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item1],
     statusBarItemsRight: [item1],
   }
-  const state2: StatusBarState = {
+  const state2: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item2],
     statusBarItemsRight: [item2],
@@ -124,12 +124,12 @@ test('isEqual should return false when left array length differs', () => {
     name: 'test',
     tooltip: 'Test tooltip',
   }
-  const state1: StatusBarState = {
+  const state1: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [item1],
     statusBarItemsRight: [],
   }
-  const state2: StatusBarState = {
+  const state2: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [],
@@ -143,12 +143,12 @@ test('isEqual should return false when right array length differs', () => {
     name: 'test',
     tooltip: 'Test tooltip',
   }
-  const state1: StatusBarState = {
+  const state1: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [item1],
   }
-  const state2: StatusBarState = {
+  const state2: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [],
     statusBarItemsRight: [],
@@ -157,21 +157,21 @@ test('isEqual should return false when right array length differs', () => {
 })
 
 test('isEqual should return true for empty states', () => {
-  const state1: StatusBarState = createDefaultState()
-  const state2: StatusBarState = state1
+  const state1: MainAreaState = createDefaultState()
+  const state2: MainAreaState = state1
   expect(DiffItems.isEqual(state1, state2)).toBe(true)
 })
 
 test('isEqual should ignore uid when comparing', () => {
   const leftItems: readonly StatusBarItem[] = []
   const rightItems: readonly StatusBarItem[] = []
-  const state1: StatusBarState = {
+  const state1: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,
     uid: 1,
   }
-  const state2: StatusBarState = {
+  const state2: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: leftItems,
     statusBarItemsRight: rightItems,

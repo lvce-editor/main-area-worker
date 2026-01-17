@@ -1,13 +1,13 @@
 import { expect, test } from '@jest/globals'
 import { ViewletCommand } from '@lvce-editor/constants'
-import type { StatusBarState } from '../src/parts/StatusBarState/StatusBarState.ts'
+import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import * as ApplyRender from '../src/parts/ApplyRender/ApplyRender.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 
 test('applyRender should return empty array when diffResult is empty', () => {
-  const oldState: StatusBarState = createDefaultState()
-  const newState: StatusBarState = createDefaultState()
+  const oldState: MainAreaState = createDefaultState()
+  const newState: MainAreaState = createDefaultState()
 
   const result = ApplyRender.applyRender(oldState, newState, [])
 
@@ -15,8 +15,8 @@ test('applyRender should return empty array when diffResult is empty', () => {
 })
 
 test('applyRender should return commands when diffResult contains RenderItems', () => {
-  const oldState: StatusBarState = createDefaultState()
-  const newState: StatusBarState = {
+  const oldState: MainAreaState = createDefaultState()
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [
       {
@@ -41,8 +41,8 @@ test('applyRender should return commands when diffResult contains RenderItems', 
 })
 
 test('applyRender should return multiple commands when diffResult contains multiple items', () => {
-  const oldState: StatusBarState = createDefaultState()
-  const newState: StatusBarState = {
+  const oldState: MainAreaState = createDefaultState()
+  const newState: MainAreaState = {
     ...createDefaultState(),
     statusBarItemsLeft: [
       {
@@ -68,8 +68,8 @@ test('applyRender should return multiple commands when diffResult contains multi
 })
 
 test('applyRender should throw error when diffResult contains unknown diffType', () => {
-  const oldState: StatusBarState = createDefaultState()
-  const newState: StatusBarState = createDefaultState()
+  const oldState: MainAreaState = createDefaultState()
+  const newState: MainAreaState = createDefaultState()
 
   expect(() => {
     ApplyRender.applyRender(oldState, newState, [999])
@@ -77,8 +77,8 @@ test('applyRender should throw error when diffResult contains unknown diffType',
 })
 
 test('applyRender should handle mixed valid and invalid diffTypes', () => {
-  const oldState: StatusBarState = createDefaultState()
-  const newState: StatusBarState = {
+  const oldState: MainAreaState = createDefaultState()
+  const newState: MainAreaState = {
     ...createDefaultState(),
     uid: 3,
   }

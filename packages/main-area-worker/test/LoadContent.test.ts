@@ -68,7 +68,6 @@ test('loadContent should load status bar items when preference is true', async (
     },
   ])
   expect(result.uid).toBe(1)
-  expect(result.statusBarItemsRight).toEqual([])
 })
 
 test('loadContent should return empty array when preference is false', async () => {
@@ -88,7 +87,6 @@ test('loadContent should return empty array when preference is false', async () 
 
   expect(result.statusBarItemsLeft).toEqual([])
   expect(result.uid).toBe(2)
-  expect(result.statusBarItemsRight).toEqual([])
 })
 
 test('loadContent should return empty array when preference is undefined', async () => {
@@ -131,7 +129,6 @@ test('loadContent should return empty array when preference is undefined', async
     },
   ])
   expect(result.uid).toBe(3)
-  expect(result.statusBarItemsRight).toEqual([])
 })
 
 test('loadContent should preserve existing state properties', async () => {

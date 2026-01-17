@@ -88,7 +88,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout): readonly VirtualD
   return [
     {
       childCount: 1,
-      className: ClassNames.MAIN_AREA,
+      className: 'Main',
       type: VirtualDomElements.Div,
     },
     {

@@ -38,10 +38,10 @@ test('loadContent should create two default tabs', async () => {
 test('loadContent should preserve existing state properties', async () => {
   const state = {
     ...createDefaultState(),
-    disposed: true,
-    uid: 123,
     assetDir: '/test/assets',
+    disposed: true,
     platform: 1,
+    uid: 123,
   }
   const result = await LoadContent.loadContent(state)
 

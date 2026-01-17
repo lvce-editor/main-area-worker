@@ -87,7 +87,7 @@ test('loadContent should preserve existing state properties', async () => {
     'Preferences.get': async () => false,
   })
 
-  const state: any & { disposed?: boolean } = {
+  const state: any = {
     ...createDefaultState(),
     disposed: true,
     uid: 4,

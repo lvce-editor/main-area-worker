@@ -1,5 +1,5 @@
 import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
-import type { EditorGroup } from '../../MainAreaState/MainAreaState.ts'
+import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderTabBar } from '../RenderTabBar/RenderTabBar.ts'
 

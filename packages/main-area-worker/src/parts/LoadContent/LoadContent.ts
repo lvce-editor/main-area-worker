@@ -1,14 +1,37 @@
-import type { StatusBarState } from '../StatusBarState/StatusBarState.ts'
-import * as GetStatusBarItems from '../GetStatusBarItems/GetStatusBarItems.ts'
-import * as StatusBarPreferences from '../StatusBarPreferences/StatusBarPreferences.ts'
+import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 
-export const loadContent = async (state: StatusBarState): Promise<StatusBarState> => {
-  const { assetDir, platform } = state
-  const statusBarItemsPreference = await StatusBarPreferences.itemsVisible()
-  const statusBarItems = await GetStatusBarItems.getStatusBarItems(statusBarItemsPreference, assetDir, platform)
+export const loadContent = async (state: MainAreaState): Promise<MainAreaState> => {
+  const tabs: readonly Tab[] = [
+    {
+      content: '',
+      editorType: 'text',
+      id: '1',
+      isDirty: false,
+      title: 'tab 1',
+    },
+    {
+      content: '',
+      editorType: 'text',
+      id: '2',
+      isDirty: false,
+      title: 'tab 2',
+    },
+  ]
   return {
     ...state,
-    statusBarItemsLeft: [...statusBarItems],
-    statusBarItemsRight: [],
+    layout: {
+      activeGroupId: '0',
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: '',
+          direction: 'horizontal',
+          focused: false,
+          id: '0',
+          size: 300,
+          tabs,
+        },
+      ],
+    },
   }
 }

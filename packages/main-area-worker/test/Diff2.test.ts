@@ -3,7 +3,7 @@ import type { StatusBarItem } from '../src/parts/StatusBarItem/StatusBarItem.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as Diff2 from '../src/parts/Diff2/Diff2.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
-import * as StatusBarStates from '../src/parts/StatusBarStates/StatusBarStates.ts'
+import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 
 test('diff2 should return empty array when states are equal', () => {
   const uid = 1
@@ -13,7 +13,7 @@ test('diff2 should return empty array when states are equal', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, state, state)
+  MainAreaStates.set(uid, state, state)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([])
 })
@@ -42,7 +42,7 @@ test('diff2 should return RenderItems when left items differ', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -71,7 +71,7 @@ test('diff2 should return RenderItems when right items differ', () => {
     statusBarItemsRight: [item2],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -100,7 +100,7 @@ test('diff2 should return RenderItems when both left and right items differ', ()
     statusBarItemsRight: [item2],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -124,7 +124,7 @@ test('diff2 should return RenderItems when left array length differs', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -148,7 +148,7 @@ test('diff2 should return RenderItems when right array length differs', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -161,7 +161,7 @@ test('diff2 should ignore uid when comparing', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, state, state)
+  MainAreaStates.set(uid, state, state)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([])
 })
@@ -190,7 +190,7 @@ test('diff2 should return RenderItems when multiple items are added', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -219,7 +219,7 @@ test('diff2 should return RenderItems when items are removed', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -248,7 +248,7 @@ test('diff2 should return RenderItems when item text changes', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -277,7 +277,7 @@ test('diff2 should return RenderItems when item tooltip changes', () => {
     statusBarItemsRight: [],
     uid,
   }
-  StatusBarStates.set(uid, oldState, newState)
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -308,8 +308,8 @@ test('diff2 should work with different uids independently', () => {
     statusBarItemsRight: [],
     uid: uid2,
   }
-  StatusBarStates.set(uid1, state1, state2)
-  StatusBarStates.set(uid2, state3, state3)
+  MainAreaStates.set(uid1, state1, state2)
+  MainAreaStates.set(uid2, state3, state3)
   const result1 = Diff2.diff2(uid1)
   const result2 = Diff2.diff2(uid2)
   expect(result1).toEqual([DiffType.RenderItems])

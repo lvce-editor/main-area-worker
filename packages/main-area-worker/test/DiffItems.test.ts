@@ -9,13 +9,9 @@ test('isEqual should return true for identical states', () => {
   const rightItems: readonly StatusBarItem[] = []
   const state1: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: leftItems,
-    statusBarItemsRight: rightItems,
   }
   const state2: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: leftItems,
-    statusBarItemsRight: rightItems,
   }
   expect(DiffItems.isEqual(state1, state2)).toBe(true)
 })
@@ -35,13 +31,9 @@ test('isEqual should return true for states with same items', () => {
   const rightItems: readonly StatusBarItem[] = [item2]
   const state1: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: leftItems,
-    statusBarItemsRight: rightItems,
   }
   const state2: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: leftItems,
-    statusBarItemsRight: rightItems,
   }
   expect(DiffItems.isEqual(state1, state2)).toBe(true)
 })
@@ -147,14 +139,10 @@ test('isEqual should ignore uid when comparing', () => {
   const rightItems: readonly StatusBarItem[] = []
   const state1: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: leftItems,
-    statusBarItemsRight: rightItems,
     uid: 1,
   }
   const state2: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: leftItems,
-    statusBarItemsRight: rightItems,
     uid: 2,
   }
   expect(DiffItems.isEqual(state1, state2)).toBe(true)

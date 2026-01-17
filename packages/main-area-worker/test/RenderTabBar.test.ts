@@ -18,7 +18,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       },
     ],
   }
-  const result = renderTabBar(group)
+  const result = renderTabBar(group, 0)
 
   expect(result.length).toBe(6) // 1 (MainTabs) + 5 (renderTab)
   expect(result[0]).toEqual({
@@ -51,7 +51,7 @@ test('renderTabBar should handle multiple tabs', () => {
       },
     ],
   }
-  const result = renderTabBar(group)
+  const result = renderTabBar(group, 0)
 
   expect(result.length).toBe(11) // 1 (MainTabs) + 5*2 (renderTab for each)
   expect(result[0].childCount).toBe(2)
@@ -65,7 +65,7 @@ test('renderTabBar should handle empty tabs array', () => {
     size: 100,
     tabs: [],
   }
-  const result = renderTabBar(group)
+  const result = renderTabBar(group, 0)
 
   expect(result.length).toBe(1) // Only MainTabs container
   expect(result[0].childCount).toBe(0)

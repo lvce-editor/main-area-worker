@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTab } from '../src/parts/RenderTab/RenderTab.ts'
 
 test.skip('renderTab should return correct structure for clean tab', () => {
@@ -10,12 +11,15 @@ test.skip('renderTab should return correct structure for clean tab', () => {
     isDirty: false,
     title: 'Test File',
   }
-  const result = renderTab(tab, false)
+  const result = renderTab(tab, false, 0, 0)
 
   expect(result.length).toBe(5)
   expect(result[0]).toEqual({
     childCount: 2,
     className: 'MainTab',
+    'data-group-index': 0,
+    'data-index': 0,
+    onClick: DomEventListenerFunctions.HandleClickTab,
     type: VirtualDomElements.Div,
   })
   expect(result[1]).toEqual({
@@ -31,6 +35,7 @@ test.skip('renderTab should return correct structure for clean tab', () => {
   expect(result[3]).toEqual({
     childCount: 1,
     className: 'EditorTabCloseButton',
+    onClick: DomEventListenerFunctions.HandleClickClose,
     type: VirtualDomElements.Button,
   })
   expect(result[4]).toEqual({
@@ -48,7 +53,7 @@ test.skip('renderTab should show dirty indicator for dirty tab', () => {
     isDirty: true,
     title: 'Test File',
   }
-  const result = renderTab(tab, false)
+  const result = renderTab(tab, false, 0, 0)
 
   expect(result[2].text).toBe('*Test File')
 })
@@ -61,7 +66,7 @@ test.skip('renderTab should handle empty title', () => {
     isDirty: false,
     title: '',
   }
-  const result = renderTab(tab, false)
+  const result = renderTab(tab, false, 0, 0)
 
   expect(result[2].text).toBe('')
 })
@@ -74,7 +79,7 @@ test.skip('renderTab should handle dirty tab with empty title', () => {
     isDirty: true,
     title: '',
   }
-  const result = renderTab(tab, false)
+  const result = renderTab(tab, false, 0, 0)
 
   expect(result[2].text).toBe('*')
 })

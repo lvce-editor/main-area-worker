@@ -59,13 +59,9 @@ test('isEqual should return false when left arrays differ', () => {
   }
   const state1: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [item1],
-    statusBarItemsRight: [],
   }
   const state2: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [item2],
-    statusBarItemsRight: [],
   }
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
@@ -83,13 +79,9 @@ test('isEqual should return false when right arrays differ', () => {
   }
   const state1: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [item1],
   }
   const state2: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [item2],
   }
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
@@ -107,13 +99,9 @@ test('isEqual should return false when both arrays differ', () => {
   }
   const state1: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [item1],
-    statusBarItemsRight: [item1],
   }
   const state2: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [item2],
-    statusBarItemsRight: [item2],
   }
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
@@ -126,13 +114,9 @@ test('isEqual should return false when left array length differs', () => {
   }
   const state1: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [item1],
-    statusBarItemsRight: [],
   }
   const state2: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [],
   }
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
@@ -145,13 +129,9 @@ test('isEqual should return false when right array length differs', () => {
   }
   const state1: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [item1],
   }
   const state2: MainAreaState = {
     ...createDefaultState(),
-    statusBarItemsLeft: [],
-    statusBarItemsRight: [],
   }
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })

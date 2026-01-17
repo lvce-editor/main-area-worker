@@ -6,7 +6,7 @@ export const renderTab = (tab: Tab, isActive: boolean): readonly VirtualDomNode[
   return [
     {
       childCount: 2,
-      className: isActive ? 'MainTab MainTabActive' : 'MainTab',
+      className: isActive ? 'MainTab MainTabSelected' : 'MainTab',
       type: VirtualDomElements.Div,
     },
     {

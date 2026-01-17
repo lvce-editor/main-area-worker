@@ -1,7 +1,7 @@
 {
   "name": "@lvce-editor/main-area-worker",
   "version": "0.0.0-dev",
-  "description": "Status Bar Worker",
+  "description": "Main Area Worker",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lvce-editor/main-area-worker.git"

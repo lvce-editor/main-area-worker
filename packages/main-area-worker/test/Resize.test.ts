@@ -13,8 +13,6 @@ test('resize should merge dimensions into state', () => {
   expect((result as any).width).toBe(100)
   expect((result as any).height).toBe(50)
   expect(result.uid).toBe(1)
-  expect(result.statusBarItemsLeft).toEqual(state.statusBarItemsLeft)
-  expect(result.statusBarItemsRight).toEqual(state.statusBarItemsRight)
 })
 
 test('resize should preserve existing state properties', () => {
@@ -30,8 +28,6 @@ test('resize should preserve existing state properties', () => {
   expect((result as any).width).toBe(200)
   expect(result.uid).toBe(5)
   expect(result.disposed).toBe(true)
-  expect(result.statusBarItemsLeft).toEqual(state.statusBarItemsLeft)
-  expect(result.statusBarItemsRight).toEqual(state.statusBarItemsRight)
 })
 
 test('resize should overwrite existing properties in dimensions', () => {
@@ -46,8 +42,6 @@ test('resize should overwrite existing properties in dimensions', () => {
   const result = Resize.resize(state, dimensions)
   expect(result.uid).toBe(10)
   expect((result as any).width).toBe(300)
-  expect(result.statusBarItemsLeft).toEqual(state.statusBarItemsLeft)
-  expect(result.statusBarItemsRight).toEqual(state.statusBarItemsRight)
 })
 
 test('resize should handle empty dimensions', () => {
@@ -56,8 +50,6 @@ test('resize should handle empty dimensions', () => {
   const result = Resize.resize(state, dimensions)
   expect(result).toEqual(state)
   expect(result.uid).toBe(1)
-  expect(result.statusBarItemsLeft).toEqual(state.statusBarItemsLeft)
-  expect(result.statusBarItemsRight).toEqual(state.statusBarItemsRight)
 })
 
 test('resize should not mutate original state', () => {

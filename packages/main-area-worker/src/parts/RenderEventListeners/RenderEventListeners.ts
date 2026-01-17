@@ -10,7 +10,7 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
     },
     {
       name: DomEventListenersFunctions.HandleClickClose,
-      params: ['handleClickClose', 'event.target.dataset.groupIndex', 'event.target.dataset.index'],
+      params: ['handleClickCloseTab', 'event.target.dataset.groupIndex', 'event.target.dataset.index'],
     },
   ]
 }

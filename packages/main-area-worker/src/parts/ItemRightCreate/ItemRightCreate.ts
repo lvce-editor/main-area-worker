@@ -1,7 +1,7 @@
 import type { StatusBarItem } from '../StatusBarItem/StatusBarItem.ts'
-import type * as StatusBarState from '../StatusBarState/StatusBarState.ts'
+import type * as MainAreaState from '../MainAreaState/MainAreaState.ts'
 
-export const itemRightCreate = (state: Readonly<StatusBarState.StatusBarState>, newItem: Readonly<StatusBarItem>): StatusBarState.StatusBarState => {
+export const itemRightCreate = (state: Readonly<MainAreaState.MainAreaState>, newItem: Readonly<StatusBarItem>): MainAreaState.MainAreaState => {
   const { statusBarItemsRight } = state
   const newStatusBarItemsRight = [...statusBarItemsRight, newItem]
   return {

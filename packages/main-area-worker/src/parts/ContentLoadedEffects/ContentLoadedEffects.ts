@@ -1,8 +1,8 @@
-import type * as StatusBarState from '../StatusBarState/StatusBarState.ts'
+import type * as MainAreaState from '../MainAreaState/MainAreaState.ts'
 import * as ExtensionHostStatusBarItems from '../ExtensionHost/ExtensionHostStatusBarItems.ts'
 import * as UpdateStatusBarItems from '../UpdateStatusBarItems/UpdateStatusBarItems.ts'
 
-type State = StatusBarState.StatusBarState & {
+type State = MainAreaState.MainAreaState & {
   disposed?: boolean
 }
 

@@ -1,11 +1,11 @@
-import type { StatusBarState } from '../StatusBarState/StatusBarState.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { getMatchingItem } from '../GetMatchingItem/GetMatchingItem.ts'
 import { handleClickExtensionStatusBarItem } from '../HandleClickExtensionStatusBarItem/HandleClickExtensionStatusBarItem.ts'
 import { handleClickNotification } from '../HandleClickNotification/HandleClickNotification.ts'
 import { handleClickProblems } from '../HandleClickProblems/HandleClickProblems.ts'
 import * as InputName from '../InputName/InputName.ts'
 
-export const handleClick = async (state: StatusBarState, name: string): Promise<StatusBarState> => {
+export const handleClick = async (state: MainAreaState, name: string): Promise<MainAreaState> => {
   if (!name) {
     return state
   }

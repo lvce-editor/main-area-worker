@@ -1,5 +1,5 @@
-import type { StatusBarState } from '../StatusBarState/StatusBarState.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
-export const isEqual = (oldState: StatusBarState, newState: StatusBarState): boolean => {
+export const isEqual = (oldState: MainAreaState, newState: MainAreaState): boolean => {
   return oldState.statusBarItemsLeft === newState.statusBarItemsLeft && oldState.statusBarItemsRight === newState.statusBarItemsRight
 }

@@ -5,7 +5,7 @@ import * as PathDisplay from '../PathDisplay/PathDisplay.js'
 import * as TabFlags from '../TabFlags/TabFlags.js'
 import * as ViewletMainFocusIndex from './ViewletMainFocusIndex.ts'
 
-export const openUri = async (state, uri, focus = true, { preview = false, ...context } = {}) => {
+export const openUri = async (state, uri, focus = true, { preview = false, ...context } = {}): any => {
   Assert.object(state)
   Assert.string(uri)
   const { activeGroupIndex, groups, tabFontFamily, tabFontSize, tabFontWeight, tabHeight, tabLetterSpacing } = state

@@ -24,7 +24,7 @@ export const loadContent = async (state: MainAreaState): Promise<MainAreaState> 
       direction: 'horizontal',
       groups: [
         {
-          activeTabId: '',
+          activeTabId: tabs.length > 0 ? tabs[0].id : undefined,
           direction: 'horizontal',
           focused: false,
           id: '0',

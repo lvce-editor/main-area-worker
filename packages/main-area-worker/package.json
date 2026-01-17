@@ -43,14 +43,15 @@
     }
   },
   "dependencies": {
-    "@lvce-editor/virtual-dom-worker": "^4.0.0"
+    "@lvce-editor/virtual-dom-worker": "^5.0.0"
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
     "@lvce-editor/assert": "^1.5.1",
+    "@lvce-editor/constants": "^2.8.0",
     "@lvce-editor/i18n": "^2.1.0",
-    "@lvce-editor/rpc": "^5.2.0",
-    "@lvce-editor/rpc-registry": "^7.0.0",
+    "@lvce-editor/rpc": "^5.4.0",
+    "@lvce-editor/rpc-registry": "^7.5.0",
     "@lvce-editor/verror": "^1.7.0",
     "@lvce-editor/viewlet-registry": "^2.0.0",
     "jest": "^30.2.0",

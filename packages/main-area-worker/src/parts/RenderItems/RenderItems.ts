@@ -3,6 +3,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { getMainAreaVirtualDom } from '../GetMainAreaVirtualDom/GetMainAreaVirtualDom.ts'
 
 export const renderItems = (oldState: MainAreaState, newState: MainAreaState): any => {
-  const dom = getMainAreaVirtualDom(newState)
-  return [ViewletCommand.SetDom2, newState.uid, dom]
+  const { layout, uid } = newState
+  const dom = getMainAreaVirtualDom(layout)
+  return [ViewletCommand.SetDom2, uid, dom]
 }

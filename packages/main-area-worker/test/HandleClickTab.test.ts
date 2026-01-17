@@ -376,9 +376,9 @@ test('handleClickTab should handle vertical layout direction', async () => {
 
 test('handleClickTab should return same state when clicking same tab that is already active', async () => {
   const state = createMockState()
-  
+
   const result = await handleClickTab(state, 0, 0)
-  
+
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab1')
   expect(result.layout.groups[0].focused).toBe(true)
@@ -387,9 +387,9 @@ test('handleClickTab should return same state when clicking same tab that is alr
 
 test('handleClickTab should return new state when clicking different tab in same group', async () => {
   const state = createMockState()
-  
+
   const result = await handleClickTab(state, 0, 1)
-  
+
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab2')
   expect(result.layout.groups[0].focused).toBe(true)
@@ -398,9 +398,9 @@ test('handleClickTab should return new state when clicking different tab in same
 
 test('handleClickTab should return new state when clicking same tab index in different group', async () => {
   const state = createMockState()
-  
+
   const result = await handleClickTab(state, 1, 0)
-  
+
   expect(result.layout.activeGroupId).toBe('group2')
   expect(result.layout.groups[1].activeTabId).toBe('tab3')
   expect(result.layout.groups[1].focused).toBe(true)
@@ -431,9 +431,9 @@ test('handleClickTab should return same state when activeGroupId is undefined', 
       ],
     },
   })
-  
+
   const result = await handleClickTab(state, 0, 0)
-  
+
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab1')
   expect(result.layout.groups[0].focused).toBe(true)

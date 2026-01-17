@@ -2,6 +2,7 @@ import { terminate } from '@lvce-editor/viewlet-registry'
 import * as MainArea from '../Create/Create.ts'
 import { diff2 } from '../Diff2/Diff2.ts'
 import * as HandleClick from '../HandleClick/HandleClick.ts'
+import { handleClickCloseTab } from '../HandleClickCloseTab/HandleClickCloseTab.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { getCommandIds, wrapCommand } from '../MainAreaStates/MainAreaStates.ts'
@@ -16,6 +17,7 @@ export const commandMap = {
   'MainArea.diff2': diff2,
   'MainArea.getCommandIds': getCommandIds,
   'MainArea.handleClick': wrapCommand(HandleClick.handleClick),
+  'MainArea.handleClickCloseTab': wrapCommand(handleClickCloseTab),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
   'MainArea.openUri': wrapCommand(openUri),

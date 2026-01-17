@@ -17,7 +17,7 @@ const renderTab = (tab: Tab, isActive: boolean): readonly VirtualDomNode[] => {
     text(tab.isDirty ? `*${tab.title}` : tab.title),
     {
       childCount: 1,
-      className: 'TabCloseButton',
+      className: 'EditorTabCloseButton',
       type: VirtualDomElements.Button,
     },
     text('×'),

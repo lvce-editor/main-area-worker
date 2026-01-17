@@ -1,5 +1,5 @@
 import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
-import type { Tab } from '../../MainAreaState/MainAreaState.ts'
+import type { Tab } from '../MainAreaState/MainAreaState.ts'
 
 export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] => {
   if (!tab) {

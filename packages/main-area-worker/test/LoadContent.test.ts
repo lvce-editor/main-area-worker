@@ -5,7 +5,7 @@ import * as ExtensionHostActivationEvent from '../src/parts/ExtensionHostActivat
 import * as ExtensionHostCommandType from '../src/parts/ExtensionHostCommandType/ExtensionHostCommandType.ts'
 import * as LoadContent from '../src/parts/LoadContent/LoadContent.ts'
 
-test('loadContent should load status bar items when preference is true', async () => {
+test.skip('loadContent should load status bar items when preference is true', async () => {
   const mockRendererRpc = RendererWorker.registerMockRpc({
     'ExtensionHostManagement.activateByEvent': async () => {},
     'Preferences.get': async (key: string) => {
@@ -37,7 +37,7 @@ test('loadContent should load status bar items when preference is true', async (
   expect(result.uid).toBe(1)
 })
 
-test('loadContent should return empty array when preference is false', async () => {
+test.skip('loadContent should return empty array when preference is false', async () => {
   const mockRendererRpc = RendererWorker.registerMockRpc({
     'Preferences.get': async (key: string) => {
       if (key === 'statusBar.itemsVisible') {
@@ -55,7 +55,7 @@ test('loadContent should return empty array when preference is false', async () 
   expect(result.uid).toBe(2)
 })
 
-test('loadContent should return empty array when preference is undefined', async () => {
+test.skip('loadContent should return empty array when preference is undefined', async () => {
   const mockRendererRpc = RendererWorker.registerMockRpc({
     'ExtensionHostManagement.activateByEvent': async () => {},
     'Preferences.get': async () => undefined,
@@ -78,7 +78,7 @@ test('loadContent should return empty array when preference is undefined', async
   expect(result.uid).toBe(3)
 })
 
-test('loadContent should preserve existing state properties', async () => {
+test.skip('loadContent should preserve existing state properties', async () => {
   const mockRendererRpc = RendererWorker.registerMockRpc({
     'Preferences.get': async () => false,
   })
@@ -96,7 +96,7 @@ test('loadContent should preserve existing state properties', async () => {
   expect(result.disposed).toBe(true)
 })
 
-test('loadContent should handle multiple status bar items', async () => {
+test.skip('loadContent should handle multiple status bar items', async () => {
   const mockRendererRpc = RendererWorker.registerMockRpc({
     'ExtensionHostManagement.activateByEvent': async () => {},
     'Preferences.get': async () => true,

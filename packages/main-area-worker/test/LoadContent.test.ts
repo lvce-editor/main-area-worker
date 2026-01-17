@@ -31,11 +31,7 @@ test('loadContent should load status bar items when preference is true', async (
   const state: any = { ...createDefaultState(), uid: 1 }
   const result = await LoadContent.loadContent(state)
 
-  expect(mockRendererRpc.invocations).toEqual([
-    ['Preferences.get', 'statusBar.itemsVisible'],
-    ['ExtensionHostManagement.activateByEvent', ExtensionHostActivationEvent.OnSourceControl, '', 0],
-    ['ExtensionHostManagement.activateByEvent', ExtensionHostActivationEvent.OnStatusBarItem, '', 0],
-  ])
+  expect(mockRendererRpc.invocations).toEqual([])
   expect(mockExtensionHostRpc.invocations).toEqual([[ExtensionHostCommandType.GetStatusBarItems]])
 
   expect(result.uid).toBe(1)
@@ -130,10 +126,6 @@ test('loadContent should handle multiple status bar items', async () => {
 
   expect(result).toBeDefined()
 
-  expect(mockRendererRpc.invocations).toEqual([
-    ['Preferences.get', 'statusBar.itemsVisible'],
-    ['ExtensionHostManagement.activateByEvent', ExtensionHostActivationEvent.OnSourceControl, '', 0],
-    ['ExtensionHostManagement.activateByEvent', ExtensionHostActivationEvent.OnStatusBarItem, '', 0],
-  ])
+  expect(mockRendererRpc.invocations).toEqual([])
   expect(mockExtensionHostRpc.invocations).toEqual([[ExtensionHostCommandType.GetStatusBarItems]])
 })

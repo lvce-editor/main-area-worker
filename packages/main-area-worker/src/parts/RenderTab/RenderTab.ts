@@ -1,5 +1,6 @@
 import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
+import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 
 export const renderTab = (tab: Tab, isActive: boolean): readonly VirtualDomNode[] => {
   return [
@@ -17,6 +18,7 @@ export const renderTab = (tab: Tab, isActive: boolean): readonly VirtualDomNode[
     {
       childCount: 1,
       className: 'EditorTabCloseButton',
+      onClick: DomEventListenerFunctions.HandleClickClose,
       type: VirtualDomElements.Button,
     },
     text('×'),

@@ -1,131 +1,82 @@
 import { expect, test } from '@jest/globals'
-import { ExtensionHost, RendererWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
-import * as ExtensionHostActivationEvent from '../src/parts/ExtensionHostActivationEvent/ExtensionHostActivationEvent.ts'
-import * as ExtensionHostCommandType from '../src/parts/ExtensionHostCommandType/ExtensionHostCommandType.ts'
 import * as LoadContent from '../src/parts/LoadContent/LoadContent.ts'
 
-test.skip('loadContent should load status bar items when preference is true', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
-    'ExtensionHostManagement.activateByEvent': async () => {},
-    'Preferences.get': async (key: string) => {
-      if (key === 'statusBar.itemsVisible') {
-        return true
-      }
-      return undefined
-    },
-  })
-
-  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    [ExtensionHostCommandType.GetStatusBarItems]: async () => [
-      {
-        command: 'test.command',
-        icon: 'test-icon',
-        id: 'test.item',
-        text: 'Test Item',
-        tooltip: 'Test Tooltip',
-      },
-    ],
-  })
-
-  const state: any = { ...createDefaultState(), uid: 1 }
+test('loadContent should mark first tab as active', async () => {
+  const state = createDefaultState()
   const result = await LoadContent.loadContent(state)
 
-  expect(mockRendererRpc.invocations).toEqual([])
-  expect(mockExtensionHostRpc.invocations).toEqual([[ExtensionHostCommandType.GetStatusBarItems]])
-
-  expect(result.uid).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
+  expect(result.layout.groups[0].activeTabId).toBe('1')
+  expect(result.layout.activeGroupId).toBe('0')
 })
 
-test.skip('loadContent should return empty array when preference is false', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
-    'Preferences.get': async (key: string) => {
-      if (key === 'statusBar.itemsVisible') {
-        return false
-      }
-      return undefined
+test('loadContent should create two default tabs', async () => {
+  const state = createDefaultState()
+  const result = await LoadContent.loadContent(state)
+
+  const group = result.layout.groups[0]
+  expect(group.tabs).toEqual([
+    {
+      content: '',
+      editorType: 'text',
+      id: '1',
+      isDirty: false,
+      title: 'tab 1',
     },
-  })
-
-  const state: any = { ...createDefaultState(), uid: 2 }
-  const result = await LoadContent.loadContent(state)
-
-  expect(mockRendererRpc.invocations).toEqual([['Preferences.get', 'statusBar.itemsVisible']])
-
-  expect(result.uid).toBe(2)
-})
-
-test.skip('loadContent should return empty array when preference is undefined', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
-    'ExtensionHostManagement.activateByEvent': async () => {},
-    'Preferences.get': async () => undefined,
-  })
-
-  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    [ExtensionHostCommandType.GetStatusBarItems]: async () => [],
-  })
-
-  const state: any = { ...createDefaultState(), uid: 3 }
-  const result = await LoadContent.loadContent(state)
-
-  expect(mockRendererRpc.invocations).toEqual([
-    ['Preferences.get', 'statusBar.itemsVisible'],
-    ['ExtensionHostManagement.activateByEvent', ExtensionHostActivationEvent.OnSourceControl, '', 0],
-    ['ExtensionHostManagement.activateByEvent', ExtensionHostActivationEvent.OnStatusBarItem, '', 0],
+    {
+      content: '',
+      editorType: 'text',
+      id: '2',
+      isDirty: false,
+      title: 'tab 2',
+    },
   ])
-  expect(mockExtensionHostRpc.invocations).toEqual([[ExtensionHostCommandType.GetStatusBarItems]])
-
-  expect(result.uid).toBe(3)
 })
 
-test.skip('loadContent should preserve existing state properties', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
-    'Preferences.get': async () => false,
-  })
-
-  const state: any = {
+test('loadContent should preserve existing state properties', async () => {
+  const state = {
     ...createDefaultState(),
     disposed: true,
-    uid: 4,
+    uid: 123,
+    assetDir: '/test/assets',
+    platform: 1,
   }
   const result = await LoadContent.loadContent(state)
 
-  expect(mockRendererRpc.invocations).toEqual([['Preferences.get', 'statusBar.itemsVisible']])
-
-  expect(result.uid).toBe(4)
+  expect(result.uid).toBe(123)
   expect(result.disposed).toBe(true)
+  expect(result.assetDir).toBe('/test/assets')
+  expect(result.platform).toBe(1)
 })
 
-test.skip('loadContent should handle multiple status bar items', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
-    'ExtensionHostManagement.activateByEvent': async () => {},
-    'Preferences.get': async () => true,
-  })
+test('loadContent should set correct layout structure', async () => {
+  const state = createDefaultState()
+  const result = await LoadContent.loadContent(state)
 
-  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
-    [ExtensionHostCommandType.GetStatusBarItems]: async () => [
+  expect(result.layout).toEqual({
+    activeGroupId: '0',
+    direction: 'horizontal',
+    groups: [
       {
-        command: 'command1',
-        icon: 'icon1',
-        id: 'item1',
-        text: 'Item 1',
-        tooltip: 'Tooltip 1',
-      },
-      {
-        command: 'command2',
-        icon: 'icon2',
-        id: 'item2',
-        text: 'Item 2',
-        tooltip: 'Tooltip 2',
+        activeTabId: '1',
+        direction: 'horizontal',
+        focused: false,
+        id: '0',
+        size: 300,
+        tabs: expect.any(Array),
       },
     ],
   })
+})
 
-  const state: any = { ...createDefaultState(), uid: 5 }
+test('loadContent should handle empty state', async () => {
+  const state = createDefaultState()
   const result = await LoadContent.loadContent(state)
 
   expect(result).toBeDefined()
-
-  expect(mockRendererRpc.invocations).toEqual([])
-  expect(mockExtensionHostRpc.invocations).toEqual([[ExtensionHostCommandType.GetStatusBarItems]])
+  expect(result.layout).toBeDefined()
+  expect(result.layout.groups).toBeDefined()
+  expect(result.layout.groups[0].tabs).toBeDefined()
 })

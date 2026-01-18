@@ -1,13 +1,14 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { SplitDirection } from '../MainAreaState/MainAreaState.ts'
+import * as Id from '../Id/Id.ts'
 
-export const splitEditorGroup = (state: MainAreaState, groupId: string, direction: SplitDirection): MainAreaState => {
+export const splitEditorGroup = (state: MainAreaState, groupId: number, direction: SplitDirection): MainAreaState => {
   const sourceGroup = state.layout.groups.find((group) => group.id === groupId)
   if (!sourceGroup) {
     return state
   }
 
-  const newGroupId = `group-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`
+  const newGroupId = Id.create()
 
   const isHorizontalSplit = direction === 'left' || direction === 'right'
   const newLayoutDirection = isHorizontalSplit ? 'horizontal' : 'vertical'

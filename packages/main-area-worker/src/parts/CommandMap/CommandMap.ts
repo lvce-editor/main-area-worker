@@ -12,6 +12,7 @@ import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
 import { resize } from '../Resize/Resize.ts'
 import { saveState } from '../SaveState/SaveState.ts'
+import { selectTab } from '../SelectTab/SelectTab.ts'
 
 export const commandMap = {
   'MainArea.create': MainArea.create,
@@ -27,5 +28,6 @@ export const commandMap = {
   'MainArea.renderEventListeners': renderEventListeners,
   'MainArea.resize': wrapCommand(resize),
   'MainArea.saveState': saveState,
+  'MainArea.selectTab': wrapCommand(selectTab),
   'MainArea.terminate': terminate,
 }

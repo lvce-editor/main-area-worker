@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
-import { handleClickTab } from '../src/parts/HandleClickTab/HandleClickTab.ts'
+import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 
 const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState => ({
   assetDir: '',
@@ -52,10 +52,10 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
   ...overrides,
 })
 
-test('handleClickTab should update active group and tab with valid indexes', async () => {
+test('selectTab should update active group and tab with valid indexes', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, 0, 1)
+  const result = await selectTab(state, 0, 1)
 
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab2')
@@ -64,10 +64,10 @@ test('handleClickTab should update active group and tab with valid indexes', asy
   expect(result.layout.groups[1].activeTabId).toBe('tab3') // unchanged
 })
 
-test('handleClickTab should switch to different group', async () => {
+test('selectTab should switch to different group', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, 1, 0)
+  const result = await selectTab(state, 1, 0)
 
   expect(result.layout.activeGroupId).toBe('group2')
   expect(result.layout.groups[0].activeTabId).toBe('tab1') // unchanged
@@ -76,39 +76,39 @@ test('handleClickTab should switch to different group', async () => {
   expect(result.layout.groups[1].focused).toBe(true)
 })
 
-test('handleClickTab should return original state for invalid group index', async () => {
+test('selectTab should return original state for invalid group index', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, 2, 0)
+  const result = await selectTab(state, 2, 0)
 
   expect(result).toBe(state)
 })
 
-test('handleClickTab should return original state for negative group index', async () => {
+test('selectTab should return original state for negative group index', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, -1, 0)
+  const result = await selectTab(state, -1, 0)
 
   expect(result).toBe(state)
 })
 
-test('handleClickTab should return original state for invalid tab index', async () => {
+test('selectTab should return original state for invalid tab index', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, 0, 2)
+  const result = await selectTab(state, 0, 2)
 
   expect(result).toBe(state)
 })
 
-test('handleClickTab should return original state for negative tab index', async () => {
+test('selectTab should return original state for negative tab index', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, 0, -1)
+  const result = await selectTab(state, 0, -1)
 
   expect(result).toBe(state)
 })
 
-test('handleClickTab should handle single group with single tab', async () => {
+test('selectTab should handle single group with single tab', async () => {
   const state = createMockState({
     layout: {
       activeGroupId: 'group1',
@@ -133,7 +133,7 @@ test('handleClickTab should handle single group with single tab', async () => {
     },
   })
 
-  const result = await handleClickTab(state, 0, 0)
+  const result = await selectTab(state, 0, 0)
 
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab1')
@@ -141,7 +141,7 @@ test('handleClickTab should handle single group with single tab', async () => {
   expect(result).toBe(state) // Should return same state since it's already active
 })
 
-test('handleClickTab should handle empty groups array', async () => {
+test('selectTab should handle empty groups array', async () => {
   const state = createMockState({
     layout: {
       activeGroupId: undefined,
@@ -150,12 +150,12 @@ test('handleClickTab should handle empty groups array', async () => {
     },
   })
 
-  const result = await handleClickTab(state, 0, 0)
+  const result = await selectTab(state, 0, 0)
 
   expect(result).toBe(state)
 })
 
-test('handleClickTab should handle group with empty tabs array', async () => {
+test('selectTab should handle group with empty tabs array', async () => {
   const state = createMockState({
     layout: {
       activeGroupId: 'group1',
@@ -172,12 +172,12 @@ test('handleClickTab should handle group with empty tabs array', async () => {
     },
   })
 
-  const result = await handleClickTab(state, 0, 0)
+  const result = await selectTab(state, 0, 0)
 
   expect(result).toBe(state)
 })
 
-test('handleClickTab should preserve other groups state when switching focus', async () => {
+test('selectTab should preserve other groups state when switching focus', async () => {
   const state = createMockState({
     layout: {
       activeGroupId: 'group1',
@@ -232,7 +232,7 @@ test('handleClickTab should preserve other groups state when switching focus', a
     },
   })
 
-  const result = await handleClickTab(state, 2, 0)
+  const result = await selectTab(state, 2, 0)
 
   expect(result.layout.activeGroupId).toBe('group3')
   expect(result.layout.groups[0].focused).toBe(false)
@@ -243,7 +243,7 @@ test('handleClickTab should preserve other groups state when switching focus', a
   expect(result.layout.groups[2].activeTabId).toBe('tab4')
 })
 
-test('handleClickTab should handle custom editor tabs', async () => {
+test('selectTab should handle custom editor tabs', async () => {
   const state = createMockState({
     layout: {
       activeGroupId: 'group1',
@@ -276,14 +276,14 @@ test('handleClickTab should handle custom editor tabs', async () => {
     },
   })
 
-  const result = await handleClickTab(state, 0, 1)
+  const result = await selectTab(state, 0, 1)
 
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab2')
   expect(result.layout.groups[0].focused).toBe(true)
 })
 
-test('handleClickTab should handle tabs with paths and languages', async () => {
+test('selectTab should handle tabs with paths and languages', async () => {
   const state = createMockState({
     layout: {
       activeGroupId: 'group1',
@@ -319,14 +319,14 @@ test('handleClickTab should handle tabs with paths and languages', async () => {
     },
   })
 
-  const result = await handleClickTab(state, 0, 1)
+  const result = await selectTab(state, 0, 1)
 
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab2')
   expect(result.layout.groups[0].focused).toBe(true)
 })
 
-test('handleClickTab should handle vertical layout direction', async () => {
+test('selectTab should handle vertical layout direction', async () => {
   const state = createMockState({
     layout: {
       activeGroupId: 'group1',
@@ -366,7 +366,7 @@ test('handleClickTab should handle vertical layout direction', async () => {
     },
   })
 
-  const result = await handleClickTab(state, 1, 0)
+  const result = await selectTab(state, 1, 0)
 
   expect(result.layout.activeGroupId).toBe('group2')
   expect(result.layout.direction).toBe('vertical')
@@ -374,10 +374,10 @@ test('handleClickTab should handle vertical layout direction', async () => {
   expect(result.layout.groups[1].focused).toBe(true)
 })
 
-test('handleClickTab should return same state when clicking same tab that is already active', async () => {
+test('selectTab should return same state when clicking same tab that is already active', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, 0, 0)
+  const result = await selectTab(state, 0, 0)
 
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab1')
@@ -385,10 +385,10 @@ test('handleClickTab should return same state when clicking same tab that is alr
   expect(result).toBe(state) // Should return the same state object
 })
 
-test('handleClickTab should return new state when clicking different tab in same group', async () => {
+test('selectTab should return new state when clicking different tab in same group', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, 0, 1)
+  const result = await selectTab(state, 0, 1)
 
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab2')
@@ -396,10 +396,10 @@ test('handleClickTab should return new state when clicking different tab in same
   expect(result).not.toBe(state) // Should return new state object
 })
 
-test('handleClickTab should return new state when clicking same tab index in different group', async () => {
+test('selectTab should return new state when clicking same tab index in different group', async () => {
   const state = createMockState()
 
-  const result = await handleClickTab(state, 1, 0)
+  const result = await selectTab(state, 1, 0)
 
   expect(result.layout.activeGroupId).toBe('group2')
   expect(result.layout.groups[1].activeTabId).toBe('tab3')
@@ -407,7 +407,7 @@ test('handleClickTab should return new state when clicking same tab index in dif
   expect(result).not.toBe(state) // Should return new state object
 })
 
-test('handleClickTab should return same state when activeGroupId is undefined', async () => {
+test('selectTab should return same state when activeGroupId is undefined', async () => {
   const state = createMockState({
     layout: {
       activeGroupId: undefined,
@@ -432,7 +432,7 @@ test('handleClickTab should return same state when activeGroupId is undefined', 
     },
   })
 
-  const result = await handleClickTab(state, 0, 0)
+  const result = await selectTab(state, 0, 0)
 
   expect(result.layout.activeGroupId).toBe('group1')
   expect(result.layout.groups[0].activeTabId).toBe('tab1')

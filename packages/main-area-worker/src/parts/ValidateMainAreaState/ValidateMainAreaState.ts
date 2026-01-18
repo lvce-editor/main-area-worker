@@ -6,7 +6,7 @@ export const validateMainAreaState = (state: any): state is MainAreaState => {
     return false
   }
   const { layout } = state
-  const { groups, activeGroupId, direction } = layout
+  const { activeGroupId, direction, groups } = layout
   return (
     Array.isArray(groups) &&
     groups.every(isValidEditorGroup) &&

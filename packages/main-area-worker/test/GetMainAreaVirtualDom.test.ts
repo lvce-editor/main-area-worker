@@ -6,8 +6,8 @@ import { CSS_CLASSES as ClassNames } from '../src/parts/MainAreaStyles/MainAreaS
 
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
   const layout = {
-    direction: 'horizontal' as const,
     activeGroupId: 1,
+    direction: 'horizontal' as const,
     groups: [
       {
         activeTabId: 1,

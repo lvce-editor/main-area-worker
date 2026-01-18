@@ -8,8 +8,8 @@ test('loadContent should mark first tab as active', async () => {
 
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].tabs).toHaveLength(2)
-  expect(result.layout.groups[0].activeTabId).toBe('1')
-  expect(result.layout.activeGroupId).toBe('0')
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(result.layout.activeGroupId).toBe(0)
 })
 
 test('loadContent should create two default tabs', async () => {
@@ -21,14 +21,14 @@ test('loadContent should create two default tabs', async () => {
     {
       content: '',
       editorType: 'text',
-      id: '1',
+      id: 1,
       isDirty: false,
       title: 'tab 1',
     },
     {
       content: '',
       editorType: 'text',
-      id: '2',
+      id: 2,
       isDirty: false,
       title: 'tab 2',
     },
@@ -56,14 +56,14 @@ test('loadContent should set correct layout structure', async () => {
   const result = await LoadContent.loadContent(state)
 
   expect(result.layout).toEqual({
-    activeGroupId: '0',
+    activeGroupId: 0,
     direction: 'horizontal',
     groups: [
       {
-        activeTabId: '1',
+        activeTabId: 1,
         direction: 'horizontal',
         focused: false,
-        id: '0',
+        id: 0,
         size: 300,
         tabs: expect.any(Array),
       },

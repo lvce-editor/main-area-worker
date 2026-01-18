@@ -26,6 +26,7 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
     }
     return group
   })
+
   return {
     ...state,
     layout: {

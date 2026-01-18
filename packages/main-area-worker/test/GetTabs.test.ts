@@ -17,14 +17,14 @@ test('getTabs should return tabs with correct structure', async () => {
     {
       content: '',
       editorType: 'text',
-      id: '1',
+      id: 1,
       isDirty: false,
       title: 'tab 1',
     },
     {
       content: '',
       editorType: 'text',
-      id: '2',
+      id: 2,
       isDirty: false,
       title: 'tab 2',
     },

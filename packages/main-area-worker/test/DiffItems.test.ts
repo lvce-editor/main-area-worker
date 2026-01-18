@@ -3,7 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DiffItems from '../src/parts/DiffItems/DiffItems.ts'
 
-test.skip('isEqual should return true for identical states', () => {
+test('isEqual should return true for identical states', () => {
   const state1: MainAreaState = {
     ...createDefaultState(),
   }
@@ -13,7 +13,7 @@ test.skip('isEqual should return true for identical states', () => {
   expect(DiffItems.isEqual(state1, state2)).toBe(true)
 })
 
-test.skip('isEqual should return true for states with same items', () => {
+test('isEqual should return true for states with same items', () => {
   const state1: MainAreaState = {
     ...createDefaultState(),
   }
@@ -23,7 +23,7 @@ test.skip('isEqual should return true for states with same items', () => {
   expect(DiffItems.isEqual(state1, state2)).toBe(true)
 })
 
-test.skip('isEqual should return false when left arrays differ', () => {
+test('isEqual should return false when left arrays differ', () => {
   const state1: MainAreaState = {
     ...createDefaultState(),
   }
@@ -33,7 +33,7 @@ test.skip('isEqual should return false when left arrays differ', () => {
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
 
-test.skip('isEqual should return false when right arrays differ', () => {
+test('isEqual should return false when right arrays differ', () => {
   const state1: MainAreaState = {
     ...createDefaultState(),
   }
@@ -43,7 +43,7 @@ test.skip('isEqual should return false when right arrays differ', () => {
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
 
-test.skip('isEqual should return false when both arrays differ', () => {
+test('isEqual should return false when both arrays differ', () => {
   const state1: MainAreaState = {
     ...createDefaultState(),
   }
@@ -53,7 +53,7 @@ test.skip('isEqual should return false when both arrays differ', () => {
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
 
-test.skip('isEqual should return false when left array length differs', () => {
+test('isEqual should return false when left array length differs', () => {
   const state1: MainAreaState = {
     ...createDefaultState(),
   }
@@ -63,7 +63,7 @@ test.skip('isEqual should return false when left array length differs', () => {
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
 
-test.skip('isEqual should return false when right array length differs', () => {
+test('isEqual should return false when right array length differs', () => {
   const state1: MainAreaState = {
     ...createDefaultState(),
   }
@@ -73,13 +73,13 @@ test.skip('isEqual should return false when right array length differs', () => {
   expect(DiffItems.isEqual(state1, state2)).toBe(false)
 })
 
-test.skip('isEqual should return true for empty states', () => {
+test('isEqual should return true for empty states', () => {
   const state1: MainAreaState = createDefaultState()
   const state2: MainAreaState = state1
   expect(DiffItems.isEqual(state1, state2)).toBe(true)
 })
 
-test.skip('isEqual should ignore uid when comparing', () => {
+test('isEqual should ignore uid when comparing', () => {
   const state1: MainAreaState = {
     ...createDefaultState(),
     uid: 1,

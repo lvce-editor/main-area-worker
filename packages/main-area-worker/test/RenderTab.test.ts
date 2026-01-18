@@ -3,7 +3,7 @@ import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTab } from '../src/parts/RenderTab/RenderTab.ts'
 
-test.skip('renderTab should return correct structure for clean tab', () => {
+test('renderTab should return correct structure for clean tab', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
@@ -45,7 +45,7 @@ test.skip('renderTab should return correct structure for clean tab', () => {
   })
 })
 
-test.skip('renderTab should show dirty indicator for dirty tab', () => {
+test('renderTab should show dirty indicator for dirty tab', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
@@ -58,7 +58,7 @@ test.skip('renderTab should show dirty indicator for dirty tab', () => {
   expect(result[2].text).toBe('*Test File')
 })
 
-test.skip('renderTab should handle empty title', () => {
+test('renderTab should handle empty title', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
@@ -71,7 +71,7 @@ test.skip('renderTab should handle empty title', () => {
   expect(result[2].text).toBe('')
 })
 
-test.skip('renderTab should handle dirty tab with empty title', () => {
+test('renderTab should handle dirty tab with empty title', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,

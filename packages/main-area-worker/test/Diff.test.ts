@@ -4,7 +4,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import * as Diff from '../src/parts/Diff/Diff.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 
-test.skip('diff should return empty array when states are equal', () => {
+test('diff should return empty array when states are equal', () => {
   const oldState: MainAreaState = {
     ...createDefaultState(),
   }
@@ -15,7 +15,7 @@ test.skip('diff should return empty array when states are equal', () => {
   expect(result).toEqual([])
 })
 
-test.skip('diff should return RenderItems when left items differ', () => {
+test('diff should return RenderItems when left items differ', () => {
   const oldState: MainAreaState = {
     ...createDefaultState(),
   }
@@ -26,7 +26,7 @@ test.skip('diff should return RenderItems when left items differ', () => {
   expect(result).toEqual([DiffType.RenderItems])
 })
 
-test.skip('diff should return RenderItems when right items differ', () => {
+test('diff should return RenderItems when right items differ', () => {
   const oldState: MainAreaState = {
     ...createDefaultState(),
   }
@@ -37,7 +37,7 @@ test.skip('diff should return RenderItems when right items differ', () => {
   expect(result).toEqual([DiffType.RenderItems])
 })
 
-test.skip('diff should return RenderItems when both left and right items differ', () => {
+test('diff should return RenderItems when both left and right items differ', () => {
   const oldState: MainAreaState = {
     ...createDefaultState(),
   }
@@ -48,7 +48,7 @@ test.skip('diff should return RenderItems when both left and right items differ'
   expect(result).toEqual([DiffType.RenderItems])
 })
 
-test.skip('diff should return RenderItems when left array length differs', () => {
+test('diff should return RenderItems when left array length differs', () => {
   const oldState: MainAreaState = {
     ...createDefaultState(),
   }
@@ -59,7 +59,7 @@ test.skip('diff should return RenderItems when left array length differs', () =>
   expect(result).toEqual([DiffType.RenderItems])
 })
 
-test.skip('diff should return RenderItems when right array length differs', () => {
+test('diff should return RenderItems when right array length differs', () => {
   const oldState: MainAreaState = {
     ...createDefaultState(),
   }
@@ -70,7 +70,7 @@ test.skip('diff should return RenderItems when right array length differs', () =
   expect(result).toEqual([DiffType.RenderItems])
 })
 
-test.skip('diff should ignore uid when comparing', () => {
+test('diff should ignore uid when comparing', () => {
   const oldState: MainAreaState = {
     ...createDefaultState(),
     uid: 1,

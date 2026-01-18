@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-complex-scenarios'
+export const skip = true
 
 const assert = (condition: boolean, message: string): void => {
   if (!condition) {

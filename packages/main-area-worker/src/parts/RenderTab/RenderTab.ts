@@ -10,6 +10,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,
       onClick: DomEventListenerFunctions.HandleClickTab,
+      role: 'tab',
       type: VirtualDomElements.Div,
     },
     {

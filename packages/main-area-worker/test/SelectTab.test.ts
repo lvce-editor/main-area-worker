@@ -5,41 +5,41 @@ import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState => ({
   assetDir: '',
   layout: {
-    activeGroupId: 'group1',
+    activeGroupId: 1,
     direction: 'horizontal',
     groups: [
       {
-        activeTabId: 'tab1',
+        activeTabId: 1,
         focused: true,
-        id: 'group1',
+        id: 1,
         size: 50,
         tabs: [
           {
             content: 'content1',
             editorType: 'text' as const,
-            id: 'tab1',
+            id: 1,
             isDirty: false,
             title: 'File 1',
           },
           {
             content: 'content2',
             editorType: 'text' as const,
-            id: 'tab2',
+            id: 2,
             isDirty: true,
             title: 'File 2',
           },
         ],
       },
       {
-        activeTabId: 'tab3',
+        activeTabId: 3,
         focused: false,
-        id: 'group2',
+        id: 2,
         size: 50,
         tabs: [
           {
             content: 'content3',
             editorType: 'text' as const,
-            id: 'tab3',
+            id: 3,
             isDirty: false,
             title: 'File 3',
           },
@@ -57,11 +57,11 @@ test('selectTab should update active group and tab with valid indexes', async ()
 
   const result = await selectTab(state, 0, 1)
 
-  expect(result.layout.activeGroupId).toBe('group1')
-  expect(result.layout.groups[0].activeTabId).toBe('tab2')
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result.layout.groups[1].focused).toBe(false)
-  expect(result.layout.groups[1].activeTabId).toBe('tab3') // unchanged
+  expect(result.layout.groups[1].activeTabId).toBe(3) // unchanged
 })
 
 test('selectTab should switch to different group', async () => {
@@ -69,10 +69,10 @@ test('selectTab should switch to different group', async () => {
 
   const result = await selectTab(state, 1, 0)
 
-  expect(result.layout.activeGroupId).toBe('group2')
-  expect(result.layout.groups[0].activeTabId).toBe('tab1') // unchanged
+  expect(result.layout.activeGroupId).toBe(2)
+  expect(result.layout.groups[0].activeTabId).toBe(1) // unchanged
   expect(result.layout.groups[0].focused).toBe(false)
-  expect(result.layout.groups[1].activeTabId).toBe('tab3')
+  expect(result.layout.groups[1].activeTabId).toBe(3)
   expect(result.layout.groups[1].focused).toBe(true)
 })
 
@@ -111,19 +111,19 @@ test('selectTab should return original state for negative tab index', async () =
 test('selectTab should handle single group with single tab', async () => {
   const state = createMockState({
     layout: {
-      activeGroupId: 'group1',
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
-          activeTabId: 'tab1',
+          activeTabId: 1,
           focused: true,
-          id: 'group1',
+          id: 1,
           size: 100,
           tabs: [
             {
               content: 'content',
               editorType: 'text' as const,
-              id: 'tab1',
+              id: 1,
               isDirty: false,
               title: 'File',
             },
@@ -135,8 +135,8 @@ test('selectTab should handle single group with single tab', async () => {
 
   const result = await selectTab(state, 0, 0)
 
-  expect(result.layout.activeGroupId).toBe('group1')
-  expect(result.layout.groups[0].activeTabId).toBe('tab1')
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result).toBe(state) // Should return same state since it's already active
 })
@@ -158,13 +158,13 @@ test('selectTab should handle empty groups array', async () => {
 test('selectTab should handle group with empty tabs array', async () => {
   const state = createMockState({
     layout: {
-      activeGroupId: 'group1',
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
           activeTabId: undefined,
           focused: true,
-          id: 'group1',
+          id: 1,
           size: 100,
           tabs: [],
         },
@@ -180,49 +180,49 @@ test('selectTab should handle group with empty tabs array', async () => {
 test('selectTab should preserve other groups state when switching focus', async () => {
   const state = createMockState({
     layout: {
-      activeGroupId: 'group1',
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
-          activeTabId: 'tab1',
+          activeTabId: 1,
           focused: true,
-          id: 'group1',
+          id: 1,
           size: 33,
           tabs: [
             {
               content: 'content1',
               editorType: 'text' as const,
-              id: 'tab1',
+              id: 1,
               isDirty: false,
               title: 'File 1',
             },
           ],
         },
         {
-          activeTabId: 'tab3',
+          activeTabId: 3,
           focused: false,
-          id: 'group2',
+          id: 2,
           size: 33,
           tabs: [
             {
               content: 'content3',
               editorType: 'text' as const,
-              id: 'tab3',
+              id: 3,
               isDirty: false,
               title: 'File 3',
             },
           ],
         },
         {
-          activeTabId: 'tab4',
+          activeTabId: 4,
           focused: false,
-          id: 'group3',
+          id: 3,
           size: 34,
           tabs: [
             {
               content: 'content4',
               editorType: 'text' as const,
-              id: 'tab4',
+              id: 4,
               isDirty: true,
               title: 'File 4',
             },
@@ -234,31 +234,31 @@ test('selectTab should preserve other groups state when switching focus', async 
 
   const result = await selectTab(state, 2, 0)
 
-  expect(result.layout.activeGroupId).toBe('group3')
+  expect(result.layout.activeGroupId).toBe(3)
   expect(result.layout.groups[0].focused).toBe(false)
-  expect(result.layout.groups[0].activeTabId).toBe('tab1')
+  expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.groups[1].focused).toBe(false)
-  expect(result.layout.groups[1].activeTabId).toBe('tab3')
+  expect(result.layout.groups[1].activeTabId).toBe(3)
   expect(result.layout.groups[2].focused).toBe(true)
-  expect(result.layout.groups[2].activeTabId).toBe('tab4')
+  expect(result.layout.groups[2].activeTabId).toBe(4)
 })
 
 test('selectTab should handle custom editor tabs', async () => {
   const state = createMockState({
     layout: {
-      activeGroupId: 'group1',
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
-          activeTabId: 'tab1',
+          activeTabId: 1,
           focused: true,
-          id: 'group1',
+          id: 1,
           size: 100,
           tabs: [
             {
               content: 'content1',
               editorType: 'text' as const,
-              id: 'tab1',
+              id: 1,
               isDirty: false,
               title: 'Text File',
             },
@@ -266,7 +266,7 @@ test('selectTab should handle custom editor tabs', async () => {
               content: 'content2',
               customEditorId: 'custom-editor-1',
               editorType: 'custom' as const,
-              id: 'tab2',
+              id: 2,
               isDirty: false,
               title: 'Custom Editor',
             },
@@ -278,27 +278,27 @@ test('selectTab should handle custom editor tabs', async () => {
 
   const result = await selectTab(state, 0, 1)
 
-  expect(result.layout.activeGroupId).toBe('group1')
-  expect(result.layout.groups[0].activeTabId).toBe('tab2')
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].focused).toBe(true)
 })
 
 test('selectTab should handle tabs with paths and languages', async () => {
   const state = createMockState({
     layout: {
-      activeGroupId: 'group1',
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
-          activeTabId: 'tab1',
+          activeTabId: 1,
           focused: false,
-          id: 'group1',
+          id: 1,
           size: 100,
           tabs: [
             {
               content: 'console.log("hello");',
               editorType: 'text' as const,
-              id: 'tab1',
+              id: 1,
               isDirty: false,
               language: 'javascript',
               path: '/path/to/script.js',
@@ -307,7 +307,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
             {
               content: '<div>Hello</div>',
               editorType: 'text' as const,
-              id: 'tab2',
+              id: 2,
               isDirty: false,
               language: 'html',
               path: '/path/to/index.html',
@@ -321,42 +321,42 @@ test('selectTab should handle tabs with paths and languages', async () => {
 
   const result = await selectTab(state, 0, 1)
 
-  expect(result.layout.activeGroupId).toBe('group1')
-  expect(result.layout.groups[0].activeTabId).toBe('tab2')
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].focused).toBe(true)
 })
 
 test('selectTab should handle vertical layout direction', async () => {
   const state = createMockState({
     layout: {
-      activeGroupId: 'group1',
+      activeGroupId: 1,
       direction: 'vertical',
       groups: [
         {
-          activeTabId: 'tab1',
+          activeTabId: 1,
           focused: true,
-          id: 'group1',
+          id: 1,
           size: 50,
           tabs: [
             {
               content: 'content1',
               editorType: 'text' as const,
-              id: 'tab1',
+              id: 1,
               isDirty: false,
               title: 'File 1',
             },
           ],
         },
         {
-          activeTabId: 'tab2',
+          activeTabId: 2,
           focused: false,
-          id: 'group2',
+          id: 2,
           size: 50,
           tabs: [
             {
               content: 'content2',
               editorType: 'text' as const,
-              id: 'tab2',
+              id: 2,
               isDirty: false,
               title: 'File 2',
             },
@@ -368,7 +368,7 @@ test('selectTab should handle vertical layout direction', async () => {
 
   const result = await selectTab(state, 1, 0)
 
-  expect(result.layout.activeGroupId).toBe('group2')
+  expect(result.layout.activeGroupId).toBe(2)
   expect(result.layout.direction).toBe('vertical')
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[1].focused).toBe(true)
@@ -379,8 +379,8 @@ test('selectTab should return same state when clicking same tab that is already 
 
   const result = await selectTab(state, 0, 0)
 
-  expect(result.layout.activeGroupId).toBe('group1')
-  expect(result.layout.groups[0].activeTabId).toBe('tab1')
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result).toBe(state) // Should return the same state object
 })
@@ -390,8 +390,8 @@ test('selectTab should return new state when clicking different tab in same grou
 
   const result = await selectTab(state, 0, 1)
 
-  expect(result.layout.activeGroupId).toBe('group1')
-  expect(result.layout.groups[0].activeTabId).toBe('tab2')
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result).not.toBe(state) // Should return new state object
 })
@@ -401,8 +401,8 @@ test('selectTab should return new state when clicking same tab index in differen
 
   const result = await selectTab(state, 1, 0)
 
-  expect(result.layout.activeGroupId).toBe('group2')
-  expect(result.layout.groups[1].activeTabId).toBe('tab3')
+  expect(result.layout.activeGroupId).toBe(2)
+  expect(result.layout.groups[1].activeTabId).toBe(3)
   expect(result.layout.groups[1].focused).toBe(true)
   expect(result).not.toBe(state) // Should return new state object
 })
@@ -416,13 +416,13 @@ test('selectTab should return same state when activeGroupId is undefined', async
         {
           activeTabId: undefined,
           focused: false,
-          id: 'group1',
+          id: 1,
           size: 100,
           tabs: [
             {
               content: 'content',
               editorType: 'text' as const,
-              id: 'tab1',
+              id: 1,
               isDirty: false,
               title: 'File',
             },
@@ -434,8 +434,8 @@ test('selectTab should return same state when activeGroupId is undefined', async
 
   const result = await selectTab(state, 0, 0)
 
-  expect(result.layout.activeGroupId).toBe('group1')
-  expect(result.layout.groups[0].activeTabId).toBe('tab1')
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result).not.toBe(state) // Should return new state object since nothing was active before
 })

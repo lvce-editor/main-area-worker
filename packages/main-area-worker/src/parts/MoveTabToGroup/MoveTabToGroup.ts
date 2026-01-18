@@ -2,9 +2,9 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const moveTabToGroup = (
   state: MainAreaState,
-  sourceGroupId: string,
-  targetGroupId: string,
-  tabId: string,
+  sourceGroupId: number,
+  targetGroupId: number,
+  tabId: number,
   targetIndex?: number,
 ): MainAreaState => {
   const sourceGroup = state.layout.groups.find((group) => group.id === sourceGroupId)

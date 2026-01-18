@@ -2,16 +2,16 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as MoveTabToGroup from '../MoveTabToGroup/MoveTabToGroup.ts'
 
 export interface DragState {
-  draggedTabId: string
-  sourceGroupId: string
-  targetGroupId?: string
+  draggedTabId: number
+  sourceGroupId: number
+  targetGroupId?: number
   targetIndex?: number
 }
 
 export const startTabDrag = (
   state: MainAreaState,
-  tabId: string,
-  groupId: string,
+  tabId: number,
+  groupId: number,
 ): { readonly state: MainAreaState; readonly dragState: DragState } => {
   return {
     dragState: {
@@ -22,7 +22,7 @@ export const startTabDrag = (
   }
 }
 
-export const updateTabDrag = (state: MainAreaState, dragState: DragState, targetGroupId: string, targetIndex: number): DragState => {
+export const updateTabDrag = (state: MainAreaState, dragState: DragState, targetGroupId: number, targetIndex: number): DragState => {
   return {
     ...dragState,
     targetGroupId,

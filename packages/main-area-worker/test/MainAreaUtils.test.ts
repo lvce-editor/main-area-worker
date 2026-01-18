@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState, Tab, EditorGroup } from '../src/parts/MainAreaState/MainAreaState.ts'
-import { createDefaultMainAreaState } from '../src/parts/CreateDefaultMainAreaState/CreateDefaultMainAreaState.ts'
+import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaUtils from '../src/parts/MainAreaUtils/MainAreaUtils.ts'
 
 test('isValidTab should return true for valid text tab', () => {
@@ -328,7 +328,7 @@ test('isValidEditorGroup should return false for negative size', () => {
 
 test('findGroupById should return group when found', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -357,7 +357,7 @@ test('findGroupById should return group when found', () => {
 
 test('findGroupById should return undefined when not found', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -378,7 +378,7 @@ test('findGroupById should return undefined when not found', () => {
 
 test('findTabById should return tab and groupId when found', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -424,7 +424,7 @@ test('findTabById should return tab and groupId when found', () => {
 
 test('findTabById should return undefined when not found', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -453,7 +453,7 @@ test('findTabById should return undefined when not found', () => {
 
 test('getActiveTab should return active tab when group is focused and has activeTabId', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -506,7 +506,7 @@ test('getActiveTab should return active tab when group is focused and has active
 
 test('getActiveTab should return undefined when no group is focused', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -535,7 +535,7 @@ test('getActiveTab should return undefined when no group is focused', () => {
 
 test('getActiveTab should return undefined when focused group has no activeTabId', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -556,7 +556,7 @@ test('getActiveTab should return undefined when focused group has no activeTabId
 
 test('getActiveTab should return undefined when activeTabId does not match any tab', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -585,7 +585,7 @@ test('getActiveTab should return undefined when activeTabId does not match any t
 
 test('getAllTabs should return all tabs from all groups', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -639,7 +639,7 @@ test('getAllTabs should return all tabs from all groups', () => {
 
 test('getAllTabs should return empty array when no tabs exist', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -660,7 +660,7 @@ test('getAllTabs should return empty array when no tabs exist', () => {
 
 test('getDirtyTabs should return only dirty tabs', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -713,7 +713,7 @@ test('getDirtyTabs should return only dirty tabs', () => {
 
 test('getDirtyTabs should return empty array when no dirty tabs exist', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -742,7 +742,7 @@ test('getDirtyTabs should return empty array when no dirty tabs exist', () => {
 
 test('hasDirtyTabs should return true when dirty tabs exist', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -771,7 +771,7 @@ test('hasDirtyTabs should return true when dirty tabs exist', () => {
 
 test('hasDirtyTabs should return false when no dirty tabs exist', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -800,7 +800,7 @@ test('hasDirtyTabs should return false when no dirty tabs exist', () => {
 
 test('getGroupIndex should return correct index when group exists', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -836,7 +836,7 @@ test('getGroupIndex should return correct index when group exists', () => {
 
 test('getGroupIndex should return -1 when group does not exist', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -1021,14 +1021,14 @@ test('normalizeGroupSizes should preserve other group properties', () => {
 
 test('validateMainAreaState should return true for valid state', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
   }
   expect(MainAreaUtils.validateMainAreaState(state)).toBe(true)
 })
 
 test('validateMainAreaState should return true for state with activeGroupId', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -1048,7 +1048,7 @@ test('validateMainAreaState should return true for state with activeGroupId', ()
 
 test('validateMainAreaState should return true for state with undefined activeGroupId', () => {
   const state: MainAreaState = {
-    ...createDefaultMainAreaState(),
+    ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',

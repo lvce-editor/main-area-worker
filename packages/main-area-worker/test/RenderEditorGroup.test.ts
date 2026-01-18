@@ -38,6 +38,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       'data-groupIndex': 0,
       'data-index': 0,
       onClick: DomEventListenerFunctions.HandleClickTab,
+      onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       role: 'tab',
       type: VirtualDomElements.Div,
     },

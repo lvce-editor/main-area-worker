@@ -55,6 +55,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       'data-groupIndex': 0,
       'data-index': 0,
       onClick: DomEventListenerFunctions.HandleClickTab,
+      onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       role: 'tab',
       type: VirtualDomElements.Div,
     },

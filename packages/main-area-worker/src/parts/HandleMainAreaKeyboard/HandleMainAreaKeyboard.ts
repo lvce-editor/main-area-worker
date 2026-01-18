@@ -27,9 +27,7 @@ export const handleMainAreaKeyboard = (
   // Tab navigation
   if (key === 'Tab' && isCtrl) {
     const groupIndex = groups.findIndex((group) => group.id === activeGroup.id)
-    const nextGroupIndex = shiftKey
-      ? (groupIndex - 1 + groups.length) % groups.length
-      : (groupIndex + 1) % groups.length
+    const nextGroupIndex = shiftKey ? (groupIndex - 1 + groups.length) % groups.length : (groupIndex + 1) % groups.length
     const nextGroup = groups[nextGroupIndex]
     return FocusEditorGroup.focusEditorGroup(state, nextGroup.id)
   }

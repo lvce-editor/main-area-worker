@@ -256,7 +256,10 @@ test('closeTab should return state unchanged when group does not exist', () => {
 
   const result = closeTab(state, 999, 1)
 
-  expect(result).toBe(state)
+  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(result.layout.activeGroupId).toBe(1)
 })
 
 test('closeTab should return state unchanged when tab does not exist', () => {

@@ -5,7 +5,7 @@ export const create = (uid: number, uri: string, x: number, y: number, width: nu
   const state: MainAreaState = {
     assetDir,
     layout: {
-      activeGroupId: '',
+      activeGroupId: undefined,
       direction: 'horizontal',
       groups: [],
     },

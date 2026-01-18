@@ -4,15 +4,15 @@ import { renderEditorGroup } from '../src/parts/RenderEditorGroup/RenderEditorGr
 
 test('renderEditorGroup should return correct structure for group with active tab', () => {
   const group = {
-    activeTabId: 'tab1',
+    activeTabId: 1,
     focused: false,
-    id: 'group1',
+    id: 1,
     size: 100,
     tabs: [
       {
         content: 'test content',
         editorType: 'text' as const,
-        id: 'tab1',
+        id: 1,
         isDirty: false,
         title: 'Test File',
       },
@@ -30,15 +30,15 @@ test('renderEditorGroup should return correct structure for group with active ta
 
 test('renderEditorGroup should handle group with no active tab', () => {
   const group = {
-    activeTabId: 'nonexistent',
+    activeTabId: 999,
     focused: false,
-    id: 'group1',
+    id: 1,
     size: 100,
     tabs: [
       {
         content: 'test content',
         editorType: 'text' as const,
-        id: 'tab1',
+        id: 1,
         isDirty: false,
         title: 'Test File',
       },
@@ -46,21 +46,21 @@ test('renderEditorGroup should handle group with no active tab', () => {
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(9) // 1 (EditorGroup) + 6 (renderTabBar) + 2 (renderEditor with "Tab not found")
+  expect(result.length).toBe(11) // 1 (EditorGroup) + 6 (renderTabBar) + 4 (renderEditor with empty container)
 })
 
 test('renderEditorGroup should handle group with custom editor', () => {
   const group = {
-    activeTabId: 'tab1',
+    activeTabId: 1,
     focused: false,
-    id: 'group1',
+    id: 1,
     size: 100,
     tabs: [
       {
         content: '',
         customEditorId: 'custom-editor-123',
         editorType: 'custom' as const,
-        id: 'tab1',
+        id: 1,
         isDirty: false,
         title: 'Custom Tab',
       },
@@ -73,13 +73,13 @@ test('renderEditorGroup should handle group with custom editor', () => {
 
 test('renderEditorGroup should handle empty tabs array', () => {
   const group = {
-    activeTabId: '',
+    activeTabId: undefined,
     focused: false,
-    id: 'group1',
+    id: 1,
     size: 100,
     tabs: [],
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(4) // 1 (EditorGroup) + 1 (renderTabBar) + 2 (renderEditor with "Tab not found")
+  expect(result.length).toBe(6) // 1 (EditorGroup) + 1 (renderTabBar) + 4 (renderEditor with empty container)
 })

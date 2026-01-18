@@ -5,19 +5,19 @@ import { CSS_CLASSES as ClassNames } from '../src/parts/MainAreaStyles/MainAreaS
 
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
   const layout = {
-    activeGroupId: 'group1',
+    activeGroupId: 1,
     direction: 'horizontal' as const,
     groups: [
       {
-        activeTabId: 'tab1',
+        activeTabId: 1,
         focused: false,
-        id: 'group1',
+        id: 1,
         size: 100,
         tabs: [
           {
             content: 'test content',
             editorType: 'text' as const,
-            id: 'tab1',
+            id: 1,
             isDirty: false,
             title: 'Test File',
           },
@@ -42,34 +42,34 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
 
 test('getMainAreaVirtualDom should handle multiple groups', () => {
   const layout = {
-    activeGroupId: 'group1',
+    activeGroupId: 1,
     direction: 'horizontal' as const,
     groups: [
       {
-        activeTabId: 'tab1',
+        activeTabId: 1,
         focused: false,
-        id: 'group1',
+        id: 1,
         size: 50,
         tabs: [
           {
             content: 'content 1',
             editorType: 'text' as const,
-            id: 'tab1',
+            id: 1,
             isDirty: false,
             title: 'File 1',
           },
         ],
       },
       {
-        activeTabId: 'tab2',
+        activeTabId: 2,
         focused: false,
-        id: 'group2',
+        id: 2,
         size: 50,
         tabs: [
           {
             content: 'content 2',
             editorType: 'text' as const,
-            id: 'tab2',
+            id: 2,
             isDirty: true,
             title: 'File 2',
           },

@@ -1,6 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
-export const closeTab = (state: MainAreaState, groupId: number | string, tabId: number | string): MainAreaState => {
+export const closeTab = (state: MainAreaState, groupId: number, tabId: number): MainAreaState => {
   const { layout } = state
   const { groups } = layout
 

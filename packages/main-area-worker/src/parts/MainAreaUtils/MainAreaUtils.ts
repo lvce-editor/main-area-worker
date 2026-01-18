@@ -25,11 +25,11 @@ export const isValidEditorGroup = (group: any): group is EditorGroup => {
   )
 }
 
-export const findGroupById = (state: MainAreaState, groupId: number | string): EditorGroup | undefined => {
+export const findGroupById = (state: MainAreaState, groupId: number): EditorGroup | undefined => {
   return state.layout.groups.find((group) => group.id === groupId)
 }
 
-export const findTabById = (state: MainAreaState, tabId: number | string): { tab: Tab; groupId: number | string } | undefined => {
+export const findTabById = (state: MainAreaState, tabId: number): { tab: Tab; groupId: number } | undefined => {
   for (const group of state.layout.groups) {
     const tab = group.tabs.find((t) => t.id === tabId)
     if (tab) {
@@ -39,7 +39,7 @@ export const findTabById = (state: MainAreaState, tabId: number | string): { tab
   return undefined
 }
 
-export const getActiveTab = (state: MainAreaState): { tab: Tab; groupId: number | string } | undefined => {
+export const getActiveTab = (state: MainAreaState): { tab: Tab; groupId: number } | undefined => {
   const activeGroup = state.layout.groups.find((group) => group.focused)
   if (!activeGroup || !activeGroup.activeTabId) {
     return undefined
@@ -65,7 +65,7 @@ export const hasDirtyTabs = (state: MainAreaState): boolean => {
   return getDirtyTabs(state).length > 0
 }
 
-export const getGroupIndex = (state: MainAreaState, groupId: number | string): number => {
+export const getGroupIndex = (state: MainAreaState, groupId: number): number => {
   return state.layout.groups.findIndex((group) => group.id === groupId)
 }
 

@@ -22,6 +22,8 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
     {
       childCount: 1,
       className: 'EditorTabCloseButton',
+      'data-groupIndex': groupIndex,
+      'data-index': tabIndex,
       onClick: DomEventListenerFunctions.HandleClickClose,
       type: VirtualDomElements.Button,
     },

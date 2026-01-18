@@ -4,15 +4,15 @@ import { renderTabBar } from '../src/parts/RenderTabBar/RenderTabBar.ts'
 
 test('renderTabBar should return correct structure for single tab', () => {
   const group = {
-    activeTabId: 'tab1',
+    activeTabId: 1,
     focused: false,
-    id: 'group1',
+    id: 1,
     size: 100,
     tabs: [
       {
         content: 'test content',
         editorType: 'text' as const,
-        id: 'tab1',
+        id: 1,
         isDirty: false,
         title: 'Test File',
       },
@@ -30,22 +30,22 @@ test('renderTabBar should return correct structure for single tab', () => {
 
 test('renderTabBar should handle multiple tabs', () => {
   const group = {
-    activeTabId: 'tab2',
+    activeTabId: 2,
     focused: false,
-    id: 'group1',
+    id: 1,
     size: 100,
     tabs: [
       {
         content: 'content 1',
         editorType: 'text' as const,
-        id: 'tab1',
+        id: 1,
         isDirty: false,
         title: 'File 1',
       },
       {
         content: 'content 2',
         editorType: 'text' as const,
-        id: 'tab2',
+        id: 2,
         isDirty: true,
         title: 'File 2',
       },
@@ -59,9 +59,9 @@ test('renderTabBar should handle multiple tabs', () => {
 
 test('renderTabBar should handle empty tabs array', () => {
   const group = {
-    activeTabId: '',
+    activeTabId: undefined,
     focused: false,
-    id: 'group1',
+    id: 1,
     size: 100,
     tabs: [],
   }

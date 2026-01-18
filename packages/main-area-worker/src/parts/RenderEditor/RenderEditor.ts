@@ -3,7 +3,19 @@ import type { Tab } from '../MainAreaState/MainAreaState.ts'
 
 export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] => {
   if (!tab) {
-    return [text('Tab not found')]
+    return [
+      {
+        childCount: 1,
+        className: 'TextEditor',
+        type: VirtualDomElements.Div,
+      },
+      {
+        childCount: 1,
+        className: 'EditorContent',
+        type: VirtualDomElements.Pre,
+      },
+      text(''),
+    ]
   }
   if (tab.editorType === 'custom') {
     return [

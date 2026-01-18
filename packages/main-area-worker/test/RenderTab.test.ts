@@ -7,7 +7,7 @@ test('renderTab should return correct structure for clean tab', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
-    id: 'tab1',
+    id: 1,
     isDirty: false,
     title: 'Test File',
   }
@@ -52,7 +52,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
-    id: 'tab1',
+    id: 1,
     isDirty: true,
     title: 'Test File',
   }
@@ -65,7 +65,7 @@ test('renderTab should handle empty title', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
-    id: 'tab1',
+    id: 1,
     isDirty: false,
     title: '',
   }
@@ -78,7 +78,7 @@ test('renderTab should handle dirty tab with empty title', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
-    id: 'tab1',
+    id: 1,
     isDirty: true,
     title: '',
   }

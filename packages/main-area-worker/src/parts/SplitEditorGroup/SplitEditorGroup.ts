@@ -2,7 +2,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { SplitDirection } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 
-export const splitEditorGroup = (state: MainAreaState, groupId: number | string, direction: SplitDirection): MainAreaState => {
+export const splitEditorGroup = (state: MainAreaState, groupId: number, direction: SplitDirection): MainAreaState => {
   const sourceGroup = state.layout.groups.find((group) => group.id === groupId)
   if (!sourceGroup) {
     return state

@@ -227,35 +227,3 @@ test('saveState should return a new object, not mutate the original state', () =
   expect(result).not.toBe(state)
   expect(result.layout).toBe(state.layout)
 })
-
-test('saveState should save layout with string activeGroupId', () => {
-  const state: MainAreaState = {
-    ...createDefaultState(),
-    layout: {
-      activeGroupId: 'group-1',
-      direction: 'vertical',
-      groups: [
-        {
-          activeTabId: 'tab-1',
-          focused: true,
-          id: 'group-1',
-          size: 100,
-          tabs: [
-            {
-              content: 'content',
-              editorType: 'text',
-              id: 'tab-1',
-              isDirty: false,
-              title: 'Tab',
-            },
-          ],
-        },
-      ],
-    },
-  }
-  const result: SavedState = saveState(state)
-  expect(result.layout.activeGroupId).toBe('group-1')
-  expect(result.layout.groups[0].id).toBe('group-1')
-  expect(result.layout.groups[0].activeTabId).toBe('tab-1')
-  expect(result.layout.groups[0].tabs[0].id).toBe('tab-1')
-})

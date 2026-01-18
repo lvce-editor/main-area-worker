@@ -1,6 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
-export const focusEditorGroup = (state: MainAreaState, groupId: number | string): MainAreaState => {
+export const focusEditorGroup = (state: MainAreaState, groupId: number): MainAreaState => {
   const groups = state.layout.groups.map((group) => ({
     ...group,
     focused: group.id === groupId,

@@ -8,7 +8,9 @@ export const openTab = (state: MainAreaState, groupId: number, tab: Omit<Tab, 'i
     id: Id.create(),
   }
 
-  const groups = state.layout.groups.map((group) => {
+  const { layout } = state
+  const { groups } = layout
+  const updatedGroups = groups.map((group) => {
     if (group.id === groupId) {
       return {
         ...group,
@@ -22,8 +24,8 @@ export const openTab = (state: MainAreaState, groupId: number, tab: Omit<Tab, 'i
   return {
     ...state,
     layout: {
-      ...state.layout,
-      groups,
+      ...layout,
+      groups: updatedGroups,
     },
   }
 }

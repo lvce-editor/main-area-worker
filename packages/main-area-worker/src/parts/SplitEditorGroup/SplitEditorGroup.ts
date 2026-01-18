@@ -3,7 +3,9 @@ import type { SplitDirection } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 
 export const splitEditorGroup = (state: MainAreaState, groupId: number, direction: SplitDirection): MainAreaState => {
-  const sourceGroup = state.layout.groups.find((group) => group.id === groupId)
+  const { layout } = state
+  const { groups } = layout
+  const sourceGroup = groups.find((group) => group.id === groupId)
   if (!sourceGroup) {
     return state
   }
@@ -13,7 +15,7 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
   const isHorizontalSplit = direction === 'left' || direction === 'right'
   const newLayoutDirection = isHorizontalSplit ? 'horizontal' : 'vertical'
 
-  const updatedGroups = state.layout.groups.map((group) => {
+  const updatedGroups = groups.map((group) => {
     if (group.id === groupId) {
       return {
         ...group,

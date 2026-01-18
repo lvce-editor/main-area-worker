@@ -4,7 +4,7 @@ export const createDefaultState = (): MainAreaState => {
   return {
     assetDir: '',
     layout: {
-      activeGroupId: '0',
+      activeGroupId: undefined,
       direction: 'horizontal',
       groups: [],
     },

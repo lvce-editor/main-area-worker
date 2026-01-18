@@ -5,33 +5,49 @@ import * as Diff from '../src/parts/Diff/Diff.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 
 test('diff should return empty array when states are equal', () => {
-  const oldState: MainAreaState = {
-    ...createDefaultState(),
-  }
-  const newState: MainAreaState = {
-    ...createDefaultState(),
-  }
+  const oldState: MainAreaState = createDefaultState()
+  const newState: MainAreaState = oldState
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([])
 })
 
 test('diff should return RenderItems when left items differ', () => {
-  const oldState: MainAreaState = {
-    ...createDefaultState(),
-  }
+  const oldState: MainAreaState = createDefaultState()
   const newState: MainAreaState = {
     ...createDefaultState(),
+    layout: {
+      ...createDefaultState().layout,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 1,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderItems])
 })
 
 test('diff should return RenderItems when right items differ', () => {
-  const oldState: MainAreaState = {
-    ...createDefaultState(),
-  }
+  const oldState: MainAreaState = createDefaultState()
   const newState: MainAreaState = {
     ...createDefaultState(),
+    layout: {
+      ...createDefaultState().layout,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 1,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderItems])
@@ -40,31 +56,75 @@ test('diff should return RenderItems when right items differ', () => {
 test('diff should return RenderItems when both left and right items differ', () => {
   const oldState: MainAreaState = {
     ...createDefaultState(),
+    layout: {
+      ...createDefaultState().layout,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 1,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
   }
   const newState: MainAreaState = {
     ...createDefaultState(),
+    layout: {
+      ...createDefaultState().layout,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 2,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderItems])
 })
 
 test('diff should return RenderItems when left array length differs', () => {
-  const oldState: MainAreaState = {
-    ...createDefaultState(),
-  }
+  const oldState: MainAreaState = createDefaultState()
   const newState: MainAreaState = {
     ...createDefaultState(),
+    layout: {
+      ...createDefaultState().layout,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 1,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderItems])
 })
 
 test('diff should return RenderItems when right array length differs', () => {
-  const oldState: MainAreaState = {
-    ...createDefaultState(),
-  }
+  const oldState: MainAreaState = createDefaultState()
   const newState: MainAreaState = {
     ...createDefaultState(),
+    layout: {
+      ...createDefaultState().layout,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 1,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
   }
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderItems])
@@ -76,7 +136,7 @@ test('diff should ignore uid when comparing', () => {
     uid: 1,
   }
   const newState: MainAreaState = {
-    ...createDefaultState(),
+    ...oldState,
     uid: 2,
   }
   const result = Diff.diff(oldState, newState)

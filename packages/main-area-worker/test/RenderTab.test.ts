@@ -17,9 +17,10 @@ test('renderTab should return correct structure for clean tab', () => {
   expect(result[0]).toEqual({
     childCount: 2,
     className: 'MainTab',
-    'data-group-index': 0,
+    'data-groupIndex': 0,
     'data-index': 0,
     onClick: DomEventListenerFunctions.HandleClickTab,
+    role: 'tab',
     type: VirtualDomElements.Div,
   })
   expect(result[1]).toEqual({

@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTab } from '../src/parts/RenderTab/RenderTab.ts'
 
@@ -13,39 +13,32 @@ test('renderTab should return correct structure for clean tab', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result.length).toBe(5)
-  expect(result[0]).toEqual({
-    childCount: 2,
-    className: 'MainTab',
-    'data-groupIndex': 0,
-    'data-index': 0,
-    onClick: DomEventListenerFunctions.HandleClickTab,
-    role: 'tab',
-    type: VirtualDomElements.Div,
-  })
-  expect(result[1]).toEqual({
-    childCount: 1,
-    className: 'TabTitle',
-    type: VirtualDomElements.Span,
-  })
-  expect(result[2]).toEqual({
-    childCount: 0,
-    text: 'Test File',
-    type: VirtualDomElements.Text,
-  })
-  expect(result[3]).toEqual({
-    childCount: 1,
-    className: 'EditorTabCloseButton',
-    'data-groupIndex': 0,
-    'data-index': 0,
-    onClick: DomEventListenerFunctions.HandleClickClose,
-    type: VirtualDomElements.Button,
-  })
-  expect(result[4]).toEqual({
-    childCount: 0,
-    text: '×',
-    type: VirtualDomElements.Text,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 2,
+      className: 'MainTab',
+      'data-groupIndex': 0,
+      'data-index': 0,
+      onClick: DomEventListenerFunctions.HandleClickTab,
+      role: 'tab',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'TabTitle',
+      type: VirtualDomElements.Span,
+    },
+    text('Test File'),
+    {
+      childCount: 1,
+      className: 'EditorTabCloseButton',
+      'data-groupIndex': 0,
+      'data-index': 0,
+      onClick: DomEventListenerFunctions.HandleClickClose,
+      type: VirtualDomElements.Button,
+    },
+    text('×'),
+  ])
 })
 
 test('renderTab should show dirty indicator for dirty tab', () => {

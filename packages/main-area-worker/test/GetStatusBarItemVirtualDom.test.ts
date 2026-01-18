@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements, AriaRoles, text } from '@lvce-editor/virtual-dom-worker'
 import * as ClassNames from '../src/parts/ClassNames/ClassNames.ts'
 import * as GetStatusBarItemVirtualDom from '../src/parts/GetStatusBarItemVirtualDom/GetStatusBarItemVirtualDom.ts'
 
@@ -14,26 +14,23 @@ test('getStatusBarItemVirtualDom should return button with icon and text element
     tooltip: 'Test Tooltip',
   }
   const result = GetStatusBarItemVirtualDom.getStatusBarItemVirtualDom(statusBarItem)
-  expect(result.length).toBe(3)
-  expect(result[0]).toEqual({
-    childCount: 2,
-    className: ClassNames.StatusBarItem,
-    name: 'test.item',
-    role: 'button',
-    tabIndex: -1,
-    title: 'Test Tooltip',
-    type: VirtualDomElements.Button,
-  })
-  expect(result[1]).toEqual({
-    childCount: 0,
-    className: 'test-icon',
-    type: VirtualDomElements.Div,
-  })
-  expect(result[2]).toEqual({
-    childCount: 0,
-    text: 'Test Item',
-    type: VirtualDomElements.Text,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 2,
+      className: ClassNames.StatusBarItem,
+      name: 'test.item',
+      role: AriaRoles.Button,
+      tabIndex: -1,
+      title: 'Test Tooltip',
+      type: VirtualDomElements.Button,
+    },
+    {
+      childCount: 0,
+      className: 'test-icon',
+      type: VirtualDomElements.Div,
+    },
+    text('Test Item'),
+  ])
 })
 
 test('getStatusBarItemVirtualDom should return button with text element', () => {
@@ -43,21 +40,18 @@ test('getStatusBarItemVirtualDom should return button with text element', () => 
     tooltip: 'Test Tooltip',
   }
   const result = GetStatusBarItemVirtualDom.getStatusBarItemVirtualDom(statusBarItem)
-  expect(result.length).toBe(2)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: ClassNames.StatusBarItem,
-    name: 'test.item',
-    role: 'button',
-    tabIndex: -1,
-    title: 'Test Tooltip',
-    type: VirtualDomElements.Button,
-  })
-  expect(result[1]).toEqual({
-    childCount: 0,
-    text: 'Test Item',
-    type: VirtualDomElements.Text,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: ClassNames.StatusBarItem,
+      name: 'test.item',
+      role: AriaRoles.Button,
+      tabIndex: -1,
+      title: 'Test Tooltip',
+      type: VirtualDomElements.Button,
+    },
+    text('Test Item'),
+  ])
 })
 
 test('getStatusBarItemVirtualDom should handle empty strings', () => {
@@ -67,21 +61,18 @@ test('getStatusBarItemVirtualDom should handle empty strings', () => {
     tooltip: '',
   }
   const result = GetStatusBarItemVirtualDom.getStatusBarItemVirtualDom(statusBarItem)
-  expect(result.length).toBe(2)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: ClassNames.StatusBarItem,
-    name: '',
-    role: 'button',
-    tabIndex: -1,
-    title: '',
-    type: VirtualDomElements.Button,
-  })
-  expect(result[1]).toEqual({
-    childCount: 0,
-    text: '',
-    type: VirtualDomElements.Text,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: ClassNames.StatusBarItem,
+      name: '',
+      role: AriaRoles.Button,
+      tabIndex: -1,
+      title: '',
+      type: VirtualDomElements.Button,
+    },
+    text(''),
+  ])
 })
 
 test('getStatusBarItemVirtualDom should use tooltip as title', () => {

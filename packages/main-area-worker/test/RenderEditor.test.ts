@@ -1,26 +1,23 @@
 import { expect, test } from '@jest/globals'
-import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import { renderEditor } from '../src/parts/RenderEditor/RenderEditor.ts'
 
 test('renderEditor should return empty editor container for undefined tab', () => {
   const result = renderEditor(undefined)
 
-  expect(result.length).toBe(3)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: 'TextEditor',
-    type: VirtualDomElements.Div,
-  })
-  expect(result[1]).toEqual({
-    childCount: 1,
-    className: 'EditorContent',
-    type: VirtualDomElements.Pre,
-  })
-  expect(result[2]).toEqual({
-    childCount: 0,
-    text: '',
-    type: VirtualDomElements.Text,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'TextEditor',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorContent',
+      type: VirtualDomElements.Pre,
+    },
+    text(''),
+  ])
 })
 
 test('renderEditor should return custom editor structure', () => {
@@ -34,17 +31,14 @@ test('renderEditor should return custom editor structure', () => {
   }
   const result = renderEditor(tab)
 
-  expect(result.length).toBe(2)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: 'CustomEditor',
-    type: VirtualDomElements.Div,
-  })
-  expect(result[1]).toEqual({
-    childCount: 0,
-    text: 'Custom Editor: custom-editor-123',
-    type: VirtualDomElements.Text,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'CustomEditor',
+      type: VirtualDomElements.Div,
+    },
+    text('Custom Editor: custom-editor-123'),
+  ])
 })
 
 test('renderEditor should return text editor structure with content', () => {
@@ -57,22 +51,19 @@ test('renderEditor should return text editor structure with content', () => {
   }
   const result = renderEditor(tab)
 
-  expect(result.length).toBe(3)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: 'TextEditor',
-    type: VirtualDomElements.Div,
-  })
-  expect(result[1]).toEqual({
-    childCount: 1,
-    className: 'EditorContent',
-    type: VirtualDomElements.Pre,
-  })
-  expect(result[2]).toEqual({
-    childCount: 0,
-    text: 'Hello, World!',
-    type: VirtualDomElements.Text,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'TextEditor',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorContent',
+      type: VirtualDomElements.Pre,
+    },
+    text('Hello, World!'),
+  ])
 })
 
 test('renderEditor should handle text editor with empty content', () => {

@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
-import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTabBar } from '../src/parts/RenderTabBar/RenderTabBar.ts'
 
 test('renderTabBar should return correct structure for single tab', () => {
@@ -20,12 +21,37 @@ test('renderTabBar should return correct structure for single tab', () => {
   }
   const result = renderTabBar(group, 0)
 
-  expect(result.length).toBe(6) // 1 (MainTabs) + 5 (renderTab)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: 'MainTabs',
-    type: VirtualDomElements.Div,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'MainTabs',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 2,
+      className: 'MainTab MainTabSelected',
+      'data-groupIndex': 0,
+      'data-index': 0,
+      onClick: DomEventListenerFunctions.HandleClickTab,
+      role: 'tab',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'TabTitle',
+      type: VirtualDomElements.Span,
+    },
+    text('Test File'),
+    {
+      childCount: 1,
+      className: 'EditorTabCloseButton',
+      'data-groupIndex': 0,
+      'data-index': 0,
+      onClick: DomEventListenerFunctions.HandleClickClose,
+      type: VirtualDomElements.Button,
+    },
+    text('×'),
+  ])
 })
 
 test('renderTabBar should handle multiple tabs', () => {

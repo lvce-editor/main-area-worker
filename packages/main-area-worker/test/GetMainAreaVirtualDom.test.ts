@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
-import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getMainAreaVirtualDom } from '../src/parts/GetMainAreaVirtualDom/GetMainAreaVirtualDom.ts'
 import { CSS_CLASSES as ClassNames } from '../src/parts/MainAreaStyles/MainAreaStyles.ts'
 
@@ -27,17 +28,68 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
   }
   const result = getMainAreaVirtualDom(layout)
 
-  expect(result.length).toBe(13) // 1 (Main) + 1 (EditorGroupsContainer) + 11 (renderEditorGroup)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: 'Main',
-    type: VirtualDomElements.Div,
-  })
-  expect(result[1]).toEqual({
-    childCount: 1,
-    className: ClassNames.EDITOR_GROUPS_CONTAINER,
-    type: VirtualDomElements.Div,
-  })
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'Main',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: ClassNames.EDITOR_GROUPS_CONTAINER,
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 2,
+      className: 'EditorGroup',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'MainTabs',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 2,
+      className: 'MainTab MainTabSelected',
+      'data-groupIndex': 0,
+      'data-index': 0,
+      onClick: DomEventListenerFunctions.HandleClickTab,
+      role: 'tab',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'TabTitle',
+      type: VirtualDomElements.Span,
+    },
+    text('Test File'),
+    {
+      childCount: 1,
+      className: 'EditorTabCloseButton',
+      'data-groupIndex': 0,
+      'data-index': 0,
+      onClick: DomEventListenerFunctions.HandleClickClose,
+      type: VirtualDomElements.Button,
+    },
+    text('×'),
+    {
+      childCount: 1,
+      className: 'EditorContainer',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'TextEditor',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorContent',
+      type: VirtualDomElements.Pre,
+    },
+    text('test content'),
+  ])
 })
 
 test('getMainAreaVirtualDom should handle multiple groups', () => {

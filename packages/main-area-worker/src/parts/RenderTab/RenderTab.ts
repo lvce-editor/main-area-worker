@@ -7,7 +7,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
     {
       childCount: 2,
       className: isActive ? 'MainTab MainTabSelected' : 'MainTab',
-      'data-group-index': groupIndex,
+      'data-groupIndex': groupIndex,
       'data-index': tabIndex,
       onClick: DomEventListenerFunctions.HandleClickTab,
       type: VirtualDomElements.Div,

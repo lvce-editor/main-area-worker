@@ -4,6 +4,7 @@ import { diff2 } from '../Diff2/Diff2.ts'
 import * as HandleClick from '../HandleClick/HandleClick.ts'
 import { handleClickCloseTab } from '../HandleClickCloseTab/HandleClickCloseTab.ts'
 import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
+import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { getCommandIds, wrapCommand } from '../MainAreaStates/MainAreaStates.ts'
@@ -21,6 +22,7 @@ export const commandMap = {
   'MainArea.handleClick': wrapCommand(HandleClick.handleClick),
   'MainArea.handleClickCloseTab': wrapCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapCommand(handleClickTab),
+  'MainArea.handleTabContextMenu': wrapCommand(handleTabContextMenu),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
   'MainArea.openUri': wrapCommand(openUri),

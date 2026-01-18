@@ -1,7 +1,9 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const focusEditorGroup = (state: MainAreaState, groupId: number): MainAreaState => {
-  const groups = state.layout.groups.map((group) => ({
+  const { layout } = state
+  const { groups } = layout
+  const updatedGroups = groups.map((group) => ({
     ...group,
     focused: group.id === groupId,
   }))
@@ -9,9 +11,9 @@ export const focusEditorGroup = (state: MainAreaState, groupId: number): MainAre
   return {
     ...state,
     layout: {
-      ...state.layout,
+      ...layout,
       activeGroupId: groupId,
-      groups,
+      groups: updatedGroups,
     },
   }
 }

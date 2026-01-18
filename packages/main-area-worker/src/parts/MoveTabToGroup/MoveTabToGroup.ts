@@ -7,8 +7,10 @@ export const moveTabToGroup = (
   tabId: number,
   targetIndex?: number,
 ): MainAreaState => {
-  const sourceGroup = state.layout.groups.find((group) => group.id === sourceGroupId)
-  const targetGroup = state.layout.groups.find((group) => group.id === targetGroupId)
+  const { layout } = state
+  const { groups } = layout
+  const sourceGroup = groups.find((group) => group.id === sourceGroupId)
+  const targetGroup = groups.find((group) => group.id === targetGroupId)
 
   if (!sourceGroup || !targetGroup || sourceGroupId === targetGroupId) {
     return state
@@ -19,7 +21,7 @@ export const moveTabToGroup = (
     return state
   }
 
-  const updatedGroups = state.layout.groups.map((group) => {
+  const updatedGroups = groups.map((group) => {
     if (group.id === sourceGroupId) {
       const newTabs = group.tabs.filter((tab) => tab.id !== tabId)
       let newActiveTabId = group.activeTabId
@@ -58,7 +60,7 @@ export const moveTabToGroup = (
   return {
     ...state,
     layout: {
-      ...state.layout,
+      ...layout,
       activeGroupId: targetGroupId,
       groups: updatedGroups,
     },

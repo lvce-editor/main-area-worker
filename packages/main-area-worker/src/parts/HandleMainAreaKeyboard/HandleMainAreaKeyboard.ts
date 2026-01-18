@@ -17,18 +17,20 @@ export const handleMainAreaKeyboard = (
   const { ctrlKey = false, key, metaKey = false, shiftKey = false } = event
   const isCtrl = ctrlKey || metaKey
 
-  const activeGroup = state.layout.groups.find((group) => group.focused)
+  const { layout } = state
+  const { groups } = layout
+  const activeGroup = groups.find((group) => group.focused)
   if (!activeGroup) {
     return state
   }
 
   // Tab navigation
   if (key === 'Tab' && isCtrl) {
-    const groupIndex = state.layout.groups.findIndex((group) => group.id === activeGroup.id)
+    const groupIndex = groups.findIndex((group) => group.id === activeGroup.id)
     const nextGroupIndex = shiftKey
-      ? (groupIndex - 1 + state.layout.groups.length) % state.layout.groups.length
-      : (groupIndex + 1) % state.layout.groups.length
-    const nextGroup = state.layout.groups[nextGroupIndex]
+      ? (groupIndex - 1 + groups.length) % groups.length
+      : (groupIndex + 1) % groups.length
+    const nextGroup = groups[nextGroupIndex]
     return FocusEditorGroup.focusEditorGroup(state, nextGroup.id)
   }
 

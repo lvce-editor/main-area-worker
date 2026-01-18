@@ -25,10 +25,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions): Pr
   // Find the active group (by activeGroupId or focused flag)
   const { layout } = state
   const { activeGroupId, groups } = layout
-  const activeGroup =
-    activeGroupId === undefined
-      ? groups.find((group) => group.focused)
-      : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
 
   // If no active group exists, create one
   if (!activeGroup) {

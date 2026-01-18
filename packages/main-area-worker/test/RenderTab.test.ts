@@ -36,6 +36,8 @@ test('renderTab should return correct structure for clean tab', () => {
   expect(result[3]).toEqual({
     childCount: 1,
     className: 'EditorTabCloseButton',
+    'data-groupIndex': 0,
+    'data-index': 0,
     onClick: DomEventListenerFunctions.HandleClickClose,
     type: VirtualDomElements.Button,
   })

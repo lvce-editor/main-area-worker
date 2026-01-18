@@ -8,7 +8,7 @@ test('saveState should save layout from default state', () => {
   const state: MainAreaState = createDefaultState()
   const result: SavedState = saveState(state)
   expect(result.layout).toEqual(state.layout)
-  expect(result.layout.activeGroupId).toBe('0')
+  expect(result.layout.activeGroupId).toBeUndefined()
   expect(result.layout.direction).toBe('horizontal')
   expect(result.layout.groups).toEqual([])
 })

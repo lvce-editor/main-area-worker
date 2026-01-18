@@ -1,7 +1,10 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const closeTab = (state: MainAreaState, groupId: number | string, tabId: number | string): MainAreaState => {
-  const groups = state.layout.groups.map((group) => {
+  const { layout } = state
+  const { groups } = layout
+
+  const newGroups = groups.map((group) => {
     if (group.id === groupId) {
       const newTabs = group.tabs.filter((tab) => tab.id !== tabId)
 
@@ -23,12 +26,11 @@ export const closeTab = (state: MainAreaState, groupId: number | string, tabId: 
     }
     return group
   })
-
   return {
     ...state,
     layout: {
-      ...state.layout,
-      groups,
+      ...layout,
+      groups: newGroups,
     },
   }
 }

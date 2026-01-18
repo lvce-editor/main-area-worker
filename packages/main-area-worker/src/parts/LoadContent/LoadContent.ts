@@ -1,22 +1,8 @@
-import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { getTabs } from '../GetTabs/GetTabs.ts'
 
 export const loadContent = async (state: MainAreaState): Promise<MainAreaState> => {
-  const tabs: readonly Tab[] = [
-    {
-      content: '',
-      editorType: 'text',
-      id: '1',
-      isDirty: false,
-      title: 'tab 1',
-    },
-    {
-      content: '',
-      editorType: 'text',
-      id: '2',
-      isDirty: false,
-      title: 'tab 2',
-    },
-  ]
+  const tabs = await getTabs()
   return {
     ...state,
     layout: {

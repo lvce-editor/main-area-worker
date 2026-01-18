@@ -7,12 +7,12 @@ test('loadContent should mark first tab as active', async () => {
   const result = await LoadContent.loadContent(state)
 
   expect(result.layout.groups).toHaveLength(1)
-  expect(result.layout.groups[0].tabs).toHaveLength(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(6)
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.activeGroupId).toBe(0)
 })
 
-test('loadContent should create two default tabs', async () => {
+test('loadContent should create six default tabs', async () => {
   const state = createDefaultState()
   const result = await LoadContent.loadContent(state)
 
@@ -31,6 +31,34 @@ test('loadContent should create two default tabs', async () => {
       id: 2,
       isDirty: false,
       title: 'tab 2',
+    },
+    {
+      content: '',
+      editorType: 'text',
+      id: 3,
+      isDirty: false,
+      title: 'tab 3',
+    },
+    {
+      content: '',
+      editorType: 'text',
+      id: 4,
+      isDirty: false,
+      title: 'tab 4',
+    },
+    {
+      content: '',
+      editorType: 'text',
+      id: 5,
+      isDirty: false,
+      title: 'tab 5',
+    },
+    {
+      content: '',
+      editorType: 'text',
+      id: 6,
+      isDirty: false,
+      title: 'tab 6',
     },
   ])
 })

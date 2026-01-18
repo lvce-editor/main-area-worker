@@ -1293,3 +1293,227 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
   expect(result.layout.groups[0].activeTabId).toBe(3)
   expect(result).not.toBe(state)
 })
+
+test('closeTab should remove editor group when closing last tab and multiple groups exist', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+        {
+          activeTabId: 2,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeTab(state, 1, 1)
+
+  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups[0].id).toBe(2)
+  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].size).toBe(100)
+  expect(result.layout.activeGroupId).toBe(2)
+  expect(result).not.toBe(state)
+})
+
+test('closeTab should remove editor group when closing last tab and update activeGroupId', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 2,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: false,
+          id: 1,
+          size: 33,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+        {
+          activeTabId: 2,
+          focused: true,
+          id: 2,
+          size: 33,
+          tabs: [
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 3,
+          size: 34,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeTab(state, 2, 2)
+
+  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups.find((group) => group.id === 2)).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups[0].size).toBe(50)
+  expect(result.layout.groups[1].size).toBe(50)
+  expect(result).not.toBe(state)
+})
+
+test('closeTab should not remove editor group when closing last tab if it is the only group', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeTab(state, 1, 1)
+
+  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups[0].tabs.length).toBe(0)
+  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result).not.toBe(state)
+})
+
+test('closeTab should redistribute sizes when removing group', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 2,
+      direction: 'vertical',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: false,
+          id: 1,
+          size: 25,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+        {
+          activeTabId: 2,
+          focused: true,
+          id: 2,
+          size: 25,
+          tabs: [
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 3,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+            {
+              content: 'content4',
+              editorType: 'text' as const,
+              id: 4,
+              isDirty: false,
+              title: 'File 4',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeTab(state, 2, 2)
+
+  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups.find((group) => group.id === 2)).toBeUndefined()
+  expect(result.layout.groups[0].size).toBe(50)
+  expect(result.layout.groups[1].size).toBe(50)
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result).not.toBe(state)
+})

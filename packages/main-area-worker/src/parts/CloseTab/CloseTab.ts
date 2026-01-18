@@ -1,6 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
-export const closeTab = (state: MainAreaState, groupId: string, tabId: string): MainAreaState => {
+export const closeTab = (state: MainAreaState, groupId: number | string, tabId: number | string): MainAreaState => {
   const groups = state.layout.groups.map((group) => {
     if (group.id === groupId) {
       const newTabs = group.tabs.filter((tab) => tab.id !== tabId)

@@ -6,7 +6,7 @@ export interface Tab {
   readonly content: string
   readonly customEditorId?: string
   readonly editorType: EditorType
-  readonly id: string
+  readonly id: number | string
   readonly isDirty: boolean
   readonly language?: string
   readonly path?: string
@@ -14,16 +14,16 @@ export interface Tab {
 }
 
 export interface EditorGroup {
-  readonly activeTabId: string | undefined
+  readonly activeTabId: number | undefined | string
   readonly direction?: 'horizontal' | 'vertical'
   readonly focused: boolean
-  readonly id: string
+  readonly id: number | string
   readonly size: number
   readonly tabs: readonly Tab[]
 }
 
 export interface MainAreaLayout {
-  readonly activeGroupId: string | undefined
+  readonly activeGroupId: number | undefined | string
   readonly direction: 'horizontal' | 'vertical'
   readonly groups: readonly EditorGroup[]
 }

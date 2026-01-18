@@ -1,6 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
-export const closeEditorGroup = (state: MainAreaState, groupId: string): MainAreaState => {
+export const closeEditorGroup = (state: MainAreaState, groupId: number): MainAreaState => {
   const { layout } = state
   const { activeGroupId, groups } = layout
 

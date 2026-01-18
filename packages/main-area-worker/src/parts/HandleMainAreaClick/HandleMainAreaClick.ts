@@ -25,7 +25,11 @@ export const handleMainAreaClick = (
   if (dataset.tabId) {
     const { groupId } = dataset
     if (groupId) {
-      return SwitchTab.switchTab(state, groupId, dataset.tabId)
+      const parsedGroupId = Number.parseInt(groupId, 10)
+      const parsedTabId = Number.parseInt(dataset.tabId, 10)
+      if (!Number.isNaN(parsedGroupId) && !Number.isNaN(parsedTabId)) {
+        return SwitchTab.switchTab(state, parsedGroupId, parsedTabId)
+      }
     }
   }
 
@@ -33,21 +37,31 @@ export const handleMainAreaClick = (
   if (dataset.action === 'close-tab' && dataset.tabId) {
     const { groupId } = dataset
     if (groupId) {
-      return CloseTab.closeTab(state, groupId, dataset.tabId)
+      const parsedGroupId = Number.parseInt(groupId, 10)
+      const parsedTabId = Number.parseInt(dataset.tabId, 10)
+      if (!Number.isNaN(parsedGroupId) && !Number.isNaN(parsedTabId)) {
+        return CloseTab.closeTab(state, parsedGroupId, parsedTabId)
+      }
     }
   }
 
   // Handle editor group focus
   if (dataset.groupId && !dataset.tabId) {
-    return FocusEditorGroup.focusEditorGroup(state, dataset.groupId)
+    const parsedGroupId = Number.parseInt(dataset.groupId, 10)
+    if (!Number.isNaN(parsedGroupId)) {
+      return FocusEditorGroup.focusEditorGroup(state, parsedGroupId)
+    }
   }
 
   // Handle split actions
   if (dataset.action?.startsWith('split-')) {
     const { groupId } = dataset
     if (groupId) {
-      const direction = dataset.action.replace('split-', '') as SplitDirection
-      return SplitEditorGroup.splitEditorGroup(state, groupId, direction)
+      const parsedGroupId = Number.parseInt(groupId, 10)
+      if (!Number.isNaN(parsedGroupId)) {
+        const direction = dataset.action.replace('split-', '') as SplitDirection
+        return SplitEditorGroup.splitEditorGroup(state, parsedGroupId, direction)
+      }
     }
   }
 

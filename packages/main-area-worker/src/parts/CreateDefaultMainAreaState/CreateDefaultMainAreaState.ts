@@ -4,13 +4,13 @@ export const createDefaultMainAreaState = (): MainAreaState => {
   return {
     assetDir: '',
     layout: {
-      activeGroupId: 'group-1',
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
           activeTabId: undefined,
           focused: true,
-          id: 'group-1',
+          id: 1,
           size: 100,
           tabs: [],
         },

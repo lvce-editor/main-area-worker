@@ -29,7 +29,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -38,6 +38,12 @@ test('renderTabBar should return correct structure for single tab', () => {
       role: 'tab',
       title: '/path/to/Test File',
       type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'TabIcon',
+      src: 'icons/refresh.svg',
+      type: VirtualDomElements.Img,
     },
     {
       childCount: 1,
@@ -84,7 +90,7 @@ test('renderTabBar should handle multiple tabs', () => {
   }
   const result = renderTabBar(group, 0)
 
-  expect(result.length).toBe(11) // 1 (MainTabs) + 5*2 (renderTab for each)
+  expect(result.length).toBe(13) // 1 (MainTabs) + 6*2 (renderTab for each)
   expect(result[0].childCount).toBe(2)
 })
 

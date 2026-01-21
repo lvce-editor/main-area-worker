@@ -11,7 +11,7 @@ test('create should return incrementing numbers', () => {
 })
 
 test('setMinId should update counter when minId is greater', () => {
-  const initialId = Id.create()
+  Id.create()
   Id.setMinId(1000)
   const nextId = Id.create()
 

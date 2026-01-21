@@ -51,8 +51,6 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     // Viewlet creation is optional - silently ignore if RendererWorker isn't available
   }
 
-  console.log({ viewletModuleId })
-
   // Find the active group (by activeGroupId or focused flag)
   const { layout } = state
   const { activeGroupId, groups } = layout

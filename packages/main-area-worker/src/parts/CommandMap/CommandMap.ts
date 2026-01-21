@@ -12,6 +12,7 @@ import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { getCommandIds, wrapCommand, wrapGetter } from '../MainAreaStates/MainAreaStates.ts'
 import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
 import { openUri } from '../OpenUri/OpenUri.ts'
+import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
 import { resize } from '../Resize/Resize.ts'
@@ -32,6 +33,7 @@ export const commandMap = {
   'MainArea.initialize': initialize,
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
   'MainArea.openUri': wrapCommand(openUri),
+  'MainArea.refresh': wrapCommand(refresh),
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,
   'MainArea.resize': wrapCommand(resize),

@@ -1,40 +1,12 @@
 import { MenuEntryId } from '@lvce-editor/constants'
-import * as MenuEntriesMain from '../MenuEntriesMain/MenuEntriesMain.ts'
+import type { ContextMenuProps } from '../ContextMenuProps/ContextMenuProps.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as MenuEntriesTab from '../MenuEntriesTab/MenuEntriesTab.ts'
 
-export const getQuickPickMenuEntries = (): readonly any[] => {
-  return [
-    {
-      id: 'Main.splitRight',
-      label: 'Main: Split Right',
-    },
-    {
-      id: 'Main.splitLeft',
-      label: 'Main: Split Left',
-    },
-    {
-      id: 'Main.splitDown',
-      label: 'Main: Split Down',
-    },
-    {
-      id: 'Main.splitUp',
-      label: 'Main: Split Up',
-    },
-    {
-      id: 'Main.reopenEditorWith',
-      label: 'Main: Reopen Editor With',
-    },
-  ]
-}
-
-export const menus = []
-
-export const getMenuEntries = async (id: number): Promise<readonly any[]> => {
-  switch (id) {
-    case MenuEntryId.Main:
-      return MenuEntriesMain.getMenuEntries()
+export const getMenuEntries = async (state: MainAreaState, props: ContextMenuProps): Promise<readonly any[]> => {
+  switch (props.menuId) {
     case MenuEntryId.Tab:
-      return MenuEntriesTab.getMenuEntries()
+      return MenuEntriesTab.getMenuEntries(state)
     default:
       return []
   }

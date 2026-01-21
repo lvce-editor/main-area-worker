@@ -1,18 +1,18 @@
 import { MenuItemFlags } from '@lvce-editor/constants'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
 import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
-import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.js'
+import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'
 
 // TODO should pass tab uri as argument or tab index
-export const getMenuEntries = (): readonly any[] => {
-  const mainState = {} as any
-  const { activeGroupIndex } = mainState
-  const { groups } = mainState
-  const group = groups[activeGroupIndex]
-  const { editors } = group
-  const editor = editors[group.focusedIndex]
-  Assert.object(editor)
-  const { uri } = editor
+export const getMenuEntries = (state: MainAreaState): readonly any[] => {
+  const { layout } = state
+  const { activeGroupId, groups } = layout
+  const group = groups[activeGroupId || 0]
+  const { activeTabId, tabs } = group
+  const tab = tabs[activeTabId || 0]
+  Assert.object(tab)
+  const { path } = tab
   return [
     {
       command: 'Main.closeFocusedTab',
@@ -40,7 +40,7 @@ export const getMenuEntries = (): readonly any[] => {
     },
     MenuEntrySeparator.menuEntrySeparator,
     {
-      args: [uri],
+      args: [path],
       command: 'Explorer.revealItem',
       flags: MenuItemFlags.None,
       id: 'revealInExplorer',
@@ -48,7 +48,7 @@ export const getMenuEntries = (): readonly any[] => {
     },
     MenuEntrySeparator.menuEntrySeparator,
     {
-      args: [/* id */ 'References', /* focus */ true, uri],
+      args: [/* id */ 'References', /* focus */ true, path],
       command: 'SideBar.show',
       flags: MenuItemFlags.None,
       id: 'findFileReferences',

@@ -8,7 +8,8 @@ import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
-import { getCommandIds, wrapCommand } from '../MainAreaStates/MainAreaStates.ts'
+import { getCommandIds, wrapCommand, wrapGetter } from '../MainAreaStates/MainAreaStates.ts'
+import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
 import { openUri } from '../OpenUri/OpenUri.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
@@ -20,6 +21,7 @@ export const commandMap = {
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
   'MainArea.getCommandIds': getCommandIds,
+  'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
   'MainArea.getMenuIds': getMenuIds,
   'MainArea.handleClick': wrapCommand(HandleClick.handleClick),
   'MainArea.handleClickCloseTab': wrapCommand(handleClickCloseTab),

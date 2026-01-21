@@ -56,7 +56,7 @@ export const loadTabContentAsync = async (
   tabId: number,
   path: string,
   requestId: number,
-  getLatestState: () => MainAreaState
+  getLatestState: () => MainAreaState,
 ): Promise<MainAreaState> => {
   try {
     const content = await loadFileContent(path)

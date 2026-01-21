@@ -1,5 +1,5 @@
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
-import * as LoadTabContent from '../LoadTabContent/LoadTabContent.ts'
+import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
 import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
 
@@ -44,7 +44,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   // Check if we need to load content for the newly selected tab
   const needsLoading = shouldLoadContent(tab)
-  const requestId = needsLoading ? LoadTabContent.getNextRequestId() : 0
+  const requestId = needsLoading ? GetNextRequestId.getNextRequestId() : 0
 
   // Update the groups array with the new active tab and active group
   // Also set loading state if needed

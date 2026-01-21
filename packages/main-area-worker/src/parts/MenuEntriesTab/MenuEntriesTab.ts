@@ -2,7 +2,7 @@ import { MenuItemFlags } from '@lvce-editor/constants'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
 import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
-import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.js'
+import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'
 
 // TODO should pass tab uri as argument or tab index
 export const getMenuEntries = (state: MainAreaState): readonly any[] => {

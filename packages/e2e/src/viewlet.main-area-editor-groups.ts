@@ -57,7 +57,10 @@ export const test: Test = async ({ Command, FileSystem }) => {
   const savedState3 = await Command.execute('MainArea.saveState', uid)
   const focusedGroup = savedState3.layout.groups.find((g) => g.focused)
   assert(focusedGroup !== undefined, 'Focused group should exist')
-  assert(focusedGroup.tabs.some((t) => t.path === file3), 'Focused group should contain file3')
+  assert(
+    focusedGroup.tabs.some((t) => t.path === file3),
+    'Focused group should contain file3',
+  )
 
   await Command.execute('MainArea.selectTab', uid, 0, 0)
   const savedState4 = await Command.execute('MainArea.saveState', uid)
@@ -78,5 +81,8 @@ export const test: Test = async ({ Command, FileSystem }) => {
   const savedState6 = await Command.execute('MainArea.saveState', uid)
   const focusedGroup2 = savedState6.layout.groups.find((g) => g.focused)
   assert(focusedGroup2 !== undefined, 'Focused group should exist')
-  assert(focusedGroup2.tabs.some((t) => t.path === file4), 'Focused group should contain file4')
+  assert(
+    focusedGroup2.tabs.some((t) => t.path === file4),
+    'Focused group should contain file4',
+  )
 }

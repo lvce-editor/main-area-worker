@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
-import { restoreMainAreaState } from '../src/parts/RestoreMainAreaState/RestoreMainAreaState.ts'
+import { restoreMainAreaState, restoreMainState } from '../src/parts/RestoreMainAreaState/RestoreMainAreaState.ts'
 
 test('restoreMainAreaState should restore layout from valid saved state', () => {
   const currentState: MainAreaState = {
@@ -389,4 +389,498 @@ test('restoreMainAreaState should return current state for null JSON', () => {
   const result = restoreMainAreaState('null', currentState)
 
   expect(result).toBe(currentState)
+})
+
+test('restoreMainAreaState should handle missing version property', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [],
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout).toEqual(savedLayout)
+})
+
+test('restoreMainAreaState should handle extra properties in saved state', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [],
+  }
+
+  const savedState = JSON.stringify({
+    anotherProperty: 123,
+    extraProperty: 'should be ignored',
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout).toEqual(savedLayout)
+})
+
+test('restoreMainAreaState should handle layout as non-object', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedState = JSON.stringify({
+    layout: 'invalid layout',
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result).not.toBe(currentState)
+  expect((result as any).layout).toBe('invalid layout')
+})
+
+test('restoreMainAreaState should handle layout with invalid direction', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'invalid' as any,
+    groups: [],
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.direction).toBe('invalid')
+})
+
+test('restoreMainAreaState should handle layout with invalid activeGroupId type', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 'invalid' as any,
+    direction: 'horizontal' as const,
+    groups: [],
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.activeGroupId).toBe('invalid')
+})
+
+test('restoreMainAreaState should handle layout with groups as non-array', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: 'not an array' as any,
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.groups).toBe('not an array')
+})
+
+test('restoreMainAreaState should handle layout with invalid group structure', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        invalid: 'group',
+      },
+    ],
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.groups).toEqual(savedLayout.groups)
+})
+
+test('restoreMainAreaState should handle layout with group having invalid size', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        size: -10,
+        tabs: [],
+      },
+    ],
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.groups[0].size).toBe(-10)
+})
+
+test('restoreMainAreaState should handle layout with group having invalid focused type', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: 'invalid' as any,
+        id: 1,
+        size: 100,
+        tabs: [],
+      },
+    ],
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.groups[0].focused).toBe('invalid')
+})
+
+test('restoreMainAreaState should handle layout with group having invalid tabs', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        size: 100,
+        tabs: 'not an array' as any,
+      },
+    ],
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.groups[0].tabs).toBe('not an array')
+})
+
+test('restoreMainAreaState should handle layout with group having invalid tab structure', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        size: 100,
+        tabs: [
+          {
+            invalid: 'tab',
+          },
+        ],
+      },
+    ],
+  }
+
+  const savedState = JSON.stringify({
+    layout: savedLayout,
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.groups[0].tabs).toEqual(savedLayout.groups[0].tabs)
+})
+
+test('restoreMainState should return valid layout', () => {
+  const validLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [
+          {
+            content: 'content',
+            editorType: 'text' as const,
+            id: 1,
+            isDirty: false,
+            title: 'File',
+          },
+        ],
+      },
+    ],
+  }
+
+  const result = restoreMainState(validLayout)
+
+  expect(result).toEqual(validLayout)
+})
+
+test('restoreMainState should throw error for invalid layout - null', () => {
+  expect(() => {
+    restoreMainState(null)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should throw error for invalid layout - undefined', () => {
+  expect(() => {
+    restoreMainState(undefined)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should throw error for invalid layout - string', () => {
+  expect(() => {
+    restoreMainState('invalid')
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should throw error for invalid layout - number', () => {
+  expect(() => {
+    restoreMainState(123)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should throw error for invalid layout - missing direction', () => {
+  const invalidLayout = {
+    activeGroupId: 1,
+    groups: [],
+  }
+
+  expect(() => {
+    restoreMainState(invalidLayout)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should throw error for invalid layout - invalid direction', () => {
+  const invalidLayout = {
+    activeGroupId: 1,
+    direction: 'invalid',
+    groups: [],
+  }
+
+  expect(() => {
+    restoreMainState(invalidLayout)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should throw error for invalid layout - missing groups', () => {
+  const invalidLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+  }
+
+  expect(() => {
+    restoreMainState(invalidLayout)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should throw error for invalid layout - groups not array', () => {
+  const invalidLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+    groups: 'not an array',
+  }
+
+  expect(() => {
+    restoreMainState(invalidLayout)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should throw error for invalid layout - invalid activeGroupId type', () => {
+  const invalidLayout = {
+    activeGroupId: 'invalid',
+    direction: 'horizontal',
+    groups: [],
+  }
+
+  expect(() => {
+    restoreMainState(invalidLayout)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should accept layout with undefined activeGroupId', () => {
+  const validLayout = {
+    activeGroupId: undefined,
+    direction: 'horizontal' as const,
+    groups: [],
+  }
+
+  const result = restoreMainState(validLayout)
+
+  expect(result).toEqual(validLayout)
+})
+
+test('restoreMainState should throw error for invalid layout - invalid group', () => {
+  const invalidLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+    groups: [
+      {
+        invalid: 'group',
+      },
+    ],
+  }
+
+  expect(() => {
+    restoreMainState(invalidLayout)
+  }).toThrow('Invalid layout: value does not match MainAreaLayout type')
+})
+
+test('restoreMainState should accept layout with empty groups', () => {
+  const validLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [],
+  }
+
+  const result = restoreMainState(validLayout)
+
+  expect(result).toEqual(validLayout)
+})
+
+test('restoreMainState should accept layout with valid groups', () => {
+  const validLayout = {
+    activeGroupId: 1,
+    direction: 'vertical' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: true,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content',
+            editorType: 'text' as const,
+            id: 1,
+            isDirty: false,
+            title: 'File',
+          },
+        ],
+      },
+      {
+        activeTabId: 2,
+        focused: false,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content2',
+            customEditorId: 'editor-1',
+            editorType: 'custom' as const,
+            id: 2,
+            isDirty: true,
+            title: 'File 2',
+          },
+        ],
+      },
+    ],
+  }
+
+  const result = restoreMainState(validLayout)
+
+  expect(result).toEqual(validLayout)
 })

@@ -2,6 +2,7 @@ import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as GetNextRequestId from '../src/parts/GetNextRequestId/GetNextRequestId.ts'
 import * as LoadTabContent from '../src/parts/LoadTabContent/LoadTabContent.ts'
 
 const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => ({
@@ -33,20 +34,20 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
 })
 
 test('getNextRequestId returns incrementing IDs', () => {
-  LoadTabContent.resetRequestIdCounter()
-  const id1 = LoadTabContent.getNextRequestId()
-  const id2 = LoadTabContent.getNextRequestId()
-  const id3 = LoadTabContent.getNextRequestId()
+  GetNextRequestId.resetRequestIdCounter()
+  const id1 = GetNextRequestId.getNextRequestId()
+  const id2 = GetNextRequestId.getNextRequestId()
+  const id3 = GetNextRequestId.getNextRequestId()
 
   expect(id2).toBe(id1 + 1)
   expect(id3).toBe(id2 + 1)
 })
 
 test('resetRequestIdCounter resets the counter', () => {
-  LoadTabContent.getNextRequestId()
-  LoadTabContent.getNextRequestId()
-  LoadTabContent.resetRequestIdCounter()
-  const id = LoadTabContent.getNextRequestId()
+  GetNextRequestId.getNextRequestId()
+  GetNextRequestId.getNextRequestId()
+  GetNextRequestId.resetRequestIdCounter()
+  const id = GetNextRequestId.getNextRequestId()
 
   expect(id).toBe(1)
 })
@@ -90,11 +91,11 @@ test('updateTab returns unchanged state when tab not found', () => {
 
 test('loadTabContentAsync loads content successfully', async () => {
   const mockRpc = RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => 'file content here',
+    'FileSystem.readFile': async () => 'file content here',
   })
 
-  LoadTabContent.resetRequestIdCounter()
-  const requestId = LoadTabContent.getNextRequestId()
+  GetNextRequestId.resetRequestIdCounter()
+  const requestId = GetNextRequestId.getNextRequestId()
 
   const state: MainAreaState = {
     ...createStateWithTab({
@@ -112,18 +113,18 @@ test('loadTabContentAsync loads content successfully', async () => {
   expect(tab?.loadingState).toBe('loaded')
   expect(tab?.errorMessage).toBeUndefined()
   expect(mockRpc.invocations.length).toBe(1)
-  expect(mockRpc.invocations[0]).toEqual(['ExtensionHostFileSystem.readFile', '/test/file.txt'])
+  expect(mockRpc.invocations[0]).toEqual(['FileSystem.readFile', '/test/file.txt'])
 })
 
 test('loadTabContentAsync handles error', async () => {
   const mockRpc = RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => {
+    'FileSystem.readFile': async () => {
       throw new Error('File not found')
     },
   })
 
-  LoadTabContent.resetRequestIdCounter()
-  const requestId = LoadTabContent.getNextRequestId()
+  GetNextRequestId.resetRequestIdCounter()
+  const requestId = GetNextRequestId.getNextRequestId()
 
   const state: MainAreaState = {
     ...createStateWithTab({
@@ -145,12 +146,12 @@ test('loadTabContentAsync handles error', async () => {
 
 test('loadTabContentAsync discards result when request ID changed (race condition)', async () => {
   RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => 'old content',
+    'FileSystem.readFile': async () => 'old content',
   })
 
-  LoadTabContent.resetRequestIdCounter()
-  const oldRequestId = LoadTabContent.getNextRequestId()
-  const newRequestId = LoadTabContent.getNextRequestId()
+  GetNextRequestId.resetRequestIdCounter()
+  const oldRequestId = GetNextRequestId.getNextRequestId()
+  const newRequestId = GetNextRequestId.getNextRequestId()
 
   // Simulate a newer request being started while the old one is in flight
   const newerState: MainAreaState = {
@@ -172,11 +173,11 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
 
 test('loadTabContentAsync discards result when tab no longer exists', async () => {
   RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => 'content',
+    'FileSystem.readFile': async () => 'content',
   })
 
-  LoadTabContent.resetRequestIdCounter()
-  const requestId = LoadTabContent.getNextRequestId()
+  GetNextRequestId.resetRequestIdCounter()
+  const requestId = GetNextRequestId.getNextRequestId()
 
   // State where the tab has been closed
   const stateWithoutTab: MainAreaState = {
@@ -207,13 +208,13 @@ test('loadTabContentAsync discards result when tab no longer exists', async () =
 
 test('loadTabContentAsync handles non-Error exception', async () => {
   RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => {
+    'FileSystem.readFile': async () => {
       throw 'string error'
     },
   })
 
-  LoadTabContent.resetRequestIdCounter()
-  const requestId = LoadTabContent.getNextRequestId()
+  GetNextRequestId.resetRequestIdCounter()
+  const requestId = GetNextRequestId.getNextRequestId()
 
   const state: MainAreaState = {
     ...createStateWithTab({

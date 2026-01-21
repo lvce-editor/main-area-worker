@@ -4,32 +4,12 @@ import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
+import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
-import * as LoadTabContent from '../LoadTabContent/LoadTabContent.ts'
-import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
-
-const startContentLoading = (uid: number, tabId: number, path: string, requestId: number): void => {
-  const loadContent = async (): Promise<void> => {
-    try {
-      const currentState = get(uid) as unknown as MainAreaState | undefined
-      if (!currentState) {
-        return
-      }
-      const getLatestState = (): MainAreaState => (get(uid) as unknown as MainAreaState | undefined) ?? currentState
-      const newState = await LoadTabContent.loadTabContentAsync(tabId, path, requestId, getLatestState)
-      const oldState = get(uid) as unknown as MainAreaState | undefined
-      if (oldState) {
-        set(uid, oldState, newState)
-      }
-    } catch {
-      // Silently ignore errors - the tab may have been closed or the component unmounted
-    }
-  }
-  void loadContent()
-}
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
@@ -50,12 +30,12 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   }
 
   // Find the active group (by activeGroupId or focused flag)
-  const { layout, uid } = state
+  const { layout } = state
   const { activeGroupId, groups } = layout
   const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
 
   // Generate a request ID for content loading
-  const requestId = LoadTabContent.getNextRequestId()
+  const requestId = GetNextRequestId.getNextRequestId()
 
   // If no active group exists, create one
   if (!activeGroup) {
@@ -90,9 +70,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     }
 
     // Start loading content
-    startContentLoading(uid, tabId, uri, requestId)
-
-    return newState
+    return startContentLoading(state, newState, tabId, uri, requestId)
   }
 
   // Create a new tab with the URI in the active group
@@ -111,8 +89,5 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   const newState = openTab(state, activeGroup.id, newTab)
 
-  // Start loading content
-  startContentLoading(uid, tabId, uri, requestId)
-
-  return newState
+  return startContentLoading(state, newState, tabId, uri, requestId)
 }

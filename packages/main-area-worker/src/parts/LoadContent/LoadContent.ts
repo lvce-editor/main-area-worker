@@ -1,23 +1,24 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
-import { getTabs } from '../GetTabs/GetTabs.ts'
+import { getMaxIdFromLayout } from '../GetMaxIdFromLayout/GetMaxIdFromLayout.ts'
+import * as Id from '../Id/Id.ts'
+import { tryRestoreLayout } from '../TryRestoreLayout/TryRestoreLayout.ts'
 
-export const loadContent = async (state: MainAreaState): Promise<MainAreaState> => {
-  const tabs = await getTabs()
+export const loadContent = async (state: MainAreaState, savedState: unknown): Promise<MainAreaState> => {
+  const restoredLayout = tryRestoreLayout(savedState)
+  if (restoredLayout) {
+    const maxId = getMaxIdFromLayout(restoredLayout)
+    Id.setMinId(maxId)
+    return {
+      ...state,
+      layout: restoredLayout,
+    }
+  }
   return {
     ...state,
     layout: {
-      activeGroupId: 0,
+      activeGroupId: undefined,
       direction: 'horizontal',
-      groups: [
-        {
-          activeTabId: tabs.length > 0 ? tabs[0].id : undefined,
-          direction: 'horizontal',
-          focused: false,
-          id: 0,
-          size: 300,
-          tabs,
-        },
-      ],
+      groups: [],
     },
   }
 }

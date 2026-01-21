@@ -2,39 +2,165 @@ import { expect, test } from '@jest/globals'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as LoadContent from '../src/parts/LoadContent/LoadContent.ts'
 
-test('loadContent should mark first tab as active', async () => {
+test('loadContent should return empty layout when savedState is undefined', async () => {
   const state = createDefaultState()
-  const result = await LoadContent.loadContent(state)
+  const result = await LoadContent.loadContent(state, undefined)
 
-  expect(result.layout.groups).toHaveLength(1)
-  expect(result.layout.groups[0].tabs).toHaveLength(6)
-  expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
-  expect(result.layout.activeGroupId).toBe(0)
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.direction).toBe('horizontal')
 })
 
-test('loadContent should create six default tabs', async () => {
+test('loadContent should return empty layout when savedState is null', async () => {
   const state = createDefaultState()
-  const result = await LoadContent.loadContent(state)
+  const result = await LoadContent.loadContent(state, null)
 
-  const group = result.layout.groups[0]
-  expect(group.tabs).toHaveLength(6)
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
 
-  for (let i = 0; i < group.tabs.length; i++) {
-    const tab = group.tabs[i]
-    expect(tab.content).toBe('')
-    expect(tab.editorType).toBe('text')
-    expect(typeof tab.id).toBe('number')
-    expect(tab.isDirty).toBe(false)
-    expect(tab.title).toBe(`tab ${i + 1}`)
+test('loadContent should return empty layout when savedState is invalid object', async () => {
+  const state = createDefaultState()
+  const result = await LoadContent.loadContent(state, { invalid: 'data' })
+
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('loadContent should return empty layout when savedState.layout is invalid', async () => {
+  const state = createDefaultState()
+  const result = await LoadContent.loadContent(state, { layout: 'not an object' })
+
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('loadContent should restore valid saved state', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'restored content',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'Restored File',
+            },
+          ],
+        },
+      ],
+    },
   }
 
-  const ids = group.tabs.map((tab) => tab.id)
-  const uniqueIds = new Set(ids)
-  expect(uniqueIds.size).toBe(group.tabs.length)
+  const result = await LoadContent.loadContent(state, savedState)
 
-  for (let i = 1; i < ids.length; i++) {
-    expect(ids[i]).toBe(ids[i - 1] + 1)
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[0].tabs[0].title).toBe('Restored File')
+  expect(result.layout.activeGroupId).toBe(1)
+})
+
+test('loadContent should restore layout with multiple groups', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 2,
+      direction: 'vertical' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: false,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+        {
+          activeTabId: 2,
+          focused: true,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: true,
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
   }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups).toHaveLength(2)
+  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.activeGroupId).toBe(2)
+})
+
+test('loadContent should restore layout with multiple tabs per group', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 2,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'Tab 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: false,
+              title: 'Tab 2',
+            },
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              id: 3,
+              isDirty: false,
+              title: 'Tab 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups[0].tabs).toHaveLength(3)
+  expect(result.layout.groups[0].activeTabId).toBe(2)
 })
 
 test('loadContent should preserve existing state properties', async () => {
@@ -45,7 +171,7 @@ test('loadContent should preserve existing state properties', async () => {
     platform: 1,
     uid: 123,
   }
-  const result = await LoadContent.loadContent(state)
+  const result = await LoadContent.loadContent(state, undefined)
 
   expect(result.uid).toBe(123)
   expect(result.disposed).toBe(true)
@@ -53,33 +179,147 @@ test('loadContent should preserve existing state properties', async () => {
   expect(result.platform).toBe(1)
 })
 
-test('loadContent should set correct layout structure', async () => {
+test('loadContent should return empty layout when savedState is a string', async () => {
   const state = createDefaultState()
-  const result = await LoadContent.loadContent(state)
+  const result = await LoadContent.loadContent(state, 'invalid string')
 
-  const firstTabId = result.layout.groups[0].tabs[0].id
-  expect(result.layout).toEqual({
-    activeGroupId: 0,
-    direction: 'horizontal',
-    groups: [
-      {
-        activeTabId: firstTabId,
-        direction: 'horizontal',
-        focused: false,
-        id: 0,
-        size: 300,
-        tabs: expect.any(Array),
-      },
-    ],
-  })
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
 })
 
-test('loadContent should handle empty state', async () => {
+test('loadContent should return empty layout when savedState is a number', async () => {
   const state = createDefaultState()
-  const result = await LoadContent.loadContent(state)
+  const result = await LoadContent.loadContent(state, 123)
 
-  expect(result).toBeDefined()
-  expect(result.layout).toBeDefined()
-  expect(result.layout.groups).toBeDefined()
-  expect(result.layout.groups[0].tabs).toBeDefined()
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('loadContent should return empty layout when layout has invalid direction', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'invalid',
+      groups: [],
+    },
+  }
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('loadContent should return empty layout when layout has groups as non-array', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: 'not an array',
+    },
+  }
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('loadContent should return empty layout when group has invalid structure', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [{ invalid: 'group' }],
+    },
+  }
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('loadContent should restore layout with empty groups array', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal' as const,
+      groups: [],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.direction).toBe('horizontal')
+})
+
+test('loadContent should restore layout with custom editor tabs', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'custom content',
+              customEditorId: 'custom-editor-1',
+              editorType: 'custom' as const,
+              id: 1,
+              isDirty: false,
+              title: 'Custom Editor',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[0].customEditorId).toBe('custom-editor-1')
+})
+
+test('loadContent should restore layout with tabs containing paths', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'console.log("hello");',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              language: 'javascript',
+              path: '/path/to/script.js',
+              title: 'script.js',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups[0].tabs[0].path).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })

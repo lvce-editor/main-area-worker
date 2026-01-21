@@ -2,6 +2,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { SplitDirection } from '../MainAreaState/MainAreaState.ts'
 import * as CloseTab from '../CloseTab/CloseTab.ts'
 import * as FocusEditorGroup from '../FocusEditorGroup/FocusEditorGroup.ts'
+import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import * as SplitEditorGroup from '../SplitEditorGroup/SplitEditorGroup.ts'
 import * as SwitchTab from '../SwitchTab/SwitchTab.ts'
 
@@ -56,7 +57,7 @@ export const handleMainAreaKeyboard = (
 
   // Split editor
   if (key === '\\' && isCtrl) {
-    const direction: SplitDirection = shiftKey ? 'down' : 'right'
+    const direction: SplitDirection = shiftKey ? 'down' : GroupDirection.Right
     return SplitEditorGroup.splitEditorGroup(state, activeGroup.id, direction)
   }
 

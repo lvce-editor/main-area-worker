@@ -91,7 +91,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   // Start loading content in the background if needed
   if (needsLoading && tab.path) {
-    const latestState = await startContentLoading(newState, tabId, tab.path, requestId)
+    const latestState = await startContentLoading(state, newState, tabId, tab.path, requestId)
     return latestState
   }
 

@@ -90,7 +90,7 @@ test('updateTab returns unchanged state when tab not found', () => {
 
 test('loadTabContentAsync loads content successfully', async () => {
   const mockRpc = RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => 'file content here',
+    'FileSystem.readFile': async () => 'file content here',
   })
 
   LoadTabContent.resetRequestIdCounter()
@@ -117,7 +117,7 @@ test('loadTabContentAsync loads content successfully', async () => {
 
 test('loadTabContentAsync handles error', async () => {
   const mockRpc = RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => {
+    'FileSystem.readFile': async () => {
       throw new Error('File not found')
     },
   })

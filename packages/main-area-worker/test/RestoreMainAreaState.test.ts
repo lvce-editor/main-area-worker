@@ -429,10 +429,10 @@ test('restoreMainAreaState should handle extra properties in saved state', () =>
   }
 
   const savedState = JSON.stringify({
+    anotherProperty: 123,
+    extraProperty: 'should be ignored',
     layout: savedLayout,
     version: '1.0.0',
-    extraProperty: 'should be ignored',
-    anotherProperty: 123,
   })
 
   const result = restoreMainAreaState(savedState, currentState)
@@ -869,8 +869,8 @@ test('restoreMainState should accept layout with valid groups', () => {
         tabs: [
           {
             content: 'content2',
-            editorType: 'custom' as const,
             customEditorId: 'editor-1',
+            editorType: 'custom' as const,
             id: 2,
             isDirty: true,
             title: 'File 2',

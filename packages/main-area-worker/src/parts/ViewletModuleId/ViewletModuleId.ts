@@ -80,8 +80,6 @@ export const SimpleBrowser = 'SimpleBrowser'
 
 export const SourceControl = 'Source Control'
 
-export const StatusBar = 'StatusBar'
-
 export const Storage = 'Storage'
 
 export const Terminal = 'Terminal'

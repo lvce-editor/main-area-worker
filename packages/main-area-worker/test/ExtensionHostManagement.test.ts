@@ -17,9 +17,9 @@ test('activateByEvent should handle different event names', async () => {
     'ExtensionHostManagement.activateByEvent': async () => {},
   })
 
-  await ExtensionHostManagement.activateByEvent('onDidChangeStatusBarItems', '', 0)
+  await ExtensionHostManagement.activateByEvent('onLanguage', '', 0)
 
-  expect(mockRpc.invocations).toEqual([['ExtensionHostManagement.activateByEvent', 'onDidChangeStatusBarItems', '', 0]])
+  expect(mockRpc.invocations).toEqual([['ExtensionHostManagement.activateByEvent', 'onLanguage', '', 0]])
 })
 
 test('activateByEvent should be awaitable', async () => {

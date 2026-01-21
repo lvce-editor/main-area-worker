@@ -1,46 +1,47 @@
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
+import * as Id from '../Id/Id.ts'
 
 export const getTabs = async (): Promise<readonly Tab[]> => {
   const tabs: readonly Tab[] = [
     {
       content: '',
       editorType: 'text',
-      id: 1,
+      id: Id.create(),
       isDirty: false,
       title: 'tab 1',
     },
     {
       content: '',
       editorType: 'text',
-      id: 2,
+      id: Id.create(),
       isDirty: false,
       title: 'tab 2',
     },
     {
       content: '',
       editorType: 'text',
-      id: 3,
+      id: Id.create(),
       isDirty: false,
       title: 'tab 3',
     },
     {
       content: '',
       editorType: 'text',
-      id: 4,
+      id: Id.create(),
       isDirty: false,
       title: 'tab 4',
     },
     {
       content: '',
       editorType: 'text',
-      id: 5,
+      id: Id.create(),
       isDirty: false,
       title: 'tab 5',
     },
     {
       content: '',
       editorType: 'text',
-      id: 6,
+      id: Id.create(),
       isDirty: false,
       title: 'tab 6',
     },

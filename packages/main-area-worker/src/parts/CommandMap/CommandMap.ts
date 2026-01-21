@@ -1,4 +1,5 @@
 import { terminate } from '@lvce-editor/viewlet-registry'
+import { closeAll } from '../CloseAll/CloseAll.ts'
 import * as MainArea from '../Create/Create.ts'
 import { diff2 } from '../Diff2/Diff2.ts'
 import { getMenuIds } from '../GetMenuIds/GetMenuIds.ts'
@@ -18,6 +19,7 @@ import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
 
 export const commandMap = {
+  'MainArea.closeAll': wrapCommand(closeAll),
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
   'MainArea.getCommandIds': getCommandIds,

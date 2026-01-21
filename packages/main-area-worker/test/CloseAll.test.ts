@@ -1,0 +1,220 @@
+import { expect, test } from '@jest/globals'
+import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
+import { closeAll } from '../src/parts/CloseAll/CloseAll.ts'
+import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+
+test('closeAll should close all tabs and groups', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeAll(state)
+
+  expect(result.layout.groups).toEqual([])
+  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result).not.toBe(state)
+})
+
+test('closeAll should preserve layout direction', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'vertical',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeAll(state)
+
+  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.groups).toEqual([])
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('closeAll should preserve other state properties', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/assets',
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+    platform: 1,
+    uid: 123,
+  }
+
+  const result = closeAll(state)
+
+  expect(result.assetDir).toBe('/test/assets')
+  expect(result.platform).toBe(1)
+  expect(result.uid).toBe(123)
+})
+
+test('closeAll should handle empty state', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = closeAll(state)
+
+  expect(result.layout.groups).toEqual([])
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('closeAll should handle multiple groups with many tabs', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 2,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 2,
+          focused: false,
+          id: 1,
+          size: 33,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: true,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: true,
+          id: 2,
+          size: 33,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+        {
+          activeTabId: 4,
+          focused: false,
+          id: 3,
+          size: 34,
+          tabs: [
+            {
+              content: 'content4',
+              editorType: 'text' as const,
+              id: 4,
+              isDirty: true,
+              title: 'File 4',
+            },
+            {
+              content: 'content5',
+              editorType: 'text' as const,
+              id: 5,
+              isDirty: false,
+              title: 'File 5',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeAll(state)
+
+  expect(result.layout.groups).toEqual([])
+  expect(result.layout.activeGroupId).toBeUndefined()
+})

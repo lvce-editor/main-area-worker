@@ -46,10 +46,12 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   let viewletModuleId: string | undefined
   try {
     // @ts-ignore
-    viewletModuleId = await RendererWorker.invoke('ViewletMap.getModuleId', uri)
+    viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', uri)
   } catch {
     // Viewlet creation is optional - silently ignore if RendererWorker isn't available
   }
+
+  console.log({ viewletModuleId })
 
   // Find the active group (by activeGroupId or focused flag)
   const { layout } = state

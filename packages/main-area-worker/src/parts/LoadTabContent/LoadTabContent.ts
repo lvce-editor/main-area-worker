@@ -1,6 +1,5 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
-import * as ExtensionHostCommandType from '../ExtensionHostCommandType/ExtensionHostCommandType.ts'
 
 // Counter for request IDs to handle race conditions
 let requestIdCounter = 0
@@ -48,7 +47,7 @@ export const findTab = (state: MainAreaState, tabId: number): Tab | undefined =>
 
 export const loadFileContent = async (path: string): Promise<string> => {
   // @ts-ignore
-  const content = await RendererWorker.invoke(ExtensionHostCommandType.FileSystemReadFile, path)
+  const content = await RendererWorker.invoke('FileSystem.readFile', path)
   return content
 }
 

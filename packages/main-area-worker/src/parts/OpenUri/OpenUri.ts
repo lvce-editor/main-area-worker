@@ -30,7 +30,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   }
 
   // Find the active group (by activeGroupId or focused flag)
-  const { layout, uid } = state
+  const { layout } = state
   const { activeGroupId, groups } = layout
   const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
 
@@ -70,9 +70,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     }
 
     // Start loading content
-    startContentLoading(uid, tabId, uri, requestId)
-
-    return newState
+    return startContentLoading(state, newState, tabId, uri, requestId)
   }
 
   // Create a new tab with the URI in the active group
@@ -91,8 +89,5 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   const newState = openTab(state, activeGroup.id, newTab)
 
-  // Start loading content
-  startContentLoading(uid, tabId, uri, requestId)
-
-  return newState
+  return startContentLoading(state, newState, tabId, uri, requestId)
 }

@@ -1,5 +1,6 @@
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as LoadTabContent from '../LoadTabContent/LoadTabContent.ts'
+import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
 import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
 
 const shouldLoadContent = (tab: Tab): boolean => {
@@ -86,10 +87,12 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
       groups: updatedGroups,
     },
   }
+  MainAreaStates.set(uid, state, newState)
 
   // Start loading content in the background if needed
   if (needsLoading && tab.path) {
-    startContentLoading(uid, tabId, tab.path, requestId)
+    const latestState = await startContentLoading(newState, tabId, tab.path, requestId)
+    return latestState
   }
 
   return newState

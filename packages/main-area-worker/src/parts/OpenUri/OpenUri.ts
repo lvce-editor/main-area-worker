@@ -70,7 +70,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     }
 
     // Start loading content
-    return startContentLoading(newState, tabId, uri, requestId)
+    return startContentLoading(state, newState, tabId, uri, requestId)
   }
 
   // Create a new tab with the URI in the active group
@@ -89,5 +89,5 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   const newState = openTab(state, activeGroup.id, newTab)
 
-  return startContentLoading(newState, tabId, uri, requestId)
+  return startContentLoading(state, newState, tabId, uri, requestId)
 }

@@ -2,7 +2,7 @@ import type { MainAreaLayout } from './MainAreaLayout.ts'
 
 export type { EditorGroup } from './EditorGroup.ts'
 export type { EditorType } from './EditorType.ts'
-export type { LoadingState } from './Tab.ts'
+export type { LoadingState, ViewletState } from './Tab.ts'
 export type { MainAreaLayout } from './MainAreaLayout.ts'
 export type { SplitDirection } from './SplitDirection.ts'
 export type { Tab } from './Tab.ts'

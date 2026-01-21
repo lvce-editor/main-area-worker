@@ -112,7 +112,7 @@ test('loadTabContentAsync loads content successfully', async () => {
   expect(tab?.loadingState).toBe('loaded')
   expect(tab?.errorMessage).toBeUndefined()
   expect(mockRpc.invocations.length).toBe(1)
-  expect(mockRpc.invocations[0]).toEqual(['ExtensionHostFileSystem.readFile', '/test/file.txt'])
+  expect(mockRpc.invocations[0]).toEqual(['FileSystem.readFile', '/test/file.txt'])
 })
 
 test('loadTabContentAsync handles error', async () => {
@@ -145,7 +145,7 @@ test('loadTabContentAsync handles error', async () => {
 
 test('loadTabContentAsync discards result when request ID changed (race condition)', async () => {
   RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => 'old content',
+    'FileSystem.readFile': async () => 'old content',
   })
 
   LoadTabContent.resetRequestIdCounter()
@@ -172,7 +172,7 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
 
 test('loadTabContentAsync discards result when tab no longer exists', async () => {
   RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => 'content',
+    'FileSystem.readFile': async () => 'content',
   })
 
   LoadTabContent.resetRequestIdCounter()
@@ -207,7 +207,7 @@ test('loadTabContentAsync discards result when tab no longer exists', async () =
 
 test('loadTabContentAsync handles non-Error exception', async () => {
   RendererWorker.registerMockRpc({
-    'ExtensionHostFileSystem.readFile': async () => {
+    'FileSystem.readFile': async () => {
       throw 'string error'
     },
   })

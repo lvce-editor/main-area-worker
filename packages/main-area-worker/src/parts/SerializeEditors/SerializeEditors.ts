@@ -1,15 +1,5 @@
-const serializeEditor = (editor: any): any => {
-  const { icon, label, preview, tabWidth, uid, uri } = editor
-  return {
-    icon,
-    label,
-    preview,
-    tabWidth,
-    uid,
-    uri,
-  }
-}
+import * as SerializeEditor from '../SerializeEditor/SerializeEditor.ts'
 
 export const serializeEditors = (editors: readonly any[]): readonly any[] => {
-  return editors.map(serializeEditor)
+  return editors.map(SerializeEditor.serializeEditor)
 }

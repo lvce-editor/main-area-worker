@@ -4,8 +4,8 @@ import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
+import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
-import * as LoadTabContent from '../LoadTabContent/LoadTabContent.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
@@ -35,7 +35,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
 
   // Generate a request ID for content loading
-  const requestId = LoadTabContent.getNextRequestId()
+  const requestId = GetNextRequestId.getNextRequestId()
 
   // If no active group exists, create one
   if (!activeGroup) {

@@ -1,13 +1,6 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 
-// Counter for request IDs to handle race conditions
-let requestIdCounter = 0
-
-export const getNextRequestId = (): number => {
-  return ++requestIdCounter
-}
-
 export const updateTab = (state: MainAreaState, tabId: number, updates: Partial<Tab>): MainAreaState => {
   const { layout } = state
   const { groups } = layout
@@ -90,9 +83,4 @@ export const loadTabContentAsync = async (
       loadingState: 'error',
     })
   }
-}
-
-// For testing: reset the request ID counter
-export const resetRequestIdCounter = (): void => {
-  requestIdCounter = 0
 }

@@ -1,3 +1,12 @@
-export const show = async (x: number, y: number, id: any, ...args: readonly any[]): Promise<void> => {
-  throw new Error(`ContextMenu.show is deprecated. Use ContextMenu.show2 instead`)
+import { RendererWorker } from '@lvce-editor/rpc-registry'
+import type { ContextMenuProps } from '../ContextMenuProps/ContextMenuProps.ts'
+
+export const show2 = async <T extends ContextMenuProps>(
+  uid: number,
+  menuId: ContextMenuProps['menuId'],
+  x: number,
+  y: number,
+  args: ContextMenuProps,
+): Promise<void> => {
+  await RendererWorker.showContextMenu2(uid, menuId, x, y, args)
 }

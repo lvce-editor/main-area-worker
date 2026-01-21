@@ -114,7 +114,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     try {
       // Query RendererWorker for viewlet module ID
       // @ts-ignore
-      const viewletModuleId = await RendererWorker.invoke('ViewletMap.getModuleId', newTab.path)
+      const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.path)
       if (viewletModuleId) {
         // TODO: Calculate proper bounds
         const bounds = { height: 600, width: 800, x: 0, y: 0 }
@@ -129,9 +129,9 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   MainAreaStates.set(uid, state, newState)
 
-  // Execute viewlet commands if any
+  // Execute viewlet commands if any (pass uid so create can handle attach)
   if (switchCommands.length > 0 || createCommands.length > 0) {
-    await ExecuteViewletCommands.executeViewletCommands([...switchCommands, ...createCommands])
+    await ExecuteViewletCommands.executeViewletCommands([...switchCommands, ...createCommands], uid)
   }
 
   // Start loading content in the background if needed

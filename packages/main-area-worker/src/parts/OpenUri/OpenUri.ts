@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
@@ -8,11 +9,15 @@ import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 
-export const openUri = async (state: MainAreaState, options: OpenUriOptions): Promise<MainAreaState> => {
+export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
-  Assert.object(options)
 
-  const { uri } = options
+  let uri = ''
+  if (typeof options === 'string') {
+    uri = options
+  } else {
+    uri = options.uri
+  }
 
   // Check if a tab with this URI already exists
   const existingTab = findTabByUri(state, uri)

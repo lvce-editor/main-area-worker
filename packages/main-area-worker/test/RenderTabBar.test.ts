@@ -15,6 +15,7 @@ test('renderTabBar should return correct structure for single tab', () => {
         editorType: 'text' as const,
         id: 1,
         isDirty: false,
+        path: '/path/to/Test File',
         title: 'Test File',
       },
     ],
@@ -35,6 +36,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       onClick: DomEventListenerFunctions.HandleClickTab,
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       role: 'tab',
+      title: '/path/to/Test File',
       type: VirtualDomElements.Div,
     },
     {

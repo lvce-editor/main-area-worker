@@ -14,21 +14,25 @@ export const executeViewletCommands = async (commands: readonly ViewletCommand[]
       case 'create': {
         // Safe to call - no visible side effects
         // @ts-ignore
-        const instanceId = await RendererWorker.invoke(
+        const instanceId = Math.random() // TODO try to find a better way to get consistent integer ids (thread safe)
+
+        await RendererWorker.invoke(
           'Layout.createViewlet',
           command.viewletModuleId,
           command.requestId,
           command.tabId,
           command.bounds,
           command.uri,
+          instanceId,
         )
-
+        console.log('did create', uid, instanceId)
         // After viewlet is created, handle the ready state and potentially attach
         if (uid !== undefined && instanceId !== undefined) {
           const { newState: state, oldState } = MainAreaStates.get(uid)
           const { commands: readyCommands, newState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
           MainAreaStates.set(uid, oldState, newState)
 
+          console.log({ readyCommands })
           // Execute any attach commands that result from handleViewletReady
           for (const readyCommand of readyCommands) {
             if (readyCommand.type === 'attach') {

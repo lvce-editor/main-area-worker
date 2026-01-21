@@ -1,6 +1,6 @@
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as LoadTabContent from '../LoadTabContent/LoadTabContent.ts'
-import { get, set } from '../MainAreaStates/MainAreaStates.ts'
+import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
 
 const shouldLoadContent = (tab: Tab): boolean => {
   // Load if:
@@ -16,27 +16,6 @@ const shouldLoadContent = (tab: Tab): boolean => {
     return false
   }
   return true
-}
-
-const startContentLoading = (uid: number, tabId: number, path: string, requestId: number): void => {
-  // Fire and forget - this runs in the background and updates state when done
-  const loadContent = async (): Promise<void> => {
-    try {
-      const currentState = get(uid) as unknown as MainAreaState | undefined
-      if (!currentState) {
-        return
-      }
-      const getLatestState = (): MainAreaState => (get(uid) as unknown as MainAreaState | undefined) ?? currentState
-      const newState = await LoadTabContent.loadTabContentAsync(tabId, path, requestId, getLatestState)
-      const oldState = get(uid) as unknown as MainAreaState | undefined
-      if (oldState) {
-        set(uid, oldState, newState)
-      }
-    } catch {
-      // Silently ignore errors - the tab may have been closed or the component unmounted
-    }
-  }
-  void loadContent()
 }
 
 export const selectTab = async (state: MainAreaState, groupIndex: number, index: number): Promise<MainAreaState> => {

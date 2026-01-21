@@ -16,7 +16,7 @@ test('renderTab should return correct structure for clean tab', () => {
 
   expect(result).toEqual([
     {
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -25,6 +25,12 @@ test('renderTab should return correct structure for clean tab', () => {
       role: 'tab',
       title: '/path/to/Test File',
       type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'TabIcon',
+      src: 'icons/refresh.svg',
+      type: VirtualDomElements.Img,
     },
     {
       childCount: 1,
@@ -55,7 +61,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[2].text).toBe('*Test File')
+  expect(result[3].text).toBe('*Test File')
 })
 
 test('renderTab should handle empty title', () => {
@@ -69,7 +75,7 @@ test('renderTab should handle empty title', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[2].text).toBe('')
+  expect(result[3].text).toBe('')
 })
 
 test('renderTab should handle dirty tab with empty title', () => {
@@ -83,7 +89,7 @@ test('renderTab should handle dirty tab with empty title', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[2].text).toBe('*')
+  expect(result[3].text).toBe('*')
 })
 
 test('renderTab should use title as fallback when path is undefined', () => {

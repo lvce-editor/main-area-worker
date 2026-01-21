@@ -6,30 +6,10 @@ import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import * as Id from '../Id/Id.ts'
 import * as LoadTabContent from '../LoadTabContent/LoadTabContent.ts'
-import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
-
-const startContentLoading = (uid: number, tabId: number, path: string, requestId: number): void => {
-  const loadContent = async (): Promise<void> => {
-    try {
-      const currentState = get(uid) as unknown as MainAreaState | undefined
-      if (!currentState) {
-        return
-      }
-      const getLatestState = (): MainAreaState => (get(uid) as unknown as MainAreaState | undefined) ?? currentState
-      const newState = await LoadTabContent.loadTabContentAsync(tabId, path, requestId, getLatestState)
-      const oldState = get(uid) as unknown as MainAreaState | undefined
-      if (oldState) {
-        set(uid, oldState, newState)
-      }
-    } catch {
-      // Silently ignore errors - the tab may have been closed or the component unmounted
-    }
-  }
-  void loadContent()
-}
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)

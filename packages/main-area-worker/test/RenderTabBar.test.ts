@@ -69,6 +69,7 @@ test('renderTabBar should handle multiple tabs', () => {
         editorType: 'text' as const,
         id: 1,
         isDirty: false,
+        path: '/path/to/File 1',
         title: 'File 1',
       },
       {
@@ -76,6 +77,7 @@ test('renderTabBar should handle multiple tabs', () => {
         editorType: 'text' as const,
         id: 2,
         isDirty: true,
+        path: '/path/to/File 2',
         title: 'File 2',
       },
     ],

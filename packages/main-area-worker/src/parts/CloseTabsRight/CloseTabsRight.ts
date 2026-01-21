@@ -1,63 +1,44 @@
-export const closeTabsRight = async (state: any): Promise<any> => {
-  const { activeGroupIndex, groups } = state
-  if (activeGroupIndex === -1) {
-    return {
-      commands: [],
-      newState: state,
-    }
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+
+export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaState => {
+  const { layout } = state
+  const { groups } = layout
+
+  const group = groups.find((g) => g.id === groupId)
+  if (!group) {
+    return state
   }
-  const group = groups[activeGroupIndex]
-  const { activeIndex, editors, focusedIndex } = group
-  const commands = []
-  const newEditors = editors.slice(0, focusedIndex + 1)
-  if (focusedIndex >= activeIndex) {
-    // view is kept the same, only tabs are closed
-  } else {
-    // view needs to be switched to focused index
-    const previousEditor = editors[activeIndex]
-    let disposeCommands = []
-    if (previousEditor) {
-      const previousUid = previousEditor.uid
-      // @ts-ignore
-      disposeCommands = Viewlet.disposeFunctional(previousUid)
-    }
-    commands.push(...disposeCommands)
-    const newActiveEditor = newEditors[focusedIndex]
-    const { x } = state
-    const y = state.y + state.tabHeight
-    const { width } = state
-    const contentHeight = state.height - state.tabHeight
-    const { uri } = newActiveEditor
-    // TODO ask renderer worker / layout for id
-    // @ts-ignore
-    const moduleId = await ViewletMap.getModuleId(uri)
-    const { uid } = newActiveEditor
-    // @ts-ignore
-    const instance = ViewletManager.create(ViewletModule.load, moduleId, state.uid, uri, x, y, width, contentHeight)
-    // @ts-ignore
-    instance.show = false
-    instance.setBounds = false
-    instance.uid = uid
-    const focus = true
-    // @ts-ignore
-    const instanceCommands = await ViewletManager.load(instance, focus, false, {})
-    commands.push(...instanceCommands)
-    commands.push(['Viewlet.setBounds', uid, x, state.tabHeight, width, contentHeight])
-    commands.push(['Viewlet.append', state.uid, uid])
+
+  const { activeTabId, tabs } = group
+  if (activeTabId === undefined) {
+    return state
   }
-  const newGroups = [
-    ...groups.slice(0, activeGroupIndex),
-    {
-      ...group,
-      activeIndex: focusedIndex,
-      editors: newEditors,
-    },
-    ...groups.slice(activeGroupIndex + 1),
-  ]
+
+  const activeTabIndex = tabs.findIndex((tab) => tab.id === activeTabId)
+  if (activeTabIndex === -1) {
+    return state
+  }
+
+  const newTabs = tabs.slice(0, activeTabIndex + 1)
+
+  if (newTabs.length === tabs.length) {
+    return state
+  }
+
+  const newGroups = groups.map((g) => {
+    if (g.id === groupId) {
+      return {
+        ...g,
+        tabs: newTabs,
+      }
+    }
+    return g
+  })
+
   return {
-    commands,
-    newState: {
-      ...state,
+    ...state,
+    layout: {
+      ...layout,
       groups: newGroups,
     },
   }

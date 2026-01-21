@@ -6,6 +6,9 @@ import * as ContextMenu from '../ContextMenu/ContextMenu.ts'
 export const handleTabContextMenu = async (state: MainAreaState, x: number, y: number): Promise<MainAreaState> => {
   Assert.number(x)
   Assert.number(y)
-  await ContextMenu.show(x, y, MenuEntryId.Tab)
+  const { uid } = state
+  await ContextMenu.show2(uid, MenuEntryId.Tab, x, y, {
+    menuId: MenuEntryId.Tab,
+  })
   return state
 }

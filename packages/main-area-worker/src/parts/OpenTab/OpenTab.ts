@@ -2,11 +2,8 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 
-export const openTab = (state: MainAreaState, groupId: number, tab: Omit<Tab, 'id'>): MainAreaState => {
-  const newTab: Tab = {
-    ...tab,
-    id: Id.create(),
-  }
+export const openTab = (state: MainAreaState, groupId: number, tab: Omit<Tab, 'id'> | Tab): MainAreaState => {
+  const newTab: Tab = 'id' in tab && tab.id !== undefined ? tab : { ...tab, id: Id.create() }
 
   const { layout } = state
   const { groups } = layout

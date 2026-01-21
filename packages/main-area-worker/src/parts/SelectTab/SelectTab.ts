@@ -1,7 +1,45 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
+import * as LoadTabContent from '../LoadTabContent/LoadTabContent.ts'
+import { get, set } from '../MainAreaStates/MainAreaStates.ts'
+
+const shouldLoadContent = (tab: Tab): boolean => {
+  // Load if:
+  // - Has a path (file-based tab)
+  // - Not already loaded or currently loading
+  if (!tab.path) {
+    return false
+  }
+  if (tab.loadingState === 'loading') {
+    return false
+  }
+  if (tab.loadingState === 'loaded' && tab.content) {
+    return false
+  }
+  return true
+}
+
+const startContentLoading = (uid: number, tabId: number, path: string, requestId: number): void => {
+  // Fire and forget - this runs in the background and updates state when done
+  const loadContent = async (): Promise<void> => {
+    try {
+      const currentState = get(uid)
+      if (!currentState) {
+        return
+      }
+      const getLatestState = (): MainAreaState => get(uid) ?? currentState
+      const newState = await LoadTabContent.loadTabContentAsync(tabId, path, requestId, getLatestState)
+      if (get(uid)) {
+        set(uid, newState)
+      }
+    } catch {
+      // Silently ignore errors - the tab may have been closed or the component unmounted
+    }
+  }
+  void loadContent()
+}
 
 export const selectTab = async (state: MainAreaState, groupIndex: number, index: number): Promise<MainAreaState> => {
-  const { layout } = state
+  const { layout, uid } = state
   const { groups } = layout
 
   // Validate indexes
@@ -23,14 +61,44 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     return state
   }
 
-  // Update the groups array with the new active tab and active group
-  const updatedGroups = groups.map((g, i) => ({
-    ...g,
-    activeTabId: i === groupIndex ? tabId : g.activeTabId,
-    focused: i === groupIndex,
-  }))
+  // Check if we need to load content for the newly selected tab
+  const needsLoading = shouldLoadContent(tab)
+  const requestId = needsLoading ? LoadTabContent.getNextRequestId() : 0
 
-  return {
+  // Update the groups array with the new active tab and active group
+  // Also set loading state if needed
+  const updatedGroups = groups.map((g, i) => {
+    if (i !== groupIndex) {
+      return {
+        ...g,
+        focused: false,
+      }
+    }
+
+    // This is the group being selected
+    const updatedTabs = needsLoading
+      ? g.tabs.map((t) => {
+          if (t.id === tabId) {
+            return {
+              ...t,
+              errorMessage: undefined,
+              loadingState: 'loading' as const,
+              loadRequestId: requestId,
+            }
+          }
+          return t
+        })
+      : g.tabs
+
+    return {
+      ...g,
+      activeTabId: tabId,
+      focused: true,
+      tabs: updatedTabs,
+    }
+  })
+
+  const newState: MainAreaState = {
     ...state,
     layout: {
       ...layout,
@@ -38,4 +106,11 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
       groups: updatedGroups,
     },
   }
+
+  // Start loading content in the background if needed
+  if (needsLoading && tab.path) {
+    startContentLoading(uid, tabId, tab.path, requestId)
+  }
+
+  return newState
 }

@@ -93,3 +93,123 @@ test('renderEditor should handle text editor with undefined content', () => {
   expect(result.length).toBe(3)
   expect(result[2].text).toBe('')
 })
+
+test('renderEditor should show loading state', () => {
+  const tab = {
+    content: '',
+    editorType: 'text' as const,
+    id: 1,
+    isDirty: false,
+    loadingState: 'loading' as const,
+    title: 'Loading File',
+  }
+  const result = renderEditor(tab)
+
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'TextEditor TextEditor--loading',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorContent EditorContent--loading',
+      type: VirtualDomElements.Div,
+    },
+    text('Loading...'),
+  ])
+})
+
+test('renderEditor should show error state', () => {
+  const tab = {
+    content: '',
+    editorType: 'text' as const,
+    errorMessage: 'File not found',
+    id: 1,
+    isDirty: false,
+    loadingState: 'error' as const,
+    title: 'Error File',
+  }
+  const result = renderEditor(tab)
+
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'TextEditor TextEditor--error',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorContent EditorContent--error',
+      type: VirtualDomElements.Div,
+    },
+    text('Error: File not found'),
+  ])
+})
+
+test('renderEditor should show content when loadingState is loaded', () => {
+  const tab = {
+    content: 'File content here',
+    editorType: 'text' as const,
+    id: 1,
+    isDirty: false,
+    loadingState: 'loaded' as const,
+    title: 'Loaded File',
+  }
+  const result = renderEditor(tab)
+
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'TextEditor',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorContent',
+      type: VirtualDomElements.Pre,
+    },
+    text('File content here'),
+  ])
+})
+
+test('renderEditor should show content when loadingState is idle', () => {
+  const tab = {
+    content: 'Initial content',
+    editorType: 'text' as const,
+    id: 1,
+    isDirty: false,
+    loadingState: 'idle' as const,
+    title: 'Idle File',
+  }
+  const result = renderEditor(tab)
+
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'TextEditor',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorContent',
+      type: VirtualDomElements.Pre,
+    },
+    text('Initial content'),
+  ])
+})
+
+test('renderEditor should show error state even when content exists', () => {
+  const tab = {
+    content: 'some old content',
+    editorType: 'text' as const,
+    errorMessage: 'Permission denied',
+    id: 1,
+    isDirty: false,
+    loadingState: 'error' as const,
+    title: 'Error File',
+  }
+  const result = renderEditor(tab)
+
+  expect(result[2]).toEqual(text('Error: Permission denied'))
+})

@@ -1,5 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { SplitDirection } from '../MainAreaState/MainAreaState.ts'
+import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import * as Id from '../Id/Id.ts'
 
 export const splitEditorGroup = (state: MainAreaState, groupId: number, direction: SplitDirection): MainAreaState => {
@@ -12,7 +13,7 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
 
   const newGroupId = Id.create()
 
-  const isHorizontalSplit = direction === 'left' || direction === 'right'
+  const isHorizontalSplit = direction === GroupDirection.Left || direction === GroupDirection.Right
   const newLayoutDirection = isHorizontalSplit ? 'horizontal' : 'vertical'
 
   const updatedGroups = groups.map((group) => {
@@ -35,7 +36,7 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
   }
 
   let reorderedGroups: typeof updatedGroups
-  if (direction === 'right' || direction === 'down') {
+  if (direction === GroupDirection.Right || direction === 'down') {
     reorderedGroups = [...updatedGroups, newGroup]
   } else {
     const sourceIndex = updatedGroups.findIndex((group) => group.id === groupId)

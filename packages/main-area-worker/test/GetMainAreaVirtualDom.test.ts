@@ -51,7 +51,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -60,6 +60,12 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       role: 'tab',
       title: '/path/to/Test File',
       type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'TabIcon',
+      src: 'icons/refresh.svg',
+      type: VirtualDomElements.Img,
     },
     {
       childCount: 1,
@@ -136,7 +142,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   }
   const result = getMainAreaVirtualDom(layout)
 
-  expect(result.length).toBe(24) // 1 (Main) + 1 (EditorGroupsContainer) + 22 (2 * renderEditorGroup)
+  expect(result.length).toBe(26) // 1 (Main) + 1 (EditorGroupsContainer) + 24 (2 * renderEditorGroup with TabIcon)
   expect(result[1].childCount).toBe(2)
 })
 

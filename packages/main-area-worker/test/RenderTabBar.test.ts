@@ -15,6 +15,7 @@ test('renderTabBar should return correct structure for single tab', () => {
         editorType: 'text' as const,
         id: 1,
         isDirty: false,
+        path: '/path/to/Test File',
         title: 'Test File',
       },
     ],
@@ -35,6 +36,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       onClick: DomEventListenerFunctions.HandleClickTab,
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       role: 'tab',
+      title: '/path/to/Test File',
       type: VirtualDomElements.Div,
     },
     {
@@ -67,6 +69,7 @@ test('renderTabBar should handle multiple tabs', () => {
         editorType: 'text' as const,
         id: 1,
         isDirty: false,
+        path: '/path/to/File 1',
         title: 'File 1',
       },
       {
@@ -74,6 +77,7 @@ test('renderTabBar should handle multiple tabs', () => {
         editorType: 'text' as const,
         id: 2,
         isDirty: true,
+        path: '/path/to/File 2',
         title: 'File 2',
       },
     ],

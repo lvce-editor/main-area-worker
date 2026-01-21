@@ -9,6 +9,7 @@ test('renderTab should return correct structure for clean tab', () => {
     editorType: 'text' as const,
     id: 1,
     isDirty: false,
+    path: '/path/to/Test File',
     title: 'Test File',
   }
   const result = renderTab(tab, false, 0, 0)
@@ -22,6 +23,7 @@ test('renderTab should return correct structure for clean tab', () => {
       onClick: DomEventListenerFunctions.HandleClickTab,
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       role: 'tab',
+      title: '/path/to/Test File',
       type: VirtualDomElements.Div,
     },
     {
@@ -48,6 +50,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
     editorType: 'text' as const,
     id: 1,
     isDirty: true,
+    path: '/path/to/Test File',
     title: 'Test File',
   }
   const result = renderTab(tab, false, 0, 0)
@@ -61,6 +64,7 @@ test('renderTab should handle empty title', () => {
     editorType: 'text' as const,
     id: 1,
     isDirty: false,
+    path: '/path/to/file',
     title: '',
   }
   const result = renderTab(tab, false, 0, 0)
@@ -74,9 +78,23 @@ test('renderTab should handle dirty tab with empty title', () => {
     editorType: 'text' as const,
     id: 1,
     isDirty: true,
+    path: '/path/to/file',
     title: '',
   }
   const result = renderTab(tab, false, 0, 0)
 
   expect(result[2].text).toBe('*')
+})
+
+test('renderTab should use title as fallback when path is undefined', () => {
+  const tab = {
+    content: 'test content',
+    editorType: 'text' as const,
+    id: 1,
+    isDirty: false,
+    title: 'Untitled',
+  }
+  const result = renderTab(tab, false, 0, 0)
+
+  expect(result[0].title).toBe('Untitled')
 })

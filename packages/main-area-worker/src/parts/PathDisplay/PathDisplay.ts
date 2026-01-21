@@ -9,6 +9,14 @@ export const getTitle = (uri: string, homeDir: string): string => {
   return uri
 }
 
+const getBasename = (uri: string): string => {
+  const lastSlashIndex = uri.lastIndexOf('/')
+  if (lastSlashIndex === -1) {
+    return uri
+  }
+  return uri.slice(lastSlashIndex + 1)
+}
+
 export const getLabel = (uri: string): string => {
   if (uri.startsWith('settings://')) {
     return 'Settings'
@@ -16,8 +24,7 @@ export const getLabel = (uri: string): string => {
   if (uri.startsWith('simple-browser://')) {
     return 'Simple Browser'
   }
-  return uri
-  // return Workspace.pathBaseName(uri)
+  return getBasename(uri)
 }
 
 /**

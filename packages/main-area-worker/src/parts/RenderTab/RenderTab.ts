@@ -12,6 +12,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       onClick: DomEventListenerFunctions.HandleClickTab,
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       role: 'tab',
+      title: tab.path || tab.title,
       type: VirtualDomElements.Div,
     },
     {

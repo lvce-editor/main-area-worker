@@ -64,22 +64,22 @@ test('getLabel should return Simple Browser for simple-browser:// uri with path'
   expect(result).toBe('Simple Browser')
 })
 
-test('getLabel should return uri for regular file path', () => {
+test('getLabel should return basename for regular file path', () => {
   const uri: string = '/path/to/file.txt'
   const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
-  expect(result).toBe(uri)
+  expect(result).toBe('file.txt')
 })
 
-test('getLabel should return uri for empty string', () => {
+test('getLabel should return empty string for empty uri', () => {
   const uri: string = ''
   const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
   expect(result).toBe('')
 })
 
-test('getLabel should return uri for other protocol schemes', () => {
+test('getLabel should return basename for other protocol schemes', () => {
   const uri: string = 'file:///path/to/file.txt'
   const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
-  expect(result).toBe(uri)
+  expect(result).toBe('file.txt')
 })
 
 test('getFileIcon should return MaskIconRecordKey for app://keybindings', () => {

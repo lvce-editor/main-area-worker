@@ -439,3 +439,86 @@ test('selectTab should return same state when activeGroupId is undefined', async
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result).not.toBe(state) // Should return new state object since nothing was active before
 })
+
+test('selectTab should not trigger loading when tab is already loading', async () => {
+  const state: MainAreaState = createMockState({
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: '',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: '',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: false,
+              loadingState: 'loading',
+              loadRequestId: 42,
+              path: '/path/to/file.ts',
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  })
+
+  const result = await selectTab(state, 0, 1)
+
+  expect(result.layout.groups[0].activeTabId).toBe(2)
+  expect(result.layout.groups[0].tabs[1].loadingState).toBe('loading')
+  expect(result.layout.groups[0].tabs[1].loadRequestId).toBe(42)
+})
+
+test('selectTab should not trigger loading when tab is already loaded with content', async () => {
+  const state: MainAreaState = createMockState({
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: '',
+              editorType: 'text' as const,
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'already loaded content',
+              editorType: 'text' as const,
+              id: 2,
+              isDirty: false,
+              loadingState: 'loaded',
+              path: '/path/to/file.ts',
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  })
+
+  const result = await selectTab(state, 0, 1)
+
+  expect(result.layout.groups[0].activeTabId).toBe(2)
+  expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
+  expect(result.layout.groups[0].tabs[1].content).toBe('already loaded content')
+})

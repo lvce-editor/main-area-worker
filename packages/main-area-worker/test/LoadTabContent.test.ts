@@ -1,10 +1,10 @@
 import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
-import * as LoadTabContent from '../src/parts/LoadTabContent/LoadTabContent.ts'
+import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as LoadTabContent from '../src/parts/LoadTabContent/LoadTabContent.ts'
 
-const createStateWithTab = (tabOverrides: Partial<Parameters<typeof createDefaultState>[0]> = {}): MainAreaState => ({
+const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => ({
   ...createDefaultState(),
   layout: {
     activeGroupId: 1,

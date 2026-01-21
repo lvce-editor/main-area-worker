@@ -22,14 +22,15 @@ const startContentLoading = (uid: number, tabId: number, path: string, requestId
   // Fire and forget - this runs in the background and updates state when done
   const loadContent = async (): Promise<void> => {
     try {
-      const currentState = get(uid)
+      const currentState = get(uid) as unknown as MainAreaState | undefined
       if (!currentState) {
         return
       }
-      const getLatestState = (): MainAreaState => get(uid) ?? currentState
+      const getLatestState = (): MainAreaState => (get(uid) as unknown as MainAreaState | undefined) ?? currentState
       const newState = await LoadTabContent.loadTabContentAsync(tabId, path, requestId, getLatestState)
-      if (get(uid)) {
-        set(uid, newState)
+      const oldState = get(uid) as unknown as MainAreaState | undefined
+      if (oldState) {
+        set(uid, oldState, newState)
       }
     } catch {
       // Silently ignore errors - the tab may have been closed or the component unmounted

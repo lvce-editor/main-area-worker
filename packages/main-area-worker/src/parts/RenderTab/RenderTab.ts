@@ -5,7 +5,7 @@ import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEven
 export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
   return [
     {
-      childCount: 2,
+      childCount: 3,
       className: isActive ? 'MainTab MainTabSelected' : 'MainTab',
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,
@@ -14,6 +14,12 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       role: 'tab',
       title: tab.path || tab.title,
       type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'TabIcon',
+      src: 'icons/refresh.svg',
+      type: VirtualDomElements.Img,
     },
     {
       childCount: 1,

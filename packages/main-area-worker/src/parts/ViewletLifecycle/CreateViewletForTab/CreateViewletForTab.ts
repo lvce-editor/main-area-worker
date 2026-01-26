@@ -31,6 +31,7 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
       requestId: viewletRequestId,
       tabId,
       type: 'create',
+      uid: state.uid,
       uri: tab.path,
       viewletModuleId,
     },

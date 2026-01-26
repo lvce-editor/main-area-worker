@@ -129,9 +129,9 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   MainAreaStates.set(uid, state, newState)
 
-  // Execute viewlet commands if any (pass uid so create can handle attach)
+  // Execute viewlet commands if any
   if (switchCommands.length > 0 || createCommands.length > 0) {
-    await ExecuteViewletCommands.executeViewletCommands([...switchCommands, ...createCommands], uid)
+    await ExecuteViewletCommands.executeViewletCommands([...switchCommands, ...createCommands])
   }
 
   // Start loading content in the background if needed

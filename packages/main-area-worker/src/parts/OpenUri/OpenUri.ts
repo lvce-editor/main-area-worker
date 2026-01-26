@@ -137,8 +137,8 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
     newState = switchedState
 
-    // Execute viewlet commands (pass uid so create can handle attach)
-    await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands], state.uid)
+    // Execute viewlet commands
+    await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands])
   }
 
   return startContentLoading(state, newState, tabId, uri, requestId)

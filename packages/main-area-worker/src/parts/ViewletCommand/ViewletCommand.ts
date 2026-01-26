@@ -10,6 +10,7 @@ interface ViewletCreateCommand {
   readonly requestId: number
   readonly tabId: number
   readonly type: 'create'
+  readonly uid: number
   readonly uri: string | undefined
   readonly viewletModuleId: string
 }

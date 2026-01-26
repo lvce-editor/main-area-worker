@@ -95,14 +95,14 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
       // Switch viewlet to the new active tab
       const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, undefined, newActiveTabId)
       commands.push(...switchCommands)
-      await ExecuteViewletCommands.executeViewletCommands(commands, state.uid)
+      await ExecuteViewletCommands.executeViewletCommands(commands)
       return switchedState
     }
   }
 
   // Execute any disposal commands
   if (commands.length > 0) {
-    await ExecuteViewletCommands.executeViewletCommands(commands, state.uid)
+    await ExecuteViewletCommands.executeViewletCommands(commands)
   }
 
   return newState

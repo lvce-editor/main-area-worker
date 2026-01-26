@@ -1,4 +1,4 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
@@ -37,9 +37,9 @@ export const handleViewletError = async (uid: number, requestId: number, errorMe
 
   let updatedState: MainAreaState = state
   for (const group of groups) {
-    const tab = group.tabs.find((t) => t.viewletRequestId === requestId)
+    const tab = group.tabs.find((t: Tab) => t.viewletRequestId === requestId)
     if (tab) {
-      const updatedTabs = group.tabs.map((t) => {
+      const updatedTabs = group.tabs.map((t: Tab) => {
         if (t.id === tab.id) {
           return {
             ...t,
@@ -49,7 +49,7 @@ export const handleViewletError = async (uid: number, requestId: number, errorMe
         }
         return t
       })
-      const updatedGroups = groups.map((g) => {
+      const updatedGroups = groups.map((g: EditorGroup) => {
         if (g.id === group.id) {
           return { ...g, tabs: updatedTabs }
         }

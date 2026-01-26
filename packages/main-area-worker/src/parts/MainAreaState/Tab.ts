@@ -1,8 +1,6 @@
 import type { EditorType } from './EditorType.ts'
-
-export type LoadingState = 'idle' | 'loading' | 'loaded' | 'error'
-
-export type ViewletState = 'idle' | 'creating' | 'ready' | 'error'
+import type { LoadingState } from './LoadingState.ts'
+import type { ViewletState } from './ViewletState.ts'
 
 export interface Tab {
   readonly content: string

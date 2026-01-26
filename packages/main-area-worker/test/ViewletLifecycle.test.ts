@@ -19,7 +19,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
           {
             content: '',
             editorUid: 100,
-              editorType: 'text' as const,
+            editorType: 'text' as const,
             id: 1,
             isDirty: false,
             path: '/test/file.txt',

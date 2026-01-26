@@ -81,7 +81,9 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   }
 
   if (!viewletModuleId) {
-    throw new Error('Viewlet module ID is undefined')
+    // Viewlet creation is optional - return state with just the tab created
+    set(newState.uid, state, newState)
+    return newState
   }
 
   // TODO: Calculate proper bounds
@@ -98,4 +100,3 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Execute viewlet commands
   await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands])
   return finalState
-}

@@ -99,4 +99,5 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   // Execute viewlet commands
   await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands])
-  return finalState}
+  return finalState
+}

@@ -126,20 +126,22 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   let newState = openTab(state, activeGroup.id, newTab)
 
-  // Eagerly create viewlet (safe - no visible side effects)
-  if (viewletModuleId) {
-    // TODO: Calculate proper bounds
-    const bounds = { height: 600, width: 800, x: 0, y: 0 }
-    const { commands: createCommands, newState: stateWithViewlet } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
-    newState = stateWithViewlet
-
-    // Switch viewlet (detach old, attach new if ready)
-    const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
-    newState = switchedState
-
-    // Execute viewlet commands
-    await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands])
+  if (!viewletModuleId) {
+    throw new Error('Viewlet module ID is undefined')
   }
 
-  return startContentLoading(state, newState, tabId, uri, requestId)
+  // TODO: Calculate proper bounds
+  const bounds = { height: 600, width: 800, x: 0, y: 0 }
+  const { commands: createCommands, newState: stateWithViewlet } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+  newState = stateWithViewlet
+
+  // Switch viewlet (detach old, attach new if ready)
+  const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
+  newState = switchedState
+
+  console.log({ createCommands, switchCommands })
+
+  // Execute viewlet commands
+  await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands])
+  return newState
 }

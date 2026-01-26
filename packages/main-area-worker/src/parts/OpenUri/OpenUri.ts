@@ -3,59 +3,17 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
-import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
+import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
+import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
-import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
-
-const getActiveTabId = (state: MainAreaState): number | undefined => {
-  const { layout } = state
-  const { activeGroupId, groups } = layout
-  const activeGroup = groups.find((g) => g.id === activeGroupId)
-  return activeGroup?.activeTabId
-}
-
-const createEmptyGroup = (state: MainAreaState, uri: string, requestId: number): MainAreaState => {
-  const { layout } = state
-  const { groups } = layout
-  
-  const groupId = Id.create()
-  const title = PathDisplay.getLabel(uri)
-  const tabId = Id.create()
-  const newTab = {
-    content: '',
-    editorType: 'text' as const,
-    id: tabId,
-    isDirty: false,
-    loadingState: 'loading' as const,
-    loadRequestId: requestId,
-    path: uri,
-    title,
-  }
-  const newGroup = {
-    activeTabId: newTab.id,
-    focused: true,
-    id: groupId,
-    size: 100,
-    tabs: [newTab],
-  }
-
-  return {
-    ...state,
-    layout: {
-      ...layout,
-      activeGroupId: groupId,
-      groups: [...groups, newGroup],
-    },
-  }
-}
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
@@ -98,12 +56,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // If no active group exists, create one
   let newState: MainAreaState
   let tabId: number
-  if (!activeGroup) {
-    newState = createEmptyGroup(state, uri, requestId)
-    activeGroup = newState.layout.groups.find((group) => group.id === newState.layout.activeGroupId)
-    // Get the tab ID from the newly created group
-    tabId = activeGroup!.tabs[0].id
-  } else {
+  if (activeGroup) {
     // Create a new tab with the URI in the active group
     const title = PathDisplay.getLabel(uri)
     tabId = Id.create()
@@ -118,6 +71,11 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
       title,
     }
     newState = openTab(state, activeGroup.id, newTab)
+  } else {
+    newState = createEmptyGroup(state, uri, requestId)
+    activeGroup = newState.layout.groups.find((group) => group.id === newState.layout.activeGroupId)
+    // Get the tab ID from the newly created group
+    tabId = activeGroup!.tabs[0].id
   }
 
   if (!viewletModuleId) {

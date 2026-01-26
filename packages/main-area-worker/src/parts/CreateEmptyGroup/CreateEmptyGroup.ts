@@ -5,7 +5,7 @@ import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: number): MainAreaState => {
   const { layout } = state
   const { groups } = layout
-  
+
   const groupId = Id.create()
   const title = PathDisplay.getLabel(uri)
   const tabId = Id.create()

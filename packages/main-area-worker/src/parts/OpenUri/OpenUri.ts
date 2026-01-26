@@ -21,6 +21,41 @@ const getActiveTabId = (state: MainAreaState): number | undefined => {
   return activeGroup?.activeTabId
 }
 
+const createEmptyGroup = (state: MainAreaState, uri: string, requestId: string): MainAreaState => {
+  const { layout } = state
+  const { groups } = layout
+  
+  const groupId = Id.create()
+  const title = PathDisplay.getLabel(uri)
+  const tabId = Id.create()
+  const newTab = {
+    content: '',
+    editorType: 'text' as const,
+    id: tabId,
+    isDirty: false,
+    loadingState: 'loading' as const,
+    loadRequestId: requestId,
+    path: uri,
+    title,
+  }
+  const newGroup = {
+    activeTabId: newTab.id,
+    focused: true,
+    id: groupId,
+    size: 100,
+    tabs: [newTab],
+  }
+
+  return {
+    ...state,
+    layout: {
+      ...layout,
+      activeGroupId: groupId,
+      groups: [...groups, newGroup],
+    },
+  }
+}
+
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
 

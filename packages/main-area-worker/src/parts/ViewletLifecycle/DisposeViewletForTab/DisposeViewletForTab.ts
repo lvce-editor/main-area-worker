@@ -1,6 +1,6 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
-import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
 import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
+import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
  * Dispose viewlet when tab is closed.

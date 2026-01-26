@@ -1,7 +1,7 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import type { ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
-import { findTab, updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
+import { findTab, updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
  * Called when switching tabs - detach old viewlet, attach new one (if ready).

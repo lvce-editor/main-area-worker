@@ -1,6 +1,6 @@
-import type { EditorType } from './EditorType.ts'
-import type { LoadingState } from './LoadingState.ts'
-import type { ViewletState } from './ViewletState.ts'
+import type { EditorType } from '../EditorType/EditorType.ts'
+import type { LoadingState } from '../LoadingState/LoadingState.ts'
+import type { ViewletState } from '../ViewletState/ViewletState.ts'
 
 export interface Tab {
   readonly content: string

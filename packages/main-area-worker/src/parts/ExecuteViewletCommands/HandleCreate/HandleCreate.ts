@@ -17,23 +17,13 @@ export const handleCreate = async (command: Extract<ViewletCommand, { type: 'cre
     command.uri,
     instanceId,
   )
-  console.warn('did create', command.uid, instanceId)
-  // After viewlet is created, handle the ready state and potentially attach
-  const { newState: state, oldState } = MainAreaStates.get(command.uid)
 
-  // Debug: Check if tab exists
-  const allTabs: any[] = []
-  for (const g of state.layout.groups) {
-    for (const t of g.tabs) {
-      allTabs.push({ id: t.id, viewletRequestId: t.viewletRequestId, viewletState: t.viewletState })
-    }
-  }
-  console.warn('All tabs in state:', allTabs, 'Looking for requestId:', command.requestId)
+  // After viewlet is created, mark it as ready and attach if needed
+  const { newState: state, oldState } = MainAreaStates.get(command.uid)
 
   const { commands: readyCommands, newState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
   MainAreaStates.set(command.uid, oldState, newState)
 
-  console.warn({ readyCommands })
   // Execute any attach commands that result from handleViewletReady
   for (const readyCommand of readyCommands) {
     if (readyCommand.type === 'attach') {

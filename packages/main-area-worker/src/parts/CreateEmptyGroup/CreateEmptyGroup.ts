@@ -12,6 +12,7 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
   const newTab = {
     content: '',
     editorType: 'text' as const,
+    editorUid: -1,
     id: tabId,
     isDirty: false,
     loadingState: 'loading' as const,

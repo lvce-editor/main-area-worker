@@ -63,6 +63,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     const newTab = {
       content: '',
       editorType: 'text' as const,
+      editorUid: -1,
       id: tabId,
       isDirty: false,
       loadingState: 'loading' as const,

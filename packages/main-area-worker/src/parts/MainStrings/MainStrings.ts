@@ -1,50 +1,63 @@
 import * as I18nString from '@lvce-editor/i18n'
-import { UiStrings } from '../UiStrings/UiStrings.js'
+import {
+  OpenFile,
+  SplitUp,
+  SplitDown,
+  SplitLeft,
+  SplitRight,
+  NewWindow,
+  Close,
+  CloseOthers,
+  CloseAll,
+  RevealInExplorer,
+  CloseToTheRight,
+  FindFileReferences,
+} from '../UiStrings/UiStrings.js'
 
 export const openFile = (): string => {
-  return I18nString.i18nString(UiStrings.OpenFile)
+  return I18nString.i18nString(OpenFile)
 }
 
 export const splitUp = (): string => {
-  return I18nString.i18nString(UiStrings.SplitUp)
+  return I18nString.i18nString(SplitUp)
 }
 
 export const splitDown = (): string => {
-  return I18nString.i18nString(UiStrings.SplitDown)
+  return I18nString.i18nString(SplitDown)
 }
 
 export const splitLeft = (): string => {
-  return I18nString.i18nString(UiStrings.SplitLeft)
+  return I18nString.i18nString(SplitLeft)
 }
 
 export const splitRight = (): string => {
-  return I18nString.i18nString(UiStrings.SplitRight)
+  return I18nString.i18nString(SplitRight)
 }
 
 export const newWindow = (): string => {
-  return I18nString.i18nString(UiStrings.NewWindow)
+  return I18nString.i18nString(NewWindow)
 }
 
 export const close = (): string => {
-  return I18nString.i18nString(UiStrings.Close)
+  return I18nString.i18nString(Close)
 }
 
 export const closeOthers = (): string => {
-  return I18nString.i18nString(UiStrings.CloseOthers)
+  return I18nString.i18nString(CloseOthers)
 }
 
 export const closeAll = (): string => {
-  return I18nString.i18nString(UiStrings.CloseAll)
+  return I18nString.i18nString(CloseAll)
 }
 
 export const revealInExplorer = (): string => {
-  return I18nString.i18nString(UiStrings.RevealInExplorer)
+  return I18nString.i18nString(RevealInExplorer)
 }
 
 export const closeToTheRight = (): string => {
-  return I18nString.i18nString(UiStrings.CloseToTheRight)
+  return I18nString.i18nString(CloseToTheRight)
 }
 
 export const findFileReferences = (): string => {
-  return I18nString.i18nString(UiStrings.FindFileReferences)
+  return I18nString.i18nString(FindFileReferences)
 }

@@ -1,17 +1,12 @@
-/**
- * @enum {string}
- */
-export const UiStrings = {
-  Close: 'Close',
-  CloseAll: 'Close All',
-  CloseOthers: 'Close Others',
-  CloseToTheRight: 'Close To The Right',
-  FindFileReferences: 'Find File References',
-  NewWindow: 'New Window',
-  OpenFile: 'Open File',
-  RevealInExplorer: 'Reveal in Explorer',
-  SplitDown: 'Split Down',
-  SplitLeft: 'Split Left',
-  SplitRight: 'Split Right',
-  SplitUp: 'Split Up',
-}
+export const Close = 'Close'
+export const CloseAll = 'Close All'
+export const CloseOthers = 'Close Others'
+export const CloseToTheRight = 'Close To The Right'
+export const FindFileReferences = 'Find File References'
+export const NewWindow = 'New Window'
+export const OpenFile = 'Open File'
+export const RevealInExplorer = 'Reveal in Explorer'
+export const SplitDown = 'Split Down'
+export const SplitLeft = 'Split Left'
+export const SplitRight = 'Split Right'
+export const SplitUp = 'Split Up'

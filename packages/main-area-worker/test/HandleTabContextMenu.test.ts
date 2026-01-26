@@ -42,6 +42,7 @@ test('handleTabContextMenu should return state unchanged', async () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,

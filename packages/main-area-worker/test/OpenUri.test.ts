@@ -39,6 +39,7 @@ test('openUri should add tab to active group when group exists', async () => {
           tabs: [
             {
               content: 'existing content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -79,6 +80,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
           tabs: [
             {
               content: 'existing content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -87,6 +89,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
             },
             {
               content: 'other content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -126,6 +129,7 @@ test('openUri should activate existing tab in different group', async () => {
           tabs: [
             {
               content: 'content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -142,6 +146,7 @@ test('openUri should activate existing tab in different group', async () => {
           tabs: [
             {
               content: 'content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,

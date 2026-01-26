@@ -18,14 +18,16 @@ test('getActiveTab should return active tab when group is focused and has active
           tabs: [
             {
               content: 'content1',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 1,
               isDirty: false,
               title: 'File 1',
             },
             {
               content: 'content2',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -40,7 +42,8 @@ test('getActiveTab should return active tab when group is focused and has active
           tabs: [
             {
               content: 'content3',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -71,7 +74,8 @@ test('getActiveTab should return undefined when no group is focused', () => {
           tabs: [
             {
               content: 'content',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 1,
               isDirty: false,
               title: 'File',
@@ -121,7 +125,8 @@ test('getActiveTab should return undefined when activeTabId does not match any t
           tabs: [
             {
               content: 'content',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 1,
               isDirty: false,
               title: 'File',

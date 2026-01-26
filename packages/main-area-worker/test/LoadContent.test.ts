@@ -50,6 +50,7 @@ test('loadContent should restore valid saved state', async () => {
           tabs: [
             {
               content: 'restored content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -84,6 +85,7 @@ test('loadContent should restore layout with multiple groups', async () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -99,6 +101,7 @@ test('loadContent should restore layout with multiple groups', async () => {
           tabs: [
             {
               content: 'content2',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: true,
@@ -132,6 +135,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -139,6 +143,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
             },
             {
               content: 'content2',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -146,6 +151,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
             },
             {
               content: 'content3',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 3,
               isDirty: false,
@@ -273,6 +279,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
             {
               content: 'custom content',
               customEditorId: 'custom-editor-1',
+              editorUid: -1,
               editorType: 'custom' as const,
               id: 1,
               isDirty: false,
@@ -305,6 +312,7 @@ test('loadContent should restore layout with tabs containing paths', async () =>
           tabs: [
             {
               content: 'console.log("hello");',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,

@@ -19,7 +19,8 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
           tabs: [
             {
               content: 'content',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 0,
               isDirty: false,
               path: '/home/user/file.txt',
@@ -99,7 +100,8 @@ test('getMenuEntries includes correct path in args for reveal and find reference
           tabs: [
             {
               content: 'content',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 0,
               isDirty: false,
               path: '/workspace/src/index.ts',
@@ -130,7 +132,8 @@ test('getMenuEntries handles tab without path', () => {
           tabs: [
             {
               content: 'content',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 0,
               isDirty: false,
               title: 'Untitled',
@@ -160,7 +163,8 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 0,
               isDirty: false,
               path: '/file1.txt',
@@ -168,7 +172,8 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
             },
             {
               content: 'content2',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 1,
               isDirty: false,
               path: '/file2.txt',
@@ -199,7 +204,8 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 0,
               isDirty: false,
               path: '/group1/file.txt',
@@ -215,7 +221,8 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
           tabs: [
             {
               content: 'content2',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 0,
               isDirty: false,
               path: '/group2/file.txt',

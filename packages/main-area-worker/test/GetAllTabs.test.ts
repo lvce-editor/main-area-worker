@@ -18,14 +18,16 @@ test('getAllTabs should return all tabs from all groups', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 1,
               isDirty: false,
               title: 'File 1',
             },
             {
               content: 'content2',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -40,7 +42,8 @@ test('getAllTabs should return all tabs from all groups', () => {
           tabs: [
             {
               content: 'content3',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 3,
               isDirty: false,
               title: 'File 3',

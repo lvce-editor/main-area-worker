@@ -16,14 +16,16 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
         tabs: [
           {
             content: 'content1',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 1,
             isDirty: false,
             title: 'File 1',
           },
           {
             content: 'content2',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 2,
             isDirty: true,
             title: 'File 2',
@@ -38,7 +40,8 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
         tabs: [
           {
             content: 'content3',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 3,
             isDirty: false,
             title: 'File 3',
@@ -122,6 +125,7 @@ test('selectTab should handle single group with single tab', async () => {
           tabs: [
             {
               content: 'content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -191,6 +195,7 @@ test('selectTab should preserve other groups state when switching focus', async 
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -206,6 +211,7 @@ test('selectTab should preserve other groups state when switching focus', async 
           tabs: [
             {
               content: 'content3',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 3,
               isDirty: false,
@@ -221,6 +227,7 @@ test('selectTab should preserve other groups state when switching focus', async 
           tabs: [
             {
               content: 'content4',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 4,
               isDirty: true,
@@ -257,6 +264,7 @@ test('selectTab should handle custom editor tabs', async () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -265,6 +273,7 @@ test('selectTab should handle custom editor tabs', async () => {
             {
               content: 'content2',
               customEditorId: 'custom-editor-1',
+              editorUid: -1,
               editorType: 'custom' as const,
               id: 2,
               isDirty: false,
@@ -297,6 +306,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
           tabs: [
             {
               content: 'console.log("hello");',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -306,6 +316,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
             },
             {
               content: '<div>Hello</div>',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -340,6 +351,7 @@ test('selectTab should handle vertical layout direction', async () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -355,6 +367,7 @@ test('selectTab should handle vertical layout direction', async () => {
           tabs: [
             {
               content: 'content2',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -421,6 +434,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
           tabs: [
             {
               content: 'content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -454,6 +468,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
           tabs: [
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -461,6 +476,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
             },
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -496,6 +512,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
           tabs: [
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -503,6 +520,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
             },
             {
               content: 'already loaded content',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,

@@ -23,7 +23,8 @@ test('restoreMainAreaState should restore layout from valid saved state', () => 
         tabs: [
           {
             content: 'restored content',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 1,
             isDirty: false,
             title: 'Restored File',
@@ -145,7 +146,8 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         tabs: [
           {
             content: 'content1',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 1,
             isDirty: false,
             title: 'File 1',
@@ -160,7 +162,8 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         tabs: [
           {
             content: 'content2',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 2,
             isDirty: true,
             title: 'File 2',
@@ -204,7 +207,8 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
           {
             content: 'custom content',
             customEditorId: 'custom-editor-1',
-            editorType: 'custom' as const,
+            editorUid: -1,
+              editorType: 'custom' as const,
             id: 1,
             isDirty: false,
             title: 'Custom Editor',
@@ -246,7 +250,8 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
         tabs: [
           {
             content: 'console.log("hello");',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 1,
             isDirty: false,
             language: 'javascript',
@@ -704,7 +709,8 @@ test('restoreMainState should return valid layout', () => {
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 1,
             isDirty: false,
             title: 'File',
@@ -854,7 +860,8 @@ test('restoreMainState should accept layout with valid groups', () => {
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 1,
             isDirty: false,
             title: 'File',
@@ -870,7 +877,8 @@ test('restoreMainState should accept layout with valid groups', () => {
           {
             content: 'content2',
             customEditorId: 'editor-1',
-            editorType: 'custom' as const,
+            editorUid: -1,
+              editorType: 'custom' as const,
             id: 2,
             isDirty: true,
             title: 'File 2',

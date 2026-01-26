@@ -12,7 +12,8 @@ test('renderEditorGroup should return correct structure for group with active ta
     tabs: [
       {
         content: 'test content',
-        editorType: 'text' as const,
+        editorUid: -1,
+              editorType: 'text' as const,
         id: 1,
         isDirty: false,
         path: '/path/to/Test File',
@@ -93,7 +94,8 @@ test('renderEditorGroup should handle group with no active tab', () => {
     tabs: [
       {
         content: 'test content',
-        editorType: 'text' as const,
+        editorUid: -1,
+              editorType: 'text' as const,
         id: 1,
         isDirty: false,
         path: '/path/to/Test File',
@@ -116,7 +118,8 @@ test('renderEditorGroup should handle group with custom editor', () => {
       {
         content: '',
         customEditorId: 'custom-editor-123',
-        editorType: 'custom' as const,
+        editorUid: -1,
+              editorType: 'custom' as const,
         id: 1,
         isDirty: false,
         path: '/path/to/Custom Tab',

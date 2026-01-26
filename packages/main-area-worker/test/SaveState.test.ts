@@ -28,7 +28,8 @@ test('saveState should save layout with custom configuration', () => {
           tabs: [
             {
               content: 'test content',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 1,
               isDirty: false,
               title: 'Test File',
@@ -81,7 +82,8 @@ test('saveState should save layout with multiple groups', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -96,7 +98,8 @@ test('saveState should save layout with multiple groups', () => {
           tabs: [
             {
               content: 'content2',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 2,
               isDirty: true,
               title: 'File 2',
@@ -130,7 +133,8 @@ test('saveState should save layout with custom editor tabs', () => {
             {
               content: 'custom content',
               customEditorId: 'custom-editor-1',
-              editorType: 'custom',
+              editorUid: -1,
+          editorType: 'custom',
               id: 1,
               isDirty: false,
               title: 'Custom Editor',
@@ -160,7 +164,8 @@ test('saveState should save layout with tabs containing paths and languages', ()
           tabs: [
             {
               content: 'console.log("hello");',
-              editorType: 'text',
+              editorUid: -1,
+          editorType: 'text',
               id: 1,
               isDirty: false,
               language: 'javascript',

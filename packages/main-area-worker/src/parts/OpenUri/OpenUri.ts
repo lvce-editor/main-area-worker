@@ -10,6 +10,7 @@ import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
+import { set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
@@ -91,6 +92,8 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Switch viewlet (detach old, attach new if ready)
   const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(finalState, previousTabId, tabId)
   finalState = switchedState
+
+  set(finalState.uid, state, finalState)
 
   // Execute viewlet commands
   await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands])

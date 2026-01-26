@@ -24,7 +24,8 @@ test('renderEditor should return custom editor structure', () => {
   const tab = {
     content: '',
     customEditorId: 'custom-editor-123',
-    editorType: 'custom' as const,
+    editorUid: -1,
+              editorType: 'custom' as const,
     id: 1,
     isDirty: false,
     title: 'Custom Tab',
@@ -44,7 +45,8 @@ test('renderEditor should return custom editor structure', () => {
 test('renderEditor should return text editor structure with content', () => {
   const tab = {
     content: 'Hello, World!',
-    editorType: 'text' as const,
+    editorUid: -1,
+              editorType: 'text' as const,
     id: 1,
     isDirty: false,
     title: 'Test File',
@@ -69,7 +71,8 @@ test('renderEditor should return text editor structure with content', () => {
 test('renderEditor should handle text editor with empty content', () => {
   const tab = {
     content: '',
-    editorType: 'text' as const,
+    editorUid: -1,
+              editorType: 'text' as const,
     id: 1,
     isDirty: false,
     title: 'Empty File',
@@ -83,7 +86,8 @@ test('renderEditor should handle text editor with empty content', () => {
 test('renderEditor should handle text editor with undefined content', () => {
   const tab = {
     content: '',
-    editorType: 'text' as const,
+    editorUid: -1,
+              editorType: 'text' as const,
     id: 1,
     isDirty: false,
     title: 'Undefined File',
@@ -97,7 +101,8 @@ test('renderEditor should handle text editor with undefined content', () => {
 test('renderEditor should show loading state', () => {
   const tab = {
     content: '',
-    editorType: 'text' as const,
+    editorUid: -1,
+              editorType: 'text' as const,
     id: 1,
     isDirty: false,
     loadingState: 'loading' as const,
@@ -123,7 +128,8 @@ test('renderEditor should show loading state', () => {
 test('renderEditor should show error state', () => {
   const tab = {
     content: '',
-    editorType: 'text' as const,
+    editorUid: -1,
+              editorType: 'text' as const,
     errorMessage: 'File not found',
     id: 1,
     isDirty: false,
@@ -150,7 +156,8 @@ test('renderEditor should show error state', () => {
 test('renderEditor should show content when loadingState is loaded', () => {
   const tab = {
     content: 'File content here',
-    editorType: 'text' as const,
+    editorUid: -1,
+              editorType: 'text' as const,
     id: 1,
     isDirty: false,
     loadingState: 'loaded' as const,
@@ -176,7 +183,8 @@ test('renderEditor should show content when loadingState is loaded', () => {
 test('renderEditor should show content when loadingState is idle', () => {
   const tab = {
     content: 'Initial content',
-    editorType: 'text' as const,
+    editorUid: -1,
+              editorType: 'text' as const,
     id: 1,
     isDirty: false,
     loadingState: 'idle' as const,
@@ -202,7 +210,8 @@ test('renderEditor should show content when loadingState is idle', () => {
 test('renderEditor should show error state even when content exists', () => {
   const tab = {
     content: 'some old content',
-    editorType: 'text' as const,
+    editorUid: -1,
+              editorType: 'text' as const,
     errorMessage: 'Permission denied',
     id: 1,
     isDirty: false,

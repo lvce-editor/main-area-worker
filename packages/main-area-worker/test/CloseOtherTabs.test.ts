@@ -18,6 +18,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -25,6 +26,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
             },
             {
               content: 'content2',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -32,6 +34,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
             },
             {
               content: 'content3',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 3,
               isDirty: false,
@@ -66,6 +69,7 @@ test('closeOtherTabs should return state unchanged when group does not exist', (
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -97,6 +101,7 @@ test('closeOtherTabs should return state unchanged when there is no active tab',
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -128,6 +133,7 @@ test('closeOtherTabs should preserve other groups', () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -135,6 +141,7 @@ test('closeOtherTabs should preserve other groups', () => {
             },
             {
               content: 'content2',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -142,6 +149,7 @@ test('closeOtherTabs should preserve other groups', () => {
             },
             {
               content: 'content3',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 3,
               isDirty: false,
@@ -157,6 +165,7 @@ test('closeOtherTabs should preserve other groups', () => {
           tabs: [
             {
               content: 'content4',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 4,
               isDirty: false,
@@ -164,6 +173,7 @@ test('closeOtherTabs should preserve other groups', () => {
             },
             {
               content: 'content5',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 5,
               isDirty: false,
@@ -171,6 +181,7 @@ test('closeOtherTabs should preserve other groups', () => {
             },
             {
               content: 'content6',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 6,
               isDirty: false,
@@ -207,6 +218,7 @@ test('closeOtherTabs should handle single tab in group', () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -240,6 +252,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -247,6 +260,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
             },
             {
               content: 'content2',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -254,6 +268,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
             },
             {
               content: 'content3',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 3,
               isDirty: false,
@@ -287,6 +302,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -294,6 +310,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
             },
             {
               content: 'content2',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -301,6 +318,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
             },
             {
               content: 'content3',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 3,
               isDirty: false,
@@ -335,6 +353,7 @@ test('closeOtherTabs should preserve other state properties', () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -342,6 +361,7 @@ test('closeOtherTabs should preserve other state properties', () => {
             },
             {
               content: 'content2',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -379,6 +399,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
           tabs: [
             {
               content: 'content1',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: true,
@@ -389,6 +410,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
             {
               content: 'content2',
               customEditorId: 'custom-editor',
+              editorUid: -1,
               editorType: 'custom' as const,
               id: 2,
               isDirty: false,
@@ -398,6 +420,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
             },
             {
               content: 'content3',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 3,
               isDirty: false,

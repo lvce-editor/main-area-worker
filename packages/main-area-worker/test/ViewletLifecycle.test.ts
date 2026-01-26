@@ -18,7 +18,8 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
         tabs: [
           {
             content: '',
-            editorType: 'text' as const,
+            editorUid: -1,
+              editorType: 'text' as const,
             id: 1,
             isDirty: false,
             path: '/test/file.txt',
@@ -90,6 +91,7 @@ test('switchViewlet detaches old viewlet and attaches new one', () => {
           tabs: [
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isAttached: true,
@@ -101,6 +103,7 @@ test('switchViewlet detaches old viewlet and attaches new one', () => {
             },
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -140,6 +143,7 @@ test('switchViewlet only attaches when new tab is ready', () => {
           tabs: [
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isAttached: true,
@@ -151,6 +155,7 @@ test('switchViewlet only attaches when new tab is ready', () => {
             },
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,
@@ -200,6 +205,7 @@ test('handleViewletReady attaches viewlet when tab is active', () => {
           tabs: [
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -242,6 +248,7 @@ test('handleViewletReady does not attach when tab is not active (race condition)
           tabs: [
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 1,
               isDirty: false,
@@ -252,6 +259,7 @@ test('handleViewletReady does not attach when tab is not active (race condition)
             },
             {
               content: '',
+              editorUid: -1,
               editorType: 'text' as const,
               id: 2,
               isDirty: false,

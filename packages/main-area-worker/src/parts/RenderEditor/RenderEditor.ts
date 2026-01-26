@@ -49,16 +49,6 @@ const renderContent = (content: string): readonly VirtualDomNode[] => {
   ]
 }
 
-const renderEmptyPlaceholder = (): readonly VirtualDomNode[] => {
-  return [
-    {
-      childCount: 0,
-      className: 'TextEditor TextEditor--empty',
-      type: VirtualDomElements.Div,
-    },
-  ]
-}
-
 const renderViewletMountPoint = (tab: Tab): readonly VirtualDomNode[] => {
   return [
     {

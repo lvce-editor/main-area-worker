@@ -2,7 +2,7 @@ import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
 import { findTabByViewletRequestId } from '../../FindTabByViewletRequestId/FindTabByViewletRequestId.ts'
 import { isTabActive } from '../../IsTabActive/IsTabActive.ts'
-import { findTab, updateTab } from '../../LoadTabContent/LoadTabContent.ts'
+import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
  * Called when renderer reports viewlet finished creating.

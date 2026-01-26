@@ -32,41 +32,6 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
   uid: 1,
 })
 
-const createStateWithTwoTabs = (): MainAreaState => ({
-  ...createDefaultState(),
-  layout: {
-    activeGroupId: 1,
-    direction: 'horizontal',
-    groups: [
-      {
-        activeTabId: 1,
-        focused: true,
-        id: 1,
-        size: 100,
-        tabs: [
-          {
-            content: '',
-            editorType: 'text' as const,
-            id: 1,
-            isDirty: false,
-            path: '/test/file1.txt',
-            title: 'file1.txt',
-          },
-          {
-            content: '',
-            editorType: 'text' as const,
-            id: 2,
-            isDirty: false,
-            path: '/test/file2.txt',
-            title: 'file2.txt',
-          },
-        ],
-      },
-    ],
-  },
-  uid: 1,
-})
-
 test('createViewletForTab creates viewlet command for idle tab', () => {
   GetNextRequestId.resetRequestIdCounter()
   const state = createStateWithTab()

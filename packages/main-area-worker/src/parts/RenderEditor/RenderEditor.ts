@@ -49,14 +49,12 @@ const renderContent = (content: string): readonly VirtualDomNode[] => {
   ]
 }
 
-const renderViewletMountPoint = (tab: Tab): readonly VirtualDomNode[] => {
+const renderViewletReference = (tab: Tab): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 0,
-      className: 'ViewletMountPoint',
-      'data-tab-id': tab.id,
-      'data-viewlet-id': tab.viewletInstanceId ?? '',
-      type: VirtualDomElements.Div,
+      type: 100, // Reference node type - frontend will append the component at this position
+      uid: tab.editorUid,
     },
   ]
 }
@@ -83,10 +81,10 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
     return renderLoading()
   }
 
-  // Viewlet is ready - render the mount container
-  // RendererWorker will attach the actual viewlet content here
+  // Viewlet is ready - render a reference node
+  // Frontend will append the pre-created component at this position using the uid
   if (tab.viewletState === 'ready') {
-    return renderViewletMountPoint(tab)
+    return renderViewletReference(tab)
   }
 
   // Viewlet error state

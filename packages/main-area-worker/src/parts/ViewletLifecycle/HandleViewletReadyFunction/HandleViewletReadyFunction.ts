@@ -8,10 +8,15 @@ import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
  * No commands needed - state update is sufficient.
  */
 export const handleViewletReady = (state: MainAreaState, editorUid: number): MainAreaState => {
+  if (editorUid === -1) {
+    throw new Error('Invalid editorUid -1')
+  }
   // Find the tab by viewletRequestId
   const tab = findTabByEditorUid(state, editorUid)
 
+  console.log({ editorUid, tab })
   if (!tab) {
+    console.log('tab not found', editorUid)
     // Tab was closed, dispose viewlet
     return state
   }

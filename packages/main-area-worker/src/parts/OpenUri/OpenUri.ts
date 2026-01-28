@@ -1,4 +1,3 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'

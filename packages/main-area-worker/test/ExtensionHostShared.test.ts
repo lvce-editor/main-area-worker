@@ -7,11 +7,11 @@ const combineResults = (results: readonly any[]): any => {
 }
 
 test('executeProviders should activate by event and invoke method with params', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
+  using mockRendererRpc = RendererWorker.registerMockRpc({
     'ExtensionHostManagement.activateByEvent': async () => {},
   })
 
-  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  using mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'test.method': async () => 'test-result',
   })
 
@@ -32,11 +32,11 @@ test('executeProviders should activate by event and invoke method with params', 
 })
 
 test('executeProviders should use default noProviderFoundMessage', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
+  using mockRendererRpc = RendererWorker.registerMockRpc({
     'ExtensionHostManagement.activateByEvent': async () => {},
   })
 
-  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  using mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'test.method': async () => 'result',
   })
 
@@ -56,11 +56,11 @@ test('executeProviders should use default noProviderFoundMessage', async () => {
 })
 
 test('executeProvider should activate by event and invoke method with params', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
+  using mockRendererRpc = RendererWorker.registerMockRpc({
     'ExtensionHostManagement.activateByEvent': async () => {},
   })
 
-  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  using mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'test.method': async () => 'test-result',
   })
 
@@ -79,7 +79,7 @@ test('executeProvider should activate by event and invoke method with params', a
 })
 
 test('execute should invoke method with params', async () => {
-  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  using mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'test.method': async () => undefined,
   })
 
@@ -92,7 +92,7 @@ test('execute should invoke method with params', async () => {
 })
 
 test('execute should handle empty params', async () => {
-  const mockExtensionHostRpc = ExtensionHost.registerMockRpc({
+  using mockExtensionHostRpc = ExtensionHost.registerMockRpc({
     'test.method': async () => undefined,
   })
 

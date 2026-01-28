@@ -6,7 +6,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { handleTabContextMenu } from '../src/parts/HandleTabContextMenu/HandleTabContextMenu.ts'
 
 test('handleTabContextMenu should show context menu with correct parameters', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'ContextMenu.show2': async () => undefined,
   })
 
@@ -66,7 +66,7 @@ test('handleTabContextMenu should return state unchanged', async () => {
 })
 
 test('handleTabContextMenu should handle zero coordinates', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'ContextMenu.show2': async () => undefined,
   })
 
@@ -83,7 +83,7 @@ test('handleTabContextMenu should handle zero coordinates', async () => {
 })
 
 test('handleTabContextMenu should handle large coordinates', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'ContextMenu.show2': async () => undefined,
   })
 
@@ -100,7 +100,7 @@ test('handleTabContextMenu should handle large coordinates', async () => {
 })
 
 test('handleTabContextMenu should use uid from state', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'ContextMenu.show2': async () => undefined,
   })
 

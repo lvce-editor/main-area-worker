@@ -91,7 +91,7 @@ test('updateTab returns unchanged state when tab not found', () => {
 })
 
 test('loadTabContentAsync loads content successfully', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => 'file content here',
   })
 
@@ -118,7 +118,7 @@ test('loadTabContentAsync loads content successfully', async () => {
 })
 
 test('loadTabContentAsync handles error', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => {
       throw new Error('File not found')
     },

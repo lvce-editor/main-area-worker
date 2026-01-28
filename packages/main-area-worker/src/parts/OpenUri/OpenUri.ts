@@ -62,6 +62,10 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   const { editorUid } = tabWithViewlet.tab
 
+  if (editorUid === -1) {
+    throw new Error(`invalid editorUid`)
+  }
+
   await createViewlet(viewletModuleId, editorUid, tabId, bounds, uri)
 
   // After viewlet is created, get the latest state and mark it as ready

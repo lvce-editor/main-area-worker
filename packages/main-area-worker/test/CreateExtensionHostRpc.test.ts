@@ -15,7 +15,7 @@ afterEach(() => {
 })
 
 test('createExtensionHostRpc should return an RPC instance', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': async () => {},
   })
   ;(mockRpc as any).invokeAndTransfer = async (method: string, ...args: ReadonlyArray<any>): Promise<any> => {
@@ -34,7 +34,7 @@ test('createExtensionHostRpc should return an RPC instance', async () => {
 })
 
 test('createExtensionHostRpc should use sendMessagePortToExtensionHostWorker', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': async () => {},
   })
   ;(mockRpc as any).invokeAndTransfer = async (method: string, ...args: ReadonlyArray<any>): Promise<any> => {
@@ -52,7 +52,7 @@ test('createExtensionHostRpc should use sendMessagePortToExtensionHostWorker', a
 })
 
 test('createExtensionHostRpc should handle errors and wrap in VError', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': async () => {
       throw new Error('send error')
     },
@@ -69,7 +69,7 @@ test('createExtensionHostRpc should handle errors and wrap in VError', async () 
 })
 
 test('createExtensionHostRpc should be awaitable', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': async () => {},
   })
   ;(mockRpc as any).invokeAndTransfer = async (method: string, ...args: ReadonlyArray<any>): Promise<any> => {

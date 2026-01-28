@@ -3,7 +3,7 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import * as CreateViewlet from '../src/parts/CreateViewlet/CreateViewlet.ts'
 
 test('createViewlet should call Layout.createViewlet with correct parameters', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
@@ -13,7 +13,7 @@ test('createViewlet should call Layout.createViewlet with correct parameters', a
 })
 
 test('createViewlet should handle different viewlet module ids', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
@@ -25,7 +25,7 @@ test('createViewlet should handle different viewlet module ids', async () => {
 })
 
 test('createViewlet should handle different editorUids', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
@@ -35,7 +35,7 @@ test('createViewlet should handle different editorUids', async () => {
 })
 
 test('createViewlet should handle different tabIds', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
@@ -45,7 +45,7 @@ test('createViewlet should handle different tabIds', async () => {
 })
 
 test('createViewlet should handle different bounds', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
@@ -56,7 +56,7 @@ test('createViewlet should handle different bounds', async () => {
 })
 
 test('createViewlet should handle different uris', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
@@ -68,7 +68,7 @@ test('createViewlet should handle different uris', async () => {
 })
 
 test('createViewlet should be awaitable', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
@@ -79,7 +79,7 @@ test('createViewlet should be awaitable', async () => {
 })
 
 test('createViewlet should handle empty uri string', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
@@ -89,7 +89,7 @@ test('createViewlet should handle empty uri string', async () => {
 })
 
 test('createViewlet should handle null bounds', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 

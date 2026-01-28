@@ -235,7 +235,7 @@ test('openUri should validate options parameter', async () => {
 // Tests for lines 45-85: viewlet creation, bounds calculation, and lifecycle management
 
 test('openUri should calculate bounds with correct TAB_HEIGHT offset', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
   })
@@ -265,7 +265,7 @@ test('openUri should calculate bounds with correct TAB_HEIGHT offset', async () 
 })
 
 test('openUri should create viewlet for new tab', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
   })
@@ -288,7 +288,7 @@ test('openUri should create viewlet for new tab', async () => {
 })
 
 test('openUri should not create viewlet when getViewletModuleId returns undefined', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async () => undefined,
   })
 
@@ -329,7 +329,7 @@ test('openUri should assign valid editorUid after viewlet creation', async () =>
 })
 
 test('openUri should pass correct parameters to createViewlet', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
   })
@@ -357,7 +357,7 @@ test('openUri should pass correct parameters to createViewlet', async () => {
 })
 
 test('openUri should switch viewlet from previous tab to new tab', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
   })
@@ -409,7 +409,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
 })
 
 test('openUri should handle bounds calculation with different main area dimensions', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
   })
@@ -437,7 +437,7 @@ test('openUri should handle bounds calculation with different main area dimensio
 })
 
 test('openUri should use TAB_HEIGHT constant of 35 pixels', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.markdown',
   })

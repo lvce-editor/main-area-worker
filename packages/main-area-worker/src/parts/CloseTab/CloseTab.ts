@@ -3,7 +3,7 @@ import type { ViewletCommand } from '../ViewletCommand/ViewletCommand.ts'
 import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
-const findTabInState = (state: MainAreaState, groupId: number, tabId: number): { viewletInstanceId?: number } | undefined => {
+const findTabInState = (state: MainAreaState, groupId: number, tabId: number): { viewletState?: string } | undefined => {
   const { layout } = state
   const group = layout.groups.find((g) => g.id === groupId)
   return group?.tabs.find((t) => t.id === tabId)

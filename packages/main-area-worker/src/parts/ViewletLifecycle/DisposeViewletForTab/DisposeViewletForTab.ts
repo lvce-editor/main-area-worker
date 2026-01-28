@@ -8,7 +8,7 @@ import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
  */
 export const disposeViewletForTab = (state: MainAreaState, tabId: number): ViewletLifecycleResult => {
   const tab = findTab(state, tabId)
-  if (!tab || !tab.viewletInstanceId) {
+  if (!tab || tab.editorUid === -1) {
     return { commands: [], newState: state }
   }
 

@@ -2,6 +2,7 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
+import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
 import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
@@ -12,11 +13,6 @@ import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
-
-const createViewlet = async (viewletModuleId: string, editorUid: number, tabId: number, bounds: any, uri: string): Promise<void> => {
-  // @ts-ignore
-  await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
-}
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)

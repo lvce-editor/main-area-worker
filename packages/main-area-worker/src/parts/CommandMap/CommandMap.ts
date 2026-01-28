@@ -37,7 +37,7 @@ export const commandMap = {
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,
   'MainArea.resize': wrapCommand(resize),
-  'MainArea.saveState': saveState,
+  'MainArea.saveState': wrapGetter(saveState),
   'MainArea.selectTab': wrapCommand(selectTab),
   'MainArea.terminate': terminate,
 }

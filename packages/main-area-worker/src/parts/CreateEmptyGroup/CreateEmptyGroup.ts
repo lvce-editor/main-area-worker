@@ -1,4 +1,4 @@
-import type { EditorGroup, MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { EditorGroup, MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
@@ -9,15 +9,15 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
   const groupId = Id.create()
   const title = PathDisplay.getLabel(uri)
   const tabId = Id.create()
-  const newTab = {
+  const newTab: Tab = {
     content: '',
-    editorType: 'text' as const,
+    editorType: 'text',
     editorUid: -1,
     errorMessage: '',
     id: tabId,
     isDirty: false,
     language: '',
-    loadingState: 'loading' as const,
+    loadingState: 'loading',
     title,
     uri,
   }

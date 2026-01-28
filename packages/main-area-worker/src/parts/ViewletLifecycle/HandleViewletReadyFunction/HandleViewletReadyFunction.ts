@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
+import { findTabByEditorUid } from '../../FindTabByEditorUid/FindTabByEditorUid.ts'
 import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
@@ -8,16 +9,7 @@ import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
  */
 export const handleViewletReady = (state: MainAreaState, editorUid: number): MainAreaState => {
   // Find the tab by viewletRequestId
-  const { layout } = state
-  const { groups } = layout
-  let tab
-  for (const group of groups) {
-    const foundTab = group.tabs.find((t) => t.editorUid === editorUid)
-    if (foundTab) {
-      tab = foundTab
-      break
-    }
-  }
+  const tab = findTabByEditorUid(state, editorUid)
 
   if (!tab) {
     // Tab was closed, dispose viewlet

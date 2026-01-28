@@ -6,6 +6,7 @@ import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
+import { getOptionUriOptions } from '../GetOptionUriOptions/GetOptionUriOptions.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
@@ -15,13 +16,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   const { uid } = state
 
-  let uri = ''
-  if (typeof options === 'string') {
-    uri = options
-  } else {
-    const { uri: optionsUri } = options
-    uri = optionsUri
-  }
+  const uri = getOptionUriOptions(options)
 
   // Check if a tab with this URI already exists
   const existingTab = findTabByUri(state, uri)

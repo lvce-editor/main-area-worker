@@ -10,8 +10,8 @@ import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
-import { set } from '../MainAreaStates/MainAreaStates.ts'
 import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
+import { set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
@@ -64,10 +64,13 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     tabId = Id.create()
     const newTab = {
       content: '',
+      customEditorId: '',
       editorType: 'text' as const,
       editorUid: -1,
+      errorMessage: '',
       id: tabId,
       isDirty: false,
+      language: '',
       loadingState: 'loading' as const,
       loadRequestId: requestId,
       path: uri,
@@ -105,9 +108,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   // After viewlet is created, mark it as ready
   // Attachment is handled automatically by virtual DOM reference nodes
-  const { newState: state1, oldState } = MainAreaStates.get(uid)
-
-  const { newState: readyState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
-  MainAreaStates.set(command.uid, oldState, readyState)
+  const { newState: readyState } = ViewletLifecycle.handleViewletReady(intermediateState1, editorUid, instanceId)
+  set(readyState.uid, state, readyState)
   return readyState
 }

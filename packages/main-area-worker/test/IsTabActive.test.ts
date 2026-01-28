@@ -18,16 +18,16 @@ test('isTabActive returns true for active tab in active group', () => {
           tabs: [
             {
               content: '',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'file1.txt',
             },
             {
               content: '',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'file2.txt',
@@ -58,8 +58,8 @@ test('isTabActive returns false for tab in non-active group', () => {
           tabs: [
             {
               content: '',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'file1.txt',
@@ -74,8 +74,8 @@ test('isTabActive returns false for tab in non-active group', () => {
           tabs: [
             {
               content: '',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'file2.txt',
@@ -106,8 +106,8 @@ test('isTabActive returns false when no active group exists', () => {
           tabs: [
             {
               content: '',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'file1.txt',

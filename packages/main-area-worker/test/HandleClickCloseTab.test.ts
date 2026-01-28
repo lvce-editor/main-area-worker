@@ -18,8 +18,8 @@ test('handleClickCloseTab should return state unchanged when rawGroupIndex is em
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -50,8 +50,8 @@ test('handleClickCloseTab should return state unchanged when rawIndex is empty',
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -82,8 +82,8 @@ test('handleClickCloseTab should return state unchanged when groupIndex is negat
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -114,8 +114,8 @@ test('handleClickCloseTab should return state unchanged when groupIndex is out o
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -146,8 +146,8 @@ test('handleClickCloseTab should return state unchanged when tab index is negati
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -178,8 +178,8 @@ test('handleClickCloseTab should return state unchanged when tab index is out of
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -210,24 +210,24 @@ test('handleClickCloseTab should close the tab at the specified index', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
             },
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
             },
             {
               content: 'content3',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -260,8 +260,8 @@ test('handleClickCloseTab should close tab from the correct group', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -276,16 +276,16 @@ test('handleClickCloseTab should close tab from the correct group', () => {
           tabs: [
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
             },
             {
               content: 'content3',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -319,16 +319,16 @@ test('handleClickCloseTab should close first tab when index is 0', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
             },
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -362,24 +362,24 @@ test('handleClickCloseTab should close last tab when index points to last elemen
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
             },
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
             },
             {
               content: 'content3',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -413,8 +413,8 @@ test('handleClickCloseTab should handle closing only tab in group', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -447,8 +447,8 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -463,8 +463,8 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
           tabs: [
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',

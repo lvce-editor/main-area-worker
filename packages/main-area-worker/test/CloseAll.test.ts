@@ -18,16 +18,16 @@ test('closeAll should close all tabs and groups', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
             },
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -42,8 +42,8 @@ test('closeAll should close all tabs and groups', () => {
           tabs: [
             {
               content: 'content3',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -76,8 +76,8 @@ test('closeAll should preserve layout direction', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -111,8 +111,8 @@ test('closeAll should preserve other state properties', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -163,16 +163,16 @@ test('closeAll should handle multiple groups with many tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
             },
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: true,
               title: 'File 2',
@@ -187,8 +187,8 @@ test('closeAll should handle multiple groups with many tabs', () => {
           tabs: [
             {
               content: 'content3',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -203,16 +203,16 @@ test('closeAll should handle multiple groups with many tabs', () => {
           tabs: [
             {
               content: 'content4',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 4,
               isDirty: true,
               title: 'File 4',
             },
             {
               content: 'content5',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 5,
               isDirty: false,
               title: 'File 5',

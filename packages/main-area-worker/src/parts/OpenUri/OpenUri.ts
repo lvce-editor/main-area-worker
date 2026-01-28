@@ -6,7 +6,7 @@ import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
-import { set } from '../MainAreaStates/MainAreaStates.ts'
+import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 

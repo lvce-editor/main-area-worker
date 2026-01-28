@@ -17,8 +17,8 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
         tabs: [
           {
             content: 'test content',
-            editorUid: -1,
-              editorType: 'text' as const,
+            editorType: 'text' as const,
+              editorUid: -1,
             id: 1,
             isDirty: false,
             path: '/path/to/Test File',
@@ -115,8 +115,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
         tabs: [
           {
             content: 'content 1',
-            editorUid: -1,
-              editorType: 'text' as const,
+            editorType: 'text' as const,
+              editorUid: -1,
             id: 1,
             isDirty: false,
             path: '/path/to/File 1',
@@ -132,8 +132,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
         tabs: [
           {
             content: 'content 2',
-            editorUid: -1,
-              editorType: 'text' as const,
+            editorType: 'text' as const,
+              editorUid: -1,
             id: 2,
             isDirty: true,
             path: '/path/to/File 2',

@@ -1,7 +1,7 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
-import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import * as Id from '../Id/Id.ts'
+import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
 export { updateTab } from '../UpdateTab/UpdateTab.ts'
 

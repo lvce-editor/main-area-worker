@@ -11,24 +11,24 @@ test('getTabIndex should return correct index when tab exists', () => {
     tabs: [
       {
         content: 'content1',
-        editorUid: -1,
-          editorType: 'text',
+        editorType: 'text',
+          editorUid: -1,
         id: 1,
         isDirty: false,
         title: 'File 1',
       },
       {
         content: 'content2',
-        editorUid: -1,
-          editorType: 'text',
+        editorType: 'text',
+          editorUid: -1,
         id: 2,
         isDirty: false,
         title: 'File 2',
       },
       {
         content: 'content3',
-        editorUid: -1,
-          editorType: 'text',
+        editorType: 'text',
+          editorUid: -1,
         id: 3,
         isDirty: false,
         title: 'File 3',
@@ -49,8 +49,8 @@ test('getTabIndex should return -1 when tab does not exist', () => {
     tabs: [
       {
         content: 'content',
-        editorUid: -1,
-          editorType: 'text',
+        editorType: 'text',
+          editorUid: -1,
         id: 1,
         isDirty: false,
         title: 'File',

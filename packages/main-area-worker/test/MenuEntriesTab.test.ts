@@ -19,12 +19,12 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
           tabs: [
             {
               content: 'content',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 0,
               isDirty: false,
-              uri: '/home/user/file.txt',
               title: 'file.txt',
+              uri: '/home/user/file.txt',
             },
           ],
         },
@@ -100,12 +100,12 @@ test('getMenuEntries includes correct path in args for reveal and find reference
           tabs: [
             {
               content: 'content',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 0,
               isDirty: false,
-              uri: '/workspace/src/index.ts',
               title: 'index.ts',
+              uri: '/workspace/src/index.ts',
             },
           ],
         },
@@ -132,8 +132,8 @@ test('getMenuEntries handles tab without path', () => {
           tabs: [
             {
               content: 'content',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 0,
               isDirty: false,
               title: 'Untitled',
@@ -163,21 +163,21 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 0,
               isDirty: false,
-              uri: '/file1.txt',
               title: 'file1.txt',
+              uri: '/file1.txt',
             },
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 1,
               isDirty: false,
-              uri: '/file2.txt',
               title: 'file2.txt',
+              uri: '/file2.txt',
             },
           ],
         },
@@ -204,12 +204,12 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 0,
               isDirty: false,
-              uri: '/group1/file.txt',
               title: 'file.txt',
+              uri: '/group1/file.txt',
             },
           ],
         },
@@ -221,12 +221,12 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
           tabs: [
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 0,
               isDirty: false,
-              uri: '/group2/file.txt',
               title: 'file.txt',
+              uri: '/group2/file.txt',
             },
           ],
         },

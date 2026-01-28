@@ -12,8 +12,8 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
           editorUid: -1,
           id: index + 1,
           isDirty: false,
-          uri: `/test/file${index + 1}.txt`,
           title: `file${index + 1}.txt`,
+          uri: `/test/file${index + 1}.txt`,
           ...override,
         }))
       : [
@@ -23,8 +23,8 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
             editorUid: -1,
             id: 1,
             isDirty: false,
-            uri: '/test/file.txt',
             title: 'file.txt',
+            uri: '/test/file.txt',
           },
         ]
 
@@ -66,8 +66,8 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               editorUid: -1,
               id: 1,
               isDirty: false,
-              uri: '/test/file1.txt',
               title: 'file1.txt',
+              uri: '/test/file1.txt',
             },
             {
               content: '',
@@ -75,8 +75,8 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               editorUid: -1,
               id: 2,
               isDirty: false,
-              uri: '/test/file2.txt',
               title: 'file2.txt',
+              uri: '/test/file2.txt',
             },
           ],
         },
@@ -92,8 +92,8 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               editorUid: -1,
               id: 3,
               isDirty: false,
-              uri: '/test/file3.txt',
               title: 'file3.txt',
+              uri: '/test/file3.txt',
             },
           ],
         },

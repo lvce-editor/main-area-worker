@@ -18,12 +18,12 @@ test('findTabByUri should return tab and groupId when found', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 1,
               isDirty: false,
-              uri: '/path/to/file1',
               title: 'File 1',
+              uri: '/path/to/file1',
             },
           ],
         },
@@ -35,12 +35,12 @@ test('findTabByUri should return tab and groupId when found', () => {
           tabs: [
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 2,
               isDirty: false,
-              uri: '/path/to/file2',
               title: 'File 2',
+              uri: '/path/to/file2',
             },
           ],
         },
@@ -68,12 +68,12 @@ test('findTabByUri should return undefined when not found', () => {
           tabs: [
             {
               content: 'content',
-              editorUid: -1,
               editorType: 'text',
+              editorUid: -1,
               id: 1,
               isDirty: false,
-              uri: '/path/to/file',
               title: 'File',
+              uri: '/path/to/file',
             },
           ],
         },

@@ -18,16 +18,16 @@ test('closeFocusedTab should close the focused tab', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
             },
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -61,8 +61,8 @@ test('closeFocusedTab should return same state when no focused group', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -93,8 +93,8 @@ test('closeFocusedTab should return same state when no active tab in focused gro
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -140,8 +140,8 @@ test('closeFocusedTab should close the last tab in focused group', () => {
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -174,8 +174,8 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -190,16 +190,16 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
           tabs: [
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
             },
             {
               content: 'content3',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -234,8 +234,8 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
           tabs: [
             {
               content: 'content1',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -250,8 +250,8 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
           tabs: [
             {
               content: 'content2',
-              editorUid: -1,
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',

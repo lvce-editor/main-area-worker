@@ -5,8 +5,8 @@ import { isValidTab } from '../src/parts/IsValidTab/IsValidTab.ts'
 test('isValidTab should return true for valid text tab', () => {
   const tab: Tab = {
     content: 'content',
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'File',
@@ -18,8 +18,8 @@ test('isValidTab should return true for valid custom tab', () => {
   const tab: Tab = {
     content: 'content',
     customEditorId: 'custom-editor-1',
-    editorUid: -1,
-          editorType: 'custom',
+    editorType: 'custom',
+          editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'Custom File',
@@ -38,8 +38,8 @@ test('isValidTab should return false for undefined', () => {
 test('isValidTab should return false for missing id', () => {
   const tab = {
     content: 'content',
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     isDirty: false,
     title: 'File',
   }
@@ -49,8 +49,8 @@ test('isValidTab should return false for missing id', () => {
 test('isValidTab should return false for invalid id type', () => {
   const tab = {
     content: 'content',
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     id: '1',
     isDirty: false,
     title: 'File',
@@ -61,8 +61,8 @@ test('isValidTab should return false for invalid id type', () => {
 test('isValidTab should return false for missing title', () => {
   const tab = {
     content: 'content',
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     id: 1,
     isDirty: false,
   }
@@ -72,8 +72,8 @@ test('isValidTab should return false for missing title', () => {
 test('isValidTab should return false for invalid title type', () => {
   const tab = {
     content: 'content',
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     id: 1,
     isDirty: false,
     title: 123,
@@ -83,8 +83,8 @@ test('isValidTab should return false for invalid title type', () => {
 
 test('isValidTab should return false for missing content', () => {
   const tab = {
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'File',
@@ -95,8 +95,8 @@ test('isValidTab should return false for missing content', () => {
 test('isValidTab should return false for invalid content type', () => {
   const tab = {
     content: 123,
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'File',
@@ -107,8 +107,8 @@ test('isValidTab should return false for invalid content type', () => {
 test('isValidTab should return false for missing isDirty', () => {
   const tab = {
     content: 'content',
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     id: 1,
     title: 'File',
   }
@@ -118,8 +118,8 @@ test('isValidTab should return false for missing isDirty', () => {
 test('isValidTab should return false for invalid isDirty type', () => {
   const tab = {
     content: 'content',
-    editorUid: -1,
-          editorType: 'text',
+    editorType: 'text',
+          editorUid: -1,
     id: 1,
     isDirty: 'true',
     title: 'File',
@@ -141,8 +141,8 @@ test('isValidTab should return false for invalid editorType', () => {
 test('isValidTab should return false for custom tab without customEditorId', () => {
   const tab = {
     content: 'content',
-    editorUid: -1,
-          editorType: 'custom',
+    editorType: 'custom',
+          editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'File',
@@ -154,8 +154,8 @@ test('isValidTab should return false for custom tab with invalid customEditorId 
   const tab = {
     content: 'content',
     customEditorId: 123,
-    editorUid: -1,
-          editorType: 'custom',
+    editorType: 'custom',
+          editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'File',

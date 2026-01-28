@@ -89,8 +89,8 @@ test('normalizeGroupSizes should preserve other group properties', () => {
       tabs: [
         {
           content: 'content',
-          editorUid: -1,
           editorType: 'text',
+          editorUid: -1,
           id: 1,
           isDirty: false,
           title: 'File',

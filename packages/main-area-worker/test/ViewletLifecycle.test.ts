@@ -25,8 +25,8 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
             isDirty: false,
             language: 'typescript',
             loadingState: 'idle',
-            uri: '/test/file.txt',
             title: 'file.txt',
+            uri: '/test/file.txt',
             ...tabOverrides,
           },
         ],
@@ -58,7 +58,7 @@ test('createViewletForTab returns empty commands for tab already creating', () =
 })
 
 test('createViewletForTab returns empty commands for tab already ready', () => {
-  const state = createStateWithTab({ loadingState: 'ready' })
+  const state = createStateWithTab({ loadingState: 'loaded' })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
@@ -96,8 +96,8 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
               editorUid: 100,
               id: 1,
               isDirty: false,
-              uri: '/test/file1.txt',
               title: 'file1.txt',
+              uri: '/test/file1.txt',
             },
             {
               content: '',
@@ -105,8 +105,8 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
               editorUid: 101,
               id: 2,
               isDirty: false,
-              uri: '/test/file2.txt',
               title: 'file2.txt',
+              uri: '/test/file2.txt',
             },
           ],
         },
@@ -139,19 +139,25 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
               content: '',
               editorType: 'text' as const,
               editorUid: 100,
+              errorMessage: '',
               id: 1,
               isDirty: false,
-              uri: '/test/file1.txt',
+              language: 'typescript',
+              loadingState: 'idle',
               title: 'file1.txt',
+              uri: '/test/file1.txt',
             },
             {
               content: '',
               editorType: 'text' as const,
               editorUid: 101,
+              errorMessage: '',
               id: 2,
               isDirty: false,
-              uri: '/test/file2.txt',
+              language: 'typescript',
+              loadingState: 'idle',
               title: 'file2.txt',
+              uri: '/test/file2.txt',
             },
           ],
         },
@@ -201,8 +207,8 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
               isDirty: false,
               language: 'typescript',
               loadingState: 'idle',
-              uri: '/test/file.txt',
               title: 'file.txt',
+              uri: '/test/file.txt',
             },
           ],
         },
@@ -242,8 +248,8 @@ test('handleViewletReady works regardless of active tab - reference nodes render
               isDirty: false,
               language: 'typescript',
               loadingState: 'idle',
-              uri: '/test/file1.txt',
               title: 'file1.txt',
+              uri: '/test/file1.txt',
             },
             {
               content: '',
@@ -254,8 +260,8 @@ test('handleViewletReady works regardless of active tab - reference nodes render
               isDirty: false,
               language: 'typescript',
               loadingState: 'idle',
-              uri: '/test/file2.txt',
               title: 'file2.txt',
+              uri: '/test/file2.txt',
             },
           ],
         },

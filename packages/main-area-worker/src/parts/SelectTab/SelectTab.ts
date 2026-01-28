@@ -76,9 +76,8 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
           if (t.id === tabId) {
             return {
               ...t,
-              errorMessage: undefined,
+              errorMessage: '',
               loadingState: 'loading' as const,
-              loadRequestId: requestId,
             }
           }
           return t

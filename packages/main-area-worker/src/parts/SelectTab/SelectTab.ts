@@ -138,7 +138,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
         const tabWithViewlet = findTabById(newState, tabId)
         if (tabWithViewlet) {
           const { editorUid } = tabWithViewlet.tab
-          if (editorUid !== -1) {
+          if (editorUid !== -1 && newTab.uri) {
             // Create the actual viewlet instance
             await createViewlet(viewletModuleId, editorUid, tabId, bounds, newTab.uri)
 

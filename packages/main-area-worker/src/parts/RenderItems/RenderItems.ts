@@ -5,5 +5,6 @@ import { getMainAreaVirtualDom } from '../GetMainAreaVirtualDom/GetMainAreaVirtu
 export const renderItems = (oldState: MainAreaState, newState: MainAreaState): any => {
   const { layout, uid } = newState
   const dom = getMainAreaVirtualDom(layout)
+  console.log('render items', uid)
   return [ViewletCommand.SetDom2, uid, dom]
 }

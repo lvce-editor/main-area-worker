@@ -13,6 +13,8 @@ import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
 
+  const { uid } = state
+
   let uri = ''
   if (typeof options === 'string') {
     uri = options
@@ -58,7 +60,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState1, previousTabId, tabId)
   intermediateState1 = switchedState
 
-  set(intermediateState1.uid, state, intermediateState1)
+  set(uid, state, intermediateState1)
 
   // @ts-ignore
 
@@ -74,6 +76,6 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // After viewlet is created, mark it as ready
   // Attachment is handled automatically by virtual DOM reference nodes
   const { newState: readyState } = ViewletLifecycle.handleViewletReady(intermediateState1, tabWithViewlet.editorUid, tabWithViewlet.editorUid)
-  set(readyState.uid, state, readyState)
+  set(uid, state, readyState)
   return readyState
 }

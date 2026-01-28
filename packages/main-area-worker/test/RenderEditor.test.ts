@@ -25,20 +25,26 @@ test('renderEditor should return custom editor structure', () => {
     content: '',
     customEditorId: 'custom-editor-123',
     editorType: 'custom' as const,
-              editorUid: -1,
+    editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'Custom Tab',
   }
   const result = renderEditor(tab)
 
+  // Custom editors without loadingState='loaded' render as text content
   expect(result).toEqual([
     {
       childCount: 1,
-      className: 'CustomEditor',
+      className: 'TextEditor',
       type: VirtualDomElements.Div,
     },
-    text('Custom Editor: custom-editor-123'),
+    {
+      childCount: 1,
+      className: 'EditorContent',
+      type: VirtualDomElements.Pre,
+    },
+    text(''),
   ])
 })
 

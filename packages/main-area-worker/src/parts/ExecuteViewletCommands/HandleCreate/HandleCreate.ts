@@ -9,14 +9,7 @@ export const handleCreate = async (command: Extract<ViewletCommand, { type: 'cre
   // @ts-ignore
   const instanceId = Math.random() // TODO try to find a better way to get consistent integer ids (thread safe)
 
-  await RendererWorker.invoke(
-    'Layout.createViewlet',
-    command.viewletModuleId,
-    command.tabId,
-    command.bounds,
-    command.uri,
-    instanceId,
-  )
+  await RendererWorker.invoke('Layout.createViewlet', command.viewletModuleId, command.tabId, command.bounds, command.uri, instanceId)
 
   // After viewlet is created, mark it as ready
   // Attachment is handled automatically by virtual DOM reference nodes

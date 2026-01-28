@@ -94,7 +94,7 @@ test('renderTab should handle dirty tab with empty title', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
-              editorUid: -1,
+    editorUid: -1,
     id: 1,
     isDirty: true,
     uri: '/path/to/file',
@@ -109,7 +109,7 @@ test('renderTab should use title as fallback when path is undefined', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
-              editorUid: -1,
+    editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'Untitled',

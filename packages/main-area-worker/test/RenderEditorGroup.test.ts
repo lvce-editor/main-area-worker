@@ -129,7 +129,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(11) // 1 (EditorGroup) + 7 (renderTabBar with TabIcon) + 3 (renderEditor with custom)
+  expect(result.length).toBe(12) // 1 (EditorGroup) + 7 (renderTabBar with TabIcon) + 4 (renderEditor with content)
 })
 
 test('renderEditorGroup should handle empty tabs array', () => {

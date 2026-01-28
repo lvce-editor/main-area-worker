@@ -101,22 +101,19 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   set(intermediateState1.uid, state, intermediateState1)
 
   // @ts-ignore
-  const instanceId = Math.random() // TODO try to find a better way to get consistent integer ids (thread safe)
 
   // Get the tab to extract editorUid
-  const tabWithViewlet = intermediateState1.layout.groups
-    .flatMap((g) => g.tabs)
-    .find((t) => t.id === tabId)
+  const tabWithViewlet = intermediateState1.layout.groups.flatMap((g) => g.tabs).find((t) => t.id === tabId)
 
   if (!tabWithViewlet) {
     return intermediateState1
   }
 
-  await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, requestId, tabId, bounds, uri)
+  await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, tabWithViewlet.editorUid, tabId, bounds, uri)
 
   // After viewlet is created, mark it as ready
   // Attachment is handled automatically by virtual DOM reference nodes
-  const { newState: readyState } = ViewletLifecycle.handleViewletReady(intermediateState1, tabWithViewlet.editorUid, instanceId)
+  const { newState: readyState } = ViewletLifecycle.handleViewletReady(intermediateState1, tabWithViewlet.editorUid, tabWithViewlet.editorUid)
   set(readyState.uid, state, readyState)
   return readyState
 }

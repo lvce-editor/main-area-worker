@@ -64,6 +64,9 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
     // Keep backward compatible behavior: render empty content
     return renderContent('')
   }
+  if (tab.editorUid) {
+    return [{}]
+  }
 
   if (tab.editorType === 'custom') {
     return [

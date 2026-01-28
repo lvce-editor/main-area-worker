@@ -1,61 +1,14 @@
-/* eslint-disable prefer-destructuring */
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
-import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
-import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
+import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
-import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
-import * as Id from '../Id/Id.ts'
 import { set } from '../MainAreaStates/MainAreaStates.ts'
-import { openTab } from '../OpenTab/OpenTab.ts'
-import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
-
-const ensureActiveGroup = (state: MainAreaState, uri: string): { newState: MainAreaState; tabId: number } => {
-  // Find the active group (by activeGroupId or focused flag)
-  const { layout } = state
-  const { activeGroupId, groups } = layout
-  let activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
-
-  // Generate a request ID for content loading
-  const requestId = GetNextRequestId.getNextRequestId()
-
-  // If no active group exists, create one
-  let newState: MainAreaState
-  let tabId: number
-  if (activeGroup) {
-    // Create a new tab with the URI in the active group
-    const title = PathDisplay.getLabel(uri)
-    tabId = Id.create()
-    const newTab: Tab = {
-      content: '',
-      customEditorId: '',
-      editorType: 'text' as const,
-      editorUid: -1,
-      errorMessage: '',
-      id: tabId,
-      isDirty: false,
-      language: '',
-      loadingState: 'loading' as const,
-      loadRequestId: requestId,
-      path: uri,
-      title,
-    }
-    newState = openTab(state, activeGroup.id, newTab)
-  } else {
-    newState = createEmptyGroup(state, uri, requestId)
-    activeGroup = newState.layout.groups.find((group) => group.id === newState.layout.activeGroupId)
-    // Get the tab ID from the newly created group
-    tabId = activeGroup!.tabs[0].id
-  }
-
-  return { newState, tabId }
-}
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)

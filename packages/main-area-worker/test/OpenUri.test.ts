@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../src/parts/OpenUriOptions/OpenUriOptions.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -229,4 +230,236 @@ test('openUri should validate options parameter', async () => {
   const state: MainAreaState = createDefaultState()
 
   await expect(openUri(state, null as any)).rejects.toThrow()
+})
+
+// Tests for lines 45-85: viewlet creation, bounds calculation, and lifecycle management
+
+test('openUri should calculate bounds with correct TAB_HEIGHT offset', async () => {
+  const mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    height: 600,
+    uid: 1,
+    width: 800,
+    x: 100,
+    y: 200,
+  }
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/file.ts',
+  }
+
+  const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(result).toBeDefined()
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 565, width: 800, x: 100, y: 235 }, 'file:///path/to/file.ts'],
+  ])
+})
+
+test('openUri should create viewlet for new tab', async () => {
+  const mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  const state: MainAreaState = createDefaultState()
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/file.ts',
+  }
+
+  const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(result).toBeDefined()
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+  ])
+})
+
+test('openUri should not create viewlet when getViewletModuleId returns undefined', async () => {
+  const mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => undefined,
+  })
+
+  const state: MainAreaState = createDefaultState()
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/file.ts',
+  }
+
+  const result = await openUri(state, options)
+
+  expect(result).toBeDefined()
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///path/to/file.ts']])
+})
+
+test('openUri should assign valid editorUid after viewlet creation', async () => {
+  RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  const state: MainAreaState = createDefaultState()
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/file.ts',
+  }
+
+  const result = await openUri(state, options)
+
+  expect(result).toBeDefined()
+  // Verify that the tab has a valid editorUid assigned (not -1)
+  const tab = result.layout.groups[0]?.tabs[0]
+  expect(tab).toBeDefined()
+  expect(tab.editorUid).not.toBe(-1)
+  expect(typeof tab.editorUid).toBe('number')
+})
+
+test('openUri should pass correct parameters to createViewlet', async () => {
+  const mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    height: 800,
+    width: 1000,
+    x: 50,
+    y: 100,
+  }
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/test.js',
+  }
+
+  const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/test.js'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 765, width: 1000, x: 50, y: 135 }, 'file:///path/to/test.js'],
+  ])
+})
+
+test('openUri should switch viewlet from previous tab to new tab', async () => {
+  const mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'existing content',
+              editorType: 'text' as const,
+              editorUid: 5,
+              errorMessage: '',
+              id: 1,
+              isDirty: false,
+              language: 'typescript',
+              loadingState: 'idle',
+              title: 'Existing File',
+              uri: 'file:///existing/file.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/new.ts',
+  }
+
+  const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[1]
+
+  expect(result).toBeDefined()
+  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/new.ts'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/new.ts'],
+  ])
+})
+
+test('openUri should handle bounds calculation with different main area dimensions', async () => {
+  const mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    height: 1080,
+    width: 1920,
+    x: 0,
+    y: 0,
+  }
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///large-screen.ts',
+  }
+
+  const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///large-screen.ts'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 1045, width: 1920, x: 0, y: 35 }, 'file:///large-screen.ts'],
+  ])
+})
+
+test('openUri should use TAB_HEIGHT constant of 35 pixels', async () => {
+  const mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.markdown',
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    height: 400,
+    width: 500,
+    x: 10,
+    y: 50,
+  }
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///document.md',
+  }
+
+  const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///document.md'],
+    ['Layout.createViewlet', 'editor.markdown', tab.editorUid, tab.id, { height: 365, width: 500, x: 10, y: 85 }, 'file:///document.md'],
+  ])
 })

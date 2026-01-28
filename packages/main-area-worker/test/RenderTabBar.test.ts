@@ -16,8 +16,8 @@ test('renderTabBar should return correct structure for single tab', () => {
               editorUid: -1,
         id: 1,
         isDirty: false,
-        uri: '/path/to/Test File',
         title: 'Test File',
+        uri: '/path/to/Test File',
       },
     ],
   }
@@ -77,8 +77,8 @@ test('renderTabBar should handle multiple tabs', () => {
               editorUid: -1,
         id: 1,
         isDirty: false,
-        uri: '/path/to/File 1',
         title: 'File 1',
+        uri: '/path/to/File 1',
       },
       {
         content: 'content 2',
@@ -86,8 +86,8 @@ test('renderTabBar should handle multiple tabs', () => {
               editorUid: -1,
         id: 2,
         isDirty: true,
-        uri: '/path/to/File 2',
         title: 'File 2',
+        uri: '/path/to/File 2',
       },
     ],
   }

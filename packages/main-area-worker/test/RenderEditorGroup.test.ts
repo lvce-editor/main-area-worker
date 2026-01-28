@@ -16,8 +16,8 @@ test('renderEditorGroup should return correct structure for group with active ta
         editorUid: -1,
         id: 1,
         isDirty: false,
-        uri: '/path/to/Test File',
         title: 'Test File',
+        uri: '/path/to/Test File',
       },
     ],
   }
@@ -98,8 +98,8 @@ test('renderEditorGroup should handle group with no active tab', () => {
         editorUid: -1,
         id: 1,
         isDirty: false,
-        uri: '/path/to/Test File',
         title: 'Test File',
+        uri: '/path/to/Test File',
       },
     ],
   }
@@ -122,8 +122,8 @@ test('renderEditorGroup should handle group with custom editor', () => {
         editorUid: -1,
         id: 1,
         isDirty: false,
-        uri: '/path/to/Custom Tab',
         title: 'Custom Tab',
+        uri: '/path/to/Custom Tab',
       },
     ],
   }

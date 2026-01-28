@@ -97,8 +97,8 @@ test('renderTab should handle dirty tab with empty title', () => {
     editorUid: -1,
     id: 1,
     isDirty: true,
-    uri: '/path/to/file',
     title: '',
+    uri: '/path/to/file',
   }
   const result = renderTab(tab, false, 0, 0)
 

@@ -92,11 +92,6 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
     return renderError(tab.errorMessage)
   }
 
-  // Handle loading state (for content loading, not viewlet)
-  if (tab.loadingState === 'loading') {
-    return renderLoading()
-  }
-
   // Handle error state (for content loading, not viewlet)
   if (tab.loadingState === 'error' && tab.errorMessage) {
     return renderError(tab.errorMessage)

@@ -4,28 +4,29 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { updateTab } from '../src/parts/UpdateTab/UpdateTab.ts'
 
 const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState => {
-  const tabs: Tab[] = tabOverrides.length > 0
-    ? tabOverrides.map((override, index) => ({
-        content: '',
-        editorType: 'text' as const,
-        editorUid: -1,
-        id: index + 1,
-        isDirty: false,
-        path: `/test/file${index + 1}.txt`,
-        title: `file${index + 1}.txt`,
-        ...override,
-      }))
-    : [
-        {
+  const tabs: Tab[] =
+    tabOverrides.length > 0
+      ? tabOverrides.map((override, index) => ({
           content: '',
           editorType: 'text' as const,
           editorUid: -1,
-          id: 1,
+          id: index + 1,
           isDirty: false,
-          path: '/test/file.txt',
-          title: 'file.txt',
-        },
-      ]
+          path: `/test/file${index + 1}.txt`,
+          title: `file${index + 1}.txt`,
+          ...override,
+        }))
+      : [
+          {
+            content: '',
+            editorType: 'text' as const,
+            editorUid: -1,
+            id: 1,
+            isDirty: false,
+            path: '/test/file.txt',
+            title: 'file.txt',
+          },
+        ]
 
   return {
     ...createDefaultState(),

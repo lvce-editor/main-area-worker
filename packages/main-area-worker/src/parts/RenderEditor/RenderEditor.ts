@@ -64,9 +64,6 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
     // Keep backward compatible behavior: render empty content
     return renderContent('')
   }
-  if (tab.editorUid) {
-    return [{}]
-  }
 
   if (tab.editorType === 'custom') {
     return [
@@ -80,18 +77,18 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
   }
 
   // Viewlet is being created in background - show loading
-  if (tab.viewletState === 'creating') {
+  if (tab.loadingState === 'loading') {
     return renderLoading()
   }
 
   // Viewlet is ready - render a reference node
   // Frontend will append the pre-created component at this position using the uid
-  if (tab.viewletState === 'ready') {
+  if (tab.loadingState === 'loaded') {
     return renderViewletReference(tab)
   }
 
   // Viewlet error state
-  if (tab.viewletState === 'error' && tab.errorMessage) {
+  if (tab.loadingState === 'error' && tab.errorMessage) {
     return renderError(tab.errorMessage)
   }
 

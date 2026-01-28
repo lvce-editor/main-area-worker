@@ -24,6 +24,11 @@ const getViewletModuleId = async (uri: string): Promise<string | undefined> => {
   return viewletModuleId
 }
 
+const createViewlet = async (viewletModuleId: string, editorUid: string, tabId: string, bounds: any, uri: string): Promise<void> => {
+  // @ts-ignore
+  await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
+}
+
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
 
@@ -72,7 +77,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   const { editorUid } = tabWithViewlet.tab
 
-  await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
+  await createViewlet(viewletModuleId, editorUid, tabId, bounds, uri)
 
   // After viewlet is created, get the latest state and mark it as ready
   // This ensures we have any state updates that occurred during viewlet creation

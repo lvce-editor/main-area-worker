@@ -12,6 +12,18 @@ import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
+const getViewletModuleId = async (uri: string): Promise<string | undefined> => {
+  // Query RendererWorker for viewlet module ID (optional, may fail in tests)
+  let viewletModuleId: string | undefined
+  try {
+    // @ts-ignore
+    viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', uri)
+  } catch {
+    // Viewlet creation is optional - silently ignore if RendererWorker isn't available
+  }
+  return viewletModuleId
+}
+
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
 
@@ -30,14 +42,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Get previous active tab ID for viewlet switching
   const previousTabId = getActiveTabId(state)
 
-  // Query RendererWorker for viewlet module ID (optional, may fail in tests)
-  let viewletModuleId: string | undefined
-  try {
-    // @ts-ignore
-    viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', uri)
-  } catch {
-    // Viewlet creation is optional - silently ignore if RendererWorker isn't available
-  }
+  const viewletModuleId = await getViewletModuleId(uri)
   const { newState, tabId } = ensureActiveGroup(state, uri)
 
   if (!viewletModuleId) {

@@ -17,7 +17,8 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   if (typeof options === 'string') {
     uri = options
   } else {
-    uri = options.uri
+    const { uri: optionsUri } = options
+    uri = optionsUri
   }
 
   // Check if a tab with this URI already exists

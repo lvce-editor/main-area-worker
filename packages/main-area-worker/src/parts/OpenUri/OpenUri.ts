@@ -3,6 +3,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
+import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
@@ -40,6 +41,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const { newState, tabId } = ensureActiveGroup(state, uri)
 
   if (!viewletModuleId) {
+    // TODO display some kind of errro that editor couldn't be opened
     return newState
   }
 
@@ -57,13 +59,13 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // @ts-ignore
 
   // Get the tab to extract editorUid
-  const tabWithViewlet = intermediateState1.layout.groups.flatMap((g) => g.tabs).find((t) => t.id === tabId)
+  const tabWithViewlet = findTabById(intermediateState1, tabId)
 
   if (!tabWithViewlet) {
     return intermediateState1
   }
 
-  const { editorUid } = tabWithViewlet
+  const { editorUid } = tabWithViewlet.tab
 
   await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
 

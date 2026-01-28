@@ -65,17 +65,6 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
     return renderContent('')
   }
 
-  if (tab.editorType === 'custom') {
-    return [
-      {
-        childCount: 1,
-        className: 'CustomEditor',
-        type: VirtualDomElements.Div,
-      },
-      text(`Custom Editor: ${tab.customEditorId}`),
-    ]
-  }
-
   // Viewlet is being created in background - show loading
   if (tab.loadingState === 'loading') {
     return renderLoading()
@@ -84,7 +73,7 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
   // Viewlet is ready - render a reference node
   // Frontend will append the pre-created component at this position using the uid
   // Check for viewletInstanceId to distinguish between viewlet and plain text tabs
-  if (tab.loadingState === 'loaded' && tab.viewletInstanceId !== undefined) {
+  if (tab.loadingState === 'loaded' && tab.editorUid !== -1) {
     return renderViewletReference(tab)
   }
 

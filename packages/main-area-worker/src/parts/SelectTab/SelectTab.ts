@@ -110,7 +110,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   const newTab = newState.layout.groups[groupIndex].tabs[index]
   let createCommands: readonly ViewletCommand[] = []
 
-  if (!newTab.viewletState || newTab.viewletState === 'idle') {
+  if (!newTab.loadingState || newTab.loadingState === 'loading') {
     try {
       // Query RendererWorker for viewlet module ID
       // @ts-ignore

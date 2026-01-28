@@ -18,8 +18,8 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
         tabs: [
           {
             content: '',
-            editorUid: 100,
             editorType: 'text' as const,
+            editorUid: 100,
             id: 1,
             isDirty: false,
             path: '/test/file.txt',
@@ -88,8 +88,8 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
           tabs: [
             {
               content: '',
-              editorUid: 100,
               editorType: 'text' as const,
+              editorUid: 100,
               id: 1,
               isDirty: false,
               path: '/test/file1.txt',
@@ -97,8 +97,8 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
             },
             {
               content: '',
-              editorUid: 101,
               editorType: 'text' as const,
+              editorUid: 101,
               id: 2,
               isDirty: false,
               path: '/test/file2.txt',
@@ -133,8 +133,8 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
           tabs: [
             {
               content: '',
-              editorUid: 100,
               editorType: 'text' as const,
+              editorUid: 100,
               id: 1,
               isDirty: false,
               path: '/test/file1.txt',
@@ -142,8 +142,8 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
             },
             {
               content: '',
-              editorUid: 101,
               editorType: 'text' as const,
+              editorUid: 101,
               id: 2,
               isDirty: false,
               path: '/test/file2.txt',
@@ -189,8 +189,8 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
           tabs: [
             {
               content: '',
-              editorUid: 100,
               editorType: 'text' as const,
+              editorUid: 100,
               id: 1,
               isDirty: false,
               path: '/test/file.txt',
@@ -228,8 +228,8 @@ test('handleViewletReady works regardless of active tab - reference nodes render
           tabs: [
             {
               content: '',
-              editorUid: 100,
               editorType: 'text' as const,
+              editorUid: 100,
               id: 1,
               isDirty: false,
               path: '/test/file1.txt',
@@ -238,8 +238,8 @@ test('handleViewletReady works regardless of active tab - reference nodes render
             },
             {
               content: '',
-              editorUid: 101,
               editorType: 'text' as const,
+              editorUid: 101,
               id: 2,
               isDirty: false,
               path: '/test/file2.txt',

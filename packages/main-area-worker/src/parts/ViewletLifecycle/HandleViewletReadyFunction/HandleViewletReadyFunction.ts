@@ -22,7 +22,7 @@ export const handleViewletReady = (state: MainAreaState, editorUid: number): Mai
   // Mark viewlet as ready and set instance id
   // Reference nodes will handle rendering at the correct position automatically
   const newState = updateTab(state, tab.id, {
-    editorUid: editorUid,
+    editorUid,
     loadingState: 'loaded',
   })
 

@@ -414,7 +414,7 @@ test('closeTabsRight should handle tabs with custom properties', () => {
               isDirty: false,
               language: 'javascript',
               title: 'File 2',
-              uri: '/file2.js',
+              uri: '/file2.ts',
             },
             {
               content: 'content3',

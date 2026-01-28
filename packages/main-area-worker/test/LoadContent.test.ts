@@ -317,8 +317,8 @@ test('loadContent should restore layout with tabs containing paths', async () =>
               id: 1,
               isDirty: false,
               language: 'javascript',
-              title: 'script.js',
-              uri: '/path/to/script.js',
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
             },
           ],
         },
@@ -328,6 +328,6 @@ test('loadContent should restore layout with tabs containing paths', async () =>
 
   const result = await LoadContent.loadContent(state, savedState)
 
-  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.ts')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })

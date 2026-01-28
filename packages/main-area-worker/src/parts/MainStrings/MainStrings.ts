@@ -12,7 +12,7 @@ import {
   RevealInExplorer,
   CloseToTheRight,
   FindFileReferences,
-} from '../UiStrings/UiStrings.js'
+} from '../UiStrings/UiStrings.ts'
 
 export const openFile = (): string => {
   return I18nString.i18nString(OpenFile)

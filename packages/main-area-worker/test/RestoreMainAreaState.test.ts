@@ -257,8 +257,8 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
             isDirty: false,
             language: 'javascript',
             loadingState: 'idle' as const,
-            title: 'script.js',
-            uri: '/path/to/script.js',
+            title: 'script.ts',
+            uri: '/path/to/script.ts',
           },
         ],
       },
@@ -273,7 +273,7 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
   const result = restoreMainAreaState(savedState, currentState)
 
   expect(result.layout).toEqual(savedLayout)
-  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.ts')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })
 

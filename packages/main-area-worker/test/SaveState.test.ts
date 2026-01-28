@@ -169,8 +169,8 @@ test('saveState should save layout with tabs containing paths and languages', ()
               id: 1,
               isDirty: false,
               language: 'javascript',
-              title: 'script.js',
-              uri: '/path/to/script.js',
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
             },
           ],
         },
@@ -178,7 +178,7 @@ test('saveState should save layout with tabs containing paths and languages', ()
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.ts')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })
 

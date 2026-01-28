@@ -728,8 +728,8 @@ test('closeTab should handle tabs with paths and languages', () => {
               id: 1,
               isDirty: false,
               language: 'javascript',
-              title: 'script.js',
-              uri: '/path/to/script.js',
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
             },
             {
               content: '<div>Hello</div>',

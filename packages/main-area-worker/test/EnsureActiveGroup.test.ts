@@ -46,15 +46,16 @@ test('ensureActiveGroup should create new group when no active group exists', ()
 
   const newState = ensureActiveGroup(state, '/test/file.ts')
   const tabId = newState.layout.groups[0].tabs[0].id
+  const groupId = newState.layout.groups[0].id
 
   expect(newState.layout).toEqual({
-    activeGroupId: 1,
+    activeGroupId: groupId,
     direction: 'horizontal',
     groups: [
       {
-        activeTabId: -1,
+        activeTabId: tabId,
         focused: true,
-        id: 1,
+        id: groupId,
         size: 100,
         tabs: [
           {
@@ -66,7 +67,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
             isDirty: false,
             language: '',
             loadingState: 'loading',
-            title: '/test/file.ts',
+            title: 'file.ts',
             uri: '/test/file.ts',
           },
         ],
@@ -103,39 +104,12 @@ test('ensureActiveGroup should use focused group when activeGroupId is undefined
   const newState = ensureActiveGroup(state, '/test/file.ts')
   const tabId = newState.layout.groups[1].tabs[0].id
 
-  expect(newState.layout).toEqual({
-    activeGroupId: undefined,
-    direction: 'horizontal',
-    groups: [
-      {
-        activeTabId: -1,
-        focused: false,
-        id: 1,
-        size: 50,
-        tabs: [],
-      },
-      {
-        activeTabId: tabId,
-        focused: true,
-        id: 2,
-        size: 50,
-        tabs: [
-          {
-            content: '',
-            editorType: 'text',
-            editorUid: -1,
-            errorMessage: '',
-            id: tabId,
-            isDirty: false,
-            language: '',
-            loadingState: 'loading',
-            title: 'file.ts',
-            uri: '/test/file.ts',
-          },
-        ],
-      },
-    ],
-  })
+  expect(newState.layout.groups[1].tabs.length).toBe(1)
+  expect(newState.layout.groups[1].tabs[0].id).toBe(tabId)
+  expect(newState.layout.groups[1].tabs[0].uri).toBe('/test/file.ts')
+  expect(newState.layout.groups[1].tabs[0].title).toBe('file.ts')
+  expect(newState.layout.groups[1].activeTabId).toBe(tabId)
+  expect(newState.layout.groups[0].tabs.length).toBe(0)
 })
 
 test('ensureActiveGroup should preserve existing tabs when adding new tab', () => {

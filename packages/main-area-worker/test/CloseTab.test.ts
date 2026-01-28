@@ -2106,4 +2106,3 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(3)
 })
-

@@ -75,8 +75,11 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
 
-  // After viewlet is created, mark it as ready
+  // After viewlet is created, get the latest state and mark it as ready
+  // This ensures we have any state updates that occurred during viewlet creation
+  const latestState = get(uid)
+  
   // Attachment is handled automatically by virtual DOM reference nodes
-  const { newState: readyState } = ViewletLifecycle.handleViewletReady(intermediateState1, editorUid)
+  const { newState: readyState } = ViewletLifecycle.handleViewletReady(latestState, editorUid)
   return readyState
 }

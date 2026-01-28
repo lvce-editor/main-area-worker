@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
+import type { ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
 import type { ViewletLifecycleResult } from '../ViewletLifecycleResult.ts'
 import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
 

@@ -317,7 +317,7 @@ test('loadContent should restore layout with tabs containing paths', async () =>
               id: 1,
               isDirty: false,
               language: 'javascript',
-              path: '/path/to/script.js',
+              uri: '/path/to/script.js',
               title: 'script.js',
             },
           ],

@@ -61,8 +61,8 @@ test('resize should not mutate original state', () => {
   const originalUid = state.uid
   Resize.resize(state, dimensions)
   expect(state.uid).toBe(originalUid)
-  expect((state as any).width).toBeUndefined()
-  expect((state as any).height).toBeUndefined()
+  expect((state as any).width).toBe(0)
+  expect((state as any).height).toBe(0)
 })
 
 test('resize should handle multiple dimension properties', () => {

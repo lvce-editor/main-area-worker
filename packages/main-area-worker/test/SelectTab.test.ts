@@ -4,6 +4,7 @@ import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 
 const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState => ({
   assetDir: '',
+  height: 0,
   layout: {
     activeGroupId: 1,
     direction: 'horizontal',
@@ -52,6 +53,9 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
   },
   platform: 1,
   uid: 1,
+  width: 0,
+  x: 0,
+  y: 0,
   ...overrides,
 })
 

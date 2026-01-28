@@ -4,6 +4,7 @@ import { set } from '../MainAreaStates/MainAreaStates.ts'
 export const create = (uid: number, uri: string, x: number, y: number, width: number, height: number, platform: number, assetDir: string): void => {
   const state: MainAreaState = {
     assetDir,
+    height,
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',
@@ -11,6 +12,9 @@ export const create = (uid: number, uri: string, x: number, y: number, width: nu
     },
     platform,
     uid,
+    width,
+    x,
+    y,
   }
   set(uid, state, state)
 }

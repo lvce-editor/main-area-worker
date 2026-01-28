@@ -11,7 +11,11 @@ export type { Tab } from '../Tab/Tab.ts'
 export interface MainAreaState {
   readonly assetDir: string
   readonly disposed?: boolean
+  readonly height: number
   readonly layout: MainAreaLayout
   readonly platform: number
   readonly uid: number
+  readonly width: number
+  readonly x: number
+  readonly y: number
 }

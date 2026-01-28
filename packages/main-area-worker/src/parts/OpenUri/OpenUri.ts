@@ -41,8 +41,14 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     return newState
   }
 
-  // TODO: Calculate proper bounds
-  const bounds = { height: 600, width: 800, x: 0, y: 0 }
+  // Calculate bounds: use main area bounds minus 35px for tab height
+  const TAB_HEIGHT = 35
+  const bounds = {
+    height: newState.height - TAB_HEIGHT,
+    width: newState.width,
+    x: newState.x,
+    y: newState.y + TAB_HEIGHT,
+  }
   const stateWithViewlet = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
   let intermediateState1 = stateWithViewlet
 

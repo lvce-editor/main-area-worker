@@ -113,8 +113,14 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
       // @ts-ignore
       const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
       if (viewletModuleId) {
-        // TODO: Calculate proper bounds
-        const bounds = { height: 600, width: 800, x: 0, y: 0 }
+        // Calculate bounds: use main area bounds minus 35px for tab height
+        const TAB_HEIGHT = 35
+        const bounds = {
+          height: newState.height - TAB_HEIGHT,
+          width: newState.width,
+          x: newState.x,
+          y: newState.y + TAB_HEIGHT,
+        }
         const createdState = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
         newState = createdState
       }

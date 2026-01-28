@@ -3,6 +3,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 export const createDefaultState = (): MainAreaState => {
   return {
     assetDir: '',
+    height: 0,
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',
@@ -10,5 +11,8 @@ export const createDefaultState = (): MainAreaState => {
     },
     platform: 0,
     uid: 0,
+    width: 0,
+    x: 0,
+    y: 0,
   }
 }

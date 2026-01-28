@@ -8,21 +8,10 @@ import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import { getOptionUriOptions } from '../GetOptionUriOptions/GetOptionUriOptions.ts'
+import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
-
-const getViewletModuleId = async (uri: string): Promise<string | undefined> => {
-  // Query RendererWorker for viewlet module ID (optional, may fail in tests)
-  let viewletModuleId: string | undefined
-  try {
-    // @ts-ignore
-    viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', uri)
-  } catch {
-    // Viewlet creation is optional - silently ignore if RendererWorker isn't available
-  }
-  return viewletModuleId
-}
 
 const createViewlet = async (viewletModuleId: string, editorUid: number, tabId: number, bounds: any, uri: string): Promise<void> => {
   // @ts-ignore

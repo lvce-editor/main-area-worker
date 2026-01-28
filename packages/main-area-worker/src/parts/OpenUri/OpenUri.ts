@@ -16,36 +16,7 @@ import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
-export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
-  Assert.object(state)
-
-  let uri = ''
-  if (typeof options === 'string') {
-    uri = options
-  } else {
-    uri = options.uri
-  }
-
-  // Check if a tab with this URI already exists
-  const existingTab = findTabByUri(state, uri)
-  if (existingTab) {
-    // Tab exists, switch to it and focus its group
-    const focusedState = focusEditorGroup(state, existingTab.groupId)
-    return switchTab(focusedState, existingTab.groupId, existingTab.tab.id)
-  }
-
-  // Get previous active tab ID for viewlet switching
-  const previousTabId = getActiveTabId(state)
-
-  // Query RendererWorker for viewlet module ID (optional, may fail in tests)
-  let viewletModuleId: string | undefined
-  try {
-    // @ts-ignore
-    viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', uri)
-  } catch {
-    // Viewlet creation is optional - silently ignore if RendererWorker isn't available
-  }
-
+const ensureActiveGroup = (state: MainAreaState, uri: string): { newState: MainAreaState; tabId: number } => {
   // Find the active group (by activeGroupId or focused flag)
   const { layout } = state
   const { activeGroupId, groups } = layout
@@ -82,6 +53,41 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     // Get the tab ID from the newly created group
     tabId = activeGroup!.tabs[0].id
   }
+
+  return { newState, tabId }
+}
+
+export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
+  Assert.object(state)
+
+  let uri = ''
+  if (typeof options === 'string') {
+    uri = options
+  } else {
+    uri = options.uri
+  }
+
+  // Check if a tab with this URI already exists
+  const existingTab = findTabByUri(state, uri)
+  if (existingTab) {
+    // Tab exists, switch to it and focus its group
+    const focusedState = focusEditorGroup(state, existingTab.groupId)
+    return switchTab(focusedState, existingTab.groupId, existingTab.tab.id)
+  }
+
+  // Get previous active tab ID for viewlet switching
+  const previousTabId = getActiveTabId(state)
+
+  // Query RendererWorker for viewlet module ID (optional, may fail in tests)
+  let viewletModuleId: string | undefined
+  try {
+    // @ts-ignore
+    viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', uri)
+  } catch {
+    // Viewlet creation is optional - silently ignore if RendererWorker isn't available
+  }
+
+  const { newState, tabId } = ensureActiveGroup(state, uri)
 
   if (!viewletModuleId) {
     // Viewlet creation is optional - return state with just the tab created

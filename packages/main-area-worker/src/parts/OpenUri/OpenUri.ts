@@ -10,7 +10,6 @@ import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
-import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
 import { set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
@@ -92,11 +91,11 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   // TODO: Calculate proper bounds
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
-  const { commands: createCommands, newState: stateWithViewlet } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+  const { newState: stateWithViewlet } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
   let intermediateState1 = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
-  const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState1, previousTabId, tabId)
+  const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState1, previousTabId, tabId)
   intermediateState1 = switchedState
 
   set(intermediateState1.uid, state, intermediateState1)
@@ -104,11 +103,20 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // @ts-ignore
   const instanceId = Math.random() // TODO try to find a better way to get consistent integer ids (thread safe)
 
+  // Get the tab to extract editorUid
+  const tabWithViewlet = intermediateState1.layout.groups
+    .flatMap((g) => g.tabs)
+    .find((t) => t.id === tabId)
+
+  if (!tabWithViewlet) {
+    return intermediateState1
+  }
+
   await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, requestId, tabId, bounds, uri)
 
   // After viewlet is created, mark it as ready
   // Attachment is handled automatically by virtual DOM reference nodes
-  const { newState: readyState } = ViewletLifecycle.handleViewletReady(intermediateState1, editorUid, instanceId)
+  const { newState: readyState } = ViewletLifecycle.handleViewletReady(intermediateState1, tabWithViewlet.editorUid, instanceId)
   set(readyState.uid, state, readyState)
   return readyState
 }

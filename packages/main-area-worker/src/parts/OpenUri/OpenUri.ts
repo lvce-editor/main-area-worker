@@ -37,7 +37,8 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     // TODO display some kind of errro that editor couldn't be opened
     return state
   }
-  const { newState, tabId } = ensureActiveGroup(state, uri)
+  const newState = ensureActiveGroup(state, uri)
+  const tabId = getActiveTabId(newState)!
 
   // TODO: Calculate proper bounds
   const bounds = { height: 600, width: 800, x: 0, y: 0 }

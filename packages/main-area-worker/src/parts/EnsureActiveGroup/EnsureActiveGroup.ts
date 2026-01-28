@@ -22,7 +22,6 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
     const tabId = Id.create()
     const newTab: Tab = {
       content: '',
-      customEditorId: '',
       editorType: 'text' as const,
       editorUid: -1,
       errorMessage: '',
@@ -30,7 +29,6 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
       isDirty: false,
       language: '',
       loadingState: 'loading' as const,
-      loadRequestId: requestId,
       title,
       uri: uri,
     }

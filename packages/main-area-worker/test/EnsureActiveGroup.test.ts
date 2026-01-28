@@ -47,6 +47,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
   const newState = ensureActiveGroup(state, '/test/file.ts')
   const tabId = newState.layout.groups[0].tabs[0].id
   const groupId = newState.layout.groups[0].id
+  const editorUid = newState.layout.groups[0].tabs[0].editorUid
 
   expect(newState.layout).toEqual({
     activeGroupId: groupId,
@@ -61,7 +62,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
           {
             content: '',
             editorType: 'text',
-            editorUid: -1,
+            editorUid,
             errorMessage: '',
             id: tabId,
             isDirty: false,
@@ -74,6 +75,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
       },
     ],
   })
+  expect(editorUid).toBeGreaterThan(0)
 })
 
 test('ensureActiveGroup should use focused group when activeGroupId is undefined', () => {
@@ -145,6 +147,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
 
   const newState = ensureActiveGroup(state, '/test/file.ts')
   const tabId = newState.layout.groups[0].tabs[1].id
+  const editorUid = newState.layout.groups[0].tabs[1].editorUid
 
   expect(newState.layout).toEqual({
     activeGroupId: 1,
@@ -171,7 +174,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
           {
             content: '',
             editorType: 'text',
-            editorUid: -1,
+            editorUid,
             errorMessage: '',
             id: tabId,
             isDirty: false,
@@ -184,4 +187,5 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
       },
     ],
   })
+  expect(editorUid).toBeGreaterThan(0)
 })

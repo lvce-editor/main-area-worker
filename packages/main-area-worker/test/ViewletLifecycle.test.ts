@@ -19,7 +19,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
           {
             content: '',
             editorType: 'text' as const,
-            editorUid: 100,
+            editorUid: -1,
             errorMessage: '',
             id: 1,
             isDirty: false,

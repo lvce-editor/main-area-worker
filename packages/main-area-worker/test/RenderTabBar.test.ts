@@ -13,7 +13,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       {
         content: 'test content',
         editorType: 'text' as const,
-              editorUid: -1,
+        editorUid: -1,
         id: 1,
         isDirty: false,
         title: 'Test File',
@@ -74,7 +74,7 @@ test('renderTabBar should handle multiple tabs', () => {
       {
         content: 'content 1',
         editorType: 'text' as const,
-              editorUid: -1,
+        editorUid: -1,
         id: 1,
         isDirty: false,
         title: 'File 1',
@@ -83,7 +83,7 @@ test('renderTabBar should handle multiple tabs', () => {
       {
         content: 'content 2',
         editorType: 'text' as const,
-              editorUid: -1,
+        editorUid: -1,
         id: 2,
         isDirty: true,
         title: 'File 2',

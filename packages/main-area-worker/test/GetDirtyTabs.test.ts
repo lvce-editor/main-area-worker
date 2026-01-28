@@ -19,7 +19,7 @@ test('getDirtyTabs should return only dirty tabs', () => {
             {
               content: 'content1',
               editorType: 'text',
-          editorUid: -1,
+              editorUid: -1,
               id: 1,
               isDirty: true,
               title: 'File 1',
@@ -27,7 +27,7 @@ test('getDirtyTabs should return only dirty tabs', () => {
             {
               content: 'content2',
               editorType: 'text',
-          editorUid: -1,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -43,7 +43,7 @@ test('getDirtyTabs should return only dirty tabs', () => {
             {
               content: 'content3',
               editorType: 'text',
-          editorUid: -1,
+              editorUid: -1,
               id: 3,
               isDirty: true,
               title: 'File 3',
@@ -75,7 +75,7 @@ test('getDirtyTabs should return empty array when no dirty tabs exist', () => {
             {
               content: 'content',
               editorType: 'text',
-          editorUid: -1,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File',

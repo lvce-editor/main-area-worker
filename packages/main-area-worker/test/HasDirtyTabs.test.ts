@@ -19,7 +19,7 @@ test('hasDirtyTabs should return true when dirty tabs exist', () => {
             {
               content: 'content',
               editorType: 'text',
-          editorUid: -1,
+              editorUid: -1,
               id: 1,
               isDirty: true,
               title: 'File',
@@ -49,7 +49,7 @@ test('hasDirtyTabs should return false when no dirty tabs exist', () => {
             {
               content: 'content',
               editorType: 'text',
-          editorUid: -1,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File',

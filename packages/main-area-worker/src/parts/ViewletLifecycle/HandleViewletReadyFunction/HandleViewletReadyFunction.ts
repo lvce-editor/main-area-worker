@@ -1,5 +1,4 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
-import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
 import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
@@ -7,7 +6,7 @@ import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
  * With reference nodes, attachment is handled automatically by virtual DOM rendering.
  * No commands needed - state update is sufficient.
  */
-export const handleViewletReady = (state: MainAreaState, editorUid: number): ViewletLifecycleResult => {
+export const handleViewletReady = (state: MainAreaState, editorUid: number): MainAreaState => {
   // Find the tab by viewletRequestId
   const { layout } = state
   const { groups } = layout
@@ -22,10 +21,7 @@ export const handleViewletReady = (state: MainAreaState, editorUid: number): Vie
 
   if (!tab) {
     // Tab was closed, dispose viewlet
-    return {
-      commands: [{ instanceId: editorUid, type: 'dispose' }],
-      newState: state,
-    }
+    return state
   }
 
   // Mark viewlet as ready and set instance id
@@ -36,5 +32,5 @@ export const handleViewletReady = (state: MainAreaState, editorUid: number): Vie
   })
 
   // No attach commands needed - virtual DOM reference nodes handle positioning
-  return { commands: [], newState }
+  return newState
 }

@@ -23,7 +23,7 @@ export const handleCreate = async (command: Extract<ViewletCommand, { type: 'cre
   // Attachment is handled automatically by virtual DOM reference nodes
   const { newState: state, oldState } = MainAreaStates.get(command.uid)
 
-  const { newState: readyState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
+  const readyState = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
   MainAreaStates.set(command.uid, oldState, readyState)
   return readyState
 }

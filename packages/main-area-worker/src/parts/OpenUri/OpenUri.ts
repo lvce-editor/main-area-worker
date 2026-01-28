@@ -78,8 +78,9 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // After viewlet is created, get the latest state and mark it as ready
   // This ensures we have any state updates that occurred during viewlet creation
   const { newState: latestState } = get(uid)
-  
+
   // Attachment is handled automatically by virtual DOM reference nodes
-  const { newState: readyState } = ViewletLifecycle.handleViewletReady(latestState, editorUid)
+  const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
+
   return readyState
 }

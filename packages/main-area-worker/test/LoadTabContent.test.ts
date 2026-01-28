@@ -20,10 +20,10 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
           {
             content: '',
             editorUid: -1,
-              editorType: 'text' as const,
+            editorType: 'text' as const,
             id: 1,
             isDirty: false,
-            path: '/test/file.txt',
+            uri: '/test/file.txt',
             title: 'file.txt',
             ...tabOverrides,
           },
@@ -59,7 +59,7 @@ test('findTab returns tab when found', () => {
 
   expect(result).toBeDefined()
   expect(result?.id).toBe(1)
-  expect(result?.path).toBe('/test/file.txt')
+  expect(result?.uri).toBe('/test/file.txt')
 })
 
 test('findTab returns undefined when tab not found', () => {

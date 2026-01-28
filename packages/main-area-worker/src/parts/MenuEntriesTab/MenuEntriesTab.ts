@@ -12,7 +12,7 @@ export const getMenuEntries = (state: MainAreaState): readonly any[] => {
   const { activeTabId, tabs } = group
   const tab = tabs[activeTabId || 0]
   Assert.object(tab)
-  const { path } = tab
+  const { uri: path } = tab
   return [
     {
       command: 'Main.closeFocusedTab',

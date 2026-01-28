@@ -4,7 +4,7 @@ export const findTabByUri = (state: MainAreaState, uri: string): { tab: Tab; gro
   const { layout } = state
   const { groups } = layout
   for (const group of groups) {
-    const tab = group.tabs.find((t) => t.path === uri)
+    const tab = group.tabs.find((t) => t.uri === uri)
     if (tab) {
       return { groupId: group.id, tab }
     }

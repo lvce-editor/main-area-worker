@@ -11,7 +11,7 @@ const shouldLoadContent = (tab: Tab): boolean => {
   // Load if:
   // - Has a path (file-based tab)
   // - Not already loaded or currently loading
-  if (!tab.path) {
+  if (!tab.uri) {
     return false
   }
   if (tab.loadingState === 'loading') {
@@ -114,7 +114,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     try {
       // Query RendererWorker for viewlet module ID
       // @ts-ignore
-      const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.path)
+      const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
       if (viewletModuleId) {
         // TODO: Calculate proper bounds
         const bounds = { height: 600, width: 800, x: 0, y: 0 }
@@ -135,8 +135,8 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   }
 
   // Start loading content in the background if needed
-  if (needsLoading && tab.path) {
-    const latestState = await startContentLoading(state, newState, tabId, tab.path, requestId)
+  if (needsLoading && tab.uri) {
+    const latestState = await startContentLoading(state, newState, tabId, tab.uri, requestId)
     return latestState
   }
 

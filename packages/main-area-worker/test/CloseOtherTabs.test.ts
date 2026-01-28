@@ -404,7 +404,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
               id: 1,
               isDirty: true,
               language: 'typescript',
-              path: '/file1.ts',
+              uri: '/file1.ts',
               title: 'File 1',
             },
             {
@@ -415,7 +415,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
               id: 2,
               isDirty: false,
               language: 'javascript',
-              path: '/file2.js',
+              uri: '/file2.js',
               title: 'File 2',
             },
             {
@@ -439,5 +439,5 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
   expect(result.layout.groups[0].tabs[0].customEditorId).toBe('custom-editor')
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
-  expect(result.layout.groups[0].tabs[0].path).toBe('/file2.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/file2.js')
 })

@@ -12,7 +12,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
           editorUid: -1,
           id: index + 1,
           isDirty: false,
-          path: `/test/file${index + 1}.txt`,
+          uri: `/test/file${index + 1}.txt`,
           title: `file${index + 1}.txt`,
           ...override,
         }))
@@ -23,7 +23,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
             editorUid: -1,
             id: 1,
             isDirty: false,
-            path: '/test/file.txt',
+            uri: '/test/file.txt',
             title: 'file.txt',
           },
         ]
@@ -66,7 +66,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               editorUid: -1,
               id: 1,
               isDirty: false,
-              path: '/test/file1.txt',
+              uri: '/test/file1.txt',
               title: 'file1.txt',
             },
             {
@@ -75,7 +75,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               editorUid: -1,
               id: 2,
               isDirty: false,
-              path: '/test/file2.txt',
+              uri: '/test/file2.txt',
               title: 'file2.txt',
             },
           ],
@@ -92,7 +92,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               editorUid: -1,
               id: 3,
               isDirty: false,
-              path: '/test/file3.txt',
+              uri: '/test/file3.txt',
               title: 'file3.txt',
             },
           ],
@@ -110,7 +110,7 @@ test('updateTab updates a single property', () => {
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
   expect(tab?.content).toBe('new content')
   expect(tab?.isDirty).toBe(false)
-  expect(tab?.path).toBe('/test/file.txt')
+  expect(tab?.uri).toBe('/test/file.txt')
 })
 
 test('updateTab updates multiple properties', () => {

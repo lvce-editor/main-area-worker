@@ -328,6 +328,6 @@ test('loadContent should restore layout with tabs containing paths', async () =>
 
   const result = await LoadContent.loadContent(state, savedState)
 
-  expect(result.layout.groups[0].tabs[0].path).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.js')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })

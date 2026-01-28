@@ -29,7 +29,7 @@ test('saveState should save layout with custom configuration', () => {
             {
               content: 'test content',
               editorUid: -1,
-          editorType: 'text',
+              editorType: 'text',
               id: 1,
               isDirty: false,
               title: 'Test File',
@@ -83,7 +83,7 @@ test('saveState should save layout with multiple groups', () => {
             {
               content: 'content1',
               editorUid: -1,
-          editorType: 'text',
+              editorType: 'text',
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -99,7 +99,7 @@ test('saveState should save layout with multiple groups', () => {
             {
               content: 'content2',
               editorUid: -1,
-          editorType: 'text',
+              editorType: 'text',
               id: 2,
               isDirty: true,
               title: 'File 2',
@@ -134,7 +134,7 @@ test('saveState should save layout with custom editor tabs', () => {
               content: 'custom content',
               customEditorId: 'custom-editor-1',
               editorUid: -1,
-          editorType: 'custom',
+              editorType: 'custom',
               id: 1,
               isDirty: false,
               title: 'Custom Editor',
@@ -165,11 +165,11 @@ test('saveState should save layout with tabs containing paths and languages', ()
             {
               content: 'console.log("hello");',
               editorUid: -1,
-          editorType: 'text',
+              editorType: 'text',
               id: 1,
               isDirty: false,
               language: 'javascript',
-              path: '/path/to/script.js',
+              uri: '/path/to/script.js',
               title: 'script.js',
             },
           ],
@@ -178,7 +178,7 @@ test('saveState should save layout with tabs containing paths and languages', ()
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups[0].tabs[0].path).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.js')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })
 

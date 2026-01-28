@@ -1,7 +1,7 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import type { Bounds, ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
-import * as Id from '../../Id/Id.ts'
 import * as GetNextRequestId from '../../GetNextRequestId/GetNextRequestId.ts'
+import * as Id from '../../Id/Id.ts'
 import { findTab, updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 export interface ViewletLifecycleResult {
@@ -33,15 +33,15 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
       tabId,
       type: 'create',
       uid: state.uid,
-      uri: tab.path,
+      uri: tab.uri,
       viewletModuleId,
     },
   ]
 
   const newState = updateTab(state, tabId, {
     editorUid,
-    viewletState: 'creating',
     viewletRequestId: GetNextRequestId.getNextRequestId(),
+    viewletState: 'creating',
   })
 
   return { commands, newState }

@@ -728,7 +728,7 @@ test('closeTab should handle tabs with paths and languages', () => {
               id: 1,
               isDirty: false,
               language: 'javascript',
-              path: '/path/to/script.js',
+              uri: '/path/to/script.js',
               title: 'script.js',
             },
             {
@@ -738,7 +738,7 @@ test('closeTab should handle tabs with paths and languages', () => {
               id: 2,
               isDirty: false,
               language: 'html',
-              path: '/path/to/index.html',
+              uri: '/path/to/index.html',
               title: 'index.html',
             },
             {
@@ -748,7 +748,7 @@ test('closeTab should handle tabs with paths and languages', () => {
               id: 3,
               isDirty: false,
               language: 'css',
-              path: '/path/to/style.css',
+              uri: '/path/to/style.css',
               title: 'style.css',
             },
           ],

@@ -11,6 +11,6 @@ export interface Tab {
   readonly isDirty: boolean
   readonly language: string
   readonly loadingState: LoadingState
-  readonly path: string
   readonly title: string
+  readonly uri: string
 }

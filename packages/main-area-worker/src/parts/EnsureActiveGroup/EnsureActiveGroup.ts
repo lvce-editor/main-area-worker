@@ -32,7 +32,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): { newState
       language: '',
       loadingState: 'loading' as const,
       loadRequestId: requestId,
-      path: uri,
+      uri: uri,
       title,
     }
     newState = openTab(state, activeGroup.id, newTab)

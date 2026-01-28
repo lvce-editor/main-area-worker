@@ -26,7 +26,7 @@ test('ensureActiveGroup should add tab to existing active group', () => {
   expect(tabId).toBeGreaterThan(0)
   expect(newState.layout.groups[0].tabs.length).toBe(1)
   expect(newState.layout.groups[0].tabs[0].id).toBe(tabId)
-  expect(newState.layout.groups[0].tabs[0].path).toBe('/test/file.ts')
+  expect(newState.layout.groups[0].tabs[0].uri).toBe('/test/file.ts')
   expect(newState.layout.groups[0].tabs[0].loadingState).toBe('loading')
   expect(newState).not.toBe(state)
 })
@@ -47,7 +47,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
   expect(newState.layout.groups.length).toBe(1)
   expect(newState.layout.groups[0].tabs.length).toBe(1)
   expect(newState.layout.groups[0].tabs[0].id).toBe(tabId)
-  expect(newState.layout.groups[0].tabs[0].path).toBe('/test/file.ts')
+  expect(newState.layout.groups[0].tabs[0].uri).toBe('/test/file.ts')
 })
 
 test('ensureActiveGroup should use focused group when activeGroupId is undefined', () => {
@@ -106,7 +106,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
               language: '',
               loadingState: undefined,
               loadRequestId: 1,
-              path: '/existing/file.ts',
+              uri: '/existing/file.ts',
               title: 'File 1',
             },
           ],
@@ -120,5 +120,5 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
   expect(newState.layout.groups[0].tabs.length).toBe(2)
   expect(newState.layout.groups[0].tabs[0].id).toBe(1)
   expect(newState.layout.groups[0].tabs[1].id).toBe(tabId)
-  expect(newState.layout.groups[0].tabs[1].path).toBe('/test/file.ts')
+  expect(newState.layout.groups[0].tabs[1].uri).toBe('/test/file.ts')
 })

@@ -3,7 +3,6 @@ import type { LoadingState } from '../LoadingState/LoadingState.ts'
 
 export interface Tab {
   readonly content: string
-  readonly customEditorId?: string
   readonly editorType: EditorType
   readonly editorUid: number
   readonly errorMessage: string

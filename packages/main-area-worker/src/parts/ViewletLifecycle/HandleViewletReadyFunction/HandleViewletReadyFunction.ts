@@ -1,6 +1,6 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
-import { findTabByViewletRequestId } from '../../FindTabByViewletRequestId/FindTabByViewletRequestId.ts'
+import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
 import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
@@ -8,9 +8,18 @@ import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
  * With reference nodes, attachment is handled automatically by virtual DOM rendering.
  * No commands needed - state update is sufficient.
  */
-export const handleViewletReady = (state: MainAreaState, requestId: number, instanceId: number): ViewletLifecycleResult => {
-  // Find the tab that made this request
-  const tab = findTabByViewletRequestId(state, requestId)
+export const handleViewletReady = (state: MainAreaState, editorUid: number, instanceId: number): ViewletLifecycleResult => {
+  // Find the tab by editorUid
+  const { layout } = state
+  const { groups } = layout
+  let tab
+  for (const group of groups) {
+    const foundTab = group.tabs.find((t) => t.editorUid === editorUid)
+    if (foundTab) {
+      tab = foundTab
+      break
+    }
+  }
 
   if (!tab) {
     // Tab was closed, dispose viewlet
@@ -23,7 +32,6 @@ export const handleViewletReady = (state: MainAreaState, requestId: number, inst
   // Mark viewlet as ready
   // Reference nodes will handle rendering at the correct position automatically
   const newState = updateTab(state, tab.id, {
-    viewletInstanceId: instanceId,
     viewletState: 'ready',
   })
 

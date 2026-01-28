@@ -7,11 +7,11 @@ import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
  */
 export const disposeViewletForTab = (state: MainAreaState, tabId: number): ViewletLifecycleResult => {
   const tab = findTab(state, tabId)
-  if (!tab || tab.viewletInstanceId === undefined) {
+  if (!tab || tab.viewletState === 'idle') {
     return { commands: [], newState: state }
   }
 
-  const commands = [{ instanceId: tab.viewletInstanceId, type: 'dispose' }] as const
+  const commands = [{ instanceId: tab.editorUid, type: 'dispose' }] as const
 
   return { commands, newState: state }
 }

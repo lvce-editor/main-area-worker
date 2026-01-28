@@ -4,17 +4,17 @@ import type { ViewletState } from '../ViewletState/ViewletState.ts'
 
 export interface Tab {
   readonly content: string
-  readonly customEditorId?: string
+  readonly customEditorId: string
   readonly editorType: EditorType
   readonly editorUid: number
-  readonly errorMessage?: string
+  readonly errorMessage: string
   readonly id: number
-  readonly isAttached?: boolean
+  readonly isAttached: boolean
   readonly isDirty: boolean
-  readonly language?: string
-  readonly loadingState?: LoadingState
-  readonly loadRequestId?: number
-  readonly path?: string
+  readonly language: string
+  readonly loadingState: LoadingState
+  readonly loadRequestId: number
+  readonly path: string
   readonly title: string
-  readonly viewletState?: ViewletState
+  readonly viewletState: ViewletState
 }

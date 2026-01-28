@@ -24,7 +24,7 @@ const getViewletModuleId = async (uri: string): Promise<string | undefined> => {
   return viewletModuleId
 }
 
-const createViewlet = async (viewletModuleId: string, editorUid: string, tabId: string, bounds: any, uri: string): Promise<void> => {
+const createViewlet = async (viewletModuleId: string, editorUid: string, tabId: number, bounds: any, uri: string): Promise<void> => {
   // @ts-ignore
   await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
 }

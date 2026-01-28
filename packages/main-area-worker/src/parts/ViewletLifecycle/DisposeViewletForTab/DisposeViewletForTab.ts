@@ -11,7 +11,7 @@ export const disposeViewletForTab = (state: MainAreaState, tabId: number): Viewl
     return { commands: [], newState: state }
   }
 
-  const commands = [{ instanceId: tab.editorUid, type: 'dispose' }] as const
+  const commands: readonly ViewletCommand[] = [{ instanceId: tab.editorUid, type: 'dispose' }]
 
   return { commands, newState: state }
 }

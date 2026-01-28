@@ -31,14 +31,15 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Get previous active tab ID for viewlet switching
   const previousTabId = getActiveTabId(state)
 
+  const newState = ensureActiveGroup(state, uri)
+  const tabId = getActiveTabId(newState)!
+
   const viewletModuleId = await getViewletModuleId(uri)
 
   if (!viewletModuleId) {
     // TODO display some kind of errro that editor couldn't be opened
-    return state
+    return newState
   }
-  const newState = ensureActiveGroup(state, uri)
-  const tabId = getActiveTabId(newState)!
 
   // TODO: Calculate proper bounds
   const bounds = { height: 600, width: 800, x: 0, y: 0 }

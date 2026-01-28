@@ -1,4 +1,4 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { EditorGroup, MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
@@ -13,14 +13,15 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
     content: '',
     editorType: 'text' as const,
     editorUid: -1,
+    errorMessage: '',
     id: tabId,
     isDirty: false,
+    language: '',
     loadingState: 'loading' as const,
-    loadRequestId: requestId,
-    path: uri,
     title,
+    uri,
   }
-  const newGroup = {
+  const newGroup: EditorGroup = {
     activeTabId: newTab.id,
     focused: true,
     id: groupId,

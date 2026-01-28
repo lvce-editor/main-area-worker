@@ -9,7 +9,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
   // Find the active group (by activeGroupId or focused flag)
   const { layout } = state
   const { activeGroupId, groups } = layout
-  let activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
 
   // Generate a request ID for content loading
   const requestId = GetNextRequestId.getNextRequestId()

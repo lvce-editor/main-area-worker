@@ -7,7 +7,7 @@ export interface Bounds {
 
 interface ViewletCreateCommand {
   readonly bounds: Bounds
-  readonly requestId: number
+  readonly editorUid: number
   readonly tabId: number
   readonly type: 'create'
   readonly uid: number

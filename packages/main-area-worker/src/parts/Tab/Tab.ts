@@ -16,7 +16,5 @@ export interface Tab {
   readonly loadRequestId?: number
   readonly path?: string
   readonly title: string
-  readonly viewletInstanceId?: number
-  readonly viewletRequestId?: number
   readonly viewletState?: ViewletState
 }

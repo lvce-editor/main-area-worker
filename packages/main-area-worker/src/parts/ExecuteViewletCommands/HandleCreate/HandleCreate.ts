@@ -1,9 +1,10 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
+import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import type { ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
 import * as MainAreaStates from '../../MainAreaStates/MainAreaStates.ts'
 import * as ViewletLifecycle from '../../ViewletLifecycle/ViewletLifecycle.ts'
 
-export const handleCreate = async (command: Extract<ViewletCommand, { type: 'create' }>): Promise<void> => {
+export const handleCreate = async (command: Extract<ViewletCommand, { type: 'create' }>): Promise<MainAreaState> => {
   // Safe to call - no visible side effects
   // @ts-ignore
   const instanceId = Math.random() // TODO try to find a better way to get consistent integer ids (thread safe)
@@ -24,4 +25,5 @@ export const handleCreate = async (command: Extract<ViewletCommand, { type: 'cre
 
   const { newState: readyState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
   MainAreaStates.set(command.uid, oldState, readyState)
+  return readyState
 }

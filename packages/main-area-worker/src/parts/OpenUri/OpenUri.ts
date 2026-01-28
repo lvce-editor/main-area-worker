@@ -15,6 +15,7 @@ import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
+import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
@@ -89,15 +90,28 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // TODO: Calculate proper bounds
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
   const { commands: createCommands, newState: stateWithViewlet } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
-  let finalState = stateWithViewlet
+  let intermediateState1 = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
-  const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(finalState, previousTabId, tabId)
-  finalState = switchedState
+  const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState1, previousTabId, tabId)
+  intermediateState1 = switchedState
 
-  set(finalState.uid, state, finalState)
+  set(intermediateState1.uid, state, intermediateState1)
+
+  // @ts-ignore
+  const instanceId = Math.random() // TODO try to find a better way to get consistent integer ids (thread safe)
+
+  await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, requestId, tabId, bounds, uri)
+
+  // After viewlet is created, mark it as ready
+  // Attachment is handled automatically by virtual DOM reference nodes
+  const { newState: state1, oldState } = MainAreaStates.get(uid)
+
+  const { newState: readyState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
+  MainAreaStates.set(command.uid, oldState, readyState)
+  return readyState
 
   // Execute viewlet commands
   await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands])
-  return finalState
+  return intermediateState1
 }

@@ -38,7 +38,7 @@ test('getTabs should return tabs with unique incrementing ids', async () => {
   for (let i = 1; i < ids.length; i++) {
     expect(ids[i]).toBeGreaterThan(ids[i - 1])
   }
-  
+
   // editorUids should also be unique and incrementing
   for (let i = 1; i < editorUids.length; i++) {
     expect(editorUids[i]).toBeGreaterThan(editorUids[i - 1])

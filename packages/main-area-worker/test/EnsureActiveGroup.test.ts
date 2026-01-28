@@ -47,7 +47,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
   const newState = ensureActiveGroup(state, '/test/file.ts')
   const tabId = newState.layout.groups[0].tabs[0].id
   const groupId = newState.layout.groups[0].id
-  const editorUid = newState.layout.groups[0].tabs[0].editorUid
+  const { editorUid } = newState.layout.groups[0].tabs[0]
 
   expect(newState.layout).toEqual({
     activeGroupId: groupId,
@@ -147,7 +147,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
 
   const newState = ensureActiveGroup(state, '/test/file.ts')
   const tabId = newState.layout.groups[0].tabs[1].id
-  const editorUid = newState.layout.groups[0].tabs[1].editorUid
+  const { editorUid } = newState.layout.groups[0].tabs[1]
 
   expect(newState.layout).toEqual({
     activeGroupId: 1,

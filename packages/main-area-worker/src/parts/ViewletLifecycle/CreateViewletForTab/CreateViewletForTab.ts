@@ -20,7 +20,7 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
   }
 
   // Already has a viewlet being created or ready? Don't recreate
-  if (tab.viewletState && tab.viewletState !== 'idle') {
+  if (tab.loadingState && tab.loadRequestId !== 'idle') {
     return { commands: [], newState: state }
   }
 

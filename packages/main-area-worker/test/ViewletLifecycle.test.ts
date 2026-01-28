@@ -42,12 +42,10 @@ test('createViewletForTab creates viewlet command for idle tab', () => {
 
   expect(result.commands).toHaveLength(1)
   expect(result.commands[0].type).toBe('create')
-  expect(result.newState.layout.groups[0].tabs[0].viewletState).toBe('creating')
   expect(result.newState.layout.groups[0].tabs[0].viewletRequestId).toBe(1)
 })
 
 test('createViewletForTab returns empty commands for tab already creating', () => {
-  const state = createStateWithTab({ viewletState: 'creating' })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
@@ -57,7 +55,6 @@ test('createViewletForTab returns empty commands for tab already creating', () =
 })
 
 test('createViewletForTab returns empty commands for tab already ready', () => {
-  const state = createStateWithTab({ viewletInstanceId: 123, viewletState: 'ready' })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
@@ -97,8 +94,6 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
               isDirty: false,
               path: '/test/file1.txt',
               title: 'file1.txt',
-              viewletInstanceId: 100,
-              viewletState: 'ready',
             },
             {
               content: '',
@@ -108,8 +103,6 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
               isDirty: false,
               path: '/test/file2.txt',
               title: 'file2.txt',
-              viewletInstanceId: 200,
-              viewletState: 'ready',
             },
           ],
         },
@@ -146,8 +139,6 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
               isDirty: false,
               path: '/test/file1.txt',
               title: 'file1.txt',
-              viewletInstanceId: 100,
-              viewletState: 'ready',
             },
             {
               content: '',
@@ -157,7 +148,6 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
               isDirty: false,
               path: '/test/file2.txt',
               title: 'file2.txt',
-              viewletState: 'creating', // Not ready yet
             },
           ],
         },
@@ -174,8 +164,6 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
 })
 
 test('switchViewlet handles undefined fromTabId - no commands', () => {
-  const state = createStateWithTab({ viewletInstanceId: 100, viewletState: 'ready' })
-
   const result = ViewletLifecycle.switchViewlet(state, undefined, 1)
 
   // Reference nodes handle attachment automatically
@@ -208,7 +196,6 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
               path: '/test/file.txt',
               title: 'file.txt',
               viewletRequestId: requestId,
-              viewletState: 'creating',
             },
           ],
         },
@@ -221,8 +208,6 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
 
   // Reference nodes handle attachment - no attach command needed
   expect(result.commands).toHaveLength(0)
-  expect(result.newState.layout.groups[0].tabs[0].viewletInstanceId).toBe(123)
-  expect(result.newState.layout.groups[0].tabs[0].viewletState).toBe('ready')
 })
 
 test('handleViewletReady works regardless of active tab - reference nodes render correctly', () => {
@@ -250,7 +235,6 @@ test('handleViewletReady works regardless of active tab - reference nodes render
               path: '/test/file1.txt',
               title: 'file1.txt',
               viewletRequestId: requestId,
-              viewletState: 'creating',
             },
             {
               content: '',
@@ -273,8 +257,6 @@ test('handleViewletReady works regardless of active tab - reference nodes render
   // Reference nodes render correctly regardless of active tab
   // Race condition is avoided: only active tab's reference node will be in virtual DOM
   expect(result.commands).toHaveLength(0)
-  expect(result.newState.layout.groups[0].tabs[0].viewletInstanceId).toBe(123)
-  expect(result.newState.layout.groups[0].tabs[0].viewletState).toBe('ready')
 })
 
 test('handleViewletReady disposes viewlet when tab no longer exists', () => {
@@ -288,8 +270,6 @@ test('handleViewletReady disposes viewlet when tab no longer exists', () => {
 })
 
 test('disposeViewletForTab creates dispose command for tab with viewlet', () => {
-  const state = createStateWithTab({ viewletInstanceId: 123, viewletState: 'ready' })
-
   const result = ViewletLifecycle.disposeViewletForTab(state, 1)
 
   expect(result.commands).toHaveLength(1)

@@ -1,5 +1,5 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
-import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
+import type { ViewletLifecycleResult } from '../ViewletLifecycleResult.ts'
 import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**

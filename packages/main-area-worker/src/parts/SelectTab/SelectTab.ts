@@ -1,6 +1,5 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
-import type { ViewletCommand } from '../ViewletCommand/ViewletCommand.ts'
 import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
@@ -107,7 +106,6 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   // If new tab's viewlet isn't ready yet, trigger creation (idempotent)
   const newTab = newState.layout.groups[groupIndex].tabs[index]
-  let createCommands: readonly ViewletCommand[] = []
 
   if (!newTab.loadingState || newTab.loadingState === 'loading') {
     try {
@@ -128,8 +126,8 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   MainAreaStates.set(uid, state, newState)
 
   // Execute viewlet commands if any
-  if (switchCommands.length > 0 || createCommands.length > 0) {
-    await ExecuteViewletCommands.executeViewletCommands([...switchCommands, ...createCommands])
+  if (switchCommands.length > 0) {
+    await ExecuteViewletCommands.executeViewletCommands(switchCommands)
   }
 
   // Start loading content in the background if needed

@@ -44,7 +44,7 @@ test('createViewletForTab creates viewlet command for idle tab', () => {
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
 
   expect(result).not.toBe(state)
-  expect(result.groups[0].tabs[0].editorUid).toBeDefined()
+  expect(result.layout.groups[0].tabs[0].editorUid).toBeDefined()
 })
 
 test('createViewletForTab returns empty commands for tab already creating', () => {

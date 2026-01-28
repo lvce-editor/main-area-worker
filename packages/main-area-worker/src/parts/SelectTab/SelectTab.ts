@@ -71,7 +71,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
     // This is the group being selected
     const updatedTabs = needsLoading
-      ? g.tabs.map((t) => {
+      ? g.tabs.map((t): Tab => {
           if (t.id === tabId) {
             return {
               ...t,

@@ -13,8 +13,8 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
     return state
   }
 
-  // Already has a viewlet being created or ready? Don't recreate
-  if (tab.loadingState !== 'idle') {
+  // If tab already has an editorUid, don't recreate
+  if (tab.editorUid !== -1) {
     return state
   }
 

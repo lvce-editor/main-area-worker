@@ -58,6 +58,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const tabWithViewlet = findTabById(intermediateState1, tabId)
 
   if (!tabWithViewlet) {
+    console.log('tab not found')
     return intermediateState1
   }
 
@@ -75,6 +76,8 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   // Attachment is handled automatically by virtual DOM reference nodes
   const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
+
+  console.log({ readyState })
 
   return readyState
 }

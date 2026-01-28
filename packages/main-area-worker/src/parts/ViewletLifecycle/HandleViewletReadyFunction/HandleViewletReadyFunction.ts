@@ -14,9 +14,7 @@ export const handleViewletReady = (state: MainAreaState, editorUid: number): Mai
   // Find the tab by viewletRequestId
   const tab = findTabByEditorUid(state, editorUid)
 
-  console.log({ editorUid, tab })
   if (!tab) {
-    console.log('tab not found', editorUid)
     // Tab was closed, dispose viewlet
     return state
   }

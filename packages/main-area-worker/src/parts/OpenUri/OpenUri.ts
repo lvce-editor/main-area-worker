@@ -37,12 +37,9 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   } catch {
     // Viewlet creation is optional - silently ignore if RendererWorker isn't available
   }
-
   const { newState, tabId } = ensureActiveGroup(state, uri)
 
   if (!viewletModuleId) {
-    // Viewlet creation is optional - return state with just the tab created
-    set(newState.uid, state, newState)
     return newState
   }
 

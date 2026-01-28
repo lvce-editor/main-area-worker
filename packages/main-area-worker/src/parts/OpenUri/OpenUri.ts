@@ -11,11 +11,11 @@ import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
 import { set } from '../MainAreaStates/MainAreaStates.ts'
+import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
-import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
@@ -110,8 +110,4 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const { newState: readyState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
   MainAreaStates.set(command.uid, oldState, readyState)
   return readyState
-
-  // Execute viewlet commands
-  await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands])
-  return intermediateState1
 }

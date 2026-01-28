@@ -77,7 +77,7 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
   const commands: ViewletCommand[] = []
 
   // Dispose viewlet if present and not idle
-  if (tab && tab.viewletState !== undefined && tab.viewletState !== 'idle') {
+  if (tab && tab.editorUid !== undefined) {
     const { commands: disposeCommands } = ViewletLifecycle.disposeViewletForTab(state, tabId)
     commands.push(...disposeCommands)
   }

@@ -83,7 +83,8 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
 
   // Viewlet is ready - render a reference node
   // Frontend will append the pre-created component at this position using the uid
-  if (tab.loadingState === 'loaded') {
+  // Check for viewletInstanceId to distinguish between viewlet and plain text tabs
+  if (tab.loadingState === 'loaded' && tab.viewletInstanceId !== undefined) {
     return renderViewletReference(tab)
   }
 

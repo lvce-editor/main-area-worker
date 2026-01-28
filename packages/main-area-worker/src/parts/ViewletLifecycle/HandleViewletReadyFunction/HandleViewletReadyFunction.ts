@@ -7,13 +7,13 @@ import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
  * With reference nodes, attachment is handled automatically by virtual DOM rendering.
  * No commands needed - state update is sufficient.
  */
-export const handleViewletReady = (state: MainAreaState, editorUid: number, instanceId: number): ViewletLifecycleResult => {
-  // Find the tab by editorUid
+export const handleViewletReady = (state: MainAreaState, viewletRequestId: number, instanceId: number): ViewletLifecycleResult => {
+  // Find the tab by viewletRequestId
   const { layout } = state
   const { groups } = layout
   let tab
   for (const group of groups) {
-    const foundTab = group.tabs.find((t) => t.editorUid === editorUid)
+    const foundTab = group.tabs.find((t) => t.viewletRequestId === viewletRequestId)
     if (foundTab) {
       tab = foundTab
       break
@@ -28,10 +28,12 @@ export const handleViewletReady = (state: MainAreaState, editorUid: number, inst
     }
   }
 
-  // Mark viewlet as ready
+  // Mark viewlet as ready and set instance id
   // Reference nodes will handle rendering at the correct position automatically
   const newState = updateTab(state, tab.id, {
     loadingState: 'loaded',
+    viewletInstanceId: instanceId,
+    viewletState: 'ready',
   })
 
   // No attach commands needed - virtual DOM reference nodes handle positioning

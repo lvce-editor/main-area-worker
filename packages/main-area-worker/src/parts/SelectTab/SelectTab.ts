@@ -117,9 +117,8 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
       if (viewletModuleId) {
         // TODO: Calculate proper bounds
         const bounds = { height: 600, width: 800, x: 0, y: 0 }
-        const { commands, newState: createdState } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+        const createdState = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
         newState = createdState
-        createCommands = commands
       }
     } catch {
       // Viewlet creation is optional - silently ignore if RendererWorker isn't available

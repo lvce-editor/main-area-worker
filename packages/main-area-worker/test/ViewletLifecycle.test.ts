@@ -43,8 +43,8 @@ test('createViewletForTab creates viewlet command for idle tab', () => {
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
 
-  expect(result.commands).toHaveLength(1)
-  expect(result.commands[0].type).toBe('create')
+  expect(result).not.toBe(state)
+  expect(result.groups[0].tabs[0].editorUid).toBeDefined()
 })
 
 test('createViewletForTab returns empty commands for tab already creating', () => {
@@ -53,8 +53,7 @@ test('createViewletForTab returns empty commands for tab already creating', () =
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
 
-  expect(result.commands).toHaveLength(0)
-  expect(result.newState).toBe(state)
+  expect(result).toBe(state)
 })
 
 test('createViewletForTab returns empty commands for tab already ready', () => {
@@ -63,8 +62,7 @@ test('createViewletForTab returns empty commands for tab already ready', () => {
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
 
-  expect(result.commands).toHaveLength(0)
-  expect(result.newState).toBe(state)
+  expect(result).toBe(state)
 })
 
 test('createViewletForTab returns empty commands for non-existent tab', () => {
@@ -73,8 +71,7 @@ test('createViewletForTab returns empty commands for non-existent tab', () => {
 
   const result = ViewletLifecycle.createViewletForTab(state, 999, 'EditorText', bounds)
 
-  expect(result.commands).toHaveLength(0)
-  expect(result.newState).toBe(state)
+  expect(result).toBe(state)
 })
 
 test('switchViewlet with reference nodes - no attach/detach commands', () => {

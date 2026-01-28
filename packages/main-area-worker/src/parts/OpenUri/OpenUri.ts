@@ -41,7 +41,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   // TODO: Calculate proper bounds
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
-  const { newState: stateWithViewlet } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+  const stateWithViewlet = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
   let intermediateState1 = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)

@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
@@ -61,7 +61,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     // Create a new tab with the URI in the active group
     const title = PathDisplay.getLabel(uri)
     tabId = Id.create()
-    const newTab = {
+    const newTab: Tab = {
       content: '',
       customEditorId: '',
       editorType: 'text' as const,

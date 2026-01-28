@@ -31,9 +31,8 @@ export const handleViewletReady = (state: MainAreaState, viewletRequestId: numbe
   // Mark viewlet as ready and set instance id
   // Reference nodes will handle rendering at the correct position automatically
   const newState = updateTab(state, tab.id, {
+    editorUid: instanceId,
     loadingState: 'loaded',
-    viewletInstanceId: instanceId,
-    viewletState: 'ready',
   })
 
   // No attach commands needed - virtual DOM reference nodes handle positioning

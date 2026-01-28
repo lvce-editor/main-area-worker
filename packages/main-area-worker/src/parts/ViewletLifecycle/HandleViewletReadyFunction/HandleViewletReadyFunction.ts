@@ -22,7 +22,7 @@ export const handleViewletReady = (state: MainAreaState, requestId: number, inst
 
   // Mark viewlet as ready
   // Reference nodes will handle rendering at the correct position automatically
-  let newState = updateTab(state, tab.id, {
+  const newState = updateTab(state, tab.id, {
     viewletInstanceId: instanceId,
     viewletState: 'ready',
   })

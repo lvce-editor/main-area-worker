@@ -18,17 +18,10 @@ export const handleCreate = async (command: Extract<ViewletCommand, { type: 'cre
     instanceId,
   )
 
-  // After viewlet is created, mark it as ready and attach if needed
+  // After viewlet is created, mark it as ready
+  // Attachment is handled automatically by virtual DOM reference nodes
   const { newState: state, oldState } = MainAreaStates.get(command.uid)
 
-  const { commands: readyCommands, newState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
-  MainAreaStates.set(command.uid, oldState, newState)
-
-  // Execute any attach commands that result from handleViewletReady
-  for (const readyCommand of readyCommands) {
-    if (readyCommand.type === 'attach') {
-      // @ts-ignore
-      await RendererWorker.invoke('Viewlet.attach', readyCommand.instanceId)
-    }
-  }
+  const { newState: readyState } = ViewletLifecycle.handleViewletReady(state, command.requestId, instanceId)
+  MainAreaStates.set(command.uid, oldState, readyState)
 }

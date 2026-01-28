@@ -76,7 +76,7 @@ test('createViewletForTab returns empty commands for non-existent tab', () => {
   expect(result.newState).toBe(state)
 })
 
-test('switchViewlet detaches old viewlet and attaches new one', () => {
+test('switchViewlet with reference nodes - no attach/detach commands', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -94,7 +94,6 @@ test('switchViewlet detaches old viewlet and attaches new one', () => {
               editorUid: 100,
               editorType: 'text' as const,
               id: 1,
-              isAttached: true,
               isDirty: false,
               path: '/test/file1.txt',
               title: 'file1.txt',
@@ -121,14 +120,12 @@ test('switchViewlet detaches old viewlet and attaches new one', () => {
 
   const result = ViewletLifecycle.switchViewlet(state, 1, 2)
 
-  expect(result.commands).toHaveLength(2)
-  expect(result.commands[0].type).toBe('detach')
-  expect(result.commands[1].type).toBe('attach')
-  expect(result.newState.layout.groups[0].tabs[0].isAttached).toBe(false)
-  expect(result.newState.layout.groups[0].tabs[1].isAttached).toBe(true)
+  // Reference nodes handle attachment automatically - no commands needed
+  expect(result.commands).toHaveLength(0)
+  expect(result.newState).toBe(state)
 })
 
-test('switchViewlet only attaches when new tab is ready', () => {
+test('switchViewlet with not-ready tab - still no attach/detach commands', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -146,7 +143,6 @@ test('switchViewlet only attaches when new tab is ready', () => {
               editorUid: 100,
               editorType: 'text' as const,
               id: 1,
-              isAttached: true,
               isDirty: false,
               path: '/test/file1.txt',
               title: 'file1.txt',
@@ -172,22 +168,22 @@ test('switchViewlet only attaches when new tab is ready', () => {
 
   const result = ViewletLifecycle.switchViewlet(state, 1, 2)
 
-  expect(result.commands).toHaveLength(1)
-  expect(result.commands[0].type).toBe('detach')
-  expect(result.newState.layout.groups[0].tabs[0].isAttached).toBe(false)
+  // Reference nodes handle it - only reference nodes for ready viewlets are rendered
+  expect(result.commands).toHaveLength(0)
+  expect(result.newState).toBe(state)
 })
 
-test('switchViewlet handles undefined fromTabId', () => {
+test('switchViewlet handles undefined fromTabId - no commands', () => {
   const state = createStateWithTab({ viewletInstanceId: 100, viewletState: 'ready' })
 
   const result = ViewletLifecycle.switchViewlet(state, undefined, 1)
 
-  expect(result.commands).toHaveLength(1)
-  expect(result.commands[0].type).toBe('attach')
-  expect(result.newState.layout.groups[0].tabs[0].isAttached).toBe(true)
+  // Reference nodes handle attachment automatically
+  expect(result.commands).toHaveLength(0)
+  expect(result.newState).toBe(state)
 })
 
-test('handleViewletReady attaches viewlet when tab is active', () => {
+test('handleViewletReady marks viewlet as ready without attach command', () => {
   GetNextRequestId.resetRequestIdCounter()
   const requestId = GetNextRequestId.getNextRequestId()
 
@@ -223,14 +219,13 @@ test('handleViewletReady attaches viewlet when tab is active', () => {
 
   const result = ViewletLifecycle.handleViewletReady(state, requestId, 123)
 
-  expect(result.commands).toHaveLength(1)
-  expect(result.commands[0].type).toBe('attach')
+  // Reference nodes handle attachment - no attach command needed
+  expect(result.commands).toHaveLength(0)
   expect(result.newState.layout.groups[0].tabs[0].viewletInstanceId).toBe(123)
   expect(result.newState.layout.groups[0].tabs[0].viewletState).toBe('ready')
-  expect(result.newState.layout.groups[0].tabs[0].isAttached).toBe(true)
 })
 
-test('handleViewletReady does not attach when tab is not active (race condition)', () => {
+test('handleViewletReady works regardless of active tab - reference nodes render correctly', () => {
   GetNextRequestId.resetRequestIdCounter()
   const requestId = GetNextRequestId.getNextRequestId()
 
@@ -275,11 +270,11 @@ test('handleViewletReady does not attach when tab is not active (race condition)
 
   const result = ViewletLifecycle.handleViewletReady(state, requestId, 123)
 
-  // Should update state but NOT attach (no commands)
+  // Reference nodes render correctly regardless of active tab
+  // Race condition is avoided: only active tab's reference node will be in virtual DOM
   expect(result.commands).toHaveLength(0)
   expect(result.newState.layout.groups[0].tabs[0].viewletInstanceId).toBe(123)
   expect(result.newState.layout.groups[0].tabs[0].viewletState).toBe('ready')
-  expect(result.newState.layout.groups[0].tabs[0].isAttached).toBeUndefined()
 })
 
 test('handleViewletReady disposes viewlet when tab no longer exists', () => {

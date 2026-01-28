@@ -1,6 +1,5 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import type { Bounds, ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
-import * as GetNextRequestId from '../../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../../Id/Id.ts'
 import { findTab, updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
@@ -20,7 +19,7 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
   }
 
   // Already has a viewlet being created or ready? Don't recreate
-  if (tab.loadingState && tab.loadRequestId !== 'idle') {
+  if (tab.loadingState !== 'idle') {
     return { commands: [], newState: state }
   }
 
@@ -40,8 +39,6 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
 
   const newState = updateTab(state, tabId, {
     editorUid,
-    viewletRequestId: GetNextRequestId.getNextRequestId(),
-    viewletState: 'creating',
   })
 
   return { commands, newState }

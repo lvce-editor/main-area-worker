@@ -20,8 +20,11 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
             content: '',
             editorType: 'text' as const,
             editorUid: 100,
+            errorMessage: '',
             id: 1,
             isDirty: false,
+            language: 'typescript',
+            loadingState: 'idle',
             uri: '/test/file.txt',
             title: 'file.txt',
             ...tabOverrides,
@@ -42,10 +45,10 @@ test('createViewletForTab creates viewlet command for idle tab', () => {
 
   expect(result.commands).toHaveLength(1)
   expect(result.commands[0].type).toBe('create')
-  expect(result.newState.layout.groups[0].tabs[0].viewletRequestId).toBe(1)
 })
 
 test('createViewletForTab returns empty commands for tab already creating', () => {
+  const state = createStateWithTab({ loadingState: 'loading' })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
@@ -55,6 +58,7 @@ test('createViewletForTab returns empty commands for tab already creating', () =
 })
 
 test('createViewletForTab returns empty commands for tab already ready', () => {
+  const state = createStateWithTab({ loadingState: 'ready' })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
@@ -164,6 +168,7 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
 })
 
 test('switchViewlet handles undefined fromTabId - no commands', () => {
+  const state = createStateWithTab()
   const result = ViewletLifecycle.switchViewlet(state, undefined, 1)
 
   // Reference nodes handle attachment automatically
@@ -191,11 +196,13 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
               content: '',
               editorType: 'text' as const,
               editorUid: 100,
+              errorMessage: '',
               id: 1,
               isDirty: false,
+              language: 'typescript',
+              loadingState: 'idle',
               uri: '/test/file.txt',
               title: 'file.txt',
-              viewletRequestId: requestId,
             },
           ],
         },
@@ -204,7 +211,7 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
     uid: 1,
   }
 
-  const result = ViewletLifecycle.handleViewletReady(state, requestId, 123)
+  const result = ViewletLifecycle.handleViewletReady(state, requestId)
 
   // Reference nodes handle attachment - no attach command needed
   expect(result.commands).toHaveLength(0)
@@ -230,18 +237,23 @@ test('handleViewletReady works regardless of active tab - reference nodes render
               content: '',
               editorType: 'text' as const,
               editorUid: 100,
+              errorMessage: '',
               id: 1,
               isDirty: false,
+              language: 'typescript',
+              loadingState: 'idle',
               uri: '/test/file1.txt',
               title: 'file1.txt',
-              viewletRequestId: requestId,
             },
             {
               content: '',
               editorType: 'text' as const,
               editorUid: 101,
+              errorMessage: '',
               id: 2,
               isDirty: false,
+              language: 'typescript',
+              loadingState: 'idle',
               uri: '/test/file2.txt',
               title: 'file2.txt',
             },
@@ -252,7 +264,7 @@ test('handleViewletReady works regardless of active tab - reference nodes render
     uid: 1,
   }
 
-  const result = ViewletLifecycle.handleViewletReady(state, requestId, 123)
+  const result = ViewletLifecycle.handleViewletReady(state, requestId)
 
   // Reference nodes render correctly regardless of active tab
   // Race condition is avoided: only active tab's reference node will be in virtual DOM
@@ -262,7 +274,7 @@ test('handleViewletReady works regardless of active tab - reference nodes render
 test('handleViewletReady disposes viewlet when tab no longer exists', () => {
   const state = createStateWithTab()
 
-  const result = ViewletLifecycle.handleViewletReady(state, 999, 123)
+  const result = ViewletLifecycle.handleViewletReady(state, 999)
 
   expect(result.commands).toHaveLength(1)
   expect(result.commands[0].type).toBe('dispose')
@@ -270,6 +282,7 @@ test('handleViewletReady disposes viewlet when tab no longer exists', () => {
 })
 
 test('disposeViewletForTab creates dispose command for tab with viewlet', () => {
+  const state = createStateWithTab({ editorUid: 100 })
   const result = ViewletLifecycle.disposeViewletForTab(state, 1)
 
   expect(result.commands).toHaveLength(1)

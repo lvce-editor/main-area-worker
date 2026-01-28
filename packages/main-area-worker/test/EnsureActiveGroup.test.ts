@@ -21,7 +21,8 @@ test('ensureActiveGroup should add tab to existing active group', () => {
     },
   }
 
-  const { newState, tabId } = ensureActiveGroup(state, '/test/file.ts')
+  const newState = ensureActiveGroup(state, '/test/file.ts')
+  const tabId = newState.layout.groups[0].tabs[0].id
 
   expect(tabId).toBeGreaterThan(0)
   expect(newState.layout.groups[0].tabs.length).toBe(1)
@@ -41,7 +42,8 @@ test('ensureActiveGroup should create new group when no active group exists', ()
     },
   }
 
-  const { newState, tabId } = ensureActiveGroup(state, '/test/file.ts')
+  const newState = ensureActiveGroup(state, '/test/file.ts')
+  const tabId = newState.layout.groups[0].tabs[0].id
 
   expect(tabId).toBeGreaterThan(0)
   expect(newState.layout.groups.length).toBe(1)
@@ -75,7 +77,8 @@ test('ensureActiveGroup should use focused group when activeGroupId is undefined
     },
   }
 
-  const { newState, tabId } = ensureActiveGroup(state, '/test/file.ts')
+  const newState = ensureActiveGroup(state, '/test/file.ts')
+  const tabId = newState.layout.groups[1].tabs[0].id
 
   expect(newState.layout.groups[1].tabs.length).toBe(1)
   expect(newState.layout.groups[1].tabs[0].id).toBe(tabId)

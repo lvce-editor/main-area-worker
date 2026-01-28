@@ -5,7 +5,7 @@ import * as Id from '../Id/Id.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
-export const ensureActiveGroup = (state: MainAreaState, uri: string): { newState: MainAreaState; tabId: number } => {
+export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaState => {
   // Find the active group (by activeGroupId or focused flag)
   const { layout } = state
   const { activeGroupId, groups } = layout
@@ -16,11 +16,10 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): { newState
 
   // If no active group exists, create one
   let newState: MainAreaState
-  let tabId: number
   if (activeGroup) {
     // Create a new tab with the URI in the active group
     const title = PathDisplay.getLabel(uri)
-    tabId = Id.create()
+    const tabId = Id.create()
     const newTab: Tab = {
       content: '',
       customEditorId: '',
@@ -38,10 +37,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): { newState
     newState = openTab(state, activeGroup.id, newTab)
   } else {
     newState = createEmptyGroup(state, uri, requestId)
-    activeGroup = newState.layout.groups.find((group) => group.id === newState.layout.activeGroupId)
-    // Get the tab ID from the newly created group
-    tabId = activeGroup!.tabs[0].id
   }
 
-  return { newState, tabId }
+  return newState
 }

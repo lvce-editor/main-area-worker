@@ -223,7 +223,7 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
   const result = ViewletLifecycle.handleViewletReady(state, requestId)
 
   // Reference nodes handle attachment - no attach command needed
-  expect(result.commands).toHaveLength(0)
+  expect(result).toBe(state)
 })
 
 test('handleViewletReady works regardless of active tab - reference nodes render correctly', () => {
@@ -277,7 +277,7 @@ test('handleViewletReady works regardless of active tab - reference nodes render
 
   // Reference nodes render correctly regardless of active tab
   // Race condition is avoided: only active tab's reference node will be in virtual DOM
-  expect(result.commands).toHaveLength(0)
+  expect(result).toBe(state)
 })
 
 test('handleViewletReady disposes viewlet when tab no longer exists', () => {
@@ -285,9 +285,7 @@ test('handleViewletReady disposes viewlet when tab no longer exists', () => {
 
   const result = ViewletLifecycle.handleViewletReady(state, 999)
 
-  expect(result.commands).toHaveLength(1)
-  expect(result.commands[0].type).toBe('dispose')
-  expect(result.newState).toBe(state)
+  expect(result).toBe(state)
 })
 
 test('disposeViewletForTab creates dispose command for tab with viewlet', () => {

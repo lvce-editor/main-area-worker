@@ -32,12 +32,12 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const previousTabId = getActiveTabId(state)
 
   const viewletModuleId = await getViewletModuleId(uri)
-  const { newState, tabId } = ensureActiveGroup(state, uri)
 
   if (!viewletModuleId) {
     // TODO display some kind of errro that editor couldn't be opened
-    return newState
+    return state
   }
+  const { newState, tabId } = ensureActiveGroup(state, uri)
 
   // TODO: Calculate proper bounds
   const bounds = { height: 600, width: 800, x: 0, y: 0 }

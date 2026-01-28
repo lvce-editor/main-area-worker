@@ -1,6 +1,7 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
+import * as Id from '../Id/Id.ts'
 
 export { updateTab } from '../UpdateTab/UpdateTab.ts'
 
@@ -40,8 +41,12 @@ export const loadTabContentAsync = async (
       return latestState
     }
 
+    // Assign editorUid if tab doesn't have one yet
+    const editorUid = latestTab.editorUid === -1 ? Id.create() : latestTab.editorUid
+
     return updateTab(latestState, tabId, {
       content,
+      editorUid,
       errorMessage: undefined,
       loadingState: 'loaded',
     })

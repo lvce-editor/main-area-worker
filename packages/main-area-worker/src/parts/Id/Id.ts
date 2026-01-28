@@ -1,12 +1,11 @@
-let idCounter = 0
+let counter = 0
 
 export const create = (): number => {
-  idCounter++
-  return idCounter
+  return ++counter
 }
 
 export const setMinId = (minId: number): void => {
-  if (minId > idCounter) {
-    idCounter = minId
+  if (minId > counter) {
+    counter = minId
   }
 }

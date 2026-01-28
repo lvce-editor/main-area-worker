@@ -1,43 +1,31 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
-import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
-import { findTabByViewletRequestId } from '../../FindTabByViewletRequestId/FindTabByViewletRequestId.ts'
-import { isTabActive } from '../../IsTabActive/IsTabActive.ts'
+import { findTabByEditorUid } from '../../FindTabByEditorUid/FindTabByEditorUid.ts'
 import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
  * Called when renderer reports viewlet finished creating.
- * CRITICAL: Only attach if this tab is still active - this is where the race condition is handled.
+ * With reference nodes, attachment is handled automatically by virtual DOM rendering.
+ * No commands needed - state update is sufficient.
  */
-export const handleViewletReady = (state: MainAreaState, requestId: number, instanceId: number): ViewletLifecycleResult => {
-  // Find the tab that made this request
-  const tab = findTabByViewletRequestId(state, requestId)
+export const handleViewletReady = (state: MainAreaState, editorUid: number): MainAreaState => {
+  if (editorUid === -1) {
+    throw new Error('Invalid editorUid -1')
+  }
+  // Find the tab by viewletRequestId
+  const tab = findTabByEditorUid(state, editorUid)
 
   if (!tab) {
     // Tab was closed, dispose viewlet
-    return {
-      commands: [{ instanceId, type: 'dispose' }],
-      newState: state,
-    }
+    return state
   }
 
-  // Mark viewlet as ready
-  let newState = updateTab(state, tab.id, {
-    viewletInstanceId: instanceId,
-    viewletState: 'ready',
+  // Mark viewlet as ready and set instance id
+  // Reference nodes will handle rendering at the correct position automatically
+  const newState = updateTab(state, tab.id, {
+    editorUid,
+    loadingState: 'loaded',
   })
 
-  // RACE CONDITION CHECK: Only attach if this tab is currently active
-  const tabIsActive = isTabActive(state, tab.id)
-
-  if (tabIsActive) {
-    newState = updateTab(newState, tab.id, { isAttached: true })
-    return {
-      commands: [{ instanceId, type: 'attach' }],
-      newState,
-    }
-  }
-
-  // Tab is not active - viewlet is ready but stays detached
-  // Will be attached when user switches to this tab
-  return { commands: [], newState }
+  // No attach commands needed - virtual DOM reference nodes handle positioning
+  return newState
 }

@@ -1,4 +1,4 @@
-import type { Tab } from './Tab.ts'
+import type { Tab } from '../Tab/Tab.ts'
 
 export interface EditorGroup {
   readonly activeTabId: number | undefined

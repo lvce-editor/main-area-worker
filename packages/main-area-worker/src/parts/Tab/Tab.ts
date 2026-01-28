@@ -1,13 +1,11 @@
-import type { EditorType } from './EditorType.ts'
-
-export type LoadingState = 'idle' | 'loading' | 'loaded' | 'error'
-
-export type ViewletState = 'idle' | 'creating' | 'ready' | 'error'
+import type { EditorType } from '../EditorType/EditorType.ts'
+import type { LoadingState } from '../LoadingState/LoadingState.ts'
 
 export interface Tab {
   readonly content: string
   readonly customEditorId?: string
   readonly editorType: EditorType
+  readonly editorUid: number
   readonly errorMessage?: string
   readonly id: number
   readonly isAttached?: boolean
@@ -15,9 +13,8 @@ export interface Tab {
   readonly language?: string
   readonly loadingState?: LoadingState
   readonly loadRequestId?: number
-  readonly path?: string
   readonly title: string
+  readonly uri?: string
   readonly viewletInstanceId?: number
   readonly viewletRequestId?: number
-  readonly viewletState?: ViewletState
 }

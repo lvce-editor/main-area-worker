@@ -51,6 +51,7 @@ test('loadContent should restore valid saved state', async () => {
             {
               content: 'restored content',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'Restored File',
@@ -85,6 +86,7 @@ test('loadContent should restore layout with multiple groups', async () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -100,6 +102,7 @@ test('loadContent should restore layout with multiple groups', async () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: true,
               title: 'File 2',
@@ -133,6 +136,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'Tab 1',
@@ -140,6 +144,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'Tab 2',
@@ -147,6 +152,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'Tab 3',
@@ -274,6 +280,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
               content: 'custom content',
               customEditorId: 'custom-editor-1',
               editorType: 'custom' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'Custom Editor',
@@ -306,11 +313,12 @@ test('loadContent should restore layout with tabs containing paths', async () =>
             {
               content: 'console.log("hello");',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               language: 'javascript',
-              path: '/path/to/script.js',
-              title: 'script.js',
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
             },
           ],
         },
@@ -320,6 +328,6 @@ test('loadContent should restore layout with tabs containing paths', async () =>
 
   const result = await LoadContent.loadContent(state, savedState)
 
-  expect(result.layout.groups[0].tabs[0].path).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.ts')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })

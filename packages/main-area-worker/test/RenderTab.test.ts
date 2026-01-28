@@ -7,10 +7,14 @@ test('renderTab should return correct structure for clean tab', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
+    editorUid: -1,
+    errorMessage: '',
     id: 1,
     isDirty: false,
-    path: '/path/to/Test File',
+    language: '',
+    loadingState: 'idle' as const,
     title: 'Test File',
+    uri: '/path/to/Test File',
   }
   const result = renderTab(tab, false, 0, 0)
 
@@ -54,10 +58,14 @@ test('renderTab should show dirty indicator for dirty tab', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
+    editorUid: -1,
+    errorMessage: '',
     id: 1,
     isDirty: true,
-    path: '/path/to/Test File',
+    language: '',
+    loadingState: 'idle' as const,
     title: 'Test File',
+    uri: '/path/to/Test File',
   }
   const result = renderTab(tab, false, 0, 0)
 
@@ -68,10 +76,14 @@ test('renderTab should handle empty title', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
+    editorUid: -1,
+    errorMessage: '',
     id: 1,
     isDirty: false,
-    path: '/path/to/file',
+    language: '',
+    loadingState: 'idle' as const,
     title: '',
+    uri: '/path/to/file',
   }
   const result = renderTab(tab, false, 0, 0)
 
@@ -82,10 +94,11 @@ test('renderTab should handle dirty tab with empty title', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
+    editorUid: -1,
     id: 1,
     isDirty: true,
-    path: '/path/to/file',
     title: '',
+    uri: '/path/to/file',
   }
   const result = renderTab(tab, false, 0, 0)
 
@@ -96,6 +109,7 @@ test('renderTab should use title as fallback when path is undefined', () => {
   const tab = {
     content: 'test content',
     editorType: 'text' as const,
+    editorUid: -1,
     id: 1,
     isDirty: false,
     title: 'Untitled',

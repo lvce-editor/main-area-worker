@@ -6,6 +6,7 @@ export const getTabs = async (): Promise<readonly Tab[]> => {
     {
       content: '',
       editorType: 'text',
+      editorUid: -1,
       id: Id.create(),
       isDirty: false,
       title: 'tab 1',
@@ -13,6 +14,7 @@ export const getTabs = async (): Promise<readonly Tab[]> => {
     {
       content: '',
       editorType: 'text',
+      editorUid: -1,
       id: Id.create(),
       isDirty: false,
       title: 'tab 2',
@@ -20,6 +22,7 @@ export const getTabs = async (): Promise<readonly Tab[]> => {
     {
       content: '',
       editorType: 'text',
+      editorUid: -1,
       id: Id.create(),
       isDirty: false,
       title: 'tab 3',
@@ -27,6 +30,7 @@ export const getTabs = async (): Promise<readonly Tab[]> => {
     {
       content: '',
       editorType: 'text',
+      editorUid: -1,
       id: Id.create(),
       isDirty: false,
       title: 'tab 4',
@@ -34,6 +38,7 @@ export const getTabs = async (): Promise<readonly Tab[]> => {
     {
       content: '',
       editorType: 'text',
+      editorUid: -1,
       id: Id.create(),
       isDirty: false,
       title: 'tab 5',
@@ -41,6 +46,7 @@ export const getTabs = async (): Promise<readonly Tab[]> => {
     {
       content: '',
       editorType: 'text',
+      editorUid: -1,
       id: Id.create(),
       isDirty: false,
       title: 'tab 6',

@@ -1,7 +1,7 @@
 import { MenuItemFlags } from '@lvce-editor/constants'
-import * as ViewletMainStrings from '../MainStrings/MainStrings.js'
-import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.js'
-import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.js'
+import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
+import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'
+import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
 
 export const getMenuEntries = (): readonly any[] => {
   return [

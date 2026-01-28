@@ -19,6 +19,7 @@ test('findTabByViewletRequestId finds tab with matching requestId', () => {
             {
               content: '',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'file1.txt',
@@ -27,6 +28,7 @@ test('findTabByViewletRequestId finds tab with matching requestId', () => {
             {
               content: '',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'file2.txt',
@@ -61,6 +63,7 @@ test('findTabByViewletRequestId finds tab in second group', () => {
             {
               content: '',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'file1.txt',
@@ -77,6 +80,7 @@ test('findTabByViewletRequestId finds tab in second group', () => {
             {
               content: '',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'file2.txt',
@@ -111,6 +115,7 @@ test('findTabByViewletRequestId returns undefined when not found', () => {
             {
               content: '',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'file1.txt',

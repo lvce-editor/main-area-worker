@@ -7,7 +7,6 @@ import * as HandleClick from '../HandleClick/HandleClick.ts'
 import { handleClickCloseTab } from '../HandleClickCloseTab/HandleClickCloseTab.ts'
 import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
-import * as HandleViewletReady from '../HandleViewletReady/HandleViewletReady.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { getCommandIds, wrapCommand, wrapGetter } from '../MainAreaStates/MainAreaStates.ts'
@@ -31,8 +30,6 @@ export const commandMap = {
   'MainArea.handleClickCloseTab': wrapCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapCommand(handleClickTab),
   'MainArea.handleTabContextMenu': wrapCommand(handleTabContextMenu),
-  'MainArea.handleViewletError': HandleViewletReady.handleViewletError,
-  'MainArea.handleViewletReady': HandleViewletReady.handleViewletReady,
   'MainArea.initialize': initialize,
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
   'MainArea.openUri': wrapCommand(openUri),

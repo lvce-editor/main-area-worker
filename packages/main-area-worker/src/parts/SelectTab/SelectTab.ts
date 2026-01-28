@@ -1,6 +1,5 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
-import type { ViewletCommand } from '../ViewletCommand/ViewletCommand.ts'
 import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
@@ -11,7 +10,7 @@ const shouldLoadContent = (tab: Tab): boolean => {
   // Load if:
   // - Has a path (file-based tab)
   // - Not already loaded or currently loading
-  if (!tab.path) {
+  if (!tab.uri) {
     return false
   }
   if (tab.loadingState === 'loading') {
@@ -72,13 +71,12 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
     // This is the group being selected
     const updatedTabs = needsLoading
-      ? g.tabs.map((t) => {
+      ? g.tabs.map((t): Tab => {
           if (t.id === tabId) {
             return {
               ...t,
-              errorMessage: undefined,
-              loadingState: 'loading' as const,
-              loadRequestId: requestId,
+              errorMessage: '',
+              loadingState: 'loading',
             }
           }
           return t
@@ -108,19 +106,23 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   // If new tab's viewlet isn't ready yet, trigger creation (idempotent)
   const newTab = newState.layout.groups[groupIndex].tabs[index]
-  let createCommands: readonly ViewletCommand[] = []
 
-  if (!newTab.viewletState || newTab.viewletState === 'idle') {
+  if (!newTab.loadingState || newTab.loadingState === 'loading') {
     try {
       // Query RendererWorker for viewlet module ID
       // @ts-ignore
-      const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.path)
+      const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
       if (viewletModuleId) {
-        // TODO: Calculate proper bounds
-        const bounds = { height: 600, width: 800, x: 0, y: 0 }
-        const { commands, newState: createdState } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+        // Calculate bounds: use main area bounds minus 35px for tab height
+        const TAB_HEIGHT = 35
+        const bounds = {
+          height: newState.height - TAB_HEIGHT,
+          width: newState.width,
+          x: newState.x,
+          y: newState.y + TAB_HEIGHT,
+        }
+        const createdState = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
         newState = createdState
-        createCommands = commands
       }
     } catch {
       // Viewlet creation is optional - silently ignore if RendererWorker isn't available
@@ -129,14 +131,14 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   MainAreaStates.set(uid, state, newState)
 
-  // Execute viewlet commands if any (pass uid so create can handle attach)
-  if (switchCommands.length > 0 || createCommands.length > 0) {
-    await ExecuteViewletCommands.executeViewletCommands([...switchCommands, ...createCommands], uid)
+  // Execute viewlet commands if any
+  if (switchCommands.length > 0) {
+    await ExecuteViewletCommands.executeViewletCommands(switchCommands)
   }
 
   // Start loading content in the background if needed
-  if (needsLoading && tab.path) {
-    const latestState = await startContentLoading(state, newState, tabId, tab.path, requestId)
+  if (needsLoading && tab.uri) {
+    const latestState = await startContentLoading(state, newState, tabId, tab.uri, requestId)
     return latestState
   }
 

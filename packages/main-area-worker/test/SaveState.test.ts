@@ -29,6 +29,7 @@ test('saveState should save layout with custom configuration', () => {
             {
               content: 'test content',
               editorType: 'text',
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'Test File',
@@ -82,6 +83,7 @@ test('saveState should save layout with multiple groups', () => {
             {
               content: 'content1',
               editorType: 'text',
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -97,6 +99,7 @@ test('saveState should save layout with multiple groups', () => {
             {
               content: 'content2',
               editorType: 'text',
+              editorUid: -1,
               id: 2,
               isDirty: true,
               title: 'File 2',
@@ -131,6 +134,7 @@ test('saveState should save layout with custom editor tabs', () => {
               content: 'custom content',
               customEditorId: 'custom-editor-1',
               editorType: 'custom',
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'Custom Editor',
@@ -161,11 +165,12 @@ test('saveState should save layout with tabs containing paths and languages', ()
             {
               content: 'console.log("hello");',
               editorType: 'text',
+              editorUid: -1,
               id: 1,
               isDirty: false,
               language: 'javascript',
-              path: '/path/to/script.js',
-              title: 'script.js',
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
             },
           ],
         },
@@ -173,7 +178,7 @@ test('saveState should save layout with tabs containing paths and languages', ()
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups[0].tabs[0].path).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.ts')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })
 

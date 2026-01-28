@@ -1,37 +1,17 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
-import type { ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
-import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
-import { findTab, updateTab } from '../../LoadTabContent/LoadTabContent.ts'
+import type { ViewletLifecycleResult } from '../ViewletLifecycleResult.ts'
 
 /**
- * Called when switching tabs - detach old viewlet, attach new one (if ready).
- * The race condition check happens here: only attach if the viewlet is ready.
+ * Called when switching tabs.
+ * With reference nodes, attachment/detachment is handled automatically by virtual DOM rendering.
+ * No attach/detach commands needed - virtual DOM will render the correct reference at each position.
  */
 export const switchViewlet = (state: MainAreaState, fromTabId: number | undefined, toTabId: number): ViewletLifecycleResult => {
-  const commands: ViewletCommand[] = []
+  // No commands needed - virtual DOM reference nodes handle attachment automatically
+  // Virtual DOM will:
+  // 1. Remove the old reference node from the previous active tab
+  // 2. Add the new reference node for the now-active tab
+  // This achieves the same effect as detach/attach without explicit commands
 
-  // Detach old viewlet (if any and if attached)
-  if (fromTabId !== undefined) {
-    const fromTab = findTab(state, fromTabId)
-    if (fromTab?.viewletInstanceId !== undefined && fromTab.isAttached) {
-      commands.push({ instanceId: fromTab.viewletInstanceId, type: 'detach' })
-    }
-  }
-
-  // Attach new viewlet (only if ready and not already attached)
-  const toTab = findTab(state, toTabId)
-  if (toTab?.viewletState === 'ready' && toTab.viewletInstanceId !== undefined && !toTab.isAttached) {
-    commands.push({ instanceId: toTab.viewletInstanceId, type: 'attach' })
-  }
-
-  // Update isAttached flags
-  let newState = state
-  if (fromTabId !== undefined) {
-    newState = updateTab(newState, fromTabId, { isAttached: false })
-  }
-  if (toTab?.viewletState === 'ready') {
-    newState = updateTab(newState, toTabId, { isAttached: true })
-  }
-
-  return { commands, newState }
+  return { commands: [], newState: state }
 }

@@ -12,6 +12,7 @@ test('isValidEditorGroup should return true for valid group', () => {
       {
         content: 'content',
         editorType: 'text',
+        editorUid: -1,
         id: 1,
         isDirty: false,
         title: 'File',
@@ -92,6 +93,7 @@ test('isValidEditorGroup should return false for tabs with invalid tab', () => {
       {
         content: 'content',
         editorType: 'text',
+        editorUid: -1,
         id: '1',
         isDirty: false,
         title: 'File',

@@ -1,0 +1,41 @@
+import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
+import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
+import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
+import * as Id from '../Id/Id.ts'
+import { openTab } from '../OpenTab/OpenTab.ts'
+import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+
+export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaState => {
+  // Find the active group (by activeGroupId or focused flag)
+  const { layout } = state
+  const { activeGroupId, groups } = layout
+  const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+
+  // Generate a request ID for content loading
+  const requestId = GetNextRequestId.getNextRequestId()
+
+  // If no active group exists, create one
+  let newState: MainAreaState
+  if (activeGroup) {
+    // Create a new tab with the URI in the active group
+    const title = PathDisplay.getLabel(uri)
+    const tabId = Id.create()
+    const newTab: Tab = {
+      content: '',
+      editorType: 'text',
+      editorUid: -1,
+      errorMessage: '',
+      id: tabId,
+      isDirty: false,
+      language: '',
+      loadingState: 'loading',
+      title,
+      uri: uri,
+    }
+    newState = openTab(state, activeGroup.id, newTab)
+  } else {
+    newState = createEmptyGroup(state, uri, requestId)
+  }
+
+  return newState
+}

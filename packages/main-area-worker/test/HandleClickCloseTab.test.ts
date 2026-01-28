@@ -19,6 +19,7 @@ test('handleClickCloseTab should return state unchanged when rawGroupIndex is em
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -50,6 +51,7 @@ test('handleClickCloseTab should return state unchanged when rawIndex is empty',
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -81,6 +83,7 @@ test('handleClickCloseTab should return state unchanged when groupIndex is negat
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -112,6 +115,7 @@ test('handleClickCloseTab should return state unchanged when groupIndex is out o
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -143,6 +147,7 @@ test('handleClickCloseTab should return state unchanged when tab index is negati
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -174,6 +179,7 @@ test('handleClickCloseTab should return state unchanged when tab index is out of
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -205,6 +211,7 @@ test('handleClickCloseTab should close the tab at the specified index', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -212,6 +219,7 @@ test('handleClickCloseTab should close the tab at the specified index', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -219,6 +227,7 @@ test('handleClickCloseTab should close the tab at the specified index', () => {
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -252,6 +261,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -267,6 +277,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -274,6 +285,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -308,6 +320,7 @@ test('handleClickCloseTab should close first tab when index is 0', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -315,6 +328,7 @@ test('handleClickCloseTab should close first tab when index is 0', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -349,6 +363,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -356,6 +371,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -363,6 +379,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -397,6 +414,7 @@ test('handleClickCloseTab should handle closing only tab in group', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -430,6 +448,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -445,6 +464,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',

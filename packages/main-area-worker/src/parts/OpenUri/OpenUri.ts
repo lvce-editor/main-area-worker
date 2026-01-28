@@ -1,35 +1,24 @@
-/* eslint-disable prefer-destructuring */
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
-import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
+import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
+import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
+import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
-import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
-import * as Id from '../Id/Id.ts'
-import { openTab } from '../OpenTab/OpenTab.ts'
-import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
-import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
+import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
+import { getOptionUriOptions } from '../GetOptionUriOptions/GetOptionUriOptions.ts'
+import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
+import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
-
-const getActiveTabId = (state: MainAreaState): number | undefined => {
-  const { layout } = state
-  const { activeGroupId, groups } = layout
-  const activeGroup = groups.find((g) => g.id === activeGroupId)
-  return activeGroup?.activeTabId
-}
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   Assert.object(state)
 
-  let uri = ''
-  if (typeof options === 'string') {
-    uri = options
-  } else {
-    uri = options.uri
-  }
+  const { uid } = state
+
+  const uri = getOptionUriOptions(options)
 
   // Check if a tab with this URI already exists
   const existingTab = findTabByUri(state, uri)
@@ -42,104 +31,56 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Get previous active tab ID for viewlet switching
   const previousTabId = getActiveTabId(state)
 
-  // Query RendererWorker for viewlet module ID (optional, may fail in tests)
-  let viewletModuleId: string | undefined
-  try {
-    // @ts-ignore
-    viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', uri)
-  } catch {
-    // Viewlet creation is optional - silently ignore if RendererWorker isn't available
+  const newState = ensureActiveGroup(state, uri)
+  const tabId = getActiveTabId(newState)!
+
+  const viewletModuleId = await getViewletModuleId(uri)
+
+  if (!viewletModuleId) {
+    // TODO display some kind of errro that editor couldn't be opened
+    return newState
   }
 
-  // Find the active group (by activeGroupId or focused flag)
-  const { layout } = state
-  const { activeGroupId, groups } = layout
-  const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  // Calculate bounds: use main area bounds minus 35px for tab height
+  const TAB_HEIGHT = 35
+  const bounds = {
+    height: newState.height - TAB_HEIGHT,
+    width: newState.width,
+    x: newState.x,
+    y: newState.y + TAB_HEIGHT,
+  }
+  const stateWithViewlet = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+  let intermediateState1 = stateWithViewlet
 
-  // Generate a request ID for content loading
-  const requestId = GetNextRequestId.getNextRequestId()
+  // Switch viewlet (detach old, attach new if ready)
+  const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState1, previousTabId, tabId)
+  intermediateState1 = switchedState
 
-  // If no active group exists, create one
-  if (!activeGroup) {
-    const groupId = Id.create()
-    const title = PathDisplay.getLabel(uri)
-    const tabId = Id.create()
-    const newTab = {
-      content: '',
-      editorType: 'text' as const,
-      id: tabId,
-      isDirty: false,
-      loadingState: 'loading' as const,
-      loadRequestId: requestId,
-      path: uri,
-      title,
-    }
-    const newGroup = {
-      activeTabId: newTab.id,
-      focused: true,
-      id: groupId,
-      size: 100,
-      tabs: [newTab],
-    }
+  set(uid, state, intermediateState1)
 
-    let newState: MainAreaState = {
-      ...state,
-      layout: {
-        ...layout,
-        activeGroupId: groupId,
-        groups: [...groups, newGroup],
-      },
-    }
+  // @ts-ignore
 
-    // Eagerly create viewlet (safe - no visible side effects)
-    if (viewletModuleId) {
-      // TODO: Calculate proper bounds
-      const bounds = { height: 600, width: 800, x: 0, y: 0 }
-      const { commands: createCommands, newState: stateWithViewlet } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
-      newState = stateWithViewlet
+  // Get the tab to extract editorUid
+  const tabWithViewlet = findTabById(intermediateState1, tabId)
 
-      // Switch viewlet (detach old, attach new if ready)
-      const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
-      newState = switchedState
-
-      // Execute viewlet commands (pass uid so create can handle attach)
-      await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands], state.uid)
-    }
-
-    // Start loading content
-    return startContentLoading(state, newState, tabId, uri, requestId)
+  if (!tabWithViewlet) {
+    return intermediateState1
   }
 
-  // Create a new tab with the URI in the active group
-  const title = PathDisplay.getLabel(uri)
-  const tabId = Id.create()
-  const newTab = {
-    content: '',
-    editorType: 'text' as const,
-    id: tabId,
-    isDirty: false,
-    loadingState: 'loading' as const,
-    loadRequestId: requestId,
-    path: uri,
-    title,
+  const { editorUid } = tabWithViewlet.tab
+
+  if (editorUid === -1) {
+    throw new Error(`invalid editorUid`)
   }
 
-  let newState = openTab(state, activeGroup.id, newTab)
+  await createViewlet(viewletModuleId, editorUid, tabId, bounds, uri)
 
-  // Eagerly create viewlet (safe - no visible side effects)
-  if (viewletModuleId) {
-    // TODO: Calculate proper bounds
-    const bounds = { height: 600, width: 800, x: 0, y: 0 }
-    const { commands: createCommands, newState: stateWithViewlet } = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
-    newState = stateWithViewlet
+  // After viewlet is created, get the latest state and mark it as ready
+  // This ensures we have any state updates that occurred during viewlet creation
+  const { newState: latestState } = get(uid)
 
-    // Switch viewlet (detach old, attach new if ready)
-    const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
-    newState = switchedState
+  // Attachment is handled automatically by virtual DOM reference nodes
+  const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
 
-    // Execute viewlet commands (pass uid so create can handle attach)
-    await ExecuteViewletCommands.executeViewletCommands([...createCommands, ...switchCommands], state.uid)
-  }
-
-  return startContentLoading(state, newState, tabId, uri, requestId)
+  return readyState
 }

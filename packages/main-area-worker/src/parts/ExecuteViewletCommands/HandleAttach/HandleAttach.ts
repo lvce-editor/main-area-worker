@@ -2,7 +2,8 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
 
 export const handleAttach = async (command: Extract<ViewletCommand, { type: 'attach' }>): Promise<void> => {
-  // Makes viewlet visible - only call after race condition check
+  // TODO find a better way to append editors
+  const parentNodeSelector = '.editor-groups-container'
   // @ts-ignore
-  await RendererWorker.invoke('Viewlet.attach', command.instanceId)
+  await RendererWorker.invoke('Layout.attachViewlet', parentNodeSelector, command.instanceId)
 }

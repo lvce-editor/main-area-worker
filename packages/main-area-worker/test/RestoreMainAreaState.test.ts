@@ -24,6 +24,7 @@ test('restoreMainAreaState should restore layout from valid saved state', () => 
           {
             content: 'restored content',
             editorType: 'text' as const,
+            editorUid: -1,
             id: 1,
             isDirty: false,
             title: 'Restored File',
@@ -146,6 +147,7 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
           {
             content: 'content1',
             editorType: 'text' as const,
+            editorUid: -1,
             id: 1,
             isDirty: false,
             title: 'File 1',
@@ -161,6 +163,7 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
           {
             content: 'content2',
             editorType: 'text' as const,
+            editorUid: -1,
             id: 2,
             isDirty: true,
             title: 'File 2',
@@ -205,6 +208,7 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
             content: 'custom content',
             customEditorId: 'custom-editor-1',
             editorType: 'custom' as const,
+            editorUid: -1,
             id: 1,
             isDirty: false,
             title: 'Custom Editor',
@@ -247,11 +251,14 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
           {
             content: 'console.log("hello");',
             editorType: 'text' as const,
+            editorUid: -1,
+            errorMessage: '',
             id: 1,
             isDirty: false,
             language: 'javascript',
-            path: '/path/to/script.js',
-            title: 'script.js',
+            loadingState: 'idle' as const,
+            title: 'script.ts',
+            uri: '/path/to/script.ts',
           },
         ],
       },
@@ -266,7 +273,7 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
   const result = restoreMainAreaState(savedState, currentState)
 
   expect(result.layout).toEqual(savedLayout)
-  expect(result.layout.groups[0].tabs[0].path).toBe('/path/to/script.js')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.ts')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })
 
@@ -705,6 +712,7 @@ test('restoreMainState should return valid layout', () => {
           {
             content: 'content',
             editorType: 'text' as const,
+            editorUid: -1,
             id: 1,
             isDirty: false,
             title: 'File',
@@ -855,6 +863,7 @@ test('restoreMainState should accept layout with valid groups', () => {
           {
             content: 'content',
             editorType: 'text' as const,
+            editorUid: -1,
             id: 1,
             isDirty: false,
             title: 'File',
@@ -871,6 +880,7 @@ test('restoreMainState should accept layout with valid groups', () => {
             content: 'content2',
             customEditorId: 'editor-1',
             editorType: 'custom' as const,
+            editorUid: -1,
             id: 2,
             isDirty: true,
             title: 'File 2',

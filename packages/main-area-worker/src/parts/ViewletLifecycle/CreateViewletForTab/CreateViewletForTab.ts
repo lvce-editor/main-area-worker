@@ -1,45 +1,28 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
-import type { Bounds, ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
-import * as GetNextRequestId from '../../GetNextRequestId/GetNextRequestId.ts'
+import type { Bounds } from '../../ViewletCommand/ViewletCommand.ts'
+import * as Id from '../../Id/Id.ts'
 import { findTab, updateTab } from '../../LoadTabContent/LoadTabContent.ts'
-
-export interface ViewletLifecycleResult {
-  readonly commands: readonly ViewletCommand[]
-  readonly newState: MainAreaState
-}
 
 /**
  * SAFE: Create viewlet for a tab (no visible side effects)
  * Can be called eagerly when tab is opened - the viewlet loads in the background.
  */
-export const createViewletForTab = (state: MainAreaState, tabId: number, viewletModuleId: string, bounds: Bounds): ViewletLifecycleResult => {
+export const createViewletForTab = (state: MainAreaState, tabId: number, viewletModuleId: string, bounds: Bounds): MainAreaState => {
   const tab = findTab(state, tabId)
   if (!tab) {
-    return { commands: [], newState: state }
+    return state
   }
 
-  // Already has a viewlet being created or ready? Don't recreate
-  if (tab.viewletState === 'creating' || tab.viewletState === 'ready') {
-    return { commands: [], newState: state }
+  // If tab already has an editorUid or is loading/loaded, don't recreate
+  if (tab.editorUid !== -1 || tab.loadingState === 'loading' || tab.loadingState === 'loaded') {
+    return state
   }
 
-  const viewletRequestId = GetNextRequestId.getNextRequestId()
-
-  const commands: ViewletCommand[] = [
-    {
-      bounds,
-      requestId: viewletRequestId,
-      tabId,
-      type: 'create',
-      uri: tab.path,
-      viewletModuleId,
-    },
-  ]
+  const editorUid = Id.create()
 
   const newState = updateTab(state, tabId, {
-    viewletRequestId,
-    viewletState: 'creating',
+    editorUid,
   })
 
-  return { commands, newState }
+  return newState
 }

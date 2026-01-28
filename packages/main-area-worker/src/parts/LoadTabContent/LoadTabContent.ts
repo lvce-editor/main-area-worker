@@ -1,30 +1,9 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
+import * as Id from '../Id/Id.ts'
+import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
-export const updateTab = (state: MainAreaState, tabId: number, updates: Partial<Tab>): MainAreaState => {
-  const { layout } = state
-  const { groups } = layout
-  const updatedGroups = groups.map((group) => {
-    const tabIndex = group.tabs.findIndex((t) => t.id === tabId)
-    if (tabIndex === -1) {
-      return group
-    }
-    const updatedTabs = group.tabs.map((tab, index) => {
-      if (index === tabIndex) {
-        return { ...tab, ...updates }
-      }
-      return tab
-    })
-    return { ...group, tabs: updatedTabs }
-  })
-  return {
-    ...state,
-    layout: {
-      ...layout,
-      groups: updatedGroups,
-    },
-  }
-}
+export { updateTab } from '../UpdateTab/UpdateTab.ts'
 
 export const findTab = (state: MainAreaState, tabId: number): Tab | undefined => {
   const { layout } = state
@@ -62,8 +41,12 @@ export const loadTabContentAsync = async (
       return latestState
     }
 
+    // Assign editorUid if tab doesn't have one yet
+    const editorUid = latestTab.editorUid === -1 ? Id.create() : latestTab.editorUid
+
     return updateTab(latestState, tabId, {
       content,
+      editorUid,
       errorMessage: undefined,
       loadingState: 'loaded',
     })

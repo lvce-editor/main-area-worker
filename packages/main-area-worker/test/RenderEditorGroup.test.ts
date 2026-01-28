@@ -13,10 +13,11 @@ test('renderEditorGroup should return correct structure for group with active ta
       {
         content: 'test content',
         editorType: 'text' as const,
+        editorUid: -1,
         id: 1,
         isDirty: false,
-        path: '/path/to/Test File',
         title: 'Test File',
+        uri: '/path/to/Test File',
       },
     ],
   }
@@ -94,10 +95,11 @@ test('renderEditorGroup should handle group with no active tab', () => {
       {
         content: 'test content',
         editorType: 'text' as const,
+        editorUid: -1,
         id: 1,
         isDirty: false,
-        path: '/path/to/Test File',
         title: 'Test File',
+        uri: '/path/to/Test File',
       },
     ],
   }
@@ -117,16 +119,17 @@ test('renderEditorGroup should handle group with custom editor', () => {
         content: '',
         customEditorId: 'custom-editor-123',
         editorType: 'custom' as const,
+        editorUid: -1,
         id: 1,
         isDirty: false,
-        path: '/path/to/Custom Tab',
         title: 'Custom Tab',
+        uri: '/path/to/Custom Tab',
       },
     ],
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(11) // 1 (EditorGroup) + 7 (renderTabBar with TabIcon) + 3 (renderEditor with custom)
+  expect(result.length).toBe(12) // 1 (EditorGroup) + 7 (renderTabBar with TabIcon) + 4 (renderEditor with content)
 })
 
 test('renderEditorGroup should handle empty tabs array', () => {

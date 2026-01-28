@@ -1,5 +1,6 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
-import type { ViewletLifecycleResult } from '../CreateViewletForTab/CreateViewletForTab.ts'
+import type { ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
+import type { ViewletLifecycleResult } from '../ViewletLifecycleResult.ts'
 import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
@@ -7,11 +8,11 @@ import { findTab } from '../../LoadTabContent/LoadTabContent.ts'
  */
 export const disposeViewletForTab = (state: MainAreaState, tabId: number): ViewletLifecycleResult => {
   const tab = findTab(state, tabId)
-  if (!tab || tab.viewletInstanceId === undefined) {
+  if (!tab || tab.editorUid === -1) {
     return { commands: [], newState: state }
   }
 
-  const commands = [{ instanceId: tab.viewletInstanceId, type: 'dispose' }] as const
+  const commands: readonly ViewletCommand[] = [{ instanceId: tab.editorUid, type: 'dispose' }]
 
   return { commands, newState: state }
 }

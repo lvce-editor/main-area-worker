@@ -19,6 +19,7 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -26,6 +27,7 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -33,6 +35,7 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -68,6 +71,7 @@ test('closeTabsRight should return state unchanged when group does not exist', (
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -99,6 +103,7 @@ test('closeTabsRight should return state unchanged when there is no active tab',
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -130,6 +135,7 @@ test('closeTabsRight should return state unchanged when active tab is at the end
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -137,6 +143,7 @@ test('closeTabsRight should return state unchanged when active tab is at the end
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -144,6 +151,7 @@ test('closeTabsRight should return state unchanged when active tab is at the end
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -175,6 +183,7 @@ test('closeTabsRight should preserve other groups', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -182,6 +191,7 @@ test('closeTabsRight should preserve other groups', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -189,6 +199,7 @@ test('closeTabsRight should preserve other groups', () => {
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -204,6 +215,7 @@ test('closeTabsRight should preserve other groups', () => {
             {
               content: 'content4',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 4,
               isDirty: false,
               title: 'File 4',
@@ -211,6 +223,7 @@ test('closeTabsRight should preserve other groups', () => {
             {
               content: 'content5',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 5,
               isDirty: false,
               title: 'File 5',
@@ -218,6 +231,7 @@ test('closeTabsRight should preserve other groups', () => {
             {
               content: 'content6',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 6,
               isDirty: false,
               title: 'File 6',
@@ -255,6 +269,7 @@ test('closeTabsRight should handle single tab in group', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -286,6 +301,7 @@ test('closeTabsRight should handle active tab at the beginning', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -293,6 +309,7 @@ test('closeTabsRight should handle active tab at the beginning', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -300,6 +317,7 @@ test('closeTabsRight should handle active tab at the beginning', () => {
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -334,6 +352,7 @@ test('closeTabsRight should preserve other state properties', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -341,6 +360,7 @@ test('closeTabsRight should preserve other state properties', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -378,25 +398,28 @@ test('closeTabsRight should handle tabs with custom properties', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: true,
               language: 'typescript',
-              path: '/file1.ts',
               title: 'File 1',
+              uri: '/file1.ts',
             },
             {
               content: 'content2',
               customEditorId: 'custom-editor',
               editorType: 'custom' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               language: 'javascript',
-              path: '/file2.js',
               title: 'File 2',
+              uri: '/file2.ts',
             },
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -413,7 +436,7 @@ test('closeTabsRight should handle tabs with custom properties', () => {
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
   expect(result.layout.groups[0].tabs[0].language).toBe('typescript')
-  expect(result.layout.groups[0].tabs[0].path).toBe('/file1.ts')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/file1.ts')
   expect(result.layout.groups[0].tabs[1].id).toBe(2)
   expect(result.layout.groups[0].tabs[1].customEditorId).toBe('custom-editor')
   expect(result.layout.groups[0].tabs[1].editorType).toBe('custom')
@@ -435,6 +458,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -442,6 +466,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -457,6 +482,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -464,6 +490,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
             {
               content: 'content4',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 4,
               isDirty: false,
               title: 'File 4',
@@ -471,6 +498,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
             {
               content: 'content5',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 5,
               isDirty: false,
               title: 'File 5',
@@ -505,6 +533,7 @@ test('closeTabsRight should return state unchanged when active tab id not found 
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -512,6 +541,7 @@ test('closeTabsRight should return state unchanged when active tab id not found 
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -543,6 +573,7 @@ test('closeTabsRight should close multiple tabs to the right', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -550,6 +581,7 @@ test('closeTabsRight should close multiple tabs to the right', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -557,6 +589,7 @@ test('closeTabsRight should close multiple tabs to the right', () => {
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -564,6 +597,7 @@ test('closeTabsRight should close multiple tabs to the right', () => {
             {
               content: 'content4',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 4,
               isDirty: false,
               title: 'File 4',
@@ -571,6 +605,7 @@ test('closeTabsRight should close multiple tabs to the right', () => {
             {
               content: 'content5',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 5,
               isDirty: false,
               title: 'File 5',
@@ -619,6 +654,7 @@ test('closeTabsRight should preserve group properties', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -626,6 +662,7 @@ test('closeTabsRight should preserve group properties', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -661,6 +698,7 @@ test('closeTabsRight should handle active tab in the middle', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -668,6 +706,7 @@ test('closeTabsRight should handle active tab in the middle', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -675,6 +714,7 @@ test('closeTabsRight should handle active tab in the middle', () => {
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -682,6 +722,7 @@ test('closeTabsRight should handle active tab in the middle', () => {
             {
               content: 'content4',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 4,
               isDirty: false,
               title: 'File 4',
@@ -689,6 +730,7 @@ test('closeTabsRight should handle active tab in the middle', () => {
             {
               content: 'content5',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 5,
               isDirty: false,
               title: 'File 5',
@@ -723,6 +765,7 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: true,
               title: 'File 1',
@@ -730,6 +773,7 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -737,6 +781,7 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: true,
               title: 'File 3',
@@ -770,6 +815,7 @@ test('closeTabsRight should handle vertical layout direction', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -777,6 +823,7 @@ test('closeTabsRight should handle vertical layout direction', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -809,6 +856,7 @@ test('closeTabsRight should handle two tabs with one to close', () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -816,6 +864,7 @@ test('closeTabsRight should handle two tabs with one to close', () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',

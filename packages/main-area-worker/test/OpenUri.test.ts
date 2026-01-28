@@ -18,7 +18,7 @@ test('openUri should create a new group and tab when no groups exist', async () 
   expect(result.layout.groups.length).toBe(1)
   expect(result.layout.activeGroupId).toBeDefined()
   expect(result.layout.groups[0].tabs.length).toBe(1)
-  expect(result.layout.groups[0].tabs[0].path).toBe('file:///path/to/file.ts')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
   expect(result.layout.groups[0].tabs[0].title).toBe('file.ts')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
   expect(result.layout.groups[0].focused).toBe(true)
@@ -40,9 +40,14 @@ test('openUri should add tab to active group when group exists', async () => {
             {
               content: 'existing content',
               editorType: 'text' as const,
+              editorUid: -1,
+              errorMessage: '',
               id: 1,
               isDirty: false,
+              language: 'plaintext',
+              loadingState: 'idle',
               title: 'Existing File',
+              uri: 'file:///existing/file',
             },
           ],
         },
@@ -60,7 +65,7 @@ test('openUri should add tab to active group when group exists', async () => {
   expect(result).toBeDefined()
   expect(result.layout.groups.length).toBe(1)
   expect(result.layout.groups[0].tabs.length).toBe(2)
-  expect(result.layout.groups[0].tabs[1].path).toBe('file:///path/to/new/file.ts')
+  expect(result.layout.groups[0].tabs[1].uri).toBe('file:///path/to/new/file.ts')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[1].id)
 })
 
@@ -80,18 +85,26 @@ test('openUri should activate existing tab if URI already exists', async () => {
             {
               content: 'existing content',
               editorType: 'text' as const,
+              editorUid: -1,
+              errorMessage: '',
               id: 1,
               isDirty: false,
-              path: 'file:///path/to/file.ts',
+              language: 'typescript',
+              loadingState: 'idle',
               title: 'Existing File',
+              uri: 'file:///path/to/file.ts',
             },
             {
               content: 'other content',
               editorType: 'text' as const,
+              editorUid: -1,
+              errorMessage: '',
               id: 2,
               isDirty: false,
-              path: 'file:///path/to/other/file.ts',
+              language: 'typescript',
+              loadingState: 'idle',
               title: 'Other File',
+              uri: 'file:///path/to/other/file.ts',
             },
           ],
         },
@@ -127,10 +140,14 @@ test('openUri should activate existing tab in different group', async () => {
             {
               content: 'content',
               editorType: 'text' as const,
+              editorUid: -1,
+              errorMessage: '',
               id: 1,
               isDirty: false,
-              path: 'file:///path/to/file1.ts',
+              language: 'typescript',
+              loadingState: 'idle',
               title: 'File 1',
+              uri: 'file:///path/to/file1.ts',
             },
           ],
         },
@@ -143,10 +160,14 @@ test('openUri should activate existing tab in different group', async () => {
             {
               content: 'content',
               editorType: 'text' as const,
+              editorUid: -1,
+              errorMessage: '',
               id: 2,
               isDirty: false,
-              path: 'file:///path/to/file2.ts',
+              language: 'typescript',
+              loadingState: 'idle',
               title: 'File 2',
+              uri: 'file:///path/to/file2.ts',
             },
           ],
         },
@@ -191,7 +212,7 @@ test('openUri should create group when activeGroupId points to non-existent grou
   expect(result.layout.groups.length).toBe(1)
   expect(result.layout.activeGroupId).toBeDefined()
   expect(result.layout.groups[0].tabs.length).toBe(1)
-  expect(result.layout.groups[0].tabs[0].path).toBe('file:///path/to/file.ts')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
 })
 
 test('openUri should validate state parameter', async () => {

@@ -4,6 +4,7 @@ import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 
 const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState => ({
   assetDir: '',
+  height: 0,
   layout: {
     activeGroupId: 1,
     direction: 'horizontal',
@@ -17,6 +18,7 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
           {
             content: 'content1',
             editorType: 'text' as const,
+            editorUid: -1,
             id: 1,
             isDirty: false,
             title: 'File 1',
@@ -24,6 +26,7 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
           {
             content: 'content2',
             editorType: 'text' as const,
+            editorUid: -1,
             id: 2,
             isDirty: true,
             title: 'File 2',
@@ -39,6 +42,7 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
           {
             content: 'content3',
             editorType: 'text' as const,
+            editorUid: -1,
             id: 3,
             isDirty: false,
             title: 'File 3',
@@ -49,6 +53,9 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
   },
   platform: 1,
   uid: 1,
+  width: 0,
+  x: 0,
+  y: 0,
   ...overrides,
 })
 
@@ -123,6 +130,7 @@ test('selectTab should handle single group with single tab', async () => {
             {
               content: 'content',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File',
@@ -192,6 +200,7 @@ test('selectTab should preserve other groups state when switching focus', async 
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -207,6 +216,7 @@ test('selectTab should preserve other groups state when switching focus', async 
             {
               content: 'content3',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 3,
               isDirty: false,
               title: 'File 3',
@@ -222,6 +232,7 @@ test('selectTab should preserve other groups state when switching focus', async 
             {
               content: 'content4',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 4,
               isDirty: true,
               title: 'File 4',
@@ -258,6 +269,7 @@ test('selectTab should handle custom editor tabs', async () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'Text File',
@@ -266,6 +278,7 @@ test('selectTab should handle custom editor tabs', async () => {
               content: 'content2',
               customEditorId: 'custom-editor-1',
               editorType: 'custom' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'Custom Editor',
@@ -298,20 +311,22 @@ test('selectTab should handle tabs with paths and languages', async () => {
             {
               content: 'console.log("hello");',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               language: 'javascript',
-              path: '/path/to/script.js',
-              title: 'script.js',
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
             },
             {
               content: '<div>Hello</div>',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               language: 'html',
-              path: '/path/to/index.html',
               title: 'index.html',
+              uri: '/path/to/index.html',
             },
           ],
         },
@@ -341,6 +356,7 @@ test('selectTab should handle vertical layout direction', async () => {
             {
               content: 'content1',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -356,6 +372,7 @@ test('selectTab should handle vertical layout direction', async () => {
             {
               content: 'content2',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               title: 'File 2',
@@ -422,6 +439,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
             {
               content: 'content',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File',
@@ -455,6 +473,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
             {
               content: '',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -462,12 +481,13 @@ test('selectTab should not trigger loading when tab is already loading', async (
             {
               content: '',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               loadingState: 'loading',
               loadRequestId: 42,
-              path: '/path/to/file.ts',
               title: 'File 2',
+              uri: '/path/to/file.ts',
             },
           ],
         },
@@ -497,6 +517,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
             {
               content: '',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -504,11 +525,12 @@ test('selectTab should not trigger loading when tab is already loaded with conte
             {
               content: 'already loaded content',
               editorType: 'text' as const,
+              editorUid: -1,
               id: 2,
               isDirty: false,
               loadingState: 'loaded',
-              path: '/path/to/file.ts',
               title: 'File 2',
+              uri: '/path/to/file.ts',
             },
           ],
         },

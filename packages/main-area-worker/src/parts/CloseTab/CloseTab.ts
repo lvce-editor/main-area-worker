@@ -1,9 +1,9 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import type { ViewletCommand } from '../ViewletCommand/ViewletCommand.ts'
 import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
-const findTabInState = (state: MainAreaState, groupId: number, tabId: number): { viewletInstanceId?: number } | undefined => {
+const findTabInState = (state: MainAreaState, groupId: number, tabId: number): Tab | undefined => {
   const { layout } = state
   const group = layout.groups.find((g) => g.id === groupId)
   return group?.tabs.find((t) => t.id === tabId)
@@ -76,8 +76,8 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
   const tab = findTabInState(state, groupId, tabId)
   const commands: ViewletCommand[] = []
 
-  // Dispose viewlet if present
-  if (tab?.viewletInstanceId !== undefined) {
+  // Dispose viewlet if present and not idle
+  if (tab && tab.editorUid !== undefined) {
     const { commands: disposeCommands } = ViewletLifecycle.disposeViewletForTab(state, tabId)
     commands.push(...disposeCommands)
   }
@@ -95,14 +95,14 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
       // Switch viewlet to the new active tab
       const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, undefined, newActiveTabId)
       commands.push(...switchCommands)
-      await ExecuteViewletCommands.executeViewletCommands(commands, state.uid)
+      await ExecuteViewletCommands.executeViewletCommands(commands)
       return switchedState
     }
   }
 
   // Execute any disposal commands
   if (commands.length > 0) {
-    await ExecuteViewletCommands.executeViewletCommands(commands, state.uid)
+    await ExecuteViewletCommands.executeViewletCommands(commands)
   }
 
   return newState

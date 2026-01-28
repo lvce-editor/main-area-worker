@@ -4,6 +4,7 @@ import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 
 const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState => ({
   assetDir: '',
+  fileIconCache: {},
   height: 0,
   layout: {
     activeGroupId: 1,

@@ -1,9 +1,9 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import type { ViewletCommand } from '../ViewletCommand/ViewletCommand.ts'
 import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
-const findTabInState = (state: MainAreaState, groupId: number, tabId: number) => {
+const findTabInState = (state: MainAreaState, groupId: number, tabId: number): Tab | undefined => {
   const { layout } = state
   const group = layout.groups.find((g) => g.id === groupId)
   return group?.tabs.find((t) => t.id === tabId)
@@ -76,8 +76,8 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
   const tab = findTabInState(state, groupId, tabId)
   const commands: ViewletCommand[] = []
 
-  // Dispose viewlet if present
-  if (tab?.viewletState !== undefined && tab.viewletState !== 'idle') {
+  // Dispose viewlet if present and not idle
+  if (tab && tab.viewletState !== undefined && tab.viewletState !== 'idle') {
     const { commands: disposeCommands } = ViewletLifecycle.disposeViewletForTab(state, tabId)
     commands.push(...disposeCommands)
   }

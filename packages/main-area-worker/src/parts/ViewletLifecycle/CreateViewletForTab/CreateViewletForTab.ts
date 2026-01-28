@@ -19,7 +19,7 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
   }
 
   // Already has a viewlet being created or ready? Don't recreate
-  if (tab.viewletState === 'creating' || tab.viewletState === 'ready') {
+  if (tab.editorUid) {
     return { commands: [], newState: state }
   }
 
@@ -39,7 +39,6 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
 
   const newState = updateTab(state, tabId, {
     editorUid,
-    viewletState: 'creating',
   })
 
   return { commands, newState }

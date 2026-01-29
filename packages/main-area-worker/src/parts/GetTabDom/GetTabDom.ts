@@ -28,7 +28,7 @@ export const getTabDom = (tab: any): readonly VirtualDomNode[] => {
   const isHovered = flags & TabFlags.Hovered
   const actualTabWidth = fixedWidth || tabWidth
   const tabElement = {
-    ariaSelected: isActive,
+    'aria-selected': isActive,
     childCount: 2,
     className: tabClassName,
     'data-dragUid': uid,

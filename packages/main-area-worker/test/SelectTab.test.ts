@@ -3,64 +3,6 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 
-function createMockState(overrides?: Partial<MainAreaState>): MainAreaState {
-  const defaultMockLayout = {
-    activeGroupId: 1,
-    direction: 'horizontal' as const,
-    groups: [
-      {
-        activeTabId: 1,
-        focused: true,
-        id: 1,
-        size: 50,
-        tabs: [
-          {
-            content: 'content1',
-            editorType: 'text' as const,
-            editorUid: -1,
-            icon: '',
-            id: 1,
-            isDirty: false,
-            title: 'File 1',
-          },
-          {
-            content: 'content2',
-            editorType: 'text' as const,
-            editorUid: -1,
-            icon: '',
-            id: 2,
-            isDirty: false,
-            title: 'File 2',
-          },
-        ],
-      },
-      {
-        activeTabId: 3,
-        focused: false,
-        id: 2,
-        size: 50,
-        tabs: [
-          {
-            content: 'content3',
-            editorType: 'text' as const,
-            editorUid: -1,
-            icon: '',
-            id: 3,
-            isDirty: false,
-            title: 'File 3',
-          },
-        ],
-      },
-    ],
-  }
-
-  return {
-    ...createDefaultState(),
-    layout: overrides?.layout || defaultMockLayout,
-    ...overrides,
-  }
-}
-
 test('selectTab should update active group and tab with valid indexes', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -498,10 +440,11 @@ test('selectTab should handle group with empty tabs array', async () => {
 })
 
 test('selectTab should preserve other groups state when switching focus', async () => {
-  const state = createMockState({
+  const state = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 'horizontal' as const,
       groups: [
         {
           activeTabId: 1,
@@ -556,7 +499,7 @@ test('selectTab should preserve other groups state when switching focus', async 
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 2, 0)
 
@@ -570,10 +513,11 @@ test('selectTab should preserve other groups state when switching focus', async 
 })
 
 test('selectTab should handle custom editor tabs', async () => {
-  const state = createMockState({
+  const state = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 'horizontal' as const,
       groups: [
         {
           activeTabId: 1,
@@ -604,7 +548,7 @@ test('selectTab should handle custom editor tabs', async () => {
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 1)
 
@@ -614,10 +558,11 @@ test('selectTab should handle custom editor tabs', async () => {
 })
 
 test('selectTab should handle tabs with paths and languages', async () => {
-  const state = createMockState({
+  const state = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 'horizontal' as const,
       groups: [
         {
           activeTabId: 1,
@@ -651,7 +596,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 1)
 
@@ -661,10 +606,11 @@ test('selectTab should handle tabs with paths and languages', async () => {
 })
 
 test('selectTab should handle vertical layout direction', async () => {
-  const state = createMockState({
+  const state = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 'vertical' as const,
       groups: [
         {
           activeTabId: 1,
@@ -702,7 +648,7 @@ test('selectTab should handle vertical layout direction', async () => {
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 1, 0)
 
@@ -713,7 +659,58 @@ test('selectTab should handle vertical layout direction', async () => {
 })
 
 test('selectTab should return same state when clicking same tab that is already active', async () => {
-  const state = createMockState()
+  const state = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, 0, 0)
 
@@ -724,7 +721,58 @@ test('selectTab should return same state when clicking same tab that is already 
 })
 
 test('selectTab should return new state when clicking different tab in same group', async () => {
-  const state = createMockState()
+  const state = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, 0, 1)
 
@@ -735,7 +783,58 @@ test('selectTab should return new state when clicking different tab in same grou
 })
 
 test('selectTab should return new state when clicking same tab index in different group', async () => {
-  const state = createMockState()
+  const state = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, 1, 0)
 
@@ -746,10 +845,11 @@ test('selectTab should return new state when clicking same tab index in differen
 })
 
 test('selectTab should return same state when activeGroupId is undefined', async () => {
-  const state = createMockState({
+  const state = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 'horizontal' as const,
       groups: [
         {
           activeTabId: undefined,
@@ -770,7 +870,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 0)
 
@@ -781,10 +881,11 @@ test('selectTab should return same state when activeGroupId is undefined', async
 })
 
 test('selectTab should not trigger loading when tab is already loading', async () => {
-  const state: MainAreaState = createMockState({
+  const state: MainAreaState = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 'horizontal' as const,
       groups: [
         {
           activeTabId: 1,
@@ -817,7 +918,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 1)
 
@@ -827,10 +928,11 @@ test('selectTab should not trigger loading when tab is already loading', async (
 })
 
 test('selectTab should not trigger loading when tab is already loaded with content', async () => {
-  const state: MainAreaState = createMockState({
+  const state: MainAreaState = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 'horizontal' as const,
       groups: [
         {
           activeTabId: 1,

@@ -31,10 +31,7 @@ test('diff2 - should return RenderItems when groups differ', () => {
       ],
     },
   }
-  MainAreaStates.set(uid, {
-    newState,
-    oldState,
-  })
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -103,10 +100,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
       ],
     },
   }
-  MainAreaStates.set(uid, {
-    newState,
-    oldState,
-  })
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })
@@ -174,10 +168,7 @@ test('diff2 - should return RenderItems when active tab changes', () => {
       ],
     },
   }
-  MainAreaStates.set(uid, {
-    newState,
-    oldState,
-  })
+  MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
   expect(result).toEqual([DiffType.RenderItems])
 })

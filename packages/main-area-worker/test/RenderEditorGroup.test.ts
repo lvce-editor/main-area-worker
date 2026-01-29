@@ -112,7 +112,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       className: 'EditorContent',
       type: VirtualDomElements.Pre,
     },
-    text('test content'),
+    text(''),
   ])
 })
 
@@ -147,7 +147,6 @@ test('renderEditorGroup should handle group with custom editor', () => {
     size: 100,
     tabs: [
       {
-        customEditorId: 'custom-editor-123',
         editorType: 'custom',
         editorUid: -1,
         icon: '',

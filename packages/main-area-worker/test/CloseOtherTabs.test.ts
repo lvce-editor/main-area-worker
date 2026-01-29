@@ -408,7 +408,6 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
               uri: '/file1.ts',
             },
             {
-              customEditorId: 'custom-editor',
               editorType: 'custom',
               editorUid: -1,
               icon: '',
@@ -436,7 +435,6 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
 
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(2)
-  expect(result.layout.groups[0].tabs[0].customEditorId).toBe('custom-editor')
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
   expect(result.layout.groups[0].tabs[0].uri).toBe('/file2.ts')

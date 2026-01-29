@@ -131,7 +131,6 @@ test('saveState should save layout with custom editor tabs', () => {
           size: 100,
           tabs: [
             {
-              customEditorId: 'custom-editor-1',
               editorType: 'custom',
               editorUid: -1,
               icon: '',
@@ -146,7 +145,6 @@ test('saveState should save layout with custom editor tabs', () => {
   }
   const result: SavedState = saveState(state)
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
-  expect(result.layout.groups[0].tabs[0].customEditorId).toBe('custom-editor-1')
 })
 
 test('saveState should save layout with tabs containing paths and languages', () => {

@@ -668,7 +668,6 @@ test('selectTab should handle custom editor tabs', async () => {
               title: 'Text File',
             },
             {
-              customEditorId: 'custom-editor-1',
               editorType: 'custom',
               editorUid: -1,
               icon: '',
@@ -703,7 +702,6 @@ test('selectTab should handle custom editor tabs', async () => {
             title: 'Text File',
           },
           {
-            customEditorId: 'custom-editor-1',
             editorType: 'custom' as const,
             editorUid: -1,
             icon: '',

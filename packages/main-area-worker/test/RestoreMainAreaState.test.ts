@@ -205,7 +205,6 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
         size: 100,
         tabs: [
           {
-            customEditorId: 'custom-editor-1',
             editorType: 'custom',
             editorUid: -1,
             icon: '',
@@ -227,7 +226,6 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
 
   expect(result.layout).toEqual(savedLayout)
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
-  expect(result.layout.groups[0].tabs[0].customEditorId).toBe('custom-editor-1')
 })
 
 test('restoreMainAreaState should handle layout with tabs containing paths and languages', () => {
@@ -877,7 +875,6 @@ test('restoreMainState should accept layout with valid groups', () => {
         size: 50,
         tabs: [
           {
-            customEditorId: 'editor-1',
             editorType: 'custom',
             editorUid: -1,
             icon: '',

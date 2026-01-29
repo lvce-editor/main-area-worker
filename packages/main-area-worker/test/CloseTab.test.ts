@@ -679,7 +679,6 @@ test('closeTab should handle tabs with custom editor type', () => {
               title: 'File 1',
             },
             {
-              customEditorId: 'custom-editor-1',
               editorType: 'custom',
               editorUid: -1,
               icon: '',

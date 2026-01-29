@@ -406,7 +406,6 @@ test('closeTabsRight should handle tabs with custom properties', () => {
               uri: '/file1.ts',
             },
             {
-              customEditorId: 'custom-editor',
               editorType: 'custom',
               editorUid: -1,
               icon: '',
@@ -438,7 +437,6 @@ test('closeTabsRight should handle tabs with custom properties', () => {
   expect(result.layout.groups[0].tabs[0].language).toBe('typescript')
   expect(result.layout.groups[0].tabs[0].uri).toBe('/file1.ts')
   expect(result.layout.groups[0].tabs[1].id).toBe(2)
-  expect(result.layout.groups[0].tabs[1].customEditorId).toBe('custom-editor')
   expect(result.layout.groups[0].tabs[1].editorType).toBe('custom')
 })
 

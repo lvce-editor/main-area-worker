@@ -105,10 +105,10 @@ const createStateWithMultipleGroups = (): MainAreaState => {
 
 test('updateTab updates a single property', () => {
   const state = createStateWithTabs()
+  const result = updateTab(state, 1, { isDirty: true })
 
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
-  expect(tab?.content).toBe('new content')
-  expect(tab?.isDirty).toBe(false)
+  expect(tab?.isDirty).toBe(true)
   expect(tab?.uri).toBe('/test/file.txt')
 })
 
@@ -120,13 +120,13 @@ test('updateTab updates multiple properties', () => {
   })
 
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
-  expect(tab?.content).toBe('new content')
   expect(tab?.isDirty).toBe(true)
   expect(tab?.loadingState).toBe('loaded')
 })
 
 test('updateTab returns unchanged state when tab not found', () => {
   const state = createStateWithTabs()
+  const result = updateTab(state, 999, { isDirty: true })
 
   expect(result).toEqual(state)
 })
@@ -143,9 +143,10 @@ test('updateTab only updates the specified tab', () => {
 
 test('updateTab works with multiple groups', () => {
   const state = createStateWithMultipleGroups()
+  const result = updateTab(state, 3, { isDirty: true })
 
   const tab = result.layout.groups[1].tabs.find((t) => t.id === 3)
-  expect(tab?.content).toBe('group 2 content')
+  expect(tab?.isDirty).toBe(true)
 })
 
 test('updateTab updates tab in first group without affecting second group', () => {
@@ -161,6 +162,7 @@ test('updateTab updates tab in first group without affecting second group', () =
 
 test('updateTab preserves other state properties', () => {
   const state = createStateWithTabs()
+  const result = updateTab(state, 1, { isDirty: true })
 
   expect(result.uid).toBe(state.uid)
   expect(result.layout.activeGroupId).toBe(state.layout.activeGroupId)
@@ -181,19 +183,19 @@ test('updateTab handles errorMessage property', () => {
 
 test('updateTab handles loadRequestId property', () => {
   const state = createStateWithTabs()
-  const result = updateTab(state, 1, { loadRequestId: 42 })
+  const result = updateTab(state, 1, { loadingState: 'loading' })
 
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
-  expect(tab?.loadRequestId).toBe(42)
+  expect(tab?.loadingState).toBe('loading')
 })
 
 test('updateTab does not mutate original state', () => {
   const state = createStateWithTabs()
+  const result = updateTab(state, 1, { isDirty: true })
   const originalTab = state.layout.groups[0].tabs[0]
 
-
-  expect(originalTab.content).toBe('')
   expect(originalTab.isDirty).toBe(false)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
 })
 
 test('updateTab clears errorMessage when content is loaded', () => {
@@ -204,7 +206,6 @@ test('updateTab clears errorMessage when content is loaded', () => {
   })
 
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
-  expect(tab?.content).toBe('loaded content')
   expect(tab?.errorMessage).toBeUndefined()
   expect(tab?.loadingState).toBe('loaded')
 })

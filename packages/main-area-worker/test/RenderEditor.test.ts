@@ -23,7 +23,6 @@ test('renderEditor should return empty editor container for undefined tab', () =
 
 test('renderEditor should return custom editor structure', () => {
   const tab: Tab = {
-    customEditorId: 'custom-editor-123',
     editorType: 'custom',
     editorUid: -1,
     icon: '',

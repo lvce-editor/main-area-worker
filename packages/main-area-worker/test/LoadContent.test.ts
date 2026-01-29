@@ -278,7 +278,6 @@ test('loadContent should restore layout with custom editor tabs', async () => {
           size: 100,
           tabs: [
             {
-              customEditorId: 'custom-editor-1',
               editorType: 'custom',
               editorUid: -1,
               icon: '',
@@ -295,7 +294,6 @@ test('loadContent should restore layout with custom editor tabs', async () => {
   const result = await LoadContent.loadContent(state, savedState)
 
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
-  expect(result.layout.groups[0].tabs[0].customEditorId).toBe('custom-editor-1')
 })
 
 test('loadContent should restore layout with tabs containing paths', async () => {

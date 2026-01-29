@@ -11,6 +11,7 @@ export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, 
     {
       childCount: 2,
       className: 'EditorGroupHeader',
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     {

@@ -34,6 +34,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 2,
       className: 'EditorGroupHeader',
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     {
@@ -81,6 +82,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 1,
       className: 'EditorGroupActions',
+      role: 'toolbar',
       type: VirtualDomElements.Div,
     },
     {

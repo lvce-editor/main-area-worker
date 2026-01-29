@@ -12,6 +12,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
     {
       childCount: 1,
       className: 'EditorGroupActions',
+      role: 'toolbar',
       type: VirtualDomElements.Div,
     },
     {

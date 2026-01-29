@@ -3,6 +3,7 @@ import {
   OpenFile,
   SplitUp,
   SplitDown,
+  SplitEditorGroup,
   SplitLeft,
   SplitRight,
   NewWindow,
@@ -32,6 +33,10 @@ export const splitLeft = (): string => {
 
 export const splitRight = (): string => {
   return I18nString.i18nString(SplitRight)
+}
+
+export const splitEditorGroup = (): string => {
+  return I18nString.i18nString(SplitEditorGroup)
 }
 
 export const newWindow = (): string => {

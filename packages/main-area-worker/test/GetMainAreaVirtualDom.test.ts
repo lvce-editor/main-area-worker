@@ -41,6 +41,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 1,
       className: ClassNames.EDITOR_GROUPS_CONTAINER,
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     {

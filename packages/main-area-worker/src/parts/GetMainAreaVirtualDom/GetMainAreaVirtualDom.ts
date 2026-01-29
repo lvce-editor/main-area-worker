@@ -13,6 +13,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout): readonly VirtualD
     {
       childCount: layout.groups.length,
       className: ClassNames.EDITOR_GROUPS_CONTAINER,
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     ...layout.groups.flatMap((group, groupIndex) => renderEditorGroup(group, groupIndex)),

@@ -1,7 +1,7 @@
 import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
-import { renderEditorGroupActions } from '../RenderEditorGroupActions/RenderEditorGroupActions.ts'
 import { getTabsVirtualDom } from '../GetTabsVirtualDom/GetTabsVirtualDom.ts'
+import { renderEditorGroupActions } from '../RenderEditorGroupActions/RenderEditorGroupActions.ts'
 
 export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
   const tabsChildCount = group.tabs.length

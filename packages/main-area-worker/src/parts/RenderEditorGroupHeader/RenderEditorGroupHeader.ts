@@ -9,7 +9,7 @@ export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, 
 
   return [
     {
-      childCount: 2,
+      childCount: actions.length > 0 ? 2 : 1,
       className: 'EditorGroupHeader',
       role: 'none',
       type: VirtualDomElements.Div,

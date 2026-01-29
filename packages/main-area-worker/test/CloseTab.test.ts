@@ -1851,9 +1851,9 @@ test('findTabInState should find tab in different groups', () => {
 
 test('closeTabWithViewlet should close tab without viewlet', async () => {
   RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async () => {},
-    'Viewlet.create': async () => {},
     'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
     'Viewlet.setBounds': async () => {},
   })
 
@@ -1900,9 +1900,9 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
 
 test('closeTabWithViewlet should close active tab and switch viewlet to new active tab', async () => {
   RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async () => {},
-    'Viewlet.create': async () => {},
     'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
     'Viewlet.setBounds': async () => {},
   })
 
@@ -1949,9 +1949,9 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
 
 test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid', async () => {
   RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async () => {},
-    'Viewlet.create': async () => {},
     'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
     'Viewlet.setBounds': async () => {},
   })
 
@@ -1998,9 +1998,9 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
 
 test('closeTabWithViewlet should handle closing the last tab', async () => {
   RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async () => {},
-    'Viewlet.create': async () => {},
     'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
     'Viewlet.setBounds': async () => {},
   })
 
@@ -2038,9 +2038,9 @@ test('closeTabWithViewlet should handle closing the last tab', async () => {
 
 test('closeTabWithViewlet should handle closing tab when tab not found', async () => {
   RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async () => {},
-    'Viewlet.create': async () => {},
     'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
     'Viewlet.setBounds': async () => {},
   })
 

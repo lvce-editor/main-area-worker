@@ -2,12 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-another-editor'
 
-const assert = (condition: boolean, message: string): void => {
-  if (!condition) {
-    throw new Error(message)
-  }
-}
-
 export const test: Test = async ({ Editor, FileSystem, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.ts`

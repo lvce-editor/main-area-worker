@@ -11,7 +11,7 @@ export const createDefaultState = (): MainAreaState => {
       groups: [],
     },
     platform: 0,
-    splitButtonEnabled: true,
+    splitButtonEnabled: false,
     tabHeight: 35,
     uid: 0,
     width: 0,

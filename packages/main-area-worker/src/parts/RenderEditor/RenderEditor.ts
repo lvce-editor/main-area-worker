@@ -34,5 +34,5 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
   }
 
   // Default: render content (fallback for simple text without viewlet)
-  return renderContent(tab.content || '')
+  return renderContent('')
 }

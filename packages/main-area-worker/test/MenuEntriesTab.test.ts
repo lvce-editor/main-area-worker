@@ -53,7 +53,7 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
     label: 'Close To The Right',
   })
   expect(result[3]).toEqual({
-    command: 'Main.closeAllEditors',
+    command: 'Main.closeAll',
     flags: MenuItemFlags.None,
     id: 'tabCloseAll',
     label: 'Close All',

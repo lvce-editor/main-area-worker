@@ -449,7 +449,7 @@ test('selectTab should handle single group with single tab', async () => {
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 0)
 
@@ -467,7 +467,7 @@ test('selectTab should handle empty groups array', async () => {
       direction: 'horizontal',
       groups: [],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 0)
 
@@ -490,7 +490,7 @@ test('selectTab should handle group with empty tabs array', async () => {
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 0)
 

@@ -56,6 +56,7 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
     ],
   },
   platform: 1,
+  tabHeight: 30,
   uid: 1,
   width: 0,
   x: 0,

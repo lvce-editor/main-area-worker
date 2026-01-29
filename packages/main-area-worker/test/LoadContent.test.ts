@@ -378,6 +378,7 @@ test('loadContent should load icon theme for tabs with uri', async () => {
 
   const result = await LoadContent.loadContent(state, savedState)
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }]]])
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
 })
 
@@ -427,6 +428,15 @@ test('loadContent should load icons for multiple tabs', async () => {
 
   const result = await LoadContent.loadContent(state, savedState)
 
+  expect(mockRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'script.ts', type: 1 },
+        { name: 'file.txt', type: 1 },
+      ],
+    ],
+  ])
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
   expect(result.layout.groups[0].tabs[1].icon).toBe('file-icon-text')
 })
@@ -470,6 +480,7 @@ test('loadContent should update fileIconCache with loaded icons', async () => {
 
   const result = await LoadContent.loadContent(state, savedState)
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }]]])
   expect(result.fileIconCache['/path/to/script.ts']).toBe('file-icon-typescript')
 })
 
@@ -512,6 +523,7 @@ test('loadContent should handle icon loading failure gracefully', async () => {
   const result = await LoadContent.loadContent(state, savedState)
 
   // Should still return valid layout even if icon loading fails
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }]]])
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].title).toBe('script.ts')
@@ -571,6 +583,15 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
 
   const result = await LoadContent.loadContent(state, savedState)
 
+  expect(mockRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'script.ts', type: 1 },
+        { name: 'file.txt', type: 1 },
+      ],
+    ],
+  ])
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
   expect(result.layout.groups[1].tabs[0].icon).toBe('file-icon-text')
 })

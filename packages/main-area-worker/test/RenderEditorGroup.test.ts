@@ -133,7 +133,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(15) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 7 (Tab + Icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 4 (EditorContainer + Editor)
+  expect(result.length).toBe(16) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 7 (Tab + Icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
 })
 
 test('renderEditorGroup should handle group with custom editor', () => {
@@ -158,7 +158,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(15) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 7 (Tab + Icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 4 (EditorContainer + CustomEditor)
+  expect(result.length).toBe(16) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 7 (Tab + Icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + CustomEditor)
 })
 
 test('renderEditorGroup should handle empty tabs array', () => {

@@ -1,19 +1,23 @@
 import { MenuItemFlags } from '@lvce-editor/constants'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
+import { findGroupById } from '../FindGroupById/FindGroupById.ts'
 import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
 import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'
-import { findGroupById } from '../FindGroupById/FindGroupById.ts'
 
 // TODO should pass tab uri as argument or tab index
 export const getMenuEntries = (state: MainAreaState): readonly any[] => {
   const { layout } = state
   const { activeGroupId } = layout
-  const group = findGroupById(state, activeGroupId)
-  Assert.object(group)
+  const group = findGroupById(state, activeGroupId || 0)
+  if (!group) {
+    return []
+  }
   const { activeTabId, tabs } = group
   const tab = tabs.find((t) => t.id === activeTabId)
-  Assert.object(tab)
+  if (!tab) {
+    return []
+  }
   const { uri: path } = tab
   return [
     {

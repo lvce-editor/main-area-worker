@@ -1,10 +1,20 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { Tab } from '../Tab/Tab.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
+import { getFileIconsForTabs } from '../GetFileIcons/GetFileIcons.ts'
 import { getMaxIdFromLayout } from '../GetMaxIdFromLayout/GetMaxIdFromLayout.ts'
 import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
 import * as Id from '../Id/Id.ts'
 import { tryRestoreLayout } from '../TryRestoreLayout/TryRestoreLayout.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
+
+const getAllTabs = (layout: any): readonly Tab[] => {
+  const allTabs: Tab[] = []
+  for (const group of layout.groups) {
+    allTabs.push(...group.tabs)
+  }
+  return allTabs
+}
 
 export const loadContent = async (state: MainAreaState, savedState: unknown): Promise<MainAreaState> => {
   const restoredLayout = tryRestoreLayout(savedState)
@@ -71,6 +81,32 @@ export const loadContent = async (state: MainAreaState, savedState: unknown): Pr
           newState = ViewletLifecycle.handleViewletReady(newState, editorUid)
         }
       }
+    }
+
+    // Request file icons for all tabs
+    try {
+      const allTabs = getAllTabs(newState.layout)
+      const { newFileIconCache } = await getFileIconsForTabs(allTabs, newState.fileIconCache)
+
+      // Update tabs with their icons
+      const updatedLayout = {
+        ...newState.layout,
+        groups: newState.layout.groups.map((group) => ({
+          ...group,
+          tabs: group.tabs.map((tab) => ({
+            ...tab,
+            icon: newFileIconCache[tab.uri || ''],
+          })),
+        })),
+      }
+
+      newState = {
+        ...newState,
+        fileIconCache: newFileIconCache,
+        layout: updatedLayout,
+      }
+    } catch {
+      // If icon request fails, continue without icons
     }
 
     return newState

@@ -59,11 +59,57 @@ test('selectTab should update active group and tab with valid indexes', async ()
 
   const result = await selectTab(state, 0, 1)
 
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(result.layout.groups[0].focused).toBe(true)
-  expect(result.layout.groups[1].focused).toBe(false)
-  expect(result.layout.groups[1].activeTabId).toBe(3) // unchanged
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 2,
+        focused: true,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: true,
+            title: 'File 2',
+          },
+        ],
+      },
+      {
+        activeTabId: 3,
+        focused: false,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content3',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 3,
+            isDirty: false,
+            title: 'File 3',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('selectTab should switch to different group', async () => {
@@ -122,11 +168,57 @@ test('selectTab should switch to different group', async () => {
 
   const result = await selectTab(state, 1, 0)
 
-  expect(result.layout.activeGroupId).toBe(2)
-  expect(result.layout.groups[0].activeTabId).toBe(1) // unchanged
-  expect(result.layout.groups[0].focused).toBe(false)
-  expect(result.layout.groups[1].activeTabId).toBe(3)
-  expect(result.layout.groups[1].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 2,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: false,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: true,
+            title: 'File 2',
+          },
+        ],
+      },
+      {
+        activeTabId: 3,
+        focused: true,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content3',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 3,
+            isDirty: false,
+            title: 'File 3',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('selectTab should return original state for invalid group index', async () => {
@@ -395,9 +487,31 @@ test('selectTab should handle single group with single tab', async () => {
 
   const result = await selectTab(state, 0, 0)
 
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(result.layout.groups[0].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [
+          {
+            content: 'content',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).toBe(state) // Should return same state since it's already active
 })
 
@@ -503,13 +617,65 @@ test('selectTab should preserve other groups state when switching focus', async 
 
   const result = await selectTab(state, 2, 0)
 
-  expect(result.layout.activeGroupId).toBe(3)
-  expect(result.layout.groups[0].focused).toBe(false)
-  expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(result.layout.groups[1].focused).toBe(false)
-  expect(result.layout.groups[1].activeTabId).toBe(3)
-  expect(result.layout.groups[2].focused).toBe(true)
-  expect(result.layout.groups[2].activeTabId).toBe(4)
+  const expectedLayout = {
+    activeGroupId: 3,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: false,
+        id: 1,
+        size: 33,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+        ],
+      },
+      {
+        activeTabId: 3,
+        focused: false,
+        id: 2,
+        size: 33,
+        tabs: [
+          {
+            content: 'content3',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 3,
+            isDirty: false,
+            title: 'File 3',
+          },
+        ],
+      },
+      {
+        activeTabId: 4,
+        focused: true,
+        id: 3,
+        size: 34,
+        tabs: [
+          {
+            content: 'content4',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 4,
+            isDirty: true,
+            title: 'File 4',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('selectTab should handle custom editor tabs', async () => {
@@ -552,9 +718,41 @@ test('selectTab should handle custom editor tabs', async () => {
 
   const result = await selectTab(state, 0, 1)
 
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(result.layout.groups[0].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 2,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'Text File',
+          },
+          {
+            content: 'content2',
+            customEditorId: 'custom-editor-1',
+            editorType: 'custom' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            title: 'Custom Editor',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('selectTab should handle tabs with paths and languages', async () => {
@@ -600,9 +798,44 @@ test('selectTab should handle tabs with paths and languages', async () => {
 
   const result = await selectTab(state, 0, 1)
 
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(result.layout.groups[0].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 2,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [
+          {
+            content: 'console.log("hello");',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            language: 'javascript',
+            title: 'script.ts',
+            uri: '/path/to/script.ts',
+          },
+          {
+            content: '<div>Hello</div>',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            language: 'html',
+            title: 'index.html',
+            uri: '/path/to/index.html',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('selectTab should handle vertical layout direction', async () => {
@@ -652,10 +885,48 @@ test('selectTab should handle vertical layout direction', async () => {
 
   const result = await selectTab(state, 1, 0)
 
-  expect(result.layout.activeGroupId).toBe(2)
-  expect(result.layout.direction).toBe('vertical')
-  expect(result.layout.groups[0].focused).toBe(false)
-  expect(result.layout.groups[1].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 2,
+    direction: 'vertical' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: false,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+        ],
+      },
+      {
+        activeTabId: 2,
+        focused: true,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            title: 'File 2',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('selectTab should return same state when clicking same tab that is already active', async () => {
@@ -714,9 +985,57 @@ test('selectTab should return same state when clicking same tab that is already 
 
   const result = await selectTab(state, 0, 0)
 
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(result.layout.groups[0].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: true,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            title: 'File 2',
+          },
+        ],
+      },
+      {
+        activeTabId: 3,
+        focused: false,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content3',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 3,
+            isDirty: false,
+            title: 'File 3',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).toBe(state) // Should return the same state object
 })
 
@@ -776,9 +1095,57 @@ test('selectTab should return new state when clicking different tab in same grou
 
   const result = await selectTab(state, 0, 1)
 
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(result.layout.groups[0].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 2,
+        focused: true,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            title: 'File 2',
+          },
+        ],
+      },
+      {
+        activeTabId: 3,
+        focused: false,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content3',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 3,
+            isDirty: false,
+            title: 'File 3',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).not.toBe(state) // Should return new state object
 })
 
@@ -838,9 +1205,57 @@ test('selectTab should return new state when clicking same tab index in differen
 
   const result = await selectTab(state, 1, 0)
 
-  expect(result.layout.activeGroupId).toBe(2)
-  expect(result.layout.groups[1].activeTabId).toBe(3)
-  expect(result.layout.groups[1].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 2,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: false,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            title: 'File 2',
+          },
+        ],
+      },
+      {
+        activeTabId: 3,
+        focused: true,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content3',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 3,
+            isDirty: false,
+            title: 'File 3',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).not.toBe(state) // Should return new state object
 })
 
@@ -874,9 +1289,31 @@ test('selectTab should return same state when activeGroupId is undefined', async
 
   const result = await selectTab(state, 0, 0)
 
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(result.layout.groups[0].focused).toBe(true)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [
+          {
+            content: 'content',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).not.toBe(state) // Should return new state object since nothing was active before
 })
 

@@ -26,6 +26,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
       editorType: 'text',
       editorUid,
       errorMessage: '',
+      icon: '',
       id: tabId,
       isDirty: false,
       language: '',

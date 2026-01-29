@@ -15,6 +15,7 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
     editorType: 'text',
     editorUid,
     errorMessage: '',
+    icon: '',
     id: tabId,
     isDirty: false,
     language: '',

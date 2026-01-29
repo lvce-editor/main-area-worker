@@ -2,6 +2,7 @@ import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-do
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderEditorGroupHeader } from '../RenderEditorGroupHeader/RenderEditorGroupHeader.ts'
+import { renderEditorGroupActions } from '../RenderEditorGroupActions/RenderEditorGroupActions.ts'
 
 export const renderEditorGroup = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
@@ -13,6 +14,7 @@ export const renderEditorGroup = (group: EditorGroup, groupIndex: number): reado
       type: VirtualDomElements.Div,
     },
     ...renderEditorGroupHeader(group, groupIndex, false),
+    ...renderEditorGroupActions(group, groupIndex, true),
     {
       childCount: activeTab ? 1 : 1,
       className: 'EditorContainer',

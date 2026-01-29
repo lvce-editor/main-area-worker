@@ -181,21 +181,13 @@ test('loadTabContentAsync discards result when tab no longer exists', async () =
   GetNextRequestId.resetRequestIdCounter()
   const requestId = GetNextRequestId.getNextRequestId()
 
-  // State where the tab has been closed
+  // State where the tab has been closed (group is removed)
   const stateWithoutTab: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 1,
+      activeGroupId: undefined,
       direction: 'horizontal',
-      groups: [
-        {
-          activeTabId: undefined,
-          focused: true,
-          id: 1,
-          size: 100,
-          tabs: [],
-        },
-      ],
+      groups: [],
     },
     uid: 1,
   }
@@ -204,8 +196,8 @@ test('loadTabContentAsync discards result when tab no longer exists', async () =
 
   const result = await LoadTabContent.loadTabContentAsync(1, '/test/file.txt', requestId, getLatestState)
 
-  // Should return the state without the tab
-  expect(result.layout.groups[0].tabs.length).toBe(0)
+  // Should return the state without any groups
+  expect(result.layout.groups.length).toBe(0)
 })
 
 test('loadTabContentAsync handles non-Error exception', async () => {

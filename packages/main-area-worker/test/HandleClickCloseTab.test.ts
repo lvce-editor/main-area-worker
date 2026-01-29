@@ -415,7 +415,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
   expect(result).not.toBe(state)
 })
 
-test('handleClickCloseTab should handle closing only tab in group', () => {
+test('handleClickCloseTab should remove group when closing only tab in group', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -445,8 +445,8 @@ test('handleClickCloseTab should handle closing only tab in group', () => {
 
   const result = handleClickCloseTab(state, '0', '0')
 
-  expect(result.layout.groups[0].tabs.length).toBe(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups.length).toBe(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
   expect(result).not.toBe(state)
 })
 

@@ -18,7 +18,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
     {
       childCount: 0,
       className: 'TabIcon',
-      src: 'icons/refresh.svg',
+      src: tab.icon,
       type: VirtualDomElements.Img,
     },
     {

@@ -3,7 +3,7 @@ import { ExtensionHost, RendererWorker } from '@lvce-editor/rpc-registry'
 import * as Initialize from '../src/parts/Initialize/Initialize.ts'
 
 test('initialize should create extension host rpc and set it', async () => {
-  const mockRendererRpc = RendererWorker.registerMockRpc({
+  using mockRendererRpc = RendererWorker.registerMockRpc({
     'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': async () => {},
   })
 

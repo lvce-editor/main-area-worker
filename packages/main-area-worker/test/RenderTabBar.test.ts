@@ -14,6 +14,7 @@ test('renderTabBar should return correct structure for single tab', () => {
         content: 'test content',
         editorType: 'text' as const,
         editorUid: -1,
+        icon: '',
         id: 1,
         isDirty: false,
         title: 'Test File',
@@ -43,7 +44,7 @@ test('renderTabBar should return correct structure for single tab', () => {
     {
       childCount: 0,
       className: 'TabIcon',
-      src: 'icons/refresh.svg',
+      src: '',
       type: VirtualDomElements.Img,
     },
     {
@@ -75,6 +76,7 @@ test('renderTabBar should handle multiple tabs', () => {
         content: 'content 1',
         editorType: 'text' as const,
         editorUid: -1,
+        icon: '',
         id: 1,
         isDirty: false,
         title: 'File 1',
@@ -84,6 +86,7 @@ test('renderTabBar should handle multiple tabs', () => {
         content: 'content 2',
         editorType: 'text' as const,
         editorUid: -1,
+        icon: '',
         id: 2,
         isDirty: true,
         title: 'File 2',

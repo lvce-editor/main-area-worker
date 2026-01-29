@@ -20,11 +20,13 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
     // Create a new tab with the URI in the active group
     const title = PathDisplay.getLabel(uri)
     const tabId = Id.create()
+    const editorUid = Id.create()
     const newTab: Tab = {
       content: '',
       editorType: 'text',
-      editorUid: -1,
+      editorUid,
       errorMessage: '',
+      icon: '',
       id: tabId,
       isDirty: false,
       language: '',

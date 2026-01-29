@@ -14,6 +14,7 @@ test('renderEditorGroup should return correct structure for group with active ta
         content: 'test content',
         editorType: 'text' as const,
         editorUid: -1,
+        icon: '',
         id: 1,
         isDirty: false,
         title: 'Test File',
@@ -48,7 +49,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 0,
       className: 'TabIcon',
-      src: 'icons/refresh.svg',
+      src: '',
       type: VirtualDomElements.Img,
     },
     {
@@ -96,6 +97,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
         content: 'test content',
         editorType: 'text' as const,
         editorUid: -1,
+        icon: '',
         id: 1,
         isDirty: false,
         title: 'Test File',
@@ -120,6 +122,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
         customEditorId: 'custom-editor-123',
         editorType: 'custom' as const,
         editorUid: -1,
+        icon: '',
         id: 1,
         isDirty: false,
         title: 'Custom Tab',

@@ -7,6 +7,7 @@ export interface Tab {
   readonly editorType: EditorType
   readonly editorUid: number
   readonly errorMessage?: string
+  readonly icon: string
   readonly id: number
   readonly isAttached?: boolean
   readonly isDirty: boolean

@@ -964,7 +964,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 1)
 

@@ -5,7 +5,6 @@ import { renderTab } from '../RenderTab/RenderTab.ts'
 
 export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   const tabsChildCount = group.tabs.length
-  const actionsChildCount = 1 // EditorGroupActions container
 
   return [
     {

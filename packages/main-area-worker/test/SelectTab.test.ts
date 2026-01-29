@@ -440,7 +440,7 @@ test('selectTab should handle group with empty tabs array', async () => {
 })
 
 test('selectTab should preserve other groups state when switching focus', async () => {
-  const state = {
+  const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
@@ -513,7 +513,7 @@ test('selectTab should preserve other groups state when switching focus', async 
 })
 
 test('selectTab should handle custom editor tabs', async () => {
-  const state = {
+  const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
@@ -558,7 +558,7 @@ test('selectTab should handle custom editor tabs', async () => {
 })
 
 test('selectTab should handle tabs with paths and languages', async () => {
-  const state = {
+  const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
@@ -606,7 +606,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
 })
 
 test('selectTab should handle vertical layout direction', async () => {
-  const state = {
+  const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
@@ -659,7 +659,7 @@ test('selectTab should handle vertical layout direction', async () => {
 })
 
 test('selectTab should return same state when clicking same tab that is already active', async () => {
-  const state = {
+  const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
@@ -721,7 +721,7 @@ test('selectTab should return same state when clicking same tab that is already 
 })
 
 test('selectTab should return new state when clicking different tab in same group', async () => {
-  const state = {
+  const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
@@ -783,7 +783,7 @@ test('selectTab should return new state when clicking different tab in same grou
 })
 
 test('selectTab should return new state when clicking same tab index in different group', async () => {
-  const state = {
+  const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
@@ -845,7 +845,7 @@ test('selectTab should return new state when clicking same tab index in differen
 })
 
 test('selectTab should return same state when activeGroupId is undefined', async () => {
-  const state = {
+  const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,

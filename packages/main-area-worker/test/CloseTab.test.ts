@@ -1,6 +1,7 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
-import { closeTab } from '../src/parts/CloseTab/CloseTab.ts'
+import { closeTab, closeTabWithViewlet, findTabInState } from '../src/parts/CloseTab/CloseTab.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
 test('closeTab should close a non-active tab', () => {
@@ -1682,4 +1683,515 @@ test('closeTab should redistribute sizes when removing group', () => {
   expect(result.layout.groups[1].size).toBe(50)
   expect(result.layout.activeGroupId).toBe(1)
   expect(result).not.toBe(state)
+})
+
+// Tests for findTabInState (lines 7-9)
+
+test('findTabInState should find a tab in the specified group', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = findTabInState(state, 1, 2)
+
+  expect(result).toBeDefined()
+  expect(result?.id).toBe(2)
+  expect(result?.title).toBe('File 2')
+})
+
+test('findTabInState should return undefined when tab does not exist', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = findTabInState(state, 1, 999)
+
+  expect(result).toBeUndefined()
+})
+
+test('findTabInState should return undefined when group does not exist', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = findTabInState(state, 999, 1)
+
+  expect(result).toBeUndefined()
+})
+
+test('findTabInState should find tab in different groups', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+        {
+          activeTabId: 2,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result1 = findTabInState(state, 1, 1)
+  expect(result1).toBeDefined()
+  expect(result1?.id).toBe(1)
+  expect(result1?.title).toBe('File 1')
+
+  const result2 = findTabInState(state, 2, 2)
+  expect(result2).toBeDefined()
+  expect(result2?.id).toBe(2)
+  expect(result2?.title).toBe('File 2')
+})
+
+// Tests for closeTabWithViewlet (lines 76-108)
+
+test('closeTabWithViewlet should close tab without viewlet', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
+    'Viewlet.setBounds': async () => {},
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabWithViewlet(state, 1, 2)
+
+  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('closeTabWithViewlet should close active tab and switch viewlet to new active tab', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
+    'Viewlet.setBounds': async () => {},
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: 100,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabWithViewlet(state, 1, 1)
+
+  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs.find((tab) => tab.id === 1)).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(2)
+})
+
+test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
+    'Viewlet.setBounds': async () => {},
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: 100,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: 200,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabWithViewlet(state, 1, 2)
+
+  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('closeTabWithViewlet should handle closing the last tab', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
+    'Viewlet.setBounds': async () => {},
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: 100,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabWithViewlet(state, 1, 1)
+
+  expect(result.layout.groups[0].tabs.length).toBe(0)
+  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+})
+
+test('closeTabWithViewlet should handle closing tab when tab not found', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
+    'Viewlet.setBounds': async () => {},
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabWithViewlet(state, 1, 999)
+
+  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('closeTabWithViewlet should handle closing non-active tab with viewlet', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: 100,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: 200,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: 300,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabWithViewlet(state, 1, 2)
+
+  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('closeTabWithViewlet should close active middle tab and switch to next tab', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 2,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: 100,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: 200,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: 300,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabWithViewlet(state, 1, 2)
+
+  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(3)
 })

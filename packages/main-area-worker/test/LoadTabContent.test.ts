@@ -18,7 +18,6 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
         size: 100,
         tabs: [
           {
-            content: '',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -73,7 +72,6 @@ test('findTab returns undefined when tab not found', () => {
 test('updateTab updates tab properties', () => {
   const state = createStateWithTab()
   const result = LoadTabContent.updateTab(state, 1, {
-    content: 'new content',
     loadingState: 'loaded',
   })
 
@@ -85,7 +83,6 @@ test('updateTab updates tab properties', () => {
 test('updateTab returns unchanged state when tab not found', () => {
   const state = createStateWithTab()
   const result = LoadTabContent.updateTab(state, 999, {
-    content: 'new content',
   })
 
   expect(result).toEqual(state)
@@ -240,7 +237,6 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
           size: 50,
           tabs: [
             {
-              content: 'group1 content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -257,7 +253,6 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
           size: 50,
           tabs: [
             {
-              content: 'group2 content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -273,7 +268,6 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
   }
 
   const result = LoadTabContent.updateTab(state, 2, {
-    content: 'updated content',
     loadingState: 'loaded',
   })
 

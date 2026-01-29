@@ -88,7 +88,6 @@ test('normalizeGroupSizes should preserve other group properties', () => {
       size: 50,
       tabs: [
         {
-          content: 'content',
           editorType: 'text',
           editorUid: -1,
           icon: '',

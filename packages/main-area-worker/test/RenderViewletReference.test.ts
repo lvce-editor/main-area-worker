@@ -4,7 +4,6 @@ import { renderViewletReference } from '../src/parts/RenderEditor/RenderViewletR
 
 test('renderViewletReference returns reference node with correct uid', () => {
   const tab: Tab = {
-    content: '',
     editorType: 'text',
     editorUid: 42,
     icon: '',
@@ -26,7 +25,6 @@ test('renderViewletReference returns reference node with correct uid', () => {
 
 test('renderViewletReference handles different uid values', () => {
   const tab: Tab = {
-    content: '',
     editorType: 'text',
     editorUid: 999,
     icon: '',
@@ -47,7 +45,6 @@ test('renderViewletReference handles different uid values', () => {
 
 test('renderViewletReference creates reference node for viewlet instance', () => {
   const tab: Tab = {
-    content: '',
     editorType: 'text',
     editorUid: 1,
     icon: '',

@@ -18,7 +18,6 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -100,7 +99,6 @@ test('getMenuEntries includes correct path in args for reveal and find reference
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -133,7 +131,6 @@ test('getMenuEntries handles tab without path', () => {
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -165,7 +162,6 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -175,7 +171,6 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
               uri: '/file1.txt',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -208,7 +203,6 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -226,7 +220,6 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',

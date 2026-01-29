@@ -23,7 +23,6 @@ test('renderEditor should return empty editor container for undefined tab', () =
 
 test('renderEditor should return custom editor structure', () => {
   const tab: Tab = {
-    content: '',
     customEditorId: 'custom-editor-123',
     editorType: 'custom',
     editorUid: -1,
@@ -52,7 +51,6 @@ test('renderEditor should return custom editor structure', () => {
 
 test('renderEditor should return text editor structure with content', () => {
   const tab: Tab = {
-    content: 'Hello, World!',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -73,13 +71,12 @@ test('renderEditor should return text editor structure with content', () => {
       className: 'EditorContent',
       type: VirtualDomElements.Pre,
     },
-    text('Hello, World!'),
+    text(''),
   ])
 })
 
 test('renderEditor should handle text editor with empty content', () => {
   const tab: Tab = {
-    content: '',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -95,7 +92,6 @@ test('renderEditor should handle text editor with empty content', () => {
 
 test('renderEditor should handle text editor with undefined content', () => {
   const tab: Tab = {
-    content: '',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -111,7 +107,6 @@ test('renderEditor should handle text editor with undefined content', () => {
 
 test('renderEditor should show loading state', () => {
   const tab: Tab = {
-    content: '',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -139,7 +134,6 @@ test('renderEditor should show loading state', () => {
 
 test('renderEditor should show error state', () => {
   const tab: Tab = {
-    content: '',
     editorType: 'text',
     editorUid: -1,
     errorMessage: 'File not found',
@@ -168,7 +162,6 @@ test('renderEditor should show error state', () => {
 
 test('renderEditor should show content when loadingState is loaded', () => {
   const tab: Tab = {
-    content: 'File content here',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -190,13 +183,12 @@ test('renderEditor should show content when loadingState is loaded', () => {
       className: 'EditorContent',
       type: VirtualDomElements.Pre,
     },
-    text('File content here'),
+    text(''),
   ])
 })
 
 test('renderEditor should show content when loadingState is idle', () => {
   const tab: Tab = {
-    content: 'Initial content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -218,13 +210,12 @@ test('renderEditor should show content when loadingState is idle', () => {
       className: 'EditorContent',
       type: VirtualDomElements.Pre,
     },
-    text('Initial content'),
+    text(''),
   ])
 })
 
 test('renderEditor should show error state even when content exists', () => {
   const tab: Tab = {
-    content: 'some old content',
     editorType: 'text',
     editorUid: -1,
     errorMessage: 'Permission denied',

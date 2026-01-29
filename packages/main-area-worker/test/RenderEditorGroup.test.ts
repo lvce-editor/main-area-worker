@@ -12,7 +12,6 @@ test('renderEditorGroup should return correct structure for group with active ta
     size: 100,
     tabs: [
       {
-        content: 'test content',
         editorType: 'text',
         editorUid: -1,
         icon: '',
@@ -125,7 +124,6 @@ test('renderEditorGroup should handle group with no active tab', () => {
     size: 100,
     tabs: [
       {
-        content: 'test content',
         editorType: 'text',
         editorUid: -1,
         icon: '',
@@ -149,7 +147,6 @@ test('renderEditorGroup should handle group with custom editor', () => {
     size: 100,
     tabs: [
       {
-        content: '',
         customEditorId: 'custom-editor-123',
         editorType: 'custom',
         editorUid: -1,

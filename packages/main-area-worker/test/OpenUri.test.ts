@@ -39,7 +39,6 @@ test('openUri should add tab to active group when group exists', async () => {
           size: 100,
           tabs: [
             {
-              content: 'existing content',
               editorType: 'text',
               editorUid: -1,
               errorMessage: '',
@@ -85,7 +84,6 @@ test('openUri should activate existing tab if URI already exists', async () => {
           size: 100,
           tabs: [
             {
-              content: 'existing content',
               editorType: 'text',
               editorUid: -1,
               errorMessage: '',
@@ -98,7 +96,6 @@ test('openUri should activate existing tab if URI already exists', async () => {
               uri: 'file:///path/to/file.ts',
             },
             {
-              content: 'other content',
               editorType: 'text',
               editorUid: -1,
               errorMessage: '',
@@ -142,7 +139,6 @@ test('openUri should activate existing tab in different group', async () => {
           size: 50,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               errorMessage: '',
@@ -163,7 +159,6 @@ test('openUri should activate existing tab in different group', async () => {
           size: 50,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               errorMessage: '',
@@ -380,7 +375,6 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
           size: 100,
           tabs: [
             {
-              content: 'existing content',
               editorType: 'text',
               editorUid: 5,
               errorMessage: '',

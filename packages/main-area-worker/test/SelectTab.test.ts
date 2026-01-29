@@ -17,7 +17,6 @@ test('selectTab should update active group and tab with valid indexes', async ()
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -26,7 +25,6 @@ test('selectTab should update active group and tab with valid indexes', async ()
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -43,7 +41,6 @@ test('selectTab should update active group and tab with valid indexes', async ()
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -70,7 +67,6 @@ test('selectTab should update active group and tab with valid indexes', async ()
         size: 50,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -79,7 +75,6 @@ test('selectTab should update active group and tab with valid indexes', async ()
             title: 'File 1',
           },
           {
-            content: 'content2',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -96,7 +91,6 @@ test('selectTab should update active group and tab with valid indexes', async ()
         size: 50,
         tabs: [
           {
-            content: 'content3',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -126,7 +120,6 @@ test('selectTab should switch to different group', async () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -135,7 +128,6 @@ test('selectTab should switch to different group', async () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -152,7 +144,6 @@ test('selectTab should switch to different group', async () => {
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -179,7 +170,6 @@ test('selectTab should switch to different group', async () => {
         size: 50,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -188,7 +178,6 @@ test('selectTab should switch to different group', async () => {
             title: 'File 1',
           },
           {
-            content: 'content2',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -205,7 +194,6 @@ test('selectTab should switch to different group', async () => {
         size: 50,
         tabs: [
           {
-            content: 'content3',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -235,7 +223,6 @@ test('selectTab should return original state for invalid group index', async () 
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -244,7 +231,6 @@ test('selectTab should return original state for invalid group index', async () 
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -261,7 +247,6 @@ test('selectTab should return original state for invalid group index', async () 
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -294,7 +279,6 @@ test('selectTab should return original state for negative group index', async ()
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -303,7 +287,6 @@ test('selectTab should return original state for negative group index', async ()
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -320,7 +303,6 @@ test('selectTab should return original state for negative group index', async ()
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -353,7 +335,6 @@ test('selectTab should return original state for invalid tab index', async () =>
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -362,7 +343,6 @@ test('selectTab should return original state for invalid tab index', async () =>
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -379,7 +359,6 @@ test('selectTab should return original state for invalid tab index', async () =>
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -412,7 +391,6 @@ test('selectTab should return original state for negative tab index', async () =
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -421,7 +399,6 @@ test('selectTab should return original state for negative tab index', async () =
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -438,7 +415,6 @@ test('selectTab should return original state for negative tab index', async () =
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -471,7 +447,6 @@ test('selectTab should handle single group with single tab', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -498,7 +473,6 @@ test('selectTab should handle single group with single tab', async () => {
         size: 100,
         tabs: [
           {
-            content: 'content',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -567,7 +541,6 @@ test('selectTab should preserve other groups state when switching focus', async 
           size: 33,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -584,7 +557,6 @@ test('selectTab should preserve other groups state when switching focus', async 
           size: 33,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -601,7 +573,6 @@ test('selectTab should preserve other groups state when switching focus', async 
           size: 34,
           tabs: [
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -628,7 +599,6 @@ test('selectTab should preserve other groups state when switching focus', async 
         size: 33,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -645,7 +615,6 @@ test('selectTab should preserve other groups state when switching focus', async 
         size: 33,
         tabs: [
           {
-            content: 'content3',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -662,7 +631,6 @@ test('selectTab should preserve other groups state when switching focus', async 
         size: 34,
         tabs: [
           {
-            content: 'content4',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -692,7 +660,6 @@ test('selectTab should handle custom editor tabs', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -701,7 +668,6 @@ test('selectTab should handle custom editor tabs', async () => {
               title: 'Text File',
             },
             {
-              content: 'content2',
               customEditorId: 'custom-editor-1',
               editorType: 'custom',
               editorUid: -1,
@@ -729,7 +695,6 @@ test('selectTab should handle custom editor tabs', async () => {
         size: 100,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -738,7 +703,6 @@ test('selectTab should handle custom editor tabs', async () => {
             title: 'Text File',
           },
           {
-            content: 'content2',
             customEditorId: 'custom-editor-1',
             editorType: 'custom' as const,
             editorUid: -1,
@@ -769,7 +733,6 @@ test('selectTab should handle tabs with paths and languages', async () => {
           size: 100,
           tabs: [
             {
-              content: 'console.log("hello");',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -780,7 +743,6 @@ test('selectTab should handle tabs with paths and languages', async () => {
               uri: '/path/to/script.ts',
             },
             {
-              content: '<div>Hello</div>',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -809,7 +771,6 @@ test('selectTab should handle tabs with paths and languages', async () => {
         size: 100,
         tabs: [
           {
-            content: 'console.log("hello");',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -820,7 +781,6 @@ test('selectTab should handle tabs with paths and languages', async () => {
             uri: '/path/to/script.ts',
           },
           {
-            content: '<div>Hello</div>',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -852,7 +812,6 @@ test('selectTab should handle vertical layout direction', async () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -869,7 +828,6 @@ test('selectTab should handle vertical layout direction', async () => {
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -896,7 +854,6 @@ test('selectTab should handle vertical layout direction', async () => {
         size: 50,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -913,7 +870,6 @@ test('selectTab should handle vertical layout direction', async () => {
         size: 50,
         tabs: [
           {
-            content: 'content2',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -943,7 +899,6 @@ test('selectTab should return same state when clicking same tab that is already 
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -952,7 +907,6 @@ test('selectTab should return same state when clicking same tab that is already 
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -969,7 +923,6 @@ test('selectTab should return same state when clicking same tab that is already 
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -996,7 +949,6 @@ test('selectTab should return same state when clicking same tab that is already 
         size: 50,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1005,7 +957,6 @@ test('selectTab should return same state when clicking same tab that is already 
             title: 'File 1',
           },
           {
-            content: 'content2',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1022,7 +973,6 @@ test('selectTab should return same state when clicking same tab that is already 
         size: 50,
         tabs: [
           {
-            content: 'content3',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1053,7 +1003,6 @@ test('selectTab should return new state when clicking different tab in same grou
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1062,7 +1011,6 @@ test('selectTab should return new state when clicking different tab in same grou
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1079,7 +1027,6 @@ test('selectTab should return new state when clicking different tab in same grou
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1106,7 +1053,6 @@ test('selectTab should return new state when clicking different tab in same grou
         size: 50,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1115,7 +1061,6 @@ test('selectTab should return new state when clicking different tab in same grou
             title: 'File 1',
           },
           {
-            content: 'content2',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1132,7 +1077,6 @@ test('selectTab should return new state when clicking different tab in same grou
         size: 50,
         tabs: [
           {
-            content: 'content3',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1163,7 +1107,6 @@ test('selectTab should return new state when clicking same tab index in differen
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1172,7 +1115,6 @@ test('selectTab should return new state when clicking same tab index in differen
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1189,7 +1131,6 @@ test('selectTab should return new state when clicking same tab index in differen
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1216,7 +1157,6 @@ test('selectTab should return new state when clicking same tab index in differen
         size: 50,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1225,7 +1165,6 @@ test('selectTab should return new state when clicking same tab index in differen
             title: 'File 1',
           },
           {
-            content: 'content2',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1242,7 +1181,6 @@ test('selectTab should return new state when clicking same tab index in differen
         size: 50,
         tabs: [
           {
-            content: 'content3',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1273,7 +1211,6 @@ test('selectTab should return same state when activeGroupId is undefined', async
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1300,7 +1237,6 @@ test('selectTab should return same state when activeGroupId is undefined', async
         size: 100,
         tabs: [
           {
-            content: 'content',
             editorType: 'text' as const,
             editorUid: -1,
             icon: '',
@@ -1331,7 +1267,6 @@ test('selectTab should not trigger loading when tab is already loading', async (
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1340,7 +1275,6 @@ test('selectTab should not trigger loading when tab is already loading', async (
               title: 'File 1',
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1378,7 +1312,6 @@ test('selectTab should not trigger loading when tab is already loaded with conte
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1387,7 +1320,6 @@ test('selectTab should not trigger loading when tab is already loaded with conte
               title: 'File 1',
             },
             {
-              content: 'already loaded content',
               editorType: 'text',
               editorUid: -1,
               icon: '',

@@ -17,7 +17,6 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
         size: 100,
         tabs: [
           {
-            content: 'test content',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -146,7 +145,6 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
         size: 50,
         tabs: [
           {
-            content: 'content 1',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -164,7 +162,6 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
         size: 50,
         tabs: [
           {
-            content: 'content 2',
             editorType: 'text',
             editorUid: -1,
             icon: '',

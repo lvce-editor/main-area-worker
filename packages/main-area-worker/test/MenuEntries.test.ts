@@ -19,7 +19,6 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -95,7 +94,6 @@ test('getMenuEntries handles state with multiple tabs', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -105,7 +103,6 @@ test('getMenuEntries handles state with multiple tabs', async () => {
               uri: '/home/user/file1.txt',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -144,7 +141,6 @@ test('getMenuEntries handles state with multiple groups', async () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -162,7 +158,6 @@ test('getMenuEntries handles state with multiple groups', async () => {
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -201,7 +196,6 @@ test('getMenuEntries returns consistent result for same input', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -239,7 +233,6 @@ test('getMenuEntries handles tab without uri', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',

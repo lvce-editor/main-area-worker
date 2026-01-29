@@ -22,7 +22,6 @@ test('restoreMainAreaState should restore layout from valid saved state', () => 
         size: 50,
         tabs: [
           {
-            content: 'restored content',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -146,7 +145,6 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         size: 50,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -163,7 +161,6 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         size: 50,
         tabs: [
           {
-            content: 'content2',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -208,7 +205,6 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
         size: 100,
         tabs: [
           {
-            content: 'custom content',
             customEditorId: 'custom-editor-1',
             editorType: 'custom',
             editorUid: -1,
@@ -253,7 +249,6 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
         size: 100,
         tabs: [
           {
-            content: 'console.log("hello");',
             editorType: 'text',
             editorUid: -1,
             errorMessage: '',
@@ -715,7 +710,6 @@ test('restoreMainState should return valid layout', () => {
         size: 100,
         tabs: [
           {
-            content: 'content',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -867,7 +861,6 @@ test('restoreMainState should accept layout with valid groups', () => {
         size: 50,
         tabs: [
           {
-            content: 'content',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -884,7 +877,6 @@ test('restoreMainState should accept layout with valid groups', () => {
         size: 50,
         tabs: [
           {
-            content: 'content2',
             customEditorId: 'editor-1',
             editorType: 'custom',
             editorUid: -1,

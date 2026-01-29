@@ -17,7 +17,6 @@ test('isTabActive returns true for active tab in active group', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -26,7 +25,6 @@ test('isTabActive returns true for active tab in active group', () => {
               title: 'file1.txt',
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -59,7 +57,6 @@ test('isTabActive returns false for tab in non-active group', () => {
           size: 50,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -76,7 +73,6 @@ test('isTabActive returns false for tab in non-active group', () => {
           size: 50,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -109,7 +105,6 @@ test('isTabActive returns false when no active group exists', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',

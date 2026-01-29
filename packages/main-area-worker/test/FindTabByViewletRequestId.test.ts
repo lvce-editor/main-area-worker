@@ -17,7 +17,6 @@ test('findTabByViewletRequestId finds tab with matching requestId', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -27,7 +26,6 @@ test('findTabByViewletRequestId finds tab with matching requestId', () => {
               viewletRequestId: 100,
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -63,7 +61,6 @@ test('findTabByViewletRequestId finds tab in second group', () => {
           size: 50,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -81,7 +78,6 @@ test('findTabByViewletRequestId finds tab in second group', () => {
           size: 50,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -117,7 +113,6 @@ test('findTabByViewletRequestId returns undefined when not found', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',

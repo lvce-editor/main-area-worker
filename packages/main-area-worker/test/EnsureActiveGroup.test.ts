@@ -60,7 +60,6 @@ test('ensureActiveGroup should create new group when no active group exists', ()
         size: 100,
         tabs: [
           {
-            content: '',
             editorType: 'text',
             editorUid,
             errorMessage: '',
@@ -129,7 +128,6 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               errorMessage: '',
@@ -162,7 +160,6 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
         size: 100,
         tabs: [
           {
-            content: 'content1',
             editorType: 'text',
             editorUid: -1,
             errorMessage: '',
@@ -175,7 +172,6 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
             uri: '/existing/file.ts',
           },
           {
-            content: '',
             editorType: 'text',
             editorUid,
             errorMessage: '',

@@ -43,7 +43,6 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
   expect(result.layout.groups).toHaveLength(1)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should handle empty groups', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
@@ -63,7 +62,6 @@ test('restoreAndCreateEditors should handle empty groups', async () => {
   expect(result.layout.groups).toHaveLength(0)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should skip tabs without uri', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
@@ -101,7 +99,6 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should process only active tabs', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
@@ -150,7 +147,6 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
   expect(result.layout.groups[0].tabs[1].editorUid).not.toBe(-1)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should preserve existing editorUid', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
@@ -188,7 +184,6 @@ test('restoreAndCreateEditors should preserve existing editorUid', async () => {
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(42)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should handle multiple groups', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
@@ -246,7 +241,6 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
   expect(result.layout.groups[1].tabs[0].editorUid).not.toBe(-1)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should handle no matching viewlet module', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
@@ -285,7 +279,6 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should maintain group structure', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {

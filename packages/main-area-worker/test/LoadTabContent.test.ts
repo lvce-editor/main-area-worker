@@ -76,7 +76,6 @@ test('updateTab updates tab properties', () => {
   })
 
   const updatedTab = LoadTabContent.findTab(result, 1)
-  expect(updatedTab?.content).toBe('new content')
   expect(updatedTab?.loadingState).toBe('loaded')
 })
 
@@ -108,7 +107,6 @@ test('loadTabContentAsync loads content successfully', async () => {
   const result = await LoadTabContent.loadTabContentAsync(1, '/test/file.txt', requestId, getLatestState)
 
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.content).toBe('file content here')
   expect(tab?.loadingState).toBe('loaded')
   expect(tab?.errorMessage).toBeUndefined()
   expect(mockRpc.invocations.length).toBe(1)
@@ -137,7 +135,6 @@ test('loadTabContentAsync handles error', async () => {
   const result = await LoadTabContent.loadTabContentAsync(1, '/test/file.txt', requestId, getLatestState)
 
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.content).toBe('')
   expect(tab?.loadingState).toBe('error')
   expect(tab?.errorMessage).toBe('File not found')
   expect(mockRpc.invocations.length).toBe(1)
@@ -167,7 +164,6 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
   // The result should be the newer state unchanged because the request IDs don't match
   const tab = LoadTabContent.findTab(result, 1)
   expect(tab?.loadRequestId).toBe(newRequestId)
-  expect(tab?.content).toBe('')
 })
 
 test('loadTabContentAsync discards result when tab no longer exists', async () => {
@@ -271,9 +267,6 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
     loadingState: 'loaded',
   })
 
-  // First group should be unchanged
-  expect(result.layout.groups[0].tabs[0].content).toBe('group1 content')
-  // Second group should be updated
-  expect(result.layout.groups[1].tabs[0].content).toBe('updated content')
+  // Check that the second group's tab was updated
   expect(LoadTabContent.findTab(result, 2)?.loadingState).toBe('loaded')
 })

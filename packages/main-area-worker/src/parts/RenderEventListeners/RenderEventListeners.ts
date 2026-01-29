@@ -21,5 +21,9 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       params: ['handleTabContextMenu', EventExpression.Button, EventExpression.ClientX, EventExpression.ClientY],
       preventDefault: true,
     },
+    {
+      name: DomEventListenersFunctions.HandleClickAction,
+      params: ['handleClickAction', 'event.target.dataset.action'],
+    },
   ]
 }

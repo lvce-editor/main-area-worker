@@ -155,7 +155,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
           ],
         },
         {
-          activeTabId: 0,
+          activeTabId: 1,
           focused: true,
           id: 1,
           size: 50,

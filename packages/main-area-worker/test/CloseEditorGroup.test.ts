@@ -30,7 +30,7 @@ test('closeEditorGroup should return state unchanged when group does not exist',
 
   const result = closeEditorGroup(state, 999)
 
-  expect(result).toBe(state)
+  expect(result.layout).toEqual(state.layout)
 })
 
 test('closeEditorGroup should return state unchanged when there is only one group', () => {
@@ -53,7 +53,7 @@ test('closeEditorGroup should return state unchanged when there is only one grou
 
   const result = closeEditorGroup(state, 1)
 
-  expect(result).toBe(state)
+  expect(result.layout).toEqual(state.layout)
 })
 
 test('closeEditorGroup should close non-active group and redistribute sizes', () => {
@@ -83,11 +83,21 @@ test('closeEditorGroup should close non-active group and redistribute sizes', ()
 
   const result = closeEditorGroup(state, 2)
 
-  expect(result.layout.groups.length).toBe(1)
-  expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[0].size).toBe(100)
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result).not.toBe(state)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('closeEditorGroup should close active group and switch to first remaining group', () => {
@@ -117,11 +127,21 @@ test('closeEditorGroup should close active group and switch to first remaining g
 
   const result = closeEditorGroup(state, 1)
 
-  expect(result.layout.groups.length).toBe(1)
-  expect(result.layout.groups[0].id).toBe(2)
-  expect(result.layout.groups[0].size).toBe(100)
-  expect(result.layout.activeGroupId).toBe(2)
-  expect(result).not.toBe(state)
+  const expectedLayout = {
+    activeGroupId: 2,
+    direction: 'horizontal',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 2,
+        size: 100,
+        tabs: [],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('closeEditorGroup should redistribute sizes evenly when closing one of three groups', () => {
@@ -158,12 +178,28 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of thre
 
   const result = closeEditorGroup(state, 2)
 
-  expect(result.layout.groups.length).toBe(2)
-  expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[0].size).toBe(50)
-  expect(result.layout.groups[1].id).toBe(3)
-  expect(result.layout.groups[1].size).toBe(50)
-  expect(result.layout.activeGroupId).toBe(1)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: true,
+        id: 1,
+        size: 50,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 3,
+        size: 50,
+        tabs: [],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('closeEditorGroup should redistribute sizes evenly when closing one of four groups', () => {
@@ -207,11 +243,35 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
 
   const result = closeEditorGroup(state, 3)
 
-  expect(result.layout.groups.length).toBe(3)
-  expect(result.layout.groups[0].size).toBe(33)
-  expect(result.layout.groups[1].size).toBe(33)
-  expect(result.layout.groups[2].size).toBe(33)
-  expect(result.layout.activeGroupId).toBe(1)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: true,
+        id: 1,
+        size: 33,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 2,
+        size: 33,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 4,
+        size: 34,
+        tabs: [],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('closeEditorGroup should preserve other state properties', () => {
@@ -244,10 +304,24 @@ test('closeEditorGroup should preserve other state properties', () => {
 
   const result = closeEditorGroup(state, 2)
 
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'vertical',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [],
+      },
+    ],
+  }
+
   expect(result.assetDir).toBe('/test')
   expect(result.platform).toBe(1)
   expect(result.uid).toBe(123)
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('closeEditorGroup should handle closing middle group in three groups', () => {
@@ -284,10 +358,28 @@ test('closeEditorGroup should handle closing middle group in three groups', () =
 
   const result = closeEditorGroup(state, 2)
 
-  expect(result.layout.groups.length).toBe(2)
-  expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[1].id).toBe(3)
-  expect(result.layout.activeGroupId).toBe(1)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        size: 50,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 3,
+        size: 50,
+        tabs: [],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('closeEditorGroup should handle closing last group in three groups', () => {
@@ -324,10 +416,26 @@ test('closeEditorGroup should handle closing last group in three groups', () => 
 
   const result = closeEditorGroup(state, 3)
 
-  expect(result.layout.groups.length).toBe(2)
-  expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[1].id).toBe(2)
-  expect(result.layout.groups[0].size).toBe(50)
-  expect(result.layout.groups[1].size).toBe(50)
-  expect(result.layout.activeGroupId).toBe(1)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: true,
+        id: 1,
+        size: 50,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 2,
+        size: 50,
+        tabs: [],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })

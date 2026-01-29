@@ -11,9 +11,12 @@ export const closeEditorGroup = (state: MainAreaState, groupId: number): MainAre
 
   const remainingGroups = groups.filter((group) => group.id !== groupId)
 
+  const baseSize = Math.floor(100 / remainingGroups.length)
+  const remainder = 100 % remainingGroups.length
+
   const redistributedGroups = remainingGroups.map((group, index) => ({
     ...group,
-    size: Math.round(100 / remainingGroups.length),
+    size: baseSize + (index === remainingGroups.length - 1 ? remainder : 0),
   }))
 
   const newActiveGroupId = activeGroupId === groupId ? remainingGroups[0].id : activeGroupId

@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
-export const findFileReferences = (state: any): any => {
-  const { activeGroupIndex, groups } = state
-  if (activeGroupIndex === -1) {
+import type { MainAreaState } from '../MainAreaState/MainAreaState.js'
+import { getActiveTab } from '../GetActiveTab/GetActiveTab.js'
+
+export const findFileReferences = (state: MainAreaState): MainAreaState => {
+  const activeTabData = getActiveTab(state)
+  if (!activeTabData) {
     return state
   }
-  const group = groups[activeGroupIndex]
-  const { activeIndex } = group
-  const editor = group.editors[activeIndex]
-  const { uri } = editor
+  const { tab } = activeTabData
+  const { uri } = tab
   // TODO show references view
 
   console.log('show refrences', uri)

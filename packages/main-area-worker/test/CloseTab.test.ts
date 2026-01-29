@@ -112,7 +112,7 @@ test('closeTab should close the active tab and select next tab', () => {
   expect(result).not.toBe(state)
 })
 
-test('closeTab should close the last tab and set activeTabId to undefined', () => {
+test('closeTab should close the last tab and remove the group', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -142,8 +142,8 @@ test('closeTab should close the last tab and set activeTabId to undefined', () =
 
   const result = closeTab(state, 1, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups.length).toBe(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
   expect(result).not.toBe(state)
 })
 
@@ -323,7 +323,7 @@ test('closeTab should return state unchanged when tab does not exist', () => {
 
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(result).not.toBe(state)
+  expect(result).toBe(state)
 })
 
 test('closeTab should preserve other groups when closing tab', () => {
@@ -933,9 +933,8 @@ test('closeTab should handle empty tabs array', () => {
 
   const result = closeTab(state, 1, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
-  expect(result).not.toBe(state)
+  // If the group is already empty and we try to close a non-existent tab, state should not change
+  expect(result).toBe(state)
 })
 
 test('closeTab should handle closing tab when activeTabId is undefined', () => {
@@ -1027,7 +1026,7 @@ test('closeTab should handle closing second tab when first is active', () => {
   expect(result).not.toBe(state)
 })
 
-test('closeTab should handle closing tab from group with single tab', () => {
+test('closeTab should remove group when closing last tab from single group', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -1057,8 +1056,8 @@ test('closeTab should handle closing tab from group with single tab', () => {
 
   const result = closeTab(state, 1, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups.length).toBe(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
   expect(result).not.toBe(state)
 })
 
@@ -1568,7 +1567,7 @@ test('closeTab should remove editor group when closing last tab and update activ
   expect(result).not.toBe(state)
 })
 
-test('closeTab should not remove editor group when closing last tab if it is the only group', () => {
+test('closeTab should remove editor group when closing last tab even if it is the only group', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -1598,9 +1597,8 @@ test('closeTab should not remove editor group when closing last tab if it is the
 
   const result = closeTab(state, 1, 1)
 
-  expect(result.layout.groups.length).toBe(1)
-  expect(result.layout.groups[0].tabs.length).toBe(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups.length).toBe(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
   expect(result).not.toBe(state)
 })
 
@@ -2008,7 +2006,7 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })
 
-test('closeTabWithViewlet should handle closing the last tab', async () => {
+test('closeTabWithViewlet should remove group when closing the last tab', async () => {
   RendererWorker.registerMockRpc({
     'Viewlet.attachToDom': async () => {},
     'Viewlet.create': async () => {},
@@ -2045,8 +2043,8 @@ test('closeTabWithViewlet should handle closing the last tab', async () => {
 
   const result = await closeTabWithViewlet(state, 1, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups.length).toBe(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
 })
 
 test('closeTabWithViewlet should handle closing tab when tab not found', async () => {

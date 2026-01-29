@@ -151,7 +151,7 @@ test('closeFocusedTab should return same state when no groups', () => {
   expect(result).toBe(state)
 })
 
-test('closeFocusedTab should close the last tab in focused group', () => {
+test('closeFocusedTab should remove group when closing the last tab in focused group', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -182,17 +182,9 @@ test('closeFocusedTab should close the last tab in focused group', () => {
   const result = closeFocusedTab(state)
 
   const expectedLayout = {
-    activeGroupId: 1,
+    activeGroupId: undefined,
     direction: 'horizontal' as const,
-    groups: [
-      {
-        activeTabId: undefined,
-        focused: true,
-        id: 1,
-        size: 100,
-        tabs: [],
-      },
-    ],
+    groups: [],
   }
 
   expect(result.layout).toEqual(expectedLayout)

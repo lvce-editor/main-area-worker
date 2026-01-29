@@ -51,6 +51,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 1,
       className: 'MainTabs',
+      role: 'tablist',
       type: VirtualDomElements.Div,
     },
     {

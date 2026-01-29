@@ -34,6 +34,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 1,
       className: 'MainTabs',
+      role: 'tablist',
       type: VirtualDomElements.Div,
     },
     {

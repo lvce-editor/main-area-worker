@@ -30,7 +30,7 @@ export const loadTabContentAsync = async (
   getLatestState: () => MainAreaState,
 ): Promise<MainAreaState> => {
   try {
-    const content = await loadFileContent(path)
+    await loadFileContent(path)
 
     // Check for race condition: get the latest state
     const latestState = getLatestState()

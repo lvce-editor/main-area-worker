@@ -781,14 +781,14 @@ test('selectTab should handle tabs with paths and languages', async () => {
           {
             editorType: 'text' as const,
             editorUid: -1,
+            errorMessage: expect.any(String),
             icon: '',
             id: 2,
             isDirty: false,
             language: 'html',
+            loadingState: 'error',
             title: 'index.html',
             uri: '/path/to/index.html',
-            errorMessage: expect.any(String),
-            loadingState: 'error',
           },
         ],
       },
@@ -1281,7 +1281,6 @@ test('selectTab should not trigger loading when tab is already loading', async (
               id: 2,
               isDirty: false,
               loadingState: 'loading',
-              loadRequestId: 42,
               title: 'File 2',
               uri: '/path/to/file.ts',
             },
@@ -1295,7 +1294,6 @@ test('selectTab should not trigger loading when tab is already loading', async (
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].tabs[1].loadingState).toBe('loading')
-  expect(result.layout.groups[0].tabs[1].loadRequestId).toBe(42)
 })
 
 test('selectTab should not trigger loading when tab is already loaded with content', async () => {

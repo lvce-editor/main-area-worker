@@ -97,7 +97,6 @@ test('loadTabContentAsync loads content successfully', async () => {
   const state: MainAreaState = {
     ...createStateWithTab({
       loadingState: 'loading',
-      loadRequestId: requestId,
     }),
   }
 
@@ -125,7 +124,6 @@ test('loadTabContentAsync handles error', async () => {
   const state: MainAreaState = {
     ...createStateWithTab({
       loadingState: 'loading',
-      loadRequestId: requestId,
     }),
   }
 
@@ -152,7 +150,6 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
   const newerState: MainAreaState = {
     ...createStateWithTab({
       loadingState: 'loading',
-      loadRequestId: newRequestId,
     }),
   }
 
@@ -162,7 +159,7 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
 
   // The result should be the newer state unchanged because the request IDs don't match
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.loadRequestId).toBe(newRequestId)
+  expect(tab?.loadingState).toBe('loading')
 })
 
 test('loadTabContentAsync discards result when tab no longer exists', async () => {
@@ -205,7 +202,6 @@ test('loadTabContentAsync handles non-Error exception', async () => {
   const state: MainAreaState = {
     ...createStateWithTab({
       loadingState: 'loading',
-      loadRequestId: requestId,
     }),
   }
 

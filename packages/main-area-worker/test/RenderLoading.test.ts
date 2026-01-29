@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals'
-import { renderLoading } from '../src/parts/RenderEditor/RenderLoading/RenderLoading.ts'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import { renderLoading } from '../src/parts/RenderEditor/RenderLoading/RenderLoading.ts'
 
 test('renderLoading returns loading state virtual dom nodes', () => {
   const result = renderLoading()

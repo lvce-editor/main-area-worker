@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals'
-import { renderError } from '../src/parts/RenderEditor/RenderError/RenderError.ts'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import { renderError } from '../src/parts/RenderEditor/RenderError/RenderError.ts'
 
 test('renderError returns error state virtual dom nodes', () => {
   const errorMessage = 'Test error message'

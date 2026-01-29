@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals'
-import { renderContent } from '../src/parts/RenderEditor/RenderContent/RenderContent.ts'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import { renderContent } from '../src/parts/RenderEditor/RenderContent/RenderContent.ts'
 
 test('renderContent returns content virtual dom nodes', () => {
   const content = 'Hello, World!'

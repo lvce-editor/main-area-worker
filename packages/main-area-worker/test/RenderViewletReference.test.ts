@@ -1,18 +1,18 @@
 import { expect, test } from '@jest/globals'
-import { renderViewletReference } from '../src/parts/RenderEditor/RenderViewletReference/RenderViewletReference.ts'
 import type { Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
+import { renderViewletReference } from '../src/parts/RenderEditor/RenderViewletReference/RenderViewletReference.ts'
 
 test('renderViewletReference returns reference node with correct uid', () => {
   const tab: Tab = {
-    editorUid: 42,
-    viewletInstanceId: '1',
-    loadingState: 'loaded',
     content: '',
+    editorUid: 42,
     errorMessage: '',
     isDirty: false,
-    viewletId: 'test-viewlet',
-    uri: 'file:///test.txt',
     isTempSession: false,
+    loadingState: 'loaded',
+    uri: 'file:///test.txt',
+    viewletId: 'test-viewlet',
+    viewletInstanceId: '1',
   } as Tab
 
   const result = renderViewletReference(tab)
@@ -28,15 +28,15 @@ test('renderViewletReference returns reference node with correct uid', () => {
 
 test('renderViewletReference handles different uid values', () => {
   const tab: Tab = {
-    editorUid: 999,
-    viewletInstanceId: '1',
-    loadingState: 'loaded',
     content: '',
+    editorUid: 999,
     errorMessage: '',
     isDirty: false,
-    viewletId: 'test-viewlet',
-    uri: 'file:///test.txt',
     isTempSession: false,
+    loadingState: 'loaded',
+    uri: 'file:///test.txt',
+    viewletId: 'test-viewlet',
+    viewletInstanceId: '1',
   } as Tab
 
   const result = renderViewletReference(tab)
@@ -51,15 +51,15 @@ test('renderViewletReference handles different uid values', () => {
 
 test('renderViewletReference creates reference node for viewlet instance', () => {
   const tab: Tab = {
-    editorUid: 1,
-    viewletInstanceId: 'custom-viewlet-123',
-    loadingState: 'loaded',
     content: '',
+    editorUid: 1,
     errorMessage: '',
     isDirty: false,
-    viewletId: 'custom.editor',
-    uri: 'file:///data.json',
     isTempSession: false,
+    loadingState: 'loaded',
+    uri: 'file:///data.json',
+    viewletId: 'custom.editor',
+    viewletInstanceId: 'custom-viewlet-123',
   } as Tab
 
   const result = renderViewletReference(tab)

@@ -31,8 +31,8 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => null,
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => null,
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -52,8 +52,8 @@ test('restoreAndCreateEditors should handle empty groups', async () => {
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => null,
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => null,
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -89,8 +89,8 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => null,
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => null,
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -137,8 +137,8 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
   }
 
   using _mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async (uri: string) => (uri.includes('file2') ? 'editor.text' : null),
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async (uri: string) => (uri.includes('file2') ? 'editor.text' : null),
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -175,8 +175,8 @@ test('restoreAndCreateEditors should preserve existing editorUid', async () => {
   }
 
   using _mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => 'editor.text',
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -230,8 +230,8 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
   }
 
   using _mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => 'editor.text',
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -269,8 +269,8 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => null,
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => null,
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -325,8 +325,8 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => 'editor.text',
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)

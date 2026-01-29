@@ -83,7 +83,11 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       onClick: DomEventListenerFunctions.HandleClickClose,
       type: VirtualDomElements.Button,
     },
-    text('×'),
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconClose',
+      type: VirtualDomElements.Div,
+    },
     {
       childCount: 1,
       className: 'EditorContainer',

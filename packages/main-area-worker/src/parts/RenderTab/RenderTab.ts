@@ -35,6 +35,10 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       onClick: DomEventListenerFunctions.HandleClickClose,
       type: VirtualDomElements.Button,
     },
-    text('×'),
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconClose',
+      type: VirtualDomElements.Div,
+    },
   ]
 }

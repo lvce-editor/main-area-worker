@@ -279,8 +279,6 @@ test('splitDown should preserve other state properties', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     height: 600,
-    uid: 123,
-    width: 800,
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -294,6 +292,8 @@ test('splitDown should preserve other state properties', () => {
         },
       ],
     },
+    uid: 123,
+    width: 800,
   }
 
   const result = splitDown(state, 1)

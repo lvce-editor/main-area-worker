@@ -131,3 +131,23 @@ test('renderTab should use title as fallback when path is undefined', () => {
 
   expect(result[0].title).toBe('Untitled')
 })
+
+test('renderTab should have aria-selected: true when isActive is true', () => {
+  const tab: Tab = {
+    content: 'test content',
+    editorType: 'text',
+    editorUid: -1,
+    errorMessage: '',
+    icon: '',
+    id: 1,
+    isDirty: false,
+    language: '',
+    loadingState: 'idle',
+    title: 'Test File',
+    uri: '/path/to/Test File',
+  }
+  const result = renderTab(tab, true, 0, 0)
+
+  expect(result[0]['aria-selected']).toBe(true)
+  expect(result[0].className).toBe('MainTab MainTabSelected')
+})

@@ -1,5 +1,5 @@
-import * as Assert from '../Assert/Assert.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as Assert from '../Assert/Assert.ts'
 
 export const handleResize = (state: MainAreaState, x: number, y: number, width: number, height: number): MainAreaState => {
   Assert.number(x)

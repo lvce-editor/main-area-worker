@@ -51,7 +51,7 @@
     "@lvce-editor/constants": "^3.0.0",
     "@lvce-editor/i18n": "^2.1.0",
     "@lvce-editor/rpc": "^5.5.0",
-    "@lvce-editor/rpc-registry": "^7.6.0",
+    "@lvce-editor/rpc-registry": "^8.1.0",
     "@lvce-editor/verror": "^1.7.0",
     "@lvce-editor/viewlet-registry": "^3.0.0",
     "jest": "^30.2.0",

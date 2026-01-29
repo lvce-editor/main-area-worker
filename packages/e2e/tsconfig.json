@@ -16,7 +16,8 @@
     "strict": true,
     "noImplicitAny": false,
     "composite": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "noUnusedLocals": true
   },
   "include": ["src", "test"]
 }

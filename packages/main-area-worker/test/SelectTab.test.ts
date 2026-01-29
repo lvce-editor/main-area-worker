@@ -787,6 +787,8 @@ test('selectTab should handle tabs with paths and languages', async () => {
             language: 'html',
             title: 'index.html',
             uri: '/path/to/index.html',
+            errorMessage: expect.any(String),
+            loadingState: 'error',
           },
         ],
       },

@@ -53,6 +53,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
 
   const { fileIconCache, updatedLayout } = await loadFileIcons(state)
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///file1.ts', 'file:///file2.js']]])
   expect(updatedLayout.groups[0].tabs[0].icon).toBe('icon-ts')
   expect(updatedLayout.groups[0].tabs[1].icon).toBe('icon-js')
   expect(fileIconCache['file:///file1.ts']).toBe('icon-ts')
@@ -76,6 +77,7 @@ test('loadFileIcons should handle empty tabs', async () => {
 
   const { fileIconCache, updatedLayout } = await loadFileIcons(state)
 
+  expect(mockRpc.invocations).toEqual([])
   expect(updatedLayout.groups).toHaveLength(0)
   expect(Object.keys(fileIconCache)).toHaveLength(0)
 })

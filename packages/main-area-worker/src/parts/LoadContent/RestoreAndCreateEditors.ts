@@ -25,11 +25,7 @@ const getViewletModuleIds = async (layout: any): Promise<Record<string, string>>
 }
 
 // Create viewlets for the active tabs
-const createViewlets = async (
-  layout: any,
-  viewletModuleIds: Record<string, string>,
-  bounds: any,
-): Promise<Record<string, number>> => {
+const createViewlets = async (layout: any, viewletModuleIds: Record<string, string>, bounds: any): Promise<Record<string, number>> => {
   const editorUids: Record<string, number> = {}
 
   for (const group of layout.groups) {
@@ -71,10 +67,7 @@ const updateTabs = (state: MainAreaState, editorUids: Record<string, number>): M
   }
 }
 
-export const restoreAndCreateEditors = async (
-  state: MainAreaState,
-  restoredLayout: any,
-): Promise<MainAreaState> => {
+export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayout: any): Promise<MainAreaState> => {
   let newState: MainAreaState = {
     ...state,
     layout: restoredLayout,

@@ -34,13 +34,14 @@ test('restoreAndCreateEditors should set layout in state', async () => {
   using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
     'GetViewletModuleId.getViewletModuleId': async () => null,
   })
-  
+
   using mockRenderer = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
+  expect(mockRpc.invocations).toEqual([['GetViewletModuleId.getViewletModuleId', 'file:///file.ts']])
   expect(result.layout).toEqual(restoredLayout)
 })
 
@@ -58,6 +59,7 @@ test('restoreAndCreateEditors should handle empty groups', async () => {
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
+  expect(mockRpc.invocations).toEqual([])
   expect(result.layout.groups).toHaveLength(0)
 })
 
@@ -93,6 +95,7 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
+  expect(mockRpc.invocations).toEqual([])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
 })
 
@@ -145,6 +148,10 @@ test('restoreAndCreateEditors should only create viewlets for active tabs', asyn
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
+  expect(mockRpc.invocations).toEqual([
+    ['GetViewletModuleId.getViewletModuleId', 'file:///file1.ts'],
+    ['GetViewletModuleId.getViewletModuleId', 'file:///file2.ts'],
+  ])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
   expect(result.layout.groups[0].tabs[1].editorUid).not.toBe(-1)
 })
@@ -186,6 +193,7 @@ test('restoreAndCreateEditors should preserve editorUid when already set', async
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
+  expect(mockRpc.invocations).toEqual([['GetViewletModuleId.getViewletModuleId', 'file:///file.ts']])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(42)
 })
 
@@ -244,6 +252,10 @@ test('restoreAndCreateEditors should handle multiple groups with different activ
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
+  expect(mockRpc.invocations).toEqual([
+    ['GetViewletModuleId.getViewletModuleId', 'file:///file1.ts'],
+    ['GetViewletModuleId.getViewletModuleId', 'file:///file2.ts'],
+  ])
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
   expect(result.layout.groups[1].tabs[0].editorUid).not.toBe(-1)
@@ -282,6 +294,7 @@ test('restoreAndCreateEditors should handle tabs with no matching viewlet module
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
+  expect(mockRpc.invocations).toEqual([['GetViewletModuleId.getViewletModuleId', 'file:///unknown.unknown']])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
 })
 
@@ -340,6 +353,10 @@ test('restoreAndCreateEditors should update group structure correctly', async ()
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
+  expect(mockRpc.invocations).toEqual([
+    ['GetViewletModuleId.getViewletModuleId', 'file:///file1.ts'],
+    ['GetViewletModuleId.getViewletModuleId', 'file:///file2.ts'],
+  ])
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[1].id).toBe(2)

@@ -3,9 +3,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { getFileIconsForTabs } from '../GetFileIcons/GetFileIcons.ts'
 import { getAllTabs } from './GetAllTabs.ts'
 
-export const loadFileIcons = async (
-  state: MainAreaState,
-): Promise<{ fileIconCache: FileIconCache; updatedLayout: any }> => {
+export const loadFileIcons = async (state: MainAreaState): Promise<{ fileIconCache: FileIconCache; updatedLayout: any }> => {
   try {
     const allTabs = getAllTabs(state.layout)
     const { newFileIconCache } = await getFileIconsForTabs(allTabs, state.fileIconCache)

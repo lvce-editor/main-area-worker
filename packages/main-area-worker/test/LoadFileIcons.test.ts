@@ -139,6 +139,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
 
   const { updatedLayout } = await loadFileIcons(state)
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///file1.ts', 'file:///file2.js']]])
   expect(updatedLayout.groups[0].tabs[0].icon).toBe('icon-ts')
   expect(updatedLayout.groups[1].tabs[0].icon).toBe('icon-js')
 })
@@ -182,6 +183,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
   const { updatedLayout } = await loadFileIcons(state)
   const tab = updatedLayout.groups[0].tabs[0]
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///important.ts']]])
   expect(tab.id).toBe(99)
   expect(tab.title).toBe('Important File')
   expect(tab.content).toBe('some content')
@@ -227,6 +229,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
 
   const { updatedLayout } = await loadFileIcons(state)
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///unknown.xyz']]])
   expect(updatedLayout.groups[0].tabs[0].icon).toBeUndefined()
 })
 
@@ -268,6 +271,7 @@ test('loadFileIcons should handle error and return original state', async () => 
 
   const { fileIconCache, updatedLayout } = await loadFileIcons(state)
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///file.ts']]])
   expect(fileIconCache).toEqual(state.fileIconCache)
   expect(updatedLayout).toEqual(state.layout)
 })
@@ -370,6 +374,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
 
   const { updatedLayout } = await loadFileIcons(state)
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///f1.ts', 'file:///f2.js', 'file:///f3.json', 'file:///f4.css', 'file:///f5.html']]])
   expect(updatedLayout.groups[0].tabs[0].icon).toBe('icon-ts')
   expect(updatedLayout.groups[0].tabs[1].icon).toBe('icon-js')
   expect(updatedLayout.groups[1].tabs[0].icon).toBe('icon-json')
@@ -434,6 +439,7 @@ test('loadFileIcons should preserve group structure', async () => {
 
   const { updatedLayout } = await loadFileIcons(state)
 
+  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///f1.ts', 'file:///f2.js']]])
   expect(updatedLayout.groups).toHaveLength(2)
   expect(updatedLayout.groups[0].id).toBe(1)
   expect(updatedLayout.groups[0].focused).toBe(false)

@@ -51,7 +51,11 @@ test('renderTab should return correct structure for clean tab', () => {
       onClick: DomEventListenerFunctions.HandleClickClose,
       type: VirtualDomElements.Button,
     },
-    text('×'),
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconClose',
+      type: VirtualDomElements.Div,
+    },
   ])
 })
 

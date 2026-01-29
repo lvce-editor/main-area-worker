@@ -66,7 +66,11 @@ test('renderEditorGroup should return correct structure for group with active ta
       onClick: DomEventListenerFunctions.HandleClickClose,
       type: VirtualDomElements.Button,
     },
-    text('×'),
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconClose',
+      type: VirtualDomElements.Div,
+    },
     {
       childCount: 1,
       className: 'EditorContainer',

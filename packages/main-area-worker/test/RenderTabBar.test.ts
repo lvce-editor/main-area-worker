@@ -61,7 +61,11 @@ test('renderTabBar should return correct structure for single tab', () => {
       onClick: DomEventListenerFunctions.HandleClickClose,
       type: VirtualDomElements.Button,
     },
-    text('×'),
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconClose',
+      type: VirtualDomElements.Div,
+    },
   ])
 })
 

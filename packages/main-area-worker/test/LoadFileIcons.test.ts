@@ -4,7 +4,6 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { loadFileIcons } from '../src/parts/LoadContent/LoadFileIcons.ts'
 
- 
 test('loadFileIcons should load icons for all tabs', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),

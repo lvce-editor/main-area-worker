@@ -6,7 +6,6 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
   assetDir: '',
   fileIconCache: {},
   height: 0,
-  tabHeight: 30,
   layout: {
     activeGroupId: 1,
     direction: 'horizontal',
@@ -57,6 +56,7 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
     ],
   },
   platform: 1,
+  tabHeight: 30,
   uid: 1,
   width: 0,
   x: 0,

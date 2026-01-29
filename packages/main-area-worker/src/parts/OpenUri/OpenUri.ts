@@ -7,6 +7,7 @@ import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
+import { getFileIconsForTabs } from '../GetFileIcons/GetFileIcons.ts'
 import { getOptionUriOptions } from '../GetOptionUriOptions/GetOptionUriOptions.ts'
 import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
@@ -81,6 +82,32 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   // Attachment is handled automatically by virtual DOM reference nodes
   const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
+
+  // Request file icon for the newly opened tab
+  try {
+    const newTab = findTabById(readyState, tabId)
+    if (newTab && newTab.tab.uri) {
+      const { newFileIconCache } = await getFileIconsForTabs([newTab.tab], readyState.fileIconCache)
+      const icon = newFileIconCache[newTab.tab.uri] || ''
+
+      // Update the tab with the icon
+      const stateWithIcon = {
+        ...readyState,
+        fileIconCache: newFileIconCache,
+        layout: {
+          ...readyState.layout,
+          groups: readyState.layout.groups.map((group) => ({
+            ...group,
+            tabs: group.tabs.map((tab) => (tab.id === tabId ? { ...tab, icon } : tab)),
+          })),
+        },
+      }
+
+      return stateWithIcon
+    }
+  } catch {
+    // If icon request fails, continue without icon
+  }
 
   return readyState
 }

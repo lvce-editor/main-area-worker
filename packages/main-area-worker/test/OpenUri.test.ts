@@ -476,7 +476,7 @@ test('openUri should load and set file icon for new tab', async () => {
     'Layout.getModuleId': async () => 'editor.text',
   })
 
-  IconThemeWorker.registerMockRpc({
+  using mockIconRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-typescript'],
   })
 
@@ -494,6 +494,8 @@ test('openUri should load and set file icon for new tab', async () => {
 
   expect(result).toBeDefined()
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
+  expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.ts'])
+  expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
 
 test('openUri should update fileIconCache with loaded icon', async () => {
@@ -503,7 +505,7 @@ test('openUri should update fileIconCache with loaded icon', async () => {
     'Layout.getModuleId': async () => 'editor.text',
   })
 
-  IconThemeWorker.registerMockRpc({
+  using mockIconRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-text'],
   })
 
@@ -520,6 +522,8 @@ test('openUri should update fileIconCache with loaded icon', async () => {
   const result = await openUri(state, options)
 
   expect(result.fileIconCache['file:///path/to/file.txt']).toBe('file-icon-text')
+  expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.txt'])
+  expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
 
 test('openUri should handle icon loading failure gracefully', async () => {
@@ -529,7 +533,7 @@ test('openUri should handle icon loading failure gracefully', async () => {
     'Layout.getModuleId': async () => 'editor.text',
   })
 
-  IconThemeWorker.registerMockRpc({
+  using mockIconRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => {
       throw new Error('Icon loading failed')
     },
@@ -548,4 +552,6 @@ test('openUri should handle icon loading failure gracefully', async () => {
   expect(result).toBeDefined()
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
+  expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.ts'])
+  expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })

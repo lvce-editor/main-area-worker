@@ -3,7 +3,6 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { restoreAndCreateEditors } from '../src/parts/LoadContent/RestoreAndCreateEditors.ts'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should set layout from restoredLayout', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
@@ -38,9 +37,7 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
-  expect(mockRpc.invocations).toEqual([
-    ['Layout.getModuleId', 'file:///file.ts'],
-  ])
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///file.ts']])
   expect(result.layout.activeGroupId).toBe(1)
   expect(result.layout.direction).toBe('horizontal')
   expect(result.layout.groups).toHaveLength(1)
@@ -284,9 +281,7 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
-  expect(mockRpc.invocations).toEqual([
-    ['Layout.getModuleId', 'file:///unknown.unknown'],
-  ])
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///unknown.unknown']])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
 })
 
@@ -346,8 +341,22 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
   expect(mockRpc.invocations).toEqual([
     ['Layout.getModuleId', 'file:///file1.ts'],
     ['Layout.getModuleId', 'file:///file2.ts'],
-    ['Layout.createViewlet', 'editor.text', expect.any(Number), 1, { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) }, 'file:///file1.ts'],
-    ['Layout.createViewlet', 'editor.text', expect.any(Number), 2, { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) }, 'file:///file2.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      expect.any(Number),
+      1,
+      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
+      'file:///file1.ts',
+    ],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      expect.any(Number),
+      2,
+      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
+      'file:///file2.ts',
+    ],
   ])
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)

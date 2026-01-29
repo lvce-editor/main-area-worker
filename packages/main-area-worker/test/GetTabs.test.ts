@@ -24,7 +24,7 @@ test('getTabs should return tabs with correct structure', async () => {
   }
 })
 
-test('getTabs should return tabs with unique incrementing ids', async () => {
+test('getTabs should return tabs with unique ids', async () => {
   const tabs = await getTabs()
   const ids = tabs.map((tab) => tab.id)
   const editorUids = tabs.map((tab) => tab.editorUid)
@@ -34,14 +34,16 @@ test('getTabs should return tabs with unique incrementing ids', async () => {
   expect(uniqueIds.size).toBe(tabs.length)
   expect(uniqueEditorUids.size).toBe(tabs.length)
 
-  // IDs should be unique and incrementing (though not necessarily by 1)
-  for (let i = 1; i < ids.length; i++) {
-    expect(ids[i]).toBeGreaterThan(ids[i - 1])
+  // IDs should be random numbers between 0 and 1
+  for (let i = 0; i < ids.length; i++) {
+    expect(ids[i]).toBeGreaterThanOrEqual(0)
+    expect(ids[i]).toBeLessThan(1)
   }
 
-  // editorUids should also be unique and incrementing
-  for (let i = 1; i < editorUids.length; i++) {
-    expect(editorUids[i]).toBeGreaterThan(editorUids[i - 1])
+  // editorUids should also be random numbers between 0 and 1
+  for (let i = 0; i < editorUids.length; i++) {
+    expect(editorUids[i]).toBeGreaterThanOrEqual(0)
+    expect(editorUids[i]).toBeLessThan(1)
   }
 })
 

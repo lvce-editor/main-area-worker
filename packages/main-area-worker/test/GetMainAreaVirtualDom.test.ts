@@ -49,6 +49,11 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       type: VirtualDomElements.Div,
     },
     {
+      childCount: 2,
+      className: 'EditorGroupHeader',
+      type: VirtualDomElements.Div,
+    },
+    {
       childCount: 1,
       className: 'MainTabs',
       role: 'tablist',
@@ -90,6 +95,21 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       className: 'MaskIcon MaskIconClose',
       type: VirtualDomElements.Div,
     },
+    {
+      childCount: 1,
+      className: 'EditorGroupActions',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorGroupActionButton SplitEditorGroupButton',
+      'data-action': 'split-right',
+      'data-groupId': '1',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      title: 'Split Editor Group',
+      type: VirtualDomElements.Button,
+    },
+    text('split'),
     {
       childCount: 1,
       className: 'EditorContainer',
@@ -154,7 +174,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   }
   const result = getMainAreaVirtualDom(layout)
 
-  expect(result.length).toBe(26) // 1 (Main) + 1 (EditorGroupsContainer) + 24 (2 * renderEditorGroup with TabIcon)
+  expect(result.length).toBe(34) // 1 (Main) + 1 (EditorGroupsContainer) + 32 (2 * renderEditorGroup with Header, Actions and text)
   expect(result[1].childCount).toBe(2)
 })
 

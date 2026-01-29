@@ -32,6 +32,11 @@ test('renderEditorGroup should return correct structure for group with active ta
       type: VirtualDomElements.Div,
     },
     {
+      childCount: 2,
+      className: 'EditorGroupHeader',
+      type: VirtualDomElements.Div,
+    },
+    {
       childCount: 1,
       className: 'MainTabs',
       role: 'tablist',
@@ -75,6 +80,21 @@ test('renderEditorGroup should return correct structure for group with active ta
     },
     {
       childCount: 1,
+      className: 'EditorGroupActions',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorGroupActionButton SplitEditorGroupButton',
+      'data-action': 'split-right',
+      'data-groupId': '1',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      title: 'Split Editor Group',
+      type: VirtualDomElements.Button,
+    },
+    text('split'),
+    {
+      childCount: 1,
       className: 'EditorContainer',
       type: VirtualDomElements.Div,
     },
@@ -113,7 +133,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(12) // 1 (EditorGroup) + 7 (renderTabBar with TabIcon) + 4 (renderEditor with empty container)
+  expect(result.length).toBe(16) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 7 (Tab + Icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
 })
 
 test('renderEditorGroup should handle group with custom editor', () => {
@@ -138,7 +158,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(12) // 1 (EditorGroup) + 7 (renderTabBar with TabIcon) + 4 (renderEditor with content)
+  expect(result.length).toBe(16) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 7 (Tab + Icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + CustomEditor)
 })
 
 test('renderEditorGroup should handle empty tabs array', () => {
@@ -151,5 +171,5 @@ test('renderEditorGroup should handle empty tabs array', () => {
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(6) // 1 (EditorGroup) + 1 (renderTabBar) + 4 (renderEditor with empty container)
+  expect(result.length).toBe(10) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs with 0 tabs) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
 })

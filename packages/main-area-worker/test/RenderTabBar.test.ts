@@ -1,10 +1,11 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import type { EditorGroup } from '../src/parts/EditorGroup/EditorGroup.ts'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTabBar } from '../src/parts/RenderTabBar/RenderTabBar.ts'
 
 test('renderTabBar should return correct structure for single tab', () => {
-  const group = {
+  const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
     id: 1,
@@ -70,7 +71,7 @@ test('renderTabBar should return correct structure for single tab', () => {
 })
 
 test('renderTabBar should handle multiple tabs', () => {
-  const group = {
+  const group: EditorGroup = {
     activeTabId: 2,
     focused: false,
     id: 1,
@@ -105,7 +106,7 @@ test('renderTabBar should handle multiple tabs', () => {
 })
 
 test('renderTabBar should handle empty tabs array', () => {
-  const group = {
+  const group: EditorGroup = {
     activeTabId: undefined,
     focused: false,
     id: 1,

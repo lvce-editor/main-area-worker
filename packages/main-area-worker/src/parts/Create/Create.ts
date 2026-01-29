@@ -22,6 +22,7 @@ export const create = (
       groups: [],
     },
     platform,
+    splitButtonEnabled: true,
     tabHeight,
     uid,
     width,

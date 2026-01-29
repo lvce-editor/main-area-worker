@@ -1,6 +1,5 @@
 import { MenuItemFlags } from '@lvce-editor/constants'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
-import * as Assert from '../Assert/Assert.ts'
 import { findGroupById } from '../FindGroupById/FindGroupById.ts'
 import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
 import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'

@@ -60,6 +60,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       type: VirtualDomElements.Div,
     },
     {
+      'aria-selected': true,
       childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
@@ -73,6 +74,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 0,
       className: 'TabIcon',
+      role: 'none',
       src: '',
       type: VirtualDomElements.Img,
     },
@@ -83,6 +85,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     },
     text('Test File'),
     {
+      'aria-label': 'Close',
       childCount: 1,
       className: 'EditorTabCloseButton',
       'data-groupIndex': 0,

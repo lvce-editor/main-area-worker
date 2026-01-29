@@ -5,6 +5,7 @@ import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEven
 export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
   return [
     {
+      'aria-selected': isActive,
       childCount: 3,
       className: isActive ? 'MainTab MainTabSelected' : 'MainTab',
       'data-groupIndex': groupIndex,
@@ -18,6 +19,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
     {
       childCount: 0,
       className: 'TabIcon',
+      role: 'none',
       src: tab.icon,
       type: VirtualDomElements.Img,
     },
@@ -28,6 +30,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
     },
     text(tab.isDirty ? `*${tab.title}` : tab.title),
     {
+      'aria-label': 'Close',
       childCount: 1,
       className: 'EditorTabCloseButton',
       'data-groupIndex': groupIndex,

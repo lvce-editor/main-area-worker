@@ -43,6 +43,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       type: VirtualDomElements.Div,
     },
     {
+      'aria-selected': true,
       childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
@@ -56,6 +57,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 0,
       className: 'TabIcon',
+      role: 'none',
       src: '',
       type: VirtualDomElements.Img,
     },
@@ -66,6 +68,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     },
     text('Test File'),
     {
+      'aria-label': 'Close',
       childCount: 1,
       className: 'EditorTabCloseButton',
       'data-groupIndex': 0,

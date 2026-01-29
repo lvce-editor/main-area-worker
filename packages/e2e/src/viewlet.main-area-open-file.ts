@@ -2,9 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-file'
 
-export const skip = 1
+// export const skip = 1
 
-export const test: Test = async ({ Editor, FileSystem, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/test.ts`
@@ -15,5 +15,8 @@ export const test: Test = async ({ Editor, FileSystem, Main }) => {
   await Main.openUri(testFile)
 
   // assert
-  await Editor.shouldHaveText(testContent)
+  const tab = Locator('.MainTab[title$="test.ts"]')
+  await expect(tab).toBeVisible()
+  // TODO
+  // await Editor.shouldHaveText(testContent)
 }

@@ -469,3 +469,83 @@ test('openUri should use TAB_HEIGHT constant of 35 pixels', async () => {
     ['Layout.createViewlet', 'editor.markdown', tab.editorUid, tab.id, { height: 365, width: 500, x: 10, y: 85 }, 'file:///document.md'],
   ])
 })
+test('openUri should load and set file icon for new tab', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-typescript'],
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    fileIconCache: {},
+  }
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/file.ts',
+  }
+
+  const result = await openUri(state, options)
+
+  expect(result).toBeDefined()
+  expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
+})
+
+test('openUri should update fileIconCache with loaded icon', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-text'],
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    fileIconCache: {},
+  }
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/file.txt',
+  }
+
+  const result = await openUri(state, options)
+
+  expect(result.fileIconCache['file:///path/to/file.txt']).toBe('file-icon-text')
+})
+
+test('openUri should handle icon loading failure gracefully', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => {
+      throw new Error('Icon loading failed')
+    },
+  })
+
+  const state: MainAreaState = createDefaultState()
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/file.ts',
+  }
+
+  const result = await openUri(state, options)
+
+  // Should still return valid result even if icon loading fails
+  expect(result).toBeDefined()
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
+})

@@ -1,14 +1,12 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
+import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 
-const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState => ({
-  assetDir: '',
-  fileIconCache: {},
-  height: 0,
-  layout: {
+function createMockState(overrides?: Partial<MainAreaState>): MainAreaState {
+  const defaultMockLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 'horizontal' as const,
     groups: [
       {
         activeTabId: 1,
@@ -31,7 +29,7 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
             editorUid: -1,
             icon: '',
             id: 2,
-            isDirty: true,
+            isDirty: false,
             title: 'File 2',
           },
         ],
@@ -54,18 +52,68 @@ const createMockState = (overrides: Partial<MainAreaState> = {}): MainAreaState 
         ],
       },
     ],
-  },
-  platform: 1,
-  tabHeight: 30,
-  uid: 1,
-  width: 0,
-  x: 0,
-  y: 0,
-  ...overrides,
-})
+  }
+
+  return {
+    ...createDefaultState(),
+    layout: overrides?.layout || defaultMockLayout,
+    ...overrides,
+  }
+}
 
 test('selectTab should update active group and tab with valid indexes', async () => {
-  const state = createMockState()
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: true,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, 0, 1)
 
@@ -77,7 +125,58 @@ test('selectTab should update active group and tab with valid indexes', async ()
 })
 
 test('selectTab should switch to different group', async () => {
-  const state = createMockState()
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: true,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, 1, 0)
 
@@ -89,7 +188,58 @@ test('selectTab should switch to different group', async () => {
 })
 
 test('selectTab should return original state for invalid group index', async () => {
-  const state = createMockState()
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: true,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, 2, 0)
 
@@ -97,7 +247,58 @@ test('selectTab should return original state for invalid group index', async () 
 })
 
 test('selectTab should return original state for negative group index', async () => {
-  const state = createMockState()
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: true,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, -1, 0)
 
@@ -105,7 +306,58 @@ test('selectTab should return original state for negative group index', async ()
 })
 
 test('selectTab should return original state for invalid tab index', async () => {
-  const state = createMockState()
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: true,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, 0, 2)
 
@@ -113,7 +365,58 @@ test('selectTab should return original state for invalid tab index', async () =>
 })
 
 test('selectTab should return original state for negative tab index', async () => {
-  const state = createMockState()
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'content1',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              content: 'content2',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: true,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'content3',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
 
   const result = await selectTab(state, 0, -1)
 
@@ -121,7 +424,8 @@ test('selectTab should return original state for negative tab index', async () =
 })
 
 test('selectTab should handle single group with single tab', async () => {
-  const state = createMockState({
+  const state: MainAreaState = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -145,7 +449,7 @@ test('selectTab should handle single group with single tab', async () => {
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 0)
 
@@ -156,13 +460,14 @@ test('selectTab should handle single group with single tab', async () => {
 })
 
 test('selectTab should handle empty groups array', async () => {
-  const state = createMockState({
+  const state: MainAreaState = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',
       groups: [],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 0)
 
@@ -170,7 +475,8 @@ test('selectTab should handle empty groups array', async () => {
 })
 
 test('selectTab should handle group with empty tabs array', async () => {
-  const state = createMockState({
+  const state: MainAreaState = {
+    ...createDefaultState(),
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -184,7 +490,7 @@ test('selectTab should handle group with empty tabs array', async () => {
         },
       ],
     },
-  })
+  }
 
   const result = await selectTab(state, 0, 0)
 

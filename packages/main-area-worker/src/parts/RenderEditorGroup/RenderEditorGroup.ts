@@ -3,7 +3,7 @@ import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderEditorGroupHeader } from '../RenderEditorGroupHeader/RenderEditorGroupHeader.ts'
 
-export const renderEditorGroup = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
+export const renderEditorGroup = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
 
   return [
@@ -12,7 +12,7 @@ export const renderEditorGroup = (group: EditorGroup, groupIndex: number, splitB
       className: 'EditorGroup',
       type: VirtualDomElements.Div,
     },
-    ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled),
+    ...renderEditorGroupHeader(group, groupIndex, true),
     {
       childCount: activeTab ? 1 : 1,
       className: 'EditorContainer',

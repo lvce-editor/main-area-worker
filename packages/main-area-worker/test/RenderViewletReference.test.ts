@@ -5,14 +5,12 @@ import { renderViewletReference } from '../src/parts/RenderEditor/RenderViewletR
 test('renderViewletReference returns reference node with correct uid', () => {
   const tab: Tab = {
     content: '',
+    editorType: 'text' as const,
     editorUid: 42,
-    errorMessage: '',
+    icon: '',
+    id: 1,
     isDirty: false,
-    isTempSession: false,
-    loadingState: 'loaded',
-    uri: 'file:///test.txt',
-    viewletId: 'test-viewlet',
-    viewletInstanceId: '1',
+    title: 'Test',
   } as Tab
 
   const result = renderViewletReference(tab)
@@ -29,14 +27,12 @@ test('renderViewletReference returns reference node with correct uid', () => {
 test('renderViewletReference handles different uid values', () => {
   const tab: Tab = {
     content: '',
+    editorType: 'text' as const,
     editorUid: 999,
-    errorMessage: '',
+    icon: '',
+    id: 1,
     isDirty: false,
-    isTempSession: false,
-    loadingState: 'loaded',
-    uri: 'file:///test.txt',
-    viewletId: 'test-viewlet',
-    viewletInstanceId: '1',
+    title: 'Test',
   } as Tab
 
   const result = renderViewletReference(tab)
@@ -52,14 +48,12 @@ test('renderViewletReference handles different uid values', () => {
 test('renderViewletReference creates reference node for viewlet instance', () => {
   const tab: Tab = {
     content: '',
+    editorType: 'text' as const,
     editorUid: 1,
-    errorMessage: '',
+    icon: '',
+    id: 1,
     isDirty: false,
-    isTempSession: false,
-    loadingState: 'loaded',
-    uri: 'file:///data.json',
-    viewletId: 'custom.editor',
-    viewletInstanceId: 'custom-viewlet-123',
+    title: 'Test',
   } as Tab
 
   const result = renderViewletReference(tab)

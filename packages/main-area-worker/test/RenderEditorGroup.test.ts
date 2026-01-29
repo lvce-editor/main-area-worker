@@ -84,7 +84,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 0,
+      childCount: 1,
       className: 'EditorGroupActionButton SplitEditorGroupButton',
       'data-action': 'split-right',
       'data-groupId': '1',
@@ -92,6 +92,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       title: 'Split Editor Group',
       type: VirtualDomElements.Button,
     },
+    text('split'),
     {
       childCount: 1,
       className: 'EditorContainer',
@@ -170,5 +171,5 @@ test('renderEditorGroup should handle empty tabs array', () => {
   }
   const result = renderEditorGroup(group, 0)
 
-  expect(result.length).toBe(8) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs with 0 tabs) + 1 (EditorGroupActions) + 1 (SplitButton) + 4 (EditorContainer + empty)
+  expect(result.length).toBe(10) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs with 0 tabs) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
 })

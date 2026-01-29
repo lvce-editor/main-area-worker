@@ -51,6 +51,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 2,
       className: 'EditorGroupHeader',
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     {
@@ -98,6 +99,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 1,
       className: 'EditorGroupActions',
+      role: 'toolbar',
       type: VirtualDomElements.Div,
     },
     {

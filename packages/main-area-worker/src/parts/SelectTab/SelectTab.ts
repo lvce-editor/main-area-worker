@@ -21,6 +21,10 @@ const shouldLoadContent = (tab: Tab): boolean => {
   if (tab.loadingState === 'loaded' && tab.content) {
     return false
   }
+  // Don't load if content already exists
+  if (tab.content) {
+    return false
+  }
   return true
 }
 

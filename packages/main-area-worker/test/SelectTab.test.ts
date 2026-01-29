@@ -1211,7 +1211,7 @@ test('selectTab should return new state when clicking same tab index in differen
     groups: [
       {
         activeTabId: 1,
-        focused: true,
+        focused: false,
         id: 1,
         size: 50,
         tabs: [

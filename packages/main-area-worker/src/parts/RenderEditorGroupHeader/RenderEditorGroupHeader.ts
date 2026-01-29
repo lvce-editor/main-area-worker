@@ -3,8 +3,17 @@ import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import { renderEditorGroupActions } from '../RenderEditorGroupActions/RenderEditorGroupActions.ts'
 import { renderTab } from '../RenderTab/RenderTab.ts'
 
-const getTabsVirtualDom = (group: EditorGroup, groupIndex: number, tabsChildCount: number): readonly VirtualDomNode[] => {
+export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
+  const tabsChildCount = group.tabs.length
+  const actions = renderEditorGroupActions(group, groupIndex, splitButtonEnabled)
+
   return [
+    {
+      childCount: 2,
+      className: 'EditorGroupHeader',
+      role: 'none',
+      type: VirtualDomElements.Div,
+    },
     {
       childCount: tabsChildCount,
       className: 'MainTabs',
@@ -12,21 +21,6 @@ const getTabsVirtualDom = (group: EditorGroup, groupIndex: number, tabsChildCoun
       type: VirtualDomElements.Div,
     },
     ...group.tabs.flatMap((tab: Tab, tabIndex: number) => renderTab(tab, tab.id === group.activeTabId, tabIndex, groupIndex)),
-  ]
-}
-
-export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
-  const tabsChildCount = group.tabs.length
-  const actions = renderEditorGroupActions(group, groupIndex, splitButtonEnabled)
-
-  return [
-    {
-      childCount: actions.length > 0 ? 2 : 1,
-      className: 'EditorGroupHeader',
-      role: 'none',
-      type: VirtualDomElements.Div,
-    },
-    ...getTabsVirtualDom(group, groupIndex, tabsChildCount),
     ...actions,
   ]
 }

@@ -66,7 +66,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 0,
       className: 'TabIcon',
-      src: 'icons/refresh.svg',
+      src: '',
       type: VirtualDomElements.Img,
     },
     {

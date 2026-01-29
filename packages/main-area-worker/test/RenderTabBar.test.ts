@@ -44,7 +44,7 @@ test('renderTabBar should return correct structure for single tab', () => {
     {
       childCount: 0,
       className: 'TabIcon',
-      src: 'icons/refresh.svg',
+      src: '',
       type: VirtualDomElements.Img,
     },
     {

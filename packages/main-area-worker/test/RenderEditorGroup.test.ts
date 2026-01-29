@@ -49,7 +49,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 0,
       className: 'TabIcon',
-      src: 'icons/refresh.svg',
+      src: '',
       type: VirtualDomElements.Img,
     },
     {

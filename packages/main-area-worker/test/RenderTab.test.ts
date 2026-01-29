@@ -34,7 +34,7 @@ test('renderTab should return correct structure for clean tab', () => {
     {
       childCount: 0,
       className: 'TabIcon',
-      src: 'icons/refresh.svg',
+      src: '',
       type: VirtualDomElements.Img,
     },
     {

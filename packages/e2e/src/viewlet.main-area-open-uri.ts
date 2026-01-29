@@ -1,26 +1,17 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-export const name = 'viewlet.main-area-openrui'
-export const skip = true
+export const name = 'viewlet.main-area-open-uri'
 
-const assert = (condition: boolean, message: string): void => {
-  if (!condition) {
-    throw new Error(message)
-  }
-}
-
-export const test: Test = async ({ Command, FileSystem }) => {
-  const tmpDir = await FileSystem.getTmpDir()
+export const test: Test = async ({ Command, FileSystem, Main, Editor }) => {
+  const tmpDir = await FileSystem.getTmpDir(Editor)
   const testFile = `${tmpDir}/test.ts`
   const testContent = 'export const hello = () => "world"'
 
   // Create test file with content
   await FileSystem.writeFile(testFile, testContent)
 
-  const uid = 5
-
   // Create main area
-  await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
+  await Main.openUri(testFile)
 
   // Open the editor
   await Command.execute('MainArea.openUri', uid, {

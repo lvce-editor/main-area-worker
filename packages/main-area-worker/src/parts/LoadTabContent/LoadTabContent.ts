@@ -41,6 +41,11 @@ export const loadTabContentAsync = async (
       return latestState
     }
 
+    // If the tab is no longer in loading state, discard this result (newer request started)
+    if (latestTab.loadingState !== 'loading') {
+      return latestState
+    }
+
     // Assign editorUid if tab doesn't have one yet
     const editorUid = latestTab.editorUid === -1 ? Id.create() : latestTab.editorUid
 
@@ -55,6 +60,11 @@ export const loadTabContentAsync = async (
     const latestTab = findTab(latestState, tabId)
 
     if (!latestTab) {
+      return latestState
+    }
+
+    // If the tab is no longer in loading state, discard this result (newer request started)
+    if (latestTab.loadingState !== 'loading') {
       return latestState
     }
 

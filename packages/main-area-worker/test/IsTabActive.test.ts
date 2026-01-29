@@ -18,7 +18,7 @@ test('isTabActive returns true for active tab in active group', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -27,7 +27,7 @@ test('isTabActive returns true for active tab in active group', () => {
             },
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -60,7 +60,7 @@ test('isTabActive returns false for tab in non-active group', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -77,7 +77,7 @@ test('isTabActive returns false for tab in non-active group', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -110,7 +110,7 @@ test('isTabActive returns false when no active group exists', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

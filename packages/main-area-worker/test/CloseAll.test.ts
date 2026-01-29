@@ -18,7 +18,7 @@ test('closeAll should close all tabs and groups', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -27,7 +27,7 @@ test('closeAll should close all tabs and groups', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -44,7 +44,7 @@ test('closeAll should close all tabs and groups', () => {
           tabs: [
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -79,7 +79,7 @@ test('closeAll should preserve layout direction', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -115,7 +115,7 @@ test('closeAll should preserve other state properties', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -168,7 +168,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -177,7 +177,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -194,7 +194,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
           tabs: [
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -211,7 +211,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
           tabs: [
             {
               content: 'content4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -220,7 +220,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
             },
             {
               content: 'content5',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,

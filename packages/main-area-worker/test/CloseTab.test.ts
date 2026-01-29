@@ -19,7 +19,7 @@ test('closeTab should close a non-active tab', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -28,7 +28,7 @@ test('closeTab should close a non-active tab', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -37,7 +37,7 @@ test('closeTab should close a non-active tab', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -73,7 +73,7 @@ test('closeTab should close the active tab and select next tab', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -82,7 +82,7 @@ test('closeTab should close the active tab and select next tab', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -91,7 +91,7 @@ test('closeTab should close the active tab and select next tab', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -127,7 +127,7 @@ test('closeTab should close the last tab and set activeTabId to undefined', () =
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -162,7 +162,7 @@ test('closeTab should close active tab in middle and select tab at same index', 
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -171,7 +171,7 @@ test('closeTab should close active tab in middle and select tab at same index', 
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -180,7 +180,7 @@ test('closeTab should close active tab in middle and select tab at same index', 
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -216,7 +216,7 @@ test('closeTab should close last tab when active and select previous tab', () =>
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -225,7 +225,7 @@ test('closeTab should close last tab when active and select previous tab', () =>
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -234,7 +234,7 @@ test('closeTab should close last tab when active and select previous tab', () =>
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -270,7 +270,7 @@ test('closeTab should return state unchanged when group does not exist', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -306,7 +306,7 @@ test('closeTab should return state unchanged when tab does not exist', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -341,7 +341,7 @@ test('closeTab should preserve other groups when closing tab', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -350,7 +350,7 @@ test('closeTab should preserve other groups when closing tab', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -367,7 +367,7 @@ test('closeTab should preserve other groups when closing tab', () => {
           tabs: [
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -404,7 +404,7 @@ test('closeTab should handle closing tab from different group', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -421,7 +421,7 @@ test('closeTab should handle closing tab from different group', () => {
           tabs: [
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -430,7 +430,7 @@ test('closeTab should handle closing tab from different group', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -468,7 +468,7 @@ test('closeTab should preserve other state properties', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -477,7 +477,7 @@ test('closeTab should preserve other state properties', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -516,7 +516,7 @@ test('closeTab should handle closing tab when group has no active tab', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -525,7 +525,7 @@ test('closeTab should handle closing tab when group has no active tab', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -560,7 +560,7 @@ test('closeTab should handle closing first tab when active', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -569,7 +569,7 @@ test('closeTab should handle closing first tab when active', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -578,7 +578,7 @@ test('closeTab should handle closing first tab when active', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -613,7 +613,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -622,7 +622,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -639,7 +639,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
           tabs: [
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -648,7 +648,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
             },
             {
               content: 'content4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -665,7 +665,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
           tabs: [
             {
               content: 'content5',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -705,7 +705,7 @@ test('closeTab should handle tabs with custom editor type', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -715,7 +715,7 @@ test('closeTab should handle tabs with custom editor type', () => {
             {
               content: 'content2',
               customEditorId: 'custom-editor-1',
-              editorType: 'custom' as const,
+              editorType: 'custom',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -724,7 +724,7 @@ test('closeTab should handle tabs with custom editor type', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -760,7 +760,7 @@ test('closeTab should handle tabs with paths and languages', () => {
           tabs: [
             {
               content: 'console.log("hello");',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -771,7 +771,7 @@ test('closeTab should handle tabs with paths and languages', () => {
             },
             {
               content: '<div>Hello</div>',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -782,7 +782,7 @@ test('closeTab should handle tabs with paths and languages', () => {
             },
             {
               content: 'body { color: red; }',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -820,7 +820,7 @@ test('closeTab should handle closing dirty tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -829,7 +829,7 @@ test('closeTab should handle closing dirty tabs', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -838,7 +838,7 @@ test('closeTab should handle closing dirty tabs', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -874,7 +874,7 @@ test('closeTab should handle closing active dirty tab', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -883,7 +883,7 @@ test('closeTab should handle closing active dirty tab', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -892,7 +892,7 @@ test('closeTab should handle closing active dirty tab', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -953,7 +953,7 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -962,7 +962,7 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -997,7 +997,7 @@ test('closeTab should handle closing second tab when first is active', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1006,7 +1006,7 @@ test('closeTab should handle closing second tab when first is active', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1042,7 +1042,7 @@ test('closeTab should handle closing tab from group with single tab', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1077,7 +1077,7 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1086,7 +1086,7 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1103,7 +1103,7 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
           tabs: [
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -1112,7 +1112,7 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
             },
             {
               content: 'content4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -1151,7 +1151,7 @@ test('closeTab should handle closing tab when tab index is at boundary', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1160,7 +1160,7 @@ test('closeTab should handle closing tab when tab index is at boundary', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1195,7 +1195,7 @@ test('closeTab should handle closing tab with same ID as group ID', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1204,7 +1204,7 @@ test('closeTab should handle closing tab with same ID as group ID', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1240,7 +1240,7 @@ test('closeTab should handle closing tab from group with many tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1249,7 +1249,7 @@ test('closeTab should handle closing tab from group with many tabs', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1258,7 +1258,7 @@ test('closeTab should handle closing tab from group with many tabs', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -1267,7 +1267,7 @@ test('closeTab should handle closing tab from group with many tabs', () => {
             },
             {
               content: 'content4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -1276,7 +1276,7 @@ test('closeTab should handle closing tab from group with many tabs', () => {
             },
             {
               content: 'content5',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -1285,7 +1285,7 @@ test('closeTab should handle closing tab from group with many tabs', () => {
             },
             {
               content: 'content6',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 6,
@@ -1321,7 +1321,7 @@ test('closeTab should handle closing middle tab from many tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1330,7 +1330,7 @@ test('closeTab should handle closing middle tab from many tabs', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1339,7 +1339,7 @@ test('closeTab should handle closing middle tab from many tabs', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -1348,7 +1348,7 @@ test('closeTab should handle closing middle tab from many tabs', () => {
             },
             {
               content: 'content4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -1357,7 +1357,7 @@ test('closeTab should handle closing middle tab from many tabs', () => {
             },
             {
               content: 'content5',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -1393,7 +1393,7 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1402,7 +1402,7 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1411,7 +1411,7 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -1420,7 +1420,7 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
             },
             {
               content: 'content4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -1456,7 +1456,7 @@ test('closeTab should remove editor group when closing last tab and multiple gro
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1473,7 +1473,7 @@ test('closeTab should remove editor group when closing last tab and multiple gro
           tabs: [
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1511,7 +1511,7 @@ test('closeTab should remove editor group when closing last tab and update activ
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1528,7 +1528,7 @@ test('closeTab should remove editor group when closing last tab and update activ
           tabs: [
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1545,7 +1545,7 @@ test('closeTab should remove editor group when closing last tab and update activ
           tabs: [
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -1583,7 +1583,7 @@ test('closeTab should not remove editor group when closing last tab if it is the
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1619,7 +1619,7 @@ test('closeTab should redistribute sizes when removing group', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1636,7 +1636,7 @@ test('closeTab should redistribute sizes when removing group', () => {
           tabs: [
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1653,7 +1653,7 @@ test('closeTab should redistribute sizes when removing group', () => {
           tabs: [
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -1662,7 +1662,7 @@ test('closeTab should redistribute sizes when removing group', () => {
             },
             {
               content: 'content4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -1702,7 +1702,7 @@ test('findTabInState should find a tab in the specified group', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1711,7 +1711,7 @@ test('findTabInState should find a tab in the specified group', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1746,7 +1746,7 @@ test('findTabInState should return undefined when tab does not exist', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1779,7 +1779,7 @@ test('findTabInState should return undefined when group does not exist', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1812,7 +1812,7 @@ test('findTabInState should find tab in different groups', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1829,7 +1829,7 @@ test('findTabInState should find tab in different groups', () => {
           tabs: [
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1877,7 +1877,7 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1886,7 +1886,7 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1928,7 +1928,7 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               icon: '',
               id: 1,
@@ -1937,7 +1937,7 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1979,7 +1979,7 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               icon: '',
               id: 1,
@@ -1988,7 +1988,7 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 200,
               icon: '',
               id: 2,
@@ -2030,7 +2030,7 @@ test('closeTabWithViewlet should handle closing the last tab', async () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               icon: '',
               id: 1,
@@ -2071,7 +2071,7 @@ test('closeTabWithViewlet should handle closing tab when tab not found', async (
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -2105,7 +2105,7 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               icon: '',
               id: 1,
@@ -2114,7 +2114,7 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 200,
               icon: '',
               id: 2,
@@ -2123,7 +2123,7 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 300,
               icon: '',
               id: 3,
@@ -2158,7 +2158,7 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               icon: '',
               id: 1,
@@ -2167,7 +2167,7 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 200,
               icon: '',
               id: 2,
@@ -2176,7 +2176,7 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 300,
               icon: '',
               id: 3,

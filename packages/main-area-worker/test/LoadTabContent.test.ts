@@ -19,7 +19,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
         tabs: [
           {
             content: '',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -249,7 +249,7 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
           tabs: [
             {
               content: 'group1 content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -266,7 +266,7 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
           tabs: [
             {
               content: 'group2 content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

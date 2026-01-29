@@ -7,7 +7,7 @@ import { CSS_CLASSES as ClassNames } from '../src/parts/MainAreaStyles/MainAreaS
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
   const layout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -17,7 +17,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
         tabs: [
           {
             content: 'test content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -110,7 +110,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
 test('getMainAreaVirtualDom should handle multiple groups', () => {
   const layout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -120,7 +120,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
         tabs: [
           {
             content: 'content 1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -138,7 +138,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
         tabs: [
           {
             content: 'content 2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -159,7 +159,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
 test('getMainAreaVirtualDom should handle empty groups array', () => {
   const layout = {
     activeGroupId: undefined,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
   const result = getMainAreaVirtualDom(layout)

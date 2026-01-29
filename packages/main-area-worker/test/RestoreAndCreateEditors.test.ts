@@ -7,7 +7,7 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -17,7 +17,7 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -47,7 +47,7 @@ test('restoreAndCreateEditors should handle empty groups', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -66,7 +66,7 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -76,7 +76,7 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -103,7 +103,7 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
@@ -113,7 +113,7 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
         tabs: [
           {
             content: 'c1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -123,7 +123,7 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
           },
           {
             content: 'c2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -151,7 +151,7 @@ test('restoreAndCreateEditors should preserve existing editorUid', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -161,7 +161,7 @@ test('restoreAndCreateEditors should preserve existing editorUid', async () => {
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: 42,
             icon: '',
             id: 1,
@@ -188,7 +188,7 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 2,
-    direction: 'vertical' as const,
+    direction: 'vertical',
     groups: [
       {
         activeTabId: 1,
@@ -198,7 +198,7 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
         tabs: [
           {
             content: 'c1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -216,7 +216,7 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
         tabs: [
           {
             content: 'c2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -245,7 +245,7 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -255,7 +255,7 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -283,7 +283,7 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -293,7 +293,7 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
         tabs: [
           {
             content: 'c1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -311,7 +311,7 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
         tabs: [
           {
             content: 'c2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,

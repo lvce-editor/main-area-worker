@@ -12,7 +12,7 @@ test('renderTabBar should return correct structure for single tab', () => {
     tabs: [
       {
         content: 'test content',
-        editorType: 'text' as const,
+        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -78,7 +78,7 @@ test('renderTabBar should handle multiple tabs', () => {
     tabs: [
       {
         content: 'content 1',
-        editorType: 'text' as const,
+        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -88,7 +88,7 @@ test('renderTabBar should handle multiple tabs', () => {
       },
       {
         content: 'content 2',
-        editorType: 'text' as const,
+        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 2,

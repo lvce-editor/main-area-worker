@@ -6,14 +6,14 @@ import { renderTab } from '../src/parts/RenderTab/RenderTab.ts'
 test('renderTab should return correct structure for clean tab', () => {
   const tab = {
     content: 'test content',
-    editorType: 'text' as const,
+    editorType: 'text',
     editorUid: -1,
     errorMessage: '',
     icon: '',
     id: 1,
     isDirty: false,
     language: '',
-    loadingState: 'idle' as const,
+    loadingState: 'idle',
     title: 'Test File',
     uri: '/path/to/Test File',
   }
@@ -62,14 +62,14 @@ test('renderTab should return correct structure for clean tab', () => {
 test('renderTab should show dirty indicator for dirty tab', () => {
   const tab = {
     content: 'test content',
-    editorType: 'text' as const,
+    editorType: 'text',
     editorUid: -1,
     errorMessage: '',
     icon: '',
     id: 1,
     isDirty: true,
     language: '',
-    loadingState: 'idle' as const,
+    loadingState: 'idle',
     title: 'Test File',
     uri: '/path/to/Test File',
   }
@@ -81,14 +81,14 @@ test('renderTab should show dirty indicator for dirty tab', () => {
 test('renderTab should handle empty title', () => {
   const tab = {
     content: 'test content',
-    editorType: 'text' as const,
+    editorType: 'text',
     editorUid: -1,
     errorMessage: '',
     icon: '',
     id: 1,
     isDirty: false,
     language: '',
-    loadingState: 'idle' as const,
+    loadingState: 'idle',
     title: '',
     uri: '/path/to/file',
   }
@@ -100,7 +100,7 @@ test('renderTab should handle empty title', () => {
 test('renderTab should handle dirty tab with empty title', () => {
   const tab = {
     content: 'test content',
-    editorType: 'text' as const,
+    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -116,7 +116,7 @@ test('renderTab should handle dirty tab with empty title', () => {
 test('renderTab should use title as fallback when path is undefined', () => {
   const tab = {
     content: 'test content',
-    editorType: 'text' as const,
+    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,

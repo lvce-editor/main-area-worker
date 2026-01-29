@@ -35,7 +35,7 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
 
   const props = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toBeDefined()
@@ -75,7 +75,7 @@ test.skip('getMenuEntries throws when state has no tabs', async () => {
 
   const props = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   await expect(MenuEntries.getMenuEntries(state, props)).rejects.toThrow()
 })
@@ -121,7 +121,7 @@ test('getMenuEntries handles state with multiple tabs', async () => {
 
   const props = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toBeDefined()
@@ -178,7 +178,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
 
   const props = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toBeDefined()
@@ -217,7 +217,7 @@ test('getMenuEntries returns consistent result for same input', async () => {
 
   const props = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result1 = await MenuEntries.getMenuEntries(state, props)
   const result2 = await MenuEntries.getMenuEntries(state, props)
@@ -254,7 +254,7 @@ test('getMenuEntries handles tab without uri', async () => {
 
   const props = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toBeDefined()

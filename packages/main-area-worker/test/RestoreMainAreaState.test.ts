@@ -13,7 +13,7 @@ test('restoreMainAreaState should restore layout from valid saved state', () => 
 
   const savedLayout = {
     activeGroupId: 2,
-    direction: 'vertical' as const,
+    direction: 'vertical',
     groups: [
       {
         activeTabId: 1,
@@ -23,7 +23,7 @@ test('restoreMainAreaState should restore layout from valid saved state', () => 
         tabs: [
           {
             content: 'restored content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -59,7 +59,7 @@ test('restoreMainAreaState should preserve all current state properties except l
 
   const savedLayout = {
     activeGroupId: 3,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -137,7 +137,7 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -147,7 +147,7 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         tabs: [
           {
             content: 'content1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -164,7 +164,7 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         tabs: [
           {
             content: 'content2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -199,7 +199,7 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'vertical' as const,
+    direction: 'vertical',
     groups: [
       {
         activeTabId: 1,
@@ -210,7 +210,7 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
           {
             content: 'custom content',
             customEditorId: 'custom-editor-1',
-            editorType: 'custom' as const,
+            editorType: 'custom',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -244,7 +244,7 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -254,14 +254,14 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
         tabs: [
           {
             content: 'console.log("hello");',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             errorMessage: '',
             icon: '',
             id: 1,
             isDirty: false,
             language: 'javascript',
-            loadingState: 'idle' as const,
+            loadingState: 'idle',
             title: 'script.ts',
             uri: '/path/to/script.ts',
           },
@@ -292,7 +292,7 @@ test('restoreMainAreaState should handle layout with undefined activeGroupId', (
 
   const savedLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -317,7 +317,7 @@ test('restoreMainAreaState should handle layout with empty groups', () => {
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: undefined,
@@ -351,7 +351,7 @@ test('restoreMainAreaState should return new state object, not mutate current st
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -376,7 +376,7 @@ test('restoreMainAreaState should handle different version strings', () => {
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -413,7 +413,7 @@ test('restoreMainAreaState should handle missing version property', () => {
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -436,7 +436,7 @@ test('restoreMainAreaState should handle extra properties in saved state', () =>
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -505,7 +505,7 @@ test('restoreMainAreaState should handle layout with invalid activeGroupId type'
 
   const savedLayout = {
     activeGroupId: 'invalid' as any,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -529,7 +529,7 @@ test('restoreMainAreaState should handle layout with groups as non-array', () =>
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: 'not an array' as any,
   }
 
@@ -553,7 +553,7 @@ test('restoreMainAreaState should handle layout with invalid group structure', (
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         invalid: 'group',
@@ -581,7 +581,7 @@ test('restoreMainAreaState should handle layout with group having invalid size',
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: undefined,
@@ -613,7 +613,7 @@ test('restoreMainAreaState should handle layout with group having invalid focuse
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: undefined,
@@ -645,7 +645,7 @@ test('restoreMainAreaState should handle layout with group having invalid tabs',
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: undefined,
@@ -677,7 +677,7 @@ test('restoreMainAreaState should handle layout with group having invalid tab st
 
   const savedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: undefined,
@@ -706,7 +706,7 @@ test('restoreMainAreaState should handle layout with group having invalid tab st
 test('restoreMainState should return valid layout', () => {
   const validLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -716,7 +716,7 @@ test('restoreMainState should return valid layout', () => {
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -818,7 +818,7 @@ test('restoreMainState should throw error for invalid layout - invalid activeGro
 test('restoreMainState should accept layout with undefined activeGroupId', () => {
   const validLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -846,7 +846,7 @@ test('restoreMainState should throw error for invalid layout - invalid group', (
 test('restoreMainState should accept layout with empty groups', () => {
   const validLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -858,7 +858,7 @@ test('restoreMainState should accept layout with empty groups', () => {
 test('restoreMainState should accept layout with valid groups', () => {
   const validLayout = {
     activeGroupId: 1,
-    direction: 'vertical' as const,
+    direction: 'vertical',
     groups: [
       {
         activeTabId: 1,
@@ -868,7 +868,7 @@ test('restoreMainState should accept layout with valid groups', () => {
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -886,7 +886,7 @@ test('restoreMainState should accept layout with valid groups', () => {
           {
             content: 'content2',
             customEditorId: 'editor-1',
-            editorType: 'custom' as const,
+            editorType: 'custom',
             editorUid: -1,
             icon: '',
             id: 2,

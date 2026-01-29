@@ -2,14 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-many-files'
 
-// export const skip = 1
-
-export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
-  // arrange
-  const tmpDir = await FileSystem.getTmpDir()
-  const fileCount = 100
-
-  // Create 100 files
+async function createFiles(tmpDir: string, fileCount: number, FileSystem: any): Promise<string[]> {
   const files: string[] = []
   for (let i = 0; i < fileCount; i++) {
     const filePath = `${tmpDir}/file-${i}.ts`
@@ -17,6 +10,16 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
     await FileSystem.writeFile(filePath, fileContent)
     files.push(filePath)
   }
+  return files
+}
+
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
+  // arrange
+  const tmpDir = await FileSystem.getTmpDir()
+  const fileCount = 100
+
+  // Create 100 files
+  const files = await createFiles(tmpDir, fileCount, FileSystem)
 
   // act
   // Open all files

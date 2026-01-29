@@ -26,13 +26,13 @@ const rendererWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'r
 
 const content = await readFile(rendererWorkerMainPath, 'utf-8')
 
-const workerPath = join(root, '.tmp/dist/dist/statusBarWorkerMain.js')
+const workerPath = join(root, '.tmp/dist/dist/mainAreaWorkerMain.js')
 
 const remoteUrl = getRemoteUrl(workerPath)
 if (!content.includes('// const mainAreaWorkerUrl = ')) {
   await cp(rendererWorkerMainPath, rendererWorkerMainPath + '.original')
-  const occurrence = `const mainAreaWorkerUrl = \`\${assetDir}/packages/main-area-worker/dist/statusBarWorkerMain.js\``
-  const replacement = `// const mainAreaWorkerUrl = \`\${assetDir}/packages/main-area-worker/dist/statusBarWorkerMain.js\`
+  const occurrence = `const mainAreaWorkerUrl = \`\${assetDir}/packages/main-area-worker/dist/mainAreaWorkerMain.js\``
+  const replacement = `// const mainAreaWorkerUrl = \`\${assetDir}/packages/main-area-worker/dist/mainAreaWorkerMain.js\`
 const mainAreaWorkerUrl = \`${remoteUrl}\``
 
   const newContent = content.replace(occurrence, replacement)

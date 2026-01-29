@@ -1,11 +1,12 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import type { MainAreaLayout } from '../src/parts/MainAreaLayout/MainAreaLayout.ts'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getMainAreaVirtualDom } from '../src/parts/GetMainAreaVirtualDom/GetMainAreaVirtualDom.ts'
 import { CSS_CLASSES as ClassNames } from '../src/parts/MainAreaStyles/MainAreaStyles.ts'
 
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
-  const layout = {
+  const layout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 'horizontal',
     groups: [
@@ -108,7 +109,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
 })
 
 test('getMainAreaVirtualDom should handle multiple groups', () => {
-  const layout = {
+  const layout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 'horizontal',
     groups: [
@@ -157,7 +158,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
 })
 
 test('getMainAreaVirtualDom should handle empty groups array', () => {
-  const layout = {
+  const layout: MainAreaLayout = {
     activeGroupId: undefined,
     direction: 'horizontal',
     groups: [],

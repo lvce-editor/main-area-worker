@@ -129,7 +129,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       className: 'EditorContent',
       type: VirtualDomElements.Pre,
     },
-    text('test content'),
+    text(''),
   ])
 })
 

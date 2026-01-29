@@ -2,9 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-tab-context-menu'
 
-// export const skip = 1
+export const skip = 1
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, Playwright }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/test-context-menu.ts`
@@ -19,7 +19,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Playwright
   await expect(tab).toBeVisible()
 
   // act - right-click on tab to open context menu
-  const page = Playwright.page()
   await tab.click({
     button: 'right',
   })

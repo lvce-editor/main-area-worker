@@ -45,7 +45,7 @@ test('renderViewletReference handles different uid values', () => {
     expect.objectContaining({
       type: 100,
       uid: 999,
-    })
+    }),
   )
 })
 

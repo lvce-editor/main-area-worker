@@ -16,6 +16,7 @@ export interface MainAreaState {
   readonly height: number
   readonly layout: MainAreaLayout
   readonly platform: number
+  readonly splitButtonEnabled: boolean
   readonly tabHeight: number
   readonly uid: number
   readonly width: number

@@ -113,7 +113,7 @@ test('loadFileIcons should handle empty tabs', async () => {
   }
 
   using mockRpc = IconThemeWorker.registerMockRpc({
-    'IconTheme.getFileIcons': async () => ({}),
+    'IconTheme.getIcons': async () => [],
   })
 
   const { fileIconCache, updatedLayout } = await loadFileIcons(state)
@@ -178,10 +178,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
   }
 
   using mockRpc = IconThemeWorker.registerMockRpc({
-    'IconTheme.getFileIcons': async () => ({
-      'file:///file1.ts': 'icon-ts',
-      'file:///file2.js': 'icon-js',
-    }),
+    'IconTheme.getIcons': async () => ['icon-ts', 'icon-js'],
   })
 
   const { updatedLayout } = await loadFileIcons(state)
@@ -229,7 +226,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
     ],
   }
 
-  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///file1.ts', 'file:///file2.js']]])
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'file1.ts', type: 1 }, { name: 'file2.js', type: 1 }]]])
   expect(updatedLayout).toEqual(expectedLayout)
 })
 
@@ -264,9 +261,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
   }
 
   using mockRpc = IconThemeWorker.registerMockRpc({
-    'IconTheme.getFileIcons': async () => ({
-      'file:///important.ts': 'new-icon',
-    }),
+    'IconTheme.getIcons': async () => ['new-icon'],
   })
 
   const { updatedLayout } = await loadFileIcons(state)
@@ -295,7 +290,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
     ],
   }
 
-  expect(mockRpc.invocations).toEqual([['IconTheme.getFileIcons', ['file:///important.ts']]])
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'important.ts', type: 1 }]]])
   expect(updatedLayout).toEqual(expectedLayout)
 })
 

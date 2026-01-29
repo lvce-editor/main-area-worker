@@ -81,8 +81,7 @@ test('updateTab updates tab properties', () => {
 
 test('updateTab returns unchanged state when tab not found', () => {
   const state = createStateWithTab()
-  const result = LoadTabContent.updateTab(state, 999, {
-  })
+  const result = LoadTabContent.updateTab(state, 999, {})
 
   expect(result).toEqual(state)
 })

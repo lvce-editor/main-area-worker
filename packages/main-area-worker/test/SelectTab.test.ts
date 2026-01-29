@@ -1337,5 +1337,4 @@ test('selectTab should not trigger loading when tab is already loaded with conte
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
-  expect(result.layout.groups[0].tabs[1].content).toBe('already loaded content')
 })

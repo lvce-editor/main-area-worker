@@ -9,11 +9,13 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
   const groupId = Id.create()
   const title = PathDisplay.getLabel(uri)
   const tabId = Id.create()
+  const editorUid = Id.create()
   const newTab: Tab = {
     content: '',
     editorType: 'text',
-    editorUid: -1,
+    editorUid,
     errorMessage: '',
+    icon: '',
     id: tabId,
     isDirty: false,
     language: '',

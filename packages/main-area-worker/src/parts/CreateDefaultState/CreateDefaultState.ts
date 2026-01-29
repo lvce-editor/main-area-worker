@@ -3,6 +3,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 export const createDefaultState = (): MainAreaState => {
   return {
     assetDir: '',
+    fileIconCache: {},
     height: 0,
     layout: {
       activeGroupId: undefined,
@@ -10,6 +11,7 @@ export const createDefaultState = (): MainAreaState => {
       groups: [],
     },
     platform: 0,
+    tabHeight: 35,
     uid: 0,
     width: 0,
     x: 0,

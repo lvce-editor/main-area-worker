@@ -91,6 +91,7 @@ test('normalizeGroupSizes should preserve other group properties', () => {
           content: 'content',
           editorType: 'text',
           editorUid: -1,
+          icon: '',
           id: 1,
           isDirty: false,
           title: 'File',

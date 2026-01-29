@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { IconThemeWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as LoadContent from '../src/parts/LoadContent/LoadContent.ts'
 
@@ -52,6 +53,7 @@ test('loadContent should restore valid saved state', async () => {
               content: 'restored content',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 1,
               isDirty: false,
               title: 'Restored File',
@@ -87,6 +89,7 @@ test('loadContent should restore layout with multiple groups', async () => {
               content: 'content1',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 1,
               isDirty: false,
               title: 'File 1',
@@ -103,6 +106,7 @@ test('loadContent should restore layout with multiple groups', async () => {
               content: 'content2',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 2,
               isDirty: true,
               title: 'File 2',
@@ -137,6 +141,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
               content: 'content1',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 1,
               isDirty: false,
               title: 'Tab 1',
@@ -145,6 +150,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
               content: 'content2',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 2,
               isDirty: false,
               title: 'Tab 2',
@@ -153,6 +159,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
               content: 'content3',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 3,
               isDirty: false,
               title: 'Tab 3',
@@ -281,6 +288,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
               customEditorId: 'custom-editor-1',
               editorType: 'custom' as const,
               editorUid: -1,
+              icon: '',
               id: 1,
               isDirty: false,
               title: 'Custom Editor',
@@ -314,6 +322,7 @@ test('loadContent should restore layout with tabs containing paths', async () =>
               content: 'console.log("hello");',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 1,
               isDirty: false,
               language: 'javascript',
@@ -330,4 +339,259 @@ test('loadContent should restore layout with tabs containing paths', async () =>
 
   expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/script.ts')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
+})
+
+test('loadContent should load icon theme for tabs with uri', async () => {
+  using mockRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-typescript'],
+  })
+  void mockRpc
+
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'console.log("hello");',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              language: 'javascript',
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }]]])
+  expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
+})
+
+test('loadContent should load icons for multiple tabs', async () => {
+  using mockRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-typescript', 'file-icon-text'],
+  })
+  void mockRpc
+
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'code content',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
+            },
+            {
+              content: 'text content',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'file.txt',
+              uri: '/test/file.txt',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(mockRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'script.ts', type: 1 },
+        { name: 'file.txt', type: 1 },
+      ],
+    ],
+  ])
+  expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
+  expect(result.layout.groups[0].tabs[1].icon).toBe('file-icon-text')
+})
+
+test('loadContent should update fileIconCache with loaded icons', async () => {
+  using mockRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-typescript'],
+  })
+  void mockRpc
+
+  const state = {
+    ...createDefaultState(),
+    fileIconCache: {},
+  }
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'code',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }]]])
+  expect(result.fileIconCache['/path/to/script.ts']).toBe('file-icon-typescript')
+})
+
+test('loadContent should handle icon loading failure gracefully', async () => {
+  using mockRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => {
+      throw new Error('Icon loading failed')
+    },
+  })
+  void mockRpc
+
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 100,
+          tabs: [
+            {
+              content: 'code',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  // Should still return valid layout even if icon loading fails
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }]]])
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[0].tabs[0].title).toBe('script.ts')
+})
+
+test('loadContent should load icons for tabs in multiple groups', async () => {
+  using mockRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-typescript', 'file-icon-text'],
+  })
+  void mockRpc
+
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal' as const,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          size: 50,
+          tabs: [
+            {
+              content: 'code',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'script.ts',
+              uri: '/path/to/script.ts',
+            },
+          ],
+        },
+        {
+          activeTabId: 2,
+          focused: false,
+          id: 2,
+          size: 50,
+          tabs: [
+            {
+              content: 'text',
+              editorType: 'text' as const,
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'file.txt',
+              uri: '/test/file.txt',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(mockRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'script.ts', type: 1 },
+        { name: 'file.txt', type: 1 },
+      ],
+    ],
+  ])
+  expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
+  expect(result.layout.groups[1].tabs[0].icon).toBe('file-icon-text')
 })

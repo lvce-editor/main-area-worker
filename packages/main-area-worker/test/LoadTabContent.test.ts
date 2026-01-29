@@ -21,6 +21,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
             content: '',
             editorType: 'text' as const,
             editorUid: -1,
+            icon: '',
             id: 1,
             isDirty: false,
             title: 'file.txt',
@@ -91,7 +92,7 @@ test('updateTab returns unchanged state when tab not found', () => {
 })
 
 test('loadTabContentAsync loads content successfully', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => 'file content here',
   })
 
@@ -118,7 +119,7 @@ test('loadTabContentAsync loads content successfully', async () => {
 })
 
 test('loadTabContentAsync handles error', async () => {
-  const mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => {
       throw new Error('File not found')
     },
@@ -250,6 +251,7 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
               content: 'group1 content',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 1,
               isDirty: false,
               title: 'tab1',
@@ -266,6 +268,7 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
               content: 'group2 content',
               editorType: 'text' as const,
               editorUid: -1,
+              icon: '',
               id: 2,
               isDirty: false,
               title: 'tab2',

@@ -3,6 +3,64 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 
+function createMockState(overrides?: Partial<MainAreaState>): MainAreaState {
+  const defaultMockLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: true,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            title: 'File 2',
+          },
+        ],
+      },
+      {
+        activeTabId: 3,
+        focused: false,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content3',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 3,
+            isDirty: false,
+            title: 'File 3',
+          },
+        ],
+      },
+    ],
+  }
+
+  return {
+    ...createDefaultState(),
+    layout: overrides?.layout || defaultMockLayout,
+    ...overrides,
+  }
+}
+
 test('selectTab should update active group and tab with valid indexes', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),

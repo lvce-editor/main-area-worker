@@ -148,9 +148,7 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
   // Find the tab elements (skip the container at index 0)
   // Tabs should have aria-selected attribute based on activeTabId
   const firstTabContainer = result[1]
-  const secondTabContainer = result.find(
-    (el, idx) => idx > 1 && el && 'aria-selected' in el && el['data-index'] === 1
-  )
+  const secondTabContainer = result.find((el, idx) => idx > 1 && el && 'aria-selected' in el && el['data-index'] === 1)
 
   // First tab (id: 1) should not be active
   expect(firstTabContainer).toHaveProperty('aria-selected', false)

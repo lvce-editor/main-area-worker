@@ -72,10 +72,11 @@ export const CSS_STYLES: {
   readonly TEXT_EDITOR_STYLE: 'flex: 1; overflow: auto; font-family: var(--editor-font-family); font-size: var(--editor-font-size);'
 } = {
   CUSTOM_EDITOR_STYLE: 'flex: 1; overflow: auto;',
-  EDITOR_GROUP_BASE: 'display: flex; flex-direction: column; border-right: 1px solid var(--border-color);',
   EDITOR_GROUP_ACTIONS_BASE: 'display: flex; align-items: center; gap: 4px; padding: 4px 8px;',
+  EDITOR_GROUP_BASE: 'display: flex; flex-direction: column; border-right: 1px solid var(--border-color);',
   EDITOR_GROUP_FOCUSED_STYLE: 'box-shadow: 0 0 0 1px var(--focus-border-color);',
-  EDITOR_GROUP_HEADER_BASE: 'display: flex; align-items: center; background: var(--tab-bar-background); border-bottom: 1px solid var(--border-color);',
+  EDITOR_GROUP_HEADER_BASE:
+    'display: flex; align-items: center; background: var(--tab-bar-background); border-bottom: 1px solid var(--border-color);',
   EMPTY_EDITOR_STYLE: 'flex: 1; display: flex; align-items: center; justify-content: center; color: var(--dimmed-color);',
   FLEX_1: 'flex: 1;',
   FLEX_COLUMN: 'display: flex; flex-direction: column; height: 100%;',

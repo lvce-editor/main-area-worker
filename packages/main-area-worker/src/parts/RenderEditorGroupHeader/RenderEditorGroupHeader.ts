@@ -6,7 +6,7 @@ import { renderEditorGroupActions } from '../RenderEditorGroupActions/RenderEdit
 export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   const tabsChildCount = group.tabs.length
   const actionsChildCount = 1 // EditorGroupActions container
-  
+
   return [
     {
       childCount: 2,

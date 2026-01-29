@@ -41,7 +41,7 @@ test('loadContent should restore valid saved state', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -51,7 +51,7 @@ test('loadContent should restore valid saved state', async () => {
           tabs: [
             {
               content: 'restored content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -77,7 +77,7 @@ test('loadContent should restore layout with multiple groups', async () => {
   const savedState = {
     layout: {
       activeGroupId: 2,
-      direction: 'vertical' as const,
+      direction: 'vertical',
       groups: [
         {
           activeTabId: 1,
@@ -87,7 +87,7 @@ test('loadContent should restore layout with multiple groups', async () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -104,7 +104,7 @@ test('loadContent should restore layout with multiple groups', async () => {
           tabs: [
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -129,7 +129,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 2,
@@ -139,7 +139,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -148,7 +148,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -157,7 +157,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -258,7 +258,7 @@ test('loadContent should restore layout with empty groups array', async () => {
   const savedState = {
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [],
     },
   }
@@ -275,7 +275,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -286,7 +286,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
             {
               content: 'custom content',
               customEditorId: 'custom-editor-1',
-              editorType: 'custom' as const,
+              editorType: 'custom',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -310,7 +310,7 @@ test('loadContent should restore layout with tabs containing paths', async () =>
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -320,7 +320,7 @@ test('loadContent should restore layout with tabs containing paths', async () =>
           tabs: [
             {
               content: 'console.log("hello");',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -351,7 +351,7 @@ test('loadContent should load icon theme for tabs with uri', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -361,7 +361,7 @@ test('loadContent should load icon theme for tabs with uri', async () => {
           tabs: [
             {
               content: 'console.log("hello");',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -392,7 +392,7 @@ test('loadContent should load icons for multiple tabs', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -402,7 +402,7 @@ test('loadContent should load icons for multiple tabs', async () => {
           tabs: [
             {
               content: 'code content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -412,7 +412,7 @@ test('loadContent should load icons for multiple tabs', async () => {
             },
             {
               content: 'text content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -454,7 +454,7 @@ test('loadContent should update fileIconCache with loaded icons', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -464,7 +464,7 @@ test('loadContent should update fileIconCache with loaded icons', async () => {
           tabs: [
             {
               content: 'code',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -496,7 +496,7 @@ test('loadContent should handle icon loading failure gracefully', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -506,7 +506,7 @@ test('loadContent should handle icon loading failure gracefully', async () => {
           tabs: [
             {
               content: 'code',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -539,7 +539,7 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -549,7 +549,7 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
           tabs: [
             {
               content: 'code',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -567,7 +567,7 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
           tabs: [
             {
               content: 'text',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

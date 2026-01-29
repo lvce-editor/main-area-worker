@@ -51,7 +51,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -80,7 +80,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: 'test-icon',
               id: 1,
@@ -90,7 +90,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
             },
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: 'test-icon',
               id: 2,
@@ -138,7 +138,7 @@ test('diff2 - should return RenderItems when active tab changes', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: 'test-icon',
               id: 1,
@@ -148,7 +148,7 @@ test('diff2 - should return RenderItems when active tab changes', () => {
             },
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: 'test-icon',
               id: 2,

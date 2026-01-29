@@ -10,7 +10,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -20,7 +20,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -30,7 +30,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -52,7 +52,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -62,7 +62,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
         tabs: [
           {
             content: 'content1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-ts',
             id: 1,
@@ -72,7 +72,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
           },
           {
             content: 'content2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-js',
             id: 2,
@@ -107,7 +107,7 @@ test('loadFileIcons should handle empty tabs', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [],
     },
   }
@@ -120,7 +120,7 @@ test('loadFileIcons should handle empty tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -135,7 +135,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -145,7 +145,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
           tabs: [
             {
               content: 'c1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -163,7 +163,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
           tabs: [
             {
               content: 'c2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -185,7 +185,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -195,7 +195,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
         tabs: [
           {
             content: 'c1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-ts',
             id: 1,
@@ -213,7 +213,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
         tabs: [
           {
             content: 'c2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-js',
             id: 2,
@@ -244,7 +244,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -254,7 +254,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
           tabs: [
             {
               content: 'some content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 42,
               icon: 'old-icon',
               id: 99,
@@ -275,7 +275,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
   const { updatedLayout } = await loadFileIcons(state)
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -285,7 +285,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
         tabs: [
           {
             content: 'some content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: 42,
             icon: 'new-icon',
             id: 99,
@@ -308,7 +308,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -318,7 +318,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
           tabs: [
             {
               content: 'content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -340,7 +340,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -350,7 +350,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: undefined,
             id: 1,
@@ -373,7 +373,7 @@ test('loadFileIcons should handle error and return original state', async () => 
     fileIconCache: { 'file:///cached.ts': 'cached-icon' },
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -383,7 +383,7 @@ test('loadFileIcons should handle error and return original state', async () => 
           tabs: [
             {
               content: 'content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -416,7 +416,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'vertical' as const,
+      direction: 'vertical',
       groups: [
         {
           activeTabId: 1,
@@ -426,7 +426,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
           tabs: [
             {
               content: 'c1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -436,7 +436,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
             },
             {
               content: 'c2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -454,7 +454,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
           tabs: [
             {
               content: 'c3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -472,7 +472,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
           tabs: [
             {
               content: 'c4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -482,7 +482,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
             },
             {
               content: 'c5',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -504,7 +504,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'vertical' as const,
+    direction: 'vertical',
     groups: [
       {
         activeTabId: 1,
@@ -514,7 +514,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
         tabs: [
           {
             content: 'c1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-ts',
             id: 1,
@@ -524,7 +524,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
           },
           {
             content: 'c2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-js',
             id: 2,
@@ -542,7 +542,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
         tabs: [
           {
             content: 'c3',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-json',
             id: 3,
@@ -560,7 +560,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
         tabs: [
           {
             content: 'c4',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-css',
             id: 4,
@@ -570,7 +570,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
           },
           {
             content: 'c5',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-html',
             id: 5,
@@ -604,7 +604,7 @@ test('loadFileIcons should preserve group structure', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -614,7 +614,7 @@ test('loadFileIcons should preserve group structure', async () => {
           tabs: [
             {
               content: 'c1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -632,7 +632,7 @@ test('loadFileIcons should preserve group structure', async () => {
           tabs: [
             {
               content: 'c2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -654,7 +654,7 @@ test('loadFileIcons should preserve group structure', async () => {
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -664,7 +664,7 @@ test('loadFileIcons should preserve group structure', async () => {
         tabs: [
           {
             content: 'c1',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-ts',
             id: 1,
@@ -682,7 +682,7 @@ test('loadFileIcons should preserve group structure', async () => {
         tabs: [
           {
             content: 'c2',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: 'icon-js',
             id: 2,
@@ -713,7 +713,7 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal' as const,
+      direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
@@ -723,7 +723,7 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
           tabs: [
             {
               content: 'content',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -744,7 +744,7 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -754,7 +754,7 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
         tabs: [
           {
             content: 'content',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: undefined,
             id: 1,

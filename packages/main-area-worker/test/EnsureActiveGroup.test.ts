@@ -130,14 +130,14 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
               id: 1,
               isDirty: false,
               language: '',
-              loadingState: 'loading' as const,
+              loadingState: 'loading',
               title: 'File 1',
               uri: '/existing/file.ts',
             },

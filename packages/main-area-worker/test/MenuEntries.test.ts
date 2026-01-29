@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
 import { MenuEntryId } from '@lvce-editor/constants'
+import type { ContextMenuProps } from '../src/parts/ContextMenuProps/ContextMenuProps.ts'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MenuEntries from '../src/parts/MenuEntries/MenuEntries.ts'
@@ -33,9 +34,9 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
     },
   }
 
-  const props = {
+  const props: ContextMenuProps = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toBeDefined()
@@ -46,11 +47,11 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
 test('getMenuEntries returns empty array for unknown menuId', async () => {
   const state: MainAreaState = createDefaultState()
 
-  const props = {
+  const props: ContextMenuProps = {
+    // @ts-ignore
     menuId: 999, // Unknown menu ID
   }
 
-  // @ts-expect-error - Testing with invalid menuId to cover default case
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toEqual([])
 })
@@ -73,9 +74,9 @@ test.skip('getMenuEntries throws when state has no tabs', async () => {
     },
   }
 
-  const props = {
+  const props: ContextMenuProps = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   await expect(MenuEntries.getMenuEntries(state, props)).rejects.toThrow()
 })
@@ -119,9 +120,9 @@ test('getMenuEntries handles state with multiple tabs', async () => {
     },
   }
 
-  const props = {
+  const props: ContextMenuProps = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toBeDefined()
@@ -176,9 +177,9 @@ test('getMenuEntries handles state with multiple groups', async () => {
     },
   }
 
-  const props = {
+  const props: ContextMenuProps = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toBeDefined()
@@ -215,9 +216,9 @@ test('getMenuEntries returns consistent result for same input', async () => {
     },
   }
 
-  const props = {
+  const props: ContextMenuProps = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result1 = await MenuEntries.getMenuEntries(state, props)
   const result2 = await MenuEntries.getMenuEntries(state, props)
@@ -252,9 +253,9 @@ test('getMenuEntries handles tab without uri', async () => {
     },
   }
 
-  const props = {
+  const props: ContextMenuProps = {
     menuId: MenuEntryId.Tab,
-  } as const
+  }
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toBeDefined()

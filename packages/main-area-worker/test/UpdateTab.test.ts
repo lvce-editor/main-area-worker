@@ -8,7 +8,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
     tabOverrides.length > 0
       ? tabOverrides.map((override, index) => ({
           content: '',
-          editorType: 'text' as const,
+          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: index + 1,
@@ -20,7 +20,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
       : [
           {
             content: '',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -64,7 +64,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -74,7 +74,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
             },
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -92,7 +92,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,

@@ -18,7 +18,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -27,7 +27,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -36,7 +36,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -72,7 +72,7 @@ test('closeOtherTabs should return state unchanged when group does not exist', (
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -105,7 +105,7 @@ test('closeOtherTabs should return state unchanged when there is no active tab',
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -138,7 +138,7 @@ test('closeOtherTabs should preserve other groups', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -147,7 +147,7 @@ test('closeOtherTabs should preserve other groups', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -156,7 +156,7 @@ test('closeOtherTabs should preserve other groups', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -173,7 +173,7 @@ test('closeOtherTabs should preserve other groups', () => {
           tabs: [
             {
               content: 'content4',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -182,7 +182,7 @@ test('closeOtherTabs should preserve other groups', () => {
             },
             {
               content: 'content5',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -191,7 +191,7 @@ test('closeOtherTabs should preserve other groups', () => {
             },
             {
               content: 'content6',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 6,
@@ -229,7 +229,7 @@ test('closeOtherTabs should handle single tab in group', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -264,7 +264,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -273,7 +273,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -282,7 +282,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -317,7 +317,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -326,7 +326,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -335,7 +335,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -371,7 +371,7 @@ test('closeOtherTabs should preserve other state properties', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -380,7 +380,7 @@ test('closeOtherTabs should preserve other state properties', () => {
             },
             {
               content: 'content2',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -419,7 +419,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
           tabs: [
             {
               content: 'content1',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -431,7 +431,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
             {
               content: 'content2',
               customEditorId: 'custom-editor',
-              editorType: 'custom' as const,
+              editorType: 'custom',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -442,7 +442,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
             },
             {
               content: 'content3',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,

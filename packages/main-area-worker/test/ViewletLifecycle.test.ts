@@ -18,7 +18,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
         tabs: [
           {
             content: '',
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             errorMessage: '',
             icon: '',
@@ -90,7 +90,7 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               errorMessage: '',
               icon: '',
@@ -103,7 +103,7 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
             },
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 101,
               errorMessage: '',
               icon: '',
@@ -143,7 +143,7 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               errorMessage: '',
               icon: '',
@@ -156,7 +156,7 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
             },
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 101,
               errorMessage: '',
               icon: '',
@@ -208,7 +208,7 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               errorMessage: '',
               icon: '',
@@ -250,7 +250,7 @@ test('handleViewletReady works regardless of active tab - reference nodes render
           tabs: [
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 100,
               errorMessage: '',
               icon: '',
@@ -263,7 +263,7 @@ test('handleViewletReady works regardless of active tab - reference nodes render
             },
             {
               content: '',
-              editorType: 'text' as const,
+              editorType: 'text',
               editorUid: 101,
               errorMessage: '',
               icon: '',

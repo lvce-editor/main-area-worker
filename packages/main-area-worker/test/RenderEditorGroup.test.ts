@@ -1,10 +1,11 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import type { EditorGroup } from '../src/parts/EditorGroup/EditorGroup.ts'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderEditorGroup } from '../src/parts/RenderEditorGroup/RenderEditorGroup.ts'
 
 test('renderEditorGroup should return correct structure for group with active tab', () => {
-  const group = {
+  const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
     id: 1,
@@ -12,7 +13,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     tabs: [
       {
         content: 'test content',
-        editorType: 'text' as const,
+        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -91,7 +92,7 @@ test('renderEditorGroup should return correct structure for group with active ta
 })
 
 test('renderEditorGroup should handle group with no active tab', () => {
-  const group = {
+  const group: EditorGroup = {
     activeTabId: 999,
     focused: false,
     id: 1,
@@ -99,7 +100,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
     tabs: [
       {
         content: 'test content',
-        editorType: 'text' as const,
+        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -115,7 +116,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
 })
 
 test('renderEditorGroup should handle group with custom editor', () => {
-  const group = {
+  const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
     id: 1,
@@ -124,7 +125,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
       {
         content: '',
         customEditorId: 'custom-editor-123',
-        editorType: 'custom' as const,
+        editorType: 'custom',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -140,7 +141,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
 })
 
 test('renderEditorGroup should handle empty tabs array', () => {
-  const group = {
+  const group: EditorGroup = {
     activeTabId: undefined,
     focused: false,
     id: 1,

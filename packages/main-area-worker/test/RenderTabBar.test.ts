@@ -33,6 +33,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       type: VirtualDomElements.Div,
     },
     {
+      'aria-selected': true,
       childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
@@ -46,6 +47,7 @@ test('renderTabBar should return correct structure for single tab', () => {
     {
       childCount: 0,
       className: 'TabIcon',
+      role: 'none',
       src: '',
       type: VirtualDomElements.Img,
     },
@@ -56,6 +58,7 @@ test('renderTabBar should return correct structure for single tab', () => {
     },
     text('Test File'),
     {
+      'aria-label': 'Close',
       childCount: 1,
       className: 'EditorTabCloseButton',
       'data-groupIndex': 0,

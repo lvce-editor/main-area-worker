@@ -22,6 +22,7 @@ test('renderTab should return correct structure for clean tab', () => {
 
   expect(result).toEqual([
     {
+      'aria-selected': false,
       childCount: 3,
       className: 'MainTab',
       'data-groupIndex': 0,
@@ -35,6 +36,7 @@ test('renderTab should return correct structure for clean tab', () => {
     {
       childCount: 0,
       className: 'TabIcon',
+      role: 'none',
       src: '',
       type: VirtualDomElements.Img,
     },
@@ -45,6 +47,7 @@ test('renderTab should return correct structure for clean tab', () => {
     },
     text('Test File'),
     {
+      'aria-label': 'Close',
       childCount: 1,
       className: 'EditorTabCloseButton',
       'data-groupIndex': 0,

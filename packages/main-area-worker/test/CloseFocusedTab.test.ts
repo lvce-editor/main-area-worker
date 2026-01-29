@@ -42,9 +42,31 @@ test('closeFocusedTab should close the focused tab', () => {
 
   const result = closeFocusedTab(state)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
-  expect(result.layout.groups[0].tabs[0].id).toBe(2)
-  expect(result.layout.groups[0].activeTabId).toBe(2)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 2,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            title: 'File 2',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).not.toBe(state)
 })
 
@@ -159,8 +181,21 @@ test('closeFocusedTab should close the last tab in focused group', () => {
 
   const result = closeFocusedTab(state)
 
-  expect(result.layout.groups[0].tabs.length).toBe(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: true,
+        id: 1,
+        size: 100,
+        tabs: [],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).not.toBe(state)
 })
 
@@ -220,10 +255,48 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
 
   const result = closeFocusedTab(state)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
-  expect(result.layout.groups[1].tabs.length).toBe(1)
-  expect(result.layout.groups[1].tabs[0].id).toBe(3)
-  expect(result.layout.groups[1].activeTabId).toBe(3)
+  const expectedLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: false,
+        id: 1,
+        size: 50,
+        tabs: [
+          {
+            content: 'content1',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            title: 'File 1',
+          },
+        ],
+      },
+      {
+        activeTabId: 3,
+        focused: true,
+        id: 2,
+        size: 50,
+        tabs: [
+          {
+            content: 'content3',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 3,
+            isDirty: false,
+            title: 'File 3',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).not.toBe(state)
 })
 
@@ -274,9 +347,30 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
 
   const result = closeFocusedTab(state)
 
-  expect(result.layout.groups.length).toBe(1)
-  expect(result.layout.groups[0].id).toBe(2)
-  expect(result.layout.groups[0].size).toBe(100)
-  expect(result.layout.activeGroupId).toBe(2)
+  const expectedLayout = {
+    activeGroupId: 2,
+    direction: 'horizontal' as const,
+    groups: [
+      {
+        activeTabId: 2,
+        focused: false,
+        id: 2,
+        size: 100,
+        tabs: [
+          {
+            content: 'content2',
+            editorType: 'text' as const,
+            editorUid: -1,
+            icon: '',
+            id: 2,
+            isDirty: false,
+            title: 'File 2',
+          },
+        ],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
   expect(result).not.toBe(state)
 })

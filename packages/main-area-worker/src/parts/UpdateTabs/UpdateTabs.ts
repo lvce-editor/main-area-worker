@@ -1,4 +1,4 @@
-import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const updateTabs = (state: MainAreaState, editorUids: Record<string, number>): MainAreaState => {
   const updatedGroups = state.layout.groups.map((group) => {

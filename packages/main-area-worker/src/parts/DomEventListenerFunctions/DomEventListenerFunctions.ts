@@ -1,9 +1,3 @@
-export { handleClickAction } from '../HandleClickAction/HandleClickAction.ts'
-export { handleClick } from '../HandleClick/HandleClick.ts'
-export { handleClickCloseTab } from '../HandleClickCloseTab/HandleClickCloseTab.ts'
-export { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
-export { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
-
 export const HandleClickAt = 1
 export const HandleContextMenu = 2
 export const HandleFocus = 3

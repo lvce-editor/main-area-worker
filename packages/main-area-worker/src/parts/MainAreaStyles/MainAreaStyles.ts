@@ -5,7 +5,9 @@ export const CSS_CLASSES: {
   readonly EDITOR_CONTAINER: 'editor-container'
   readonly EDITOR_CONTENT: 'editor-content'
   readonly EDITOR_GROUP: 'editor-group'
+  readonly EDITOR_GROUP_ACTIONS: 'editor-group-actions'
   readonly EDITOR_GROUP_FOCUSED: 'focused'
+  readonly EDITOR_GROUP_HEADER: 'editor-group-header'
   readonly EDITOR_GROUPS_CONTAINER: 'editor-groups-container'
   readonly EMPTY_EDITOR: 'empty-editor'
   readonly MAIN_AREA: 'main-area'
@@ -22,7 +24,9 @@ export const CSS_CLASSES: {
   EDITOR_CONTAINER: 'editor-container',
   EDITOR_CONTENT: 'editor-content',
   EDITOR_GROUP: 'editor-group',
+  EDITOR_GROUP_ACTIONS: 'editor-group-actions',
   EDITOR_GROUP_FOCUSED: 'focused',
+  EDITOR_GROUP_HEADER: 'editor-group-header',
   EDITOR_GROUPS_CONTAINER: 'editor-groups-container',
   EMPTY_EDITOR: 'empty-editor',
   MAIN_AREA: 'main-area',
@@ -53,7 +57,9 @@ export const CSS_ATTRIBUTES: {
 export const CSS_STYLES: {
   readonly CUSTOM_EDITOR_STYLE: 'flex: 1; overflow: auto;'
   readonly EDITOR_GROUP_BASE: 'display: flex; flex-direction: column; border-right: 1px solid var(--border-color);'
+  readonly EDITOR_GROUP_ACTIONS_BASE: 'display: flex; align-items: center; gap: 4px; padding: 4px 8px;'
   readonly EDITOR_GROUP_FOCUSED_STYLE: 'box-shadow: 0 0 0 1px var(--focus-border-color);'
+  readonly EDITOR_GROUP_HEADER_BASE: 'display: flex; align-items: center; background: var(--tab-bar-background); border-bottom: 1px solid var(--border-color);'
   readonly EMPTY_EDITOR_STYLE: 'flex: 1; display: flex; align-items: center; justify-content: center; color: var(--dimmed-color);'
   readonly FLEX_1: 'flex: 1;'
   readonly FLEX_COLUMN: 'display: flex; flex-direction: column; height: 100%;'
@@ -67,7 +73,9 @@ export const CSS_STYLES: {
 } = {
   CUSTOM_EDITOR_STYLE: 'flex: 1; overflow: auto;',
   EDITOR_GROUP_BASE: 'display: flex; flex-direction: column; border-right: 1px solid var(--border-color);',
+  EDITOR_GROUP_ACTIONS_BASE: 'display: flex; align-items: center; gap: 4px; padding: 4px 8px;',
   EDITOR_GROUP_FOCUSED_STYLE: 'box-shadow: 0 0 0 1px var(--focus-border-color);',
+  EDITOR_GROUP_HEADER_BASE: 'display: flex; align-items: center; background: var(--tab-bar-background); border-bottom: 1px solid var(--border-color);',
   EMPTY_EDITOR_STYLE: 'flex: 1; display: flex; align-items: center; justify-content: center; color: var(--dimmed-color);',
   FLEX_1: 'flex: 1;',
   FLEX_COLUMN: 'display: flex; flex-direction: column; height: 100%;',

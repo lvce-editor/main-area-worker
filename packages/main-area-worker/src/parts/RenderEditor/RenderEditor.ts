@@ -1,63 +1,11 @@
-import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
+import { renderLoading } from './RenderLoading/RenderLoading.ts'
+import { renderError } from './RenderError/RenderError.ts'
+import { renderContent } from './RenderContent/RenderContent.ts'
+import { renderViewletReference } from './RenderViewletReference/RenderViewletReference.ts'
 
-const renderLoading = (): readonly VirtualDomNode[] => {
-  return [
-    {
-      childCount: 1,
-      className: 'TextEditor TextEditor--loading',
-      type: VirtualDomElements.Div,
-    },
-    {
-      childCount: 1,
-      className: 'EditorContent EditorContent--loading',
-      type: VirtualDomElements.Div,
-    },
-    text('Loading...'),
-  ]
-}
-
-const renderError = (errorMessage: string): readonly VirtualDomNode[] => {
-  return [
-    {
-      childCount: 1,
-      className: 'TextEditor TextEditor--error',
-      type: VirtualDomElements.Div,
-    },
-    {
-      childCount: 1,
-      className: 'EditorContent EditorContent--error',
-      type: VirtualDomElements.Div,
-    },
-    text(`Error: ${errorMessage}`),
-  ]
-}
-
-const renderContent = (content: string): readonly VirtualDomNode[] => {
-  return [
-    {
-      childCount: 1,
-      className: 'TextEditor',
-      type: VirtualDomElements.Div,
-    },
-    {
-      childCount: 1,
-      className: 'EditorContent',
-      type: VirtualDomElements.Pre,
-    },
-    text(content),
-  ]
-}
-
-const renderViewletReference = (tab: Tab): readonly VirtualDomNode[] => {
-  return [
-    {
-      childCount: 0,
-      type: 100, // Reference node type - frontend will append the component at this position
-      uid: tab.editorUid,
-    },
-  ]
-}
+export { renderLoading, renderError, renderContent, renderViewletReference }
 
 export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] => {
   if (!tab) {

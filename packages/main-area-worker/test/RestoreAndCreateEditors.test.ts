@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { GetViewletModuleIdWorker, RendererWorker } from '@lvce-editor/rpc-registry'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { restoreAndCreateEditors } from '../src/parts/LoadContent/RestoreAndCreateEditors.ts'
@@ -31,8 +31,8 @@ test('restoreAndCreateEditors should set layout in state', async () => {
     ],
   }
 
-  using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
-    'GetViewletModuleId.getViewletModuleId': async () => null,
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => null,
   })
 
   using mockRenderer = RendererWorker.registerMockRpc({
@@ -41,7 +41,7 @@ test('restoreAndCreateEditors should set layout in state', async () => {
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
-  expect(mockRpc.invocations).toEqual([['GetViewletModuleId.getViewletModuleId', 'file:///file.ts']])
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///file.ts']])
   expect(result.layout).toEqual(restoredLayout)
 })
 
@@ -53,8 +53,8 @@ test('restoreAndCreateEditors should handle empty groups', async () => {
     groups: [],
   }
 
-  using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
-    'GetViewletModuleId.getViewletModuleId': async () => null,
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => null,
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -89,8 +89,8 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
     ],
   }
 
-  using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
-    'GetViewletModuleId.getViewletModuleId': async () => null,
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => null,
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
@@ -136,8 +136,8 @@ test('restoreAndCreateEditors should only create viewlets for active tabs', asyn
     ],
   }
 
-  using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
-    'GetViewletModuleId.getViewletModuleId': async (uri: string) => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async (uri: string) => {
       return uri.includes('file2') ? 'editor.text' : null
     },
   })
@@ -149,8 +149,8 @@ test('restoreAndCreateEditors should only create viewlets for active tabs', asyn
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
   expect(mockRpc.invocations).toEqual([
-    ['GetViewletModuleId.getViewletModuleId', 'file:///file1.ts'],
-    ['GetViewletModuleId.getViewletModuleId', 'file:///file2.ts'],
+    ['Layout.getModuleId', 'file:///file1.ts'],
+    ['Layout.getModuleId', 'file:///file2.ts'],
   ])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
   expect(result.layout.groups[0].tabs[1].editorUid).not.toBe(-1)
@@ -183,8 +183,8 @@ test('restoreAndCreateEditors should preserve editorUid when already set', async
     ],
   }
 
-  using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
-    'GetViewletModuleId.getViewletModuleId': async () => 'editor.text',
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => 'editor.text',
   })
 
   using mockRenderer = RendererWorker.registerMockRpc({
@@ -193,7 +193,7 @@ test('restoreAndCreateEditors should preserve editorUid when already set', async
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
-  expect(mockRpc.invocations).toEqual([['GetViewletModuleId.getViewletModuleId', 'file:///file.ts']])
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///file.ts']])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(42)
 })
 
@@ -242,8 +242,8 @@ test('restoreAndCreateEditors should handle multiple groups with different activ
     ],
   }
 
-  using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
-    'GetViewletModuleId.getViewletModuleId': async () => 'editor.text',
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => 'editor.text',
   })
 
   using mockRenderer = RendererWorker.registerMockRpc({
@@ -253,8 +253,8 @@ test('restoreAndCreateEditors should handle multiple groups with different activ
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
   expect(mockRpc.invocations).toEqual([
-    ['GetViewletModuleId.getViewletModuleId', 'file:///file1.ts'],
-    ['GetViewletModuleId.getViewletModuleId', 'file:///file2.ts'],
+    ['Layout.getModuleId', 'file:///file1.ts'],
+    ['Layout.getModuleId', 'file:///file2.ts'],
   ])
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
@@ -288,13 +288,13 @@ test('restoreAndCreateEditors should handle tabs with no matching viewlet module
     ],
   }
 
-  using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
-    'GetViewletModuleId.getViewletModuleId': async () => null,
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => null,
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
-  expect(mockRpc.invocations).toEqual([['GetViewletModuleId.getViewletModuleId', 'file:///unknown.unknown']])
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///unknown.unknown']])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
 })
 
@@ -343,8 +343,8 @@ test('restoreAndCreateEditors should update group structure correctly', async ()
     ],
   }
 
-  using mockRpc = GetViewletModuleIdWorker.registerMockRpc({
-    'GetViewletModuleId.getViewletModuleId': async () => 'editor.text',
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => 'editor.text',
   })
 
   using mockRenderer = require('@lvce-editor/rpc-registry').RendererWorker.registerMockRpc({
@@ -354,8 +354,8 @@ test('restoreAndCreateEditors should update group structure correctly', async ()
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
   expect(mockRpc.invocations).toEqual([
-    ['GetViewletModuleId.getViewletModuleId', 'file:///file1.ts'],
-    ['GetViewletModuleId.getViewletModuleId', 'file:///file2.ts'],
+    ['Layout.getModuleId', 'file:///file1.ts'],
+    ['Layout.getModuleId', 'file:///file2.ts'],
   ])
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)

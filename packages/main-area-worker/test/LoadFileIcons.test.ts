@@ -585,7 +585,16 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
   }
 
   expect(mockRpc.invocations).toEqual([
-    ['IconTheme.getIcons', [{ name: 'f1.ts', type: 1 }, { name: 'f2.js', type: 1 }, { name: 'f3.json', type: 1 }, { name: 'f4.css', type: 1 }, { name: 'f5.html', type: 1 }]],
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'f1.ts', type: 1 },
+        { name: 'f2.js', type: 1 },
+        { name: 'f3.json', type: 1 },
+        { name: 'f4.css', type: 1 },
+        { name: 'f5.html', type: 1 },
+      ],
+    ],
   ])
   expect(updatedLayout).toEqual(expectedLayout)
 })
@@ -687,7 +696,15 @@ test('loadFileIcons should preserve group structure', async () => {
     ],
   }
 
-  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'f1.ts', type: 1 }, { name: 'f2.js', type: 1 }]]])
+  expect(mockRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'f1.ts', type: 1 },
+        { name: 'f2.js', type: 1 },
+      ],
+    ],
+  ])
   expect(updatedLayout).toEqual(expectedLayout)
 })
 

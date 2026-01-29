@@ -1,11 +1,14 @@
 import { type VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
-import { renderLoading } from './RenderLoading/RenderLoading.ts'
-import { renderError } from './RenderError/RenderError.ts'
 import { renderContent } from './RenderContent/RenderContent.ts'
+import { renderError } from './RenderError/RenderError.ts'
+import { renderLoading } from './RenderLoading/RenderLoading.ts'
 import { renderViewletReference } from './RenderViewletReference/RenderViewletReference.ts'
 
-export { renderLoading, renderError, renderContent, renderViewletReference }
+export { renderContent } from './RenderContent/RenderContent.ts'
+export { renderError } from './RenderError/RenderError.ts'
+export { renderLoading } from './RenderLoading/RenderLoading.ts'
+export { renderViewletReference } from './RenderViewletReference/RenderViewletReference.ts'
 
 export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] => {
   if (!tab) {

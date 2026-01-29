@@ -428,7 +428,15 @@ test('loadContent should load icons for multiple tabs', async () => {
 
   const result = await LoadContent.loadContent(state, savedState)
 
-  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }, { name: 'file.txt', type: 1 }]]])
+  expect(mockRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'script.ts', type: 1 },
+        { name: 'file.txt', type: 1 },
+      ],
+    ],
+  ])
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
   expect(result.layout.groups[0].tabs[1].icon).toBe('file-icon-text')
 })
@@ -575,7 +583,15 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
 
   const result = await LoadContent.loadContent(state, savedState)
 
-  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }, { name: 'file.txt', type: 1 }]]])
+  expect(mockRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'script.ts', type: 1 },
+        { name: 'file.txt', type: 1 },
+      ],
+    ],
+  ])
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
   expect(result.layout.groups[1].tabs[0].icon).toBe('file-icon-text')
 })

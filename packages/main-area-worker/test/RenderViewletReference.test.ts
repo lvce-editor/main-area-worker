@@ -43,6 +43,6 @@ test('renderViewletReference handles different uid values', () => {
   expect(result[0]).toEqual(
     expect.objectContaining({
       uid: 999,
-    })
+    }),
   )
 })

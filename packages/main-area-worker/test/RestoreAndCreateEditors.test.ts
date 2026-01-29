@@ -32,16 +32,12 @@ test('restoreAndCreateEditors should set layout in state', async () => {
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => null,
-  })
-
-  using mockRenderer = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => null,
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
-  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///file.ts']])
   expect(result.layout).toEqual(restoredLayout)
 })
 

@@ -1,10 +1,11 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import type { Tab } from '../src/parts/Tab/Tab.ts'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTab } from '../src/parts/RenderTab/RenderTab.ts'
 
 test('renderTab should return correct structure for clean tab', () => {
-  const tab = {
+  const tab: Tab = {
     content: 'test content',
     editorType: 'text',
     editorUid: -1,
@@ -60,7 +61,7 @@ test('renderTab should return correct structure for clean tab', () => {
 })
 
 test('renderTab should show dirty indicator for dirty tab', () => {
-  const tab = {
+  const tab: Tab = {
     content: 'test content',
     editorType: 'text',
     editorUid: -1,
@@ -79,7 +80,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
 })
 
 test('renderTab should handle empty title', () => {
-  const tab = {
+  const tab: Tab = {
     content: 'test content',
     editorType: 'text',
     editorUid: -1,
@@ -98,7 +99,7 @@ test('renderTab should handle empty title', () => {
 })
 
 test('renderTab should handle dirty tab with empty title', () => {
-  const tab = {
+  const tab: Tab = {
     content: 'test content',
     editorType: 'text',
     editorUid: -1,
@@ -114,7 +115,7 @@ test('renderTab should handle dirty tab with empty title', () => {
 })
 
 test('renderTab should use title as fallback when path is undefined', () => {
-  const tab = {
+  const tab: Tab = {
     content: 'test content',
     editorType: 'text',
     editorUid: -1,

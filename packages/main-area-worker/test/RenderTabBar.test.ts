@@ -29,6 +29,7 @@ test('renderTabBar should return correct structure for single tab', () => {
     {
       childCount: 1,
       className: 'MainTabs',
+      role: 'tablist',
       type: VirtualDomElements.Div,
     },
     {

@@ -7,6 +7,7 @@ export const renderTabBar = (group: EditorGroup, groupIndex: number): readonly V
     {
       childCount: group.tabs.length,
       className: 'MainTabs',
+      role: 'tablist',
       type: VirtualDomElements.Div,
     },
     ...group.tabs.flatMap((tab: Tab, tabIndex: number) => renderTab(tab, tab.id === group.activeTabId, tabIndex, groupIndex)),

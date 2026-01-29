@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node packages/build/src/build.js",
-    "build:static": "node packages/build/src/build-static.js",
+    "build:static": "node packages/build/src/build-static.ts",
     "build:watch": "./packages/build/node_modules/.bin/esbuild --format=esm --bundle --external:node:buffer --external:electron --external:ws --external:node:worker_threads --watch packages/main-area-worker/src/mainAreaWorkerMain.ts --outfile=.tmp/dist/dist/mainAreaWorkerMain.js",
     "dev": "node packages/build/src/dev.js",
     "e2e": "cd packages/e2e && npm run e2e",

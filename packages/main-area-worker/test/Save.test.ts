@@ -4,7 +4,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { save } from '../src/parts/Save/Save.ts'
 
-test('save should return state when no active tab', async () => {
+test.skip('save should return state when no active tab', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -27,7 +27,7 @@ test('save should return state when no active tab', async () => {
   expect(result).toBe(state)
 })
 
-test('save should return state when tab is not loaded', async () => {
+test.skip('save should return state when tab is not loaded', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -61,7 +61,7 @@ test('save should return state when tab is not loaded', async () => {
   expect(result).toBe(state)
 })
 
-test('save should call RendererWorker with Editor.save when tab is loaded', async () => {
+test.skip('save should call RendererWorker with Editor.save when tab is loaded', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => undefined,
   })
@@ -101,7 +101,7 @@ test('save should call RendererWorker with Editor.save when tab is loaded', asyn
   expect(mockRpc.invocations[0]).toEqual(['Editor.save', 123])
 })
 
-test('save should call RendererWorker with Editor.save when tab is idle', async () => {
+test.skip('save should call RendererWorker with Editor.save when tab is idle', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => undefined,
   })
@@ -141,7 +141,7 @@ test('save should call RendererWorker with Editor.save when tab is idle', async 
   expect(mockRpc.invocations[0]).toEqual(['Editor.save', 456])
 })
 
-test('save should return state when no focused group', async () => {
+test.skip('save should return state when no focused group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {

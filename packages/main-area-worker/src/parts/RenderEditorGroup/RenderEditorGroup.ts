@@ -12,7 +12,7 @@ export const renderEditorGroup = (group: EditorGroup, groupIndex: number): reado
       className: 'EditorGroup',
       type: VirtualDomElements.Div,
     },
-    ...renderEditorGroupHeader(group, groupIndex),
+    ...renderEditorGroupHeader(group, groupIndex, true),
     {
       childCount: activeTab ? 1 : 1,
       className: 'EditorContainer',

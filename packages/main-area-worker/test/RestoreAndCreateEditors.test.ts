@@ -3,7 +3,7 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { restoreAndCreateEditors } from '../src/parts/LoadContent/RestoreAndCreateEditors.ts'
 
- 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should set layout from restoredLayout', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
@@ -32,13 +32,15 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => null,
+    'Layout.createViewlet': async () => {},
   })
 
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
-  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///file.ts']])
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///file.ts'],
+  ])
   expect(result.layout.activeGroupId).toBe(1)
   expect(result.layout.direction).toBe('horizontal')
   expect(result.layout.groups).toHaveLength(1)
@@ -46,7 +48,7 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should handle empty groups', async () => {
-c
+  const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: undefined,
     direction: 'horizontal' as const,
@@ -56,8 +58,8 @@ c
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async () => null,
     'Layout.createViewlet': async () => {},
-  })craeViewt{}
-gModuIdnull
+  })
+
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
   expect(mockRpc.invocations).toEqual([])
@@ -66,7 +68,7 @@ gModuIdnull
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should skip tabs without uri', async () => {
-c
+  const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
     direction: 'horizontal' as const,
@@ -94,8 +96,8 @@ c
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async () => null,
     'Layout.createViewlet': async () => {},
-  })craeViewt{}
-gModuIdnull
+  })
+
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
   expect(mockRpc.invocations).toEqual([])
@@ -104,7 +106,7 @@ gModuIdnull
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should process only active tabs', async () => {
-c
+  const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
     direction: 'horizontal' as const,
@@ -142,9 +144,9 @@ c
 
   using _mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async (uri: string) => (uri.includes('file2') ? 'editor.text' : null),
-    'Layout.createViewlet': async () => {},c({
-    'Layout.createViewlet': asyn ) => },
+    'Layout.createViewlet': async () => {},
   })
+
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
@@ -153,7 +155,7 @@ c
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should preserve existing editorUid', async () => {
-t
+  const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
     direction: 'horizontal' as const,
@@ -182,8 +184,8 @@ t
   using _mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async () => 'editor.text',
     'Layout.createViewlet': async () => {},
-  })craeViewt{}
-gModuId'editor.text'
+  })
+
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(42)
@@ -191,7 +193,7 @@ gModuId'editor.text'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should handle multiple groups', async () => {
-c
+  const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 2,
     direction: 'vertical' as const,
@@ -238,8 +240,8 @@ c
   using _mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async () => 'editor.text',
     'Layout.createViewlet': async () => {},
-  })craeViewt{}
-gModuId'editor.text'
+  })
+
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
   expect(result.layout.groups).toHaveLength(2)
@@ -249,7 +251,7 @@ gModuId'editor.text'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test('restoreAndCreateEditors should handle no matching viewlet module', async () => {
-t
+  const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
     direction: 'horizontal' as const,
@@ -278,11 +280,13 @@ t
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async () => null,
     'Layout.createViewlet': async () => {},
-  })craeViewt{}
-gModuIdnull
+  })
+
   const result = await restoreAndCreateEditors(initialState, restoredLayout)
 
-  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///unknown.unknown']])
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///unknown.unknown'],
+  ])
   expect(result.layout.groups[0].tabs[0].editorUid).toBe(-1)
 })
 
@@ -290,7 +294,7 @@ gModuIdnull
 test('restoreAndCreateEditors should maintain group structure', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
-
+    activeGroupId: 1,
     direction: 'horizontal' as const,
     groups: [
       {
@@ -337,27 +341,13 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
     'Layout.createViewlet': async () => {},
   })
 
-  const resucrta eViewaitrestoreAndCreat{}ialState, restoredLayout)
-gModuId'editor.text'
+  const result = await restoreAndCreateEditors(initialState, restoredLayout)
+
   expect(mockRpc.invocations).toEqual([
     ['Layout.getModuleId', 'file:///file1.ts'],
     ['Layout.getModuleId', 'file:///file2.ts'],
-    [
-      'Layout.createViewlet',
-      'editor.text',
-      expect.any(Number),
-      1,
-      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
-      'file:///file1.ts',
-    ],
-    [
-      'Layout.createViewlet',
-      'editor.text',
-      expect.any(Number),
-      2,
-      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
-      'file:///file2.ts',
-    ],
+    ['Layout.createViewlet', 'editor.text', expect.any(Number), 1, { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) }, 'file:///file1.ts'],
+    ['Layout.createViewlet', 'editor.text', expect.any(Number), 2, { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) }, 'file:///file2.ts'],
   ])
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)

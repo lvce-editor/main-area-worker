@@ -1,7 +1,7 @@
 import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
-import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
+import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
+import { getTabsVirtualDom } from '../GetTabsVirtualDom/GetTabsVirtualDom.ts'
 import { renderEditorGroupActions } from '../RenderEditorGroupActions/RenderEditorGroupActions.ts'
-import { renderTab } from '../RenderTab/RenderTab.ts'
 
 export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
   const tabsChildCount = group.tabs.length
@@ -9,18 +9,12 @@ export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, 
 
   return [
     {
-      childCount: 2,
+      childCount: actions.length > 0 ? 2 : 1,
       className: 'EditorGroupHeader',
       role: 'none',
       type: VirtualDomElements.Div,
     },
-    {
-      childCount: tabsChildCount,
-      className: 'MainTabs',
-      role: 'tablist',
-      type: VirtualDomElements.Div,
-    },
-    ...group.tabs.flatMap((tab: Tab, tabIndex: number) => renderTab(tab, tab.id === group.activeTabId, tabIndex, groupIndex)),
+    ...getTabsVirtualDom(group, groupIndex, tabsChildCount),
     ...actions,
   ]
 }

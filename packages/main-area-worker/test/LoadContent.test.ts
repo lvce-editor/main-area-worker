@@ -574,4 +574,3 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
   expect(result.layout.groups[1].tabs[0].icon).toBe('file-icon-text')
 })
-

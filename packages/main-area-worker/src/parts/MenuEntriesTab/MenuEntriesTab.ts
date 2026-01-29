@@ -33,7 +33,7 @@ export const getMenuEntries = (state: MainAreaState): readonly any[] => {
       label: ViewletMainStrings.closeToTheRight(),
     },
     {
-      command: 'Main.closeAllEditors',
+      command: 'Main.closeAll',
       flags: MenuItemFlags.None,
       id: 'tabCloseAll',
       label: ViewletMainStrings.closeAll(),

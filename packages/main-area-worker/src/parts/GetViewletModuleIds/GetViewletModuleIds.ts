@@ -1,5 +1,5 @@
-import type { Tab } from '../../Tab/Tab.ts'
-import { getViewletModuleId } from '../../GetViewletModuleId/GetViewletModuleId.ts'
+import type { Tab } from '../Tab/Tab.ts'
+import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
 
 export const getViewletModuleIds = async (layout: any): Promise<Record<string, string>> => {
   const viewletModuleIds: Record<string, string> = {}

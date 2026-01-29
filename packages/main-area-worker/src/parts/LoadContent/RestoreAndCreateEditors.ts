@@ -1,9 +1,9 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { Tab } from '../Tab/Tab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
-import { createViewlets } from './CreateViewlets/CreateViewlets.ts'
-import { getViewletModuleIds } from './GetViewletModuleIds/GetViewletModuleIds.ts'
-import { updateTabs } from './UpdateTabs/UpdateTabs.ts'
+import { createViewlets } from '../CreateViewlets/CreateViewlets.ts'
+import { getViewletModuleIds } from '../GetViewletModuleIds/GetViewletModuleIds.ts'
+import { updateTabs } from '../UpdateTabs/UpdateTabs.ts'
 
 const TAB_HEIGHT = 35
 

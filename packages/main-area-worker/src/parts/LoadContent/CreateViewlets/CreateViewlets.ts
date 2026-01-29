@@ -2,11 +2,7 @@ import type { Tab } from '../../Tab/Tab.ts'
 import { createViewlet } from '../../CreateViewlet/CreateViewlet.ts'
 import * as Id from '../../Id/Id.ts'
 
-export const createViewlets = async (
-  layout: any,
-  viewletModuleIds: Record<string, string>,
-  bounds: any,
-): Promise<Record<string, number>> => {
+export const createViewlets = async (layout: any, viewletModuleIds: Record<string, string>, bounds: any): Promise<Record<string, number>> => {
   const editorUids: Record<string, number> = {}
 
   for (const group of layout.groups) {

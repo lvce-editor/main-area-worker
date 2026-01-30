@@ -18,7 +18,6 @@ test('closeTab should close a non-active tab', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -27,7 +26,6 @@ test('closeTab should close a non-active tab', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -36,7 +34,6 @@ test('closeTab should close a non-active tab', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -72,7 +69,6 @@ test('closeTab should close the active tab and select next tab', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -81,7 +77,6 @@ test('closeTab should close the active tab and select next tab', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -90,7 +85,6 @@ test('closeTab should close the active tab and select next tab', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -126,7 +120,6 @@ test('closeTab should close the last tab and remove the group', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -161,7 +154,6 @@ test('closeTab should close active tab in middle and select tab at same index', 
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -170,7 +162,6 @@ test('closeTab should close active tab in middle and select tab at same index', 
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -179,7 +170,6 @@ test('closeTab should close active tab in middle and select tab at same index', 
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -215,7 +205,6 @@ test('closeTab should close last tab when active and select previous tab', () =>
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -224,7 +213,6 @@ test('closeTab should close last tab when active and select previous tab', () =>
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -233,7 +221,6 @@ test('closeTab should close last tab when active and select previous tab', () =>
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -269,7 +256,6 @@ test('closeTab should return state unchanged when group does not exist', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -305,7 +291,6 @@ test('closeTab should return state unchanged when tab does not exist', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -340,7 +325,6 @@ test('closeTab should preserve other groups when closing tab', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -349,7 +333,6 @@ test('closeTab should preserve other groups when closing tab', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -366,7 +349,6 @@ test('closeTab should preserve other groups when closing tab', () => {
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -403,7 +385,6 @@ test('closeTab should handle closing tab from different group', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -420,7 +401,6 @@ test('closeTab should handle closing tab from different group', () => {
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -429,7 +409,6 @@ test('closeTab should handle closing tab from different group', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -467,7 +446,6 @@ test('closeTab should preserve other state properties', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -476,7 +454,6 @@ test('closeTab should preserve other state properties', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -515,7 +492,6 @@ test('closeTab should handle closing tab when group has no active tab', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -524,7 +500,6 @@ test('closeTab should handle closing tab when group has no active tab', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -559,7 +534,6 @@ test('closeTab should handle closing first tab when active', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -568,7 +542,6 @@ test('closeTab should handle closing first tab when active', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -577,7 +550,6 @@ test('closeTab should handle closing first tab when active', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -612,7 +584,6 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
           size: 33,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -621,7 +592,6 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -638,7 +608,6 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
           size: 33,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -647,7 +616,6 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
               title: 'File 3',
             },
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -664,7 +632,6 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
           size: 34,
           tabs: [
             {
-              content: 'content5',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -704,7 +671,6 @@ test('closeTab should handle tabs with custom editor type', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -713,8 +679,6 @@ test('closeTab should handle tabs with custom editor type', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
-              customEditorId: 'custom-editor-1',
               editorType: 'custom',
               editorUid: -1,
               icon: '',
@@ -723,7 +687,6 @@ test('closeTab should handle tabs with custom editor type', () => {
               title: 'Custom Editor',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -759,7 +722,6 @@ test('closeTab should handle tabs with paths and languages', () => {
           size: 100,
           tabs: [
             {
-              content: 'console.log("hello");',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -770,7 +732,6 @@ test('closeTab should handle tabs with paths and languages', () => {
               uri: '/path/to/script.ts',
             },
             {
-              content: '<div>Hello</div>',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -781,7 +742,6 @@ test('closeTab should handle tabs with paths and languages', () => {
               uri: '/path/to/index.html',
             },
             {
-              content: 'body { color: red; }',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -819,7 +779,6 @@ test('closeTab should handle closing dirty tabs', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -828,7 +787,6 @@ test('closeTab should handle closing dirty tabs', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -837,7 +795,6 @@ test('closeTab should handle closing dirty tabs', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -873,7 +830,6 @@ test('closeTab should handle closing active dirty tab', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -882,7 +838,6 @@ test('closeTab should handle closing active dirty tab', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -891,7 +846,6 @@ test('closeTab should handle closing active dirty tab', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -951,7 +905,6 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -960,7 +913,6 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -995,7 +947,6 @@ test('closeTab should handle closing second tab when first is active', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1004,7 +955,6 @@ test('closeTab should handle closing second tab when first is active', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1040,7 +990,6 @@ test('closeTab should remove group when closing last tab from single group', () 
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1075,7 +1024,6 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1084,7 +1032,6 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1101,7 +1048,6 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1110,7 +1056,6 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
               title: 'File 3',
             },
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1149,7 +1094,6 @@ test('closeTab should handle closing tab when tab index is at boundary', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1158,7 +1102,6 @@ test('closeTab should handle closing tab when tab index is at boundary', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1193,7 +1136,6 @@ test('closeTab should handle closing tab with same ID as group ID', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1202,7 +1144,6 @@ test('closeTab should handle closing tab with same ID as group ID', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1238,7 +1179,6 @@ test('closeTab should handle closing tab from group with many tabs', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1247,7 +1187,6 @@ test('closeTab should handle closing tab from group with many tabs', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1256,7 +1195,6 @@ test('closeTab should handle closing tab from group with many tabs', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1265,7 +1203,6 @@ test('closeTab should handle closing tab from group with many tabs', () => {
               title: 'File 3',
             },
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1274,7 +1211,6 @@ test('closeTab should handle closing tab from group with many tabs', () => {
               title: 'File 4',
             },
             {
-              content: 'content5',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1283,7 +1219,6 @@ test('closeTab should handle closing tab from group with many tabs', () => {
               title: 'File 5',
             },
             {
-              content: 'content6',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1319,7 +1254,6 @@ test('closeTab should handle closing middle tab from many tabs', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1328,7 +1262,6 @@ test('closeTab should handle closing middle tab from many tabs', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1337,7 +1270,6 @@ test('closeTab should handle closing middle tab from many tabs', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1346,7 +1278,6 @@ test('closeTab should handle closing middle tab from many tabs', () => {
               title: 'File 3',
             },
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1355,7 +1286,6 @@ test('closeTab should handle closing middle tab from many tabs', () => {
               title: 'File 4',
             },
             {
-              content: 'content5',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1391,7 +1321,6 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1400,7 +1329,6 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1409,7 +1337,6 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1418,7 +1345,6 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
               title: 'File 3',
             },
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1454,7 +1380,6 @@ test('closeTab should remove editor group when closing last tab and multiple gro
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1471,7 +1396,6 @@ test('closeTab should remove editor group when closing last tab and multiple gro
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1509,7 +1433,6 @@ test('closeTab should remove editor group when closing last tab and update activ
           size: 33,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1526,7 +1449,6 @@ test('closeTab should remove editor group when closing last tab and update activ
           size: 33,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1543,7 +1465,6 @@ test('closeTab should remove editor group when closing last tab and update activ
           size: 34,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1581,7 +1502,6 @@ test('closeTab should remove editor group when closing last tab even if it is th
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1616,7 +1536,6 @@ test('closeTab should redistribute sizes when removing group', () => {
           size: 25,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1633,7 +1552,6 @@ test('closeTab should redistribute sizes when removing group', () => {
           size: 25,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1650,7 +1568,6 @@ test('closeTab should redistribute sizes when removing group', () => {
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1659,7 +1576,6 @@ test('closeTab should redistribute sizes when removing group', () => {
               title: 'File 3',
             },
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1699,7 +1615,6 @@ test('findTabInState should find a tab in the specified group', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1708,7 +1623,6 @@ test('findTabInState should find a tab in the specified group', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1743,7 +1657,6 @@ test('findTabInState should return undefined when tab does not exist', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1776,7 +1689,6 @@ test('findTabInState should return undefined when group does not exist', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1809,7 +1721,6 @@ test('findTabInState should find tab in different groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1826,7 +1737,6 @@ test('findTabInState should find tab in different groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1874,7 +1784,6 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1883,7 +1792,6 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1925,7 +1833,6 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 100,
               icon: '',
@@ -1934,7 +1841,6 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -1976,7 +1882,6 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 100,
               icon: '',
@@ -1985,7 +1890,6 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: 200,
               icon: '',
@@ -2027,7 +1931,6 @@ test('closeTabWithViewlet should remove group when closing the last tab', async 
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 100,
               icon: '',
@@ -2068,7 +1971,6 @@ test('closeTabWithViewlet should handle closing tab when tab not found', async (
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -2102,7 +2004,6 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 100,
               icon: '',
@@ -2111,7 +2012,6 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: 200,
               icon: '',
@@ -2120,7 +2020,6 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: 300,
               icon: '',
@@ -2155,7 +2054,6 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 100,
               icon: '',
@@ -2164,7 +2062,6 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: 200,
               icon: '',
@@ -2173,7 +2070,6 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: 300,
               icon: '',

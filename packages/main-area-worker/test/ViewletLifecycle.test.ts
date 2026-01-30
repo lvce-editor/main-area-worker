@@ -17,7 +17,6 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
         size: 100,
         tabs: [
           {
-            content: '',
             editorType: 'text',
             editorUid: -1,
             errorMessage: '',
@@ -89,7 +88,6 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: 100,
               errorMessage: '',
@@ -102,7 +100,6 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
               uri: '/test/file1.txt',
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: 101,
               errorMessage: '',
@@ -142,7 +139,6 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: 100,
               errorMessage: '',
@@ -155,7 +151,6 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
               uri: '/test/file1.txt',
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: 101,
               errorMessage: '',
@@ -207,7 +202,6 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: 100,
               errorMessage: '',
@@ -249,7 +243,6 @@ test('handleViewletReady works regardless of active tab - reference nodes render
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: 100,
               errorMessage: '',
@@ -262,7 +255,6 @@ test('handleViewletReady works regardless of active tab - reference nodes render
               uri: '/test/file1.txt',
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: 101,
               errorMessage: '',

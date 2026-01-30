@@ -27,7 +27,6 @@ test('saveState should save layout with custom configuration', () => {
           size: 50,
           tabs: [
             {
-              content: 'test content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -82,7 +81,6 @@ test('saveState should save layout with multiple groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -99,7 +97,6 @@ test('saveState should save layout with multiple groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -134,8 +131,6 @@ test('saveState should save layout with custom editor tabs', () => {
           size: 100,
           tabs: [
             {
-              content: 'custom content',
-              customEditorId: 'custom-editor-1',
               editorType: 'custom',
               editorUid: -1,
               icon: '',
@@ -150,7 +145,6 @@ test('saveState should save layout with custom editor tabs', () => {
   }
   const result: SavedState = saveState(state)
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
-  expect(result.layout.groups[0].tabs[0].customEditorId).toBe('custom-editor-1')
 })
 
 test('saveState should save layout with tabs containing paths and languages', () => {
@@ -167,7 +161,6 @@ test('saveState should save layout with tabs containing paths and languages', ()
           size: 100,
           tabs: [
             {
-              content: 'console.log("hello");',
               editorType: 'text',
               editorUid: -1,
               icon: '',

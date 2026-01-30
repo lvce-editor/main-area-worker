@@ -12,7 +12,6 @@ test('renderEditorGroup should return correct structure for group with active ta
     size: 100,
     tabs: [
       {
-        content: 'test content',
         editorType: 'text',
         editorUid: -1,
         icon: '',
@@ -23,7 +22,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       },
     ],
   }
-  const result = renderEditorGroup(group, 0)
+  const result = renderEditorGroup(group, 0, true)
 
   expect(result).toEqual([
     {
@@ -113,7 +112,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       className: 'EditorContent',
       type: VirtualDomElements.Pre,
     },
-    text('test content'),
+    text(''),
   ])
 })
 
@@ -125,7 +124,6 @@ test('renderEditorGroup should handle group with no active tab', () => {
     size: 100,
     tabs: [
       {
-        content: 'test content',
         editorType: 'text',
         editorUid: -1,
         icon: '',
@@ -136,7 +134,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
       },
     ],
   }
-  const result = renderEditorGroup(group, 0)
+  const result = renderEditorGroup(group, 0, true)
 
   expect(result.length).toBe(16) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 7 (Tab + Icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
 })
@@ -149,8 +147,6 @@ test('renderEditorGroup should handle group with custom editor', () => {
     size: 100,
     tabs: [
       {
-        content: '',
-        customEditorId: 'custom-editor-123',
         editorType: 'custom',
         editorUid: -1,
         icon: '',
@@ -161,7 +157,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
       },
     ],
   }
-  const result = renderEditorGroup(group, 0)
+  const result = renderEditorGroup(group, 0, true)
 
   expect(result.length).toBe(16) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 7 (Tab + Icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + CustomEditor)
 })
@@ -174,7 +170,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
     size: 100,
     tabs: [],
   }
-  const result = renderEditorGroup(group, 0)
+  const result = renderEditorGroup(group, 0, true)
 
   expect(result.length).toBe(10) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs with 0 tabs) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
 })

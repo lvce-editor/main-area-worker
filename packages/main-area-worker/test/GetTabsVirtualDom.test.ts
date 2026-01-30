@@ -25,7 +25,6 @@ test('getTabsVirtualDom should return correct structure with empty tabs', () => 
 
 test('getTabsVirtualDom should return correct structure with single tab', () => {
   const tab: Tab = {
-    content: 'test content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -57,7 +56,6 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
 test('getTabsVirtualDom should return correct structure with multiple tabs', () => {
   const tabs: Tab[] = [
     {
-      content: 'content1',
       editorType: 'text',
       editorUid: -1,
       icon: '',
@@ -67,7 +65,6 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
       uri: '/path/to/file1',
     },
     {
-      content: 'content2',
       editorType: 'text',
       editorUid: -2,
       icon: '',
@@ -77,7 +74,6 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
       uri: '/path/to/file2',
     },
     {
-      content: 'content3',
       editorType: 'text',
       editorUid: -3,
       icon: '',
@@ -114,7 +110,6 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
 test('getTabsVirtualDom should correctly mark active tab', () => {
   const tabs: Tab[] = [
     {
-      content: 'content1',
       editorType: 'text',
       editorUid: -1,
       icon: '',
@@ -124,7 +119,6 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
       uri: '/path/to/file1',
     },
     {
-      content: 'content2',
       editorType: 'text',
       editorUid: -2,
       icon: '',
@@ -160,7 +154,6 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
 test('getTabsVirtualDom should handle undefined activeTabId', () => {
   const tabs: Tab[] = [
     {
-      content: 'content1',
       editorType: 'text',
       editorUid: -1,
       icon: '',
@@ -188,7 +181,6 @@ test('getTabsVirtualDom should handle undefined activeTabId', () => {
 
 test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
   const tab: Tab = {
-    content: 'test content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -216,7 +208,6 @@ test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
 test('getTabsVirtualDom should use provided tabsChildCount', () => {
   const tabs: Tab[] = [
     {
-      content: 'content1',
       editorType: 'text',
       editorUid: -1,
       icon: '',
@@ -226,7 +217,6 @@ test('getTabsVirtualDom should use provided tabsChildCount', () => {
       uri: '/path/to/file1',
     },
     {
-      content: 'content2',
       editorType: 'text',
       editorUid: -2,
       icon: '',

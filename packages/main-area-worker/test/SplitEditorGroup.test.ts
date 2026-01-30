@@ -18,7 +18,6 @@ test('splitEditorGroup should split editor group to the right', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -59,7 +58,6 @@ test('splitEditorGroup should split editor group to the left', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -99,7 +97,6 @@ test('splitEditorGroup should split editor group down', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -139,7 +136,6 @@ test('splitEditorGroup should split editor group up', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -179,7 +175,6 @@ test('splitEditorGroup should return unchanged state if group not found', () => 
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -213,7 +208,6 @@ test('splitEditorGroup should preserve tabs in source group', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -222,7 +216,6 @@ test('splitEditorGroup should preserve tabs in source group', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -231,7 +224,6 @@ test('splitEditorGroup should preserve tabs in source group', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -318,7 +310,6 @@ test('splitEditorGroup should set new group activeTabId to undefined', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -352,7 +343,6 @@ test('splitEditorGroup should split multiple existing groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -369,7 +359,6 @@ test('splitEditorGroup should split multiple existing groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -407,7 +396,6 @@ test('splitEditorGroup should handle split of second group', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -424,7 +412,6 @@ test('splitEditorGroup should handle split of second group', () => {
           size: 50,
           tabs: [
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -488,7 +475,6 @@ test('splitEditorGroup should preserve activeTabId in source group', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -569,7 +555,6 @@ test('splitEditorGroup should not mutate original state', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',

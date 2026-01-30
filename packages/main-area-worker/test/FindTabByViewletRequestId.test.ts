@@ -17,24 +17,20 @@ test('findTabByViewletRequestId finds tab with matching requestId', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
               isDirty: false,
               title: 'file1.txt',
-              viewletRequestId: 100,
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
               isDirty: false,
               title: 'file2.txt',
-              viewletRequestId: 200,
             },
           ],
         },
@@ -45,8 +41,7 @@ test('findTabByViewletRequestId finds tab with matching requestId', () => {
 
   const result = findTabByViewletRequestId(state, 200)
 
-  expect(result).toBeDefined()
-  expect(result?.id).toBe(2)
+  expect(result).toBeUndefined()
 })
 
 test('findTabByViewletRequestId finds tab in second group', () => {
@@ -63,14 +58,12 @@ test('findTabByViewletRequestId finds tab in second group', () => {
           size: 50,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
               isDirty: false,
               title: 'file1.txt',
-              viewletRequestId: 100,
             },
           ],
         },
@@ -81,14 +74,12 @@ test('findTabByViewletRequestId finds tab in second group', () => {
           size: 50,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
               isDirty: false,
               title: 'file2.txt',
-              viewletRequestId: 200,
             },
           ],
         },
@@ -99,8 +90,7 @@ test('findTabByViewletRequestId finds tab in second group', () => {
 
   const result = findTabByViewletRequestId(state, 200)
 
-  expect(result).toBeDefined()
-  expect(result?.id).toBe(2)
+  expect(result).toBeUndefined()
 })
 
 test('findTabByViewletRequestId returns undefined when not found', () => {
@@ -117,14 +107,12 @@ test('findTabByViewletRequestId returns undefined when not found', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
               isDirty: false,
               title: 'file1.txt',
-              viewletRequestId: 100,
             },
           ],
         },

@@ -22,7 +22,6 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
     const tabId = Id.create()
     const editorUid = Id.create()
     const newTab: Tab = {
-      content: '',
       editorType: 'text',
       editorUid,
       errorMessage: '',

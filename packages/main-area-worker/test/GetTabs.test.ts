@@ -16,7 +16,6 @@ test('getTabs should return tabs with correct structure', async () => {
 
   for (let i = 0; i < tabs.length; i++) {
     const tab = tabs[i]
-    expect(tab.content).toBe('')
     expect(tab.editorType).toBe('text')
     expect(typeof tab.id).toBe('number')
     expect(tab.isDirty).toBe(false)

@@ -4,7 +4,6 @@ import { isValidTab } from '../src/parts/IsValidTab/IsValidTab.ts'
 
 test('isValidTab should return true for valid text tab', () => {
   const tab: Tab = {
-    content: 'content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -17,8 +16,6 @@ test('isValidTab should return true for valid text tab', () => {
 
 test('isValidTab should return true for valid custom tab', () => {
   const tab: Tab = {
-    content: 'content',
-    customEditorId: 'custom-editor-1',
     editorType: 'custom',
     editorUid: -1,
     icon: '',
@@ -39,7 +36,6 @@ test('isValidTab should return false for undefined', () => {
 
 test('isValidTab should return false for missing id', () => {
   const tab = {
-    content: 'content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -51,7 +47,6 @@ test('isValidTab should return false for missing id', () => {
 
 test('isValidTab should return false for invalid id type', () => {
   const tab = {
-    content: 'content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -64,7 +59,6 @@ test('isValidTab should return false for invalid id type', () => {
 
 test('isValidTab should return false for missing title', () => {
   const tab = {
-    content: 'content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -76,7 +70,6 @@ test('isValidTab should return false for missing title', () => {
 
 test('isValidTab should return false for invalid title type', () => {
   const tab = {
-    content: 'content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -87,10 +80,9 @@ test('isValidTab should return false for invalid title type', () => {
   expect(isValidTab(tab)).toBe(false)
 })
 
-test('isValidTab should return false for missing content', () => {
+test('isValidTab should return false for missing editorUid', () => {
   const tab = {
     editorType: 'text',
-    editorUid: -1,
     icon: '',
     id: 1,
     isDirty: false,
@@ -99,11 +91,10 @@ test('isValidTab should return false for missing content', () => {
   expect(isValidTab(tab)).toBe(false)
 })
 
-test('isValidTab should return false for invalid content type', () => {
+test('isValidTab should return false for invalid editorUid type', () => {
   const tab = {
-    content: 123,
     editorType: 'text',
-    editorUid: -1,
+    editorUid: 'invalid',
     icon: '',
     id: 1,
     isDirty: false,
@@ -114,7 +105,6 @@ test('isValidTab should return false for invalid content type', () => {
 
 test('isValidTab should return false for missing isDirty', () => {
   const tab = {
-    content: 'content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -126,7 +116,6 @@ test('isValidTab should return false for missing isDirty', () => {
 
 test('isValidTab should return false for invalid isDirty type', () => {
   const tab = {
-    content: 'content',
     editorType: 'text',
     editorUid: -1,
     icon: '',
@@ -139,19 +128,7 @@ test('isValidTab should return false for invalid isDirty type', () => {
 
 test('isValidTab should return false for invalid editorType', () => {
   const tab = {
-    content: 'content',
     editorType: 'invalid',
-    id: 1,
-    isDirty: false,
-    title: 'File',
-  }
-  expect(isValidTab(tab)).toBe(false)
-})
-
-test('isValidTab should return false for custom tab without customEditorId', () => {
-  const tab = {
-    content: 'content',
-    editorType: 'custom',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -161,13 +138,22 @@ test('isValidTab should return false for custom tab without customEditorId', () 
   expect(isValidTab(tab)).toBe(false)
 })
 
-test('isValidTab should return false for custom tab with invalid customEditorId type', () => {
+test('isValidTab should return false for missing icon', () => {
   const tab = {
-    content: 'content',
-    customEditorId: 123,
-    editorType: 'custom',
+    editorType: 'text',
     editorUid: -1,
-    icon: '',
+    id: 1,
+    isDirty: false,
+    title: 'File',
+  }
+  expect(isValidTab(tab)).toBe(false)
+})
+
+test('isValidTab should return false for invalid icon type', () => {
+  const tab = {
+    editorType: 'text',
+    editorUid: -1,
+    icon: 123,
     id: 1,
     isDirty: false,
     title: 'File',

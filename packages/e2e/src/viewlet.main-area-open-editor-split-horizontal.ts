@@ -29,14 +29,8 @@ export const test: Test = async ({ Command, FileSystem }) => {
   // Verify the file is opened
   const savedState1 = await Command.execute('MainArea.saveState', uid)
   assert(savedState1.layout.groups.length === 1, `Expected 1 group, got ${savedState1.layout.groups.length}`)
-  assert(
-    savedState1.layout.groups[0].tabs.length === 1,
-    `Expected 1 tab in the first group, got ${savedState1.layout.groups[0].tabs.length}`,
-  )
-  assert(
-    savedState1.layout.groups[0].tabs[0].path === file1,
-    `Expected file1 to be opened, got ${savedState1.layout.groups[0].tabs[0].path}`,
-  )
+  assert(savedState1.layout.groups[0].tabs.length === 1, `Expected 1 tab in the first group, got ${savedState1.layout.groups[0].tabs.length}`)
+  assert(savedState1.layout.groups[0].tabs[0].path === file1, `Expected file1 to be opened, got ${savedState1.layout.groups[0].tabs[0].path}`)
 
   // Get the group ID for splitting
   const groupId = savedState1.layout.groups[0].id
@@ -47,24 +41,12 @@ export const test: Test = async ({ Command, FileSystem }) => {
   // Verify the split occurred
   const savedState2 = await Command.execute('MainArea.saveState', uid)
   assert(savedState2.layout.groups.length === 2, `Expected 2 groups, got ${savedState2.layout.groups.length}`)
-  assert(
-    savedState2.layout.direction === 'horizontal',
-    `Expected horizontal direction, got ${savedState2.layout.direction}`,
-  )
+  assert(savedState2.layout.direction === 'horizontal', `Expected horizontal direction, got ${savedState2.layout.direction}`)
 
   // Verify the first group still has the file
-  assert(
-    savedState2.layout.groups[0].tabs.length === 1,
-    `Expected 1 tab in the first group, got ${savedState2.layout.groups[0].tabs.length}`,
-  )
-  assert(
-    savedState2.layout.groups[0].tabs[0].path === file1,
-    `Expected file1 in first group, got ${savedState2.layout.groups[0].tabs[0].path}`,
-  )
+  assert(savedState2.layout.groups[0].tabs.length === 1, `Expected 1 tab in the first group, got ${savedState2.layout.groups[0].tabs.length}`)
+  assert(savedState2.layout.groups[0].tabs[0].path === file1, `Expected file1 in first group, got ${savedState2.layout.groups[0].tabs[0].path}`)
 
   // Verify the second group is empty
-  assert(
-    savedState2.layout.groups[1].tabs.length === 0,
-    `Expected 0 tabs in the second group, got ${savedState2.layout.groups[1].tabs.length}`,
-  )
+  assert(savedState2.layout.groups[1].tabs.length === 0, `Expected 0 tabs in the second group, got ${savedState2.layout.groups[1].tabs.length}`)
 }

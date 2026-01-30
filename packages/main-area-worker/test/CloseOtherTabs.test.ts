@@ -17,7 +17,6 @@ test('closeOtherTabs should close all tabs except the active one', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -26,7 +25,6 @@ test('closeOtherTabs should close all tabs except the active one', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -35,7 +33,6 @@ test('closeOtherTabs should close all tabs except the active one', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -71,7 +68,6 @@ test('closeOtherTabs should return state unchanged when group does not exist', (
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -104,7 +100,6 @@ test('closeOtherTabs should return state unchanged when there is no active tab',
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -137,7 +132,6 @@ test('closeOtherTabs should preserve other groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -146,7 +140,6 @@ test('closeOtherTabs should preserve other groups', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -155,7 +148,6 @@ test('closeOtherTabs should preserve other groups', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -172,7 +164,6 @@ test('closeOtherTabs should preserve other groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -181,7 +172,6 @@ test('closeOtherTabs should preserve other groups', () => {
               title: 'File 4',
             },
             {
-              content: 'content5',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -190,7 +180,6 @@ test('closeOtherTabs should preserve other groups', () => {
               title: 'File 5',
             },
             {
-              content: 'content6',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -228,7 +217,6 @@ test('closeOtherTabs should handle single tab in group', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -263,7 +251,6 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -272,7 +259,6 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -281,7 +267,6 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -316,7 +301,6 @@ test('closeOtherTabs should handle active tab at the end', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -325,7 +309,6 @@ test('closeOtherTabs should handle active tab at the end', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -334,7 +317,6 @@ test('closeOtherTabs should handle active tab at the end', () => {
               title: 'File 2',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -370,7 +352,6 @@ test('closeOtherTabs should preserve other state properties', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -379,7 +360,6 @@ test('closeOtherTabs should preserve other state properties', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -418,7 +398,6 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -429,8 +408,6 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
               uri: '/file1.ts',
             },
             {
-              content: 'content2',
-              customEditorId: 'custom-editor',
               editorType: 'custom',
               editorUid: -1,
               icon: '',
@@ -441,7 +418,6 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
               uri: '/file2.ts',
             },
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -459,7 +435,6 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
 
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(2)
-  expect(result.layout.groups[0].tabs[0].customEditorId).toBe('custom-editor')
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
   expect(result.layout.groups[0].tabs[0].uri).toBe('/file2.ts')

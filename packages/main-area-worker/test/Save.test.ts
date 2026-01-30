@@ -41,7 +41,6 @@ test.skip('save should return state when tab is not loaded', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 123,
               icon: '',
@@ -79,7 +78,6 @@ test.skip('save should call RendererWorker with Editor.save when tab is loaded',
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 123,
               icon: '',
@@ -119,7 +117,6 @@ test.skip('save should call RendererWorker with Editor.save when tab is idle', a
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 456,
               icon: '',
@@ -155,7 +152,6 @@ test.skip('save should return state when no focused group', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: 123,
               icon: '',

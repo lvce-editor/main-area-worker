@@ -50,7 +50,6 @@ test('diff2 - should return RenderItems when tabs differ', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               errorMessage: '',
@@ -79,7 +78,6 @@ test('diff2 - should return RenderItems when tabs differ', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: 'test-icon',
@@ -89,7 +87,6 @@ test('diff2 - should return RenderItems when tabs differ', () => {
               uri: '/test/file1.txt',
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: 'test-icon',
@@ -137,7 +134,6 @@ test('diff2 - should return RenderItems when active tab changes', () => {
           size: 100,
           tabs: [
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: 'test-icon',
@@ -147,7 +143,6 @@ test('diff2 - should return RenderItems when active tab changes', () => {
               uri: '/test/file1.txt',
             },
             {
-              content: '',
               editorType: 'text',
               editorUid: -1,
               icon: 'test-icon',

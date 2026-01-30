@@ -17,7 +17,6 @@ test('closeAll should close all tabs and groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -26,7 +25,6 @@ test('closeAll should close all tabs and groups', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -43,7 +41,6 @@ test('closeAll should close all tabs and groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -78,7 +75,6 @@ test('closeAll should preserve layout direction', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -114,7 +110,6 @@ test('closeAll should preserve other state properties', () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -167,7 +162,6 @@ test('closeAll should handle multiple groups with many tabs', () => {
           size: 33,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -176,7 +170,6 @@ test('closeAll should handle multiple groups with many tabs', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -193,7 +186,6 @@ test('closeAll should handle multiple groups with many tabs', () => {
           size: 33,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -210,7 +202,6 @@ test('closeAll should handle multiple groups with many tabs', () => {
           size: 34,
           tabs: [
             {
-              content: 'content4',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -219,7 +210,6 @@ test('closeAll should handle multiple groups with many tabs', () => {
               title: 'File 4',
             },
             {
-              content: 'content5',
               editorType: 'text',
               editorUid: -1,
               icon: '',

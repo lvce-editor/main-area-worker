@@ -17,7 +17,6 @@ test('getAllTabs should return all tabs from all groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -26,7 +25,6 @@ test('getAllTabs should return all tabs from all groups', () => {
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -43,7 +41,6 @@ test('getAllTabs should return all tabs from all groups', () => {
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',

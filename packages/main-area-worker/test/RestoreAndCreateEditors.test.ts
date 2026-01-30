@@ -16,7 +16,6 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
         size: 100,
         tabs: [
           {
-            content: 'content',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -75,7 +74,6 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
         size: 100,
         tabs: [
           {
-            content: 'content',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -112,7 +110,6 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
         size: 100,
         tabs: [
           {
-            content: 'c1',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -122,7 +119,6 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
             uri: 'file:///file1.ts',
           },
           {
-            content: 'c2',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -160,7 +156,6 @@ test('restoreAndCreateEditors should preserve existing editorUid', async () => {
         size: 100,
         tabs: [
           {
-            content: 'content',
             editorType: 'text',
             editorUid: 42,
             icon: '',
@@ -197,7 +192,6 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
         size: 50,
         tabs: [
           {
-            content: 'c1',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -215,7 +209,6 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
         size: 50,
         tabs: [
           {
-            content: 'c2',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -254,7 +247,6 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
         size: 100,
         tabs: [
           {
-            content: 'content',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -292,7 +284,6 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
         size: 50,
         tabs: [
           {
-            content: 'c1',
             editorType: 'text',
             editorUid: -1,
             icon: '',
@@ -310,7 +301,6 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
         size: 50,
         tabs: [
           {
-            content: 'c2',
             editorType: 'text',
             editorUid: -1,
             icon: '',

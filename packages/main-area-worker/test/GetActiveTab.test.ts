@@ -17,7 +17,6 @@ test('getActiveTab should return active tab when group is focused and has active
           size: 50,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -26,7 +25,6 @@ test('getActiveTab should return active tab when group is focused and has active
               title: 'File 1',
             },
             {
-              content: 'content2',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -43,7 +41,6 @@ test('getActiveTab should return active tab when group is focused and has active
           size: 50,
           tabs: [
             {
-              content: 'content3',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -76,7 +73,6 @@ test('getActiveTab should return undefined when no group is focused', () => {
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',
@@ -128,7 +124,6 @@ test('getActiveTab should return undefined when activeTabId does not match any t
           size: 100,
           tabs: [
             {
-              content: 'content',
               editorType: 'text',
               editorUid: -1,
               icon: '',

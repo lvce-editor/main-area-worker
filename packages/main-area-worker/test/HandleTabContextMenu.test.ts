@@ -41,7 +41,6 @@ test('handleTabContextMenu should return state unchanged', async () => {
           size: 100,
           tabs: [
             {
-              content: 'content1',
               editorType: 'text',
               editorUid: -1,
               icon: '',

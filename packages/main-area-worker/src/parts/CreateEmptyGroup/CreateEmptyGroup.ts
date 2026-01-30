@@ -11,7 +11,6 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
   const tabId = Id.create()
   const editorUid = Id.create()
   const newTab: Tab = {
-    content: '',
     editorType: 'text',
     editorUid,
     errorMessage: '',

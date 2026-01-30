@@ -30,14 +30,19 @@ export const loadTabContentAsync = async (
   getLatestState: () => MainAreaState,
 ): Promise<MainAreaState> => {
   try {
-    const content = await loadFileContent(path)
+    await loadFileContent(path)
 
-    // Check for race condition: get the latest state and verify the request ID
+    // Check for race condition: get the latest state
     const latestState = getLatestState()
     const latestTab = findTab(latestState, tabId)
 
-    // If the tab no longer exists or a newer request was started, discard this result
-    if (!latestTab || latestTab.loadRequestId !== requestId) {
+    // If the tab no longer exists, discard this result
+    if (!latestTab) {
+      return latestState
+    }
+
+    // If the tab is no longer in loading state, discard this result (newer request started)
+    if (latestTab.loadingState !== 'loading') {
       return latestState
     }
 
@@ -45,7 +50,6 @@ export const loadTabContentAsync = async (
     const editorUid = latestTab.editorUid === -1 ? Id.create() : latestTab.editorUid
 
     return updateTab(latestState, tabId, {
-      content,
       editorUid,
       errorMessage: undefined,
       loadingState: 'loaded',
@@ -55,13 +59,17 @@ export const loadTabContentAsync = async (
     const latestState = getLatestState()
     const latestTab = findTab(latestState, tabId)
 
-    if (!latestTab || latestTab.loadRequestId !== requestId) {
+    if (!latestTab) {
+      return latestState
+    }
+
+    // If the tab is no longer in loading state, discard this result (newer request started)
+    if (latestTab.loadingState !== 'loading') {
       return latestState
     }
 
     const errorMessage = error instanceof Error ? error.message : 'Failed to load file content'
     return updateTab(latestState, tabId, {
-      content: '',
       errorMessage,
       loadingState: 'error',
     })

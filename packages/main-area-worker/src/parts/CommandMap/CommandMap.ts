@@ -23,6 +23,7 @@ import { resize } from '../Resize/Resize.ts'
 import { save } from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
+import { splitRight } from '../SplitRight/SplitRight.ts'
 
 export const commandMap = {
   'MainArea.closeAll': wrapCommand(closeAll),
@@ -49,5 +50,6 @@ export const commandMap = {
   'MainArea.save': wrapCommand(save),
   'MainArea.saveState': wrapGetter(saveState),
   'MainArea.selectTab': wrapCommand(selectTab),
+  'MainArea.splitRight': wrapCommand(splitRight),
   'MainArea.terminate': terminate,
 }

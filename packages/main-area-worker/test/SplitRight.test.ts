@@ -197,7 +197,6 @@ test('splitRight should create new group with empty tabs', () => {
           size: 100,
           tabs: [
             {
-              content: 'test',
               editorType: 'text',
               editorUid: 1,
               icon: '',
@@ -220,7 +219,6 @@ test('splitRight should create new group with empty tabs', () => {
 
 test('splitRight should preserve original group tabs', () => {
   const tab = {
-    content: 'test',
     editorType: 'text' as const,
     editorUid: 1,
     icon: '',
@@ -255,7 +253,6 @@ test('splitRight should preserve original group tabs', () => {
 
 test('splitRight should maintain activeTabId in original group', () => {
   const tab = {
-    content: 'test',
     editorType: 'text' as const,
     editorUid: 1,
     icon: '',

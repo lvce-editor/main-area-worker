@@ -8,6 +8,7 @@ import * as HandleClick from '../HandleClick/HandleClick.ts'
 import { handleClickAction } from '../HandleClickAction/HandleClickAction.ts'
 import { handleClickCloseTab } from '../HandleClickCloseTab/HandleClickCloseTab.ts'
 import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
+import { handleResize } from '../HandleResize/HandleResize.ts'
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
 import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceChange.ts'
 import { initialize } from '../Initialize/Initialize.ts'
@@ -35,6 +36,7 @@ export const commandMap = {
   'MainArea.handleClickAction': wrapCommand(handleClickAction),
   'MainArea.handleClickCloseTab': wrapCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapCommand(handleClickTab),
+  'MainArea.handleResize': wrapCommand(handleResize),
   'MainArea.handleTabContextMenu': wrapCommand(handleTabContextMenu),
   'MainArea.handleWorkspaceChange': wrapCommand(handleWorkspaceChange),
   'MainArea.initialize': initialize,

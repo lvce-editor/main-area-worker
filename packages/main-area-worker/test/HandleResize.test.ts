@@ -74,8 +74,6 @@ test('handleResize should handle zero values', async () => {
 test('handleResize should resize all editors', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
-    uid: 1,
-    tabHeight: 40,
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -106,6 +104,8 @@ test('handleResize should resize all editors', async () => {
         },
       ],
     },
+    tabHeight: 40,
+    uid: 1,
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
@@ -123,7 +123,6 @@ test('handleResize should resize all editors', async () => {
 test('handleResize should skip editors with editorUid -1', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
-    uid: 1,
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -146,6 +145,7 @@ test('handleResize should skip editors with editorUid -1', async () => {
         },
       ],
     },
+    uid: 1,
   }
 
   using mockRpc = RendererWorker.registerMockRpc({

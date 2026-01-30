@@ -20,7 +20,7 @@ export const handleResize = async (state: MainAreaState, x: number, y: number, w
   const { layout, tabHeight } = state
   const { groups } = layout
   const contentHeight = height - tabHeight
-  
+
   for (const group of groups) {
     for (const tab of group.tabs) {
       if (tab.editorUid !== -1) {

@@ -144,7 +144,7 @@ test.skip('loadTabContentAsync discards result when request ID changed (race con
 
   GetNextRequestId.resetRequestIdCounter()
   const oldRequestId = GetNextRequestId.getNextRequestId()
-  const newRequestId = GetNextRequestId.getNextRequestId()
+  GetNextRequestId.getNextRequestId()
 
   // Simulate a newer request being started while the old one is in flight
   const newerState: MainAreaState = {

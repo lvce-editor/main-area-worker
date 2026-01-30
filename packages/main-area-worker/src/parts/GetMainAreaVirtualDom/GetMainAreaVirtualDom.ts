@@ -3,7 +3,7 @@ import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import { CSS_CLASSES as ClassNames } from '../MainAreaStyles/MainAreaStyles.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
 
-export const getMainAreaVirtualDom = (layout: MainAreaLayout): readonly VirtualDomNode[] => {
+export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 1,
@@ -13,8 +13,9 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout): readonly VirtualD
     {
       childCount: layout.groups.length,
       className: ClassNames.EDITOR_GROUPS_CONTAINER,
+      role: 'none',
       type: VirtualDomElements.Div,
     },
-    ...layout.groups.flatMap((group, groupIndex) => renderEditorGroup(group, groupIndex)),
+    ...layout.groups.flatMap((group, groupIndex) => renderEditorGroup(group, groupIndex, splitButtonEnabled)),
   ]
 }

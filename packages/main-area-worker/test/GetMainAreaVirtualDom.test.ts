@@ -29,7 +29,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       },
     ],
   }
-  const result = getMainAreaVirtualDom(layout)
+  const result = getMainAreaVirtualDom(layout, true)
 
   expect(result).toEqual([
     {
@@ -40,6 +40,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 1,
       className: ClassNames.EDITOR_GROUPS_CONTAINER,
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     {
@@ -174,7 +175,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
       },
     ],
   }
-  const result = getMainAreaVirtualDom(layout)
+  const result = getMainAreaVirtualDom(layout, true)
 
   expect(result.length).toBe(34) // 1 (Main) + 1 (EditorGroupsContainer) + 32 (2 * renderEditorGroup with Header, Actions and text)
   expect(result[1].childCount).toBe(2)

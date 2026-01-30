@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-split-vertical'
 
-export const test: Test = async ({ Command, FileSystem, Main }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.ts`
   const file2 = `${tmpDir}/file2.ts`
@@ -16,5 +16,6 @@ export const test: Test = async ({ Command, FileSystem, Main }) => {
 
   await Command.execute('Main.splitDown')
 
-  // TODO verify second group is open
+  const editorGroups = Locator('.EditorGroup')
+  await expect(editorGroups).toHaveCount(2)
 }

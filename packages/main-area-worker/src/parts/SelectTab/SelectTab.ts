@@ -109,55 +109,51 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   // If new tab's viewlet isn't ready yet, trigger creation (idempotent)
   const newTab = newState.layout.groups[groupIndex].tabs[index]
 
-  if (!newTab.loadingState || newTab.loadingState === 'loading') {
-    try {
-      // Query RendererWorker for viewlet module ID
-      // @ts-ignore
-      const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
-      if (viewletModuleId) {
-        // Calculate bounds: use main area bounds minus 35px for tab height
-        const TAB_HEIGHT = 35
-        const bounds = {
-          height: newState.height - TAB_HEIGHT,
-          width: newState.width,
-          x: newState.x,
-          y: newState.y + TAB_HEIGHT,
-        }
-        const createdState = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
-        newState = createdState
-
-        // Store updated state before creating viewlet
-        MainAreaStates.set(uid, state, newState)
-
-        // Execute viewlet commands if any
-        if (switchCommands.length > 0) {
-          await ExecuteViewletCommands.executeViewletCommands(switchCommands)
-        }
-
-        // Get the tab to extract editorUid for viewlet creation
-        const tabWithViewlet = findTabById(newState, tabId)
-        if (tabWithViewlet) {
-          const { editorUid } = tabWithViewlet.tab
-          if (editorUid !== -1 && newTab.uri) {
-            // Create the actual viewlet instance
-            await createViewlet(viewletModuleId, editorUid, tabId, bounds, newTab.uri)
-
-            // Mark viewlet as ready
-            newState = ViewletLifecycle.handleViewletReady(newState, editorUid)
-            MainAreaStates.set(uid, state, newState)
-          }
-        }
-
-        // Start loading content in the background if needed
-        if (needsLoading && tab.uri) {
-          const latestState = await startContentLoading(state, newState, tabId, tab.uri, requestId)
-          return latestState
-        }
-
-        return newState
+  if (newTab.uri && (!newTab.loadingState || newTab.loadingState === 'loading')) {
+    // Query RendererWorker for viewlet module ID
+    // @ts-ignore
+    const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
+    if (viewletModuleId) {
+      // Calculate bounds: use main area bounds minus 35px for tab height
+      const TAB_HEIGHT = 35
+      const bounds = {
+        height: newState.height - TAB_HEIGHT,
+        width: newState.width,
+        x: newState.x,
+        y: newState.y + TAB_HEIGHT,
       }
-    } catch {
-      // Viewlet creation is optional - silently ignore if RendererWorker isn't available
+      const createdState = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+      newState = createdState
+
+      // Store updated state before creating viewlet
+      MainAreaStates.set(uid, state, newState)
+
+      // Execute viewlet commands if any
+      if (switchCommands.length > 0) {
+        await ExecuteViewletCommands.executeViewletCommands(switchCommands)
+      }
+
+      // Get the tab to extract editorUid for viewlet creation
+      const tabWithViewlet = findTabById(newState, tabId)
+      if (tabWithViewlet) {
+        const { editorUid } = tabWithViewlet.tab
+        if (editorUid !== -1 && newTab.uri) {
+          // Create the actual viewlet instance
+          await createViewlet(viewletModuleId, editorUid, tabId, bounds, newTab.uri)
+
+          // Mark viewlet as ready
+          newState = ViewletLifecycle.handleViewletReady(newState, editorUid)
+          MainAreaStates.set(uid, state, newState)
+        }
+      }
+
+      // Start loading content in the background if needed
+      if (needsLoading && tab.uri) {
+        const latestState = await startContentLoading(state, newState, tabId, tab.uri, requestId)
+        return latestState
+      }
+
+      return newState
     }
   }
 

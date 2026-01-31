@@ -317,7 +317,7 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
         {
           activeTabId: 2,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

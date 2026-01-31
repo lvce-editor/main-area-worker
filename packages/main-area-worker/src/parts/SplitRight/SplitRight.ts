@@ -17,6 +17,7 @@ export const splitRight = (state: MainAreaState, groupId?: number): MainAreaStat
       id: initialGroupId,
       size: 100,
       tabs: [],
+      isEmpty: true,
     }
     const stateWithInitialGroup = {
       ...state,

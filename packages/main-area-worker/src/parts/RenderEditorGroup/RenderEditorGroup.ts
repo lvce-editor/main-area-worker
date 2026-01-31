@@ -2,8 +2,13 @@ import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-do
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderEditorGroupHeader } from '../RenderEditorGroupHeader/RenderEditorGroupHeader.ts'
+import { renderEmptyGroupCloseButton } from '../RenderEmptyGroupCloseButton/RenderEmptyGroupCloseButton.ts'
 
 export const renderEditorGroup = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
+  if (group.isEmpty) {
+    return renderEmptyGroup(group, groupIndex)
+  }
+
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
 
   return [
@@ -19,5 +24,16 @@ export const renderEditorGroup = (group: EditorGroup, groupIndex: number, splitB
       type: VirtualDomElements.Div,
     },
     ...renderEditor(activeTab),
+  ]
+}
+
+const renderEmptyGroup = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
+  return [
+    {
+      childCount: 1,
+      className: 'EditorGroup EmptyEditorGroup',
+      type: VirtualDomElements.Div,
+    },
+    ...renderEmptyGroupCloseButton(group, groupIndex),
   ]
 }

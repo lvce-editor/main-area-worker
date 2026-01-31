@@ -92,7 +92,7 @@ test('getMenuEntries handles state with multiple tabs', async () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 0,
           isEmpty: false,
           size: 100,
           tabs: [
@@ -109,7 +109,7 @@ test('getMenuEntries handles state with multiple tabs', async () => {
               editorType: 'text',
               editorUid: -1,
               icon: '',
-              id: 1,
+              id: 0,
               isDirty: true,
               title: 'file2.txt',
               uri: '/home/user/file2.txt',
@@ -140,7 +140,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
         {
           activeTabId: 0,
           focused: false,
-          id: 1,
+          id: 0,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -158,7 +158,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 0,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -166,7 +166,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
               editorType: 'text',
               editorUid: -1,
               icon: '',
-              id: 1,
+              id: 0,
               isDirty: false,
               title: 'file2.txt',
               uri: '/home/user/file2.txt',
@@ -197,7 +197,7 @@ test('getMenuEntries returns consistent result for same input', async () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 1,
+          id: 0,
           isEmpty: false,
           size: 100,
           tabs: [
@@ -235,7 +235,7 @@ test('getMenuEntries handles tab without uri', async () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 1,
+          id: 0,
           isEmpty: false,
           size: 100,
           tabs: [

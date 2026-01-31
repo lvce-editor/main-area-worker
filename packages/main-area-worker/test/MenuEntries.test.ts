@@ -15,7 +15,7 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 1,
+          id: 0,
           isEmpty: false,
           size: 100,
           tabs: [

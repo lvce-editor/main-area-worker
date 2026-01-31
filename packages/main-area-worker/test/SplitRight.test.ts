@@ -328,8 +328,6 @@ test('splitRight should create initial group with undefined activeTabId when gro
   expect(result.layout.groups[0].activeTabId).toBeUndefined()
 })
 
-
-
 test('splitRight should split empty groups into two when groups array is empty', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

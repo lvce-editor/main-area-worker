@@ -573,7 +573,7 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 3,
           focused: false,
-          id: 2,
+          id: 3,
           isEmpty: false,
           size: 33,
           tabs: [
@@ -617,7 +617,7 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 1,
         focused: false,
-        id: 1,
+        id: 2,
         isEmpty: false,
         size: 33,
         tabs: [
@@ -634,7 +634,7 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 3,
         focused: false,
-        id: 1,
+        id: 3,
         isEmpty: false,
         size: 33,
         tabs: [

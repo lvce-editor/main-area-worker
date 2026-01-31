@@ -1,9 +1,12 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { selectTab } from '../src/parts/SelectTab/SelectTab.ts'
 
 test('selectTab should update active group and tab with valid indexes', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -58,6 +61,8 @@ test('selectTab should update active group and tab with valid indexes', async ()
 
   const result = await selectTab(state, 0, 1)
 
+  expect(mockRpc.invocations).toEqual([])
+
   const expectedLayout = {
     activeGroupId: 1,
     direction: 'horizontal',
@@ -111,6 +116,8 @@ test('selectTab should update active group and tab with valid indexes', async ()
 })
 
 test('selectTab should switch to different group', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -164,6 +171,8 @@ test('selectTab should switch to different group', async () => {
   }
 
   const result = await selectTab(state, 1, 0)
+
+  expect(mockRpc.invocations).toEqual([])
 
   const expectedLayout = {
     activeGroupId: 2,
@@ -547,6 +556,8 @@ test('selectTab should handle group with empty tabs array', async () => {
 })
 
 test('selectTab should preserve other groups state when switching focus', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -610,6 +621,8 @@ test('selectTab should preserve other groups state when switching focus', async 
 
   const result = await selectTab(state, 2, 0)
 
+  expect(mockRpc.invocations).toEqual([])
+
   const expectedLayout = {
     activeGroupId: 4,
     direction: 'horizontal',
@@ -672,6 +685,8 @@ test('selectTab should preserve other groups state when switching focus', async 
 })
 
 test('selectTab should handle custom editor tabs', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -709,6 +724,8 @@ test('selectTab should handle custom editor tabs', async () => {
 
   const result = await selectTab(state, 0, 1)
 
+  expect(mockRpc.invocations).toEqual([])
+
   const expectedLayout = {
     activeGroupId: 1,
     direction: 'horizontal',
@@ -745,6 +762,10 @@ test('selectTab should handle custom editor tabs', async () => {
 })
 
 test('selectTab should handle tabs with paths and languages', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => 'Editor',
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -785,6 +806,11 @@ test('selectTab should handle tabs with paths and languages', async () => {
   }
 
   const result = await selectTab(state, 0, 1)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', '/path/to/index.html'],
+    ['FileSystem.readFile', '/path/to/index.html'],
+  ])
 
   const expectedLayout = {
     activeGroupId: 1,
@@ -1301,6 +1327,10 @@ test('selectTab should return same state when activeGroupId is undefined', async
 })
 
 test('selectTab should not trigger loading when tab is already loading', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.getModuleId': async () => 'Editor',
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -1340,6 +1370,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
 
   const result = await selectTab(state, 0, 1)
 
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', '/path/to/file.ts']])
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].tabs[1].loadingState).toBe('loading')
 })

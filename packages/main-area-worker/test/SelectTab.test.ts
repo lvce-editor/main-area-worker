@@ -310,7 +310,7 @@ test('selectTab should return original state for negative group index', async ()
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

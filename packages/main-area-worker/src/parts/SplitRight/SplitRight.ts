@@ -1,8 +1,8 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
-import * as SplitEditorGroup from '../SplitEditorGroup/SplitEditorGroup.ts'
 import * as Id from '../Id/Id.ts'
+import * as SplitEditorGroup from '../SplitEditorGroup/SplitEditorGroup.ts'
 
 export const splitRight = (state: MainAreaState, groupId?: number): MainAreaState => {
   const { layout } = state

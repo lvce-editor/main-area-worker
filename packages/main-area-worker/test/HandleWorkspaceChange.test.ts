@@ -51,7 +51,7 @@ test('handleWorkspaceChange should preserve other state properties', () => {
           activeTabId: 1,
           focused: true,
           id: 2,,
-    isEmpty: true
+    isEmpty: true,
           size: 50,
           tabs: [],
         },

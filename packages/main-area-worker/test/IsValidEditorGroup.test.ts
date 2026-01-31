@@ -28,7 +28,7 @@ test('isValidEditorGroup should return true for group with undefined activeTabId
     activeTabId: undefined,
     focused: false,
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     size: 50,
     tabs: [],
   }
@@ -47,7 +47,7 @@ test('isValidEditorGroup should return false for missing id', () => {
   const group = {
     activeTabId: undefined,
     focused: true,,
-    isEmpty: true
+    isEmpty: true,
     size: 50,
     tabs: [],
   }
@@ -59,7 +59,7 @@ test('isValidEditorGroup should return false for invalid id type', () => {
     activeTabId: undefined,
     focused: true,
     id: '1',,
-    isEmpty: true
+    isEmpty: true,
     size: 50,
     tabs: [],
   }
@@ -113,7 +113,7 @@ test('isValidEditorGroup should return false for invalid activeTabId type', () =
     activeTabId: '1',
     focused: true,
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     size: 50,
     tabs: [],
   }
@@ -124,7 +124,7 @@ test('isValidEditorGroup should return false for missing focused', () => {
   const group = {
     activeTabId: undefined,
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     size: 50,
     tabs: [],
   }
@@ -136,7 +136,7 @@ test('isValidEditorGroup should return false for invalid focused type', () => {
     activeTabId: undefined,
     focused: 'true',
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     size: 50,
     tabs: [],
   }
@@ -148,7 +148,7 @@ test('isValidEditorGroup should return false for missing size', () => {
     activeTabId: undefined,
     focused: true,
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     tabs: [],
   }
   expect(isValidEditorGroup(group)).toBe(false)
@@ -159,7 +159,7 @@ test('isValidEditorGroup should return false for invalid size type', () => {
     activeTabId: undefined,
     focused: true,
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     size: '50',
     tabs: [],
   }
@@ -171,7 +171,7 @@ test('isValidEditorGroup should return false for size zero', () => {
     activeTabId: undefined,
     focused: true,
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     size: 0,
     tabs: [],
   }
@@ -183,7 +183,7 @@ test('isValidEditorGroup should return false for negative size', () => {
     activeTabId: undefined,
     focused: true,
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     size: -10,
     tabs: [],
   }

@@ -113,7 +113,7 @@ test('renderTabBar should handle empty tabs array', () => {
     activeTabId: undefined,
     focused: false,
     id: 1,,
-    isEmpty: true
+    isEmpty: true,
     size: 100,
     tabs: [],
   }

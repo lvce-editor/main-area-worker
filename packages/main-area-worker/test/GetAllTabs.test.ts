@@ -14,7 +14,7 @@ test('getAllTabs should return all tabs from all groups', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
-    isEmpty: false,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -39,7 +39,7 @@ test('getAllTabs should return all tabs from all groups', () => {
           activeTabId: 3,
           focused: false,
           id: 1,
-    isEmpty: false,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -73,7 +73,7 @@ test('getAllTabs should return empty array when no tabs exist', () => {
           activeTabId: undefined,
           focused: true,
           id: 1,
-    isEmpty: true
+          isEmpty: true,
           size: 100,
           tabs: [],
         },

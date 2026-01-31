@@ -321,7 +321,7 @@ test('restoreMainAreaState should handle layout with empty groups', () => {
         activeTabId: undefined,
         focused: false,
         id: 1,,
-    isEmpty: true
+    isEmpty: true,
         size: 100,
         tabs: [],
       },
@@ -586,7 +586,7 @@ test('restoreMainAreaState should handle layout with group having invalid size',
         activeTabId: undefined,
         focused: false,
         id: 1,,
-    isEmpty: true
+    isEmpty: true,
         size: -10,
         tabs: [],
       },
@@ -619,7 +619,7 @@ test('restoreMainAreaState should handle layout with group having invalid focuse
         activeTabId: undefined,
         focused: 'invalid' as any,
         id: 1,,
-    isEmpty: true
+    isEmpty: true,
         size: 100,
         tabs: [],
       },

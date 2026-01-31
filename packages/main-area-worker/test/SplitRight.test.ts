@@ -14,7 +14,7 @@ test('splitRight should return state unchanged when group does not exist', () =>
           activeTabId: undefined,
           focused: true,
           id: 1,
-    isEmpty: true
+    isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -38,7 +38,7 @@ test('splitRight should split single group into two horizontal groups', () => {
           activeTabId: undefined,
           focused: true,
           id: 1,
-    isEmpty: true
+    isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -69,7 +69,7 @@ test('splitRight should set new group as active', () => {
           activeTabId: undefined,
           focused: true,
           id: 1,
-    isEmpty: true
+    isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -94,7 +94,7 @@ test('splitRight should place new group to the right', () => {
           activeTabId: undefined,
           focused: true,
           id: 1,
-    isEmpty: true
+    isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -120,7 +120,7 @@ test('splitRight should split with multiple existing groups', () => {
           activeTabId: undefined,
           focused: true,
           id: 1,
-    isEmpty: true
+    isEmpty: true,
           size: 50,
           tabs: [],
         },
@@ -128,7 +128,7 @@ test('splitRight should split with multiple existing groups', () => {
           activeTabId: undefined,
           focused: false,
           id: 2,,
-    isEmpty: true
+    isEmpty: true,
           size: 50,
           tabs: [],
         },
@@ -157,7 +157,7 @@ test('splitRight should split middle group correctly', () => {
           activeTabId: undefined,
           focused: false,
           id: 1,
-    isEmpty: true
+    isEmpty: true,
           size: 33,
           tabs: [],
         },
@@ -165,7 +165,7 @@ test('splitRight should split middle group correctly', () => {
           activeTabId: undefined,
           focused: true,
           id: 2,,
-    isEmpty: true
+    isEmpty: true,
           size: 33,
           tabs: [],
         },
@@ -173,7 +173,7 @@ test('splitRight should split middle group correctly', () => {
           activeTabId: undefined,
           focused: false,
           id: 3,,
-    isEmpty: true
+    isEmpty: true,
           size: 34,
           tabs: [],
         },

@@ -297,3 +297,277 @@ test('splitRight should maintain activeTabId in original group', () => {
   expect(result.layout.groups[0].activeTabId).toBe(5)
   expect(result.layout.groups[1].activeTabId).toBeUndefined()
 })
+
+test('splitRight should create initial group when groups array is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups.length).toBeGreaterThan(0)
+})
+
+test('splitRight should create initial group with undefined activeTabId when groups is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+})
+
+test('splitRight should create initial group with focused true when groups is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[0].focused).toBe(true)
+})
+
+test('splitRight should create initial group with isEmpty true when groups is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[0].isEmpty).toBe(true)
+})
+
+test('splitRight should create initial group with size 100 when groups is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[0].size).toBe(100)
+})
+
+test('splitRight should create initial group with empty tabs array when groups is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[0].tabs).toEqual([])
+})
+
+test('splitRight should set activeGroupId to initial group when groups is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.activeGroupId).toBe(result.layout.groups[0].id)
+})
+
+test('splitRight should split empty groups into two when groups array is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups[0].size).toBe(50)
+  expect(result.layout.groups[1].size).toBe(50)
+})
+
+test('splitRight should set second group as focused after splitting empty groups', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[0].focused).toBe(false)
+  expect(result.layout.groups[1].focused).toBe(true)
+})
+
+test('splitRight should set activeGroupId to second group after splitting empty groups', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
+})
+
+test('splitRight should create second empty group when splitting empty groups', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[1].tabs).toEqual([])
+  expect(result.layout.groups[1].isEmpty).toBe(true)
+  expect(result.layout.groups[1].activeTabId).toBeUndefined()
+})
+
+test('splitRight should generate unique id for initial group when groups is empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[0].id).toBeGreaterThan(0)
+})
+
+test('splitRight should generate unique id for second group when splitting empty groups', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups[1].id).toBeGreaterThan(0)
+  expect(result.layout.groups[0].id).not.toBe(result.layout.groups[1].id)
+})
+
+test('splitRight should use provided groupId when groups is not empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = splitRight(state, 1)
+
+  expect(result.layout.groups.length).toBe(2)
+})
+
+test('splitRight should use activeGroupId as fallback when groupId not provided and groups not empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups.length).toBe(2)
+})
+
+test('splitRight should use first group when activeGroupId is undefined and groups not empty', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = splitRight(state)
+
+  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups[0].id).toBe(1)
+})

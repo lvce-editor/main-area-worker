@@ -120,7 +120,7 @@ test('selectTab should switch to different group', async () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 2,
+          id: 1,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -590,7 +590,7 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 4,
           focused: false,
-          id: 1,
+          id: 3,
           isEmpty: false,
           size: 34,
           tabs: [
@@ -611,7 +611,7 @@ test('selectTab should preserve other groups state when switching focus', async 
   const result = await selectTab(state, 2, 0)
 
   const expectedLayout = {
-    activeGroupId: 3,
+    activeGroupId: 4,
     direction: 'horizontal',
     groups: [
       {

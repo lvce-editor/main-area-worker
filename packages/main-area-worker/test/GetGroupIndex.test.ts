@@ -13,24 +13,21 @@ test('getGroupIndex should return correct index when group exists', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,,
-    isEmpty: true
+          id: 1,
           size: 33,
           tabs: [],
         },
         {
           activeTabId: undefined,
           focused: false,
-          id: 2,,
-    isEmpty: true
+          id: 2,
           size: 33,
           tabs: [],
         },
         {
           activeTabId: undefined,
           focused: false,
-          id: 3,,
-    isEmpty: true
+          id: 3,
           size: 34,
           tabs: [],
         },
@@ -52,8 +49,7 @@ test('getGroupIndex should return -1 when group does not exist', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,,
-    isEmpty: true
+          id: 1,
           size: 100,
           tabs: [],
         },

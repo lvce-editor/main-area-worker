@@ -8,8 +8,7 @@ test('renderTabBar should return correct structure for single tab', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
-    id: ,
-    isEmpty: false,,
+    id: 1,
     size: 100,
     tabs: [
       {
@@ -78,8 +77,7 @@ test('renderTabBar should handle multiple tabs', () => {
   const group: EditorGroup = {
     activeTabId: 2,
     focused: false,
-    id: ,
-    isEmpty: false,,
+    id: 1,
     size: 100,
     tabs: [
       {
@@ -112,8 +110,7 @@ test('renderTabBar should handle empty tabs array', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
     focused: false,
-    id: 1,,
-    isEmpty: true
+    id: 1,
     size: 100,
     tabs: [],
   }

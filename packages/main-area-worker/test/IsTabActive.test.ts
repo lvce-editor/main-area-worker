@@ -13,8 +13,7 @@ test('isTabActive returns true for active tab in active group', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: ,
-    isEmpty: false,,
+          id: 1,
           size: 100,
           tabs: [
             {
@@ -54,8 +53,7 @@ test('isTabActive returns false for tab in non-active group', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: ,
-    isEmpty: false,,
+          id: 1,
           size: 50,
           tabs: [
             {
@@ -71,8 +69,7 @@ test('isTabActive returns false for tab in non-active group', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: ,
-    isEmpty: false,,
+          id: 2,
           size: 50,
           tabs: [
             {
@@ -104,8 +101,7 @@ test('isTabActive returns false when no active group exists', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: ,
-    isEmpty: false,,
+          id: 1,
           size: 100,
           tabs: [
             {

@@ -57,8 +57,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
         {
           activeTabId: 1,
           focused: true,
-          id: ,
-    isEmpty: false,,
+          id: 1,
           size: 50,
           tabs: [
             {
@@ -84,8 +83,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
         {
           activeTabId: 3,
           focused: false,
-          id: ,
-    isEmpty: false,,
+          id: 2,
           size: 50,
           tabs: [
             {

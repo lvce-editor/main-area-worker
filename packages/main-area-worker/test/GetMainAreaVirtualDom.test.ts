@@ -13,8 +13,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       {
         activeTabId: 1,
         focused: false,
-        id: ,
-    isEmpty: false,,
+        id: 1,
         size: 100,
         tabs: [
           {
@@ -143,8 +142,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
       {
         activeTabId: 1,
         focused: false,
-        id: ,
-    isEmpty: false,,
+        id: 1,
         size: 50,
         tabs: [
           {
@@ -161,8 +159,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
       {
         activeTabId: 2,
         focused: false,
-        id: ,
-    isEmpty: false,,
+        id: 2,
         size: 50,
         tabs: [
           {

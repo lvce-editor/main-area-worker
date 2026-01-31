@@ -23,8 +23,7 @@ test('saveState should save layout with custom configuration', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: ,
-    isEmpty: false,,
+          id: 2,
           size: 50,
           tabs: [
             {
@@ -78,8 +77,7 @@ test('saveState should save layout with multiple groups', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: ,
-    isEmpty: false,,
+          id: 1,
           size: 50,
           tabs: [
             {
@@ -95,8 +93,7 @@ test('saveState should save layout with multiple groups', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: ,
-    isEmpty: false,,
+          id: 2,
           size: 50,
           tabs: [
             {
@@ -130,8 +127,7 @@ test('saveState should save layout with custom editor tabs', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: ,
-    isEmpty: false,,
+          id: 1,
           size: 100,
           tabs: [
             {
@@ -161,8 +157,7 @@ test('saveState should save layout with tabs containing paths and languages', ()
         {
           activeTabId: 1,
           focused: true,
-          id: ,
-    isEmpty: false,,
+          id: 1,
           size: 100,
           tabs: [
             {
@@ -209,8 +204,7 @@ test('saveState should save layout with empty groups', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,,
-    isEmpty: true
+          id: 1,
           size: 100,
           tabs: [],
         },

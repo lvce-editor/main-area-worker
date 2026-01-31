@@ -6,8 +6,7 @@ test('getTabIndex should return correct index when tab exists', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     focused: true,
-    id: ,
-    isEmpty: false,,
+    id: 1,
     size: 100,
     tabs: [
       {
@@ -45,8 +44,7 @@ test('getTabIndex should return -1 when tab does not exist', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     focused: true,
-    id: ,
-    isEmpty: false,,
+    id: 1,
     size: 100,
     tabs: [
       {

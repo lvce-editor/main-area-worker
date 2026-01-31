@@ -19,7 +19,7 @@ test('restoreMainAreaState should restore layout from valid saved state', () => 
         activeTabId: 1,
         focused: true,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
@@ -143,7 +143,7 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         activeTabId: 1,
         focused: true,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
@@ -160,7 +160,7 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         activeTabId: 2,
         focused: false,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
@@ -205,7 +205,7 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
         activeTabId: 1,
         focused: true,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 100,
         tabs: [
           {
@@ -248,7 +248,7 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
         activeTabId: 1,
         focused: true,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 100,
         tabs: [
           {
@@ -320,8 +320,8 @@ test('restoreMainAreaState should handle layout with empty groups', () => {
       {
         activeTabId: undefined,
         focused: false,
-        id: 1,,
-    isEmpty: true,
+        id: 1,
+        isEmpty: true,
         size: 100,
         tabs: [],
       },
@@ -585,8 +585,8 @@ test('restoreMainAreaState should handle layout with group having invalid size',
       {
         activeTabId: undefined,
         focused: false,
-        id: 1,,
-    isEmpty: true,
+        id: 1,
+        isEmpty: true,
         size: -10,
         tabs: [],
       },
@@ -618,8 +618,8 @@ test('restoreMainAreaState should handle layout with group having invalid focuse
       {
         activeTabId: undefined,
         focused: 'invalid' as any,
-        id: 1,,
-    isEmpty: true,
+        id: 1,
+        isEmpty: true,
         size: 100,
         tabs: [],
       },
@@ -684,7 +684,7 @@ test('restoreMainAreaState should handle layout with group having invalid tab st
         activeTabId: undefined,
         focused: false,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 100,
         tabs: [
           {
@@ -714,7 +714,7 @@ test('restoreMainState should return valid layout', () => {
         activeTabId: 1,
         focused: true,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 100,
         tabs: [
           {
@@ -866,7 +866,7 @@ test('restoreMainState should accept layout with valid groups', () => {
         activeTabId: 1,
         focused: true,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
@@ -883,7 +883,7 @@ test('restoreMainState should accept layout with valid groups', () => {
         activeTabId: 2,
         focused: false,
         id: 1,
-    isEmpty: false,
+        isEmpty: false,
         size: 50,
         tabs: [
           {

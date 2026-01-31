@@ -23,7 +23,7 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
     },
     {
       name: DomEventListenersFunctions.HandleClickAction,
-      params: ['handleClickAction', 'event.target.dataset.action'],
+      params: ['handleClickAction', 'event.target.dataset.action', 'event.target.dataset.groupId'],
     },
   ]
 }

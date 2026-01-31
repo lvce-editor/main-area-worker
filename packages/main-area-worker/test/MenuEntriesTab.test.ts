@@ -8,7 +8,7 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
@@ -90,7 +90,7 @@ test('getMenuEntries includes correct path in args for reveal and find reference
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
@@ -123,7 +123,7 @@ test('getMenuEntries handles tab without path', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
@@ -155,7 +155,7 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {

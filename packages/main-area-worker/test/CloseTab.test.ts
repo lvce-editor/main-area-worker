@@ -407,7 +407,7 @@ test('closeTab should handle closing tab from different group', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -619,7 +619,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 33,
           tabs: [
@@ -644,7 +644,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
         {
           activeTabId: 5,
           focused: false,
-          id: 1,
+          id: 3,
           isEmpty: false,
           size: 34,
           tabs: [
@@ -1425,7 +1425,7 @@ test('closeTab should remove editor group when closing last tab and multiple gro
         {
           activeTabId: 2,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -1480,7 +1480,7 @@ test('closeTab should remove editor group when closing last tab and update activ
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 33,
           tabs: [
@@ -1497,7 +1497,7 @@ test('closeTab should remove editor group when closing last tab and update activ
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 3,
           isEmpty: false,
           size: 34,
           tabs: [
@@ -1587,7 +1587,7 @@ test('closeTab should redistribute sizes when removing group', () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 25,
           tabs: [
@@ -1604,7 +1604,7 @@ test('closeTab should redistribute sizes when removing group', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 3,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -1778,7 +1778,7 @@ test('findTabInState should find tab in different groups', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

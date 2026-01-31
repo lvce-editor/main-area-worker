@@ -221,7 +221,7 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

@@ -953,7 +953,7 @@ test('selectTab should return same state when clicking same tab that is already 
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -1005,7 +1005,7 @@ test('selectTab should return same state when clicking same tab that is already 
       {
         activeTabId: 3,
         focused: false,
-        id: 1,
+        id: 2,
         isEmpty: false,
         size: 50,
         tabs: [
@@ -1061,7 +1061,7 @@ test('selectTab should return new state when clicking different tab in same grou
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

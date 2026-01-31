@@ -651,7 +651,7 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 4,
         focused: true,
-        id: 1,
+        id: 4,
         isEmpty: false,
         size: 34,
         tabs: [
@@ -1113,7 +1113,7 @@ test('selectTab should return new state when clicking different tab in same grou
       {
         activeTabId: 3,
         focused: false,
-        id: 1,
+        id: 2,
         isEmpty: false,
         size: 50,
         tabs: [

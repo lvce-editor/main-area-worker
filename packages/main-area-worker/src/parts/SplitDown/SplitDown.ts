@@ -16,6 +16,7 @@ export const splitDown = (state: MainAreaState, groupId?: number): MainAreaState
       id: initialGroupId,
       size: 100,
       tabs: [],
+      isEmpty: true,
     }
     const stateWithInitialGroup = {
       ...state,

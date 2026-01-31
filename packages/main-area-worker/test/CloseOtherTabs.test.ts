@@ -164,7 +164,7 @@ test('closeOtherTabs should preserve other groups', () => {
         {
           activeTabId: 5,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

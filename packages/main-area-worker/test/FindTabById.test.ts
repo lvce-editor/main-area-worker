@@ -14,6 +14,7 @@ test('findTabById should return tab and groupId when found', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -29,7 +30,8 @@ test('findTabById should return tab and groupId when found', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 2,
+          id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -62,6 +64,7 @@ test('findTabById should return undefined when not found', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {

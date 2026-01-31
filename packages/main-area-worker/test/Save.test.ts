@@ -14,7 +14,8 @@ test.skip('save should return state when no active tab', async () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -38,6 +39,7 @@ test.skip('save should return state when tab is not loaded', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+    isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -75,6 +77,7 @@ test.skip('save should call RendererWorker with Editor.save when tab is loaded',
           activeTabId: 1,
           focused: true,
           id: 1,
+    isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -114,6 +117,7 @@ test.skip('save should call RendererWorker with Editor.save when tab is idle', a
           activeTabId: 1,
           focused: true,
           id: 1,
+    isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -149,6 +153,7 @@ test.skip('save should return state when no focused group', async () => {
           activeTabId: 1,
           focused: false,
           id: 1,
+    isEmpty: false,
           size: 100,
           tabs: [
             {

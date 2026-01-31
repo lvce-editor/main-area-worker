@@ -14,6 +14,7 @@ test('findTabByViewletRequestId finds tab with matching requestId', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -55,6 +56,7 @@ test('findTabByViewletRequestId finds tab in second group', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -70,7 +72,8 @@ test('findTabByViewletRequestId finds tab in second group', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 2,
+          id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -104,6 +107,7 @@ test('findTabByViewletRequestId returns undefined when not found', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {

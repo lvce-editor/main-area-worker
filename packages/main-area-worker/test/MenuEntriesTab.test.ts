@@ -197,7 +197,7 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 1,
+      activeGroupId: 2,
       direction: 'horizontal',
       groups: [
         {

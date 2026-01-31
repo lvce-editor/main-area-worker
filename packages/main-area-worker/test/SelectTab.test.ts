@@ -60,7 +60,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
@@ -70,7 +70,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -78,7 +78,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -95,7 +95,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -167,7 +167,7 @@ test('selectTab should switch to different group', async () => {
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -177,7 +177,7 @@ test('selectTab should switch to different group', async () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -185,7 +185,7 @@ test('selectTab should switch to different group', async () => {
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -202,7 +202,7 @@ test('selectTab should switch to different group', async () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -481,7 +481,7 @@ test('selectTab should handle single group with single tab', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -491,7 +491,7 @@ test('selectTab should handle single group with single tab', async () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -612,7 +612,7 @@ test('selectTab should preserve other groups state when switching focus', async 
 
   const expectedLayout = {
     activeGroupId: 3,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -622,7 +622,7 @@ test('selectTab should preserve other groups state when switching focus', async 
         size: 33,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -639,7 +639,7 @@ test('selectTab should preserve other groups state when switching focus', async 
         size: 33,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -656,7 +656,7 @@ test('selectTab should preserve other groups state when switching focus', async 
         size: 34,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 4,
@@ -711,7 +711,7 @@ test('selectTab should handle custom editor tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
@@ -721,7 +721,7 @@ test('selectTab should handle custom editor tabs', async () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -729,7 +729,7 @@ test('selectTab should handle custom editor tabs', async () => {
             title: 'Text File',
           },
           {
-            editorType: 'custom' as const,
+            editorType: 'custom',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -788,7 +788,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
@@ -798,7 +798,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -808,7 +808,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
             uri: '/path/to/script.ts',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             errorMessage: expect.any(String),
             icon: '',
@@ -876,7 +876,7 @@ test('selectTab should handle vertical layout direction', async () => {
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'vertical' as const,
+    direction: 'vertical',
     groups: [
       {
         activeTabId: 1,
@@ -886,7 +886,7 @@ test('selectTab should handle vertical layout direction', async () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -903,7 +903,7 @@ test('selectTab should handle vertical layout direction', async () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -975,7 +975,7 @@ test('selectTab should return same state when clicking same tab that is already 
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -985,7 +985,7 @@ test('selectTab should return same state when clicking same tab that is already 
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -993,7 +993,7 @@ test('selectTab should return same state when clicking same tab that is already 
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -1010,7 +1010,7 @@ test('selectTab should return same state when clicking same tab that is already 
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -1083,7 +1083,7 @@ test('selectTab should return new state when clicking different tab in same grou
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
@@ -1093,7 +1093,7 @@ test('selectTab should return new state when clicking different tab in same grou
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -1101,7 +1101,7 @@ test('selectTab should return new state when clicking different tab in same grou
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -1118,7 +1118,7 @@ test('selectTab should return new state when clicking different tab in same grou
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -1191,7 +1191,7 @@ test('selectTab should return new state when clicking same tab index in differen
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -1201,7 +1201,7 @@ test('selectTab should return new state when clicking same tab index in differen
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -1209,7 +1209,7 @@ test('selectTab should return new state when clicking same tab index in differen
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -1226,7 +1226,7 @@ test('selectTab should return new state when clicking same tab index in differen
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -1274,7 +1274,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -1284,7 +1284,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,

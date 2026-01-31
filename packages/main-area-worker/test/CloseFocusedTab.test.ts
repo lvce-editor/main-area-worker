@@ -43,7 +43,7 @@ test('closeFocusedTab should close the focused tab', () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
@@ -53,7 +53,7 @@ test('closeFocusedTab should close the focused tab', () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -182,7 +182,7 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
 
   const expectedLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [],
   }
 
@@ -247,7 +247,7 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
@@ -257,7 +257,7 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -274,7 +274,7 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -339,7 +339,7 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
@@ -349,7 +349,7 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,

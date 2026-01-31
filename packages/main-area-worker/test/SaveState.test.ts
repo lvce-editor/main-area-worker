@@ -95,7 +95,7 @@ test('saveState should save layout with multiple groups', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

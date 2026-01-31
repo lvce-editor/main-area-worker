@@ -23,7 +23,7 @@ test('saveState should save layout with custom configuration', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

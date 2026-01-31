@@ -242,7 +242,7 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

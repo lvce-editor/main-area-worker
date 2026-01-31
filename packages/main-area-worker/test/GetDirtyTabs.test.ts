@@ -38,7 +38,7 @@ test('getDirtyTabs should return only dirty tabs', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

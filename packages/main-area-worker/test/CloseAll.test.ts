@@ -38,7 +38,7 @@ test('closeAll should close all tabs and groups', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

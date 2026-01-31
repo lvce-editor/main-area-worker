@@ -99,7 +99,7 @@ test('loadContent should restore layout with multiple groups', async () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

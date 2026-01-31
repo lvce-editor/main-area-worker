@@ -471,7 +471,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
         {
           activeTabId: 2,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

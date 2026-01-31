@@ -36,6 +36,7 @@ test('openUri should add tab to active group when group exists', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -81,6 +82,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -136,6 +138,7 @@ test('openUri should activate existing tab in different group', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -155,7 +158,8 @@ test('openUri should activate existing tab in different group', async () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 2,
+          id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -372,6 +376,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {

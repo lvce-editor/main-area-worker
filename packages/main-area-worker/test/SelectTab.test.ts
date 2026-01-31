@@ -120,7 +120,7 @@ test('selectTab should switch to different group', async () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -1169,7 +1169,7 @@ test('selectTab should return new state when clicking same tab index in differen
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -1221,7 +1221,7 @@ test('selectTab should return new state when clicking same tab index in differen
       {
         activeTabId: 3,
         focused: true,
-        id: 1,
+        id: 2,
         isEmpty: false,
         size: 50,
         tabs: [

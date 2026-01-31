@@ -66,7 +66,7 @@ test.skip('getMenuEntries throws when state has no tabs', async () => {
         {
           activeTabId: -1,
           focused: true,
-          id: 0,,
+          id: 0,
     isEmpty: true,
           size: 100,
           tabs: [],

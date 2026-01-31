@@ -46,7 +46,7 @@ test('isValidEditorGroup should return false for undefined', () => {
 test('isValidEditorGroup should return false for missing id', () => {
   const group = {
     activeTabId: undefined,
-    focused: true,,
+    focused: true,
     isEmpty: true,
     size: 50,
     tabs: [],
@@ -58,7 +58,7 @@ test('isValidEditorGroup should return false for invalid id type', () => {
   const group = {
     activeTabId: undefined,
     focused: true,
-    id: '1',,
+    id: '1',
     isEmpty: true,
     size: 50,
     tabs: [],

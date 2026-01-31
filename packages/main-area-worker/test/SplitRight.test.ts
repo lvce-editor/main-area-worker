@@ -202,8 +202,8 @@ test('splitRight should create new group with empty tabs', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {
@@ -247,8 +247,8 @@ test('splitRight should preserve original group tabs', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [tab],
         },
@@ -282,8 +282,8 @@ test('splitRight should maintain activeTabId in original group', () => {
         {
           activeTabId: 5,
           focused: true,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [tab],
         },

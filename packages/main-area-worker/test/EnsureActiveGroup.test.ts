@@ -57,8 +57,8 @@ test('ensureActiveGroup should create new group when no active group exists', ()
       {
         activeTabId: tabId,
         focused: true,
-        id: groupId,,
-    isEmpty: false
+        id: groupId,
+    isEmpty: false,
         size: 100,
         tabs: [
           {
@@ -128,8 +128,8 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
         {
           activeTabId: 1,
           focused: true,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {
@@ -161,8 +161,8 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
       {
         activeTabId: tabId,
         focused: true,
-        id: 1,,
-    isEmpty: false
+        id: ,
+    isEmpty: false,,
         size: 100,
         tabs: [
           {

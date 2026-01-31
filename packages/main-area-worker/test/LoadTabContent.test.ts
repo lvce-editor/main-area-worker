@@ -14,8 +14,8 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
       {
         activeTabId: 1,
         focused: true,
-        id: 1,,
-    isEmpty: false
+        id: ,
+    isEmpty: false,,
         size: 100,
         tabs: [
           {
@@ -225,8 +225,8 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
         {
           activeTabId: 1,
           focused: false,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 50,
           tabs: [
             {
@@ -242,8 +242,8 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
         {
           activeTabId: 2,
           focused: true,
-          id: 2,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 50,
           tabs: [
             {

@@ -8,8 +8,8 @@ test('renderTabBar should return correct structure for single tab', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
-    id: 1,,
-    isEmpty: false
+    id: ,
+    isEmpty: false,,
     size: 100,
     tabs: [
       {
@@ -78,8 +78,8 @@ test('renderTabBar should handle multiple tabs', () => {
   const group: EditorGroup = {
     activeTabId: 2,
     focused: false,
-    id: 1,,
-    isEmpty: false
+    id: ,
+    isEmpty: false,,
     size: 100,
     tabs: [
       {

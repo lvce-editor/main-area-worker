@@ -8,8 +8,8 @@ test('renderEditorGroup should return correct structure for group with active ta
   const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
-    id: 1,,
-    isEmpty: false
+    id: ,
+    isEmpty: false,,
     size: 100,
     tabs: [
       {
@@ -121,8 +121,8 @@ test('renderEditorGroup should handle group with no active tab', () => {
   const group: EditorGroup = {
     activeTabId: 999,
     focused: false,
-    id: 1,,
-    isEmpty: false
+    id: ,
+    isEmpty: false,,
     size: 100,
     tabs: [
       {
@@ -145,8 +145,8 @@ test('renderEditorGroup should handle group with custom editor', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
-    id: 1,,
-    isEmpty: false
+    id: ,
+    isEmpty: false,,
     size: 100,
     tabs: [
       {

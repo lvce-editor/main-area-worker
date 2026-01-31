@@ -47,8 +47,8 @@ test('diff2 - should return RenderItems when tabs differ', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {
@@ -76,8 +76,8 @@ test('diff2 - should return RenderItems when tabs differ', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {
@@ -133,8 +133,8 @@ test('diff2 - should return RenderItems when active tab changes', () => {
         {
           activeTabId: 1,
           focused: false,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {

@@ -37,8 +37,8 @@ test('handleTabContextMenu should return state unchanged', async () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {

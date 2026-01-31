@@ -6,8 +6,8 @@ test('isValidEditorGroup should return true for valid group', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     focused: true,
-    id: 1,,
-    isEmpty: false
+    id: ,
+    isEmpty: false,,
     size: 50,
     tabs: [
       {
@@ -91,8 +91,8 @@ test('isValidEditorGroup should return false for tabs with invalid tab', () => {
   const group = {
     activeTabId: undefined,
     focused: true,
-    id: 1,,
-    isEmpty: false
+    id: ,
+    isEmpty: false,,
     size: 50,
     tabs: [
       {

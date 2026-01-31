@@ -13,8 +13,8 @@ test('getAllTabs should return all tabs from all groups', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 50,
           tabs: [
             {
@@ -38,8 +38,8 @@ test('getAllTabs should return all tabs from all groups', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 2,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 50,
           tabs: [
             {

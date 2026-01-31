@@ -14,8 +14,8 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
         {
           activeTabId: 0,
           focused: true,
-          id: 0,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {
@@ -96,8 +96,8 @@ test('getMenuEntries includes correct path in args for reveal and find reference
         {
           activeTabId: 0,
           focused: true,
-          id: 0,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {
@@ -129,8 +129,8 @@ test('getMenuEntries handles tab without path', () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 0,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {
@@ -161,8 +161,8 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 0,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 100,
           tabs: [
             {
@@ -203,8 +203,8 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
         {
           activeTabId: 0,
           focused: false,
-          id: 0,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 50,
           tabs: [
             {
@@ -221,8 +221,8 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 1,,
-    isEmpty: false
+          id: ,
+    isEmpty: false,,
           size: 50,
           tabs: [
             {

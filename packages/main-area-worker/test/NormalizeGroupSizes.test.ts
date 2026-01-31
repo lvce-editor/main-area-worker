@@ -91,8 +91,8 @@ test('normalizeGroupSizes should preserve other group properties', () => {
     {
       activeTabId: 1,
       focused: true,
-      id: 1,,
-    isEmpty: false
+      id: ,
+    isEmpty: false,,
       size: 50,
       tabs: [
         {

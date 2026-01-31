@@ -47,6 +47,7 @@ test('loadContent should restore valid saved state', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -82,6 +83,7 @@ test('loadContent should restore layout with multiple groups', async () => {
           activeTabId: 1,
           focused: false,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -97,7 +99,8 @@ test('loadContent should restore layout with multiple groups', async () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 2,
+          id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -132,6 +135,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
           activeTabId: 2,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -275,6 +279,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -307,6 +312,7 @@ test('loadContent should restore layout with tabs containing paths', async () =>
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -347,6 +353,7 @@ test('loadContent should load icon theme for tabs with uri', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -387,6 +394,7 @@ test('loadContent should load icons for multiple tabs', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -447,6 +455,7 @@ test('loadContent should update fileIconCache with loaded icons', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -488,6 +497,7 @@ test('loadContent should handle icon loading failure gracefully', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -530,6 +540,7 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -546,7 +557,8 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 2,
+          id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {

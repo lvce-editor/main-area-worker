@@ -15,7 +15,8 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 0,
+          id: 1,
+    isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -65,7 +66,8 @@ test.skip('getMenuEntries throws when state has no tabs', async () => {
         {
           activeTabId: -1,
           focused: true,
-          id: 0,
+          id: 0,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -90,7 +92,8 @@ test('getMenuEntries handles state with multiple tabs', async () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 0,
+          id: 1,
+    isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -137,7 +140,8 @@ test('getMenuEntries handles state with multiple groups', async () => {
         {
           activeTabId: 0,
           focused: false,
-          id: 0,
+          id: 1,
+    isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -155,6 +159,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+    isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -192,7 +197,8 @@ test('getMenuEntries returns consistent result for same input', async () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 0,
+          id: 1,
+    isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -229,7 +235,8 @@ test('getMenuEntries handles tab without uri', async () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 0,
+          id: 1,
+    isEmpty: false,
           size: 100,
           tabs: [
             {

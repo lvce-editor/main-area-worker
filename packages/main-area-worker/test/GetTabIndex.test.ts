@@ -7,6 +7,7 @@ test('getTabIndex should return correct index when tab exists', () => {
     activeTabId: 1,
     focused: true,
     id: 1,
+    isEmpty: false,
     size: 100,
     tabs: [
       {
@@ -45,6 +46,7 @@ test('getTabIndex should return -1 when tab does not exist', () => {
     activeTabId: 1,
     focused: true,
     id: 1,
+    isEmpty: false,
     size: 100,
     tabs: [
       {

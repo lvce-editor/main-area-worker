@@ -898,7 +898,7 @@ test('selectTab should handle vertical layout direction', async () => {
       {
         activeTabId: 2,
         focused: true,
-        id: 1,
+        id: 2,
         isEmpty: false,
         size: 50,
         tabs: [

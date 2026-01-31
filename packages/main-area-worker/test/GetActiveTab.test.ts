@@ -38,7 +38,7 @@ test('getActiveTab should return active tab when group is focused and has active
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

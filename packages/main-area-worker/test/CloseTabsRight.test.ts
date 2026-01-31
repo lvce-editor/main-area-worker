@@ -485,7 +485,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
         {
           activeTabId: 4,
           focused: true,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

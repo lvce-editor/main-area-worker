@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
+import type { Tab } from '../src/parts/Tab/Tab.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { splitRight } from '../src/parts/SplitRight/SplitRight.ts'
 
@@ -228,8 +229,8 @@ test('splitRight should create new group with empty tabs', () => {
 })
 
 test('splitRight should preserve original group tabs', () => {
-  const tab = {
-    editorType: 'text' as const,
+  const tab: Tab = {
+    editorType: 'text',
     editorUid: 1,
     icon: '',
     id: 1,
@@ -263,8 +264,8 @@ test('splitRight should preserve original group tabs', () => {
 })
 
 test('splitRight should maintain activeTabId in original group', () => {
-  const tab = {
-    editorType: 'text' as const,
+  const tab: Tab = {
+    editorType: 'text',
     editorUid: 1,
     icon: '',
     id: 5,

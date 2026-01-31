@@ -279,7 +279,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [

@@ -532,7 +532,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
       {
         activeTabId: 3,
         focused: false,
-        id: 1,
+        id: 2,
         isEmpty: false,
         size: 33,
         tabs: [
@@ -550,7 +550,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
       {
         activeTabId: 4,
         focused: false,
-        id: 1,
+        id: 3,
         isEmpty: false,
         size: 34,
         tabs: [

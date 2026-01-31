@@ -25,7 +25,8 @@ test('isEqual should return false when left arrays differ', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -45,7 +46,8 @@ test('isEqual should return false when right arrays differ', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -64,7 +66,8 @@ test('isEqual should return false when both arrays differ', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -79,7 +82,8 @@ test('isEqual should return false when both arrays differ', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -99,7 +103,8 @@ test('isEqual should return false when left array length differs', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -119,7 +124,8 @@ test('isEqual should return false when right array length differs', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },

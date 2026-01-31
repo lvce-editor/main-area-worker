@@ -13,7 +13,8 @@ test('splitDown should return state unchanged when group does not exist', () => 
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -36,7 +37,8 @@ test('splitDown should split a single editor group vertically', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -67,7 +69,8 @@ test('splitDown should preserve tabs in the original group', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -109,14 +112,16 @@ test('splitDown should split down with existing horizontal layout', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 50,
           tabs: [],
         },
         {
           activeTabId: undefined,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: true
           size: 50,
           tabs: [],
         },
@@ -148,7 +153,8 @@ test('splitDown should change layout direction from horizontal to vertical', () 
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -171,7 +177,8 @@ test('splitDown should create a new group with empty tabs', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -205,7 +212,8 @@ test('splitDown should focus the new group', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -231,7 +239,8 @@ test('splitDown should redistribute group sizes correctly', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -257,7 +266,8 @@ test('splitDown should not mutate original state', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -283,7 +293,8 @@ test('splitDown should preserve other state properties', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },

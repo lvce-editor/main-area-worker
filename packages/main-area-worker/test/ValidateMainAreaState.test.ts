@@ -20,7 +20,8 @@ test('validateMainAreaState should return true for state with activeGroupId', ()
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -150,7 +151,8 @@ test('validateMainAreaState should return false for groups with invalid group', 
         {
           activeTabId: undefined,
           focused: true,
-          id: '1',
+          id: '1',,
+    isEmpty: true
           size: 100,
           tabs: [],
         },

@@ -25,7 +25,8 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
   const newGroup: EditorGroup = {
     activeTabId: newTab.id,
     focused: true,
-    id: groupId,
+    id: groupId,,
+    isEmpty: false
     size: 100,
     tabs: [newTab],
   }

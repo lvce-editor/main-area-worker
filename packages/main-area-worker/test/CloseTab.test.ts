@@ -14,7 +14,8 @@ test('closeTab should close a non-active tab', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -65,7 +66,8 @@ test('closeTab should close the active tab and select next tab', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -116,7 +118,8 @@ test('closeTab should close the last tab and remove the group', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -150,7 +153,8 @@ test('closeTab should close active tab in middle and select tab at same index', 
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -201,7 +205,8 @@ test('closeTab should close last tab when active and select previous tab', () =>
         {
           activeTabId: 3,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -252,7 +257,8 @@ test('closeTab should return state unchanged when group does not exist', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -287,7 +293,8 @@ test('closeTab should return state unchanged when tab does not exist', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -321,7 +328,8 @@ test('closeTab should preserve other groups when closing tab', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -345,7 +353,8 @@ test('closeTab should preserve other groups when closing tab', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -381,7 +390,8 @@ test('closeTab should handle closing tab from different group', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -397,7 +407,8 @@ test('closeTab should handle closing tab from different group', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -442,7 +453,8 @@ test('closeTab should preserve other state properties', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -488,7 +500,8 @@ test('closeTab should handle closing tab when group has no active tab', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -530,7 +543,8 @@ test('closeTab should handle closing first tab when active', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -580,7 +594,8 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 33,
           tabs: [
             {
@@ -604,7 +619,8 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 33,
           tabs: [
             {
@@ -628,7 +644,8 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
         {
           activeTabId: 5,
           focused: false,
-          id: 3,
+          id: 3,,
+    isEmpty: false
           size: 34,
           tabs: [
             {
@@ -667,7 +684,8 @@ test('closeTab should handle tabs with custom editor type', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -718,7 +736,8 @@ test('closeTab should handle tabs with paths and languages', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -775,7 +794,8 @@ test('closeTab should handle closing dirty tabs', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -826,7 +846,8 @@ test('closeTab should handle closing active dirty tab', () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -877,7 +898,8 @@ test('closeTab should handle empty tabs array', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -901,7 +923,8 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -943,7 +966,8 @@ test('closeTab should handle closing second tab when first is active', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -986,7 +1010,8 @@ test('closeTab should remove group when closing last tab from single group', () 
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1020,7 +1045,8 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -1044,7 +1070,8 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
         {
           activeTabId: 3,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -1090,7 +1117,8 @@ test('closeTab should handle closing tab when tab index is at boundary', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1132,7 +1160,8 @@ test('closeTab should handle closing tab with same ID as group ID', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1175,7 +1204,8 @@ test('closeTab should handle closing tab from group with many tabs', () => {
         {
           activeTabId: 5,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1250,7 +1280,8 @@ test('closeTab should handle closing middle tab from many tabs', () => {
         {
           activeTabId: 3,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1317,7 +1348,8 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
         {
           activeTabId: 3,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1376,7 +1408,8 @@ test('closeTab should remove editor group when closing last tab and multiple gro
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -1392,7 +1425,8 @@ test('closeTab should remove editor group when closing last tab and multiple gro
         {
           activeTabId: 2,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -1429,7 +1463,8 @@ test('closeTab should remove editor group when closing last tab and update activ
         {
           activeTabId: 1,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 33,
           tabs: [
             {
@@ -1445,7 +1480,8 @@ test('closeTab should remove editor group when closing last tab and update activ
         {
           activeTabId: 2,
           focused: true,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 33,
           tabs: [
             {
@@ -1461,7 +1497,8 @@ test('closeTab should remove editor group when closing last tab and update activ
         {
           activeTabId: 3,
           focused: false,
-          id: 3,
+          id: 3,,
+    isEmpty: false
           size: 34,
           tabs: [
             {
@@ -1498,7 +1535,8 @@ test('closeTab should remove editor group when closing last tab even if it is th
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1532,7 +1570,8 @@ test('closeTab should redistribute sizes when removing group', () => {
         {
           activeTabId: 1,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 25,
           tabs: [
             {
@@ -1548,7 +1587,8 @@ test('closeTab should redistribute sizes when removing group', () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 25,
           tabs: [
             {
@@ -1564,7 +1604,8 @@ test('closeTab should redistribute sizes when removing group', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 3,
+          id: 3,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -1611,7 +1652,8 @@ test('findTabInState should find a tab in the specified group', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1653,7 +1695,8 @@ test('findTabInState should return undefined when tab does not exist', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1685,7 +1728,8 @@ test('findTabInState should return undefined when group does not exist', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1717,7 +1761,8 @@ test('findTabInState should find tab in different groups', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -1733,7 +1778,8 @@ test('findTabInState should find tab in different groups', () => {
         {
           activeTabId: 2,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -1780,7 +1826,8 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1829,7 +1876,8 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1878,7 +1926,8 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1927,7 +1976,8 @@ test('closeTabWithViewlet should remove group when closing the last tab', async 
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -1967,7 +2017,8 @@ test('closeTabWithViewlet should handle closing tab when tab not found', async (
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -2000,7 +2051,8 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -2050,7 +2102,8 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {

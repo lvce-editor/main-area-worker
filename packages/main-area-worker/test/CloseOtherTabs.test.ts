@@ -13,7 +13,8 @@ test('closeOtherTabs should close all tabs except the active one', () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -64,7 +65,8 @@ test('closeOtherTabs should return state unchanged when group does not exist', (
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -96,7 +98,8 @@ test('closeOtherTabs should return state unchanged when there is no active tab',
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -128,7 +131,8 @@ test('closeOtherTabs should preserve other groups', () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -160,7 +164,8 @@ test('closeOtherTabs should preserve other groups', () => {
         {
           activeTabId: 5,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -213,7 +218,8 @@ test('closeOtherTabs should handle single tab in group', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -247,7 +253,8 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -297,7 +304,8 @@ test('closeOtherTabs should handle active tab at the end', () => {
         {
           activeTabId: 3,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -348,7 +356,8 @@ test('closeOtherTabs should preserve other state properties', () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -394,7 +403,8 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
         {
           activeTabId: 2,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {

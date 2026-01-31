@@ -13,7 +13,8 @@ test('handleWorkspaceChange should clear activeGroupId and groups', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -49,7 +50,8 @@ test('handleWorkspaceChange should preserve other state properties', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 2,
+          id: 2,,
+    isEmpty: true
           size: 50,
           tabs: [],
         },

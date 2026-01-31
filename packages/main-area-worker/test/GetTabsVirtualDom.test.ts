@@ -7,7 +7,8 @@ test('getTabsVirtualDom should return correct structure with empty tabs', () => 
   const group: EditorGroup = {
     activeTabId: undefined,
     focused: false,
-    id: 1,
+    id: 1,,
+    isEmpty: true
     size: 50,
     tabs: [],
   }
@@ -37,7 +38,8 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
   const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
-    id: 1,
+    id: 1,,
+    isEmpty: false
     size: 50,
     tabs: [tab],
   }
@@ -193,7 +195,8 @@ test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     focused: false,
-    id: 1,
+    id: 1,,
+    isEmpty: false
     size: 50,
     tabs: [tab],
   }

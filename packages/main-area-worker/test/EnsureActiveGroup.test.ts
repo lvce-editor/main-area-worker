@@ -13,7 +13,8 @@ test('ensureActiveGroup should add tab to existing active group', () => {
         {
           activeTabId: -1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 100,
           tabs: [],
         },
@@ -56,7 +57,8 @@ test('ensureActiveGroup should create new group when no active group exists', ()
       {
         activeTabId: tabId,
         focused: true,
-        id: groupId,
+        id: groupId,,
+    isEmpty: false
         size: 100,
         tabs: [
           {
@@ -88,14 +90,16 @@ test('ensureActiveGroup should use focused group when activeGroupId is undefined
         {
           activeTabId: -1,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: true
           size: 50,
           tabs: [],
         },
         {
           activeTabId: -1,
           focused: true,
-          id: 2,
+          id: 2,,
+    isEmpty: true
           size: 50,
           tabs: [],
         },
@@ -124,7 +128,8 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -156,7 +161,8 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
       {
         activeTabId: tabId,
         focused: true,
-        id: 1,
+        id: 1,,
+    isEmpty: false
         size: 100,
         tabs: [
           {

@@ -13,7 +13,8 @@ test('getDirtyTabs should return only dirty tabs', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -37,7 +38,8 @@ test('getDirtyTabs should return only dirty tabs', () => {
         {
           activeTabId: 3,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -69,7 +71,8 @@ test('getDirtyTabs should return empty array when no dirty tabs exist', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {

@@ -7,14 +7,16 @@ test('normalizeGroupSizes should normalize sizes to percentages', () => {
     {
       activeTabId: undefined,
       focused: true,
-      id: 1,
+      id: 1,,
+    isEmpty: true
       size: 30,
       tabs: [],
     },
     {
       activeTabId: undefined,
       focused: false,
-      id: 2,
+      id: 2,,
+    isEmpty: true
       size: 70,
       tabs: [],
     },
@@ -29,14 +31,16 @@ test('normalizeGroupSizes should normalize when total is not 100', () => {
     {
       activeTabId: undefined,
       focused: true,
-      id: 1,
+      id: 1,,
+    isEmpty: true
       size: 20,
       tabs: [],
     },
     {
       activeTabId: undefined,
       focused: false,
-      id: 2,
+      id: 2,,
+    isEmpty: true
       size: 30,
       tabs: [],
     },
@@ -51,21 +55,24 @@ test('normalizeGroupSizes should handle zero total by distributing equally', () 
     {
       activeTabId: undefined,
       focused: true,
-      id: 1,
+      id: 1,,
+    isEmpty: true
       size: 0,
       tabs: [],
     },
     {
       activeTabId: undefined,
       focused: false,
-      id: 2,
+      id: 2,,
+    isEmpty: true
       size: 0,
       tabs: [],
     },
     {
       activeTabId: undefined,
       focused: false,
-      id: 3,
+      id: 3,,
+    isEmpty: true
       size: 0,
       tabs: [],
     },
@@ -84,7 +91,8 @@ test('normalizeGroupSizes should preserve other group properties', () => {
     {
       activeTabId: 1,
       focused: true,
-      id: 1,
+      id: 1,,
+    isEmpty: false
       size: 50,
       tabs: [
         {
@@ -100,7 +108,8 @@ test('normalizeGroupSizes should preserve other group properties', () => {
     {
       activeTabId: undefined,
       focused: false,
-      id: 2,
+      id: 2,,
+    isEmpty: true
       size: 50,
       tabs: [],
     },

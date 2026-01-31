@@ -13,7 +13,8 @@ test('closeFocusedTab should close the focused tab', () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -47,7 +48,8 @@ test('closeFocusedTab should close the focused tab', () => {
       {
         activeTabId: 2,
         focused: true,
-        id: 1,
+        id: 1,,
+    isEmpty: false
         size: 100,
         tabs: [
           {
@@ -77,7 +79,8 @@ test('closeFocusedTab should return same state when no focused group', () => {
         {
           activeTabId: 1,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -109,7 +112,8 @@ test('closeFocusedTab should return same state when no active tab in focused gro
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -156,7 +160,8 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 100,
           tabs: [
             {
@@ -195,7 +200,8 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
         {
           activeTabId: 1,
           focused: false,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -211,7 +217,8 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
         {
           activeTabId: 2,
           focused: true,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -245,7 +252,8 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
       {
         activeTabId: 1,
         focused: false,
-        id: 1,
+        id: 1,,
+    isEmpty: false
         size: 50,
         tabs: [
           {
@@ -261,7 +269,8 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
       {
         activeTabId: 3,
         focused: true,
-        id: 2,
+        id: 2,,
+    isEmpty: false
         size: 50,
         tabs: [
           {
@@ -291,7 +300,8 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
         {
           activeTabId: 1,
           focused: true,
-          id: 1,
+          id: 1,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -307,7 +317,8 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
         {
           activeTabId: 2,
           focused: false,
-          id: 2,
+          id: 2,,
+    isEmpty: false
           size: 50,
           tabs: [
             {
@@ -333,7 +344,8 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
       {
         activeTabId: 2,
         focused: false,
-        id: 2,
+        id: 2,,
+    isEmpty: false
         size: 100,
         tabs: [
           {

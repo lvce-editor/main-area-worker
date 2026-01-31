@@ -5,6 +5,7 @@ export interface EditorGroup {
   readonly direction?: 'horizontal' | 'vertical'
   readonly focused: boolean
   readonly id: number
+  readonly isEmpty: boolean
   readonly size: number
   readonly tabs: readonly Tab[]
 }

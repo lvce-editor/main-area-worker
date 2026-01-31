@@ -43,6 +43,7 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
       return {
         ...grp,
         activeTabId: newActiveTabId,
+        isEmpty: newTabs.length === 0,
         tabs: newTabs,
       }
     }

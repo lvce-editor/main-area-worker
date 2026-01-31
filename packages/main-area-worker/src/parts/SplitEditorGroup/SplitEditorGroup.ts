@@ -31,6 +31,7 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
     activeTabId: undefined,
     focused: true,
     id: newGroupId,
+    isEmpty: true,
     size: 50,
     tabs: [],
   }

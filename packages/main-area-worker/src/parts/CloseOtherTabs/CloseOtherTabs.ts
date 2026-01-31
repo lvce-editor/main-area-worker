@@ -20,6 +20,7 @@ export const closeOtherTabs = (state: MainAreaState, groupId: number): MainAreaS
       return {
         ...g,
         activeTabId,
+        isEmpty: newTabs.length === 0,
         tabs: newTabs,
       }
     }

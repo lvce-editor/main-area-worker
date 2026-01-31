@@ -29,6 +29,7 @@ export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaS
     if (g.id === groupId) {
       return {
         ...g,
+        isEmpty: newTabs.length === 0,
         tabs: newTabs,
       }
     }

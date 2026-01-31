@@ -21,6 +21,7 @@ test('validateMainAreaState should return true for state with activeGroupId', ()
           activeTabId: undefined,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },

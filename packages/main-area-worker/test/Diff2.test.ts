@@ -25,6 +25,7 @@ test('diff2 - should return RenderItems when groups differ', () => {
           activeTabId: undefined,
           focused: false,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -47,6 +48,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
           activeTabId: undefined,
           focused: false,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -75,6 +77,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
           activeTabId: undefined,
           focused: false,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -131,6 +134,7 @@ test('diff2 - should return RenderItems when active tab changes', () => {
           activeTabId: 1,
           focused: false,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -184,6 +188,7 @@ test('diff2 - should return RenderItems when group focus changes', () => {
           activeTabId: undefined,
           focused: false,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -218,6 +223,7 @@ test('diff2 - should return RenderItems when group sizes change', () => {
           activeTabId: undefined,
           focused: false,
           id: 1,
+          isEmpty: true,
           size: 50,
           tabs: [],
         },
@@ -225,6 +231,7 @@ test('diff2 - should return RenderItems when group sizes change', () => {
           activeTabId: undefined,
           focused: false,
           id: 2,
+          isEmpty: true,
           size: 50,
           tabs: [],
         },
@@ -263,6 +270,7 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
           activeTabId: undefined,
           focused: false,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -278,6 +286,7 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
           activeTabId: undefined,
           focused: false,
           id: 1,
+          isEmpty: true,
           size: 50,
           tabs: [],
         },
@@ -285,6 +294,7 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
           activeTabId: undefined,
           focused: false,
           id: 2,
+          isEmpty: true,
           size: 50,
           tabs: [],
         },

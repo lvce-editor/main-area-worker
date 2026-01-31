@@ -16,6 +16,7 @@ test('findGroupById should return group when found', () => {
           id: 1,
           size: 50,
           tabs: [],
+          isEmpty: true,
         },
         {
           activeTabId: undefined,
@@ -23,6 +24,7 @@ test('findGroupById should return group when found', () => {
           id: 2,
           size: 50,
           tabs: [],
+          isEmpty: true,
         },
       ],
     },
@@ -45,6 +47,7 @@ test('findGroupById should return undefined when not found', () => {
           id: 1,
           size: 100,
           tabs: [],
+          isEmpty: true,
         },
       ],
     },

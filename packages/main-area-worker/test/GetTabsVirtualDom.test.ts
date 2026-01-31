@@ -12,6 +12,7 @@ test('getTabsVirtualDom should return correct structure with empty tabs', () => 
     size: 50,
     tabs: [],
   isEmpty: true,
+    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 0)
@@ -44,6 +45,7 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
     size: 50,
     tabs: [tab],
   isEmpty: true,
+    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 1)
@@ -94,6 +96,7 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
     id: 1,
     size: 50,
     tabs,
+    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 3)
@@ -139,6 +142,7 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
     id: 1,
     size: 50,
     tabs,
+    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 2)
@@ -174,6 +178,7 @@ test('getTabsVirtualDom should handle undefined activeTabId', () => {
     id: 1,
     size: 50,
     tabs,
+    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 1)
@@ -202,6 +207,7 @@ test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
     size: 50,
     tabs: [tab],
   isEmpty: true,
+    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 5, 1)
@@ -239,6 +245,7 @@ test('getTabsVirtualDom should use provided tabsChildCount', () => {
     id: 1,
     size: 50,
     tabs,
+    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 2)

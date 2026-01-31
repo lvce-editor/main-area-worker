@@ -90,9 +90,9 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
     activeTabId: 2,
     focused: true,
     id: 1,
+    isEmpty: false,
     size: 50,
     tabs,
-    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 3)
@@ -136,9 +136,9 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
     activeTabId: 2,
     focused: true,
     id: 1,
+    isEmpty: false,
     size: 50,
     tabs,
-    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 2)
@@ -172,9 +172,9 @@ test('getTabsVirtualDom should handle undefined activeTabId', () => {
     activeTabId: undefined,
     focused: false,
     id: 1,
+    isEmpty: false,
     size: 50,
     tabs,
-    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 1)
@@ -237,9 +237,9 @@ test('getTabsVirtualDom should use provided tabsChildCount', () => {
     activeTabId: 1,
     focused: false,
     id: 1,
+    isEmpty: false,
     size: 50,
     tabs,
-    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 2)

@@ -14,7 +14,7 @@ export const renderEditorGroup = (group: EditorGroup, groupIndex: number, splitB
     },
     ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled),
     {
-      childCount: activeTab ? 1 : 1,
+      childCount: 1,
       className: 'EditorContainer',
       type: VirtualDomElements.Div,
     },

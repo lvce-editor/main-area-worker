@@ -269,7 +269,7 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
       {
         activeTabId: 3,
         focused: true,
-        id: 1,
+        id: 2,
         isEmpty: false,
         size: 50,
         tabs: [

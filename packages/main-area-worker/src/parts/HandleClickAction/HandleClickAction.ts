@@ -9,6 +9,10 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
     return state
   }
 
+  if (state.layout.activeGroupId === undefined) {
+    return state
+  }
+
   const activeGroup = GetActiveGroup(state.layout.groups, state.layout.activeGroupId)
   if (!activeGroup) {
     return state

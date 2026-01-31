@@ -11,8 +11,6 @@ test('getTabsVirtualDom should return correct structure with empty tabs', () => 
     isEmpty: true,
     size: 50,
     tabs: [],
-  isEmpty: true,
-    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 0)
@@ -44,8 +42,6 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
     isEmpty: false,
     size: 50,
     tabs: [tab],
-  isEmpty: true,
-    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 0, 1)
@@ -206,8 +202,6 @@ test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
     isEmpty: false,
     size: 50,
     tabs: [tab],
-  isEmpty: true,
-    isEmpty: false,
   }
 
   const result = getTabsVirtualDom(group, 5, 1)

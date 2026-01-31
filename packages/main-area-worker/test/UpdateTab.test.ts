@@ -40,6 +40,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
           id: 1,
           size: 100,
           tabs,
+        isEmpty: false,
         },
       ],
     },

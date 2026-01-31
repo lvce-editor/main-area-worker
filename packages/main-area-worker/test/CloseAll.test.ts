@@ -204,7 +204,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
         {
           activeTabId: 4,
           focused: false,
-          id: 1,
+          id: 3,
           isEmpty: false,
           size: 34,
           tabs: [

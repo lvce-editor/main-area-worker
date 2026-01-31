@@ -573,7 +573,7 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 3,
           focused: false,
-          id: 1,
+          id: 2,
           isEmpty: false,
           size: 33,
           tabs: [

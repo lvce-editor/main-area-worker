@@ -14,6 +14,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -38,6 +39,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -58,16 +60,17 @@ test('selectTab should update active group and tab with valid indexes', async ()
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
         focused: true,
         id: 1,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -75,7 +78,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -88,10 +91,11 @@ test('selectTab should update active group and tab with valid indexes', async ()
         activeTabId: 3,
         focused: false,
         id: 2,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -117,6 +121,7 @@ test('selectTab should switch to different group', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -141,6 +146,7 @@ test('selectTab should switch to different group', async () => {
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -161,16 +167,17 @@ test('selectTab should switch to different group', async () => {
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
         focused: false,
         id: 1,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -178,7 +185,7 @@ test('selectTab should switch to different group', async () => {
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -191,10 +198,11 @@ test('selectTab should switch to different group', async () => {
         activeTabId: 3,
         focused: true,
         id: 2,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -220,6 +228,7 @@ test('selectTab should return original state for invalid group index', async () 
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -244,6 +253,7 @@ test('selectTab should return original state for invalid group index', async () 
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -276,6 +286,7 @@ test('selectTab should return original state for negative group index', async ()
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -300,6 +311,7 @@ test('selectTab should return original state for negative group index', async ()
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -332,6 +344,7 @@ test('selectTab should return original state for invalid tab index', async () =>
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -356,6 +369,7 @@ test('selectTab should return original state for invalid tab index', async () =>
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -388,6 +402,7 @@ test('selectTab should return original state for negative tab index', async () =
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -412,6 +427,7 @@ test('selectTab should return original state for negative tab index', async () =
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -444,6 +460,7 @@ test('selectTab should handle single group with single tab', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -464,16 +481,17 @@ test('selectTab should handle single group with single tab', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
         focused: true,
         id: 1,
+        isEmpty: false,
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -515,6 +533,7 @@ test('selectTab should handle group with empty tabs array', async () => {
           activeTabId: undefined,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -538,6 +557,7 @@ test('selectTab should preserve other groups state when switching focus', async 
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 33,
           tabs: [
             {
@@ -553,7 +573,8 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 3,
           focused: false,
-          id: 2,
+          id: 3,
+          isEmpty: false,
           size: 33,
           tabs: [
             {
@@ -569,7 +590,8 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 4,
           focused: false,
-          id: 3,
+          id: 4,
+          isEmpty: false,
           size: 34,
           tabs: [
             {
@@ -589,17 +611,18 @@ test('selectTab should preserve other groups state when switching focus', async 
   const result = await selectTab(state, 2, 0)
 
   const expectedLayout = {
-    activeGroupId: 3,
-    direction: 'horizontal' as const,
+    activeGroupId: 4,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
         focused: false,
         id: 1,
+        isEmpty: false,
         size: 33,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -611,11 +634,12 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 3,
         focused: false,
-        id: 2,
+        id: 3,
+        isEmpty: false,
         size: 33,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -627,11 +651,12 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 4,
         focused: true,
-        id: 3,
+        id: 4,
+        isEmpty: false,
         size: 34,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 4,
@@ -657,6 +682,7 @@ test('selectTab should handle custom editor tabs', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -685,16 +711,17 @@ test('selectTab should handle custom editor tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
         focused: true,
         id: 1,
+        isEmpty: false,
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -702,7 +729,7 @@ test('selectTab should handle custom editor tabs', async () => {
             title: 'Text File',
           },
           {
-            editorType: 'custom' as const,
+            editorType: 'custom',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -728,6 +755,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
           activeTabId: 1,
           focused: false,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -760,16 +788,17 @@ test('selectTab should handle tabs with paths and languages', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
         focused: true,
         id: 1,
+        isEmpty: false,
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -779,7 +808,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
             uri: '/path/to/script.ts',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             errorMessage: expect.any(String),
             icon: '',
@@ -809,6 +838,7 @@ test('selectTab should handle vertical layout direction', async () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -825,6 +855,7 @@ test('selectTab should handle vertical layout direction', async () => {
           activeTabId: 2,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -845,16 +876,17 @@ test('selectTab should handle vertical layout direction', async () => {
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'vertical' as const,
+    direction: 'vertical',
     groups: [
       {
         activeTabId: 1,
         focused: false,
         id: 1,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -867,10 +899,11 @@ test('selectTab should handle vertical layout direction', async () => {
         activeTabId: 2,
         focused: true,
         id: 2,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -896,6 +929,7 @@ test('selectTab should return same state when clicking same tab that is already 
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -920,6 +954,7 @@ test('selectTab should return same state when clicking same tab that is already 
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -940,16 +975,17 @@ test('selectTab should return same state when clicking same tab that is already 
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
         focused: true,
         id: 1,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -957,7 +993,7 @@ test('selectTab should return same state when clicking same tab that is already 
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -970,10 +1006,11 @@ test('selectTab should return same state when clicking same tab that is already 
         activeTabId: 3,
         focused: false,
         id: 2,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -1000,6 +1037,7 @@ test('selectTab should return new state when clicking different tab in same grou
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -1024,6 +1062,7 @@ test('selectTab should return new state when clicking different tab in same grou
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -1044,16 +1083,17 @@ test('selectTab should return new state when clicking different tab in same grou
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 2,
         focused: true,
         id: 1,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -1061,7 +1101,7 @@ test('selectTab should return new state when clicking different tab in same grou
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -1074,10 +1114,11 @@ test('selectTab should return new state when clicking different tab in same grou
         activeTabId: 3,
         focused: false,
         id: 2,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -1104,6 +1145,7 @@ test('selectTab should return new state when clicking same tab index in differen
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -1128,6 +1170,7 @@ test('selectTab should return new state when clicking same tab index in differen
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -1148,16 +1191,17 @@ test('selectTab should return new state when clicking same tab index in differen
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
         focused: false,
         id: 1,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -1165,7 +1209,7 @@ test('selectTab should return new state when clicking same tab index in differen
             title: 'File 1',
           },
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -1178,10 +1222,11 @@ test('selectTab should return new state when clicking same tab index in differen
         activeTabId: 3,
         focused: true,
         id: 2,
+        isEmpty: false,
         size: 50,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -1208,6 +1253,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
           activeTabId: undefined,
           focused: false,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -1228,16 +1274,17 @@ test('selectTab should return same state when activeGroupId is undefined', async
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal' as const,
+    direction: 'horizontal',
     groups: [
       {
         activeTabId: 1,
         focused: true,
         id: 1,
+        isEmpty: false,
         size: 100,
         tabs: [
           {
-            editorType: 'text' as const,
+            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -1264,6 +1311,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -1307,6 +1355,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {

@@ -8,13 +8,14 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
           activeTabId: 0,
           focused: true,
-          id: 0,
+          id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -89,13 +90,14 @@ test('getMenuEntries includes correct path in args for reveal and find reference
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
           activeTabId: 0,
           focused: true,
-          id: 0,
+          id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -121,13 +123,14 @@ test('getMenuEntries handles tab without path', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
           activeTabId: 0,
           focused: true,
-          id: 0,
+          id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -152,13 +155,14 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
           activeTabId: 1,
           focused: true,
-          id: 0,
+          id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -193,13 +197,14 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 1,
+      activeGroupId: 2,
       direction: 'horizontal',
       groups: [
         {
           activeTabId: 0,
           focused: false,
-          id: 0,
+          id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -216,7 +221,8 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
         {
           activeTabId: 0,
           focused: true,
-          id: 1,
+          id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {

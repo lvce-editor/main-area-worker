@@ -14,6 +14,7 @@ test('closeAll should close all tabs and groups', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -38,6 +39,7 @@ test('closeAll should close all tabs and groups', () => {
           activeTabId: 3,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -72,6 +74,7 @@ test('closeAll should preserve layout direction', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -107,6 +110,7 @@ test('closeAll should preserve other state properties', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -159,6 +163,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
           activeTabId: 2,
           focused: false,
           id: 1,
+          isEmpty: false,
           size: 33,
           tabs: [
             {
@@ -183,6 +188,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
           activeTabId: 3,
           focused: true,
           id: 2,
+          isEmpty: false,
           size: 33,
           tabs: [
             {
@@ -199,6 +205,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
           activeTabId: 4,
           focused: false,
           id: 3,
+          isEmpty: false,
           size: 34,
           tabs: [
             {

@@ -9,10 +9,12 @@ export const openTab = (state: MainAreaState, groupId: number, tab: Omit<Tab, 'i
   const { groups } = layout
   const updatedGroups = groups.map((group) => {
     if (group.id === groupId) {
+      const newTabs = [...group.tabs, newTab]
       return {
         ...group,
         activeTabId: newTab.id,
-        tabs: [...group.tabs, newTab],
+        isEmpty: newTabs.length === 0,
+        tabs: newTabs,
       }
     }
     return group

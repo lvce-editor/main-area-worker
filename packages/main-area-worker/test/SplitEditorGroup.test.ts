@@ -15,6 +15,7 @@ test('splitEditorGroup should split editor group to the right', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -55,6 +56,7 @@ test('splitEditorGroup should split editor group to the left', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -94,6 +96,7 @@ test('splitEditorGroup should split editor group down', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -133,6 +136,7 @@ test('splitEditorGroup should split editor group up', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -172,6 +176,7 @@ test('splitEditorGroup should return unchanged state if group not found', () => 
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -205,6 +210,7 @@ test('splitEditorGroup should preserve tabs in source group', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -257,6 +263,7 @@ test('splitEditorGroup should create new group with unique id', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -282,6 +289,7 @@ test('splitEditorGroup should set new group as focused', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -307,6 +315,7 @@ test('splitEditorGroup should set new group activeTabId to undefined', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -340,6 +349,7 @@ test('splitEditorGroup should split multiple existing groups', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -356,6 +366,7 @@ test('splitEditorGroup should split multiple existing groups', () => {
           activeTabId: 2,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -393,6 +404,7 @@ test('splitEditorGroup should handle split of second group', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -409,6 +421,7 @@ test('splitEditorGroup should handle split of second group', () => {
           activeTabId: 2,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -448,6 +461,7 @@ test('splitEditorGroup should set both source and new group size to 50', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -472,6 +486,7 @@ test('splitEditorGroup should preserve activeTabId in source group', () => {
           activeTabId: 42,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -504,6 +519,7 @@ test('splitEditorGroup should handle vertical direction string correctly for rig
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -528,6 +544,7 @@ test('splitEditorGroup should handle horizontal direction string correctly for u
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -552,6 +569,7 @@ test('splitEditorGroup should not mutate original state', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -590,6 +608,7 @@ test('splitEditorGroup should return new state object', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },
@@ -614,6 +633,7 @@ test('splitEditorGroup should update activeGroupId in result state', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: true,
           size: 100,
           tabs: [],
         },

@@ -38,6 +38,7 @@ export const moveTabToGroup = (
       return {
         ...group,
         activeTabId: newActiveTabId,
+        isEmpty: newTabs.length === 0,
         tabs: newTabs,
       }
     }
@@ -50,6 +51,7 @@ export const moveTabToGroup = (
       return {
         ...group,
         activeTabId: tabId,
+        isEmpty: newTabs.length === 0,
         tabs: newTabs,
       }
     }

@@ -15,6 +15,7 @@ export const splitRight = (state: MainAreaState, groupId?: number): MainAreaStat
       activeTabId: undefined,
       focused: true,
       id: initialGroupId,
+      isEmpty: true,
       size: 100,
       tabs: [],
     }

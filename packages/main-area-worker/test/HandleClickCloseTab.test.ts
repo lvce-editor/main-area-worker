@@ -14,6 +14,7 @@ test('handleClickCloseTab should return state unchanged when rawGroupIndex is em
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -46,6 +47,7 @@ test('handleClickCloseTab should return state unchanged when rawIndex is empty',
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -78,6 +80,7 @@ test('handleClickCloseTab should return state unchanged when groupIndex is negat
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -110,6 +113,7 @@ test('handleClickCloseTab should return state unchanged when groupIndex is out o
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -142,6 +146,7 @@ test('handleClickCloseTab should return state unchanged when tab index is negati
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -174,6 +179,7 @@ test('handleClickCloseTab should return state unchanged when tab index is out of
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -206,6 +212,7 @@ test('handleClickCloseTab should close the tab at the specified index', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -256,6 +263,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -272,6 +280,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
           activeTabId: 2,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -315,6 +324,7 @@ test('handleClickCloseTab should close first tab when index is 0', () => {
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -358,6 +368,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
           activeTabId: 3,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -409,6 +420,7 @@ test('handleClickCloseTab should remove group when closing only tab in group', (
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 100,
           tabs: [
             {
@@ -443,6 +455,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
           activeTabId: 1,
           focused: true,
           id: 1,
+          isEmpty: false,
           size: 50,
           tabs: [
             {
@@ -459,6 +472,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
           activeTabId: 2,
           focused: false,
           id: 2,
+          isEmpty: false,
           size: 50,
           tabs: [
             {

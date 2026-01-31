@@ -15,10 +15,10 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   }
 
   await RendererWorker.invoke('Editor.save', tab.editorUid)
-  
+
   if (!tab.isDirty) {
     return state
   }
-  
+
   return updateTab(state, tab.id, { isDirty: false })
 }

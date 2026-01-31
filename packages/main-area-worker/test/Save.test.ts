@@ -14,7 +14,7 @@ test.skip('save should return state when no active tab', async () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,,
+          id: 1,
     isEmpty: true
           size: 100,
           tabs: [],

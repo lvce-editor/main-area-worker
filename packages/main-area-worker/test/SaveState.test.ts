@@ -209,7 +209,7 @@ test('saveState should save layout with empty groups', () => {
         {
           activeTabId: undefined,
           focused: false,
-          id: 1,,
+          id: 1,
     isEmpty: true
           size: 100,
           tabs: [],

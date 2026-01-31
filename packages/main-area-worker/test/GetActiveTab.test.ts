@@ -102,7 +102,7 @@ test('getActiveTab should return undefined when focused group has no activeTabId
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,,
+          id: 1,
     isEmpty: true
           size: 100,
           tabs: [],

@@ -532,7 +532,7 @@ test('selectTab should handle group with empty tabs array', async () => {
         {
           activeTabId: undefined,
           focused: true,
-          id: 1,,
+          id: 1,
     isEmpty: true
           size: 100,
           tabs: [],

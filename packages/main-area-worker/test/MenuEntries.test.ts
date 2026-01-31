@@ -86,13 +86,13 @@ test('getMenuEntries handles state with multiple tabs', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 0,
+      activeGroupId: 1,
       direction: 'horizontal',
       groups: [
         {
-          activeTabId: 1,
+          activeTabId: 0,
           focused: true,
-          id: 0,
+          id: 1,
           isEmpty: false,
           size: 100,
           tabs: [
@@ -109,7 +109,7 @@ test('getMenuEntries handles state with multiple tabs', async () => {
               editorType: 'text',
               editorUid: -1,
               icon: '',
-              id: 0,
+              id: 1,
               isDirty: true,
               title: 'file2.txt',
               uri: '/home/user/file2.txt',
@@ -134,13 +134,13 @@ test('getMenuEntries handles state with multiple groups', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 1,
+      activeGroupId: 2,
       direction: 'horizontal',
       groups: [
         {
           activeTabId: 0,
           focused: false,
-          id: 0,
+          id: 1,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -158,7 +158,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
         {
           activeTabId: 1,
           focused: true,
-          id: 0,
+          id: 2,
           isEmpty: false,
           size: 50,
           tabs: [
@@ -166,7 +166,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
               editorType: 'text',
               editorUid: -1,
               icon: '',
-              id: 0,
+              id: 1,
               isDirty: false,
               title: 'file2.txt',
               uri: '/home/user/file2.txt',

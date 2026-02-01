@@ -229,12 +229,31 @@ test('saveState should return a new object, not mutate the original state', () =
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
-      groups: [],
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+              uri: '/path/to/file1.ts',
+            },
+          ],
+        },
+      ],
     },
   }
   const result: SavedState = saveState(state)
   expect(result).not.toBe(state)
-  expect(result.layout).toBe(state.layout)
+  expect(result.layout).not.toBe(state.layout)
 })
 test('saveState should filter out untitled editors from tabs', () => {
   const state: MainAreaState = {

@@ -72,13 +72,12 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
 
   const stateWithNewTab = openTab(newState, targetGroupId, newTab)
 
-  // Calculate bounds: use main area bounds minus 35px for tab height
-  const TAB_HEIGHT = 35
+  // Calculate bounds: use main area bounds minus tab height
   const bounds = {
-    height: stateWithNewTab.height - TAB_HEIGHT,
+    height: stateWithNewTab.height - stateWithNewTab.tabHeight,
     width: stateWithNewTab.width,
     x: stateWithNewTab.x,
-    y: stateWithNewTab.y + TAB_HEIGHT,
+    y: stateWithNewTab.y + stateWithNewTab.tabHeight,
   }
 
   const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateWithNewTab, tabId, 'EditorText', bounds)

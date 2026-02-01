@@ -5,7 +5,6 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { handleDoubleClick } from '../src/parts/HandleDoubleClick/HandleDoubleClick.ts'
 
 test('handleDoubleClick should return state unchanged when no groups exist', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({})
 
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -19,7 +18,6 @@ test('handleDoubleClick should return state unchanged when no groups exist', asy
   const result = await handleDoubleClick(state)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations).toEqual([])
 })
 
 test('handleDoubleClick should return state unchanged when single group with single tab exists', async () => {
@@ -133,8 +131,6 @@ test('handleDoubleClick should not mutate original state', async () => {
 })
 
 test('handleDoubleClick should handle multiple groups', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({})
-
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -187,8 +183,6 @@ test('handleDoubleClick should handle multiple groups', async () => {
 })
 
 test('handleDoubleClick should return a valid MainAreaState', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({})
-
   const state: MainAreaState = {
     ...createDefaultState(),
   }

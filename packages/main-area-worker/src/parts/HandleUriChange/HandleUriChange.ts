@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
 export const handleUriChange = (state: MainAreaState, oldUri: string, newUri: string): MainAreaState => {
   const { layout } = state
@@ -11,6 +12,7 @@ export const handleUriChange = (state: MainAreaState, oldUri: string, newUri: st
         if (tab.uri === oldUri) {
           return {
             ...tab,
+            title: PathDisplay.getLabel(newUri),
             uri: newUri,
           }
         }

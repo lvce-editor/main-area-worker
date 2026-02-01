@@ -50,7 +50,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
 
 test('handleUriChange should update single tab URI', async () => {
   const state = createStateWithTabs([{ uri: '/test/oldfile.txt' }])
-  const result = await await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].tabs[0].uri).toBe('/test/newfile.txt')
 })
@@ -61,7 +61,7 @@ test('handleUriChange should update multiple tabs with same old URI', async () =
     { id: 2, title: 'shared2', uri: '/test/shared.txt' },
     { id: 3, title: 'other', uri: '/test/other.txt' },
   ])
-  const result = await await handleUriChange(state, '/test/shared.txt', '/test/newshared.txt')
+  const result = await handleUriChange(state, '/test/shared.txt', '/test/newshared.txt')
 
   expect(result.layout.groups[0].tabs[0].uri).toBe('/test/newshared.txt')
   expect(result.layout.groups[0].tabs[1].uri).toBe('/test/newshared.txt')
@@ -74,7 +74,7 @@ test('handleUriChange should not affect tabs with different URIs', async () => {
     { id: 2, uri: '/test/file2.txt' },
     { id: 3, uri: '/test/file3.txt' },
   ])
-  const result = await await handleUriChange(state, '/test/file1.txt', '/test/renamed.txt')
+  const result = await handleUriChange(state, '/test/file1.txt', '/test/renamed.txt')
 
   expect(result.layout.groups[0].tabs[0].uri).toBe('/test/renamed.txt')
   expect(result.layout.groups[0].tabs[1].uri).toBe('/test/file2.txt')
@@ -129,7 +129,7 @@ test('handleUriChange should work with multiple editor groups', async () => {
     uid: 1,
   }
 
-  const result = await await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].tabs[0].uri).toBe('/test/newfile.txt')
   expect(result.layout.groups[1].tabs[0].uri).toBe('/test/newfile.txt')
@@ -146,7 +146,7 @@ test('handleUriChange should preserve other tab properties', async () => {
       uri: '/test/oldfile.txt',
     },
   ])
-  const result = await await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   const updatedTab = result.layout.groups[0].tabs[0]
   expect(updatedTab.uri).toBe('/test/newfile.txt')
@@ -158,7 +158,7 @@ test('handleUriChange should preserve other tab properties', async () => {
 
 test('handleUriChange should preserve state structure', async () => {
   const state = createStateWithTabs([{ uri: '/test/oldfile.txt' }])
-  const result = await await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result).toHaveProperty('layout')
   expect(result).toHaveProperty('layout.groups')
@@ -178,7 +178,7 @@ test('handleUriChange should not mutate original state', async () => {
 
 test('handleUriChange should handle non-matching URI', async () => {
   const state = createStateWithTabs([{ uri: '/test/file.txt' }])
-  const result = await await handleUriChange(state, '/test/nonexistent.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/nonexistent.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].tabs[0].uri).toBe('/test/file.txt')
 })
@@ -203,7 +203,7 @@ test('handleUriChange should handle empty groups', async () => {
     uid: 1,
   }
 
-  const result = await await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].tabs).toHaveLength(0)
 })
@@ -237,7 +237,7 @@ test('handleUriChange should handle tabs without URI property', async () => {
     uid: 1,
   }
 
-  const result = await await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].tabs[0].uri).toBeUndefined()
 })
@@ -247,7 +247,7 @@ test('handleUriChange should work with absolute and relative paths', async () =>
     { id: 1, uri: '/absolute/path/file.txt' },
     { id: 2, uri: 'relative/path/file.txt' },
   ])
-  const result = await await handleUriChange(state, '/absolute/path/file.txt', '/absolute/path/newfile.txt')
+  const result = await handleUriChange(state, '/absolute/path/file.txt', '/absolute/path/newfile.txt')
 
   expect(result.layout.groups[0].tabs[0].uri).toBe('/absolute/path/newfile.txt')
   expect(result.layout.groups[0].tabs[1].uri).toBe('relative/path/file.txt')
@@ -257,7 +257,7 @@ test('handleUriChange should work with URIs containing special characters', asyn
   const oldUri = '/test/file with spaces.txt'
   const newUri = '/test/file-with-dashes.txt'
   const state = createStateWithTabs([{ uri: oldUri }])
-  const result = await await handleUriChange(state, oldUri, newUri)
+  const result = await handleUriChange(state, oldUri, newUri)
 
   expect(result.layout.groups[0].tabs[0].uri).toBe(newUri)
 })
@@ -292,7 +292,7 @@ test('handleUriChange should preserve group properties', async () => {
     uid: 1,
   }
 
-  const result = await await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.groups[0].focused).toBe(true)
@@ -303,14 +303,14 @@ test('handleUriChange should preserve group properties', async () => {
 
 test('handleUriChange should update tab title to match new URI basename', async () => {
   const state = createStateWithTabs([{ uri: '/test/oldfile.txt' }])
-  const result = await await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+  const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].tabs[0].title).toBe('newfile.txt')
 })
 
 test('handleUriChange should extract basename from complex paths', async () => {
   const state = createStateWithTabs([{ uri: '/path/to/oldfile.ts' }])
-  const result = await await handleUriChange(state, '/path/to/oldfile.ts', '/path/to/components/newfile.ts')
+  const result = await handleUriChange(state, '/path/to/oldfile.ts', '/path/to/components/newfile.ts')
 
   expect(result.layout.groups[0].tabs[0].title).toBe('newfile.ts')
   expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/components/newfile.ts')
@@ -322,7 +322,7 @@ test('handleUriChange should update title for multiple tabs with same old URI', 
     { id: 2, title: 'old', uri: '/test/shared.txt' },
     { id: 3, title: 'other', uri: '/test/other.txt' },
   ])
-  const result = await await handleUriChange(state, '/test/shared.txt', '/test/newname.json')
+  const result = await handleUriChange(state, '/test/shared.txt', '/test/newname.json')
 
   expect(result.layout.groups[0].tabs[0].title).toBe('newname.json')
   expect(result.layout.groups[0].tabs[1].title).toBe('newname.json')
@@ -331,7 +331,7 @@ test('handleUriChange should update title for multiple tabs with same old URI', 
 
 test('handleUriChange should handle URIs with special characters in basename', async () => {
   const state = createStateWithTabs([{ uri: '/test/old-file.txt' }])
-  const result = await await handleUriChange(state, '/test/old-file.txt', '/test/new-file-v2.txt')
+  const result = await handleUriChange(state, '/test/old-file.txt', '/test/new-file-v2.txt')
 
   expect(result.layout.groups[0].tabs[0].title).toBe('new-file-v2.txt')
 })

@@ -1,6 +1,6 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
+import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
 export const save = async (state: MainAreaState): Promise<MainAreaState> => {
@@ -14,7 +14,7 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
     return state
   }
 
-  await RendererWorker.invoke('Editor.save', tab.editorUid)
+  await saveEditor(tab.editorUid)
 
   if (!tab.isDirty) {
     return state

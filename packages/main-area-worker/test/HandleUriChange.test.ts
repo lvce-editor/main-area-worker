@@ -150,7 +150,7 @@ test('handleUriChange should preserve other tab properties', () => {
 
   const updatedTab = result.layout.groups[0].tabs[0]
   expect(updatedTab.uri).toBe('/test/newfile.txt')
-  expect(updatedTab.title).toBe('Original Title')
+  expect(updatedTab.title).toBe('newfile.txt')
   expect(updatedTab.isDirty).toBe(true)
   expect(updatedTab.editorType).toBe('text')
   expect(updatedTab.icon).toBe('file-icon')
@@ -299,4 +299,56 @@ test('handleUriChange should preserve group properties', () => {
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].isEmpty).toBe(false)
   expect(result.layout.groups[0].size).toBe(75)
+})
+
+test('handleUriChange should update tab title to match new URI basename', () => {
+  const state = createStateWithTabs([{ uri: '/test/oldfile.txt' }])
+  const result = handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
+
+  expect(result.layout.groups[0].tabs[0].title).toBe('newfile.txt')
+})
+
+test('handleUriChange should extract basename from complex paths', () => {
+  const state = createStateWithTabs([{ uri: '/path/to/oldfile.ts' }])
+  const result = handleUriChange(state, '/path/to/oldfile.ts', '/path/to/components/newfile.ts')
+
+  expect(result.layout.groups[0].tabs[0].title).toBe('newfile.ts')
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/path/to/components/newfile.ts')
+})
+
+test('handleUriChange should update title for multiple tabs with same old URI', () => {
+  const state = createStateWithTabs([
+    { id: 1, title: 'old', uri: '/test/shared.txt' },
+    { id: 2, title: 'old', uri: '/test/shared.txt' },
+    { id: 3, title: 'other', uri: '/test/other.txt' },
+  ])
+  const result = handleUriChange(state, '/test/shared.txt', '/test/newname.json')
+
+  expect(result.layout.groups[0].tabs[0].title).toBe('newname.json')
+  expect(result.layout.groups[0].tabs[1].title).toBe('newname.json')
+  expect(result.layout.groups[0].tabs[2].title).toBe('other')
+})
+
+test('handleUriChange should handle URIs with special characters in basename', () => {
+  const state = createStateWithTabs([{ uri: '/test/old-file.txt' }])
+  const result = handleUriChange(state, '/test/old-file.txt', '/test/new-file-v2.txt')
+
+  expect(result.layout.groups[0].tabs[0].title).toBe('new-file-v2.txt')
+})
+
+test('handleUriChange should handle URIs with file extensions', () => {
+  const state = createStateWithTabs([
+    { id: 1, uri: '/test/file.ts' },
+    { id: 2, uri: '/test/file.js' },
+    { id: 3, uri: '/test/file.json' },
+  ])
+
+  const result1 = handleUriChange(state, '/test/file.ts', '/test/updated.tsx')
+  expect(result1.layout.groups[0].tabs[0].title).toBe('updated.tsx')
+
+  const result2 = handleUriChange(state, '/test/file.js', '/test/updated.jsx')
+  expect(result2.layout.groups[0].tabs[1].title).toBe('updated.jsx')
+
+  const result3 = handleUriChange(state, '/test/file.json', '/test/config.json')
+  expect(result3.layout.groups[0].tabs[2].title).toBe('config.json')
 })

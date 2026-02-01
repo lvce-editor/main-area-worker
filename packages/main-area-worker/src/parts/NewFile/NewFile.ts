@@ -81,7 +81,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     y: stateWithNewTab.y + TAB_HEIGHT,
   }
 
-  const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateWithNewTab, tabId, 'editor.text', bounds)
+  const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateWithNewTab, tabId, 'EditorText', bounds)
   let intermediateState = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
@@ -103,7 +103,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     throw new Error(`invalid editorUid`)
   }
 
-  await createViewlet('editor.text', actualEditorUid, tabId, bounds, '')
+  await createViewlet('Editor', actualEditorUid, tabId, bounds, 'untitled:///1')
 
   // After viewlet is created, get the latest state and mark it as ready
   const { newState: latestState } = get(uid)

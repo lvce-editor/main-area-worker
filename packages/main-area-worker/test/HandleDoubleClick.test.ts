@@ -1,11 +1,9 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleDoubleClick } from '../src/parts/HandleDoubleClick/HandleDoubleClick.ts'
 
 test('handleDoubleClick should return state unchanged when no groups exist', async () => {
-
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {

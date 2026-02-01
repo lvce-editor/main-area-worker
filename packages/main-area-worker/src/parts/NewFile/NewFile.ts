@@ -68,6 +68,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     language: 'plaintext',
     loadingState: 'loading',
     title: 'Untitled',
+    uri: 'untitled:///1',
   }
 
   const stateWithNewTab = openTab(newState, targetGroupId, newTab)
@@ -102,7 +103,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     throw new Error(`invalid editorUid`)
   }
 
-  await createViewlet('Editor', actualEditorUid, tabId, bounds, 'untitled:///1')
+  await createViewlet('Editor', actualEditorUid, tabId, bounds, newTab.uri || '')
 
   // After viewlet is created, get the latest state and mark it as ready
   const { newState: latestState } = get(uid)

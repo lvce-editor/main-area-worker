@@ -5,9 +5,7 @@ import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 export const handleUriChange = async (state: MainAreaState, oldUri: string, newUri: string): Promise<MainAreaState> => {
   const { layout } = state
   const { groups } = layout
-
   const newTitle = PathDisplay.getLabel(newUri)
-
   const updatedGroups = groups.map((group) => {
     return {
       ...group,
@@ -23,8 +21,7 @@ export const handleUriChange = async (state: MainAreaState, oldUri: string, newU
       }),
     }
   })
-
-  const stateWithUpdatedUri = {
+  const stateWithUpdatedUri: MainAreaState = {
     ...state,
     layout: {
       ...layout,

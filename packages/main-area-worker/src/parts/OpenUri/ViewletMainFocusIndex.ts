@@ -29,7 +29,7 @@ export const focusIndex = async (state: any, index: number): Promise<any> => {
 
   const oldEditor = editors[oldActiveIndex]
   const oldId = await ViewletMap.getModuleId(oldEditor.uri)
-  // @ts-ignore
+
   const oldInstance = ViewletStates.getInstance(oldId)
 
   const previousUid = oldEditor.uid
@@ -55,13 +55,12 @@ export const focusIndex = async (state: any, index: number): Promise<any> => {
 
   const resizeCommands = ['Viewlet.setBounds', instanceUid, x, tabHeight, width, contentHeight]
 
-  // @ts-ignore
   const commands = await ViewletManager.load(instance)
-  // @ts-ignore
+
   commands.unshift(...disposeCommands)
-  // @ts-ignore
+
   commands.push(resizeCommands)
-  // @ts-ignore
+
   commands.push(['Viewlet.append', uid, instanceUid])
   return {
     commands,
@@ -115,7 +114,7 @@ const getIsCloseButton = (tabs, index, eventX, x): number => {
   for (let i = 0; i <= index; i++) {
     total += tabs[index].tabWidth
   }
-  // @ts-ignore
+
   const tab = tabs[index]
   const offset = eventX - x - total
   const closeButtonWidth = 23
@@ -128,7 +127,7 @@ export const handleTabClick = (state, button, eventX, eventY): any => {
   Assert.number(eventY)
   const { activeGroupIndex, groups } = state
   const group = groups[activeGroupIndex]
-  // @ts-ignore
+
   const { editors, x, y } = group
   const index = GetTabIndex.getTabIndex(editors, x, eventX)
   if (index === -1) {

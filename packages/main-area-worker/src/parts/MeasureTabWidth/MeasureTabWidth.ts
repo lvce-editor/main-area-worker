@@ -1,8 +1,5 @@
 export const measureTabWidth = (label: string, fontWeight: number, fontSize: number, fontFamily: string, letterSpacing: string): number => {
-  const isMonospaceFont = false
-  const charWidth = 0
-  // @ts-ignore
-  const width = MeasureTextWidth.measureTextWidth(label, fontWeight, fontSize, fontFamily, letterSpacing, isMonospaceFont, charWidth)
+  const width = label.length * 8
   const padding = 5
   const fileIconWidth = 16
   const fileIconGap = 4

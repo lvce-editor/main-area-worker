@@ -6,7 +6,7 @@ import * as ViewletLifecycle from '../../ViewletLifecycle/ViewletLifecycle.ts'
 
 export const handleCreate = async (command: Extract<ViewletCommand, { type: 'create' }>): Promise<MainAreaState> => {
   // Safe to call - no visible side effects
-  // @ts-ignore
+
   const instanceId = Math.random() // TODO try to find a better way to get consistent integer ids (thread safe)
 
   await RendererWorker.invoke('Layout.createViewlet', command.viewletModuleId, command.tabId, command.bounds, command.uri, instanceId)

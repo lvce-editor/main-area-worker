@@ -50,6 +50,7 @@ test('newFile should create a new empty tab in the active group', async () => {
   expect(result.layout.groups[0].tabs[1].language).not.toBeUndefined()
   expect(result.layout.groups[0].tabs[1].uri).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[1].id)
+  expect(mockRpc.invocations.length).toBeGreaterThan(0)
 })
 
 test('newFile should create a new group if no active group exists', async () => {
@@ -66,6 +67,7 @@ test('newFile should create a new group if no active group exists', async () => 
   expect(result.layout.groups[0].tabs[0].title).toBe('Untitled')
   expect(result.layout.groups[0].tabs[0].editorType).toBe('text')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
+  expect(mockRpc.invocations.length).toBeGreaterThan(0)
 })
 
 test('newFile should preserve existing tabs when creating new tab', async () => {
@@ -123,6 +125,7 @@ test('newFile should preserve existing tabs when creating new tab', async () => 
   expect(result.layout.groups[0].tabs[1].title).toBe('file2.ts')
   expect(result.layout.groups[0].tabs[2].title).toBe('Untitled')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[2].id)
+  expect(mockRpc.invocations.length).toBeGreaterThan(0)
 })
 
 test('newFile should create a new tab with unique ID', async () => {
@@ -164,6 +167,7 @@ test('newFile should create a new tab with unique ID', async () => {
 
   expect(result.layout.groups[0].tabs[0].id).not.toBe(result.layout.groups[0].tabs[1].id)
   expect(result.layout.groups[0].tabs[1].id).toBeGreaterThan(0)
+  expect(mockRpc.invocations.length).toBeGreaterThan(0)
 })
 
 test('newFile should set active group to the group where tab was created', async () => {
@@ -204,4 +208,5 @@ test('newFile should set active group to the group where tab was created', async
   const result = await newFile(state)
 
   expect(result.layout.activeGroupId).toBe(1)
+  expect(mockRpc.invocations.length).toBeGreaterThan(0)
 })

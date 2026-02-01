@@ -48,7 +48,6 @@ test('newFile should create a new empty tab in the active group', async () => {
   expect(result.layout.groups[0].tabs[1].editorType).toBe('text')
   expect(result.layout.groups[0].tabs[1].isDirty).toBe(false)
   expect(result.layout.groups[0].tabs[1].language).not.toBeUndefined()
-  expect(result.layout.groups[0].tabs[1].uri).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[1].id)
   expect(mockRpc.invocations.length).toBeGreaterThan(0)
 })

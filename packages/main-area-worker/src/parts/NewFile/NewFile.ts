@@ -1,12 +1,12 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
-import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
 import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
+import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as Id from '../Id/Id.ts'
-import { openTab } from '../OpenTab/OpenTab.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
+import { openTab } from '../OpenTab/OpenTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
 export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
@@ -22,7 +22,9 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   let newState = state
   let targetGroupId: number
 
-  if (!activeGroup) {
+  if (activeGroup) {
+    targetGroupId = activeGroup.id
+  } else {
     // No active group, create an empty one
     newState = createEmptyGroup(state, '', 0)
     const updatedActiveGroupId = newState.layout.activeGroupId
@@ -30,8 +32,24 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
       return state
     }
     targetGroupId = updatedActiveGroupId
-  } else {
-    targetGroupId = activeGroup.id
+    
+    // Remove the tab that createEmptyGroup created, we'll add our own
+    newState = {
+      ...newState,
+      layout: {
+        ...newState.layout,
+        groups: newState.layout.groups.map((group) => {
+          if (group.id === targetGroupId) {
+            return {
+              ...group,
+              activeTabId: undefined,
+              tabs: [],
+            }
+          }
+          return group
+        }),
+      },
+    }
   }
 
   // Get previous active tab ID for viewlet switching

@@ -16,6 +16,7 @@ import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { getCommandIds, wrapCommand, wrapGetter } from '../MainAreaStates/MainAreaStates.ts'
 import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
+import { newFile } from '../NewFile/NewFile.ts'
 import { openUri } from '../OpenUri/OpenUri.ts'
 import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
@@ -45,6 +46,7 @@ export const commandMap = {
   'MainArea.handleWorkspaceChange': wrapCommand(handleWorkspaceChange),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
+  'MainArea.newFile': wrapCommand(newFile),
   'MainArea.openUri': wrapCommand(openUri),
   'MainArea.refresh': wrapCommand(refresh),
   'MainArea.render2': render2,

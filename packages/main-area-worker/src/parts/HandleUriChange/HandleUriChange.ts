@@ -5,6 +5,7 @@ export const handleUriChange = (state: MainAreaState, oldUri: string, newUri: st
   const { layout } = state
   const { groups } = layout
 
+  const newTitle = PathDisplay.getLabel(newUri)
   const updatedGroups = groups.map((group) => {
     return {
       ...group,
@@ -12,7 +13,7 @@ export const handleUriChange = (state: MainAreaState, oldUri: string, newUri: st
         if (tab.uri === oldUri) {
           return {
             ...tab,
-            title: PathDisplay.getLabel(newUri),
+            title: newTitle,
             uri: newUri,
           }
         }

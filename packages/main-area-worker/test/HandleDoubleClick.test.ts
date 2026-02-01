@@ -56,8 +56,6 @@ test('handleDoubleClick should return state unchanged when single group with sin
 })
 
 test('handleDoubleClick should preserve state properties', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({})
-
   const state: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/assets',
@@ -100,8 +98,6 @@ test('handleDoubleClick should preserve state properties', async () => {
 })
 
 test('handleDoubleClick should not mutate original state', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({})
-
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {

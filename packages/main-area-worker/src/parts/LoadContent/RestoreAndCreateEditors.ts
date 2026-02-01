@@ -5,8 +5,6 @@ import { getViewletModuleIds } from '../GetViewletModuleIds/GetViewletModuleIds.
 import { updateTabs } from '../UpdateTabs/UpdateTabs.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
-const TAB_HEIGHT = 35
-
 export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayout: any): Promise<MainAreaState> => {
   let newState: MainAreaState = {
     ...state,
@@ -14,10 +12,10 @@ export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayo
   }
 
   const bounds = {
-    height: newState.height - TAB_HEIGHT,
+    height: newState.height - state.tabHeight,
     width: newState.width,
     x: newState.x,
-    y: newState.y + TAB_HEIGHT,
+    y: newState.y + state.tabHeight,
   }
 
   // Get viewlet module IDs for all active tabs

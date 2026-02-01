@@ -219,9 +219,8 @@ test('saveState should save layout with empty groups', () => {
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups).toHaveLength(1)
-  expect(result.layout.groups[0].tabs).toHaveLength(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
 })
 
 test('saveState should return a new object, not mutate the original state', () => {

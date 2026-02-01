@@ -48,7 +48,6 @@ test('getMenuEntries returns empty array for unknown menuId', async () => {
   const state: MainAreaState = createDefaultState()
 
   const props: ContextMenuProps = {
-    // @ts-ignore
     menuId: 999, // Unknown menu ID
   }
 

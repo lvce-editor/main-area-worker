@@ -111,7 +111,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   if (newTab.uri && (!newTab.loadingState || newTab.loadingState === 'loading')) {
     // Query RendererWorker for viewlet module ID
-    // @ts-ignore
+
     const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
     if (viewletModuleId) {
       // Calculate bounds: use main area bounds minus 35px for tab height

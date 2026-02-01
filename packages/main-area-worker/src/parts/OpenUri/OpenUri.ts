@@ -59,8 +59,6 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   set(uid, state, intermediateState1)
 
-  // @ts-ignore
-
   // Get the tab to extract editorUid
   const tabWithViewlet = findTabById(intermediateState1, tabId)
 

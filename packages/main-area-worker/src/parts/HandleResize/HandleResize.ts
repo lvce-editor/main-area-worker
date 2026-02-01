@@ -24,7 +24,6 @@ export const handleResize = async (state: MainAreaState, x: number, y: number, w
   for (const group of groups) {
     for (const tab of group.tabs) {
       if (tab.editorUid !== -1) {
-        // @ts-ignore
         await RendererWorker.invoke('Viewlet.setBounds', tab.editorUid, { height: contentHeight, width, x, y: y + tabHeight })
       }
     }

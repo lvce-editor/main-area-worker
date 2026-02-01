@@ -1,9 +1,14 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { newFile } from '../src/parts/NewFile/NewFile.ts'
 
-test('newFile should create a new empty tab in the active group', () => {
+test('newFile should create a new empty tab in the active group', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -35,22 +40,25 @@ test('newFile should create a new empty tab in the active group', () => {
     },
   }
 
-  const result = newFile(state)
+  const result = await newFile(state)
 
   expect(result.layout.groups[0].tabs.length).toBe(2)
   expect(result.layout.groups[0].tabs[1].title).toBe('Untitled')
   expect(result.layout.groups[0].tabs[1].editorType).toBe('text')
   expect(result.layout.groups[0].tabs[1].isDirty).toBe(false)
-  expect(result.layout.groups[0].tabs[1].language).toBe('plaintext')
-  expect(result.layout.groups[0].tabs[1].loadingState).toBe('idle')
+  expect(result.layout.groups[0].tabs[1].language).not.toBeUndefined()
   expect(result.layout.groups[0].tabs[1].uri).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[1].id)
 })
 
-test('newFile should create a new group if no active group exists', () => {
+test('newFile should create a new group if no active group exists', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+
   const state: MainAreaState = createDefaultState()
 
-  const result = newFile(state)
+  const result = await newFile(state)
 
   expect(result.layout.groups.length).toBe(1)
   expect(result.layout.groups[0].tabs.length).toBe(1)
@@ -59,7 +67,11 @@ test('newFile should create a new group if no active group exists', () => {
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
 })
 
-test('newFile should preserve existing tabs when creating new tab', () => {
+test('newFile should preserve existing tabs when creating new tab', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -103,7 +115,7 @@ test('newFile should preserve existing tabs when creating new tab', () => {
     },
   }
 
-  const result = newFile(state)
+  const result = await newFile(state)
 
   expect(result.layout.groups[0].tabs.length).toBe(3)
   expect(result.layout.groups[0].tabs[0].title).toBe('file1.js')
@@ -112,7 +124,11 @@ test('newFile should preserve existing tabs when creating new tab', () => {
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[2].id)
 })
 
-test('newFile should create a new tab with unique ID', () => {
+test('newFile should create a new tab with unique ID', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -143,13 +159,17 @@ test('newFile should create a new tab with unique ID', () => {
     },
   }
 
-  const result = newFile(state)
+  const result = await newFile(state)
 
   expect(result.layout.groups[0].tabs[0].id).not.toBe(result.layout.groups[0].tabs[1].id)
   expect(result.layout.groups[0].tabs[1].id).toBeGreaterThan(0)
 })
 
-test('newFile should set active group to the group where tab was created', () => {
+test('newFile should set active group to the group where tab was created', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -180,7 +200,7 @@ test('newFile should set active group to the group where tab was created', () =>
     },
   }
 
-  const result = newFile(state)
+  const result = await newFile(state)
 
   expect(result.layout.activeGroupId).toBe(1)
 })

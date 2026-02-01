@@ -1,9 +1,8 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
-import type { Tab } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import * as Id from '../Id/Id.ts'
-import { get, set } from '../MainAreaStates/MainAreaStates.ts'
+import { set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 
 export const newFile = (state: MainAreaState): MainAreaState => {

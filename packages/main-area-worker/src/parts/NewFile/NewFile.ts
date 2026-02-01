@@ -1,4 +1,4 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
@@ -58,15 +58,15 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   // Create a new empty tab
   const tabId = Id.create()
   const editorUid = Id.create()
-  const newTab = {
-    editorType: 'text' as const,
+  const newTab: Tab = {
+    editorType: 'text',
     editorUid,
     errorMessage: '',
     icon: '',
     id: tabId,
     isDirty: false,
     language: 'plaintext',
-    loadingState: 'loading' as const,
+    loadingState: 'loading',
     title: 'Untitled',
   }
 

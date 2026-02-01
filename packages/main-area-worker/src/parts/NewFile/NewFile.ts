@@ -2,13 +2,11 @@ import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import * as Id from '../Id/Id.ts'
-import { set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 
 export const newFile = (state: MainAreaState): MainAreaState => {
   Assert.object(state)
 
-  const { uid } = state
   const { layout } = state
   const { activeGroupId, groups } = layout
 
@@ -42,7 +40,6 @@ export const newFile = (state: MainAreaState): MainAreaState => {
   }
 
   const stateWithNewTab = openTab(newState, activeGroup.id, newTab)
-  set(uid, state, stateWithNewTab)
 
   return stateWithNewTab
 }

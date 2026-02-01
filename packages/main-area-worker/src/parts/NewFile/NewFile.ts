@@ -34,11 +34,11 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   // Use ensureActiveGroup to create a tab with proper initialization
   // This ensures the tab has editorUid set up correctly
   const newStateWithTab = ensureActiveGroup(newState, 'untitled')
-  
+
   // Update the new tab to have title 'Untitled' instead of 'untitled'
   const tabId = getActiveTabId(newStateWithTab)!
   const tabWithNewFile = findTabById(newStateWithTab, tabId)
-  
+
   if (!tabWithNewFile) {
     return newStateWithTab
   }
@@ -50,11 +50,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
       ...newStateWithTab.layout,
       groups: newStateWithTab.layout.groups.map((group) => ({
         ...group,
-        tabs: group.tabs.map((tab) =>
-          tab.id === tabId
-            ? { ...tab, title: 'Untitled', uri: undefined }
-            : tab
-        ),
+        tabs: group.tabs.map((tab) => (tab.id === tabId ? { ...tab, title: 'Untitled', uri: undefined } : tab)),
       })),
     },
   }
@@ -91,7 +87,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     throw new Error(`invalid editorUid`)
   }
 
-  await createViewlet('editor.text', editorUid, tabId, bounds, 'untitled')
+  await createViewlet('EditorText', editorUid, tabId, bounds, 'untitled')
 
   // After viewlet is created, get the latest state and mark it as ready
   const { newState: latestState } = get(uid)

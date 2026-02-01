@@ -1,77 +1,75 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
-import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
+import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
+import * as Id from '../Id/Id.ts'
+import { openTab } from '../OpenTab/OpenTab.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
 export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   Assert.object(state)
 
-  const { layout } = state
+  const { layout, uid } = state
   const { activeGroupId, groups } = layout
 
   // Find the active group
-  let activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
 
-  // If no active group exists, create one with an empty group first
+  // Prepare initial state
   let newState = state
-  if (!activeGroup) {
-    const emptyGroupState = ensureActiveGroup(state, '')
-    newState = emptyGroupState
-    activeGroup = newState.layout.groups.find((group) => group.id === newState.layout.activeGroupId)
-  }
+  let targetGroupId: number
 
   if (!activeGroup) {
-    return state
+    // No active group, create an empty one
+    newState = createEmptyGroup(state, '', 0)
+    const updatedActiveGroupId = newState.layout.activeGroupId
+    if (!updatedActiveGroupId) {
+      return state
+    }
+    targetGroupId = updatedActiveGroupId
+  } else {
+    targetGroupId = activeGroup.id
   }
 
   // Get previous active tab ID for viewlet switching
   const previousTabId = getActiveTabId(newState)
 
-  // Use ensureActiveGroup to create a tab with proper initialization
-  // This ensures the tab has editorUid set up correctly
-  const newStateWithTab = ensureActiveGroup(newState, 'untitled')
-
-  // Update the new tab to have title 'Untitled' instead of 'untitled'
-  const tabId = getActiveTabId(newStateWithTab)!
-  const tabWithNewFile = findTabById(newStateWithTab, tabId)
-
-  if (!tabWithNewFile) {
-    return newStateWithTab
+  // Create a new empty tab
+  const tabId = Id.create()
+  const editorUid = Id.create()
+  const newTab = {
+    editorType: 'text' as const,
+    editorUid,
+    errorMessage: '',
+    icon: '',
+    id: tabId,
+    isDirty: false,
+    language: 'plaintext',
+    loadingState: 'loading' as const,
+    title: 'Untitled',
   }
 
-  // Update tab title
-  const updatedState = {
-    ...newStateWithTab,
-    layout: {
-      ...newStateWithTab.layout,
-      groups: newStateWithTab.layout.groups.map((group) => ({
-        ...group,
-        tabs: group.tabs.map((tab) => (tab.id === tabId ? { ...tab, title: 'Untitled', uri: undefined } : tab)),
-      })),
-    },
-  }
+  const stateWithNewTab = openTab(newState, targetGroupId, newTab)
 
   // Calculate bounds: use main area bounds minus 35px for tab height
   const TAB_HEIGHT = 35
   const bounds = {
-    height: updatedState.height - TAB_HEIGHT,
-    width: updatedState.width,
-    x: updatedState.x,
-    y: updatedState.y + TAB_HEIGHT,
+    height: stateWithNewTab.height - TAB_HEIGHT,
+    width: stateWithNewTab.width,
+    x: stateWithNewTab.x,
+    y: stateWithNewTab.y + TAB_HEIGHT,
   }
 
-  const stateWithViewlet = ViewletLifecycle.createViewletForTab(updatedState, tabId, 'editor.text', bounds)
+  const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateWithNewTab, tabId, 'editor.text', bounds)
   let intermediateState = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
   const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId)
   intermediateState = switchedState
 
-  const { uid } = updatedState
   set(uid, state, intermediateState)
 
   // Get the tab to extract editorUid
@@ -81,17 +79,17 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     return intermediateState
   }
 
-  const { editorUid } = tabWithViewlet.tab
+  const { editorUid: actualEditorUid } = tabWithViewlet.tab
 
-  if (editorUid === -1) {
+  if (actualEditorUid === -1) {
     throw new Error(`invalid editorUid`)
   }
 
-  await createViewlet('EditorText', editorUid, tabId, bounds, 'untitled:///1')
+  await createViewlet('editor.text', actualEditorUid, tabId, bounds, '')
 
   // After viewlet is created, get the latest state and mark it as ready
   const { newState: latestState } = get(uid)
-  const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
+  const readyState = ViewletLifecycle.handleViewletReady(latestState, actualEditorUid)
 
   return readyState
 }

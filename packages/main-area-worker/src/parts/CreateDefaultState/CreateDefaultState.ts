@@ -5,6 +5,7 @@ export const createDefaultState = (): MainAreaState => {
     assetDir: '',
     fileIconCache: {},
     height: 0,
+    iframes: [],
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',

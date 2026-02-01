@@ -32,7 +32,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
       return state
     }
     targetGroupId = updatedActiveGroupId
-    
+
     // Remove the tab that createEmptyGroup created, we'll add our own
     newState = {
       ...newState,

@@ -7,9 +7,10 @@ export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, 
   const tabsChildCount = group.tabs.length
   const actions = renderEditorGroupActions(group, groupIndex, splitButtonEnabled)
 
+  const hasActions = actions.length > 0
   return [
     {
-      childCount: actions.length > 0 ? 2 : 1,
+      childCount: hasActions ? 2 : 1,
       className: 'EditorGroupHeader',
       role: 'none',
       type: VirtualDomElements.Div,

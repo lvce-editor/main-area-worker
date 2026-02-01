@@ -23,8 +23,6 @@ test('handleDoubleClick should return state unchanged when no groups exist', asy
 })
 
 test('handleDoubleClick should return state unchanged when single group with single tab exists', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({})
-
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {

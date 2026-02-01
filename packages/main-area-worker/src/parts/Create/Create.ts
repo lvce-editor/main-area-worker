@@ -16,6 +16,7 @@ export const create = (
     assetDir,
     fileIconCache: {},
     height,
+    iframes: [],
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',

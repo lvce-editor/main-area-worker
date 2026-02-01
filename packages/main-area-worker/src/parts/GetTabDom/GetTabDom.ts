@@ -25,7 +25,6 @@ export const getTabDom = (tab: any): readonly VirtualDomNode[] => {
   }
   const isDirty = flags & TabFlags.Dirty
 
-  const isHovered = flags & TabFlags.Hovered
   const actualTabWidth = fixedWidth || tabWidth
   const tabElement = {
     ariaSelected: isActive,

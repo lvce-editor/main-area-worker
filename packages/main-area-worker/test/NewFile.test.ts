@@ -5,6 +5,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { newFile } from '../src/parts/NewFile/NewFile.ts'
 
 test('newFile should create a new empty tab in the active group', async () => {
+  // @ts-ignore
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
   })

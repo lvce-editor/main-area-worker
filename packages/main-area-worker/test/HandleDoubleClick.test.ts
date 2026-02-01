@@ -63,9 +63,7 @@ test('handleDoubleClick should preserve state properties', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/assets',
-    platform: 2,
-    tabHeight: 40,
-    uid: 123,
+    fileIconCache: {},
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -89,6 +87,9 @@ test('handleDoubleClick should preserve state properties', async () => {
         },
       ],
     },
+    platform: 2,
+    tabHeight: 40,
+    uid: 123,
   }
 
   const result = await handleDoubleClick(state)
@@ -105,7 +106,6 @@ test('handleDoubleClick should not mutate original state', async () => {
 
   const state: MainAreaState = {
     ...createDefaultState(),
-    uid: 1,
     layout: {
       activeGroupId: 1,
       direction: 'horizontal',
@@ -129,6 +129,7 @@ test('handleDoubleClick should not mutate original state', async () => {
         },
       ],
     },
+    uid: 1,
   }
 
   const originalState = JSON.stringify(state)

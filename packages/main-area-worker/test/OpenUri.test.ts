@@ -1,9 +1,17 @@
-import { expect, test } from '@jest/globals'
+import { expect, test, afterEach } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../src/parts/OpenUriOptions/OpenUriOptions.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openUri } from '../src/parts/OpenUri/OpenUri.ts'
+
+// Clear the global state store between tests to prevent interference
+afterEach(() => {
+  // Reset state for uid 0 (used by most tests)
+  const defaultState = createDefaultState()
+  MainAreaStates.set(0, defaultState, defaultState)
+})
 
 test('openUri should create a new group and tab when no groups exist', async () => {
   const state: MainAreaState = createDefaultState()

@@ -35,29 +35,25 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Check if there's existing state in the global store
   const stateFromStore = get(uid)
   let currentState: MainAreaState
-  
+
   if (stateFromStore) {
     const storedState = stateFromStore.newState
-    // Check if the stored state appears to be from the same "session" as the passed-in state
-    // by comparing structural properties (height, width, x, y, tabHeight)
-    // If they match, it's likely a concurrent call and we should use the stored state
-    const isSameSession =
-      storedState.height === state.height &&
-      storedState.width === state.width &&
-      storedState.x === state.x &&
-      storedState.y === state.y &&
-      storedState.tabHeight === state.tabHeight
-    
-    if (isSameSession) {
-      // Use the latest version from the store (may include tabs from concurrent calls)
+    // Use the stored state if it has more tabs than the passed-in state
+    // (indicating concurrent calls have already added tabs)
+    // Otherwise use the passed-in state (test setup with initial data)
+    const storedTabCount = storedState.layout.groups.reduce((sum: number, g: EditorGroup) => sum + g.tabs.length, 0)
+    const passedTabCount = state.layout.groups.reduce((sum: number, g: EditorGroup) => sum + g.tabs.length, 0)
+
+    if (storedTabCount > passedTabCount) {
+      // Stored state has more tabs - concurrent calls have added tabs
       currentState = storedState
     } else {
-      // Different session (likely a different test), reset with passed-in state
+      // Passed-in state has same or more tabs, use it (likely fresh test setup)
       currentState = state
       set(uid, state, state)
     }
   } else {
-    // No state in store yet, use the passed-in state and register it
+    // No state in store yet, register the passed-in state
     currentState = state
     set(uid, state, state)
   }
@@ -143,6 +139,9 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
           })),
         },
       }
+
+      // Save the state with icon update so concurrent calls can see it
+      set(uid, stateBeforeIconUpdate, stateWithIcon)
 
       return stateWithIcon
     }

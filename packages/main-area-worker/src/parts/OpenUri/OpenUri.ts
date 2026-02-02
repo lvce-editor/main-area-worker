@@ -21,7 +21,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   const uri = getOptionUriOptions(options)
 
-  // Check if a tab with this URI already exists
+  // Check if a tab with this URI already exists in the passed-in state
   const existingTab = findTabByUri(state, uri)
   if (existingTab) {
     // Tab exists, switch to it and focus its group
@@ -32,12 +32,20 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Get previous active tab ID for viewlet switching
   const previousTabId = getActiveTabId(state)
 
+  // Register the initial state in the global store to enable coordination between concurrent calls
+  // This ensures that if another openUri call is happening concurrently, it will see this state
+  set(uid, state, state)
+
+  // Now get the latest state from the store - if another concurrent call already added its tab,
+  // we'll see it here and won't lose it
+  const { newState: currentState } = get(uid)
+
   // Add tab to state BEFORE any async calls to prevent race conditions
-  const newState = ensureActiveGroup(state, uri)
+  const newState = ensureActiveGroup(currentState, uri)
   const tabId = getActiveTabId(newState)!
 
-  // Save state immediately after adding tab to prevent race conditions with concurrent openUri calls
-  set(uid, state, newState)
+  // Save state immediately after adding tab
+  set(uid, currentState, newState)
 
   const viewletModuleId = await getViewletModuleId(uri)
 

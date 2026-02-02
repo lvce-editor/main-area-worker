@@ -81,7 +81,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
     {
       'aria-selected': false,
       childCount: 3,
-      className: 'MainTab',
+      className: 'MainTab MainTabModified',
       'data-groupIndex': 0,
       'data-index': 0,
       onClick: DomEventListenerFunctions.HandleClickTab,

@@ -5,6 +5,7 @@ import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
 export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
   const closeButtonNodes = renderTabActions(tab.isDirty, tabIndex, groupIndex)
+<<<<<<< HEAD
   let className = 'MainTab'
   if (isActive) {
     className += ' MainTabSelected'
@@ -12,6 +13,8 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
   if (tab.isDirty) {
     className += ' MainTabModified'
   }
+=======
+>>>>>>> origin/main
 
   return [
     {

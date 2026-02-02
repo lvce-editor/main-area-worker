@@ -566,14 +566,13 @@ test('handleModifiedStatusChange should preserve group properties', () => {
 
 test('handleModifiedStatusChange should toggle modified status multiple times', () => {
   const state = createStateWithTabs([{ uri: '/test/file.txt', isModified: false }])
-  
+
   const result1 = handleModifiedStatusChange(state, '/test/file.txt', true)
   expect(result1.layout.groups[0].tabs[0].isModified).toBe(true)
-  
+
   const result2 = handleModifiedStatusChange(result1, '/test/file.txt', false)
   expect(result2.layout.groups[0].tabs[0].isModified).toBe(false)
-  
+
   const result3 = handleModifiedStatusChange(result2, '/test/file.txt', true)
   expect(result3.layout.groups[0].tabs[0].isModified).toBe(true)
 })
-

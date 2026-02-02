@@ -1,4 +1,4 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
@@ -32,24 +32,31 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Get previous active tab ID for viewlet switching
   const previousTabId = getActiveTabId(state)
 
+  // Add tab to state BEFORE any async calls to prevent race conditions
   const newState = ensureActiveGroup(state, uri)
   const tabId = getActiveTabId(newState)!
 
+  // Save state immediately after adding tab to prevent race conditions with concurrent openUri calls
+  set(uid, state, newState)
+
   const viewletModuleId = await getViewletModuleId(uri)
+
+  // After async call, get the latest state to account for any concurrent changes
+  const { newState: stateAfterModuleId } = get(uid)
 
   if (!viewletModuleId) {
     // TODO display some kind of errro that editor couldn't be opened
-    return newState
+    return stateAfterModuleId
   }
 
   // Calculate bounds: use main area bounds minus tab height
   const bounds = {
-    height: newState.height - newState.tabHeight,
-    width: newState.width,
-    x: newState.x,
-    y: newState.y + newState.tabHeight,
+    height: stateAfterModuleId.height - stateAfterModuleId.tabHeight,
+    width: stateAfterModuleId.width,
+    x: stateAfterModuleId.x,
+    y: stateAfterModuleId.y + stateAfterModuleId.tabHeight,
   }
-  const stateWithViewlet = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+  const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateAfterModuleId, tabId, viewletModuleId, bounds)
   let intermediateState1 = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
@@ -80,22 +87,29 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Attachment is handled automatically by virtual DOM reference nodes
   const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
 
+  // Save state before async icon request
+  set(uid, state, readyState)
+
   // Request file icon for the newly opened tab
   try {
     const newTab = findTabById(readyState, tabId)
     if (newTab && newTab.tab.uri) {
       const { newFileIconCache } = await getFileIconsForTabs([newTab.tab], readyState.fileIconCache)
+
+      // After async call, get the latest state again
+      const { newState: stateBeforeIconUpdate } = get(uid)
+
       const icon = newFileIconCache[newTab.tab.uri] || ''
 
-      // Update the tab with the icon
+      // Update the tab with the icon in the latest state
       const stateWithIcon = {
-        ...readyState,
+        ...stateBeforeIconUpdate,
         fileIconCache: newFileIconCache,
         layout: {
-          ...readyState.layout,
-          groups: readyState.layout.groups.map((group) => ({
+          ...stateBeforeIconUpdate.layout,
+          groups: stateBeforeIconUpdate.layout.groups.map((group: EditorGroup) => ({
             ...group,
-            tabs: group.tabs.map((tab) => (tab.id === tabId ? { ...tab, icon } : tab)),
+            tabs: group.tabs.map((tab: Tab) => (tab.id === tabId ? { ...tab, icon } : tab)),
           })),
         },
       }
@@ -106,5 +120,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     // If icon request fails, continue without icon
   }
 
-  return readyState
+  // Get final latest state
+  const { newState: finalState } = get(uid)
+  return finalState
 }

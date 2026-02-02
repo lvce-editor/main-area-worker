@@ -3,7 +3,7 @@ import { selectTab } from '../SelectTab/SelectTab.ts'
 
 export const focusNextTab = async (state: MainAreaState): Promise<MainAreaState> => {
   const { layout } = state
-  const { groups, activeGroupId } = layout
+  const { activeGroupId, groups } = layout
 
   // Find the active group
   const activeGroup = groups.find((g) => g.id === activeGroupId)

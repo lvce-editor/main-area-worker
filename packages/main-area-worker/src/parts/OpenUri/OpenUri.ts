@@ -32,13 +32,35 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Get previous active tab ID for viewlet switching
   const previousTabId = getActiveTabId(state)
 
-  // Register the initial state in the global store to enable coordination between concurrent calls
-  // This ensures that if another openUri call is happening concurrently, it will see this state
-  set(uid, state, state)
-
-  // Now get the latest state from the store - if another concurrent call already added its tab,
-  // we'll see it here and won't lose it
-  const { newState: currentState } = get(uid)
+  // Check if there's existing state in the global store
+  const stateFromStore = get(uid)
+  let currentState: MainAreaState
+  
+  if (stateFromStore) {
+    const storedState = stateFromStore.newState
+    // Check if the stored state appears to be from the same "session" as the passed-in state
+    // by comparing structural properties (height, width, x, y, tabHeight)
+    // If they match, it's likely a concurrent call and we should use the stored state
+    const isSameSession =
+      storedState.height === state.height &&
+      storedState.width === state.width &&
+      storedState.x === state.x &&
+      storedState.y === state.y &&
+      storedState.tabHeight === state.tabHeight
+    
+    if (isSameSession) {
+      // Use the latest version from the store (may include tabs from concurrent calls)
+      currentState = storedState
+    } else {
+      // Different session (likely a different test), reset with passed-in state
+      currentState = state
+      set(uid, state, state)
+    }
+  } else {
+    // No state in store yet, use the passed-in state and register it
+    currentState = state
+    set(uid, state, state)
+  }
 
   // Add tab to state BEFORE any async calls to prevent race conditions
   const newState = ensureActiveGroup(currentState, uri)

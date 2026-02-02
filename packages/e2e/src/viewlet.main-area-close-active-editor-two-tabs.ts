@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-active-editor-two-tabs'
 
-export const skip = 1
-
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
@@ -37,7 +35,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.closeActiveEditor()
 
   // assert - verify second tab is closed
-  await expect(tab2).not.toBeVisible()
+  await expect(tab2).toBeHidden()
 
   // assert - verify first tab still exists
   await expect(tab1).toBeVisible()

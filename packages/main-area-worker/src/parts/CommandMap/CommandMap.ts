@@ -12,7 +12,7 @@ import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
 import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
 import { handleResize } from '../HandleResize/HandleResize.ts'
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
-import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
+import { handleModifiedStatusChange, handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceChange.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
@@ -47,6 +47,7 @@ export const commandMap = {
   'MainArea.handleDoubleClick': wrapCommand(handleDoubleClick),
   'MainArea.handleResize': wrapCommand(handleResize),
   'MainArea.handleTabContextMenu': wrapCommand(handleTabContextMenu),
+  'MainArea.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),
   'MainArea.handleUriChange': wrapCommand(handleUriChange),
   'MainArea.handleWorkspaceChange': wrapCommand(handleWorkspaceChange),
   'MainArea.initialize': initialize,

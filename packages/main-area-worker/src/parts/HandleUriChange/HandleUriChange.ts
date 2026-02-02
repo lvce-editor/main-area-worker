@@ -38,3 +38,29 @@ export const handleUriChange = async (state: MainAreaState, oldUri: string, newU
     layout: result.updatedLayout,
   }
 }
+
+export const handleModifiedStatusChange = (state: MainAreaState, uri: string, newStatus: boolean): MainAreaState => {
+  const { layout } = state
+  const { groups } = layout
+  const updatedGroups = groups.map((group) => {
+    return {
+      ...group,
+      tabs: group.tabs.map((tab) => {
+        if (tab.uri === uri) {
+          return {
+            ...tab,
+            isModified: newStatus,
+          }
+        }
+        return tab
+      }),
+    }
+  })
+  return {
+    ...state,
+    layout: {
+      ...layout,
+      groups: updatedGroups,
+    },
+  }
+}

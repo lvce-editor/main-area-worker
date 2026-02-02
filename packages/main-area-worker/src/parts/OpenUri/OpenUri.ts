@@ -63,7 +63,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState1, previousTabId, tabId)
   intermediateState1 = switchedState
 
-  set(uid, state, intermediateState1)
+  set(uid, stateWithViewlet, intermediateState1)
 
   // Get the tab to extract editorUid
   const tabWithViewlet = findTabById(intermediateState1, tabId)
@@ -88,7 +88,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
 
   // Save state before async icon request
-  set(uid, state, readyState)
+  set(uid, intermediateState1, readyState)
 
   // Request file icon for the newly opened tab
   try {

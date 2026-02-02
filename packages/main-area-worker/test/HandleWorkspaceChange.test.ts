@@ -1,9 +1,14 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleWorkspaceChange } from '../src/parts/HandleWorkspaceChange/HandleWorkspaceChange.ts'
 
-test('handleWorkspaceChange should clear activeGroupId and groups', () => {
+test('handleWorkspaceChange should clear activeGroupId and groups', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.dispose': async () => {},
+  })
+
   const initialState: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -31,14 +36,18 @@ test('handleWorkspaceChange should clear activeGroupId and groups', () => {
     },
   }
 
-  const result = handleWorkspaceChange(initialState)
+  const result = await handleWorkspaceChange(initialState)
 
   expect(result.layout.activeGroupId).toBeUndefined()
   expect(result.layout.groups).toEqual([])
   expect(result.layout.direction).toBe('horizontal')
 })
 
-test('handleWorkspaceChange should preserve other state properties', () => {
+test('handleWorkspaceChange should preserve other state properties', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.dispose': async () => {},
+  })
+
   const initialState: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/assets',
@@ -61,7 +70,7 @@ test('handleWorkspaceChange should preserve other state properties', () => {
     width: 1200,
   }
 
-  const result = handleWorkspaceChange(initialState)
+  const result = await handleWorkspaceChange(initialState)
 
   expect(result.assetDir).toBe('/assets')
   expect(result.height).toBe(800)
@@ -69,7 +78,11 @@ test('handleWorkspaceChange should preserve other state properties', () => {
   expect(result.tabHeight).toBe(40)
 })
 
-test('handleWorkspaceChange should handle empty groups', () => {
+test('handleWorkspaceChange should handle empty groups', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.dispose': async () => {},
+  })
+
   const initialState: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -79,7 +92,7 @@ test('handleWorkspaceChange should handle empty groups', () => {
     },
   }
 
-  const result = handleWorkspaceChange(initialState)
+  const result = await handleWorkspaceChange(initialState)
 
   expect(result.layout.activeGroupId).toBeUndefined()
   expect(result.layout.groups).toEqual([])

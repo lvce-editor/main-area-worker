@@ -560,23 +560,19 @@ test('openUri should handle icon loading failure gracefully', async () => {
 test('openUri should handle race condition when second call starts while first awaits getViewletModuleId', async () => {
   const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
   let getModuleIdCallCount = 0
-  const getModuleIdPromises: Array<{ resolve: (value: string) => void; reject: (err: any) => void }> = []
-  let bothCallsWaiting: (() => void) | undefined
-
-  const bothCallsWaitingPromise = new Promise<void>((resolve) => {
-    bothCallsWaiting = resolve
-  })
+  const getModuleIdPromises: Array<PromiseWithResolvers<string>> = []
+  const bothCallsWaiting = Promise.withResolvers<void>()
 
   using _mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => {
       getModuleIdCallCount++
+      const deferred = Promise.withResolvers<string>()
+      getModuleIdPromises.push(deferred)
       if (getModuleIdCallCount === 2) {
-        bothCallsWaiting?.()
+        bothCallsWaiting.resolve()
       }
-      return new Promise<string>((resolve, reject) => {
-        getModuleIdPromises.push({ reject, resolve })
-      })
+      return deferred.promise
     },
   })
 
@@ -593,7 +589,7 @@ test('openUri should handle race condition when second call starts while first a
   const promise2 = openUri(state, 'file:///path/to/file2.ts')
 
   // Wait for both calls to reach getModuleId
-  await bothCallsWaitingPromise
+  await bothCallsWaiting.promise
 
   expect(getModuleIdCallCount).toBe(2)
 
@@ -615,12 +611,8 @@ test('openUri should handle race condition when second call starts while first a
 test('openUri should handle race condition when second call starts while first awaits file icons', async () => {
   const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
   let iconCallCount = 0
-  const iconPromises: Array<{ resolve: (value: string[]) => void; reject: (err: any) => void }> = []
-  let bothCallsWaiting: (() => void) | undefined
-
-  const bothCallsWaitingPromise = new Promise<void>((resolve) => {
-    bothCallsWaiting = resolve
-  })
+  const iconPromises: Array<PromiseWithResolvers<string[]>> = []
+  const bothCallsWaiting = Promise.withResolvers<void>()
 
   using _mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
@@ -630,12 +622,12 @@ test('openUri should handle race condition when second call starts while first a
   using _mockIconRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => {
       iconCallCount++
+      const deferred = Promise.withResolvers<string[]>()
+      iconPromises.push(deferred)
       if (iconCallCount === 2) {
-        bothCallsWaiting?.()
+        bothCallsWaiting.resolve()
       }
-      return new Promise<string[]>((resolve, reject) => {
-        iconPromises.push({ reject, resolve })
-      })
+      return deferred.promise
     },
   })
 
@@ -648,7 +640,7 @@ test('openUri should handle race condition when second call starts while first a
   const promise2 = openUri(state, 'file:///path/to/file2.ts')
 
   // Wait for both calls to reach icon loading
-  await bothCallsWaitingPromise
+  await bothCallsWaiting.promise
 
   expect(iconCallCount).toBe(2)
 
@@ -678,23 +670,19 @@ test('openUri should handle race condition when second call starts while first a
 test('openUri should handle multiple simultaneous calls without losing tabs', async () => {
   const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
   let getModuleIdCallCount = 0
-  const getModuleIdResolvers: Array<(value: string) => void> = []
-  let allCallsWaiting: (() => void) | undefined
-
-  const allCallsWaitingPromise = new Promise<void>((resolve) => {
-    allCallsWaiting = resolve
-  })
+  const getModuleIdResolvers: Array<PromiseWithResolvers<string>> = []
+  const allCallsWaiting = Promise.withResolvers<void>()
 
   using _mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => {
       getModuleIdCallCount++
+      const deferred = Promise.withResolvers<string>()
+      getModuleIdResolvers.push(deferred)
       if (getModuleIdCallCount === 4) {
-        allCallsWaiting?.()
+        allCallsWaiting.resolve()
       }
-      return new Promise<string>((resolve) => {
-        getModuleIdResolvers.push(resolve)
-      })
+      return deferred.promise
     },
   })
 
@@ -713,11 +701,11 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
   ]
 
   // Wait for all 4 calls to reach getModuleId
-  await allCallsWaitingPromise
+  await allCallsWaiting.promise
 
   // Resolve all in order
-  for (const resolver of getModuleIdResolvers) {
-    resolver('editor.text')
+  for (const deferred of getModuleIdResolvers) {
+    deferred.resolve('editor.text')
   }
 
   const results = await Promise.all(promises)
@@ -743,23 +731,19 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
 test('openUri should preserve existing tabs when race condition occurs', async () => {
   const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
   let moduleIdCallCount = 0
-  const moduleIdResolvers: Array<(value: string) => void> = []
-  let bothCallsWaiting: (() => void) | undefined
-
-  const bothCallsWaitingPromise = new Promise<void>((resolve) => {
-    bothCallsWaiting = resolve
-  })
+  const moduleIdResolvers: Array<PromiseWithResolvers<string>> = []
+  const bothCallsWaiting = Promise.withResolvers<void>()
 
   using _mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => {
       moduleIdCallCount++
+      const deferred = Promise.withResolvers<string>()
+      moduleIdResolvers.push(deferred)
       if (moduleIdCallCount === 2) {
-        bothCallsWaiting?.()
+        bothCallsWaiting.resolve()
       }
-      return new Promise<string>((resolve) => {
-        moduleIdResolvers.push(resolve)
-      })
+      return deferred.promise
     },
   })
 
@@ -803,11 +787,11 @@ test('openUri should preserve existing tabs when race condition occurs', async (
   const promise2 = openUri(state, 'file:///path/to/new2.ts')
 
   // Wait for both to reach getModuleId
-  await bothCallsWaitingPromise
+  await bothCallsWaiting.promise
 
   // Resolve in reverse order
-  moduleIdResolvers[1]('editor.text')
-  moduleIdResolvers[0]('editor.text')
+  moduleIdResolvers[1].resolve('editor.text')
+  moduleIdResolvers[0].resolve('editor.text')
 
   const [_result1, result2] = await Promise.all([promise1, promise2])
 
@@ -829,22 +813,18 @@ test('openUri should preserve existing tabs when race condition occurs', async (
 test('openUri should handle race condition with createViewlet delays', async () => {
   const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
   let createViewletCallCount = 0
-  const createViewletResolvers: Array<() => void> = []
-  let bothCallsWaiting: (() => void) | undefined
-
-  const bothCallsWaitingPromise = new Promise<void>((resolve) => {
-    bothCallsWaiting = resolve
-  })
+  const createViewletResolvers: Array<PromiseWithResolvers<void>> = []
+  const bothCallsWaiting = Promise.withResolvers<void>()
 
   using _mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {
       createViewletCallCount++
+      const deferred = Promise.withResolvers<void>()
+      createViewletResolvers.push(deferred)
       if (createViewletCallCount === 2) {
-        bothCallsWaiting?.()
+        bothCallsWaiting.resolve()
       }
-      return new Promise<void>((resolve) => {
-        createViewletResolvers.push(resolve)
-      })
+      return deferred.promise
     },
     'Layout.getModuleId': async () => 'editor.text',
   })
@@ -860,13 +840,13 @@ test('openUri should handle race condition with createViewlet delays', async () 
   const promise2 = openUri(state, 'file:///path/to/file2.ts')
 
   // Wait for both to be waiting on createViewlet
-  await bothCallsWaitingPromise
+  await bothCallsWaiting.promise
 
   expect(createViewletResolvers.length).toBe(2)
 
   // Resolve second one first
-  createViewletResolvers[1]()
-  createViewletResolvers[0]()
+  createViewletResolvers[1].resolve()
+  createViewletResolvers[0].resolve()
 
   const [_result1, result2] = await Promise.all([promise1, promise2])
 

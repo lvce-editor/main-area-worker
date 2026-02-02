@@ -2,13 +2,11 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-save'
 
-export const skip = 1
-
-export const test: Test = async ({ Editor, FileSystem, Main }) => {
+export const test: Test = async ({ Command, Editor, FileSystem, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/save-test.ts`
   const initialContent = 'export const initial = "content"'
-  const updatedContent = 'export const updated = "new content"'
+  const updatedContent = 'abcexport const initial = "content"'
 
   // Write initial file to disk
   await FileSystem.writeFile(testFile, initialContent)
@@ -18,17 +16,14 @@ export const test: Test = async ({ Editor, FileSystem, Main }) => {
   await Editor.shouldHaveText(initialContent)
 
   // Edit the file
-  // @ts-ignore
-  await Editor.setAllText(updatedContent)
-  await Editor.shouldHaveText(updatedContent)
+  await Editor.setCursor(0, 0)
+  await Editor.type('abc')
 
   // Save the file
-  // @ts-ignore
-  await Main.save()
+  await Command.execute('Main.save')
 
   // Close the file
-  // @ts-ignore
-  await Main.closeActiveTab()
+  await Main.closeActiveEditor()
 
   // Reopen the file
   await Main.openUri(testFile)

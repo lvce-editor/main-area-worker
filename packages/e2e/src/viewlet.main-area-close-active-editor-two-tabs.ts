@@ -37,7 +37,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.closeActiveEditor()
 
   // assert - verify second tab is closed
-  await expect(tab2).not.toBeVisible()
+  await expect(tab2).toBeHidden()
 
   // assert - verify first tab still exists
   await expect(tab1).toBeVisible()

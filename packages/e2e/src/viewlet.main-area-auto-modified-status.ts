@@ -2,11 +2,12 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-auto-modified-status'
 
-export const skip = 1
+// export const skip = 1
 
-export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
+  await Workspace.setPath(tmpDir)
   const testFile = `${tmpDir}/test.ts`
   const testContent = 'export const hello = () => "world"'
   await FileSystem.writeFile(testFile, testContent)

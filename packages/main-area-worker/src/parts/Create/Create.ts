@@ -29,6 +29,7 @@ export const create = (
     width,
     x,
     y,
+    initial:true
   }
   set(uid, state, state)
 }

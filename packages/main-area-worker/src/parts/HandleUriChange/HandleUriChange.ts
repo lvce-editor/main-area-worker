@@ -49,7 +49,7 @@ export const handleModifiedStatusChange = (state: MainAreaState, uri: string, ne
         if (tab.uri === uri) {
           return {
             ...tab,
-            isModified: newStatus,
+            isDirty: newStatus,
           }
         }
         return tab

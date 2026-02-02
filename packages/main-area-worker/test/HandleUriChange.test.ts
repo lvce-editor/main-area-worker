@@ -354,43 +354,43 @@ test('handleUriChange should handle URIs with file extensions', async () => {
 })
 
 test('handleModifiedStatusChange should update single tab modified status to true', () => {
-  const state = createStateWithTabs([{ uri: '/test/file.txt', isModified: false }])
+  const state = createStateWithTabs([{ isDirty: false, uri: '/test/file.txt' }])
   const result = handleModifiedStatusChange(state, '/test/file.txt', true)
 
-  expect(result.layout.groups[0].tabs[0].isModified).toBe(true)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
 })
 
 test('handleModifiedStatusChange should update single tab modified status to false', () => {
-  const state = createStateWithTabs([{ uri: '/test/file.txt', isModified: true }])
+  const state = createStateWithTabs([{ isDirty: true, uri: '/test/file.txt' }])
   const result = handleModifiedStatusChange(state, '/test/file.txt', false)
 
-  expect(result.layout.groups[0].tabs[0].isModified).toBe(false)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
 })
 
 test('handleModifiedStatusChange should update multiple tabs with same URI', () => {
   const state = createStateWithTabs([
-    { id: 1, uri: '/test/shared.txt', isModified: false },
-    { id: 2, uri: '/test/shared.txt', isModified: false },
-    { id: 3, uri: '/test/other.txt', isModified: false },
+    { id: 1, isDirty: false, uri: '/test/shared.txt' },
+    { id: 2, isDirty: false, uri: '/test/shared.txt' },
+    { id: 3, isDirty: false, uri: '/test/other.txt' },
   ])
   const result = handleModifiedStatusChange(state, '/test/shared.txt', true)
 
-  expect(result.layout.groups[0].tabs[0].isModified).toBe(true)
-  expect(result.layout.groups[0].tabs[1].isModified).toBe(true)
-  expect(result.layout.groups[0].tabs[2].isModified).toBe(false)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
+  expect(result.layout.groups[0].tabs[1].isDirty).toBe(true)
+  expect(result.layout.groups[0].tabs[2].isDirty).toBe(false)
 })
 
 test('handleModifiedStatusChange should not affect tabs with different URIs', () => {
   const state = createStateWithTabs([
-    { id: 1, uri: '/test/file1.txt', isModified: false },
-    { id: 2, uri: '/test/file2.txt', isModified: false },
-    { id: 3, uri: '/test/file3.txt', isModified: false },
+    { id: 1, isDirty: false, uri: '/test/file1.txt' },
+    { id: 2, isDirty: false, uri: '/test/file2.txt' },
+    { id: 3, isDirty: false, uri: '/test/file3.txt' },
   ])
   const result = handleModifiedStatusChange(state, '/test/file1.txt', true)
 
-  expect(result.layout.groups[0].tabs[0].isModified).toBe(true)
-  expect(result.layout.groups[0].tabs[1].isModified).toBe(false)
-  expect(result.layout.groups[0].tabs[2].isModified).toBe(false)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
+  expect(result.layout.groups[0].tabs[1].isDirty).toBe(false)
+  expect(result.layout.groups[0].tabs[2].isDirty).toBe(false)
 })
 
 test('handleModifiedStatusChange should work with multiple editor groups', () => {
@@ -413,7 +413,7 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
               icon: '',
               id: 1,
               isDirty: false,
-              isModified: false,
+              isDirty: false,
               title: 'file1.txt',
               uri: '/test/file.txt',
             },
@@ -432,7 +432,7 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
               icon: '',
               id: 2,
               isDirty: false,
-              isModified: false,
+              isDirty: false,
               title: 'file2.txt',
               uri: '/test/file.txt',
             },
@@ -445,8 +445,8 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
 
   const result = handleModifiedStatusChange(state, '/test/file.txt', true)
 
-  expect(result.layout.groups[0].tabs[0].isModified).toBe(true)
-  expect(result.layout.groups[1].tabs[0].isModified).toBe(true)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
+  expect(result.layout.groups[1].tabs[0].isDirty).toBe(true)
 })
 
 test('handleModifiedStatusChange should preserve other tab properties', () => {
@@ -456,7 +456,7 @@ test('handleModifiedStatusChange should preserve other tab properties', () => {
       icon: 'file-icon',
       id: 1,
       isDirty: true,
-      isModified: false,
+      isDirty: false,
       title: 'file.txt',
       uri: '/test/file.txt',
     },
@@ -464,7 +464,7 @@ test('handleModifiedStatusChange should preserve other tab properties', () => {
   const result = handleModifiedStatusChange(state, '/test/file.txt', true)
 
   const updatedTab = result.layout.groups[0].tabs[0]
-  expect(updatedTab.isModified).toBe(true)
+  expect(updatedTab.isDirty).toBe(true)
   expect(updatedTab.uri).toBe('/test/file.txt')
   expect(updatedTab.title).toBe('file.txt')
   expect(updatedTab.isDirty).toBe(true)
@@ -473,7 +473,7 @@ test('handleModifiedStatusChange should preserve other tab properties', () => {
 })
 
 test('handleModifiedStatusChange should preserve state structure', () => {
-  const state = createStateWithTabs([{ uri: '/test/file.txt', isModified: false }])
+  const state = createStateWithTabs([{ isDirty: false, uri: '/test/file.txt' }])
   const result = handleModifiedStatusChange(state, '/test/file.txt', true)
 
   expect(result).toHaveProperty('layout')
@@ -485,18 +485,18 @@ test('handleModifiedStatusChange should preserve state structure', () => {
 })
 
 test('handleModifiedStatusChange should not mutate original state', () => {
-  const state = createStateWithTabs([{ uri: '/test/file.txt', isModified: false }])
-  const originalStatus = state.layout.groups[0].tabs[0].isModified
+  const state = createStateWithTabs([{ isDirty: false, uri: '/test/file.txt' }])
+  const originalStatus = state.layout.groups[0].tabs[0].isDirty
   handleModifiedStatusChange(state, '/test/file.txt', true)
 
-  expect(state.layout.groups[0].tabs[0].isModified).toBe(originalStatus)
+  expect(state.layout.groups[0].tabs[0].isDirty).toBe(originalStatus)
 })
 
 test('handleModifiedStatusChange should handle non-matching URI', () => {
-  const state = createStateWithTabs([{ uri: '/test/file.txt', isModified: false }])
+  const state = createStateWithTabs([{ isDirty: false, uri: '/test/file.txt' }])
   const result = handleModifiedStatusChange(state, '/test/nonexistent.txt', true)
 
-  expect(result.layout.groups[0].tabs[0].isModified).toBe(false)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
 })
 
 test('handleModifiedStatusChange should handle empty groups', () => {
@@ -544,7 +544,7 @@ test('handleModifiedStatusChange should preserve group properties', () => {
               icon: '',
               id: 1,
               isDirty: false,
-              isModified: false,
+              isDirty: false,
               title: 'file.txt',
               uri: '/test/file.txt',
             },
@@ -565,14 +565,14 @@ test('handleModifiedStatusChange should preserve group properties', () => {
 })
 
 test('handleModifiedStatusChange should toggle modified status multiple times', () => {
-  const state = createStateWithTabs([{ uri: '/test/file.txt', isModified: false }])
+  const state = createStateWithTabs([{ isDirty: false, uri: '/test/file.txt' }])
 
   const result1 = handleModifiedStatusChange(state, '/test/file.txt', true)
-  expect(result1.layout.groups[0].tabs[0].isModified).toBe(true)
+  expect(result1.layout.groups[0].tabs[0].isDirty).toBe(true)
 
   const result2 = handleModifiedStatusChange(result1, '/test/file.txt', false)
-  expect(result2.layout.groups[0].tabs[0].isModified).toBe(false)
+  expect(result2.layout.groups[0].tabs[0].isDirty).toBe(false)
 
   const result3 = handleModifiedStatusChange(result2, '/test/file.txt', true)
-  expect(result3.layout.groups[0].tabs[0].isModified).toBe(true)
+  expect(result3.layout.groups[0].tabs[0].isDirty).toBe(true)
 })

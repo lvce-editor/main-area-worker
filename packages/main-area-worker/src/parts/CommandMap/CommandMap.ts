@@ -1,4 +1,5 @@
 import { terminate } from '@lvce-editor/viewlet-registry'
+import { closeActiveEditor } from '../CloseActiveEditor/CloseActiveEditor.ts'
 import { closeAll } from '../CloseAll/CloseAll.ts'
 import { closeFocusedTab } from '../CloseFocusedTab/CloseFocusedTab.ts'
 import * as MainArea from '../Create/Create.ts'
@@ -30,6 +31,7 @@ import { splitDown } from '../SplitDown/SplitDown.ts'
 import { splitRight } from '../SplitRight/SplitRight.ts'
 
 export const commandMap = {
+  'MainArea.closeActiveEditor': wrapCommand(closeActiveEditor),
   'MainArea.closeAll': wrapCommand(closeAll),
   'MainArea.closeFocusedTab': wrapCommand(closeFocusedTab),
   'MainArea.create': MainArea.create,

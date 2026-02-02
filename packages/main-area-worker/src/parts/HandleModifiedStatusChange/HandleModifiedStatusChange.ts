@@ -17,7 +17,6 @@ export const handleModifiedStatusChange = (state: MainAreaState, uri: string, ne
       }),
     }
   })
-  console.log({ updatedGroups })
   return {
     ...state,
     layout: {

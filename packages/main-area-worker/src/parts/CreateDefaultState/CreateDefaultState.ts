@@ -6,6 +6,7 @@ export const createDefaultState = (): MainAreaState => {
     fileIconCache: {},
     height: 0,
     iframes: [],
+    initial:false,
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',
@@ -17,7 +18,6 @@ export const createDefaultState = (): MainAreaState => {
     uid: 0,
     width: 0,
     x: 0,
-    y: 0,
-    initial:false
+    y: 0
   }
 }

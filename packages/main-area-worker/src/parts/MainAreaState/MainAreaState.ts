@@ -15,6 +15,7 @@ export interface MainAreaState {
   readonly fileIconCache: FileIconCache
   readonly height: number
   readonly iframes: readonly any[]
+  readonly initial: boolean
   readonly layout: MainAreaLayout
   readonly platform: number
   readonly splitButtonEnabled: boolean
@@ -23,5 +24,4 @@ export interface MainAreaState {
   readonly width: number
   readonly x: number
   readonly y: number
-  readonly initial: boolean
 }

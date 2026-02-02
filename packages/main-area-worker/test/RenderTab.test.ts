@@ -77,7 +77,45 @@ test('renderTab should show dirty indicator for dirty tab', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[3].text).toBe('*Test File')
+  expect(result).toEqual([
+    {
+      'aria-selected': false,
+      childCount: 3,
+      className: 'MainTab',
+      'data-groupIndex': 0,
+      'data-index': 0,
+      onClick: DomEventListenerFunctions.HandleClickTab,
+      onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
+      role: 'tab',
+      title: '/path/to/Test File',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'TabIcon',
+      role: 'none',
+      src: '',
+      type: VirtualDomElements.Img,
+    },
+    {
+      childCount: 1,
+      className: 'TabTitle',
+      type: VirtualDomElements.Span,
+    },
+    text('Test File'),
+    {
+      childCount: 1,
+      className: 'EditorTabCloseButton',
+      'data-groupIndex': 0,
+      'data-index': 0,
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconCircleFilled',
+      type: VirtualDomElements.Div,
+    },
+  ])
 })
 
 test('renderTab should handle empty title', () => {
@@ -110,7 +148,8 @@ test('renderTab should handle dirty tab with empty title', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[3].text).toBe('*')
+  expect(result[3].text).toBe('')
+  expect(result[5].className).toBe('MaskIcon MaskIconCircleFilled')
 })
 
 test('renderTab should use title as fallback when path is undefined', () => {

@@ -6,7 +6,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
  */
 export const getAllEditorUids = (state: MainAreaState): number[] => {
   const editorUids: number[] = []
-  
+
   for (const group of state.layout.groups) {
     for (const tab of group.tabs) {
       if (tab.editorUid !== -1) {
@@ -14,6 +14,6 @@ export const getAllEditorUids = (state: MainAreaState): number[] => {
       }
     }
   }
-  
+
   return editorUids
 }

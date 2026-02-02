@@ -33,6 +33,7 @@ import { splitRight } from '../SplitRight/SplitRight.ts'
 export const commandMap = {
   'MainArea.closeActiveEditor': wrapCommand(closeActiveEditor),
   'MainArea.closeAll': wrapCommand(closeAll),
+  'MainArea.closeAllEditors': wrapCommand(closeAll),
   'MainArea.closeFocusedTab': wrapCommand(closeFocusedTab),
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,

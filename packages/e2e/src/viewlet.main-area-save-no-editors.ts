@@ -2,9 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-save-no-editors'
 
-export const skip = 1
-
-export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
 
@@ -16,8 +14,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await expect(tabs).toHaveCount(0)
 
   // act - call save when no editors are open
-  // @ts-ignore
-  await Main.save()
+  await Command.execute('Main.save')
 
   // assert - verify still no tabs exist and no error occurred
   await expect(tabs).toHaveCount(0)

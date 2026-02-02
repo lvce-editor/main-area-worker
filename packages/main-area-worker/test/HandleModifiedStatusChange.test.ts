@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
-import { handleModifiedStatusChange } from '../src/parts/HandleUriChange/HandleUriChange.ts'
+import { handleModifiedStatusChange } from '../src/parts/HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
 
 const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState => {
   const tabs: Tab[] =
@@ -148,7 +148,6 @@ test('handleModifiedStatusChange should preserve other tab properties', () => {
       editorType: 'text',
       icon: 'file-icon',
       id: 1,
-      isDirty: true,
       isDirty: false,
       title: 'file.txt',
       uri: '/test/file.txt',

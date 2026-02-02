@@ -2,8 +2,8 @@ import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeTab, closeTabWithViewlet } from '../src/parts/CloseTab/CloseTab.ts'
-import { findTabInState } from '../src/parts/FindTabInState/FindTabInState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import { findTabInState } from '../src/parts/FindTabInState/FindTabInState.ts'
 
 test('closeTab should close a non-active tab', () => {
   const state: MainAreaState = {

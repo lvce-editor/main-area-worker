@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
-import { handleModifiedStatusChange, handleUriChange } from '../src/parts/HandleUriChange/HandleUriChange.ts'
+import { handleUriChange } from '../src/parts/HandleUriChange/HandleUriChange.ts'
 
 const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState => {
   const tabs: Tab[] =

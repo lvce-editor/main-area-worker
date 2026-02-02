@@ -24,6 +24,9 @@ export const getTabDom = (tab: any): readonly VirtualDomNode[] => {
     tabClassName += ' ' + ClassNames.MainTabSelected
   }
   const isDirty = flags & TabFlags.Dirty
+  if (isDirty) {
+    tabClassName += ' ' + ClassNames.MainTabModified
+  }
 
   const actualTabWidth = fixedWidth || tabWidth
   const tabElement = {

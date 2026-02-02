@@ -5,12 +5,19 @@ import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
 export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
   const closeButtonNodes = renderTabActions(tab.isDirty, tabIndex, groupIndex)
+  let className = 'MainTab'
+  if (isActive) {
+    className += ' MainTabSelected'
+  }
+  if (tab.isDirty) {
+    className += ' MainTabModified'
+  }
 
   return [
     {
       'aria-selected': isActive,
       childCount: 3,
-      className: isActive ? 'MainTab MainTabSelected' : 'MainTab',
+      className,
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,
       onClick: DomEventListenerFunctions.HandleClickTab,

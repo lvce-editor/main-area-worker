@@ -1,15 +1,9 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-tab-switching'
-export const skip = true
 
-const assert = (condition: boolean, message: string): void => {
-  if (!condition) {
-    throw new Error(message)
-  }
-}
-
-export const test: Test = async ({ Command, FileSystem }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
+  // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.ts`
   const file2 = `${tmpDir}/file2.ts`
@@ -19,60 +13,52 @@ export const test: Test = async ({ Command, FileSystem }) => {
   await FileSystem.writeFile(file2, 'content2')
   await FileSystem.writeFile(file3, 'content3')
 
-  const uid = 4
+  // act - open 3 files
+  await Main.openUri(file1)
+  await Main.openUri(file2)
+  await Main.openUri(file3)
 
-  await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
+  // assert - all 3 tabs are visible
+  const tab1 = Locator('.MainTab[title$="file1.ts"]')
+  const tab2 = Locator('.MainTab[title$="file2.ts"]')
+  const tab3 = Locator('.MainTab[title$="file3.ts"]')
+  await expect(tab1).toBeVisible()
+  await expect(tab2).toBeVisible()
+  await expect(tab3).toBeVisible()
 
-  await Command.execute('MainArea.openUri', uid, {
-    focu: false,
-    preview: false,
-    uri: file1,
-  })
+  const tabs = Locator('.MainTab')
+  await expect(tabs).toHaveCount(3)
 
-  await Command.execute('MainArea.openUri', uid, {
-    focu: false,
-    preview: false,
-    uri: file2,
-  })
+  // assert - file3 is currently active (last opened)
+  const selectedTab3 = Locator('.MainTabSelected[title$="file3.ts"]')
+  await expect(selectedTab3).toBeVisible()
 
-  await Command.execute('MainArea.openUri', uid, {
-    focu: false,
-    preview: false,
-    uri: file3,
-  })
+  // act - click on first tab to make it active
+  await tab1.click()
 
-  const savedState1 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState1.layout.groups[0].tabs.length === 3, `Expected 3 tabs, got ${savedState1.layout.groups[0].tabs.length}`)
+  // assert - file1 is now active
+  const selectedTab1 = Locator('.MainTabSelected[title$="file1.ts"]')
+  await expect(selectedTab1).toBeVisible()
 
-  await Command.execute('MainArea.selectTab', uid, 0, 0)
-  const savedState2 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState2.layout.groups[0].activeTabId === savedState2.layout.groups[0].tabs[0].id, 'Active tab should be first tab')
+  // act - click on second tab to make it active
+  await tab2.click()
 
-  await Command.execute('MainArea.selectTab', uid, 0, 1)
-  const savedState3 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState3.layout.groups[0].activeTabId === savedState3.layout.groups[0].tabs[1].id, 'Active tab should be second tab')
+  // assert - file2 is now active
+  const selectedTab2 = Locator('.MainTabSelected[title$="file2.ts"]')
+  await expect(selectedTab2).toBeVisible()
 
-  await Command.execute('MainArea.selectTab', uid, 0, 2)
-  const savedState4 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState4.layout.groups[0].activeTabId === savedState4.layout.groups[0].tabs[2].id, 'Active tab should be third tab')
+  // act - click on third tab to make it active
+  await tab3.click()
 
-  await Command.execute('MainArea.openUri', uid, {
-    focu: false,
-    preview: false,
-    uri: file1,
-  })
+  // assert - file3 is now active again
+  await expect(selectedTab3).toBeVisible()
 
-  const savedState5 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState5.layout.groups[0].tabs.length === 3, `Expected 3 tabs, got ${savedState5.layout.groups[0].tabs.length}`)
-  const tab1 = savedState5.layout.groups[0].tabs.find((t) => t.path === file1)
-  assert(tab1 !== undefined, 'Tab with file1 should exist')
-  assert(savedState5.layout.groups[0].activeTabId === tab1.id, 'Active tab should be file1')
+  // act - open file1 again (should switch to existing tab)
+  await Main.openUri(file1)
 
-  await Command.execute('MainArea.handleClickCloseTab', uid, '0', '1')
-  const savedState6 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState6.layout.groups[0].tabs.length === 2, `Expected 2 tabs, got ${savedState6.layout.groups[0].tabs.length}`)
+  // assert - still have 3 tabs
+  await expect(tabs).toHaveCount(3)
 
-  await Command.execute('MainArea.selectTab', uid, 0, 0)
-  const savedState7 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState7.layout.groups[0].activeTabId === savedState7.layout.groups[0].tabs[0].id, 'Active tab should be first tab')
+  // assert - file1 is now active
+  await expect(selectedTab1).toBeVisible()
 }

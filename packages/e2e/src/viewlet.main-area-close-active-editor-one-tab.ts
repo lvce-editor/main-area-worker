@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-active-editor-one-tab'
 
-export const skip = 1
-
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
@@ -22,7 +20,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.closeActiveEditor()
 
   // assert - verify tab is closed
-  await expect(tab).not.toBeVisible()
+  await expect(tab).toBeHidden()
 
   // assert - verify no tabs remain
   const tabs = Locator('.MainTab')

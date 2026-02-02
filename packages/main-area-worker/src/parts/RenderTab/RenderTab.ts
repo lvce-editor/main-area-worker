@@ -1,8 +1,11 @@
 import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
 export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
+  const closeButtonNodes = renderTabActions(tab.isDirty, tabIndex, groupIndex)
+
   return [
     {
       'aria-selected': isActive,
@@ -28,20 +31,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       className: 'TabTitle',
       type: VirtualDomElements.Span,
     },
-    text(tab.isDirty ? `*${tab.title}` : tab.title),
-    {
-      'aria-label': 'Close',
-      childCount: 1,
-      className: 'EditorTabCloseButton',
-      'data-groupIndex': groupIndex,
-      'data-index': tabIndex,
-      onClick: DomEventListenerFunctions.HandleClickClose,
-      type: VirtualDomElements.Button,
-    },
-    {
-      childCount: 0,
-      className: 'MaskIcon MaskIconClose',
-      type: VirtualDomElements.Div,
-    },
+    text(tab.title),
+    ...closeButtonNodes,
   ]
 }

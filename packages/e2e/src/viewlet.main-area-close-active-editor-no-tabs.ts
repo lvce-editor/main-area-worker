@@ -2,14 +2,15 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-active-editor-no-tabs'
 
-export const skip = 1
-
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
+  const testFile = `${tmpDir}/a.txt`
+  await FileSystem.writeFile(testFile, '')
 
-  // act - open main area without files
-  await Main.openUri(tmpDir)
+  // act - open file then close it to have no tabs
+  await Main.openUri(testFile)
+  await Main.closeActiveEditor()
 
   // assert - verify no tabs exist
   const tabs = Locator('.MainTab')

@@ -1,10 +1,6 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-<<<<<<< HEAD:packages/e2e/src/viewlet.main-area-modified-status-change-nonexistent-file.ts
 export const name = 'viewlet.main-area-modified-status-change-nonexistent-file'
-=======
-export const name = 'viewlet.main-area-modified-status-change'
->>>>>>> origin/main:packages/e2e/src/viewlet.main-area-modified-status-change.ts
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   // arrange
@@ -22,8 +18,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   const tabTitle = Locator('.MainTab[title$="test.ts"] .TabTitle')
   await expect(tabTitle).toHaveText('test.ts')
 
-<<<<<<< HEAD:packages/e2e/src/viewlet.main-area-modified-status-change-nonexistent-file.ts
-=======
   // act - mark the file as dirty (modified)
   await Command.execute('Main.handleModifiedStatusChange', testFile, true)
 
@@ -36,7 +30,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   // assert - tab should not show dirty indicator
   await expect(tabTitle).toHaveText('test.ts')
 
->>>>>>> origin/main:packages/e2e/src/viewlet.main-area-modified-status-change.ts
   // act - call with a non-existent URI (should not crash)
   const nonExistentUri = `${tmpDir}/does-not-exist.ts`
   await Command.execute('Main.handleModifiedStatusChange', nonExistentUri, true)

@@ -12,6 +12,7 @@ import { handleClickAction } from '../HandleClickAction/HandleClickAction.ts'
 import { handleClickCloseTab } from '../HandleClickCloseTab/HandleClickCloseTab.ts'
 import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
 import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
+import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleModifiedStatusChange } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
 import { handleResize } from '../HandleResize/HandleResize.ts'
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
@@ -50,6 +51,7 @@ export const commandMap = {
   'MainArea.handleClickCloseTab': wrapCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapCommand(handleClickTab),
   'MainArea.handleDoubleClick': wrapCommand(handleDoubleClick),
+  'MainArea.handleHeaderDoubleClick': wrapCommand(handleHeaderDoubleClick),
   'MainArea.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),
   'MainArea.handleResize': wrapCommand(handleResize),
   'MainArea.handleTabContextMenu': wrapCommand(handleTabContextMenu),

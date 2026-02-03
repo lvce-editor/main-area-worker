@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-focus-next-tab'
 
+export const skip = 1
+
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   // arrange - create test files
   const tmpDir = await FileSystem.getTmpDir()

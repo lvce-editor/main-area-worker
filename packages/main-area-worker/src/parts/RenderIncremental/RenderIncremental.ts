@@ -7,5 +7,6 @@ export const renderIncremental = (oldState: MainAreaState, newState: MainAreaSta
   const oldDom = renderItems(oldState, oldState)[2]
   const newDom = renderItems(newState, newState)[2]
   const patches = diffTree(oldDom, newDom)
+  console.log({ patches, oldDom, newDom })
   return [ViewletCommand.SetPatches, newState.uid, patches]
 }

@@ -17,7 +17,7 @@ export const create = (
     fileIconCache: {},
     height,
     iframes: [],
-    initial:true,
+    initial: true,
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',
@@ -29,7 +29,7 @@ export const create = (
     uid,
     width,
     x,
-    y
+    y,
   }
   set(uid, state, state)
 }

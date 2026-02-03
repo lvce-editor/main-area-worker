@@ -4,7 +4,7 @@ import { getMainAreaVirtualDom } from '../GetMainAreaVirtualDom/GetMainAreaVirtu
 
 export const renderItems = (oldState: MainAreaState, newState: MainAreaState): any => {
   const { initial, layout, splitButtonEnabled, uid } = newState
-  if(initial){
+  if (initial) {
     return [ViewletCommand.SetDom2, uid, []]
   }
   const dom = getMainAreaVirtualDom(layout, splitButtonEnabled)

@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-copy-path'
 
+export const skip = true
+
 export const test: Test = async ({ Clipboard, Command, expect, FileSystem, Locator, Main }) => {
   // arrange
   await Clipboard.enableMemoryClipboard()

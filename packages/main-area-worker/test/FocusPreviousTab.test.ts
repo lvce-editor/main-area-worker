@@ -105,6 +105,7 @@ test('focusPreviousTab should not navigate before the first tab', async () => {
   const result = await focusPreviousTab(state)
 
   expect(result).toBe(state)
+  expect(mockRpc.invocations).toMatchSnapshot()
 })
 
 test('focusPreviousTab should return state if there is no active group', async () => {
@@ -262,6 +263,7 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
   const result = await focusPreviousTab(state)
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
+  expect(mockRpc.invocations).toMatchSnapshot()
 })
 
 test('focusPreviousTab should work with multiple groups, only affecting active group', async () => {
@@ -331,4 +333,5 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
 
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.groups[1].activeTabId).toBe(4) // Should remain unchanged
+  expect(mockRpc.invocations).toMatchSnapshot()
 })

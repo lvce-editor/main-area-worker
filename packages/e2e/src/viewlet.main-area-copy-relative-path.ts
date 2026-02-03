@@ -6,7 +6,7 @@ export const skip = true
 
 export const test: Test = async ({ ClipBoard, Command, expect, FileSystem, Locator, Main, Workspace }) => {
   // arrange
-  await ClipBoard.enableMemoryClipboard()
+  await ClipBoard.enableMemoryClipBoard()
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
   const testFile = `${tmpDir}/test-copy-relative-path.ts`

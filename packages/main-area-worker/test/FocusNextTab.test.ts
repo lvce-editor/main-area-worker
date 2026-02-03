@@ -53,7 +53,7 @@ test('focusNextTab should select the next tab in the active group', async () => 
   const result = await focusNextTab(state)
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(mockRpc.invocations).toMatchSnapshot()
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('focusNextTab should not navigate past the last tab', async () => {
@@ -105,7 +105,7 @@ test('focusNextTab should not navigate past the last tab', async () => {
   const result = await focusNextTab(state)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations).toMatchSnapshot()
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('focusNextTab should return state if there is no active group', async () => {
@@ -255,5 +255,5 @@ test('focusNextTab should move from first tab to second tab', async () => {
   const result = await focusNextTab(state)
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(mockRpc.invocations).toMatchSnapshot()
+  expect(mockRpc.invocations).toEqual([])
 })

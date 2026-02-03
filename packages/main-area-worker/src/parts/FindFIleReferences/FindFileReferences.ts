@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { MainAreaState } from '../MainAreaState/MainAreaState.js'
 import { getActiveTab } from '../GetActiveTab/GetActiveTab.js'
 
@@ -8,9 +7,9 @@ export const findFileReferences = (state: MainAreaState): MainAreaState => {
     return state
   }
   const { tab } = activeTabData
+  // @ts-ignore
   const { uri } = tab
   // TODO show references view
 
-  console.log('show refrences', uri)
   return state
 }

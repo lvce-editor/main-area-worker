@@ -12,6 +12,8 @@ import {
   CloseAll,
   RevealInExplorer,
   CloseToTheRight,
+  CopyPath,
+  CopyRelativePath,
   FindFileReferences,
 } from '../UiStrings/UiStrings.ts'
 
@@ -65,4 +67,12 @@ export const closeToTheRight = (): string => {
 
 export const findFileReferences = (): string => {
   return I18nString.i18nString(FindFileReferences)
+}
+
+export const copyPath = (): string => {
+  return I18nString.i18nString(CopyPath)
+}
+
+export const copyRelativePath = (): string => {
+  return I18nString.i18nString(CopyRelativePath)
 }

@@ -23,10 +23,7 @@ export const focusNextTab = async (state: MainAreaState): Promise<MainAreaState>
     return state
   }
 
-  // If not at the last tab, select the next tab
-  if (activeTabIndex < activeGroup.tabs.length - 1) {
-    return selectTab(state, activeGroupIndex, activeTabIndex + 1)
-  }
-
-  return state
+  // If not at the last tab, select the next tab, otherwise cycle to first
+  const nextTabIndex = activeTabIndex < activeGroup.tabs.length - 1 ? activeTabIndex + 1 : 0
+  return selectTab(state, activeGroupIndex, nextTabIndex)
 }

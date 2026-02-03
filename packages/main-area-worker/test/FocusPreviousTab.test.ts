@@ -56,7 +56,7 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
   expect(mockRpc.invocations).toEqual([])
 })
 
-test('focusPreviousTab should not navigate before the first tab', async () => {
+test('focusPreviousTab should cycle from first tab to last tab', async () => {
   using mockRpc = RendererWorker.registerMockRpc({})
 
   const state: MainAreaState = {
@@ -104,7 +104,7 @@ test('focusPreviousTab should not navigate before the first tab', async () => {
 
   const result = await focusPreviousTab(state)
 
-  expect(result).toBe(state)
+  expect(result.layout.groups[0].activeTabId).toBe(3)
   expect(mockRpc.invocations).toEqual([])
 })
 

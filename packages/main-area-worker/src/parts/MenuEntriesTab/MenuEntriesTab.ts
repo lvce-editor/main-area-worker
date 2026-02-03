@@ -51,6 +51,20 @@ export const getMenuEntries = (state: MainAreaState): readonly any[] => {
       id: 'revealInExplorer',
       label: ViewletMainStrings.revealInExplorer(),
     },
+    {
+      args: [path],
+      command: 'Main.copyPath',
+      flags: MenuItemFlags.None,
+      id: 'copyPath',
+      label: ViewletMainStrings.copyPath(),
+    },
+    {
+      args: [path],
+      command: 'Main.copyRelativePath',
+      flags: MenuItemFlags.None,
+      id: 'copyRelativePath',
+      label: ViewletMainStrings.copyRelativePath(),
+    },
     MenuEntrySeparator.menuEntrySeparator,
     {
       args: [/* id */ 'References', /* focus */ true, path],

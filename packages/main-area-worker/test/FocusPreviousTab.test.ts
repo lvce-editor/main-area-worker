@@ -53,6 +53,7 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
   const result = await focusPreviousTab(state)
 
   expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toMatchSnapshot()
 })
 
 test('focusPreviousTab should not navigate before the first tab', async () => {

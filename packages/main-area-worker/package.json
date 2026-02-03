@@ -43,7 +43,7 @@
     }
   },
   "dependencies": {
-    "@lvce-editor/virtual-dom-worker": "^6.10.0"
+    "@lvce-editor/virtual-dom-worker": "^6.11.0"
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",

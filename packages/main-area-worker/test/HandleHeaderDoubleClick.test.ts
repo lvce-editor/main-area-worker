@@ -41,7 +41,7 @@ test('handleHeaderDoubleClick should return state unchanged when groupIndexRaw i
 
 test('handleHeaderDoubleClick should create a new untitled file when valid groupIndex is provided', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    createViewlet: async () => {},
+    'Layout.createViewlet': async () => {},
   })
 
   const state: MainAreaState = {
@@ -79,7 +79,7 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
 
 test('handleHeaderDoubleClick should add untitled tab to the active group', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    createViewlet: async () => {},
+    'Layout.createViewlet': async () => {},
   })
 
   const state: MainAreaState = {

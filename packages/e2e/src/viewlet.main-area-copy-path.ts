@@ -4,9 +4,9 @@ export const name = 'viewlet.main-area-copy-path'
 
 export const skip = true
 
-export const test: Test = async ({ Clipboard, Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ ClipBoard, Command, expect, FileSystem, Locator, Main }) => {
   // arrange
-  await Clipboard.enableMemoryClipboard()
+  await ClipBoard.enableMemoryClipBoard()
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/test-copy-path.ts`
   const testContent = 'export const test = () => "hello"'
@@ -26,5 +26,5 @@ export const test: Test = async ({ Clipboard, Command, expect, FileSystem, Locat
   await Command.execute('Main.copyPath', testFile)
 
   // assert - verify clipboard contains the absolute path
-  await Clipboard.shouldHaveText(testFile)
+  await ClipBoard.shouldHaveText(testFile)
 }

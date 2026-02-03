@@ -37,6 +37,7 @@ test('handleHeaderDoubleClick should return state unchanged when groupIndexRaw i
   const result = await handleHeaderDoubleClick(state, '')
 
   expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('handleHeaderDoubleClick should create a new untitled file when valid groupIndex is provided', async () => {
@@ -75,6 +76,8 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
 
   expect(result).not.toBe(state)
   expect(result.layout.groups[0].tabs.length).toBeGreaterThan(1)
+  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations[0][0]).toBe('Layout.createViewlet')
 })
 
 test('handleHeaderDoubleClick should add untitled tab to the active group', async () => {
@@ -116,4 +119,6 @@ test('handleHeaderDoubleClick should add untitled tab to the active group', asyn
 
   expect(untitledTab).toBeDefined()
   expect(untitledTab?.uri).toContain('untitled://')
+  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations[0][0]).toBe('Layout.createViewlet')
 })

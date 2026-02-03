@@ -2,6 +2,7 @@ import { terminate } from '@lvce-editor/viewlet-registry'
 import { closeActiveEditor } from '../CloseActiveEditor/CloseActiveEditor.ts'
 import { closeAll } from '../CloseAll/CloseAll.ts'
 import { closeFocusedTab } from '../CloseFocusedTab/CloseFocusedTab.ts'
+import { closeOtherTabs } from '../CloseOtherTabs/CloseOtherTabs.ts'
 import * as MainArea from '../Create/Create.ts'
 import { diff2 } from '../Diff2/Diff2.ts'
 import { focusNextTab } from '../FocusNextTab/FocusNextTab.ts'
@@ -39,6 +40,7 @@ export const commandMap = {
   'MainArea.closeAll': wrapCommand(closeAll),
   'MainArea.closeAllEditors': wrapCommand(closeAll),
   'MainArea.closeFocusedTab': wrapCommand(closeFocusedTab),
+  'MainArea.closeOthers': wrapCommand(closeOtherTabs),
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
   'MainArea.focusNext': wrapCommand(focusNextTab),

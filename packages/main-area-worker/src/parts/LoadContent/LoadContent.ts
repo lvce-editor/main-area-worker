@@ -16,6 +16,7 @@ export const loadContent = async (state: MainAreaState, savedState: unknown): Pr
     const finalState: MainAreaState = {
       ...editorState,
       fileIconCache,
+      initial: false,
       layout: updatedLayout,
     }
 
@@ -23,6 +24,7 @@ export const loadContent = async (state: MainAreaState, savedState: unknown): Pr
   }
   return {
     ...state,
+    initial: false,
     layout: {
       activeGroupId: undefined,
       direction: 'horizontal',

@@ -4,6 +4,8 @@ import { closeAll } from '../CloseAll/CloseAll.ts'
 import { closeFocusedTab } from '../CloseFocusedTab/CloseFocusedTab.ts'
 import * as MainArea from '../Create/Create.ts'
 import { diff2 } from '../Diff2/Diff2.ts'
+import { focusNextTab } from '../FocusNextTab/FocusNextTab.ts'
+import { focusPreviousTab } from '../FocusPreviousTab/FocusPreviousTab.ts'
 import { getMenuIds } from '../GetMenuIds/GetMenuIds.ts'
 import * as HandleClick from '../HandleClick/HandleClick.ts'
 import { handleClickAction } from '../HandleClickAction/HandleClickAction.ts'
@@ -38,6 +40,8 @@ export const commandMap = {
   'MainArea.closeFocusedTab': wrapCommand(closeFocusedTab),
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
+  'MainArea.focusNextTab': wrapCommand(focusNextTab),
+  'MainArea.focusPreviousTab': wrapCommand(focusPreviousTab),
   'MainArea.getCommandIds': getCommandIds,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
   'MainArea.getMenuIds': getMenuIds,

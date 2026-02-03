@@ -1,4 +1,4 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../OpenUriOptions/OpenUriOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
@@ -21,7 +21,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
 
   const uri = getOptionUriOptions(options)
 
-  // Check if a tab with this URI already exists
+  // Check if a tab with this URI already exists in the passed-in state
   const existingTab = findTabByUri(state, uri)
   if (existingTab) {
     // Tab exists, switch to it and focus its group
@@ -32,31 +32,64 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Get previous active tab ID for viewlet switching
   const previousTabId = getActiveTabId(state)
 
-  const newState = ensureActiveGroup(state, uri)
+  // Check if there's existing state in the global store
+  const stateFromStore = get(uid)
+  let currentState: MainAreaState
+
+  if (stateFromStore) {
+    const storedState = stateFromStore.newState
+    // Use the stored state if it has more tabs than the passed-in state
+    // (indicating concurrent calls have already added tabs)
+    // Otherwise use the passed-in state (test setup with initial data)
+    const storedTabCount = storedState.layout.groups.reduce((sum: number, g: EditorGroup) => sum + g.tabs.length, 0)
+    const passedTabCount = state.layout.groups.reduce((sum: number, g: EditorGroup) => sum + g.tabs.length, 0)
+
+    if (storedTabCount > passedTabCount) {
+      // Stored state has more tabs - concurrent calls have added tabs
+      currentState = storedState
+    } else {
+      // Passed-in state has same or more tabs, use it (likely fresh test setup)
+      currentState = state
+      set(uid, state, state)
+    }
+  } else {
+    // No state in store yet, register the passed-in state
+    currentState = state
+    set(uid, state, state)
+  }
+
+  // Add tab to state BEFORE any async calls to prevent race conditions
+  const newState = ensureActiveGroup(currentState, uri)
   const tabId = getActiveTabId(newState)!
+
+  // Save state immediately after adding tab
+  set(uid, currentState, newState)
 
   const viewletModuleId = await getViewletModuleId(uri)
 
+  // After async call, get the latest state to account for any concurrent changes
+  const { newState: stateAfterModuleId } = get(uid)
+
   if (!viewletModuleId) {
     // TODO display some kind of errro that editor couldn't be opened
-    return newState
+    return stateAfterModuleId
   }
 
   // Calculate bounds: use main area bounds minus tab height
   const bounds = {
-    height: newState.height - newState.tabHeight,
-    width: newState.width,
-    x: newState.x,
-    y: newState.y + newState.tabHeight,
+    height: stateAfterModuleId.height - stateAfterModuleId.tabHeight,
+    width: stateAfterModuleId.width,
+    x: stateAfterModuleId.x,
+    y: stateAfterModuleId.y + stateAfterModuleId.tabHeight,
   }
-  const stateWithViewlet = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+  const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateAfterModuleId, tabId, viewletModuleId, bounds)
   let intermediateState1 = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
   const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState1, previousTabId, tabId)
   intermediateState1 = switchedState
 
-  set(uid, state, intermediateState1)
+  set(uid, stateWithViewlet, intermediateState1)
 
   // Get the tab to extract editorUid
   const tabWithViewlet = findTabById(intermediateState1, tabId)
@@ -80,25 +113,35 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   // Attachment is handled automatically by virtual DOM reference nodes
   const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
 
+  // Save state before async icon request
+  set(uid, intermediateState1, readyState)
+
   // Request file icon for the newly opened tab
   try {
     const newTab = findTabById(readyState, tabId)
     if (newTab && newTab.tab.uri) {
       const { newFileIconCache } = await getFileIconsForTabs([newTab.tab], readyState.fileIconCache)
+
+      // After async call, get the latest state again
+      const { newState: stateBeforeIconUpdate } = get(uid)
+
       const icon = newFileIconCache[newTab.tab.uri] || ''
 
-      // Update the tab with the icon
+      // Update the tab with the icon in the latest state
       const stateWithIcon = {
-        ...readyState,
+        ...stateBeforeIconUpdate,
         fileIconCache: newFileIconCache,
         layout: {
-          ...readyState.layout,
-          groups: readyState.layout.groups.map((group) => ({
+          ...stateBeforeIconUpdate.layout,
+          groups: stateBeforeIconUpdate.layout.groups.map((group: EditorGroup) => ({
             ...group,
-            tabs: group.tabs.map((tab) => (tab.id === tabId ? { ...tab, icon } : tab)),
+            tabs: group.tabs.map((tab: Tab) => (tab.id === tabId ? { ...tab, icon } : tab)),
           })),
         },
       }
+
+      // Save the state with icon update so concurrent calls can see it
+      set(uid, stateBeforeIconUpdate, stateWithIcon)
 
       return stateWithIcon
     }
@@ -106,5 +149,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     // If icon request fails, continue without icon
   }
 
-  return readyState
+  // Get final latest state
+  const { newState: finalState } = get(uid)
+  return finalState
 }

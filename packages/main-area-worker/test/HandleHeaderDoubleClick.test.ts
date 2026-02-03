@@ -34,7 +34,7 @@ test('handleHeaderDoubleClick should return state unchanged when groupIndexRaw i
     },
   }
 
-  const result = await handleHeaderDoubleClick(state, '')
+  const result = await handleHeaderDoubleClick(state, 'NotMainTabs', '')
 
   expect(result).toBe(state)
   expect(mockRpc.invocations).toEqual([])
@@ -72,7 +72,7 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
     },
   }
 
-  const result = await handleHeaderDoubleClick(state, '0')
+  const result = await handleHeaderDoubleClick(state, 'MainTabs', '0')
 
   expect(result).not.toBe(state)
   expect(result.layout.groups[0].tabs.length).toBeGreaterThan(1)
@@ -112,7 +112,7 @@ test('handleHeaderDoubleClick should add untitled tab to the active group', asyn
     },
   }
 
-  const result = await handleHeaderDoubleClick(state, '0')
+  const result = await handleHeaderDoubleClick(state, 'MainTabs', '0')
 
   const newTabs = result.layout.groups[0].tabs
   const untitledTab = newTabs.find((tab) => tab.title === 'Untitled')

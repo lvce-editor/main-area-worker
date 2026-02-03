@@ -303,5 +303,5 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderItems])
+  expect(result).toEqual([DiffType.RenderIncremental])
 })

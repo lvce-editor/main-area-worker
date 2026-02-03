@@ -1,6 +1,6 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-export const name = 'viewlet.main-area-focus-next-tab'
+export const name = 'viewlet.main-area-focus-next-tab-cycle'
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   // arrange - create test files
@@ -19,31 +19,16 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
 
   // arrange - verify all tabs are visible and third tab is active
   const tab1 = Locator('.MainTab[title$="file1.txt"]')
-  const tab2 = Locator('.MainTab[title$="file2.txt"]')
   const tab3 = Locator('.MainTab[title$="file3.txt"]')
   await expect(tab1).toBeVisible()
-  await expect(tab2).toBeVisible()
   await expect(tab3).toBeVisible()
   const selectedTab3 = Locator('.MainTabSelected[title$="file3.txt"]')
   await expect(selectedTab3).toBeVisible()
 
-  // act - click on first tab to focus it
-  await tab1.click()
+  // act - focus next tab while at last tab (should cycle to first)
+  await Command.execute('Main.focusNextTab', 0)
 
-  // assert - verify first tab is now selected
+  // assert - verify first tab is now selected (cyclic behavior)
   const selectedTab1 = Locator('.MainTabSelected[title$="file1.txt"]')
   await expect(selectedTab1).toBeVisible()
-
-  // act - focus next tab
-  await Command.execute('Main.focusNextTab', 0)
-
-  // assert - verify second tab is now selected
-  const selectedTab2 = Locator('.MainTabSelected[title$="file2.txt"]')
-  await expect(selectedTab2).toBeVisible()
-
-  // act - focus next tab again
-  await Command.execute('Main.focusNextTab', 0)
-
-  // assert - verify third tab is now selected
-  await expect(selectedTab3).toBeVisible()
 }

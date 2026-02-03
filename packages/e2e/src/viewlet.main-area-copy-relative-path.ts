@@ -2,8 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-copy-relative-path'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Clipboard, Command, expect, FileSystem, Locator, Main, Workspace }) => {
   // arrange
+  await Clipboard.enableMemoryClipboard()
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
   const testFile = `${tmpDir}/test-copy-relative-path.ts`
@@ -23,6 +24,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   // act - execute copy relative path command
   await Command.execute('Main.copyRelativePath', testFile)
 
-  // Note: Clipboard verification is not directly available in e2e tests,
-  // but the command should execute without errors
+  // assert - verify clipboard contains the relative path
+  await Clipboard.shouldHaveText('test-copy-relative-path.ts')
 }

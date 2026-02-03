@@ -52,6 +52,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 2,
       className: 'EditorGroupHeader',
+      onDblClick: DomEventListenerFunctions.HandleHeaderDoubleClick,
       role: 'none',
       type: VirtualDomElements.Div,
     },

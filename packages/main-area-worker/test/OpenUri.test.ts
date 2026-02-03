@@ -1,9 +1,17 @@
-import { expect, test } from '@jest/globals'
+import { expect, test, afterEach } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import type { OpenUriOptions } from '../src/parts/OpenUriOptions/OpenUriOptions.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openUri } from '../src/parts/OpenUri/OpenUri.ts'
+
+// Clear the global state store between tests to prevent interference
+afterEach(() => {
+  // Reset state for uid 0 (used by most tests)
+  const defaultState = createDefaultState()
+  MainAreaStates.set(0, defaultState, defaultState)
+})
 
 test('openUri should create a new group and tab when no groups exist', async () => {
   const state: MainAreaState = createDefaultState()
@@ -553,4 +561,307 @@ test('openUri should handle icon loading failure gracefully', async () => {
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
   expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.ts'])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
+})
+
+// Race condition tests
+
+test('openUri should handle race condition when second call starts while first awaits getViewletModuleId', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  let getModuleIdCallCount = 0
+  const getModuleIdPromises: Array<PromiseWithResolvers<string>> = []
+  const bothCallsWaiting = Promise.withResolvers<void>()
+
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => {
+      getModuleIdCallCount++
+      const deferred = Promise.withResolvers<string>()
+      getModuleIdPromises.push(deferred)
+      if (getModuleIdCallCount === 2) {
+        bothCallsWaiting.resolve()
+      }
+      return deferred.promise
+    },
+  })
+
+  using _mockIconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-typescript'],
+  })
+
+  const state: MainAreaState = createDefaultState()
+
+  // Start first openUri
+  const promise1 = openUri(state, 'file:///path/to/file1.ts')
+
+  // Start second openUri while first is still waiting
+  const promise2 = openUri(state, 'file:///path/to/file2.ts')
+
+  // Wait for both calls to reach getModuleId
+  await bothCallsWaiting.promise
+
+  expect(getModuleIdCallCount).toBe(2)
+
+  // Resolve in reverse order (second request finishes first)
+  getModuleIdPromises[1].resolve('editor.text')
+  getModuleIdPromises[0].resolve('editor.text')
+
+  const [_result1, result2] = await Promise.all([promise1, promise2])
+
+  // Both tabs should exist
+  expect(result2.layout.groups[0].tabs.length).toBeGreaterThanOrEqual(2)
+
+  // Verify both URIs are present
+  const allUris = result2.layout.groups[0].tabs.map((tab) => tab.uri)
+  expect(allUris).toContain('file:///path/to/file1.ts')
+  expect(allUris).toContain('file:///path/to/file2.ts')
+})
+
+test('openUri should handle race condition when second call starts while first awaits file icons', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  let iconCallCount = 0
+  const iconPromises: Array<PromiseWithResolvers<string[]>> = []
+  const bothCallsWaiting = Promise.withResolvers<void>()
+
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  using _mockIconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => {
+      iconCallCount++
+      const deferred = Promise.withResolvers<string[]>()
+      iconPromises.push(deferred)
+      if (iconCallCount === 2) {
+        bothCallsWaiting.resolve()
+      }
+      return deferred.promise
+    },
+  })
+
+  const state: MainAreaState = createDefaultState()
+
+  // Start first openUri
+  const promise1 = openUri(state, 'file:///path/to/file1.ts')
+
+  // Start second openUri while first is loading icons
+  const promise2 = openUri(state, 'file:///path/to/file2.ts')
+
+  // Wait for both calls to reach icon loading
+  await bothCallsWaiting.promise
+
+  expect(iconCallCount).toBe(2)
+
+  // Resolve in reverse order (second request finishes first)
+  iconPromises[1].resolve(['file-icon-2'])
+  iconPromises[0].resolve(['file-icon-1'])
+
+  const [_result1, result2] = await Promise.all([promise1, promise2])
+
+  // Both tabs should exist
+  expect(result2.layout.groups[0].tabs.length).toBe(2)
+
+  // Verify both URIs are present
+  const allUris = result2.layout.groups[0].tabs.map((tab) => tab.uri)
+  expect(allUris).toContain('file:///path/to/file1.ts')
+  expect(allUris).toContain('file:///path/to/file2.ts')
+
+  // Verify icons are set correctly
+  const tab1 = result2.layout.groups[0].tabs.find((tab) => tab.uri === 'file:///path/to/file1.ts')
+  const tab2 = result2.layout.groups[0].tabs.find((tab) => tab.uri === 'file:///path/to/file2.ts')
+  expect(tab1).toBeDefined()
+  expect(tab2).toBeDefined()
+  expect(tab1!.icon).toBe('file-icon-1')
+  expect(tab2!.icon).toBe('file-icon-2')
+})
+
+test('openUri should handle multiple simultaneous calls without losing tabs', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  let getModuleIdCallCount = 0
+  const getModuleIdResolvers: Array<PromiseWithResolvers<string>> = []
+  const allCallsWaiting = Promise.withResolvers<void>()
+
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => {
+      getModuleIdCallCount++
+      const deferred = Promise.withResolvers<string>()
+      getModuleIdResolvers.push(deferred)
+      if (getModuleIdCallCount === 4) {
+        allCallsWaiting.resolve()
+      }
+      return deferred.promise
+    },
+  })
+
+  using _mockIconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon'],
+  })
+
+  const state: MainAreaState = createDefaultState()
+
+  // Start multiple openUri calls simultaneously
+  const promises = [
+    openUri(state, 'file:///path/to/file1.ts'),
+    openUri(state, 'file:///path/to/file2.ts'),
+    openUri(state, 'file:///path/to/file3.ts'),
+    openUri(state, 'file:///path/to/file4.ts'),
+  ]
+
+  // Wait for all 4 calls to reach getModuleId
+  await allCallsWaiting.promise
+
+  // Resolve all in order
+  for (const deferred of getModuleIdResolvers) {
+    deferred.resolve('editor.text')
+  }
+
+  const results = await Promise.all(promises)
+
+  // Get the final result (last one)
+  const finalResult = results[results.length - 1]
+
+  // All 4 tabs should exist
+  expect(finalResult.layout.groups[0].tabs.length).toBe(4)
+
+  // Verify all URIs are present
+  const allUris = finalResult.layout.groups[0].tabs.map((tab) => tab.uri)
+  expect(allUris).toContain('file:///path/to/file1.ts')
+  expect(allUris).toContain('file:///path/to/file2.ts')
+  expect(allUris).toContain('file:///path/to/file3.ts')
+  expect(allUris).toContain('file:///path/to/file4.ts')
+
+  // No duplicate tabs
+  const uniqueUris = [...new Set(allUris)]
+  expect(uniqueUris.length).toBe(4)
+})
+
+test('openUri should preserve existing tabs when race condition occurs', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  let moduleIdCallCount = 0
+  const moduleIdResolvers: Array<PromiseWithResolvers<string>> = []
+  const bothCallsWaiting = Promise.withResolvers<void>()
+
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => {
+      moduleIdCallCount++
+      const deferred = Promise.withResolvers<string>()
+      moduleIdResolvers.push(deferred)
+      if (moduleIdCallCount === 2) {
+        bothCallsWaiting.resolve()
+      }
+      return deferred.promise
+    },
+  })
+
+  using _mockIconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon'],
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 5,
+              errorMessage: '',
+              icon: 'existing-icon',
+              id: 1,
+              isDirty: false,
+              language: 'typescript',
+              loadingState: 'idle',
+              title: 'Existing File',
+              uri: 'file:///existing/file.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  // Start two openUri calls
+  const promise1 = openUri(state, 'file:///path/to/new1.ts')
+  const promise2 = openUri(state, 'file:///path/to/new2.ts')
+
+  // Wait for both to reach getModuleId
+  await bothCallsWaiting.promise
+
+  // Resolve in reverse order
+  moduleIdResolvers[1].resolve('editor.text')
+  moduleIdResolvers[0].resolve('editor.text')
+
+  const [_result1, result2] = await Promise.all([promise1, promise2])
+
+  // Should have 3 tabs: 1 existing + 2 new
+  expect(result2.layout.groups[0].tabs.length).toBe(3)
+
+  // Existing tab should still be there
+  const existingTab = result2.layout.groups[0].tabs.find((tab) => tab.uri === 'file:///existing/file.ts')
+  expect(existingTab).toBeDefined()
+  expect(existingTab!.icon).toBe('existing-icon')
+
+  // New tabs should exist
+  const allUris = result2.layout.groups[0].tabs.map((tab) => tab.uri)
+  expect(allUris).toContain('file:///existing/file.ts')
+  expect(allUris).toContain('file:///path/to/new1.ts')
+  expect(allUris).toContain('file:///path/to/new2.ts')
+})
+
+test('openUri should handle race condition with createViewlet delays', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  let createViewletCallCount = 0
+  const createViewletResolvers: Array<PromiseWithResolvers<void>> = []
+  const bothCallsWaiting = Promise.withResolvers<void>()
+
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {
+      createViewletCallCount++
+      const deferred = Promise.withResolvers<void>()
+      createViewletResolvers.push(deferred)
+      if (createViewletCallCount === 2) {
+        bothCallsWaiting.resolve()
+      }
+      return deferred.promise
+    },
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+
+  using _mockIconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon'],
+  })
+
+  const state: MainAreaState = createDefaultState()
+
+  // Start two openUri calls
+  const promise1 = openUri(state, 'file:///path/to/file1.ts')
+  const promise2 = openUri(state, 'file:///path/to/file2.ts')
+
+  // Wait for both to be waiting on createViewlet
+  await bothCallsWaiting.promise
+
+  expect(createViewletResolvers.length).toBe(2)
+
+  // Resolve second one first
+  createViewletResolvers[1].resolve()
+  createViewletResolvers[0].resolve()
+
+  const [_result1, result2] = await Promise.all([promise1, promise2])
+
+  // Both tabs should exist in final state
+  expect(result2.layout.groups[0].tabs.length).toBe(2)
+
+  const allUris = result2.layout.groups[0].tabs.map((tab) => tab.uri)
+  expect(allUris).toContain('file:///path/to/file1.ts')
+  expect(allUris).toContain('file:///path/to/file2.ts')
 })

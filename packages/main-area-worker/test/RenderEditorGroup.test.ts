@@ -34,6 +34,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 2,
       className: 'EditorGroupHeader',
+      onDblClick: DomEventListenerFunctions.HandleHeaderDoubleClick,
       role: 'none',
       type: VirtualDomElements.Div,
     },

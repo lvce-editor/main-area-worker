@@ -1,5 +1,6 @@
 import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
+import * as DomEventListenersFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getTabsVirtualDom } from '../GetTabsVirtualDom/GetTabsVirtualDom.ts'
 import { renderEditorGroupActions } from '../RenderEditorGroupActions/RenderEditorGroupActions.ts'
 
@@ -12,6 +13,7 @@ export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, 
     {
       childCount: hasActions ? 2 : 1,
       className: 'EditorGroupHeader',
+      onDblClick: DomEventListenersFunctions.HandleHeaderDoubleClick,
       role: 'none',
       type: VirtualDomElements.Div,
     },

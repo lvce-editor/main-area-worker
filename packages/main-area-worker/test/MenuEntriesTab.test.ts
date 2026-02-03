@@ -33,7 +33,7 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
     },
   }
   const result = MenuEntriesTab.getMenuEntries(state)
-  expect(result).toHaveLength(8)
+  expect(result).toHaveLength(10)
   expect(result[0]).toEqual({
     command: 'Main.closeFocusedTab',
     flags: MenuItemFlags.None,
@@ -72,12 +72,26 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
     label: 'Reveal in Explorer',
   })
   expect(result[6]).toEqual({
+    args: ['/home/user/file.txt'],
+    command: 'Main.copyPath',
+    flags: MenuItemFlags.None,
+    id: 'copyPath',
+    label: 'Copy Path',
+  })
+  expect(result[7]).toEqual({
+    args: ['/home/user/file.txt'],
+    command: 'Main.copyRelativePath',
+    flags: MenuItemFlags.None,
+    id: 'copyRelativePath',
+    label: 'Copy Relative Path',
+  })
+  expect(result[8]).toEqual({
     command: '',
     flags: MenuItemFlags.Separator,
     id: 'separator',
     label: '',
   })
-  expect(result[7]).toEqual({
+  expect(result[9]).toEqual({
     args: ['References', true, '/home/user/file.txt'],
     command: 'SideBar.show',
     flags: MenuItemFlags.None,
@@ -116,7 +130,9 @@ test('getMenuEntries includes correct path in args for reveal and find reference
   }
   const result = MenuEntriesTab.getMenuEntries(state)
   expect(result[5].args).toEqual(['/workspace/src/index.ts'])
-  expect(result[7].args).toEqual(['References', true, '/workspace/src/index.ts'])
+  expect(result[6].args).toEqual(['/workspace/src/index.ts'])
+  expect(result[7].args).toEqual(['/workspace/src/index.ts'])
+  expect(result[9].args).toEqual(['References', true, '/workspace/src/index.ts'])
 })
 
 test('getMenuEntries handles tab without path', () => {
@@ -148,7 +164,9 @@ test('getMenuEntries handles tab without path', () => {
   }
   const result = MenuEntriesTab.getMenuEntries(state)
   expect(result[5].args).toEqual([undefined])
-  expect(result[7].args).toEqual(['References', true, undefined])
+  expect(result[6].args).toEqual([undefined])
+  expect(result[7].args).toEqual([undefined])
+  expect(result[9].args).toEqual(['References', true, undefined])
 })
 
 test('getMenuEntries uses correct active tab from multiple tabs', () => {
@@ -190,7 +208,9 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
   }
   const result = MenuEntriesTab.getMenuEntries(state)
   expect(result[5].args).toEqual(['/file2.txt'])
-  expect(result[7].args).toEqual(['References', true, '/file2.txt'])
+  expect(result[6].args).toEqual(['/file2.txt'])
+  expect(result[7].args).toEqual(['/file2.txt'])
+  expect(result[9].args).toEqual(['References', true, '/file2.txt'])
 })
 
 test('getMenuEntries uses correct active group from multiple groups', () => {
@@ -241,5 +261,7 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
   }
   const result = MenuEntriesTab.getMenuEntries(state)
   expect(result[5].args).toEqual(['/group2/file.txt'])
-  expect(result[7].args).toEqual(['References', true, '/group2/file.txt'])
+  expect(result[6].args).toEqual(['/group2/file.txt'])
+  expect(result[7].args).toEqual(['/group2/file.txt'])
+  expect(result[9].args).toEqual(['References', true, '/group2/file.txt'])
 })

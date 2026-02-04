@@ -2,11 +2,9 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as Assert from '../Assert/Assert.ts'
 
-export const handleResize = async (state: MainAreaState, x: number, y: number, width: number, height: number): Promise<MainAreaState> => {
-  Assert.number(x)
-  Assert.number(y)
-  Assert.number(width)
-  Assert.number(height)
+export const handleResize = async (state: MainAreaState, dimensions: any): Promise<readonly any[]> => {
+  console.log({ dimensions })
+  const { height, width, x, y } = dimensions
 
   const newState = {
     ...state,
@@ -21,13 +19,17 @@ export const handleResize = async (state: MainAreaState, x: number, y: number, w
   const { groups } = layout
   const contentHeight = height - tabHeight
 
+  const allResizeCommands = []
   for (const group of groups) {
     for (const tab of group.tabs) {
       if (tab.editorUid !== -1) {
-        await RendererWorker.invoke('Viewlet.setBounds', tab.editorUid, { height: contentHeight, width, x, y: y + tabHeight })
+        console.log('editorid', tab.editorUid)
+        const resizeCommands = await RendererWorker.invoke('Viewlet.resize', tab.editorUid, { height: contentHeight, width, x, y: y + tabHeight })
+        allResizeCommands.push(...resizeCommands)
       }
     }
   }
 
-  return newState
+  console.log({ allResizeCommands })
+  return allResizeCommands
 }

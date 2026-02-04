@@ -63,7 +63,7 @@ export const commandMap = {
   'MainArea.handleDoubleClick': wrapCommand(handleDoubleClick),
   'MainArea.handleHeaderDoubleClick': wrapCommand(handleHeaderDoubleClick),
   'MainArea.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),
-  'MainArea.handleResize': wrapCommand(handleResize),
+  'MainArea.handleResize': wrapGetter(handleResize), // TODO would need to have a function that returns newstate as well as commands
   'MainArea.handleTabContextMenu': wrapCommand(handleTabContextMenu),
   'MainArea.handleUriChange': wrapCommand(handleUriChange),
   'MainArea.handleWorkspaceChange': wrapCommand(handleWorkspaceChange),
@@ -74,7 +74,7 @@ export const commandMap = {
   'MainArea.refresh': wrapCommand(refresh),
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,
-  'MainArea.resize': wrapCommand(resize),
+  'MainArea.resize': wrapGetter(handleResize),
   'MainArea.save': wrapCommand(save),
   'MainArea.saveState': wrapGetter(saveState),
   'MainArea.selectTab': wrapCommand(selectTab),

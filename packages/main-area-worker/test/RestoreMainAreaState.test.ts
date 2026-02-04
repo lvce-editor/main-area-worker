@@ -702,7 +702,13 @@ test('restoreMainAreaState should handle layout with group having invalid tab st
 
   const result = restoreMainAreaState(savedState, currentState)
 
-  expect(result.layout.groups[0].tabs).toEqual(savedLayout.groups[0].tabs)
+  // Should normalize editorUid to -1 even for invalid tabs
+  expect(result.layout.groups[0].tabs).toEqual([
+    {
+      invalid: 'tab',
+      editorUid: -1,
+    },
+  ])
 })
 
 test('restoreMainState should return valid layout', () => {

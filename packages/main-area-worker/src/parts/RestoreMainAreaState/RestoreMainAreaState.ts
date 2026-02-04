@@ -18,9 +18,27 @@ export const restoreMainAreaState = (savedState: string, currentState: MainAreaS
   try {
     const parsed: SavedMainAreaState = JSON.parse(savedState)
 
+    // Normalize all tabs to have editorUid: -1 so SelectTab will create viewlets
+    // Only normalize if the layout structure is valid
+    const normalizedLayout =
+      parsed.layout && Array.isArray(parsed.layout.groups)
+        ? {
+            ...parsed.layout,
+            groups: parsed.layout.groups.map((group: any) => ({
+              ...group,
+              tabs: Array.isArray(group.tabs)
+                ? group.tabs.map((tab: any) => ({
+                    ...tab,
+                    editorUid: -1,
+                  }))
+                : group.tabs,
+            })),
+          }
+        : parsed.layout
+
     return {
       ...currentState,
-      layout: parsed.layout,
+      layout: normalizedLayout,
     }
   } catch (error) {
     console.error('Failed to restore main area state:', error)

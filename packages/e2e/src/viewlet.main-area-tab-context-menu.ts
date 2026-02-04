@@ -13,7 +13,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await expect(tab).toBeVisible()
 
   // act
-  await Command.execute('Main.handleTabContextMenu', 0, 0)
+  await Command.execute('Main.handleTabContextMenu', 0, 0, 0)
 
   // assert
   const closeMenuItem = Locator('text=Close').first()

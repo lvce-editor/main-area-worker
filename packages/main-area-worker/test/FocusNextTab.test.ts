@@ -258,7 +258,7 @@ test('focusNextTab should move from first tab to second tab', async () => {
   expect(mockRpc.invocations).toEqual([])
 })
 
-test('focusNextTab should cycle from last tab to first tab', async () => {
+test('focusNextTab should cycle from last tab to first tab 2', async () => {
   using mockRpc = RendererWorker.registerMockRpc({})
 
   const state: MainAreaState = {

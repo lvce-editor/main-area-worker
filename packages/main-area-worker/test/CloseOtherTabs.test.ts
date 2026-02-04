@@ -449,3 +449,119 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
   expect(result.layout.groups[0].tabs[0].uri).toBe('/file2.ts')
 })
+
+test('closeOtherTabs should use active group when groupId is not provided', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 2,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: false,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              title: 'File 2',
+            },
+          ],
+        },
+        {
+          activeTabId: 4,
+          focused: true,
+          id: 2,
+          isEmpty: false,
+          size: 50,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              title: 'File 3',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 4,
+              isDirty: false,
+              title: 'File 4',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 5,
+              isDirty: false,
+              title: 'File 5',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeOtherTabs(state)
+
+  // First group should be unchanged
+  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs[0].id).toBe(1)
+  expect(result.layout.groups[0].tabs[1].id).toBe(2)
+
+  // Second group (active) should only have the active tab
+  expect(result.layout.groups[1].tabs.length).toBe(1)
+  expect(result.layout.groups[1].tabs[0].id).toBe(4)
+  expect(result.layout.groups[1].activeTabId).toBe(4)
+  expect(result).not.toBe(state)
+})
+
+test('closeOtherTabs should return state unchanged when activeGroupId is undefined and no groupId provided', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeOtherTabs(state)
+
+  expect(result).toBe(state)
+})

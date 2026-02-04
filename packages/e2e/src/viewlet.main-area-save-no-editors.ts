@@ -8,7 +8,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
   await Workspace.setPath(tmpDir)
 
   // act
-  await Command.execute('Main.save')
+  await Main.save()
 
   // assert
   const tabs = Locator('.MainTab')

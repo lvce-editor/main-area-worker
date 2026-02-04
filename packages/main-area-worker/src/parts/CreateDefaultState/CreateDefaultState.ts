@@ -17,6 +17,7 @@ export const createDefaultState = (): MainAreaState => {
     tabHeight: 35,
     uid: 0,
     width: 0,
+    workspaceuri: '',
     x: 0,
     y: 0,
   }

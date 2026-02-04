@@ -22,6 +22,7 @@ export interface MainAreaState {
   readonly tabHeight: number
   readonly uid: number
   readonly width: number
+  readonly workspaceuri: string
   readonly x: number
   readonly y: number
 }

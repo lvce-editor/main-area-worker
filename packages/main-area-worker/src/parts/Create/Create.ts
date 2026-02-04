@@ -28,6 +28,7 @@ export const create = (
     tabHeight,
     uid,
     width,
+    workspaceuri: uri,
     x,
     y,
   }

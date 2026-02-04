@@ -27,8 +27,9 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   const selectedTab3 = Locator('.MainTabSelected[title$="file3.txt"]')
   await expect(selectedTab3).toBeVisible()
 
-  // act - click on first tab to focus it
-  await tab1.click()
+  // act - focus previous tab twice to reach first tab
+  await Command.execute('Main.focusPreviousTab', 0)
+  await Command.execute('Main.focusPreviousTab', 0)
 
   // assert - verify first tab is now selected
   const selectedTab1 = Locator('.MainTabSelected[title$="file1.txt"]')

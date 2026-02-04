@@ -4,22 +4,19 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleResize } from '../src/parts/HandleResize/HandleResize.ts'
 
-test('handleResize should update x, y, width, and height', async () => {
+test('handleResize should return resize commands', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     uid: 1,
   }
 
-  const result = await handleResize(state, 10, 20, 800, 600)
+  const result = await handleResize(state, { height: 600, width: 800, x: 10, y: 20 })
 
-  expect(result.x).toBe(10)
-  expect(result.y).toBe(20)
-  expect(result.width).toBe(800)
-  expect(result.height).toBe(600)
-  expect(result.uid).toBe(1)
+  expect(Array.isArray(result)).toBe(true)
+  expect(result).toEqual([])
 })
 
-test('handleResize should preserve other state properties', async () => {
+test('handleResize should return resize commands array', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/assets',
@@ -33,13 +30,10 @@ test('handleResize should preserve other state properties', async () => {
     uid: 123,
   }
 
-  const result = await handleResize(state, 0, 0, 1024, 768)
+  const result = await handleResize(state, { height: 768, width: 1024, x: 0, y: 0 })
 
-  expect(result.assetDir).toBe('/assets')
-  expect(result.platform).toBe(2)
-  expect(result.tabHeight).toBe(40)
-  expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.direction).toBe('horizontal')
+  expect(Array.isArray(result)).toBe(true)
+  expect(result).toEqual([])
 })
 
 test('handleResize should not mutate original state', async () => {
@@ -49,7 +43,7 @@ test('handleResize should not mutate original state', async () => {
   const originalWidth = state.width
   const originalHeight = state.height
 
-  await handleResize(state, 50, 100, 400, 300)
+  await handleResize(state, { height: 300, width: 400, x: 50, y: 100 })
 
   expect(state.x).toBe(originalX)
   expect(state.y).toBe(originalY)
@@ -63,12 +57,10 @@ test('handleResize should handle zero values', async () => {
     uid: 1,
   }
 
-  const result = await handleResize(state, 0, 0, 0, 0)
+  const result = await handleResize(state, { height: 0, width: 0, x: 0, y: 0 })
 
-  expect(result.x).toBe(0)
-  expect(result.y).toBe(0)
-  expect(result.width).toBe(0)
-  expect(result.height).toBe(0)
+  expect(Array.isArray(result)).toBe(true)
+  expect(result).toEqual([])
 })
 
 test('handleResize should resize all editors', async () => {
@@ -110,14 +102,14 @@ test('handleResize should resize all editors', async () => {
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.setBounds': async () => {},
+    'Viewlet.resize': async () => [],
   })
 
-  await handleResize(state, 10, 20, 800, 600)
+  await handleResize(state, { height: 600, width: 800, x: 10, y: 20 })
 
   expect(mockRpc.invocations).toEqual([
-    ['Viewlet.setBounds', 100, { height: 560, width: 800, x: 10, y: 60 }],
-    ['Viewlet.setBounds', 101, { height: 560, width: 800, x: 10, y: 60 }],
+    ['Viewlet.resize', 100, { height: 560, width: 800, x: 10, y: 60 }],
+    ['Viewlet.resize', 101, { height: 560, width: 800, x: 10, y: 60 }],
   ])
 })
 
@@ -151,10 +143,10 @@ test('handleResize should skip editors with editorUid -1', async () => {
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.setBounds': async () => {},
+    'Viewlet.resize': async () => [],
   })
 
-  await handleResize(state, 10, 20, 800, 600)
+  await handleResize(state, { height: 600, width: 800, x: 10, y: 20 })
 
   expect(mockRpc.invocations).toEqual([])
 })

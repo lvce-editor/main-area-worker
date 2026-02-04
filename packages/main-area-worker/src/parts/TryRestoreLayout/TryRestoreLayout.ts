@@ -12,7 +12,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
   if (!isValidMainAreaLayout(layout)) {
     return undefined
   }
-  
+
   // Normalize all tabs to have editorUid: -1 so SelectTab will create viewlets
   const normalizedLayout = {
     ...layout,
@@ -24,6 +24,6 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
       })),
     })),
   }
-  
+
   return normalizedLayout
 }

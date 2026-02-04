@@ -532,3 +532,36 @@ test('closeOtherTabs should use active group when groupId is not provided', () =
   expect(result.layout.groups[1].activeTabId).toBe(4)
   expect(result).not.toBe(state)
 })
+
+test('closeOtherTabs should return state unchanged when activeGroupId is undefined and no groupId provided', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeOtherTabs(state)
+
+  expect(result).toBe(state)
+})

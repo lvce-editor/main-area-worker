@@ -23,8 +23,12 @@ export const handleResize = async (state: MainAreaState, dimensions: any): Promi
   for (const group of groups) {
     for (const tab of group.tabs) {
       if (tab.editorUid !== -1) {
-        const resizeCommands = await RendererWorker.invoke('Viewlet.resize', tab.editorUid, { height: contentHeight, width, x, y: y + tabHeight })
-        allResizeCommands.push(...resizeCommands)
+        try {
+          const resizeCommands = await RendererWorker.invoke('Viewlet.resize', tab.editorUid, { height: contentHeight, width, x, y: y + tabHeight })
+          allResizeCommands.push(...resizeCommands)
+        } catch {
+          // ignore
+        }
       }
     }
   }

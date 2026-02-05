@@ -392,3 +392,38 @@ test('handleClickAction should handle close-group with non-existent group id', a
 
   expect(result).toBe(state)
 })
+
+test('handleClickAction should handle toggle-preview action', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              title: 'test.html',
+              uri: '/path/to/test.html',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await handleClickAction(state, 'toggle-preview')
+
+  expect(result).toBe(state)
+})
+

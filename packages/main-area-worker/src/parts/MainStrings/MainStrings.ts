@@ -15,6 +15,7 @@ import {
   CopyPath,
   CopyRelativePath,
   FindFileReferences,
+  TogglePreview,
 } from '../UiStrings/UiStrings.ts'
 
 export const openFile = (): string => {
@@ -75,4 +76,8 @@ export const copyPath = (): string => {
 
 export const copyRelativePath = (): string => {
   return I18nString.i18nString(CopyRelativePath)
+}
+
+export const togglePreview = (): string => {
+  return I18nString.i18nString(TogglePreview)
 }

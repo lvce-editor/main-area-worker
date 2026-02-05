@@ -8,6 +8,6 @@ export const handleClickTogglePreview = async (state: MainAreaState): Promise<Ma
     return state
   }
 
-  await RendererWorker.invoke('Layout.togglePreview', activeTabInfo.tab.uri)
+  await RendererWorker.invoke('Layout.showPreview', activeTabInfo.tab.uri)
   return state
 }

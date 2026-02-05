@@ -6,6 +6,7 @@ export default [
   ...actions.default,
   {
     rules: {
+      '@cspell/spellchecker': 'off',
       '@typescript-eslint/prefer-readonly-parameter-types': 'off',
     },
   },

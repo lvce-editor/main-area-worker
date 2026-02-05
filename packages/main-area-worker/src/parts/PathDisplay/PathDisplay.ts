@@ -24,6 +24,9 @@ export const getLabel = (uri: string): string => {
   if (uri.startsWith('simple-browser://')) {
     return 'Simple Browser'
   }
+  if (uri.startsWith('language-models://')) {
+    return 'Language Models'
+  }
   return getBasename(uri)
 }
 

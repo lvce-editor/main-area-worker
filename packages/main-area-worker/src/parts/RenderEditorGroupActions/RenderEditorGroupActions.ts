@@ -13,13 +13,13 @@ const isHtmlFile = (tab: Tab | undefined): boolean => {
 export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: Tab) => tab.id === group.activeTabId)
   const showTogglePreview = isHtmlFile(activeTab)
-  
+
   if (!splitButtonEnabled && !showTogglePreview) {
     return []
   }
 
   const buttons: VirtualDomNode[] = []
-  
+
   if (showTogglePreview) {
     buttons.push(
       {
@@ -34,7 +34,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
       text('preview'),
     )
   }
-  
+
   if (splitButtonEnabled) {
     buttons.push(
       {

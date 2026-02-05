@@ -1,8 +1,8 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../src/parts/MainAreaState/MainAreaState.ts'
-import { renderEditorGroupActions } from '../src/parts/RenderEditorGroupActions/RenderEditorGroupActions.ts'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import { renderEditorGroupActions } from '../src/parts/RenderEditorGroupActions/RenderEditorGroupActions.ts'
 
 test('renderEditorGroupActions should return empty array when splitButtonEnabled is false and no HTML file', () => {
   const group: EditorGroup = {

@@ -426,4 +426,3 @@ test('handleClickAction should handle toggle-preview action', async () => {
 
   expect(result).toBe(state)
 })
-

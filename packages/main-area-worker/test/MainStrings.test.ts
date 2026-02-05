@@ -60,3 +60,8 @@ test('findFileReferences should return a string', () => {
   const result: string = MainStrings.findFileReferences()
   expect(typeof result).toBe('string')
 })
+
+test('togglePreview should return a string', () => {
+  const result: string = MainStrings.togglePreview()
+  expect(typeof result).toBe('string')
+})

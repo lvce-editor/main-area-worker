@@ -15,6 +15,7 @@ import * as HandleClick from '../HandleClick/HandleClick.ts'
 import { handleClickAction } from '../HandleClickAction/HandleClickAction.ts'
 import { handleClickCloseTab } from '../HandleClickCloseTab/HandleClickCloseTab.ts'
 import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
+import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
 import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleModifiedStatusChange } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
@@ -59,6 +60,7 @@ export const commandMap = {
   'MainArea.handleClickAction': wrapCommand(handleClickAction),
   'MainArea.handleClickCloseTab': wrapCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapCommand(handleClickTab),
+  'MainArea.handleClickTogglePreview': wrapCommand(handleClickTogglePreview),
   'MainArea.handleDoubleClick': wrapCommand(handleDoubleClick),
   'MainArea.handleHeaderDoubleClick': wrapCommand(handleHeaderDoubleClick),
   'MainArea.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),

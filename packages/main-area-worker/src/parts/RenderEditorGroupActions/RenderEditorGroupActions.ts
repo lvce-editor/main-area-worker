@@ -17,8 +17,9 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
   if (showTogglePreview) {
     buttons.push(
       {
+        ariaLabel: 'Preview',
         childCount: 1,
-        className: 'EditorGroupActionButton TogglePreviewButton',
+        className: 'IconButton',
         'data-action': 'toggle-preview',
         'data-groupId': String(group.id),
         name: 'toggle-preview',

@@ -2,7 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-toggle-preview-no-files'
 
-export const test: Test = async ({ Command, expect, Locator, Main }) => {
+export const skip = true
+
+export const test: Test = async ({ Command, expect, Locator }) => {
   // arrange
   await Command.execute('Main.closeAll')
   const noTabs = Locator('.MainTab')

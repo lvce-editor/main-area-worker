@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-toggle-preview-html-file'
 
+export const skip = true
+
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Command }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()

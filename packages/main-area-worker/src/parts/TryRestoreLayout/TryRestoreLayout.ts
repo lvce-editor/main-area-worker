@@ -14,6 +14,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
   }
 
   // Normalize all tabs to have editorUid: -1 so SelectTab will create viewlets
+  // Mark all restored tabs as not dirty
   const normalizedLayout = {
     ...layout,
     groups: layout.groups.map((group) => ({
@@ -21,6 +22,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
       tabs: group.tabs.map((tab) => ({
         ...tab,
         editorUid: -1,
+        isDirty: false,
       })),
     })),
   }

@@ -168,7 +168,7 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
             editorUid: -1,
             icon: '',
             id: 2,
-            isDirty: true,
+            isDirty: false,
             title: 'File 2',
           },
         ],
@@ -707,6 +707,7 @@ test('restoreMainAreaState should handle layout with group having invalid tab st
     {
       editorUid: -1,
       invalid: 'tab',
+      isDirty: false,
     },
   ])
 })

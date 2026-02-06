@@ -19,6 +19,7 @@ export const restoreMainAreaState = (savedState: string, currentState: MainAreaS
     const parsed: SavedMainAreaState = JSON.parse(savedState)
 
     // Normalize all tabs to have editorUid: -1 so SelectTab will create viewlets
+    // Mark all restored tabs as not dirty
     // Only normalize if the layout structure is valid
     const normalizedLayout =
       parsed.layout && Array.isArray(parsed.layout.groups)
@@ -30,6 +31,7 @@ export const restoreMainAreaState = (savedState: string, currentState: MainAreaS
                 ? group.tabs.map((tab: any) => ({
                     ...tab,
                     editorUid: -1,
+                    isDirty: false,
                   }))
                 : group.tabs,
             })),

@@ -67,6 +67,11 @@ test('renderEditorGroupActions should render split button when splitButtonEnable
       title: 'Split Editor Group',
       type: VirtualDomElements.Button,
     },
+    {
+      childCount: 0,
+      text: 'split',
+      type: 12,
+    },
   ]
 
   expect(result).toEqual(expectedArray)
@@ -102,14 +107,20 @@ test('renderEditorGroupActions should render toggle preview button for HTML file
       type: VirtualDomElements.Div,
     },
     {
+      ariaLabel: 'Preview',
       childCount: 1,
-      className: 'EditorGroupActionButton TogglePreviewButton',
+      className: 'IconButton',
       'data-action': 'toggle-preview',
       'data-groupId': '1',
       name: 'toggle-preview',
       onClick: DomEventListenerFunctions.HandleClickAction,
       title: 'Toggle Preview',
       type: VirtualDomElements.Button,
+    },
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconPreview',
+      type: VirtualDomElements.Div,
     },
   ]
 
@@ -171,8 +182,9 @@ test('renderEditorGroupActions should render both buttons when HTML file and spl
       type: VirtualDomElements.Div,
     },
     {
+      ariaLabel: 'Preview',
       childCount: 1,
-      className: 'EditorGroupActionButton TogglePreviewButton',
+      className: 'IconButton',
       'data-action': 'toggle-preview',
       'data-groupId': '1',
       name: 'toggle-preview',
@@ -180,7 +192,11 @@ test('renderEditorGroupActions should render both buttons when HTML file and spl
       title: 'Toggle Preview',
       type: VirtualDomElements.Button,
     },
-    undefined,
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconPreview',
+      type: VirtualDomElements.Div,
+    },
     {
       childCount: 1,
       className: 'EditorGroupActionButton SplitEditorGroupButton',
@@ -189,6 +205,11 @@ test('renderEditorGroupActions should render both buttons when HTML file and spl
       onClick: DomEventListenerFunctions.HandleClickAction,
       title: 'Split Editor Group',
       type: VirtualDomElements.Button,
+    },
+    {
+      childCount: 0,
+      text: 'split',
+      type: 12,
     },
   ]
 

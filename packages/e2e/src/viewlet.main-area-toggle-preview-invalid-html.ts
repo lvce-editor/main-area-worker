@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-toggle-preview-invalid-html'
 
 export const skip = true
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, Command }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const invalidHtmlFile = `${tmpDir}/invalid.html`

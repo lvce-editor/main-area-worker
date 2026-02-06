@@ -1,9 +1,14 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleClickTogglePreview } from '../src/parts/HandleClickTogglePreview/HandleClickTogglePreview.ts'
 
 test('handleClickTogglePreview should return state unchanged', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.showPreview': async () => {},
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -38,6 +43,10 @@ test('handleClickTogglePreview should return state unchanged', async () => {
 })
 
 test('handleClickTogglePreview should work with empty state', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.showPreview': async () => {},
+  })
+
   const state: MainAreaState = createDefaultState()
 
   const result = await handleClickTogglePreview(state)

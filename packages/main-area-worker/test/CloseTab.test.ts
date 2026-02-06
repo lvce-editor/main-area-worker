@@ -1960,7 +1960,7 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(mockRpc.invocations).toEqual([])
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 200]])
 })
 
 test('closeTabWithViewlet should remove group when closing the last tab', async () => {

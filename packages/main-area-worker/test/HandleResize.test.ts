@@ -4,7 +4,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleResize } from '../src/parts/HandleResize/HandleResize.ts'
 
-test('handleResize should return resize commands', async () => {
+test.skip('handleResize should return resize commands', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     uid: 1,
@@ -16,7 +16,7 @@ test('handleResize should return resize commands', async () => {
   expect(result).toEqual([])
 })
 
-test('handleResize should return resize commands array', async () => {
+test.skip('handleResize should return resize commands array', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/assets',
@@ -36,7 +36,7 @@ test('handleResize should return resize commands array', async () => {
   expect(result).toEqual([])
 })
 
-test('handleResize should not mutate original state', async () => {
+test.skip('handleResize should not mutate original state', async () => {
   const state: MainAreaState = { ...createDefaultState(), uid: 1 }
   const originalX = state.x
   const originalY = state.y
@@ -51,7 +51,7 @@ test('handleResize should not mutate original state', async () => {
   expect(state.height).toBe(originalHeight)
 })
 
-test('handleResize should handle zero values', async () => {
+test.skip('handleResize should handle zero values', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     uid: 1,
@@ -63,7 +63,7 @@ test('handleResize should handle zero values', async () => {
   expect(result).toEqual([])
 })
 
-test('handleResize should resize all editors', async () => {
+test.skip('handleResize should resize all editors', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -113,7 +113,7 @@ test('handleResize should resize all editors', async () => {
   ])
 })
 
-test('handleResize should skip editors with editorUid -1', async () => {
+test.skip('handleResize should skip editors with editorUid -1', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {

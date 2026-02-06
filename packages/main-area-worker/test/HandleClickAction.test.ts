@@ -430,4 +430,5 @@ test('handleClickAction should handle toggle-preview action', async () => {
   const result = await handleClickAction(state, 'toggle-preview')
 
   expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([])
 })

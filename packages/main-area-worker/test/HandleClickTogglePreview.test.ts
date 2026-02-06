@@ -40,6 +40,7 @@ test('handleClickTogglePreview should return state unchanged', async () => {
   const result = await handleClickTogglePreview(state)
 
   expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('handleClickTogglePreview should work with empty state', async () => {
@@ -52,4 +53,5 @@ test('handleClickTogglePreview should work with empty state', async () => {
   const result = await handleClickTogglePreview(state)
 
   expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([])
 })

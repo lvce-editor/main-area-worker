@@ -26,7 +26,11 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
         title: MainStrings.togglePreview(),
         type: VirtualDomElements.Button,
       },
-      text('preview'),
+      {
+        childCount: 0,
+        className: 'MaskIcon MaskIconPreview',
+        type: VirtualDomElements.Div,
+      },
     )
   }
 

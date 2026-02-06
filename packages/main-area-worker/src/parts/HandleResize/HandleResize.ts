@@ -15,7 +15,7 @@ export const handleResize = async (state: MainAreaState, dimensions: any): Promi
   }
 
   // Resize all editor children to their new bounds
-  const { layout, tabHeight } = state
+  const { layout, tabHeight, uid } = state
   const { groups } = layout
   const contentHeight = height - tabHeight
 
@@ -33,5 +33,6 @@ export const handleResize = async (state: MainAreaState, dimensions: any): Promi
     }
   }
 
+  allResizeCommands.push(['Viewlet.setBounds', uid, x, y, width, height])
   return allResizeCommands
 }

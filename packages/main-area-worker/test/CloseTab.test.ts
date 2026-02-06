@@ -2048,6 +2048,7 @@ test('closeTabWithViewlet should handle closing tab when tab not found', async (
 })
 
 test('closeTabWithViewlet should handle closing non-active tab with viewlet', async () => {
+  // @ts-ignore
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.attachToDom': async () => {},
     'Viewlet.create': async () => {},
@@ -2106,6 +2107,7 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
 })
 
 test('closeTabWithViewlet should close active middle tab and switch to next tab', async () => {
+  // @ts-ignore
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.attachToDom': async () => {},
     'Viewlet.create': async () => {},

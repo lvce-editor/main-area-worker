@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleClickAction } from '../src/parts/HandleClickAction/HandleClickAction.ts'
@@ -394,6 +395,10 @@ test('handleClickAction should handle close-group with non-existent group id', a
 })
 
 test('handleClickAction should handle toggle-preview action', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.showPreview': async () => {},
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -425,4 +430,5 @@ test('handleClickAction should handle toggle-preview action', async () => {
   const result = await handleClickAction(state, 'toggle-preview')
 
   expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([['Layout.showPreview', '/path/to/test.html']])
 })

@@ -1,14 +1,8 @@
 import { type VirtualDomNode, VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import { isHtmlFile } from '../IsHtmlFile/IsHtmlFile.ts'
 import * as MainStrings from '../MainStrings/MainStrings.ts'
-
-const isHtmlFile = (tab: Tab | undefined): boolean => {
-  if (!tab || !tab.uri) {
-    return false
-  }
-  return tab.uri.endsWith('.html')
-}
 
 export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: Tab) => tab.id === group.activeTabId)
@@ -23,15 +17,21 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
   if (showTogglePreview) {
     buttons.push(
       {
+        ariaLabel: 'Preview',
         childCount: 1,
-        className: 'EditorGroupActionButton TogglePreviewButton',
+        className: 'IconButton',
         'data-action': 'toggle-preview',
         'data-groupId': String(group.id),
+        name: 'toggle-preview',
         onClick: DomEventListenerFunctions.HandleClickAction,
         title: MainStrings.togglePreview(),
         type: VirtualDomElements.Button,
       },
-      text('preview'),
+      {
+        childCount: 0,
+        className: 'MaskIcon MaskIconPreview',
+        type: VirtualDomElements.Div,
+      },
     )
   }
 

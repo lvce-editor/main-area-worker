@@ -51,22 +51,30 @@ test('renderEditorGroupActions should render split button when splitButtonEnable
 
   const result = renderEditorGroupActions(group, 0, true)
 
-  expect(result.length).toBeGreaterThan(0)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: 'EditorGroupActions',
-    role: 'toolbar',
-    type: VirtualDomElements.Div,
-  })
-  expect(result[1]).toEqual({
-    childCount: 1,
-    className: 'EditorGroupActionButton SplitEditorGroupButton',
-    'data-action': 'split-right',
-    'data-groupId': '1',
-    onClick: DomEventListenerFunctions.HandleClickAction,
-    title: 'Split Editor Group',
-    type: VirtualDomElements.Button,
-  })
+  const expectedArray = [
+    {
+      childCount: 1,
+      className: 'EditorGroupActions',
+      role: 'toolbar',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorGroupActionButton SplitEditorGroupButton',
+      'data-action': 'split-right',
+      'data-groupId': '1',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      title: 'Split Editor Group',
+      type: VirtualDomElements.Button,
+    },
+    {
+      childCount: 0,
+      text: 'split',
+      type: 12,
+    },
+  ]
+
+  expect(result).toEqual(expectedArray)
 })
 
 test('renderEditorGroupActions should render toggle preview button for HTML files', () => {
@@ -91,22 +99,32 @@ test('renderEditorGroupActions should render toggle preview button for HTML file
 
   const result = renderEditorGroupActions(group, 0, false)
 
-  expect(result.length).toBeGreaterThan(0)
-  expect(result[0]).toEqual({
-    childCount: 1,
-    className: 'EditorGroupActions',
-    role: 'toolbar',
-    type: VirtualDomElements.Div,
-  })
-  expect(result[1]).toEqual({
-    childCount: 1,
-    className: 'EditorGroupActionButton TogglePreviewButton',
-    'data-action': 'toggle-preview',
-    'data-groupId': '1',
-    onClick: DomEventListenerFunctions.HandleClickAction,
-    title: 'Toggle Preview',
-    type: VirtualDomElements.Button,
-  })
+  const expectedArray = [
+    {
+      childCount: 1,
+      className: 'EditorGroupActions',
+      role: 'toolbar',
+      type: VirtualDomElements.Div,
+    },
+    {
+      ariaLabel: 'Preview',
+      childCount: 1,
+      className: 'IconButton',
+      'data-action': 'toggle-preview',
+      'data-groupId': '1',
+      name: 'toggle-preview',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      title: 'Toggle Preview',
+      type: VirtualDomElements.Button,
+    },
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconPreview',
+      type: VirtualDomElements.Div,
+    },
+  ]
+
+  expect(result).toEqual(expectedArray)
 })
 
 test('renderEditorGroupActions should not render toggle preview button for non-HTML files', () => {
@@ -156,33 +174,46 @@ test('renderEditorGroupActions should render both buttons when HTML file and spl
 
   const result = renderEditorGroupActions(group, 0, true)
 
-  expect(result.length).toBeGreaterThan(0)
-  expect(result[0]).toEqual({
-    childCount: 2,
-    className: 'EditorGroupActions',
-    role: 'toolbar',
-    type: VirtualDomElements.Div,
-  })
-  // First button should be toggle preview
-  expect(result[1]).toEqual({
-    childCount: 1,
-    className: 'EditorGroupActionButton TogglePreviewButton',
-    'data-action': 'toggle-preview',
-    'data-groupId': '1',
-    onClick: DomEventListenerFunctions.HandleClickAction,
-    title: 'Toggle Preview',
-    type: VirtualDomElements.Button,
-  })
-  // Third element should be split button
-  expect(result[3]).toEqual({
-    childCount: 1,
-    className: 'EditorGroupActionButton SplitEditorGroupButton',
-    'data-action': 'split-right',
-    'data-groupId': '1',
-    onClick: DomEventListenerFunctions.HandleClickAction,
-    title: 'Split Editor Group',
-    type: VirtualDomElements.Button,
-  })
+  const expectedArray = [
+    {
+      childCount: 2,
+      className: 'EditorGroupActions',
+      role: 'toolbar',
+      type: VirtualDomElements.Div,
+    },
+    {
+      ariaLabel: 'Preview',
+      childCount: 1,
+      className: 'IconButton',
+      'data-action': 'toggle-preview',
+      'data-groupId': '1',
+      name: 'toggle-preview',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      title: 'Toggle Preview',
+      type: VirtualDomElements.Button,
+    },
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconPreview',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorGroupActionButton SplitEditorGroupButton',
+      'data-action': 'split-right',
+      'data-groupId': '1',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      title: 'Split Editor Group',
+      type: VirtualDomElements.Button,
+    },
+    {
+      childCount: 0,
+      text: 'split',
+      type: 12,
+    },
+  ]
+
+  expect(result).toEqual(expectedArray)
 })
 
 test('renderEditorGroupActions should not render toggle preview button when tab has no uri', () => {

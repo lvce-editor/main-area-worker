@@ -1811,7 +1811,7 @@ test('findTabInState should find tab in different groups', () => {
 // Tests for closeTabWithViewlet (lines 76-108)
 
 test('closeTabWithViewlet should close tab without viewlet', async () => {
-  RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.attachToDom': async () => {},
     'Viewlet.create': async () => {},
     'Viewlet.dispose': async () => {},
@@ -1858,10 +1858,11 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('closeTabWithViewlet should close active tab and switch viewlet to new active tab', async () => {
-  RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.attachToDom': async () => {},
     'Viewlet.create': async () => {},
     'Viewlet.dispose': async () => {},
@@ -1908,10 +1909,11 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 1)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(2)
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 100]])
 })
 
 test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid', async () => {
-  RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.attachToDom': async () => {},
     'Viewlet.create': async () => {},
     'Viewlet.dispose': async () => {},
@@ -1958,10 +1960,11 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 200]])
 })
 
 test('closeTabWithViewlet should remove group when closing the last tab', async () => {
-  RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.attachToDom': async () => {},
     'Viewlet.create': async () => {},
     'Viewlet.dispose': async () => {},
@@ -1999,10 +2002,11 @@ test('closeTabWithViewlet should remove group when closing the last tab', async 
 
   expect(result.layout.groups.length).toBe(0)
   expect(result.layout.activeGroupId).toBeUndefined()
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 100]])
 })
 
 test('closeTabWithViewlet should handle closing tab when tab not found', async () => {
-  RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.attachToDom': async () => {},
     'Viewlet.create': async () => {},
     'Viewlet.dispose': async () => {},
@@ -2040,9 +2044,18 @@ test('closeTabWithViewlet should handle closing tab when tab not found', async (
 
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('closeTabWithViewlet should handle closing non-active tab with viewlet', async () => {
+  // @ts-ignore
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
+    'Viewlet.setBounds': async () => {},
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -2094,6 +2107,14 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
 })
 
 test('closeTabWithViewlet should close active middle tab and switch to next tab', async () => {
+  // @ts-ignore
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.attachToDom': async () => {},
+    'Viewlet.create': async () => {},
+    'Viewlet.dispose': async () => {},
+    'Viewlet.setBounds': async () => {},
+  })
+
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {

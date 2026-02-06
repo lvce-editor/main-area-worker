@@ -1,14 +1,8 @@
 import { type VirtualDomNode, VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import { isHtmlFile } from '../IsHtmlFile/IsHtmlFile.ts'
 import * as MainStrings from '../MainStrings/MainStrings.ts'
-
-const isHtmlFile = (tab: Tab | undefined): boolean => {
-  if (!tab || !tab.uri) {
-    return false
-  }
-  return tab.uri.endsWith('.html')
-}
 
 export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: Tab) => tab.id === group.activeTabId)

@@ -719,12 +719,14 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
   const results = await Promise.all(promises)
 
   // Get the final result (last one)
-  const finalResult = results[results.length - 1]
+  const finalResult = results.at(-1)
 
   // All 4 tabs should exist
+  // @ts-ignore
   expect(finalResult.layout.groups[0].tabs.length).toBe(4)
 
   // Verify all URIs are present
+  // @ts-ignore
   const allUris = finalResult.layout.groups[0].tabs.map((tab) => tab.uri)
   expect(allUris).toContain('file:///path/to/file1.ts')
   expect(allUris).toContain('file:///path/to/file2.ts')

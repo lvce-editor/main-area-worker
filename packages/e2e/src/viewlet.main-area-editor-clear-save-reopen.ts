@@ -10,6 +10,7 @@ export const test: Test = async ({ Editor, FileSystem, Main }) => {
   await FileSystem.writeFile(testFile, initialContent)
   await Main.openUri(testFile)
   await Editor.shouldHaveText(initialContent)
+  await Editor.setCursor(0, 0)
 
   await Editor.selectAll()
   await Editor.deleteAll()

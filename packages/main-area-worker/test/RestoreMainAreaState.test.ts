@@ -1,4 +1,4 @@
-import { expect, test } from '@jest/globals'
+import { expect, jest, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { restoreMainAreaState, restoreMainState } from '../src/parts/RestoreMainAreaState/RestoreMainAreaState.ts'
@@ -78,6 +78,8 @@ test('restoreMainAreaState should preserve all current state properties except l
 })
 
 test('restoreMainAreaState should return current state for invalid JSON', () => {
+  const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+
   const currentState: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/test/path',
@@ -91,9 +93,14 @@ test('restoreMainAreaState should return current state for invalid JSON', () => 
 
   expect(result).toBe(currentState)
   expect(result.layout).toEqual(currentState.layout)
+  expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
+
+  consoleErrorSpy.mockRestore()
 })
 
 test('restoreMainAreaState should return current state for empty string', () => {
+  const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+
   const currentState: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/test/path',
@@ -104,6 +111,9 @@ test('restoreMainAreaState should return current state for empty string', () => 
   const result = restoreMainAreaState('', currentState)
 
   expect(result).toBe(currentState)
+  expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
+
+  consoleErrorSpy.mockRestore()
 })
 
 test('restoreMainAreaState should set layout to undefined when layout property is missing', () => {
@@ -390,6 +400,8 @@ test('restoreMainAreaState should handle different version strings', () => {
 })
 
 test('restoreMainAreaState should return current state for null JSON', () => {
+  const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+
   const currentState: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/test/path',
@@ -400,6 +412,9 @@ test('restoreMainAreaState should return current state for null JSON', () => {
   const result = restoreMainAreaState('null', currentState)
 
   expect(result).toBe(currentState)
+  expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
+
+  consoleErrorSpy.mockRestore()
 })
 
 test('restoreMainAreaState should handle missing version property', () => {

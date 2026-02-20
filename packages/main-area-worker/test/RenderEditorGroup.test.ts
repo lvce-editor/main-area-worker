@@ -188,7 +188,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
     {
       childCount: 1,
       className: 'EmptyGroupCloseButton',
-      'data-action': 'close-group',
+      name: 'close-group',
       'data-groupId': '1',
       onClick: DomEventListenerFunctions.HandleClickAction,
       title: 'Close Editor Group',

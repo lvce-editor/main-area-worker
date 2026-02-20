@@ -11,8 +11,10 @@ test('getCss should include MainArea selector', () => {
   expect(css).toContain('.MainArea')
 })
 
-test('getCss should return expected css', () => {
+test('getCss should include sash selectors', () => {
   const css = getCss()
-  expect(css).toBe(`.MainArea {
-}`)
+  expect(css).toContain('.SashVertical')
+  expect(css).toContain('.SashVertical:hover')
+  expect(css).toContain('.SashHorizontal')
+  expect(css).toContain('.SashHorizontal:hover')
 })

@@ -6,6 +6,17 @@ import { renderSash } from '../RenderSash/RenderSash.ts'
 import * as SashId from '../SashId/SashId.ts'
 
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
+  if (layout.groups.length === 1) {
+    return [
+      {
+        childCount: 1,
+        className: ClassNames.Main,
+        type: VirtualDomElements.Div,
+      },
+      ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled),
+    ]
+  }
+
   const children = []
   const isSplit = layout.groups.length > 1
   const directionClassName = isSplit ? (layout.direction === 'horizontal' ? ClassNames.EditorGroupsHorizontal : ClassNames.EditorGroupsVertical) : ''

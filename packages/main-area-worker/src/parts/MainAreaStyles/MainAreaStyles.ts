@@ -41,19 +41,3 @@ export const CSS_CLASSES: {
   TAB_TITLE: 'tab-title',
   TEXT_EDITOR: 'text-editor',
 }
-
-export const CSS_ATTRIBUTES: {
-  readonly DATA_ACTION: 'data-action'
-  readonly DATA_CUSTOM_EDITOR_ID: 'data-custom-editor-id'
-  readonly DATA_DIRECTION: 'data-direction'
-  readonly DATA_GROUP_ID: 'data-group-id'
-  readonly DATA_LANGUAGE: 'data-language'
-  readonly DATA_TAB_ID: 'data-tab-id'
-} = {
-  DATA_ACTION: 'data-action',
-  DATA_CUSTOM_EDITOR_ID: 'data-custom-editor-id',
-  DATA_DIRECTION: 'data-direction',
-  DATA_GROUP_ID: 'data-group-id',
-  DATA_LANGUAGE: 'data-language',
-  DATA_TAB_ID: 'data-tab-id',
-}

@@ -18,6 +18,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
 
   const editorGroups = Locator('.EditorGroup')
   await expect(editorGroups).toHaveCount(2)
-  const editorGroupsContainer = Locator('.editor-groups-container.EditorGroupsHorizontal')
+  const editorGroupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
   await expect(editorGroupsContainer).toHaveCount(1)
 }

@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-focus-next-tab-cycle'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange - create test files
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.txt`
@@ -26,7 +26,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await expect(selectedTab3).toBeVisible()
 
   // act - focus next tab while at last tab (should cycle to first)
-  await Command.execute('Main.focusNextTab', 0)
+  await Main.focusNext() // Command.execute('Main.focusNextTab', 0)
 
   // assert - verify first tab is now selected (cyclic behavior)
   const selectedTab1 = Locator('.MainTabSelected[title$="file1.txt"]')

@@ -1,4 +1,4 @@
-import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, AriaRoles, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'

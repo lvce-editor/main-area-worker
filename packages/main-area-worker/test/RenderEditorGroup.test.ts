@@ -180,7 +180,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
 
   expect(result).toEqual([
     {
-      childCount: 2,
+      childCount: 1,
       className: 'EditorGroup',
       style: 'width:100%;',
       type: VirtualDomElements.Div,
@@ -195,21 +195,5 @@ test('renderEditorGroup should handle empty tabs array', () => {
       type: VirtualDomElements.Button,
     },
     text('✕'),
-    {
-      childCount: 1,
-      className: 'EditorContainer',
-      type: VirtualDomElements.Div,
-    },
-    {
-      childCount: 1,
-      className: 'TextEditor',
-      type: VirtualDomElements.Div,
-    },
-    {
-      childCount: 1,
-      className: 'EditorContent',
-      type: VirtualDomElements.Pre,
-    },
-    text(''),
   ])
 })

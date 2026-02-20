@@ -11,15 +11,26 @@ export const renderEditorGroup = (group: EditorGroup, groupIndex: number, splitB
   const hasTabs = group.tabs.length > 0
   const hasEmptyGroupCloseButton = !hasTabs
 
+  if (hasEmptyGroupCloseButton) {
+    return [
+      {
+        childCount: 1,
+        className: ClassNames.EditorGroup,
+        style,
+        type: VirtualDomElements.Div,
+      },
+      ...renderEmptyGroupCloseButton(group, groupIndex),
+    ]
+  }
+
   return [
     {
-      childCount: hasTabs || hasEmptyGroupCloseButton ? 2 : 1,
+      childCount: 2,
       className: ClassNames.EditorGroup,
       style,
       type: VirtualDomElements.Div,
     },
-    ...(hasTabs ? renderEditorGroupHeader(group, groupIndex, splitButtonEnabled) : []),
-    ...(hasEmptyGroupCloseButton ? renderEmptyGroupCloseButton(group, groupIndex) : []),
+    ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled),
     {
       childCount: 1,
       className: ClassNames.EditorContainer,

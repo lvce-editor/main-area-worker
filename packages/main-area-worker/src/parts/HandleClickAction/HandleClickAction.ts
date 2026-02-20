@@ -3,6 +3,7 @@ import { closeEditorGroup } from '../CloseEditorGroup/CloseEditorGroup.ts'
 import { GetActiveGroup } from '../GetActiveGroup/GetActiveGroup.ts'
 import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
+import { retryOpen } from '../RetryOpen/RetryOpen.ts'
 import { splitEditorGroup } from '../SplitEditorGroup/SplitEditorGroup.ts'
 
 export const handleClickAction = async (state: MainAreaState, action: string, rawGroupId?: string): Promise<MainAreaState> => {
@@ -32,6 +33,8 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
       return splitEditorGroup(state, activeGroup.id, GroupDirection.Right)
     case 'toggle-preview':
       return handleClickTogglePreview(state)
+    case 'retry-open':
+      return retryOpen(state)
     default:
       return state
   }

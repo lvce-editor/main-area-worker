@@ -18,4 +18,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
 
   const editorGroups = Locator('.EditorGroup')
   await expect(editorGroups).toHaveCount(2)
+  const verticalGroups = Locator('.EditorGroupVertical')
+  await expect(verticalGroups).toHaveCount(2)
 }

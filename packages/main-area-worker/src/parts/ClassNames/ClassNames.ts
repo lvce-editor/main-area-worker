@@ -1,6 +1,8 @@
 export const EditorGroupHeader: string = 'EditorGroupHeader'
 export const EmptyGroupCloseButton: string = 'EmptyGroupCloseButton'
 export const EditorGroup: string = 'EditorGroup'
+export const EditorGroupHorizontal: string = 'EditorGroupHorizontal'
+export const EditorGroupVertical: string = 'EditorGroupVertical'
 export const EditorContainer: string = 'EditorContainer'
 export const EditorGroupActions: string = 'EditorGroupActions'
 export const EditorGroupActionButton: string = 'EditorGroupActionButton'

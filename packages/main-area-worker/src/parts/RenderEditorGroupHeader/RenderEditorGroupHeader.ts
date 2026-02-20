@@ -1,4 +1,4 @@
-import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, VirtualDomElements, AriaRoles } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenersFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
@@ -15,7 +15,7 @@ export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, 
       childCount: hasActions ? 2 : 1,
       className: ClassNames.EditorGroupHeader,
       onDblClick: DomEventListenersFunctions.HandleHeaderDoubleClick,
-      role: 'none',
+      role: AriaRoles.None,
       type: VirtualDomElements.Div,
     },
     ...getTabsVirtualDom(group, groupIndex, tabsChildCount),

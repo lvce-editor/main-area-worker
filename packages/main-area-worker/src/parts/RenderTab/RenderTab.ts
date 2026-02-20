@@ -1,4 +1,4 @@
-import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, AriaRoles, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
@@ -30,7 +30,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
     {
       childCount: 0,
       className: ClassNames.TabIcon,
-      role: 'none',
+      role: AriaRoles.None,
       src: tab.icon,
       type: VirtualDomElements.Img,
     },

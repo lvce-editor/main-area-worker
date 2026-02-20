@@ -1,4 +1,4 @@
-import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, AriaRoles, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
@@ -13,7 +13,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
     {
       childCount: layout.groups.length,
       className: ClassNames.EDITOR_GROUPS_CONTAINER,
-      role: 'none',
+      role: AriaRoles.None,
       type: VirtualDomElements.Div,
     },
     ...layout.groups.flatMap((group, groupIndex) => renderEditorGroup(group, groupIndex, splitButtonEnabled)),

@@ -4,7 +4,7 @@ import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEven
 export const renderSash = (direction: 'horizontal' | 'vertical', sashId: string): VirtualDomNode => {
   return {
     childCount: 0,
-    className: direction === 'vertical' ? 'SashVertical' : 'SashHorizontal',
+    className: direction === 'horizontal' ? 'SashVertical' : 'SashHorizontal',
     'data-sashId': sashId,
     onPointerDown: DomEventListenerFunctions.HandleSashPointerDown,
     onPointerMove: DomEventListenerFunctions.HandleSashPointerMove,

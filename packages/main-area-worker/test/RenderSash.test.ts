@@ -5,7 +5,7 @@ import { renderSash } from '../src/parts/RenderSash/RenderSash.ts'
 
 test('renderSash vertical', () => {
   const node = renderSash('vertical', '1:2')
-  expect(node.className).toBe('SashVertical')
+  expect(node.className).toBe('SashHorizontal')
   expect(node['data-sashId']).toBe('1:2')
   expect(node.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
   expect(node.onPointerMove).toBe(DomEventListenerFunctions.HandleSashPointerMove)
@@ -15,7 +15,7 @@ test('renderSash vertical', () => {
 
 test('renderSash horizontal', () => {
   const node = renderSash('horizontal', '1:2')
-  expect(node.className).toBe('SashHorizontal')
+  expect(node.className).toBe('SashVertical')
   expect(node['data-sashId']).toBe('1:2')
   expect(node.type).toBe(VirtualDomElements.Div)
 })

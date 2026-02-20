@@ -180,3 +180,31 @@ test('renderEditorGroup should handle empty tabs array', () => {
 
   expect(result.length).toBe(10) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs with 0 tabs) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
 })
+
+test('renderEditorGroup should add horizontal class when split horizontally', () => {
+  const group: EditorGroup = {
+    activeTabId: undefined,
+    focused: false,
+    id: 1,
+    isEmpty: true,
+    size: 50,
+    tabs: [],
+  }
+  const result = renderEditorGroup(group, 0, true, 'horizontal', true)
+
+  expect(result[0].className).toBe('EditorGroup EditorGroupHorizontal')
+})
+
+test('renderEditorGroup should add vertical class when split vertically', () => {
+  const group: EditorGroup = {
+    activeTabId: undefined,
+    focused: false,
+    id: 1,
+    isEmpty: true,
+    size: 50,
+    tabs: [],
+  }
+  const result = renderEditorGroup(group, 0, true, 'vertical', true)
+
+  expect(result[0].className).toBe('EditorGroup EditorGroupVertical')
+})

@@ -9,14 +9,17 @@ export const renderEditorGroup = (
   groupIndex: number,
   splitButtonEnabled: boolean = false,
   direction: 'horizontal' | 'vertical' = 'horizontal',
+  isSplit: boolean = false,
 ): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
   const style = direction === 'horizontal' ? `width:${group.size}%;` : `height:${group.size}%;`
+  const directionClassName = isSplit ? (direction === 'horizontal' ? ClassNames.EditorGroupHorizontal : ClassNames.EditorGroupVertical) : ''
+  const className = directionClassName ? `${ClassNames.EditorGroup} ${directionClassName}` : ClassNames.EditorGroup
 
   return [
     {
       childCount: 2,
-      className: ClassNames.EditorGroup,
+      className,
       style,
       type: VirtualDomElements.Div,
     },

@@ -7,6 +7,7 @@ import * as SashId from '../SashId/SashId.ts'
 
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   const children = []
+  const isSplit = layout.groups.length > 1
   for (let i = 0; i < layout.groups.length; i++) {
     if (i > 0) {
       // Insert sash between groups
@@ -15,7 +16,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const sashId = SashId.create(beforeGroupId, afterGroupId)
       children.push(renderSash(layout.direction, sashId))
     }
-    children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled, layout.direction))
+    children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled, layout.direction, isSplit))
   }
   return [
     {

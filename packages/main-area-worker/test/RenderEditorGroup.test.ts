@@ -197,3 +197,22 @@ test('renderEditorGroup should handle empty tabs array', () => {
     text('✕'),
   ])
 })
+
+test('renderEditorGroup should support height based sizing', () => {
+  const group: EditorGroup = {
+    activeTabId: undefined,
+    focused: false,
+    id: 1,
+    isEmpty: true,
+    size: 50,
+    tabs: [],
+  }
+  const result = renderEditorGroup(group, 0, true, 'height')
+
+  expect(result[0]).toEqual({
+    childCount: 1,
+    className: 'EditorGroup',
+    style: 'height:50%;',
+    type: VirtualDomElements.Div,
+  })
+})

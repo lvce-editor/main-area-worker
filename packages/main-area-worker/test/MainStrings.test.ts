@@ -36,6 +36,11 @@ test('close should return a string', () => {
   expect(typeof result).toBe('string')
 })
 
+test('closeEditorGroup should return a string', () => {
+  const result: string = MainStrings.closeEditorGroup()
+  expect(typeof result).toBe('string')
+})
+
 test('closeOthers should return a string', () => {
   const result: string = MainStrings.closeOthers()
   expect(typeof result).toBe('string')

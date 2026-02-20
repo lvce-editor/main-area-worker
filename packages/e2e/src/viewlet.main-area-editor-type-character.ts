@@ -6,7 +6,7 @@ export const test: Test = async ({ Editor, FileSystem, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/new-file.ts`
 
-  await FileSystem.writeFile(testFile, '')
+  await FileSystem.writeFile(testFile, '\n')
   await Main.openUri(testFile)
 
   await Editor.type('a')

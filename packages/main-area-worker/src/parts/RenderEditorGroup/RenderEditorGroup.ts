@@ -4,11 +4,7 @@ import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderEditorGroupHeader } from '../RenderEditorGroupHeader/RenderEditorGroupHeader.ts'
 
-export const renderEditorGroup = (
-  group: EditorGroup,
-  groupIndex: number,
-  splitButtonEnabled: boolean = false,
-): readonly VirtualDomNode[] => {
+export const renderEditorGroup = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
   const style = `width:${group.size}%;`
 

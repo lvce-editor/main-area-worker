@@ -9,7 +9,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
   for (let i = 0; i < layout.groups.length; i++) {
     if (i > 0) {
       // Insert sash between groups
-      children.push(renderSash(layout.direction, i - 1))
+      children.push(renderSash(layout.direction))
     }
     children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled))
   }

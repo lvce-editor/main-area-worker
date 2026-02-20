@@ -27,7 +27,7 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
     },
     {
       name: DomEventListenersFunctions.HandleHeaderDoubleClick,
-      params: ['handleHeaderDoubleClick', 'event.target.className', 'event.target.dataset.groupId'],
+      params: ['handleHeaderDoubleClick', EventExpression.EventTargetClassName, 'event.target.dataset.groupId'],
     },
   ]
 }

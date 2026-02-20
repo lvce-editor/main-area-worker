@@ -3,7 +3,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'viewlet.main-area-sash-horizontal'
 
 export const skip = 1
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.ts`
   const file2 = `${tmpDir}/file2.ts`
@@ -12,7 +13,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await FileSystem.writeFile(file2, 'content2')
 
   await Main.openUri(file1)
-  await Command.execute('Main.splitRight')
+  await Main.splitRight()
 
   const sash = Locator('.SashHorizontal')
   await expect(sash).toBeVisible()

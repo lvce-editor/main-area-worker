@@ -1,4 +1,4 @@
-import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, VirtualDomElements, AriaRoles } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import * as DomEventListenersFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getTabsVirtualDom } from '../GetTabsVirtualDom/GetTabsVirtualDom.ts'

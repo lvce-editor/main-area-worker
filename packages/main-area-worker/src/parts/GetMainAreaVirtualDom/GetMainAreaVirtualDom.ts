@@ -13,7 +13,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
     {
       childCount: layout.groups.length,
       className: ClassNames.EDITOR_GROUPS_CONTAINER,
-      role: 'none',
+      role: AriaRoles.None,
       type: VirtualDomElements.Div,
     },
     ...layout.groups.flatMap((group, groupIndex) => renderEditorGroup(group, groupIndex, splitButtonEnabled)),

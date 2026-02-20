@@ -29,7 +29,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
     {
       childCount: 0,
       className: 'TabIcon',
-      role: 'none',
+      role: AriaRoles.None,
       src: tab.icon,
       type: VirtualDomElements.Img,
     },

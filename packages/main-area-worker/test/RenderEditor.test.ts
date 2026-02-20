@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import type { Tab } from '../src/parts/Tab/Tab.ts'
 import { renderEditor } from '../src/parts/RenderEditor/RenderEditor.ts'
 
@@ -146,16 +147,24 @@ test('renderEditor should show error state', () => {
 
   expect(result).toEqual([
     {
-      childCount: 1,
+      childCount: 2,
       className: 'TextEditor TextEditor--error',
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 1,
+      childCount: 2,
       className: 'EditorContent EditorContent--error',
       type: VirtualDomElements.Div,
     },
     text('Error: File not found'),
+    {
+      childCount: 1,
+      className: 'Button ButtonSecondary',
+      'data-action': 'retry-open',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      type: VirtualDomElements.Button,
+    },
+    text('Retry'),
   ])
 })
 

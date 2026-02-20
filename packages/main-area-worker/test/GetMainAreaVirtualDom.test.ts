@@ -184,7 +184,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   // Find sash node
   const sashNode = result.find((node) => node.className === 'SashHorizontal')
   expect(sashNode).toBeDefined()
-  expect(sashNode['data-group-index']).toBe(0)
+  expect(sashNode?.['data-group-index']).toBe(0)
   expect(result[1].childCount).toBe(3) // 2 groups + 1 sash
 })
 

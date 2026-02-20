@@ -1,7 +1,8 @@
 import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
-import { closeTab, closeTabWithViewlet } from '../src/parts/CloseTab/CloseTab.ts'
+import { closeTab } from '../src/parts/CloseTab/CloseTab.ts'
+import { closeTabWithViewlet } from '../src/parts/CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { findTabInState } from '../src/parts/FindTabInState/FindTabInState.ts'
 

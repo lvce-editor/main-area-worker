@@ -178,5 +178,22 @@ test('renderEditorGroup should handle empty tabs array', () => {
   }
   const result = renderEditorGroup(group, 0, true)
 
-  expect(result.length).toBe(5) // 1 (EditorGroup) + 1 (EditorContainer) + 3 (Editor)
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'EditorGroup',
+      style: 'width:100%;',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EmptyGroupCloseButton',
+      'data-action': 'close-group',
+      'data-groupId': '1',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      title: 'Close Editor Group',
+      type: VirtualDomElements.Button,
+    },
+    text('✕'),
+  ])
 })

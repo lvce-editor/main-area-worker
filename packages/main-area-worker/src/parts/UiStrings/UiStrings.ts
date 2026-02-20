@@ -1,4 +1,5 @@
 export const Close = 'Close'
+export const CloseEditorGroup = 'Close Editor Group'
 export const CloseAll = 'Close All'
 export const CloseOthers = 'Close Others'
 export const CloseToTheRight = 'Close To The Right'

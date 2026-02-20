@@ -8,6 +8,7 @@ import {
   SplitRight,
   NewWindow,
   Close,
+  CloseEditorGroup,
   CloseOthers,
   CloseAll,
   RevealInExplorer,
@@ -48,6 +49,10 @@ export const newWindow = (): string => {
 
 export const close = (): string => {
   return I18nString.i18nString(Close)
+}
+
+export const closeEditorGroup = (): string => {
+  return I18nString.i18nString(CloseEditorGroup)
 }
 
 export const closeOthers = (): string => {

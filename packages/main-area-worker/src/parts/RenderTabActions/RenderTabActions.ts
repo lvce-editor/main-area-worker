@@ -1,4 +1,5 @@
 import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 
 export const renderTabActions = (isDirty: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
@@ -6,14 +7,14 @@ export const renderTabActions = (isDirty: boolean, tabIndex: number, groupIndex:
     return [
       {
         childCount: 1,
-        className: 'EditorTabCloseButton',
+        className: ClassNames.EditorTabCloseButton,
         'data-groupIndex': groupIndex,
         'data-index': tabIndex,
         type: VirtualDomElements.Div,
       },
       {
         childCount: 0,
-        className: 'MaskIcon MaskIconCircleFilled',
+        className: ClassNames.MaskIconCircleFilled,
         type: VirtualDomElements.Div,
       },
     ]
@@ -23,7 +24,7 @@ export const renderTabActions = (isDirty: boolean, tabIndex: number, groupIndex:
     {
       'aria-label': 'Close',
       childCount: 1,
-      className: 'EditorTabCloseButton',
+      className: ClassNames.EditorTabCloseButton,
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,
       onClick: DomEventListenerFunctions.HandleClickClose,
@@ -31,7 +32,7 @@ export const renderTabActions = (isDirty: boolean, tabIndex: number, groupIndex:
     },
     {
       childCount: 0,
-      className: 'MaskIcon MaskIconClose',
+      className: ClassNames.MaskIconClose,
       type: VirtualDomElements.Div,
     },
   ]

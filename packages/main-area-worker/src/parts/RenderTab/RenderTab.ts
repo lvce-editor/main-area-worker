@@ -1,16 +1,17 @@
 import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
+import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
 export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
   const closeButtonNodes = renderTabActions(tab.isDirty, tabIndex, groupIndex)
-  let className = 'MainTab'
+  let className = ClassNames.MainTab
   if (isActive) {
-    className += ' MainTabSelected'
+    className += ' ' + ClassNames.MainTabSelected
   }
   if (tab.isDirty) {
-    className += ' MainTabModified'
+    className += ' ' + ClassNames.MainTabModified
   }
 
   return [
@@ -28,14 +29,19 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
     },
     {
       childCount: 0,
+<<<<<<< HEAD
       className: 'TabIcon',
       role: AriaRoles.None,
+=======
+      className: ClassNames.TabIcon,
+      role: 'none',
+>>>>>>> origin/main
       src: tab.icon,
       type: VirtualDomElements.Img,
     },
     {
       childCount: 1,
-      className: 'TabTitle',
+      className: ClassNames.TabTitle,
       type: VirtualDomElements.Span,
     },
     text(tab.title),

@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderError } from '../src/parts/RenderEditor/RenderError/RenderError.ts'
 
 test('renderError returns error state virtual dom nodes', () => {
@@ -8,16 +9,24 @@ test('renderError returns error state virtual dom nodes', () => {
 
   expect(result).toEqual([
     {
-      childCount: 1,
+      childCount: 2,
       className: 'TextEditor TextEditor--error',
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 1,
+      childCount: 2,
       className: 'EditorContent EditorContent--error',
       type: VirtualDomElements.Div,
     },
     text(`Error: ${errorMessage}`),
+    {
+      childCount: 1,
+      className: 'Button ButtonSecondary',
+      'data-action': 'retry-open',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      type: VirtualDomElements.Button,
+    },
+    text('Retry'),
   ])
 })
 
@@ -26,16 +35,24 @@ test('renderError handles empty error message', () => {
 
   expect(result).toEqual([
     {
-      childCount: 1,
+      childCount: 2,
       className: 'TextEditor TextEditor--error',
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 1,
+      childCount: 2,
       className: 'EditorContent EditorContent--error',
       type: VirtualDomElements.Div,
     },
     text('Error: '),
+    {
+      childCount: 1,
+      className: 'Button ButtonSecondary',
+      'data-action': 'retry-open',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      type: VirtualDomElements.Button,
+    },
+    text('Retry'),
   ])
 })
 

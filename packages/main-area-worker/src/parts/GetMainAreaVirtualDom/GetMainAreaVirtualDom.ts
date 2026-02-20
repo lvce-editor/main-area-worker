@@ -19,7 +19,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
 
   const children = []
   const isSplit = layout.groups.length > 1
-  const directionClassName = isSplit ? (layout.direction === 'horizontal' ? ClassNames.EditorGroupsHorizontal : ClassNames.EditorGroupsVertical) : ''
+  const directionClassName = isSplit ? (layout.direction === 'horizontal' ? ClassNames.EditorGroupsVertical : ClassNames.EditorGroupsHorizontal) : ''
   const editorGroupsContainerClassName = directionClassName
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER

@@ -188,8 +188,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   expect(sashNode?.['data-sashId']).toBe('1:2')
   expect(sashNode?.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
   expect(result[1].childCount).toBe(33) // flattened children: group 1 + sash + group 2
-  const firstGroup = result.find((node) => node.className === 'EditorGroup EditorGroupHorizontal')
-  expect(firstGroup).toBeDefined()
+  const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsHorizontal`)
+  expect(editorGroupsContainer).toBeDefined()
 })
 
 test('getMainAreaVirtualDom should add vertical class for split-down layout', () => {
@@ -217,8 +217,8 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
   }
   const result = getMainAreaVirtualDom(layout)
 
-  const firstGroup = result.find((node) => node.className === 'EditorGroup EditorGroupVertical')
-  expect(firstGroup).toBeDefined()
+  const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsVertical`)
+  expect(editorGroupsContainer).toBeDefined()
 })
 
 test('getMainAreaVirtualDom should handle empty groups array', () => {

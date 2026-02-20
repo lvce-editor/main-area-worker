@@ -8,6 +8,10 @@ import * as SashId from '../SashId/SashId.ts'
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   const children = []
   const isSplit = layout.groups.length > 1
+  const directionClassName = isSplit ? (layout.direction === 'horizontal' ? ClassNames.EditorGroupsHorizontal : ClassNames.EditorGroupsVertical) : ''
+  const editorGroupsContainerClassName = directionClassName
+    ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
+    : ClassNames.EDITOR_GROUPS_CONTAINER
   for (let i = 0; i < layout.groups.length; i++) {
     if (i > 0) {
       // Insert sash between groups
@@ -16,7 +20,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const sashId = SashId.create(beforeGroupId, afterGroupId)
       children.push(renderSash(layout.direction, sashId))
     }
-    children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled, layout.direction, isSplit))
+    children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled))
   }
   return [
     {
@@ -26,7 +30,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
     },
     {
       childCount: children.length,
-      className: ClassNames.EDITOR_GROUPS_CONTAINER,
+      className: editorGroupsContainerClassName,
       role: AriaRoles.None,
       type: VirtualDomElements.Div,
     },

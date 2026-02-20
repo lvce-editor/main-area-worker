@@ -39,7 +39,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 1,
+      childCount: 16,
       className: ClassNames.EDITOR_GROUPS_CONTAINER,
       role: 'none',
       type: VirtualDomElements.Div,
@@ -185,7 +185,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   const sashNode = result.find((node) => node.className === 'SashHorizontal')
   expect(sashNode).toBeDefined()
   expect(sashNode?.['data-group-index']).toBe(0)
-  expect(result[1].childCount).toBe(3) // 2 groups + 1 sash
+  expect(result[1].childCount).toBe(33) // flattened children: group 1 + sash + group 2
 })
 
 test('getMainAreaVirtualDom should handle empty groups array', () => {

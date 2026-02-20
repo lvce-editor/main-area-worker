@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-focus-previous-tab-cycle'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange - create test files
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.txt`
@@ -27,14 +27,14 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await expect(selectedTab3).toBeVisible()
 
   // act - focus previous tab twice to reach first tab
-  await Command.execute('Main.focusPreviousTab', 0)
-  await Command.execute('Main.focusPreviousTab', 0)
+  await Main.focusPrevious()
+  await Main.focusPrevious()
 
   // assert - verify first tab is now selected
   await expect(selectedTab1).toBeVisible()
 
   // act - focus previous tab while at first tab (should cycle to last)
-  await Command.execute('Main.focusPreviousTab', 0)
+  await Main.focusPrevious()
 
   // assert - verify third tab is now selected (cyclic behavior)
   await expect(selectedTab3).toBeVisible()

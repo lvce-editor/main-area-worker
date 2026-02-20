@@ -181,8 +181,11 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   }
   const result = getMainAreaVirtualDom(layout, true)
 
-  expect(result.length).toBe(34) // 1 (Main) + 1 (EditorGroupsContainer) + 32 (2 * renderEditorGroup with Header, Actions and text)
-  expect(result[1].childCount).toBe(2)
+  // Find sash node
+  const sashNode = result.find((node) => node.className === 'SashHorizontal')
+  expect(sashNode).toBeDefined()
+  expect(sashNode['data-group-index']).toBe(0)
+  expect(result[1].childCount).toBe(3) // 2 groups + 1 sash
 })
 
 test('getMainAreaVirtualDom should handle empty groups array', () => {

@@ -1,5 +1,6 @@
 import { type VirtualDomNode, VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
+import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { isHtmlFile } from '../IsHtmlFile/IsHtmlFile.ts'
 import * as MainStrings from '../MainStrings/MainStrings.ts'
@@ -19,7 +20,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
       {
         ariaLabel: 'Preview',
         childCount: 1,
-        className: 'IconButton',
+        className: ClassNames.IconButton,
         'data-action': 'toggle-preview',
         'data-groupId': String(group.id),
         name: 'toggle-preview',
@@ -29,7 +30,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
       },
       {
         childCount: 0,
-        className: 'MaskIcon MaskIconPreview',
+        className: ClassNames.MaskIconPreview,
         type: VirtualDomElements.Div,
       },
     )
@@ -39,7 +40,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
     buttons.push(
       {
         childCount: 1,
-        className: 'EditorGroupActionButton SplitEditorGroupButton',
+        className: ClassNames.EditorGroupActionButton + ' ' + ClassNames.SplitEditorGroupButton,
         'data-action': 'split-right',
         'data-groupId': String(group.id),
         onClick: DomEventListenerFunctions.HandleClickAction,
@@ -53,7 +54,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
   return [
     {
       childCount: buttons.length / 2, // Each button has 2 nodes (button + text)
-      className: 'EditorGroupActions',
+      className: ClassNames.EditorGroupActions,
       role: 'toolbar',
       type: VirtualDomElements.Div,
     },

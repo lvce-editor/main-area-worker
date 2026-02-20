@@ -10,7 +10,7 @@ const getIconDom = (icon: string): VirtualDomNode => {
   if (icon.startsWith('MaskIcon')) {
     return {
       childCount: 0,
-      className: `TabIcon ${icon}`,
+      className: ClassNames.TabIcon + ' ' + icon,
       type: VirtualDomElements.Div,
     }
   }
@@ -67,7 +67,7 @@ export const getTabDom = (tab: any): readonly VirtualDomNode[] => {
       },
       {
         childCount: 0,
-        className: 'MaskIcon MaskIconCircleFilled',
+        className: ClassNames.MaskIconCircleFilled,
         type: VirtualDomElements.Div,
       },
     )
@@ -82,7 +82,7 @@ export const getTabDom = (tab: any): readonly VirtualDomNode[] => {
       },
       {
         childCount: 0,
-        className: 'MaskIcon MaskIconClose',
+        className: ClassNames.MaskIconClose,
         type: VirtualDomElements.Div,
       },
     )

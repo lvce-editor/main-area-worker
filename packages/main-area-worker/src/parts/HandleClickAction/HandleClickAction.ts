@@ -29,12 +29,12 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
         }
       }
       return state
+    case 'retry-open':
+      return retryOpen(state)
     case 'split-right':
       return splitEditorGroup(state, activeGroup.id, GroupDirection.Right)
     case 'toggle-preview':
       return handleClickTogglePreview(state)
-    case 'retry-open':
-      return retryOpen(state)
     default:
       return state
   }

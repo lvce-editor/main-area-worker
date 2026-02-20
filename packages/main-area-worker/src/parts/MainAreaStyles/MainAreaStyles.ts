@@ -32,14 +32,14 @@ export const CSS_CLASSES: {
   EDITOR_GROUPS_CONTAINER: 'editor-groups-container',
   EMPTY_EDITOR: 'empty-editor',
   MAIN_AREA: 'main-area',
+  SASH_HORIZONTAL: 'sash-horizontal',
+  SASH_VERTICAL: 'sash-vertical',
   TAB: 'tab',
   TAB_ACTIVE: 'active',
   TAB_BAR: 'tab-bar',
   TAB_CLOSE: 'tab-close',
   TAB_TITLE: 'tab-title',
   TEXT_EDITOR: 'text-editor',
-  SASH_VERTICAL: 'sash-vertical',
-  SASH_HORIZONTAL: 'sash-horizontal',
 }
 
 export const CSS_ATTRIBUTES: {

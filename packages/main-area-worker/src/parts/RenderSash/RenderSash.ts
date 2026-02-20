@@ -4,7 +4,7 @@ export const renderSash = (direction: 'horizontal' | 'vertical', groupIndex: num
   return {
     childCount: 0,
     className: direction === 'vertical' ? 'SashVertical' : 'SashHorizontal',
-    'data-group-index': groupIndex,
+    // 'data-group-index': groupIndex,
     type: VirtualDomElements.Div,
     // Optionally, add event listeners for resizing here
   }

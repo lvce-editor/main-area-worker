@@ -17,6 +17,8 @@ export const CSS_CLASSES: {
   readonly TAB_CLOSE: 'tab-close'
   readonly TAB_TITLE: 'tab-title'
   readonly TEXT_EDITOR: 'text-editor'
+  readonly SASH_VERTICAL: 'sash-vertical'
+  readonly SASH_HORIZONTAL: 'sash-horizontal'
 } = {
   CUSTOM_EDITOR: 'custom-editor',
   DRAGGING: 'dragging',
@@ -36,6 +38,8 @@ export const CSS_CLASSES: {
   TAB_CLOSE: 'tab-close',
   TAB_TITLE: 'tab-title',
   TEXT_EDITOR: 'text-editor',
+  SASH_VERTICAL: 'sash-vertical',
+  SASH_HORIZONTAL: 'sash-horizontal',
 }
 
 export const CSS_ATTRIBUTES: {

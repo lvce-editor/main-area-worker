@@ -6,6 +6,7 @@ import { renderSash } from '../RenderSash/RenderSash.ts'
 import * as SashId from '../SashId/SashId.ts'
 
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
+  const sizeProperty = layout.direction === 'vertical' ? 'height' : 'width'
   if (layout.groups.length === 1) {
     return [
       {
@@ -13,7 +14,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
         className: ClassNames.Main,
         type: VirtualDomElements.Div,
       },
-      ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled),
+      ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled, sizeProperty),
     ]
   }
 
@@ -31,7 +32,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const sashId = SashId.create(beforeGroupId, afterGroupId)
       children.push(renderSash(layout.direction, sashId))
     }
-    children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled))
+    children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled, sizeProperty))
   }
   return [
     {

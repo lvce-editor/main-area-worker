@@ -3,24 +3,21 @@ import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderEditorGroupHeader } from '../RenderEditorGroupHeader/RenderEditorGroupHeader.ts'
-import { renderEmptyGroupCloseButton } from '../RenderEmptyGroupCloseButton/RenderEmptyGroupCloseButton.ts'
+import { renderEmptyEditorGroup } from '../RenderEmptyEditorGroup/RenderEmptyEditorGroup.ts'
 
-export const renderEditorGroup = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
+export const renderEditorGroup = (
+  group: EditorGroup,
+  groupIndex: number,
+  splitButtonEnabled: boolean = false,
+  sizeProperty: 'width' | 'height' = 'width',
+): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
-  const style = `width:${group.size}%;`
+  const style = `${sizeProperty}:${group.size}%;`
   const hasTabs = group.tabs.length > 0
   const hasEmptyGroupCloseButton = !hasTabs
 
   if (hasEmptyGroupCloseButton) {
-    return [
-      {
-        childCount: 1,
-        className: ClassNames.EditorGroup,
-        style,
-        type: VirtualDomElements.Div,
-      },
-      ...renderEmptyGroupCloseButton(group, groupIndex),
-    ]
+    return renderEmptyEditorGroup(group, groupIndex, style)
   }
 
   return [

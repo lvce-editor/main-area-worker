@@ -213,6 +213,10 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
 
   const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsHorizontal`)
   expect(editorGroupsContainer).toBeDefined()
+  const editorGroupNodes = result.filter((node) => node.className === 'EditorGroup')
+  expect(editorGroupNodes).toHaveLength(2)
+  expect(editorGroupNodes[0].style).toBe('height:50%;')
+  expect(editorGroupNodes[1].style).toBe('height:50%;')
 })
 
 test('getMainAreaVirtualDom should handle empty groups array', () => {

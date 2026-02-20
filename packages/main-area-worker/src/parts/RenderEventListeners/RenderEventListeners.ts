@@ -29,5 +29,17 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       name: DomEventListenersFunctions.HandleHeaderDoubleClick,
       params: ['handleHeaderDoubleClick', EventExpression.EventTargetClassName, 'event.target.dataset.groupId'],
     },
+    {
+      name: DomEventListenersFunctions.HandleSashPointerDown,
+      params: ['handleSashPointerDown', 'event.target.dataset.sashId', EventExpression.ClientX, EventExpression.ClientY],
+    },
+    {
+      name: DomEventListenersFunctions.HandleSashPointerMove,
+      params: ['handleSashPointerMove', EventExpression.ClientX, EventExpression.ClientY],
+    },
+    {
+      name: DomEventListenersFunctions.HandleSashPointerUp,
+      params: ['handleSashPointerUp', EventExpression.ClientX, EventExpression.ClientY],
+    },
   ]
 }

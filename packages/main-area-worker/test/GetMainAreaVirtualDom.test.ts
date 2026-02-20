@@ -47,6 +47,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 2,
       className: 'EditorGroup',
+      style: 'width:100%;',
       type: VirtualDomElements.Div,
     },
     {
@@ -184,6 +185,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   // Find sash node
   const sashNode = result.find((node) => node.className === 'SashHorizontal')
   expect(sashNode).toBeDefined()
+  expect(sashNode?.['data-sashId']).toBe('1:2')
+  expect(sashNode?.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
   expect(result[1].childCount).toBe(33) // flattened children: group 1 + sash + group 2
 })
 

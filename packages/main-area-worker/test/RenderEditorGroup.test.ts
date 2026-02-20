@@ -29,6 +29,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 2,
       className: 'EditorGroup',
+      style: 'width:100%;',
       type: VirtualDomElements.Div,
     },
     {

@@ -6,6 +6,5 @@ export const renderSash = (direction: 'horizontal' | 'vertical', groupIndex: num
     className: direction === 'vertical' ? 'SashVertical' : 'SashHorizontal',
     // 'data-group-index': groupIndex,
     type: VirtualDomElements.Div,
-    // Optionally, add event listeners for resizing here
   }
 }

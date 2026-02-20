@@ -20,6 +20,9 @@ import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleModifiedStatusChange } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
 import { handleResize } from '../HandleResize/HandleResize.ts'
+import { handleSashPointerDown } from '../HandleSashPointerDown/HandleSashPointerDown.ts'
+import { handleSashPointerMove } from '../HandleSashPointerMove/HandleSashPointerMove.ts'
+import { handleSashPointerUp } from '../HandleSashPointerUp/HandleSashPointerUp.ts'
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
 import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceChange.ts'
@@ -65,6 +68,9 @@ export const commandMap = {
   'MainArea.handleHeaderDoubleClick': wrapCommand(handleHeaderDoubleClick),
   'MainArea.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),
   'MainArea.handleResize': wrapGetter(handleResize), // TODO would need to have a function that returns newstate as well as commands
+  'MainArea.handleSashPointerDown': wrapCommand(handleSashPointerDown),
+  'MainArea.handleSashPointerMove': wrapCommand(handleSashPointerMove),
+  'MainArea.handleSashPointerUp': wrapCommand(handleSashPointerUp),
   'MainArea.handleTabContextMenu': wrapCommand(handleTabContextMenu),
   'MainArea.handleUriChange': wrapCommand(handleUriChange),
   'MainArea.handleWorkspaceChange': wrapCommand(handleWorkspaceChange),

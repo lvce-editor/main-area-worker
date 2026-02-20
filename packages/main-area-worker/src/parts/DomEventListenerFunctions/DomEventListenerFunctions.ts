@@ -13,3 +13,6 @@ export const HandleClickClose = 12
 export const HandleClickTab = 13
 export const HandleTabContextMenu = 14
 export const HandleHeaderDoubleClick = 15
+export const HandleSashPointerDown = 16
+export const HandleSashPointerMove = 17
+export const HandleSashPointerUp = 18

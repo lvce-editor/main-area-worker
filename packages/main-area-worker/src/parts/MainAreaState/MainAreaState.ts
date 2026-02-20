@@ -9,6 +9,16 @@ export type { MainAreaLayout } from '../MainAreaLayout/MainAreaLayout.ts'
 export type { SplitDirection } from '../SplitDirection/SplitDirection.ts'
 export type { Tab } from '../Tab/Tab.ts'
 
+export interface SashDragState {
+  readonly afterGroupId: number
+  readonly afterSize: number
+  readonly beforeGroupId: number
+  readonly beforeSize: number
+  readonly sashId: string
+  readonly startClientX: number
+  readonly startClientY: number
+}
+
 export interface MainAreaState {
   readonly assetDir: string
   readonly disposed?: boolean
@@ -18,6 +28,7 @@ export interface MainAreaState {
   readonly initial: boolean
   readonly layout: MainAreaLayout
   readonly platform: number
+  readonly sashDrag?: SashDragState
   readonly splitButtonEnabled: boolean
   readonly tabHeight: number
   readonly uid: number

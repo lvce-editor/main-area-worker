@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
-import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import type { Tab } from '../src/parts/Tab/Tab.ts'
+import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderEditor } from '../src/parts/RenderEditor/RenderEditor.ts'
 
 test('renderEditor should return empty editor container for undefined tab', () => {

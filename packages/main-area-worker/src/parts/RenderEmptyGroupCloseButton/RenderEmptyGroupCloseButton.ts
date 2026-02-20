@@ -2,6 +2,7 @@ import { type VirtualDomNode, VirtualDomElements, text } from '@lvce-editor/virt
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import * as MainStrings from '../MainStrings/MainStrings.ts'
 
 export const renderEmptyGroupCloseButton = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   return [
@@ -11,7 +12,7 @@ export const renderEmptyGroupCloseButton = (group: EditorGroup, groupIndex: numb
       'data-action': 'close-group',
       'data-groupId': String(group.id),
       onClick: DomEventListenerFunctions.HandleClickAction,
-      title: 'Close editor group',
+      title: MainStrings.closeEditorGroup(),
       type: VirtualDomElements.Button,
     },
     text('✕'),

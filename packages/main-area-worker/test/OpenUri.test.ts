@@ -318,7 +318,7 @@ test('openUri should not create viewlet when getViewletModuleId returns undefine
 })
 
 test('openUri should assign valid editorUid after viewlet creation', async () => {
-  RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
   })
@@ -338,6 +338,10 @@ test('openUri should assign valid editorUid after viewlet creation', async () =>
   expect(tab).toBeDefined()
   expect(tab.editorUid).not.toBe(-1)
   expect(typeof tab.editorUid).toBe('number')
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+  ])
 })
 
 test('openUri should pass correct parameters to createViewlet', async () => {
@@ -498,10 +502,14 @@ test('openUri should load and set file icon for new tab', async () => {
   }
 
   const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[0]
 
   expect(result).toBeDefined()
-  expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
-  expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.ts'])
+  expect(tab.icon).toBe('file-icon-typescript')
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+  ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
 
@@ -527,9 +535,13 @@ test('openUri should update fileIconCache with loaded icon', async () => {
   }
 
   const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[0]
 
   expect(result.fileIconCache['file:///path/to/file.txt']).toBe('file-icon-text')
-  expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.txt'])
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/file.txt'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.txt'],
+  ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
 
@@ -554,12 +566,16 @@ test('openUri should handle icon loading failure gracefully', async () => {
   }
 
   const result = await openUri(state, options)
+  const tab = result.layout.groups[0].tabs[0]
 
   // Should still return valid result even if icon loading fails
   expect(result).toBeDefined()
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
-  expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.ts'])
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+  ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
 
@@ -571,7 +587,7 @@ test('openUri should handle race condition when second call starts while first a
   const getModuleIdPromises: Array<PromiseWithResolvers<string>> = []
   const bothCallsWaiting = Promise.withResolvers<void>()
 
-  using _mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => {
       getModuleIdCallCount++
@@ -614,6 +630,13 @@ test('openUri should handle race condition when second call starts while first a
   const allUris = result2.layout.groups[0].tabs.map((tab) => tab.uri)
   expect(allUris).toContain('file:///path/to/file1.ts')
   expect(allUris).toContain('file:///path/to/file2.ts')
+
+  const getModuleIdInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.getModuleId')
+  const createViewletInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.createViewlet')
+  expect(getModuleIdInvocations).toHaveLength(2)
+  expect(createViewletInvocations).toHaveLength(2)
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file1.ts'])
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file2.ts'])
 })
 
 test('openUri should handle race condition when second call starts while first awaits file icons', async () => {
@@ -622,7 +645,7 @@ test('openUri should handle race condition when second call starts while first a
   const iconPromises: Array<PromiseWithResolvers<string[]>> = []
   const bothCallsWaiting = Promise.withResolvers<void>()
 
-  using _mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
   })
@@ -673,6 +696,13 @@ test('openUri should handle race condition when second call starts while first a
   expect(tab2).toBeDefined()
   expect(tab1!.icon).toBe('file-icon-1')
   expect(tab2!.icon).toBe('file-icon-2')
+
+  const getModuleIdInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.getModuleId')
+  const createViewletInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.createViewlet')
+  expect(getModuleIdInvocations).toHaveLength(2)
+  expect(createViewletInvocations).toHaveLength(2)
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file1.ts'])
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file2.ts'])
 })
 
 test('openUri should handle multiple simultaneous calls without losing tabs', async () => {
@@ -681,7 +711,7 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
   const getModuleIdResolvers: Array<PromiseWithResolvers<string>> = []
   const allCallsWaiting = Promise.withResolvers<void>()
 
-  using _mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => {
       getModuleIdCallCount++
@@ -736,6 +766,15 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
   // No duplicate tabs
   const uniqueUris = [...new Set(allUris)]
   expect(uniqueUris.length).toBe(4)
+
+  const getModuleIdInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.getModuleId')
+  const createViewletInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.createViewlet')
+  expect(getModuleIdInvocations).toHaveLength(4)
+  expect(createViewletInvocations).toHaveLength(4)
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file1.ts'])
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file2.ts'])
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file3.ts'])
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file4.ts'])
 })
 
 test('openUri should preserve existing tabs when race condition occurs', async () => {
@@ -744,7 +783,7 @@ test('openUri should preserve existing tabs when race condition occurs', async (
   const moduleIdResolvers: Array<PromiseWithResolvers<string>> = []
   const bothCallsWaiting = Promise.withResolvers<void>()
 
-  using _mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => {
       moduleIdCallCount++
@@ -818,6 +857,13 @@ test('openUri should preserve existing tabs when race condition occurs', async (
   expect(allUris).toContain('file:///existing/file.ts')
   expect(allUris).toContain('file:///path/to/new1.ts')
   expect(allUris).toContain('file:///path/to/new2.ts')
+
+  const getModuleIdInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.getModuleId')
+  const createViewletInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.createViewlet')
+  expect(getModuleIdInvocations).toHaveLength(2)
+  expect(createViewletInvocations).toHaveLength(2)
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/new1.ts'])
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/new2.ts'])
 })
 
 test('openUri should handle race condition with createViewlet delays', async () => {
@@ -826,7 +872,7 @@ test('openUri should handle race condition with createViewlet delays', async () 
   const createViewletResolvers: Array<PromiseWithResolvers<void>> = []
   const bothCallsWaiting = Promise.withResolvers<void>()
 
-  using _mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {
       createViewletCallCount++
       const deferred = Promise.withResolvers<void>()
@@ -866,4 +912,11 @@ test('openUri should handle race condition with createViewlet delays', async () 
   const allUris = result2.layout.groups[0].tabs.map((tab) => tab.uri)
   expect(allUris).toContain('file:///path/to/file1.ts')
   expect(allUris).toContain('file:///path/to/file2.ts')
+
+  const getModuleIdInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.getModuleId')
+  const createViewletInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.createViewlet')
+  expect(getModuleIdInvocations).toHaveLength(2)
+  expect(createViewletInvocations).toHaveLength(2)
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file1.ts'])
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file2.ts'])
 })

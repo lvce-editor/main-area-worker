@@ -178,5 +178,5 @@ test('renderEditorGroup should handle empty tabs array', () => {
   }
   const result = renderEditorGroup(group, 0, true)
 
-  expect(result.length).toBe(10) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs with 0 tabs) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
+  expect(result.length).toBe(5) // 1 (EditorGroup) + 1 (EditorContainer) + 3 (Editor)
 })

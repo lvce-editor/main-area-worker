@@ -4,14 +4,14 @@ export const name = 'viewlet.main-area-toggle-preview-no-files'
 
 export const skip = true
 
-export const test: Test = async ({ Command, expect, Locator }) => {
+export const test: Test = async ({ expect, Locator, Main }) => {
   // arrange
-  await Command.execute('Main.closeAll')
+  await Main.closeAllEditors()
   const noTabs = Locator('.MainTab')
   await expect(noTabs).toHaveCount(0)
 
   // act
-  await Command.execute('Main.handleClickTogglePreview')
+  await Main.handleClickTogglePreview()
 
   // assert
   const preview = Locator('.Preview')

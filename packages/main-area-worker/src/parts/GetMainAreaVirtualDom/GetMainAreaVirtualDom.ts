@@ -33,7 +33,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const afterGroupId = layout.groups[i].id
       const sashId = SashId.create(beforeGroupId, afterGroupId)
       const style = layout.direction === 'horizontal' ? `left:${sashOffset - layout.groups[i].size}%;` : `top:${sashOffset - layout.groups[i].size}%;`
-      children.push(renderSash(layout.direction, sashId, style))
+      children.push(...renderSash(layout.direction, sashId, style))
     }
     children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled, sizeProperty))
   }

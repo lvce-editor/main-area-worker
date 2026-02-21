@@ -4,7 +4,7 @@ import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctio
 import { renderSash } from '../src/parts/RenderSash/RenderSash.ts'
 
 test('renderSash vertical', () => {
-  const node = renderSash('vertical', '1:2', 'top:50%;')
+  const node = renderSash('vertical', '1:2', 'top:50%;')[0]
   expect(node.className).toBe('Sash SashHorizontal')
   expect(node['data-sashId']).toBe('1:2')
   expect(node.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
@@ -15,7 +15,7 @@ test('renderSash vertical', () => {
 })
 
 test('renderSash horizontal', () => {
-  const node = renderSash('horizontal', '1:2', 'left:50%;')
+  const node = renderSash('horizontal', '1:2', 'left:50%;')[0]
   expect(node.className).toBe('Sash SashVertical')
   expect(node['data-sashId']).toBe('1:2')
   expect(node.style).toBe('left:50%;')

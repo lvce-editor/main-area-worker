@@ -7,19 +7,19 @@ import { renderSingleEditorGroup } from '../RenderSingleEditorGroup/RenderSingle
 import * as SashId from '../SashId/SashId.ts'
 
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
-  const sizeProperty = layout.direction === 'vertical' ? 'height' : 'width'
-  if (layout.groups.length === 1) {
+  const { direction, groups } = layout
+  const sizeProperty = direction === 'vertical' ? 'height' : 'width'
+  if (groups.length === 1) {
     return renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty)
   }
 
   const children = []
-  const isSplit = layout.groups.length > 1
-  const directionClassName = isSplit ? (layout.direction === 'horizontal' ? ClassNames.EditorGroupsVertical : ClassNames.EditorGroupsHorizontal) : ''
+  const isSplit = groups.length > 1
+  const directionClassName = isSplit ? (direction === 'horizontal' ? ClassNames.EditorGroupsVertical : ClassNames.EditorGroupsHorizontal) : ''
   const editorGroupsContainerClassName = directionClassName
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER
   let sashOffset = 0
-  const { groups } = layout
   for (let i = 0; i < groups.length; i++) {
     sashOffset += groups[i].size
     if (i > 0) {
@@ -27,8 +27,8 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const beforeGroupId = groups[i - 1].id
       const afterGroupId = groups[i].id
       const sashId = SashId.create(beforeGroupId, afterGroupId)
-      const style = layout.direction === 'horizontal' ? `left:${sashOffset - groups[i].size}%;` : `top:${sashOffset - layout.groups[i].size}%;`
-      children.push(...renderSash(layout.direction, sashId, style))
+      const style = direction === 'horizontal' ? `left:${sashOffset - groups[i].size}%;` : `top:${sashOffset - groups[i].size}%;`
+      children.push(...renderSash(direction, sashId, style))
     }
     children.push(...renderEditorGroup(groups[i], i, splitButtonEnabled, sizeProperty))
   }

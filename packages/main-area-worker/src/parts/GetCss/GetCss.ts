@@ -4,10 +4,22 @@ export const getCss = (): string => {
 }`,
     `.editor-groups-container {
   position: relative;
+  display: flex;
+  overflow: auto;
+}`,
+    `.EditorGroupsHorizontal {
+  flex-direction: row;
+}`,
+    `.EditorGroupsVertical {
+  flex-direction: column;
+}`,
+    `.EditorGroup {
+  min-width: 250px;
 }`,
     `.Sash {
   position: absolute;
   z-index: 1;
+  flex-shrink: 0;
 }`,
     `.SashVertical {
   top: 0;

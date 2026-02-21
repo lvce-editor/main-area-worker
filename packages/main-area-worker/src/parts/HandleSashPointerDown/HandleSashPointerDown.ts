@@ -6,8 +6,10 @@ export const handleSashPointerDown = async (state: MainAreaState, sashId: string
   if (!parsed) {
     return state
   }
-  const beforeGroup = state.layout.groups.find((group) => group.id === parsed.beforeGroupId)
-  const afterGroup = state.layout.groups.find((group) => group.id === parsed.afterGroupId)
+  const { layout } = state
+  const { groups } = layout
+  const beforeGroup = groups.find((group) => group.id === parsed.beforeGroupId)
+  const afterGroup = groups.find((group) => group.id === parsed.afterGroupId)
   if (!beforeGroup || !afterGroup) {
     return state
   }

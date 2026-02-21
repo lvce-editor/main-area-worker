@@ -1,14 +1,15 @@
 import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 
-export const renderSash = (direction: 'horizontal' | 'vertical', sashId: string): VirtualDomNode => {
+export const renderSash = (direction: 'horizontal' | 'vertical', sashId: string, style: string): VirtualDomNode => {
   return {
     childCount: 0,
-    className: direction === 'horizontal' ? 'SashVertical' : 'SashHorizontal',
+    className: direction === 'horizontal' ? 'Sash SashVertical' : 'Sash SashHorizontal',
     'data-sashId': sashId,
     onPointerDown: DomEventListenerFunctions.HandleSashPointerDown,
     onPointerMove: DomEventListenerFunctions.HandleSashPointerMove,
     onPointerUp: DomEventListenerFunctions.HandleSashPointerUp,
+    style,
     type: VirtualDomElements.Div,
   }
 }

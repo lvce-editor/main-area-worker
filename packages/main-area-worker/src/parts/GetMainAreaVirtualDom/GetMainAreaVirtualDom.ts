@@ -39,7 +39,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
     }
     const editorGroupDom = renderEditorGroup(layout.groups[i], i, splitButtonEnabled, sizeProperty)
     children.push(...editorGroupDom)
-    editorGroupsContainerChildCount += editorGroupDom.length
+    editorGroupsContainerChildCount++
   }
   return [
     {

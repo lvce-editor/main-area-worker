@@ -135,7 +135,7 @@ test('splitDown should split down with existing horizontal layout', () => {
   expect(result.layout.groups).toHaveLength(3)
   // First group should be resized
   expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[0].size).toBe(50)
+  expect(result.layout.groups[0].size).toBeCloseTo(33.333_333, 5)
   expect(result.layout.groups[0].focused).toBe(false)
   // Original second group should still exist
   expect(result.layout.groups[1].id).toBe(2)

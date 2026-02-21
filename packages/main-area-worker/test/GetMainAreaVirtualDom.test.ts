@@ -242,7 +242,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
         focused: false,
         id: 1,
         isEmpty: true,
-        size: 33.333333,
+        size: 33.333_333,
         tabs: [],
       },
       {
@@ -250,7 +250,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
         focused: false,
         id: 2,
         isEmpty: true,
-        size: 33.333333,
+        size: 33.333_333,
         tabs: [],
       },
       {
@@ -258,7 +258,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
         focused: false,
         id: 3,
         isEmpty: true,
-        size: 33.333334,
+        size: 33.333_334,
         tabs: [],
       },
     ],
@@ -270,6 +270,6 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
   expect(sashNodes).toHaveLength(2)
   const firstSashOffset = Number(sashNodes[0].style?.replace('left:', '').replace('%;', ''))
   const secondSashOffset = Number(sashNodes[1].style?.replace('left:', '').replace('%;', ''))
-  expect(firstSashOffset).toBeCloseTo(33.333333, 5)
-  expect(secondSashOffset).toBeCloseTo(66.666666, 5)
+  expect(firstSashOffset).toBeCloseTo(33.333_333, 5)
+  expect(secondSashOffset).toBeCloseTo(66.666_666, 5)
 })

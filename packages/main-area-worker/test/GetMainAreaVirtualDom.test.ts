@@ -1,9 +1,9 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
 import type { MainAreaLayout } from '../src/parts/MainAreaLayout/MainAreaLayout.ts'
+import * as ClassNames from '../src/parts/ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getMainAreaVirtualDom } from '../src/parts/GetMainAreaVirtualDom/GetMainAreaVirtualDom.ts'
-import * as ClassNames from '../src/parts/ClassNames/ClassNames.ts'
 
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
   const layout: MainAreaLayout = {

@@ -1,8 +1,8 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
-import type { ViewletCommand } from '../../ViewletCommand/ViewletCommand.ts'
-import * as MainAreaStates from '../../MainAreaStates/MainAreaStates.ts'
-import * as ViewletLifecycle from '../../ViewletLifecycle/ViewletLifecycle.ts'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { ViewletCommand } from '../ViewletCommand/ViewletCommand.ts'
+import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
+import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
 export const handleCreate = async (command: Extract<ViewletCommand, { type: 'create' }>): Promise<MainAreaState> => {
   // Safe to call - no visible side effects

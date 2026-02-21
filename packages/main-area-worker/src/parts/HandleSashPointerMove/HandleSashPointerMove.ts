@@ -10,14 +10,12 @@ const round = (value: number): number => {
   return Math.round(value * 100) / 100
 }
 
-export const handleSashPointerMove = async (state: MainAreaState, clientXRaw: string, clientYRaw: string): Promise<MainAreaState> => {
+export const handleSashPointerMove = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
   const { sashDrag } = state
   if (!sashDrag) {
     return state
   }
 
-  const clientX = Number.parseFloat(clientXRaw)
-  const clientY = Number.parseFloat(clientYRaw)
   if (!Number.isFinite(clientX) || !Number.isFinite(clientY)) {
     return state
   }

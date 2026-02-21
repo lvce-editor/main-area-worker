@@ -44,7 +44,7 @@ const createBaseState = (): MainAreaState => {
 test('handleSashPointerMove should return original state when sash drag is missing', async () => {
   const state = createBaseState()
 
-  const result = await handleSashPointerMove(state, '200', '100')
+  const result = await handleSashPointerMove(state, 200, 100)
 
   expect(result).toBe(state)
 })
@@ -63,7 +63,7 @@ test('handleSashPointerMove should return original state for invalid pointer val
     },
   }
 
-  const result = await handleSashPointerMove(state, 'abc', '200')
+  const result = await handleSashPointerMove(state, Number.NaN, 200)
 
   expect(result).toBe(state)
 })
@@ -83,7 +83,7 @@ test('handleSashPointerMove should return original state when axis size is zero'
     width: 0,
   }
 
-  const result = await handleSashPointerMove(state, '300', '200')
+  const result = await handleSashPointerMove(state, 300, 200)
 
   expect(result).toBe(state)
 })
@@ -102,7 +102,7 @@ test('handleSashPointerMove should resize horizontal neighbor groups and preserv
     },
   }
 
-  const result = await handleSashPointerMove(state, '300', '200')
+  const result = await handleSashPointerMove(state, 300, 200)
 
   expect(result).not.toBe(state)
   expect(result.layout.groups[0].size).toBe(60)
@@ -124,7 +124,7 @@ test('handleSashPointerMove should clamp before group to minimum size', async ()
     },
   }
 
-  const result = await handleSashPointerMove(state, '-900', '200')
+  const result = await handleSashPointerMove(state, -900, 200)
 
   expect(result.layout.groups[0].size).toBe(10)
   expect(result.layout.groups[1].size).toBe(70)
@@ -144,7 +144,7 @@ test('handleSashPointerMove should clamp after group to minimum size', async () 
     },
   }
 
-  const result = await handleSashPointerMove(state, '1200', '200')
+  const result = await handleSashPointerMove(state, 1200, 200)
 
   expect(result.layout.groups[0].size).toBe(70)
   expect(result.layout.groups[1].size).toBe(10)
@@ -169,7 +169,7 @@ test('handleSashPointerMove should use vertical axis and round group sizes', asy
     },
   }
 
-  const result = await handleSashPointerMove(state, '100', '101')
+  const result = await handleSashPointerMove(state, 100, 101)
 
   expect(result.layout.groups[0].size).toBe(40.3)
   expect(result.layout.groups[1].size).toBe(39.7)

@@ -1,14 +1,19 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const updateTabs = (state: MainAreaState, editorUids: Record<string, number>): MainAreaState => {
-  const updatedGroups = state.layout.groups.map((group) => {
+  const { layout } = state
+  const { groups } = layout
+
+  const updatedGroups = groups.map((group) => {
+    const { tabs } = group
     return {
       ...group,
-      tabs: group.tabs.map((tab) => {
-        if (editorUids[tab.id]) {
+      tabs: tabs.map((tab) => {
+        const { id } = tab
+        if (editorUids[id]) {
           return {
             ...tab,
-            editorUid: editorUids[tab.id],
+            editorUid: editorUids[id],
           }
         }
         return tab
@@ -19,7 +24,7 @@ export const updateTabs = (state: MainAreaState, editorUids: Record<string, numb
   return {
     ...state,
     layout: {
-      ...state.layout,
+      ...layout,
       groups: updatedGroups,
     },
   }

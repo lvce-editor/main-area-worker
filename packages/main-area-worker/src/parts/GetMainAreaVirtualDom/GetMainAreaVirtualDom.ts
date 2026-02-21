@@ -3,19 +3,13 @@ import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
 import { renderSash } from '../RenderSash/RenderSash.ts'
+import { renderSingleEditorGroup } from '../RenderSingleEditorGroup/RenderSingleEditorGroup.ts'
 import * as SashId from '../SashId/SashId.ts'
 
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   const sizeProperty = layout.direction === 'vertical' ? 'height' : 'width'
   if (layout.groups.length === 1) {
-    return [
-      {
-        childCount: 1,
-        className: ClassNames.Main,
-        type: VirtualDomElements.Div,
-      },
-      ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled, sizeProperty),
-    ]
+    return renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty)
   }
 
   const children = []

@@ -391,6 +391,11 @@ test('splitEditorGroup should split multiple existing groups', () => {
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[1].focused).toBe(false)
   expect(result.layout.groups[2].focused).toBe(true)
+  expect(result.layout.groups[0].size).toBeCloseTo(33.333333, 5)
+  expect(result.layout.groups[1].size).toBeCloseTo(33.333333, 5)
+  expect(result.layout.groups[2].size).toBeCloseTo(33.333334, 5)
+  const totalSize = result.layout.groups.reduce((sum, group) => sum + group.size, 0)
+  expect(totalSize).toBeCloseTo(100, 5)
 })
 
 test('splitEditorGroup should handle split of second group', () => {

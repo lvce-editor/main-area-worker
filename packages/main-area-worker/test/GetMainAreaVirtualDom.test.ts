@@ -231,3 +231,45 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
   expect(result.length).toBe(2) // 1 (Main) + 1 (EditorGroupsContainer)
   expect(result[1].childCount).toBe(0)
 })
+
+test('getMainAreaVirtualDom should position sashes at one-third and two-thirds', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: 1,
+    direction: 'horizontal',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        isEmpty: true,
+        size: 33.333333,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 2,
+        isEmpty: true,
+        size: 33.333333,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 3,
+        isEmpty: true,
+        size: 33.333334,
+        tabs: [],
+      },
+    ],
+  }
+
+  const result = getMainAreaVirtualDom(layout)
+
+  const sashNodes = result.filter((node) => node.className === 'Sash SashVertical')
+  expect(sashNodes).toHaveLength(2)
+  const firstSashOffset = Number(sashNodes[0].style?.replace('left:', '').replace('%;', ''))
+  const secondSashOffset = Number(sashNodes[1].style?.replace('left:', '').replace('%;', ''))
+  expect(firstSashOffset).toBeCloseTo(33.333333, 5)
+  expect(secondSashOffset).toBeCloseTo(66.666666, 5)
+})

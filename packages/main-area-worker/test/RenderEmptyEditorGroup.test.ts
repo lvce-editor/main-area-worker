@@ -20,7 +20,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
 
   expect(result).toEqual([
     {
-      childCount: 1,
+      childCount: 2,
       className: ClassNames.EditorGroup,
       style: 'width:100%;',
       type: VirtualDomElements.Div,
@@ -35,6 +35,16 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
       type: VirtualDomElements.Button,
     },
     text('✕'),
+    {
+      childCount: 1,
+      className: 'WaterMarkWrapper',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'WaterMark',
+      type: VirtualDomElements.Div,
+    },
   ])
 })
 
@@ -51,7 +61,7 @@ test('renderEmptyEditorGroup should use provided style', () => {
   const result = renderEmptyEditorGroup(group, 0, 'height:50%;')
 
   expect(result[0]).toEqual({
-    childCount: 1,
+    childCount: 2,
     className: ClassNames.EditorGroup,
     style: 'height:50%;',
     type: VirtualDomElements.Div,

@@ -1,36 +1,24 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { getGroupIndexById } from '../GetGroupIndexById/GetGroupIndexById.ts'
+import { redistributeSizesWithRemainder } from '../RedistributeSizesWithRemainder/RedistributeSizesWithRemainder.ts'
+import { withGroupsAndActiveGroup } from '../WithGroupsAndActiveGroup/WithGroupsAndActiveGroup.ts'
 
 export const closeEditorGroup = (state: MainAreaState, groupId: number): MainAreaState => {
   if (Number.isNaN(groupId)) {
     return state
   }
 
-  const { layout } = state
-  const { activeGroupId, groups } = layout
+  const { activeGroupId, groups } = state.layout
 
-  const groupIndex = groups.findIndex((group) => group.id === groupId)
+  const groupIndex = getGroupIndexById(state, groupId)
   if (groupIndex === -1 || groups.length <= 1) {
     return state
   }
 
   const remainingGroups = groups.filter((group) => group.id !== groupId)
-
-  const baseSize = Math.floor(100 / remainingGroups.length)
-  const remainder = 100 % remainingGroups.length
-
-  const redistributedGroups = remainingGroups.map((group, index) => ({
-    ...group,
-    size: baseSize + (index === remainingGroups.length - 1 ? remainder : 0),
-  }))
+  const redistributedGroups = redistributeSizesWithRemainder(remainingGroups)
 
   const newActiveGroupId = activeGroupId === groupId ? remainingGroups[0].id : activeGroupId
 
-  return {
-    ...state,
-    layout: {
-      ...layout,
-      activeGroupId: newActiveGroupId,
-      groups: redistributedGroups,
-    },
-  }
+  return withGroupsAndActiveGroup(state, redistributedGroups, newActiveGroupId)
 }

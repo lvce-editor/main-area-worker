@@ -25,6 +25,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER
   let sashOffset = 0
+  let editorGroupsContainerChildCount = 0
   for (let i = 0; i < layout.groups.length; i++) {
     sashOffset += layout.groups[i].size
     if (i > 0) {
@@ -34,8 +35,11 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const sashId = SashId.create(beforeGroupId, afterGroupId)
       const style = layout.direction === 'horizontal' ? `left:${sashOffset - layout.groups[i].size}%;` : `top:${sashOffset - layout.groups[i].size}%;`
       children.push(...renderSash(layout.direction, sashId, style))
+      editorGroupsContainerChildCount++
     }
-    children.push(...renderEditorGroup(layout.groups[i], i, splitButtonEnabled, sizeProperty))
+    const editorGroupDom = renderEditorGroup(layout.groups[i], i, splitButtonEnabled, sizeProperty)
+    children.push(...editorGroupDom)
+    editorGroupsContainerChildCount += editorGroupDom.length
   }
   return [
     {
@@ -44,7 +48,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       type: VirtualDomElements.Div,
     },
     {
-      childCount: children.length,
+      childCount: editorGroupsContainerChildCount,
       className: editorGroupsContainerClassName,
       role: AriaRoles.None,
       type: VirtualDomElements.Div,

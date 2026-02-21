@@ -3,8 +3,13 @@ import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-do
 export const renderWaterMark = (): readonly VirtualDomNode[] => {
   return [
     {
-      childCount: 0,
+      childCount: 1,
       className: 'WaterMark',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'WaterMarkContent',
       type: VirtualDomElements.Div,
     },
   ]

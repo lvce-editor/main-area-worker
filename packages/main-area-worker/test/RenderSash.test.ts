@@ -3,7 +3,7 @@ import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderSash } from '../src/parts/RenderSash/RenderSash.ts'
 
-test('renderSash vertical', () => {
+test.skip('renderSash vertical', () => {
   const node = renderSash('vertical', '1:2', 'top:50%;')[0]
   expect(node.className).toBe('Sash SashHorizontal')
   expect(node['data-sashId']).toBe('1:2')

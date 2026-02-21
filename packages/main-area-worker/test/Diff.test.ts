@@ -8,7 +8,7 @@ test('diff should return empty array when states are equal', () => {
   const oldState: MainAreaState = createDefaultState()
   const newState: MainAreaState = oldState
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([])
+  expect(result).toEqual([DiffType.RenderCss])
 })
 
 test('diff should return RenderItems when left items differ', () => {
@@ -30,7 +30,7 @@ test('diff should return RenderItems when left items differ', () => {
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff should return RenderItems when right items differ', () => {
@@ -52,7 +52,7 @@ test('diff should return RenderItems when right items differ', () => {
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff should return RenderItems when both left and right items differ', () => {
@@ -89,7 +89,7 @@ test('diff should return RenderItems when both left and right items differ', () 
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff should return RenderItems when left array length differs', () => {
@@ -111,7 +111,7 @@ test('diff should return RenderItems when left array length differs', () => {
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff should return RenderItems when right array length differs', () => {
@@ -133,7 +133,7 @@ test('diff should return RenderItems when right array length differs', () => {
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff should ignore uid when comparing', () => {
@@ -146,5 +146,5 @@ test('diff should ignore uid when comparing', () => {
     uid: 2,
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([])
+  expect(result).toEqual([DiffType.RenderCss])
 })

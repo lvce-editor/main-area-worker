@@ -3,6 +3,20 @@ import type { SplitDirection } from '../MainAreaState/MainAreaState.ts'
 import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import * as Id from '../Id/Id.ts'
 
+const rebalanceGroupSizes = <T extends { size: number }>(groups: readonly T[]): T[] => {
+  const groupCount = groups.length
+  if (groupCount === 0) {
+    return []
+  }
+  const evenSize = Number((100 / groupCount).toFixed(6))
+  const assignedSize = Number((evenSize * (groupCount - 1)).toFixed(6))
+  const lastSize = Number((100 - assignedSize).toFixed(6))
+  return groups.map((group, index) => ({
+    ...group,
+    size: index === groupCount - 1 ? lastSize : evenSize,
+  }))
+}
+
 export const splitEditorGroup = (state: MainAreaState, groupId: number, direction: SplitDirection): MainAreaState => {
   const { layout } = state
   const { groups } = layout
@@ -44,12 +58,14 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
     reorderedGroups = [...updatedGroups.slice(0, sourceIndex), newGroup, ...updatedGroups.slice(sourceIndex)]
   }
 
+  const resizedGroups = rebalanceGroupSizes(reorderedGroups)
+
   return {
     ...state,
     layout: {
       activeGroupId: newGroupId,
       direction: newLayoutDirection,
-      groups: reorderedGroups,
+      groups: resizedGroups,
     },
   }
 }

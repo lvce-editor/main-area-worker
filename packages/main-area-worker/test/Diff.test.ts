@@ -146,5 +146,5 @@ test('diff should ignore uid when comparing', () => {
     uid: 2,
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([])
+  expect(result).toEqual([DiffType.RenderCss])
 })

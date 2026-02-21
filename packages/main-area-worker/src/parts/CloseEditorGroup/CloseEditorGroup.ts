@@ -1,6 +1,10 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const closeEditorGroup = (state: MainAreaState, groupId: number): MainAreaState => {
+  if (Number.isNaN(groupId)) {
+    return state
+  }
+
   const { layout } = state
   const { activeGroupId, groups } = layout
 

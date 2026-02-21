@@ -1,10 +1,11 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { getGroupById } from '../GetGroupById/GetGroupById.ts'
+import { withGroups } from '../WithGroups/WithGroups.ts'
 
 export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaState => {
-  const { layout } = state
-  const { groups } = layout
+  const { groups } = state.layout
 
-  const group = groups.find((g) => g.id === groupId)
+  const group = getGroupById(state, groupId)
   if (!group) {
     return state
   }
@@ -36,11 +37,5 @@ export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaS
     return g
   })
 
-  return {
-    ...state,
-    layout: {
-      ...layout,
-      groups: newGroups,
-    },
-  }
+  return withGroups(state, newGroups)
 }

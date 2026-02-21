@@ -1,11 +1,15 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { getGroupIndexById } from '../GetGroupIndexById/GetGroupIndexById.ts'
+import { redistributeSizesWithRounding } from '../RedistributeSizesWithRounding/RedistributeSizesWithRounding.ts'
+import { withEmptyGroups } from '../WithEmptyGroups/WithEmptyGroups.ts'
+import { withGroups } from '../WithGroups/WithGroups.ts'
+import { withGroupsAndActiveGroup } from '../WithGroupsAndActiveGroup/WithGroupsAndActiveGroup.ts'
 
 export const closeTab = (state: MainAreaState, groupId: number, tabId: number): MainAreaState => {
-  const { layout } = state
-  const { activeGroupId, groups } = layout
+  const { activeGroupId, groups } = state.layout
 
   // Find the group to close the tab from
-  const groupIndex = groups.findIndex((g) => g.id === groupId)
+  const groupIndex = getGroupIndexById(state, groupId)
   if (groupIndex === -1) {
     return state
   }
@@ -48,39 +52,16 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
 
     // If there are remaining groups, redistribute sizes
     if (remainingGroups.length > 0) {
-      const redistributedGroups = remainingGroups.map((grp) => ({
-        ...grp,
-        size: Math.round(100 / remainingGroups.length),
-      }))
+      const redistributedGroups = redistributeSizesWithRounding(remainingGroups)
 
       const newActiveGroupId = activeGroupId === groupId ? remainingGroups[0]?.id : activeGroupId
 
-      return {
-        ...state,
-        layout: {
-          ...layout,
-          activeGroupId: newActiveGroupId,
-          groups: redistributedGroups,
-        },
-      }
+      return withGroupsAndActiveGroup(state, redistributedGroups, newActiveGroupId)
     }
 
     // If no remaining groups, return empty layout
-    return {
-      ...state,
-      layout: {
-        ...layout,
-        activeGroupId: undefined,
-        groups: [],
-      },
-    }
+    return withEmptyGroups(state)
   }
 
-  return {
-    ...state,
-    layout: {
-      ...layout,
-      groups: newGroups,
-    },
-  }
+  return withGroups(state, newGroups)
 }

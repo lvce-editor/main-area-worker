@@ -180,7 +180,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
 
   expect(result).toEqual([
     {
-      childCount: 1,
+      childCount: 2,
       className: 'EditorGroup',
       style: 'width:100%;',
       type: VirtualDomElements.Div,
@@ -195,6 +195,16 @@ test('renderEditorGroup should handle empty tabs array', () => {
       type: VirtualDomElements.Button,
     },
     text('✕'),
+    {
+      childCount: 1,
+      className: 'WaterMarkWrapper',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'WaterMark',
+      type: VirtualDomElements.Div,
+    },
   ])
 })
 
@@ -210,7 +220,7 @@ test('renderEditorGroup should support height based sizing', () => {
   const result = renderEditorGroup(group, 0, true, 'height')
 
   expect(result[0]).toEqual({
-    childCount: 1,
+    childCount: 2,
     className: 'EditorGroup',
     style: 'height:50%;',
     type: VirtualDomElements.Div,

@@ -12,6 +12,8 @@ export const validateMainAreaState = (state: any): state is MainAreaState => {
     groups.every(isValidEditorGroup) &&
     (activeGroupId === undefined || typeof activeGroupId === 'number') &&
     (direction === 'horizontal' || direction === 'vertical') &&
+    typeof state.maxOpenEditorGroups === 'number' &&
+    typeof state.maxOpenEditors === 'number' &&
     typeof state.uid === 'number'
   )
 }

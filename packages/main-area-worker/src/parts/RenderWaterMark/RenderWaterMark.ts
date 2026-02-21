@@ -4,12 +4,12 @@ export const renderWaterMark = (): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 1,
-      className: 'WaterMark',
+      className: 'WaterMarkWrapper',
       type: VirtualDomElements.Div,
     },
     {
       childCount: 0,
-      className: 'WaterMarkContent',
+      className: 'WaterMark',
       type: VirtualDomElements.Div,
     },
   ]

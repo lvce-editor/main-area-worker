@@ -12,6 +12,8 @@ export const createDefaultState = (): MainAreaState => {
       direction: 'horizontal',
       groups: [],
     },
+    maxOpenEditorGroups: Number.POSITIVE_INFINITY,
+    maxOpenEditors: Number.POSITIVE_INFINITY,
     platform: 0,
     splitButtonEnabled: false,
     tabHeight: 35,

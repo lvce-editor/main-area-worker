@@ -27,6 +27,8 @@ export interface MainAreaState {
   readonly iframes: readonly any[]
   readonly initial: boolean
   readonly layout: MainAreaLayout
+  readonly maxOpenEditorGroups: number
+  readonly maxOpenEditors: number
   readonly platform: number
   readonly sashDrag?: SashDragState
   readonly splitButtonEnabled: boolean

@@ -31,7 +31,9 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
     },
     {
       name: DomEventListenersFunctions.HandleSashPointerDown,
-      params: ['handleSashPointerDown', 'event.target.dataset.sashId', EventExpression.ClientX, EventExpression.ClientY],
+      params: ['handleSashPointerDown', EventExpression.ClientX, EventExpression.ClientY],
+      preventDefault: true,
+      trackPointerEvents: [DomEventListenersFunctions.HandleSashPointerMove, DomEventListenersFunctions.HandleSashPointerUp],
     },
     {
       name: DomEventListenersFunctions.HandleSashPointerMove,

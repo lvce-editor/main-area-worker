@@ -24,9 +24,7 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
     case 'close-group':
       if (rawGroupId) {
         const groupId = Number.parseInt(rawGroupId, 10)
-        if (!Number.isNaN(groupId)) {
-          return closeEditorGroup(state, groupId)
-        }
+        return closeEditorGroup(state, groupId)
       }
       return state
     case 'retry-open':

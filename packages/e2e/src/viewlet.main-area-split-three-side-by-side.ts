@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-split-three-side-by-side'
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, SideBar, Workspace }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
   const file1 = `${tmpDir}/file1.ts`

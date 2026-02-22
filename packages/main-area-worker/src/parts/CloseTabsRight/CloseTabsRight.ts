@@ -3,7 +3,8 @@ import { getGroupById } from '../GetGroupById/GetGroupById.ts'
 import { withGroups } from '../WithGroups/WithGroups.ts'
 
 export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaState => {
-  const { groups } = state.layout
+  const { layout } = state
+  const { groups } = layout
 
   const group = getGroupById(state, groupId)
   if (!group) {

@@ -2,8 +2,14 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 
-export const openTab = (state: MainAreaState, groupId: number, tab: Omit<Tab, 'id'> | Tab): MainAreaState => {
-  const newTab: Tab = 'id' in tab && tab.id !== undefined ? tab : { ...tab, id: Id.create() }
+type OpenTabPayload = Omit<Tab, 'id' | 'isPreview'> & Partial<Pick<Tab, 'id' | 'isPreview'>>
+
+export const openTab = (state: MainAreaState, groupId: number, tab: OpenTabPayload): MainAreaState => {
+  const normalizedTab = {
+    ...tab,
+    isPreview: tab.isPreview ?? false,
+  }
+  const newTab: Tab = 'id' in normalizedTab && normalizedTab.id !== undefined ? (normalizedTab as Tab) : { ...normalizedTab, id: Id.create() }
 
   const { layout } = state
   const { groups } = layout

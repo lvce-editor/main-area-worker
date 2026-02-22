@@ -47,16 +47,32 @@ test('splitDown should split a single editor group vertically', () => {
   }
 
   const result = splitDown(state, 1)
+  const newGroupId = result.layout.groups[1].id
 
-  expect(result.layout.direction).toBe('vertical')
-  expect(result.layout.groups).toHaveLength(2)
-  expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[0].size).toBe(50)
-  expect(result.layout.groups[0].focused).toBe(false)
-  expect(result.layout.groups[1].size).toBe(50)
-  expect(result.layout.groups[1].focused).toBe(true)
-  expect(result.layout.groups[1].tabs).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
+  const expectedLayout = {
+    activeGroupId: newGroupId,
+    direction: 'vertical',
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        isEmpty: true,
+        size: 50,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: true,
+        id: newGroupId,
+        isEmpty: true,
+        size: 50,
+        tabs: [],
+      },
+    ],
+  }
+
+  expect(result.layout).toEqual(expectedLayout)
 })
 
 test('splitDown should preserve tabs in the original group', () => {
@@ -79,6 +95,7 @@ test('splitDown should preserve tabs in the original group', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -87,6 +104,7 @@ test('splitDown should preserve tabs in the original group', () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -187,6 +205,7 @@ test('splitDown should create a new group with empty tabs', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],

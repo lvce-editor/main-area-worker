@@ -9,6 +9,7 @@ test('isValidTab should return true for valid text tab', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(true)
@@ -21,6 +22,7 @@ test('isValidTab should return true for valid custom tab', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Custom File',
   }
   expect(isValidTab(tab)).toBe(true)

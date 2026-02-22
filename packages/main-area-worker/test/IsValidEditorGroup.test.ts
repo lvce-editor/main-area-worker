@@ -16,6 +16,7 @@ test('isValidEditorGroup should return true for valid group', () => {
         icon: '',
         id: 1,
         isDirty: false,
+        isPreview: false,
         title: 'File',
       },
     ],

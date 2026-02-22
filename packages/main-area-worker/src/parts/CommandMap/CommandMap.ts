@@ -32,6 +32,7 @@ import { getCommandIds, wrapCommand, wrapGetter } from '../MainAreaStates/MainAr
 import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
 import { newFile } from '../NewFile/NewFile.ts'
 import { openUri } from '../OpenUri/OpenUri.ts'
+import { openUris } from '../OpenUris/OpenUris.ts'
 import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
@@ -78,6 +79,7 @@ export const commandMap = {
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
   'MainArea.newFile': wrapCommand(newFile),
   'MainArea.openUri': wrapCommand(openUri),
+  'MainArea.openUris': wrapCommand(openUris),
   'MainArea.refresh': wrapCommand(refresh),
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,

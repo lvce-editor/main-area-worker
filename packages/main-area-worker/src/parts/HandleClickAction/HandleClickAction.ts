@@ -1,6 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { closeEditorGroup } from '../CloseEditorGroup/CloseEditorGroup.ts'
-import { GetActiveGroup } from '../GetActiveGroup/GetActiveGroup.ts'
+import { getActiveGroup } from '../GetActiveGroup/GetActiveGroup.ts'
 import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
 import { retryOpen } from '../RetryOpen/RetryOpen.ts'
@@ -17,7 +17,7 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
     return state
   }
 
-  const activeGroup = GetActiveGroup(groups, activeGroupId)
+  const activeGroup = getActiveGroup(groups, activeGroupId)
   if (!activeGroup) {
     return state
   }

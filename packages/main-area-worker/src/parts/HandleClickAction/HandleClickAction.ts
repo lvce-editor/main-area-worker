@@ -7,15 +7,17 @@ import { retryOpen } from '../RetryOpen/RetryOpen.ts'
 import { splitEditorGroup } from '../SplitEditorGroup/SplitEditorGroup.ts'
 
 export const handleClickAction = async (state: MainAreaState, action: string, rawGroupId?: string): Promise<MainAreaState> => {
+  const { layout } = state
+  const { activeGroupId, groups } = layout
   if (!action) {
     return state
   }
 
-  if (state.layout.activeGroupId === undefined) {
+  if (activeGroupId === undefined) {
     return state
   }
 
-  const activeGroup = GetActiveGroup(state.layout.groups, state.layout.activeGroupId)
+  const activeGroup = GetActiveGroup(groups, activeGroupId)
   if (!activeGroup) {
     return state
   }

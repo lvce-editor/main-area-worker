@@ -72,7 +72,7 @@ export const restoreMainAreaState = (savedState: string, currentState: MainAreaS
 
     return {
       ...currentState,
-      layout: normalizedLayout,
+      layout: normalizedLayout as MainAreaLayout,
     }
   } catch (error) {
     console.error('Failed to restore main area state:', error)

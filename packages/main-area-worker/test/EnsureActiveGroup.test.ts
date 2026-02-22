@@ -174,7 +174,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
             icon: '',
             id: 1,
             isDirty: false,
-              isPreview: false,
+            isPreview: false,
             language: '',
             loadingState: 'loading',
             title: 'File 1',

@@ -20,7 +20,7 @@ const getMinGroupSizePercent = (axisSize: number): number => {
 }
 
 export const handleSashPointerMove = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
-  const { sashDrag } = state
+  const { height, layout, sashDrag, width } = state
   if (!sashDrag) {
     return state
   }
@@ -28,13 +28,14 @@ export const handleSashPointerMove = async (state: MainAreaState, clientX: numbe
   if (!Number.isFinite(clientX) || !Number.isFinite(clientY)) {
     return state
   }
+  const { direction, groups } = layout
 
-  const axisSize = state.layout.direction === 'horizontal' ? state.width : state.height
+  const axisSize = direction === 'horizontal' ? width : height
   if (!axisSize) {
     return state
   }
 
-  const deltaPx = state.layout.direction === 'horizontal' ? clientX - sashDrag.startClientX : clientY - sashDrag.startClientY
+  const deltaPx = direction === 'horizontal' ? clientX - sashDrag.startClientX : clientY - sashDrag.startClientY
   const deltaPercent = (deltaPx / axisSize) * 100
 
   const totalResizableSize = sashDrag.beforeSize + sashDrag.afterSize
@@ -48,7 +49,7 @@ export const handleSashPointerMove = async (state: MainAreaState, clientX: numbe
   const beforeSize = clamp(sashDrag.beforeSize + deltaPercent, minGroupSize, totalResizableSize - minGroupSize)
   const afterSize = totalResizableSize - beforeSize
 
-  const groups = state.layout.groups.map((group) => {
+  const newGroups = groups.map((group) => {
     if (group.id === sashDrag.beforeGroupId) {
       return {
         ...group,
@@ -67,8 +68,8 @@ export const handleSashPointerMove = async (state: MainAreaState, clientX: numbe
   return {
     ...state,
     layout: {
-      ...state.layout,
-      groups,
+      ...layout,
+      groups: newGroups,
     },
   }
 }

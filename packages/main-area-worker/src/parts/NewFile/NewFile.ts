@@ -65,6 +65,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     icon: '',
     id: tabId,
     isDirty: false,
+    isPreview: false,
     language: 'plaintext',
     loadingState: 'loading',
     title: 'Untitled',

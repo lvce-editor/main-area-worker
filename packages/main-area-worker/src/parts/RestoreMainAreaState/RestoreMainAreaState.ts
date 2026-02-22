@@ -32,6 +32,7 @@ export const restoreMainAreaState = (savedState: string, currentState: MainAreaS
                     ...tab,
                     editorUid: -1,
                     isDirty: false,
+                    isPreview: false,
                   }))
                 : group.tabs,
             })),

@@ -23,6 +23,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
         ...tab,
         editorUid: -1,
         isDirty: false,
+        isPreview: false,
       })),
     })),
   }

@@ -1,5 +1,7 @@
 import type { EditorGroup, MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const getFocusedGroup = (state: MainAreaState): EditorGroup | undefined => {
-  return state.layout.groups.find((group) => group.focused)
+  const { layout } = state
+  const { groups } = layout
+  return groups.find((group) => group.focused)
 }

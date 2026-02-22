@@ -161,6 +161,7 @@ test('renderEditor should show error state', () => {
       childCount: 1,
       className: 'Button ButtonSecondary',
       'data-action': 'retry-open',
+      name: 'retry-open',
       onClick: DomEventListenerFunctions.HandleClickAction,
       type: VirtualDomElements.Button,
     },

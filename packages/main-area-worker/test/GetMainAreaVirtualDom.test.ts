@@ -107,6 +107,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       className: 'EditorGroupActionButton SplitEditorGroupButton',
       'data-action': 'split-right',
       'data-groupId': '1',
+      name: 'split-right',
       onClick: DomEventListenerFunctions.HandleClickAction,
       title: 'Split Editor Group',
       type: VirtualDomElements.Button,

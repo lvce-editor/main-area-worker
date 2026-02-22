@@ -95,6 +95,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       className: 'EditorGroupActionButton SplitEditorGroupButton',
       'data-action': 'split-right',
       'data-groupId': '1',
+      name: 'split-right',
       onClick: DomEventListenerFunctions.HandleClickAction,
       title: 'Split Editor Group',
       type: VirtualDomElements.Button,

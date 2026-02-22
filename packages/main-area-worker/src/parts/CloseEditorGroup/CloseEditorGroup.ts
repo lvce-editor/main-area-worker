@@ -8,7 +8,8 @@ export const closeEditorGroup = (state: MainAreaState, groupId: number): MainAre
     return state
   }
 
-  const { activeGroupId, groups } = state.layout
+  const { layout } = state
+  const { activeGroupId, groups } = layout
 
   const groupIndex = getGroupIndexById(state, groupId)
   if (groupIndex === -1 || groups.length <= 1) {

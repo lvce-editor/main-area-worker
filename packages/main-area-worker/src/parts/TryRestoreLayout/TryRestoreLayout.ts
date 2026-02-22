@@ -9,23 +9,34 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
     return undefined
   }
   const { layout } = savedState as Record<string, unknown>
-  if (!isValidMainAreaLayout(layout)) {
+  if (!layout || typeof layout !== 'object') {
+    return undefined
+  }
+
+  const rawLayout = layout as Record<string, unknown>
+  if (!Array.isArray(rawLayout.groups)) {
     return undefined
   }
 
   // Normalize all tabs to have editorUid: -1 so SelectTab will create viewlets
   // Mark all restored tabs as not dirty
   const normalizedLayout = {
-    ...layout,
-    groups: layout.groups.map((group) => ({
+    ...rawLayout,
+    groups: rawLayout.groups.map((group: any) => ({
       ...group,
-      tabs: group.tabs.map((tab) => ({
-        ...tab,
-        editorUid: -1,
-        isDirty: false,
-        isPreview: false,
-      })),
+      tabs: Array.isArray(group?.tabs)
+        ? group.tabs.map((tab: any) => ({
+            ...tab,
+            editorUid: -1,
+            isDirty: false,
+            isPreview: typeof tab?.isPreview === 'boolean' ? tab.isPreview : false,
+          }))
+        : [],
     })),
+  }
+
+  if (!isValidMainAreaLayout(normalizedLayout)) {
+    return undefined
   }
 
   return normalizedLayout

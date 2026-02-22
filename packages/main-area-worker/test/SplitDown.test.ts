@@ -79,6 +79,7 @@ test('splitDown should preserve tabs in the original group', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -87,6 +88,7 @@ test('splitDown should preserve tabs in the original group', () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -187,6 +189,7 @@ test('splitDown should create a new group with empty tabs', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],

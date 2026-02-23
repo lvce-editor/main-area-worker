@@ -4,10 +4,6 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MenuEntriesTab from '../src/parts/MenuEntriesTab/MenuEntriesTab.ts'
 
-const getEntryById = (entries: readonly any[], id: string): any => {
-  return entries.find((entry) => entry.id === id)
-}
-
 test('getMenuEntries returns correct menu entries for active tab with path', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -38,37 +34,71 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
     },
   }
   const result = MenuEntriesTab.getMenuEntries(state)
-  expect(result).toHaveLength(27)
-  expect(result.map((entry) => entry.label)).toEqual([
-    'Close',
-    'Close Others',
-    'Close to the Right',
-    'Close Saved',
-    'Close All',
-    '',
-    'Copy Path',
-    'Copy Relative Path',
-    '',
-    'Reopen Editor With...',
-    '',
-    'Share',
-    '',
-    'Add File to Chat',
-    '',
-    'Open Containing Folder',
-    'Reveal in Explorer View',
-    '',
-    'Keep Open',
-    'Pin',
-    '',
-    'Split Right',
-    'Split & Move',
-    'Move into New Window',
-    'Copy into New Window',
-    '',
-    'Find File References',
-  ])
-  expect(result.filter((entry) => entry.flags === MenuItemFlags.Separator)).toHaveLength(8)
+  expect(result).toHaveLength(10)
+  expect(result[0]).toEqual({
+    command: 'Main.closeFocusedTab',
+    flags: MenuItemFlags.None,
+    id: 'tabClose',
+    label: 'Close',
+  })
+  expect(result[1]).toEqual({
+    command: 'Main.closeOthers',
+    flags: MenuItemFlags.None,
+    id: 'tabCloseOthers',
+    label: 'Close Others',
+  })
+  expect(result[2]).toEqual({
+    command: 'Main.closeTabsRight',
+    flags: MenuItemFlags.None,
+    id: 'tabCloseToTheRight',
+    label: 'Close To The Right',
+  })
+  expect(result[3]).toEqual({
+    command: 'Main.closeAll',
+    flags: MenuItemFlags.None,
+    id: 'tabCloseAll',
+    label: 'Close All',
+  })
+  expect(result[4]).toEqual({
+    command: '',
+    flags: MenuItemFlags.Separator,
+    id: 'separator',
+    label: '',
+  })
+  expect(result[5]).toEqual({
+    args: ['/home/user/file.txt'],
+    command: 'Explorer.revealItem',
+    flags: MenuItemFlags.None,
+    id: 'revealInExplorer',
+    label: 'Reveal in Explorer',
+  })
+  expect(result[6]).toEqual({
+    args: ['/home/user/file.txt'],
+    command: 'Main.copyPath',
+    flags: MenuItemFlags.None,
+    id: 'copyPath',
+    label: 'Copy Path',
+  })
+  expect(result[7]).toEqual({
+    args: ['/home/user/file.txt'],
+    command: 'Main.copyRelativePath',
+    flags: MenuItemFlags.None,
+    id: 'copyRelativePath',
+    label: 'Copy Relative Path',
+  })
+  expect(result[8]).toEqual({
+    command: '',
+    flags: MenuItemFlags.Separator,
+    id: 'separator',
+    label: '',
+  })
+  expect(result[9]).toEqual({
+    args: ['References', true, '/home/user/file.txt'],
+    command: 'SideBar.show',
+    flags: MenuItemFlags.None,
+    id: 'findFileReferences',
+    label: 'Find File References',
+  })
 })
 
 test('getMenuEntries includes correct path in args for reveal and find references', () => {
@@ -101,10 +131,10 @@ test('getMenuEntries includes correct path in args for reveal and find reference
     },
   }
   const result = MenuEntriesTab.getMenuEntries(state)
-  expect(getEntryById(result, 'revealInExplorerView').args).toEqual(['/workspace/src/index.ts'])
-  expect(getEntryById(result, 'copyPath').args).toEqual(['/workspace/src/index.ts'])
-  expect(getEntryById(result, 'copyRelativePath').args).toEqual(['/workspace/src/index.ts'])
-  expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, '/workspace/src/index.ts'])
+  expect(result[5].args).toEqual(['/workspace/src/index.ts'])
+  expect(result[6].args).toEqual(['/workspace/src/index.ts'])
+  expect(result[7].args).toEqual(['/workspace/src/index.ts'])
+  expect(result[9].args).toEqual(['References', true, '/workspace/src/index.ts'])
 })
 
 test('getMenuEntries handles tab without path', () => {
@@ -136,10 +166,10 @@ test('getMenuEntries handles tab without path', () => {
     },
   }
   const result = MenuEntriesTab.getMenuEntries(state)
-  expect(getEntryById(result, 'revealInExplorerView').args).toEqual([undefined])
-  expect(getEntryById(result, 'copyPath').args).toEqual([undefined])
-  expect(getEntryById(result, 'copyRelativePath').args).toEqual([undefined])
-  expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, undefined])
+  expect(result[5].args).toEqual([undefined])
+  expect(result[6].args).toEqual([undefined])
+  expect(result[7].args).toEqual([undefined])
+  expect(result[9].args).toEqual(['References', true, undefined])
 })
 
 test('getMenuEntries uses correct active tab from multiple tabs', () => {
@@ -182,10 +212,10 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
     },
   }
   const result = MenuEntriesTab.getMenuEntries(state)
-  expect(getEntryById(result, 'revealInExplorerView').args).toEqual(['/file2.txt'])
-  expect(getEntryById(result, 'copyPath').args).toEqual(['/file2.txt'])
-  expect(getEntryById(result, 'copyRelativePath').args).toEqual(['/file2.txt'])
-  expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, '/file2.txt'])
+  expect(result[5].args).toEqual(['/file2.txt'])
+  expect(result[6].args).toEqual(['/file2.txt'])
+  expect(result[7].args).toEqual(['/file2.txt'])
+  expect(result[9].args).toEqual(['References', true, '/file2.txt'])
 })
 
 test('getMenuEntries uses correct active group from multiple groups', () => {
@@ -237,8 +267,8 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
     },
   }
   const result = MenuEntriesTab.getMenuEntries(state)
-  expect(getEntryById(result, 'revealInExplorerView').args).toEqual(['/group2/file.txt'])
-  expect(getEntryById(result, 'copyPath').args).toEqual(['/group2/file.txt'])
-  expect(getEntryById(result, 'copyRelativePath').args).toEqual(['/group2/file.txt'])
-  expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, '/group2/file.txt'])
+  expect(result[5].args).toEqual(['/group2/file.txt'])
+  expect(result[6].args).toEqual(['/group2/file.txt'])
+  expect(result[7].args).toEqual(['/group2/file.txt'])
+  expect(result[9].args).toEqual(['References', true, '/group2/file.txt'])
 })

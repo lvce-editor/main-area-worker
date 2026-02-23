@@ -6,8 +6,21 @@ import { renderSash } from '../RenderSash/RenderSash.ts'
 import { renderSingleEditorGroup } from '../RenderSingleEditorGroup/RenderSingleEditorGroup.ts'
 import * as SashId from '../SashId/SashId.ts'
 
+export const getMainAreaEmptyVirtualDom = (): readonly VirtualDomNode[] => {
+  return [
+    {
+      childCount: 0,
+      className: ClassNames.Main,
+      type: VirtualDomElements.Div,
+    },
+  ]
+}
+
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
+  if (groups.length === 0) {
+    return getMainAreaEmptyVirtualDom()
+  }
   const sizeProperty = direction === 'vertical' ? 'height' : 'width'
   if (groups.length === 1) {
     return renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty)

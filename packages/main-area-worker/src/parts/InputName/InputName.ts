@@ -1,2 +1,6 @@
 export const Notifications = 'Notifications'
 export const Problems = 'Problems'
+export const CloseGroup = 'close-group'
+export const RetryOpen = 'retry-open'
+export const SplitRight = 'split-right'
+export const TogglePreview = 'toggle-preview'

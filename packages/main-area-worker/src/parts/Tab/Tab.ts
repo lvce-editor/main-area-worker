@@ -8,6 +8,7 @@ export interface Tab {
   readonly icon: string
   readonly id: number
   readonly isDirty: boolean
+  readonly isPreview: boolean
   readonly language?: string
   readonly loadingState?: LoadingState
   readonly title: string

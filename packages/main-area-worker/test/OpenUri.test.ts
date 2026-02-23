@@ -54,6 +54,7 @@ test('openUri should add tab to active group when group exists', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               language: 'plaintext',
               loadingState: 'idle',
               title: 'Existing File',
@@ -79,6 +80,65 @@ test('openUri should add tab to active group when group exists', async () => {
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[1].id)
 })
 
+test('openUri should default preview to false when omitted', async () => {
+  const state: MainAreaState = createDefaultState()
+  const options = {
+    focu: false,
+    uri: 'file:///path/to/file.ts',
+  }
+
+  const result = await openUri(state, options)
+
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
+})
+
+test('openUri should replace active preview tab instead of adding a new tab', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              errorMessage: '',
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: true,
+              language: 'typescript',
+              loadingState: 'idle',
+              title: 'Preview File',
+              uri: 'file:///path/to/preview-file.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+  const options: OpenUriOptions = {
+    focu: false,
+    preview: false,
+    uri: 'file:///path/to/replacement.ts',
+  }
+
+  const result = await openUri(state, options)
+
+  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs[0].id).toBe(1)
+  expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/replacement.ts')
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
 test('openUri should activate existing tab if URI already exists', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -100,6 +160,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               language: 'typescript',
               loadingState: 'idle',
               title: 'Existing File',
@@ -112,6 +173,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               language: 'typescript',
               loadingState: 'idle',
               title: 'Other File',
@@ -156,6 +218,7 @@ test('openUri should activate existing tab in different group', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               language: 'typescript',
               loadingState: 'idle',
               title: 'File 1',
@@ -177,6 +240,7 @@ test('openUri should activate existing tab in different group', async () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               language: 'typescript',
               loadingState: 'idle',
               title: 'File 2',
@@ -398,6 +462,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               language: 'typescript',
               loadingState: 'idle',
               title: 'Existing File',
@@ -820,6 +885,7 @@ test('openUri should preserve existing tabs when race condition occurs', async (
               icon: 'existing-icon',
               id: 1,
               isDirty: false,
+              isPreview: false,
               language: 'typescript',
               loadingState: 'idle',
               title: 'Existing File',

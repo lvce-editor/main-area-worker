@@ -213,6 +213,7 @@ test('splitRight should create new group with empty tabs', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'test.txt',
               uri: '/path/to/test.txt',
             },
@@ -235,6 +236,7 @@ test('splitRight should preserve original group tabs', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'test.txt',
     uri: '/path/to/test.txt',
   }
@@ -270,6 +272,7 @@ test('splitRight should maintain activeTabId in original group', () => {
     icon: '',
     id: 5,
     isDirty: false,
+    isPreview: false,
     title: 'test.txt',
     uri: '/path/to/test.txt',
   }

@@ -9,6 +9,7 @@ test('isHtmlFile should return true for .html file', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'index.html',
     uri: '/path/to/index.html',
   }
@@ -22,6 +23,7 @@ test('isHtmlFile should return true for .html file with complex path', () => {
     icon: '',
     id: 2,
     isDirty: false,
+    isPreview: false,
     title: 'page.html',
     uri: '/some/nested/path/page.html',
   }
@@ -35,6 +37,7 @@ test('isHtmlFile should return false for .js file', () => {
     icon: '',
     id: 3,
     isDirty: false,
+    isPreview: false,
     title: 'script.js',
     uri: '/path/to/script.js',
   }
@@ -48,6 +51,7 @@ test('isHtmlFile should return false for .ts file', () => {
     icon: '',
     id: 4,
     isDirty: false,
+    isPreview: false,
     title: 'component.ts',
     uri: '/path/to/component.ts',
   }
@@ -61,6 +65,7 @@ test('isHtmlFile should return false for .css file', () => {
     icon: '',
     id: 5,
     isDirty: false,
+    isPreview: false,
     title: 'styles.css',
     uri: '/path/to/styles.css',
   }
@@ -74,6 +79,7 @@ test('isHtmlFile should return false for tab with no uri', () => {
     icon: '',
     id: 6,
     isDirty: false,
+    isPreview: false,
     title: 'Untitled',
   }
   expect(isHtmlFile(tab)).toBe(false)
@@ -90,6 +96,7 @@ test('isHtmlFile should return false for tab with empty uri', () => {
     icon: '',
     id: 7,
     isDirty: false,
+    isPreview: false,
     title: 'Empty',
     uri: '',
   }
@@ -103,6 +110,7 @@ test('isHtmlFile should return false for file containing .html but not ending wi
     icon: '',
     id: 8,
     isDirty: false,
+    isPreview: false,
     title: 'index.html.backup',
     uri: '/path/to/index.html.backup',
   }
@@ -116,6 +124,7 @@ test('isHtmlFile should return true for .HTML file with uppercase extension', ()
     icon: '',
     id: 9,
     isDirty: false,
+    isPreview: false,
     title: 'index.HTML',
     uri: '/path/to/index.HTML',
   }

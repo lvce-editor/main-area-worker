@@ -26,6 +26,7 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -34,6 +35,7 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
             {
@@ -42,6 +44,7 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'File 3',
             },
           ],
@@ -78,6 +81,7 @@ test('focusPreviousTab should cycle from first tab to last tab', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -86,6 +90,7 @@ test('focusPreviousTab should cycle from first tab to last tab', async () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
             {
@@ -94,6 +99,7 @@ test('focusPreviousTab should cycle from first tab to last tab', async () => {
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'File 3',
             },
           ],
@@ -128,6 +134,7 @@ test('focusPreviousTab should return state if there is no active group', async (
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -136,6 +143,7 @@ test('focusPreviousTab should return state if there is no active group', async (
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -193,6 +201,7 @@ test('focusPreviousTab should return state if active tab is not found', async ()
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -201,6 +210,7 @@ test('focusPreviousTab should return state if active tab is not found', async ()
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -236,6 +246,7 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -244,6 +255,7 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
             {
@@ -252,6 +264,7 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'File 3',
             },
           ],
@@ -288,6 +301,7 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -296,6 +310,7 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -313,6 +328,7 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'File 3',
             },
             {
@@ -321,6 +337,7 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
               icon: '',
               id: 4,
               isDirty: false,
+              isPreview: false,
               title: 'File 4',
             },
           ],

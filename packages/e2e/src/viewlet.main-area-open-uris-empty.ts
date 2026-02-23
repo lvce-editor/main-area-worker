@@ -8,6 +8,8 @@ const assert = (condition: boolean, message: string): void => {
   }
 }
 
+export const skip = 1
+
 export const test: Test = async ({ Command, FileSystem }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const uid = 100

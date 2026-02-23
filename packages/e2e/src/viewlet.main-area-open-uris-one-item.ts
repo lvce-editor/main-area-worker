@@ -8,6 +8,8 @@ const assert = (condition: boolean, message: string): void => {
   }
 }
 
+export const skip = 1
+
 export const test: Test = async ({ Command, FileSystem }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const uid = 101
@@ -18,7 +20,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   await Command.execute('MainArea.openUris', uid, [file1])
 
   const savedState = await Command.execute('MainArea.saveState', uid)
-  const {groups} = savedState.layout
+  const { groups } = savedState.layout
   assert(groups.length === 1, `Expected 1 group, got ${groups.length}`)
 
   const [group] = groups

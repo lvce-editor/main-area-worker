@@ -5,7 +5,7 @@ import * as Id from '../Id/Id.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
-export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaState => {
+export const ensureActiveGroup = (state: MainAreaState, uri: string, preview: boolean = false): MainAreaState => {
   // Find the active group (by activeGroupId or focused flag)
   const { layout } = state
   const { activeGroupId, groups } = layout
@@ -17,6 +17,44 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
   // If no active group exists, create one
   let newState: MainAreaState
   if (activeGroup) {
+    const activeTab = activeGroup.tabs.find((tab) => tab.id === activeGroup.activeTabId)
+    if (activeTab?.isPreview) {
+      const title = PathDisplay.getLabel(uri)
+      const updatedGroups = groups.map((group) => {
+        if (group.id !== activeGroup.id) {
+          return group
+        }
+        const updatedTabs: readonly Tab[] = group.tabs.map((tab): Tab => {
+          if (tab.id !== activeTab.id) {
+            return tab
+          }
+          return {
+            ...tab,
+            errorMessage: '',
+            icon: '',
+            isDirty: false,
+            isPreview: preview,
+            language: '',
+            loadingState: 'loading',
+            title,
+            uri,
+          }
+        })
+        return {
+          ...group,
+          tabs: updatedTabs,
+        }
+      })
+      return {
+        ...state,
+        layout: {
+          ...layout,
+          activeGroupId: activeGroup.id,
+          groups: updatedGroups,
+        },
+      }
+    }
+
     // Create a new tab with the URI in the active group
     const title = PathDisplay.getLabel(uri)
     const tabId = Id.create()
@@ -28,6 +66,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
       icon: '',
       id: tabId,
       isDirty: false,
+      isPreview: preview,
       language: '',
       loadingState: 'loading',
       title,
@@ -35,7 +74,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
     }
     newState = openTab(state, activeGroup.id, newTab)
   } else {
-    newState = createEmptyGroup(state, uri, requestId)
+    newState = createEmptyGroup(state, uri, requestId, preview)
   }
 
   return newState

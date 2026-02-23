@@ -23,6 +23,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
             icon: '',
             id: 1,
             isDirty: false,
+            isPreview: false,
             title: 'Test File',
             uri: '/path/to/Test File',
           },
@@ -150,6 +151,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
             icon: '',
             id: 1,
             isDirty: false,
+            isPreview: false,
             title: 'File 1',
             uri: '/path/to/File 1',
           },
@@ -168,6 +170,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
             icon: '',
             id: 2,
             isDirty: true,
+            isPreview: false,
             title: 'File 2',
             uri: '/path/to/File 2',
           },
@@ -183,7 +186,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   expect(sashNode?.['data-sashId']).toBe('1:2')
   expect(sashNode?.style).toBe('left:50%;')
   expect(sashNode?.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
-  expect(result[1].childCount).toBe(3) // flattened children: group 1 + sash + group 2
+  expect(result[1].childCount).toBe(3) // direct children: group 1 + sash + group 2
   const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsVertical`)
   expect(editorGroupsContainer).toBeDefined()
 })

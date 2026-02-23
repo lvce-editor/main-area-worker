@@ -45,7 +45,8 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       children.push(...renderSash(direction, sashId, style))
       childCount++
     }
-    children.push(...renderEditorGroup(groups[i], i, splitButtonEnabled, sizeProperty))
+    const editorGroupDom = renderEditorGroup(groups[i], i, splitButtonEnabled, sizeProperty)
+    children.push(...editorGroupDom)
     childCount++
   }
   return [

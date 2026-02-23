@@ -15,6 +15,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
           title: `file${index + 1}.txt`,
           uri: `/test/file${index + 1}.txt`,
           ...override,
+          isPreview: override.isPreview ?? false,
         }))
       : [
           {
@@ -23,6 +24,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
             icon: '',
             id: 1,
             isDirty: false,
+            isPreview: false,
             title: 'file.txt',
             uri: '/test/file.txt',
           },
@@ -68,6 +70,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'file1.txt',
               uri: '/test/file1.txt',
             },
@@ -77,6 +80,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'file2.txt',
               uri: '/test/file2.txt',
             },
@@ -95,6 +99,7 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'file3.txt',
               uri: '/test/file3.txt',
             },
@@ -119,6 +124,7 @@ test('updateTab updates multiple properties', () => {
   const state = createStateWithTabs()
   const result = updateTab(state, 1, {
     isDirty: true,
+    isPreview: false,
     loadingState: 'loaded',
   })
 

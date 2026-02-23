@@ -28,6 +28,7 @@ test('handleClickTogglePreview should return state unchanged', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'test.html',
               uri: '/path/to/test.html',
             },

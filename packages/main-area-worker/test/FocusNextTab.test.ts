@@ -26,6 +26,7 @@ test('focusNextTab should select the next tab in the active group', async () => 
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -34,6 +35,7 @@ test('focusNextTab should select the next tab in the active group', async () => 
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
             {
@@ -42,6 +44,7 @@ test('focusNextTab should select the next tab in the active group', async () => 
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'File 3',
             },
           ],
@@ -78,6 +81,7 @@ test('focusNextTab should cycle from last tab to first tab', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -86,6 +90,7 @@ test('focusNextTab should cycle from last tab to first tab', async () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
             {
@@ -94,6 +99,7 @@ test('focusNextTab should cycle from last tab to first tab', async () => {
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'File 3',
             },
           ],
@@ -128,6 +134,7 @@ test('focusNextTab should return state if there is no active group', async () =>
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -136,6 +143,7 @@ test('focusNextTab should return state if there is no active group', async () =>
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -193,6 +201,7 @@ test('focusNextTab should return state if active tab is not found', async () => 
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -201,6 +210,7 @@ test('focusNextTab should return state if active tab is not found', async () => 
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -236,6 +246,7 @@ test('focusNextTab should move from first tab to second tab', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -244,6 +255,7 @@ test('focusNextTab should move from first tab to second tab', async () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -280,6 +292,7 @@ test('focusNextTab should cycle from last tab to first tab 2', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -288,6 +301,7 @@ test('focusNextTab should cycle from last tab to first tab 2', async () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
             {
@@ -296,6 +310,7 @@ test('focusNextTab should cycle from last tab to first tab 2', async () => {
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'File 3',
             },
           ],

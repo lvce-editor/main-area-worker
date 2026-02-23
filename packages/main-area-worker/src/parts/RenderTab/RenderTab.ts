@@ -13,6 +13,9 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
   if (tab.isDirty) {
     className += ' ' + ClassNames.MainTabModified
   }
+  if (tab.isPreview) {
+    className += ' ' + ClassNames.MainTabPreview
+  }
 
   return [
     {

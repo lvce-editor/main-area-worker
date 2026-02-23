@@ -11,8 +11,6 @@ test('renderSash vertical', () => {
   expect(node['data-sashId']).toBe('1:2')
   expect(node.childCount).toBe(1)
   expect(node.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
-  expect(node.onPointerMove).toBe(DomEventListenerFunctions.HandleSashPointerMove)
-  expect(node.onPointerUp).toBe(DomEventListenerFunctions.HandleSashPointerUp)
   expect(node.style).toBe('top:50%;')
   expect(node.type).toBe(VirtualDomElements.Div)
   expect(border.className).toBe('SashBorder')

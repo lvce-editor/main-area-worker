@@ -15,6 +15,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
           title: `file${index + 1}.txt`,
           uri: `/test/file${index + 1}.txt`,
           ...override,
+          isPreview: override.isPreview ?? false,
         }))
       : [
           {
@@ -23,6 +24,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
             icon: '',
             id: 1,
             isDirty: false,
+            isPreview: false,
             title: 'file.txt',
             uri: '/test/file.txt',
           },

@@ -29,6 +29,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
             title: 'file.txt',
             uri: '/test/file.txt',
             ...tabOverrides,
+            isPreview: tabOverrides.isPreview ?? false,
           },
         ],
       },

@@ -102,6 +102,7 @@ test('isValidEditorGroup should return false for tabs with invalid tab', () => {
         icon: '',
         id: '1',
         isDirty: false,
+        isPreview: false,
         title: 'File',
       },
     ],

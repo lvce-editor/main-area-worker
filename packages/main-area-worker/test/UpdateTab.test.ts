@@ -124,6 +124,7 @@ test('updateTab updates multiple properties', () => {
   const state = createStateWithTabs()
   const result = updateTab(state, 1, {
     isDirty: true,
+    isPreview: false,
     loadingState: 'loaded',
   })
 

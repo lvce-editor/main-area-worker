@@ -153,6 +153,7 @@ test('handleModifiedStatusChange should preserve other tab properties', () => {
       icon: 'file-icon',
       id: 1,
       isDirty: false,
+      isPreview: false,
       title: 'file.txt',
       uri: '/test/file.txt',
     },

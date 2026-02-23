@@ -60,6 +60,7 @@ test('closeActiveEditor should close the active tab in focused group', () => {
             icon: '',
             id: 2,
             isDirty: false,
+            isPreview: false,
             title: 'File 2',
           },
         ],

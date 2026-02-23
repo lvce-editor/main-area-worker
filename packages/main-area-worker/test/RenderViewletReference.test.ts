@@ -9,6 +9,7 @@ test('renderViewletReference returns reference node with correct uid', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Test',
   } as Tab
 
@@ -30,6 +31,7 @@ test('renderViewletReference handles different uid values', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Test',
   } as Tab
 
@@ -50,6 +52,7 @@ test('renderViewletReference creates reference node for viewlet instance', () =>
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Test',
   } as Tab
 

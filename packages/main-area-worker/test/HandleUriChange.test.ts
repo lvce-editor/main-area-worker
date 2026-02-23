@@ -146,6 +146,7 @@ test('handleUriChange should preserve other tab properties', async () => {
       icon: 'file-icon',
       id: 1,
       isDirty: true,
+      isPreview: false,
       title: 'Original Title',
       uri: '/test/oldfile.txt',
     },

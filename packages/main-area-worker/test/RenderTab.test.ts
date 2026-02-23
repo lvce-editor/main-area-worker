@@ -170,3 +170,19 @@ test('renderTab should use title as fallback when path is undefined', () => {
 
   expect(result[0].title).toBe('Untitled')
 })
+
+test('renderTab should add preview class for preview tabs', () => {
+  const tab: Tab = {
+    editorType: 'text',
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: true,
+    title: 'Preview File',
+    uri: '/path/to/preview',
+  }
+  const result = renderTab(tab, false, 0, 0)
+
+  expect(result[0].className).toBe('MainTab MainTabPreview')
+})

@@ -20,21 +20,21 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER
   let sashOffset = 0
-  let editorGroupsContainerChildCount = 0
-  for (let i = 0; i < layout.groups.length; i++) {
-    sashOffset += layout.groups[i].size
+  let childCount = 0
+  for (let i = 0; i < groups.length; i++) {
+    sashOffset += groups[i].size
     if (i > 0) {
       // Insert sash between groups
       const beforeGroupId = groups[i - 1].id
       const afterGroupId = groups[i].id
       const sashId = SashId.create(beforeGroupId, afterGroupId)
-      const style = layout.direction === 'horizontal' ? `left:${sashOffset - layout.groups[i].size}%;` : `top:${sashOffset - layout.groups[i].size}%;`
+      const style = direction === 'horizontal' ? `left:${sashOffset - groups[i].size}%;` : `top:${sashOffset - groups[i].size}%;`
       children.push(...renderSash(layout.direction, sashId, style))
-      editorGroupsContainerChildCount++
+      childCount++
     }
     const editorGroupDom = renderEditorGroup(layout.groups[i], i, splitButtonEnabled, sizeProperty)
     children.push(...editorGroupDom)
-    editorGroupsContainerChildCount++
+    childCount++
   }
   return [
     {
@@ -43,7 +43,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       type: VirtualDomElements.Div,
     },
     {
-      childCount: editorGroupsContainerChildCount,
+      childCount: childCount,
       className: editorGroupsContainerClassName,
       role: AriaRoles.None,
       type: VirtualDomElements.Div,

@@ -21,7 +21,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   await Command.execute('MainArea.openUris', uid, [file1, file2])
 
   const savedState = await Command.execute('MainArea.saveState', uid)
-  const groups = savedState.layout.groups
+  const {groups} = savedState.layout
   assert(groups.length === 1, `Expected 1 group, got ${groups.length}`)
 
   const [group] = groups

@@ -13,8 +13,7 @@ test('getCss should include MainArea selector', () => {
 
 test('getCss should include sash selectors', () => {
   const css = getCss()
-  expect(css).toContain('.SashVertical')
-  expect(css).toContain('.SashVertical:hover')
-  expect(css).toContain('.SashHorizontal')
-  expect(css).toContain('.SashHorizontal:hover')
+  expect(css).toContain('.MainArea')
+  expect(css).toContain('.editor-groups-container')
+  expect(css).toContain('.EditorGroup')
 })

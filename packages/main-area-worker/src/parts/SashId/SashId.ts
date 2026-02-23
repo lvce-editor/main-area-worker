@@ -10,8 +10,8 @@ export const parse = (sashId: string): { beforeGroupId: number; afterGroupId: nu
   if (!beforeRaw || !afterRaw) {
     return undefined
   }
-  const beforeGroupId = Number.parseInt(beforeRaw, 10)
-  const afterGroupId = Number.parseInt(afterRaw, 10)
+  const beforeGroupId = Number.parseFloat(beforeRaw)
+  const afterGroupId = Number.parseFloat(afterRaw)
   if (!Number.isFinite(beforeGroupId) || !Number.isFinite(afterGroupId)) {
     return undefined
   }

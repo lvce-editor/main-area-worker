@@ -1,6 +1,7 @@
 import { type VirtualDomNode, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as ClassNames from '../../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import * as InputName from '../../InputName/InputName.ts'
 
 export const renderError = (errorMessage: string): readonly VirtualDomNode[] => {
   return [
@@ -18,7 +19,8 @@ export const renderError = (errorMessage: string): readonly VirtualDomNode[] => 
     {
       childCount: 1,
       className: `${ClassNames.Button} ${ClassNames.ButtonSecondary}`,
-      'data-action': 'retry-open',
+      'data-action': InputName.RetryOpen,
+      name: InputName.RetryOpen,
       onClick: DomEventListenerFunctions.HandleClickAction,
       type: VirtualDomElements.Button,
     },

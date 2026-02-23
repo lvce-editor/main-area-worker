@@ -141,7 +141,7 @@ test('splitRight should split with multiple existing groups', () => {
 
   expect(result.layout.groups.length).toBe(3)
   expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[0].size).toBe(50)
+  expect(result.layout.groups[0].size).toBeCloseTo(33.333_333, 5)
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[1].id).toBe(2)
   expect(result.layout.groups[2].focused).toBe(true)
@@ -187,7 +187,7 @@ test('splitRight should split middle group correctly', () => {
   expect(result.layout.groups.length).toBe(4)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[1].id).toBe(2)
-  expect(result.layout.groups[1].size).toBe(50)
+  expect(result.layout.groups[1].size).toBe(25)
   expect(result.layout.groups[1].focused).toBe(false)
   expect(result.layout.groups[2].id).toBe(3)
   expect(result.layout.groups[3].focused).toBe(true)
@@ -213,6 +213,7 @@ test('splitRight should create new group with empty tabs', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'test.txt',
               uri: '/path/to/test.txt',
             },
@@ -235,6 +236,7 @@ test('splitRight should preserve original group tabs', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'test.txt',
     uri: '/path/to/test.txt',
   }
@@ -270,6 +272,7 @@ test('splitRight should maintain activeTabId in original group', () => {
     icon: '',
     id: 5,
     isDirty: false,
+    isPreview: false,
     title: 'test.txt',
     uri: '/path/to/test.txt',
   }

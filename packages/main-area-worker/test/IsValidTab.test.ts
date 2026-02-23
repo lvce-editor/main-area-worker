@@ -9,6 +9,7 @@ test('isValidTab should return true for valid text tab', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(true)
@@ -21,6 +22,7 @@ test('isValidTab should return true for valid custom tab', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Custom File',
   }
   expect(isValidTab(tab)).toBe(true)
@@ -40,6 +42,7 @@ test('isValidTab should return false for missing id', () => {
     editorUid: -1,
     icon: '',
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)
@@ -52,6 +55,7 @@ test('isValidTab should return false for invalid id type', () => {
     icon: '',
     id: '1',
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)
@@ -64,6 +68,7 @@ test('isValidTab should return false for missing title', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
   }
   expect(isValidTab(tab)).toBe(false)
 })
@@ -75,6 +80,7 @@ test('isValidTab should return false for invalid title type', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 123,
   }
   expect(isValidTab(tab)).toBe(false)
@@ -86,6 +92,7 @@ test('isValidTab should return false for missing editorUid', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)
@@ -98,6 +105,7 @@ test('isValidTab should return false for invalid editorUid type', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)
@@ -121,6 +129,7 @@ test('isValidTab should return false for invalid isDirty type', () => {
     icon: '',
     id: 1,
     isDirty: 'true',
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)
@@ -133,6 +142,7 @@ test('isValidTab should return false for invalid editorType', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)
@@ -144,6 +154,7 @@ test('isValidTab should return false for missing icon', () => {
     editorUid: -1,
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)
@@ -156,6 +167,7 @@ test('isValidTab should return false for invalid icon type', () => {
     icon: 123,
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)

@@ -33,7 +33,7 @@ test('handleSashPointerDown should start sash drag', async () => {
     width: 1000,
   }
 
-  const result = await handleSashPointerDown(state, '1:2', '100', '200')
+  const result = await handleSashPointerDown(state, '1:2', 100, 200)
 
   expect(result.sashDrag).toEqual({
     afterGroupId: 2,
@@ -83,7 +83,7 @@ test('handleSashPointerMove should resize neighboring groups', async () => {
     width: 1000,
   }
 
-  const result = await handleSashPointerMove(state, '300', '200')
+  const result = await handleSashPointerMove(state, 300, 200)
 
   expect(result.layout.groups[0].size).toBe(70)
   expect(result.layout.groups[1].size).toBe(30)

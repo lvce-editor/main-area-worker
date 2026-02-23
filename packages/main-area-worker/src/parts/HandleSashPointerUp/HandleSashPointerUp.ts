@@ -1,7 +1,8 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const handleSashPointerUp = async (state: MainAreaState): Promise<MainAreaState> => {
-  if (!state.sashDrag) {
+  const { sashDrag } = state
+  if (!sashDrag) {
     return state
   }
   return {

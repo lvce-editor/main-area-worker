@@ -23,6 +23,8 @@ export const create = (
       direction: 'horizontal',
       groups: [],
     },
+    maxOpenEditorGroups: Number.POSITIVE_INFINITY,
+    maxOpenEditors: Number.POSITIVE_INFINITY,
     platform,
     splitButtonEnabled: false,
     tabHeight,

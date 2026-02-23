@@ -3,10 +3,15 @@ import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderSash } from '../src/parts/RenderSash/RenderSash.ts'
 
+<<<<<<< HEAD
 test('renderSash vertical', () => {
   const nodes = renderSash('vertical', '1:2', 'top:50%;')
   const node = nodes[0]
   const border = nodes[1]
+=======
+test.skip('renderSash vertical', () => {
+  const node = renderSash('vertical', '1:2', 'top:50%;')[0]
+>>>>>>> origin/main
   expect(node.className).toBe('Sash SashHorizontal')
   expect(node['data-sashId']).toBe('1:2')
   expect(node.childCount).toBe(1)
@@ -21,9 +26,13 @@ test('renderSash vertical', () => {
 })
 
 test('renderSash horizontal', () => {
+<<<<<<< HEAD
   const nodes = renderSash('horizontal', '1:2', 'left:50%;')
   const node = nodes[0]
   const border = nodes[1]
+=======
+  const node = renderSash('horizontal', '1:2', 'left:50%;')[0]
+>>>>>>> origin/main
   expect(node.className).toBe('Sash SashVertical')
   expect(node['data-sashId']).toBe('1:2')
   expect(node.childCount).toBe(1)

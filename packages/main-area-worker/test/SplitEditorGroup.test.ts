@@ -24,6 +24,7 @@ test('splitEditorGroup should split editor group to the right', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -65,6 +66,7 @@ test('splitEditorGroup should split editor group to the left', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -105,6 +107,7 @@ test('splitEditorGroup should split editor group down', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -145,6 +148,7 @@ test('splitEditorGroup should split editor group up', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -185,6 +189,7 @@ test('splitEditorGroup should return unchanged state if group not found', () => 
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -219,6 +224,7 @@ test('splitEditorGroup should preserve tabs in source group', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
             {
@@ -227,6 +233,7 @@ test('splitEditorGroup should preserve tabs in source group', () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
             {
@@ -235,6 +242,7 @@ test('splitEditorGroup should preserve tabs in source group', () => {
               icon: '',
               id: 3,
               isDirty: false,
+              isPreview: false,
               title: 'File 3',
             },
           ],
@@ -324,6 +332,7 @@ test('splitEditorGroup should set new group activeTabId to undefined', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -358,6 +367,7 @@ test('splitEditorGroup should split multiple existing groups', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -375,6 +385,7 @@ test('splitEditorGroup should split multiple existing groups', () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -391,6 +402,11 @@ test('splitEditorGroup should split multiple existing groups', () => {
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[1].focused).toBe(false)
   expect(result.layout.groups[2].focused).toBe(true)
+  expect(result.layout.groups[0].size).toBeCloseTo(33.333_333, 5)
+  expect(result.layout.groups[1].size).toBeCloseTo(33.333_333, 5)
+  expect(result.layout.groups[2].size).toBeCloseTo(33.333_334, 5)
+  const totalSize = result.layout.groups.reduce((sum, group) => sum + group.size, 0)
+  expect(totalSize).toBeCloseTo(100, 5)
 })
 
 test('splitEditorGroup should handle split of second group', () => {
@@ -413,6 +429,7 @@ test('splitEditorGroup should handle split of second group', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -430,6 +447,7 @@ test('splitEditorGroup should handle split of second group', () => {
               icon: '',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'File 2',
             },
           ],
@@ -495,6 +513,7 @@ test('splitEditorGroup should preserve activeTabId in source group', () => {
               icon: '',
               id: 42,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],
@@ -578,6 +597,7 @@ test('splitEditorGroup should not mutate original state', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],

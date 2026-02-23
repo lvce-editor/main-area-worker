@@ -1,11 +1,9 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { closeTab } from '../CloseTab/CloseTab.ts'
+import { getFocusedGroup } from '../GetFocusedGroup/GetFocusedGroup.ts'
 
 export const closeActiveEditor = (state: MainAreaState): MainAreaState => {
-  const { layout } = state
-  const { groups } = layout
-
-  const focusedGroup = groups.find((group) => group.focused)
+  const focusedGroup = getFocusedGroup(state)
   if (!focusedGroup) {
     return state
   }

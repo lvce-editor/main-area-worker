@@ -2,7 +2,7 @@ import type { EditorGroup, MainAreaState, Tab } from '../MainAreaState/MainAreaS
 import * as Id from '../Id/Id.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
-export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: number): MainAreaState => {
+export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: number, preview: boolean = false): MainAreaState => {
   const { layout } = state
   const { groups } = layout
 
@@ -17,6 +17,7 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
     icon: '',
     id: tabId,
     isDirty: false,
+    isPreview: preview,
     language: '',
     loadingState: 'loading',
     title,

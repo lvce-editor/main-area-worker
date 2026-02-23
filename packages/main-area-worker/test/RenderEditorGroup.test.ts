@@ -18,6 +18,7 @@ test('renderEditorGroup should return correct structure for group with active ta
         icon: '',
         id: 1,
         isDirty: false,
+        isPreview: false,
         title: 'Test File',
         uri: '/path/to/Test File',
       },
@@ -95,6 +96,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       className: 'EditorGroupActionButton SplitEditorGroupButton',
       'data-action': 'split-right',
       'data-groupId': '1',
+      name: 'split-right',
       onClick: DomEventListenerFunctions.HandleClickAction,
       title: 'Split Editor Group',
       type: VirtualDomElements.Button,
@@ -133,6 +135,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
         icon: '',
         id: 1,
         isDirty: false,
+        isPreview: false,
         title: 'Test File',
         uri: '/path/to/Test File',
       },
@@ -157,6 +160,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
         icon: '',
         id: 1,
         isDirty: false,
+        isPreview: false,
         title: 'Custom Tab',
         uri: '/path/to/Custom Tab',
       },
@@ -180,7 +184,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
 
   expect(result).toEqual([
     {
-      childCount: 1,
+      childCount: 2,
       className: 'EditorGroup',
       style: 'width:100%;',
       type: VirtualDomElements.Div,
@@ -195,6 +199,16 @@ test('renderEditorGroup should handle empty tabs array', () => {
       type: VirtualDomElements.Button,
     },
     text('✕'),
+    {
+      childCount: 1,
+      className: 'WaterMarkWrapper',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'WaterMark',
+      type: VirtualDomElements.Div,
+    },
   ])
 })
 
@@ -210,7 +224,7 @@ test('renderEditorGroup should support height based sizing', () => {
   const result = renderEditorGroup(group, 0, true, 'height')
 
   expect(result[0]).toEqual({
-    childCount: 1,
+    childCount: 2,
     className: 'EditorGroup',
     style: 'height:50%;',
     type: VirtualDomElements.Div,

@@ -2,6 +2,7 @@ import { type VirtualDomNode, VirtualDomElements, text } from '@lvce-editor/virt
 import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import * as InputName from '../InputName/InputName.ts'
 import { isHtmlFile } from '../IsHtmlFile/IsHtmlFile.ts'
 import * as MainStrings from '../MainStrings/MainStrings.ts'
 
@@ -21,9 +22,9 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
         ariaLabel: 'Preview',
         childCount: 1,
         className: ClassNames.IconButton,
-        'data-action': 'toggle-preview',
+        'data-action': InputName.TogglePreview,
         'data-groupId': String(group.id),
-        name: 'toggle-preview',
+        name: InputName.TogglePreview,
         onClick: DomEventListenerFunctions.HandleClickAction,
         title: MainStrings.togglePreview(),
         type: VirtualDomElements.Button,
@@ -41,8 +42,9 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
       {
         childCount: 1,
         className: ClassNames.EditorGroupActionButton + ' ' + ClassNames.SplitEditorGroupButton,
-        'data-action': 'split-right',
+        'data-action': InputName.SplitRight,
         'data-groupId': String(group.id),
+        name: InputName.SplitRight,
         onClick: DomEventListenerFunctions.HandleClickAction,
         title: MainStrings.splitEditorGroup(),
         type: VirtualDomElements.Button,

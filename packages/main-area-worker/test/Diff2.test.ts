@@ -10,7 +10,7 @@ test('diff2 - should return empty array when states are equal', () => {
   const state: MainAreaState = createDefaultState()
   MainAreaStates.set(uid, state, state)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([])
+  expect(result).toEqual([DiffType.RenderCss])
 })
 
 test('diff2 - should return RenderItems when groups differ', () => {
@@ -34,7 +34,7 @@ test('diff2 - should return RenderItems when groups differ', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff2 - should return RenderItems when tabs differ', () => {
@@ -58,6 +58,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               language: 'typescript',
               loadingState: 'idle',
               title: 'file1.txt',
@@ -86,6 +87,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
               icon: 'test-icon',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'file1.txt',
               uri: '/test/file1.txt',
             },
@@ -95,6 +97,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
               icon: 'test-icon',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'file2.txt',
               uri: '/test/file2.txt',
             },
@@ -105,7 +108,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff2 - should return empty array when only uid differs', () => {
@@ -120,7 +123,7 @@ test('diff2 - should return empty array when only uid differs', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([])
+  expect(result).toEqual([DiffType.RenderCss])
 })
 
 test('diff2 - should return RenderItems when active tab changes', () => {
@@ -143,6 +146,7 @@ test('diff2 - should return RenderItems when active tab changes', () => {
               icon: 'test-icon',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'file1.txt',
               uri: '/test/file1.txt',
             },
@@ -152,6 +156,7 @@ test('diff2 - should return RenderItems when active tab changes', () => {
               icon: 'test-icon',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'file2.txt',
               uri: '/test/file2.txt',
             },
@@ -174,7 +179,7 @@ test('diff2 - should return RenderItems when active tab changes', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff2 - should return RenderItems when group focus changes', () => {
@@ -209,7 +214,7 @@ test('diff2 - should return RenderItems when group focus changes', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff2 - should return RenderItems when group sizes change', () => {
@@ -256,7 +261,7 @@ test('diff2 - should return RenderItems when group sizes change', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })
 
 test('diff2 - should return RenderItems when number of groups changes', () => {
@@ -303,5 +308,5 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderIncremental])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
 })

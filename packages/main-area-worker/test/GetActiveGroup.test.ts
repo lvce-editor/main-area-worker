@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals'
 import type { EditorGroup } from '../src/parts/EditorGroup/EditorGroup.ts'
-import { GetActiveGroup } from '../src/parts/GetActiveGroup/GetActiveGroup.ts'
+import { getActiveGroup } from '../src/parts/GetActiveGroup/GetActiveGroup.ts'
 
 test('GetActiveGroup should return group when found by ID', () => {
   const groups: EditorGroup[] = [
@@ -17,6 +17,7 @@ test('GetActiveGroup should return group when found by ID', () => {
           icon: '',
           id: 1,
           isDirty: false,
+          isPreview: false,
           title: 'File 1',
         },
       ],
@@ -34,13 +35,14 @@ test('GetActiveGroup should return group when found by ID', () => {
           icon: '',
           id: 2,
           isDirty: false,
+          isPreview: false,
           title: 'File 2',
         },
       ],
     },
   ]
 
-  const result = GetActiveGroup(groups, 2)
+  const result = getActiveGroup(groups, 2)
   expect(result).toBeDefined()
   expect(result?.id).toBe(2)
   expect(result?.focused).toBe(true)
@@ -61,13 +63,14 @@ test('GetActiveGroup should return undefined when group not found', () => {
           icon: '',
           id: 1,
           isDirty: false,
+          isPreview: false,
           title: 'File 1',
         },
       ],
     },
   ]
 
-  const result = GetActiveGroup(groups, 999)
+  const result = getActiveGroup(groups, 999)
   expect(result).toBeUndefined()
 })
 
@@ -86,6 +89,7 @@ test('GetActiveGroup should return first matching group by ID', () => {
           icon: '',
           id: 1,
           isDirty: false,
+          isPreview: false,
           title: 'File 1',
         },
       ],
@@ -103,13 +107,14 @@ test('GetActiveGroup should return first matching group by ID', () => {
           icon: '',
           id: 3,
           isDirty: false,
+          isPreview: false,
           title: 'File 3',
         },
       ],
     },
   ]
 
-  const result = GetActiveGroup(groups, 1)
+  const result = getActiveGroup(groups, 1)
   expect(result).toBeDefined()
   expect(result?.id).toBe(1)
 })
@@ -117,7 +122,7 @@ test('GetActiveGroup should return first matching group by ID', () => {
 test('GetActiveGroup should return undefined for empty groups array', () => {
   const groups: EditorGroup[] = []
 
-  const result = GetActiveGroup(groups, 1)
+  const result = getActiveGroup(groups, 1)
   expect(result).toBeUndefined()
 })
 
@@ -133,7 +138,7 @@ test('GetActiveGroup should return group with zero ID', () => {
     },
   ]
 
-  const result = GetActiveGroup(groups, 0)
+  const result = getActiveGroup(groups, 0)
   expect(result).toBeDefined()
   expect(result?.id).toBe(0)
 })
@@ -153,6 +158,7 @@ test('GetActiveGroup should return group from array with multiple tabs', () => {
           icon: 'file-icon',
           id: 1,
           isDirty: true,
+          isPreview: false,
           title: 'File 1',
         },
         {
@@ -161,6 +167,7 @@ test('GetActiveGroup should return group from array with multiple tabs', () => {
           icon: 'file-icon',
           id: 2,
           isDirty: false,
+          isPreview: false,
           title: 'File 2',
         },
         {
@@ -169,13 +176,14 @@ test('GetActiveGroup should return group from array with multiple tabs', () => {
           icon: 'file-icon',
           id: 3,
           isDirty: false,
+          isPreview: false,
           title: 'File 3',
         },
       ],
     },
   ]
 
-  const result = GetActiveGroup(groups, 1)
+  const result = getActiveGroup(groups, 1)
   expect(result).toBeDefined()
   expect(result?.activeTabId).toBe(2)
   expect(result?.tabs).toHaveLength(3)

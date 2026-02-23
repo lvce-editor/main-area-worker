@@ -3,6 +3,7 @@ import { closeActiveEditor } from '../CloseActiveEditor/CloseActiveEditor.ts'
 import { closeAll } from '../CloseAll/CloseAll.ts'
 import { closeFocusedTab } from '../CloseFocusedTab/CloseFocusedTab.ts'
 import { closeOtherTabs } from '../CloseOtherTabs/CloseOtherTabs.ts'
+import { closeSaved } from '../CloseSaved/CloseSaved.ts'
 import { closeTabsRight } from '../CloseTabsRight/CloseTabsRight.ts'
 import { copyPath } from '../CopyPath/CopyPath.ts'
 import { copyRelativePath } from '../CopyRelativePath/CopyRelativePath.ts'
@@ -32,6 +33,7 @@ import { getCommandIds, wrapCommand, wrapGetter } from '../MainAreaStates/MainAr
 import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
 import { newFile } from '../NewFile/NewFile.ts'
 import { openUri } from '../OpenUri/OpenUri.ts'
+import { openUris } from '../OpenUris/OpenUris.ts'
 import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
@@ -47,6 +49,7 @@ export const commandMap = {
   'MainArea.closeAllEditors': wrapCommand(closeAll),
   'MainArea.closeFocusedTab': wrapCommand(closeFocusedTab),
   'MainArea.closeOthers': wrapCommand(closeOtherTabs),
+  'MainArea.closeSaved': wrapCommand(closeSaved),
   'MainArea.closeTabsRight': wrapCommand(closeTabsRight),
   'MainArea.copyPath': wrapCommand(copyPath),
   'MainArea.copyRelativePath': wrapCommand(copyRelativePath),
@@ -78,6 +81,7 @@ export const commandMap = {
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
   'MainArea.newFile': wrapCommand(newFile),
   'MainArea.openUri': wrapCommand(openUri),
+  'MainArea.openUris': wrapCommand(openUris),
   'MainArea.refresh': wrapCommand(refresh),
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,

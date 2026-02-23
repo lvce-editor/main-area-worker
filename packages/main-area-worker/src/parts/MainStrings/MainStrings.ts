@@ -11,11 +11,22 @@ import {
   CloseEditorGroup,
   CloseOthers,
   CloseAll,
+  CloseSaved,
   RevealInExplorer,
   CloseToTheRight,
   CopyPath,
   CopyRelativePath,
   FindFileReferences,
+  ReopenEditorWith,
+  Share,
+  AddFileToChat,
+  OpenContainingFolder,
+  RevealInExplorerView,
+  KeepOpen,
+  Pin,
+  SplitAndMove,
+  MoveIntoNewWindow,
+  CopyIntoNewWindow,
   TogglePreview,
 } from '../UiStrings/UiStrings.ts'
 
@@ -63,6 +74,10 @@ export const closeAll = (): string => {
   return I18nString.i18nString(CloseAll)
 }
 
+export const closeSaved = (): string => {
+  return I18nString.i18nString(CloseSaved)
+}
+
 export const revealInExplorer = (): string => {
   return I18nString.i18nString(RevealInExplorer)
 }
@@ -81,6 +96,46 @@ export const copyPath = (): string => {
 
 export const copyRelativePath = (): string => {
   return I18nString.i18nString(CopyRelativePath)
+}
+
+export const reopenEditorWith = (): string => {
+  return I18nString.i18nString(ReopenEditorWith)
+}
+
+export const share = (): string => {
+  return I18nString.i18nString(Share)
+}
+
+export const addFileToChat = (): string => {
+  return I18nString.i18nString(AddFileToChat)
+}
+
+export const openContainingFolder = (): string => {
+  return I18nString.i18nString(OpenContainingFolder)
+}
+
+export const revealInExplorerView = (): string => {
+  return I18nString.i18nString(RevealInExplorerView)
+}
+
+export const keepOpen = (): string => {
+  return I18nString.i18nString(KeepOpen)
+}
+
+export const pin = (): string => {
+  return I18nString.i18nString(Pin)
+}
+
+export const splitAndMove = (): string => {
+  return I18nString.i18nString(SplitAndMove)
+}
+
+export const moveIntoNewWindow = (): string => {
+  return I18nString.i18nString(MoveIntoNewWindow)
+}
+
+export const copyIntoNewWindow = (): string => {
+  return I18nString.i18nString(CopyIntoNewWindow)
 }
 
 export const togglePreview = (): string => {

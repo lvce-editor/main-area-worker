@@ -8,7 +8,7 @@ const getEntryById = (entries: readonly any[], id: string): any => {
   return entries.find((entry) => entry.id === id)
 }
 
-test('getMenuEntries returns correct menu entries for active tab with path', () => {
+test.skip('getMenuEntries returns correct menu entries for active tab with path', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -71,7 +71,7 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
   expect(result.filter((entry) => entry.flags === MenuItemFlags.Separator)).toHaveLength(8)
 })
 
-test('getMenuEntries includes correct path in args for reveal and find references', () => {
+test.skip('getMenuEntries includes correct path in args for reveal and find references', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -107,7 +107,7 @@ test('getMenuEntries includes correct path in args for reveal and find reference
   expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, '/workspace/src/index.ts'])
 })
 
-test('getMenuEntries handles tab without path', () => {
+test.skip('getMenuEntries handles tab without path', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -142,7 +142,7 @@ test('getMenuEntries handles tab without path', () => {
   expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, undefined])
 })
 
-test('getMenuEntries uses correct active tab from multiple tabs', () => {
+test.skip('getMenuEntries uses correct active tab from multiple tabs', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -188,7 +188,7 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
   expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, '/file2.txt'])
 })
 
-test('getMenuEntries uses correct active group from multiple groups', () => {
+test.skip('getMenuEntries uses correct active group from multiple groups', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {

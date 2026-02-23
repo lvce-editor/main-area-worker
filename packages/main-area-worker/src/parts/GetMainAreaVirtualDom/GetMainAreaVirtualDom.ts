@@ -43,7 +43,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       type: VirtualDomElements.Div,
     },
     {
-      childCount: childCount,
+      childCount,
       className: editorGroupsContainerClassName,
       role: AriaRoles.None,
       type: VirtualDomElements.Div,

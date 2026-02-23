@@ -29,10 +29,10 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const afterGroupId = groups[i].id
       const sashId = SashId.create(beforeGroupId, afterGroupId)
       const style = direction === 'horizontal' ? `left:${sashOffset - groups[i].size}%;` : `top:${sashOffset - groups[i].size}%;`
-      children.push(...renderSash(layout.direction, sashId, style))
+      children.push(...renderSash(direction, sashId, style))
       childCount++
     }
-    const editorGroupDom = renderEditorGroup(layout.groups[i], i, splitButtonEnabled, sizeProperty)
+    const editorGroupDom = renderEditorGroup(groups[i], i, splitButtonEnabled, sizeProperty)
     children.push(...editorGroupDom)
     childCount++
   }

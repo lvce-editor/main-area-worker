@@ -24,7 +24,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string, preview: bo
         if (group.id !== activeGroup.id) {
           return group
         }
-        const updatedTabs = group.tabs.map((tab) => {
+        const updatedTabs: readonly Tab[] = group.tabs.map((tab): Tab => {
           if (tab.id !== activeTab.id) {
             return tab
           }
@@ -66,11 +66,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string, preview: bo
       icon: '',
       id: tabId,
       isDirty: false,
-<<<<<<< HEAD
       isPreview: preview,
-=======
-      isPreview: false,
->>>>>>> origin/main
       language: '',
       loadingState: 'loading',
       title,

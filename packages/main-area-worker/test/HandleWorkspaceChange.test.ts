@@ -23,6 +23,7 @@ test('handleWorkspaceChange should clear activeGroupId and groups', () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],

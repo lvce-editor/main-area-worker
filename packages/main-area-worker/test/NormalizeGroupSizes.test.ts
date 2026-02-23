@@ -101,6 +101,7 @@ test('normalizeGroupSizes should preserve other group properties', () => {
           icon: '',
           id: 1,
           isDirty: false,
+          isPreview: false,
           title: 'File',
         },
       ],

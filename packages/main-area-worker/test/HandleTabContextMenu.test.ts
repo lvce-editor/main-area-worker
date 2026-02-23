@@ -47,6 +47,7 @@ test('handleTabContextMenu should return state unchanged', async () => {
               icon: '',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'File 1',
             },
           ],

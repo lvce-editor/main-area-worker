@@ -17,7 +17,11 @@ export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: n
     icon: '',
     id: tabId,
     isDirty: false,
+<<<<<<< HEAD
     isPreview: preview,
+=======
+    isPreview: false,
+>>>>>>> origin/main
     language: '',
     loadingState: 'loading',
     title,

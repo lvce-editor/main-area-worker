@@ -6,7 +6,11 @@ export const isValidTab = (tab: any): tab is Tab => {
     typeof tab.id === 'number' &&
     typeof tab.title === 'string' &&
     typeof tab.isDirty === 'boolean' &&
+<<<<<<< HEAD
     (tab.isPreview === undefined || typeof tab.isPreview === 'boolean') &&
+=======
+    typeof tab.isPreview === 'boolean' &&
+>>>>>>> origin/main
     typeof tab.editorUid === 'number' &&
     typeof tab.icon === 'string' &&
     (tab.editorType === 'text' || tab.editorType === 'custom')

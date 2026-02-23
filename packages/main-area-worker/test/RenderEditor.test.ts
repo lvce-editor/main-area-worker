@@ -29,6 +29,7 @@ test('renderEditor should return custom editor structure', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Custom Tab',
   }
   const result = renderEditor(tab)
@@ -56,6 +57,7 @@ test('renderEditor should return text editor structure with content', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Test File',
   }
   const result = renderEditor(tab)
@@ -82,6 +84,7 @@ test('renderEditor should handle text editor with empty content', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Empty File',
   }
   const result = renderEditor(tab)
@@ -97,6 +100,7 @@ test('renderEditor should handle text editor with undefined content', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Undefined File',
   }
   const result = renderEditor(tab)
@@ -112,6 +116,7 @@ test('renderEditor should show loading state', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     loadingState: 'loading',
     title: 'Loading File',
   }
@@ -140,6 +145,7 @@ test('renderEditor should show error state', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     loadingState: 'error',
     title: 'Error File',
   }
@@ -176,6 +182,7 @@ test('renderEditor should show content when loadingState is loaded', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     loadingState: 'loaded',
     title: 'Loaded File',
   }
@@ -203,6 +210,7 @@ test('renderEditor should show content when loadingState is idle', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     loadingState: 'idle',
     title: 'Idle File',
   }
@@ -231,6 +239,7 @@ test('renderEditor should show error state even when content exists', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     loadingState: 'error',
     title: 'Error File',
   }

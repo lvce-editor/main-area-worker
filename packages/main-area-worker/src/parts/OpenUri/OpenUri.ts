@@ -21,6 +21,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const { uid } = state
 
   const uri = getOptionUriOptions(options)
+  const preview = typeof options === 'string' ? false : (options.preview ?? false)
 
   // Check if a tab with this URI already exists in the passed-in state
   const existingTab = findTabByUri(state, uri)
@@ -71,7 +72,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
     tabId = existingTab.tab.id
   } else {
     // Add tab to state BEFORE any async calls to prevent race conditions
-    stateWithTab = ensureActiveGroup(currentState, uri)
+    stateWithTab = ensureActiveGroup(currentState, uri, preview)
     tabId = getActiveTabId(stateWithTab)!
   }
 

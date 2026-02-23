@@ -16,6 +16,7 @@ test('getTabIndex should return correct index when tab exists', () => {
         icon: '',
         id: 1,
         isDirty: false,
+        isPreview: false,
         title: 'File 1',
       },
       {
@@ -24,6 +25,7 @@ test('getTabIndex should return correct index when tab exists', () => {
         icon: '',
         id: 2,
         isDirty: false,
+        isPreview: false,
         title: 'File 2',
       },
       {
@@ -32,6 +34,7 @@ test('getTabIndex should return correct index when tab exists', () => {
         icon: '',
         id: 3,
         isDirty: false,
+        isPreview: false,
         title: 'File 3',
       },
     ],
@@ -55,6 +58,7 @@ test('getTabIndex should return -1 when tab does not exist', () => {
         icon: '',
         id: 1,
         isDirty: false,
+        isPreview: false,
         title: 'File',
       },
     ],

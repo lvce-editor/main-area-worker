@@ -12,6 +12,7 @@ test('renderTab should return correct structure for clean tab', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     language: '',
     loadingState: 'idle',
     title: 'Test File',
@@ -70,6 +71,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
     icon: '',
     id: 1,
     isDirty: true,
+    isPreview: false,
     language: '',
     loadingState: 'idle',
     title: 'Test File',
@@ -126,6 +128,7 @@ test('renderTab should handle empty title', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     language: '',
     loadingState: 'idle',
     title: '',
@@ -143,6 +146,7 @@ test('renderTab should handle dirty tab with empty title', () => {
     icon: '',
     id: 1,
     isDirty: true,
+    isPreview: false,
     title: '',
     uri: '/path/to/file',
   }
@@ -159,6 +163,7 @@ test('renderTab should use title as fallback when path is undefined', () => {
     icon: '',
     id: 1,
     isDirty: false,
+    isPreview: false,
     title: 'Untitled',
   }
   const result = renderTab(tab, false, 0, 0)

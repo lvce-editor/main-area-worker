@@ -28,6 +28,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string): MainAreaSt
       icon: '',
       id: tabId,
       isDirty: false,
+      isPreview: false,
       language: '',
       loadingState: 'loading',
       title,

@@ -83,6 +83,7 @@ test.skip('handleResize should resize all editors', async () => {
               icon: 'file',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'test.ts',
             },
             {
@@ -91,6 +92,7 @@ test.skip('handleResize should resize all editors', async () => {
               icon: 'file',
               id: 2,
               isDirty: false,
+              isPreview: false,
               title: 'other.ts',
             },
           ],
@@ -133,6 +135,7 @@ test.skip('handleResize should skip editors with editorUid -1', async () => {
               icon: 'file',
               id: 1,
               isDirty: false,
+              isPreview: false,
               title: 'test.ts',
             },
           ],

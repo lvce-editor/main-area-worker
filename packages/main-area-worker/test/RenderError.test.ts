@@ -18,6 +18,10 @@ test('renderError returns error state virtual dom nodes', () => {
       className: 'EditorContent EditorContentError',
       type: VirtualDomElements.Div,
     },
+    {
+      childCount: 1,
+      type: VirtualDomElements.P,
+    },
     text(`Error: ${errorMessage}`),
     {
       childCount: 1,
@@ -45,6 +49,10 @@ test('renderError handles empty error message', () => {
       className: 'EditorContent EditorContentError',
       type: VirtualDomElements.Div,
     },
+    {
+      childCount: 1,
+      type: VirtualDomElements.P,
+    },
     text('Error: '),
     {
       childCount: 1,
@@ -62,5 +70,5 @@ test('renderError handles multiline error message', () => {
   const errorMessage = 'Line 1\nLine 2\nLine 3'
   const result = renderError(errorMessage)
 
-  expect(result[2]).toEqual(text(`Error: ${errorMessage}`))
+  expect(result[3]).toEqual(text(`Error: ${errorMessage}`))
 })

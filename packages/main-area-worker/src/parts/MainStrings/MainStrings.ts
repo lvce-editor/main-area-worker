@@ -28,6 +28,7 @@ import {
   MoveIntoNewWindow,
   CopyIntoNewWindow,
   TogglePreview,
+  Retry,
 } from '../UiStrings/UiStrings.ts'
 
 export const openFile = (): string => {
@@ -140,4 +141,8 @@ export const copyIntoNewWindow = (): string => {
 
 export const togglePreview = (): string => {
   return I18nString.i18nString(TogglePreview)
+}
+
+export const retry = (): string => {
+  return I18nString.i18nString(Retry)
 }

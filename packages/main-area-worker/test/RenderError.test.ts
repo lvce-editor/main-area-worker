@@ -10,12 +10,12 @@ test('renderError returns error state virtual dom nodes', () => {
   expect(result).toEqual([
     {
       childCount: 2,
-      className: 'TextEditor TextEditor--error',
+      className: 'TextEditor TextEditorError',
       type: VirtualDomElements.Div,
     },
     {
       childCount: 2,
-      className: 'EditorContent EditorContent--error',
+      className: 'EditorContent EditorContentError',
       type: VirtualDomElements.Div,
     },
     text(`Error: ${errorMessage}`),
@@ -37,12 +37,12 @@ test('renderError handles empty error message', () => {
   expect(result).toEqual([
     {
       childCount: 2,
-      className: 'TextEditor TextEditor--error',
+      className: 'TextEditor TextEditorError',
       type: VirtualDomElements.Div,
     },
     {
       childCount: 2,
-      className: 'EditorContent EditorContent--error',
+      className: 'EditorContent EditorContentError',
       type: VirtualDomElements.Div,
     },
     text('Error: '),

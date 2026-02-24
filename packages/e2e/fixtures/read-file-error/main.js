@@ -4,6 +4,14 @@ contents['/test.txt'] = 'Hello WOrld'
 
 let i = 0
 
+class FileNotFoundError extends Error {
+  constructor(uri) {
+    super(`File not found`)
+    this.name = 'FileNotFoundError'
+    this.code = 'ENOENT'
+  }
+}
+
 const fileSystemProvider = {
   id: 'xyz',
   writeFile(uri, content) {
@@ -12,7 +20,7 @@ const fileSystemProvider = {
   rename(oldUri, newUri) {},
   readFile(uri) {
     if (i++ === 0) {
-      throw new Error(`File not found`)
+      throw new FileNotFoundError(uri)
     }
     return contents[uri]
   },

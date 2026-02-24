@@ -154,7 +154,7 @@ test('renderEditor should show error state', () => {
   expect(result).toEqual([
     {
       childCount: 2,
-      className: 'TextEditor TextEditor--error',
+      className: 'TextEditor TextEditorError',
       type: VirtualDomElements.Div,
     },
     {

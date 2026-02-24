@@ -162,6 +162,10 @@ test('renderEditor should show error state', () => {
       className: 'EditorContent EditorContent--error',
       type: VirtualDomElements.Div,
     },
+    {
+      childCount: 1,
+      type: VirtualDomElements.P,
+    },
     text('Error: File not found'),
     {
       childCount: 1,
@@ -245,5 +249,5 @@ test('renderEditor should show error state even when content exists', () => {
   }
   const result = renderEditor(tab)
 
-  expect(result[2]).toEqual(text('Error: Permission denied'))
+  expect(result[3]).toEqual(text('Error: Permission denied'))
 })

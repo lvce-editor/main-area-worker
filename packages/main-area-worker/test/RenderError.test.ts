@@ -18,6 +18,10 @@ test('renderError returns error state virtual dom nodes', () => {
       className: 'EditorContent EditorContent--error',
       type: VirtualDomElements.Div,
     },
+    {
+      childCount: 1,
+      type: VirtualDomElements.P,
+    },
     text(`Error: ${errorMessage}`),
     {
       childCount: 1,
@@ -44,6 +48,10 @@ test('renderError handles empty error message', () => {
       childCount: 2,
       className: 'EditorContent EditorContent--error',
       type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      type: VirtualDomElements.P,
     },
     text('Error: '),
     {

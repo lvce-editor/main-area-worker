@@ -159,7 +159,7 @@ test('renderEditor should show error state', () => {
     },
     {
       childCount: 2,
-      className: 'EditorContent EditorContent--error',
+      className: 'EditorContent EditorContentError',
       type: VirtualDomElements.Div,
     },
     text('Error: File not found'),

@@ -14,11 +14,11 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const tab = Locator('.MainTab[title$="does-not-exist.ts"]')
   await expect(tab).toBeVisible()
 
-  const errorContent = Locator('.EditorContent--error')
+  const errorContent = Locator('.EditorContentError')
   await expect(errorContent).toBeVisible()
   await expect(errorContent).toContainText('File not found')
 
-  const retryButton = Locator('.EditorContent--error .Button')
+  const retryButton = Locator('.EditorContentError .Button')
   await expect(retryButton).toBeVisible()
   await expect(retryButton).toHaveText('Retry')
 }

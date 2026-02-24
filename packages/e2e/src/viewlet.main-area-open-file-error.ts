@@ -19,7 +19,7 @@ export const test: Test = async ({ expect, Extension, Locator, Main, Workspace }
   const errorContent = Locator('.EditorContentError')
   await expect(errorContent).toBeVisible()
   // TODO improve error message
-  await expect(errorContent).toHaveText(`Error: cannot append child: instance -1 not found`)
+  await expect(errorContent).toHaveText(`Error: cannot append child: instance -1 not foundRetry`)
   const retryButton = Locator('.EditorContentError .Button')
   await expect(retryButton).toBeVisible()
   await expect(retryButton).toHaveText('Retry')

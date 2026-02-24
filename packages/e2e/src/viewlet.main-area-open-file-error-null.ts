@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-file-error'
 
-export const skip = 1
-
 export const test: Test = async ({ expect, Extension, Locator, Main, Workspace }) => {
   // arrange
   const extensionUri = import.meta.resolve('../fixtures/read-file-null-error')
@@ -21,8 +19,8 @@ export const test: Test = async ({ expect, Extension, Locator, Main, Workspace }
 
   const errorContent = Locator('.EditorContentError')
   await expect(errorContent).toBeVisible()
-  // await expect(errorContent).toContainText('File not found')
-
+  // TODO improve error message
+  await expect(errorContent).toHaveText(`Error: cannot append child: instance -1 not found`)
   const retryButton = Locator('.EditorContentError .Button')
   await expect(retryButton).toBeVisible()
   await expect(retryButton).toHaveText('Retry')

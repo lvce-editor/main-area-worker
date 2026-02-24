@@ -4,11 +4,13 @@ export const name = 'viewlet.main-area-open-file-error'
 
 export const skip = 1
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ expect, Extension, Locator, Main, Workspace }) => {
   // arrange
-  const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
-  const errorFile = `${tmpDir}/error-file.ts`
+  const extensionUri = import.meta.resolve('../fixtures/read-file-error')
+  await Extension.addWebExtension(extensionUri)
+  const prefix = 'extension-host://xyz://'
+  await Workspace.setPath(prefix)
+  const errorFile = `${prefix}/error-file.ts`
 
   // act
   await Main.openUri(errorFile)

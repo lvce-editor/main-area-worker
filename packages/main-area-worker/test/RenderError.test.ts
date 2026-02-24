@@ -62,5 +62,5 @@ test('renderError handles multiline error message', () => {
   const errorMessage = 'Line 1\nLine 2\nLine 3'
   const result = renderError(errorMessage)
 
-  expect(result[2]).toEqual(text(`Error: ${errorMessage}`))
+  expect(result[3]).toEqual(text(`Error: ${errorMessage}`))
 })

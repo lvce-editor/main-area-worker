@@ -232,8 +232,12 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
   }
   const result = getMainAreaVirtualDom(layout)
 
-  expect(result.length).toBe(2) // 1 (Main) + 1 (EditorGroupsContainer)
-  expect(result[1].childCount).toBe(0)
+  expect(result.length).toBe(1)
+  expect(result[0]).toEqual({
+    childCount: 0,
+    className: ClassNames.Main,
+    type: VirtualDomElements.Div,
+  })
 })
 
 test('getMainAreaVirtualDom should position sashes at one-third and two-thirds', () => {

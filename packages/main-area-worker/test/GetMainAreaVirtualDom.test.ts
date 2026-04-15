@@ -42,7 +42,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 2,
       className: 'EditorGroup',
-      style: 'width:100%;',
+      'data-group-id': '1',
       type: VirtualDomElements.Div,
     },
     {
@@ -183,8 +183,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   // Find sash node
   const sashNode = result.find((node) => node.className === 'Sash SashVertical')
   expect(sashNode).toBeDefined()
+  expect(sashNode?.['data-sash-id']).toBe('1:2')
   expect(sashNode?.['data-sashId']).toBe('1:2')
-  expect(sashNode?.style).toBe('left:50%;')
   expect(sashNode?.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
   expect(result[1].childCount).toBe(3) // direct children: group 1 + sash + group 2
   const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsVertical`)
@@ -220,8 +220,8 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
   expect(editorGroupsContainer).toBeDefined()
   const editorGroupNodes = result.filter((node) => node.className === 'EditorGroup')
   expect(editorGroupNodes).toHaveLength(2)
-  expect(editorGroupNodes[0].style).toBe('height:50%;')
-  expect(editorGroupNodes[1].style).toBe('height:50%;')
+  expect(editorGroupNodes[0]['data-group-id']).toBe('1')
+  expect(editorGroupNodes[1]['data-group-id']).toBe('2')
 })
 
 test('getMainAreaVirtualDom should handle empty groups array', () => {
@@ -272,8 +272,6 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
 
   const sashNodes = result.filter((node) => node.className === 'Sash SashVertical')
   expect(sashNodes).toHaveLength(2)
-  const firstSashOffset = Number(sashNodes[0].style?.replace('left:', '').replace('%;', ''))
-  const secondSashOffset = Number(sashNodes[1].style?.replace('left:', '').replace('%;', ''))
-  expect(firstSashOffset).toBeCloseTo(33.333_333, 5)
-  expect(secondSashOffset).toBeCloseTo(66.666_666, 5)
+  expect(sashNodes[0]['data-sash-id']).toBe('1:2')
+  expect(sashNodes[1]['data-sash-id']).toBe('2:3')
 })

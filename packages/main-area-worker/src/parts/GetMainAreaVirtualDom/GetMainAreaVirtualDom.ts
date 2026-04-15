@@ -8,9 +8,8 @@ import * as SashId from '../SashId/SashId.ts'
 
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
-  const sizeProperty = direction === 'vertical' ? 'height' : 'width'
   if (groups.length === 1) {
-    return renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty)
+    return renderSingleEditorGroup(layout, splitButtonEnabled)
   }
 
   const children = []
@@ -19,20 +18,17 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
   const editorGroupsContainerClassName = directionClassName
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER
-  let sashOffset = 0
   let childCount = 0
   for (let i = 0; i < groups.length; i++) {
-    sashOffset += groups[i].size
     if (i > 0) {
       // Insert sash between groups
       const beforeGroupId = groups[i - 1].id
       const afterGroupId = groups[i].id
       const sashId = SashId.create(beforeGroupId, afterGroupId)
-      const style = direction === 'horizontal' ? `left:${sashOffset - groups[i].size}%;` : `top:${sashOffset - groups[i].size}%;`
-      children.push(...renderSash(direction, sashId, style))
+      children.push(...renderSash(direction, sashId))
       childCount++
     }
-    const editorGroupDom = renderEditorGroup(groups[i], i, splitButtonEnabled, sizeProperty)
+    const editorGroupDom = renderEditorGroup(groups[i], i, splitButtonEnabled)
     children.push(...editorGroupDom)
     childCount++
   }

@@ -13,7 +13,7 @@ test('renderCss should return set css command', () => {
 
   const result = renderCss(oldState, newState)
 
-  expect(result).toEqual([ViewletCommand.SetCss, 7, getCss()])
+  expect(result).toEqual([ViewletCommand.SetCss, 7, getCss(newState.layout)])
 })
 
 test('renderCss should use new state uid', () => {

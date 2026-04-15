@@ -186,6 +186,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   expect(sashNode?.['data-sashId']).toBe('1:2')
   expect(sashNode?.style).toBe('left:50%;')
   expect(sashNode?.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
+  expect(sashNode?.role).toBe('none')
+  expect(sashNode?.type).toBe(VirtualDomElements.Button)
   expect(result[1].childCount).toBe(3) // direct children: group 1 + sash + group 2
   const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsVertical`)
   expect(editorGroupsContainer).toBeDefined()

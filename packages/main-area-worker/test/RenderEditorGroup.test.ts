@@ -192,6 +192,11 @@ test('renderEditorGroup should handle empty tabs array', () => {
     },
     {
       childCount: 1,
+      className: 'EmptyGroupHeader',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
       className: 'EmptyGroupCloseButton',
       'data-groupId': '1',
       name: 'close-group',

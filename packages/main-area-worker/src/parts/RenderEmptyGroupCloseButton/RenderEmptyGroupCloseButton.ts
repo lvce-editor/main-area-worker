@@ -9,6 +9,11 @@ export const renderEmptyGroupCloseButton = (group: EditorGroup, groupIndex: numb
   return [
     {
       childCount: 1,
+      className: ClassNames.EmptyGroupHeader,
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
       className: ClassNames.EmptyGroupCloseButton,
       'data-groupId': String(group.id),
       name: InputName.CloseGroup,

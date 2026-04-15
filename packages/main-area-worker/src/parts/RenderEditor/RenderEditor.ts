@@ -1,4 +1,4 @@
-import { type VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
+import type { VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
 import { renderContent } from './RenderContent/RenderContent.ts'
 import { renderError } from './RenderError/RenderError.ts'

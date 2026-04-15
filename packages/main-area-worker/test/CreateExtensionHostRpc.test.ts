@@ -1,5 +1,5 @@
+import type { Rpc } from '@lvce-editor/rpc'
 import { expect, test, afterEach } from '@jest/globals'
-import { type Rpc } from '@lvce-editor/rpc'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import * as CreateExtensionHostRpc from '../src/parts/CreateExtensionHostRpc/CreateExtensionHostRpc.ts'
 

@@ -187,6 +187,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
       childCount: 2,
       className: 'EditorGroup',
       style: 'width:100%;',
+      tabindex: 0,
       type: VirtualDomElements.Div,
     },
     {
@@ -227,6 +228,7 @@ test('renderEditorGroup should support height based sizing', () => {
     childCount: 2,
     className: 'EditorGroup',
     style: 'height:50%;',
+    tabindex: 0,
     type: VirtualDomElements.Div,
   })
 })

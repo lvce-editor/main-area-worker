@@ -28,6 +28,11 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
     },
     {
       childCount: 1,
+      className: ClassNames.EmptyGroupHeader,
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
       className: ClassNames.EmptyGroupCloseButton,
       'data-groupId': '1',
       name: 'close-group',

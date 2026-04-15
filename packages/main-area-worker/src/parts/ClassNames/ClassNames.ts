@@ -1,4 +1,5 @@
 export const EditorGroupHeader: string = 'EditorGroupHeader'
+export const EmptyGroupHeader: string = 'EmptyGroupHeader'
 export const EmptyGroupCloseButton: string = 'EmptyGroupCloseButton'
 export const EditorGroup: string = 'EditorGroup'
 export const EditorGroupsHorizontal: string = 'EditorGroupsHorizontal'

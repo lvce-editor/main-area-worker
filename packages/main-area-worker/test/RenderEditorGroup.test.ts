@@ -186,6 +186,8 @@ test('renderEditorGroup should handle empty tabs array', () => {
     {
       childCount: 2,
       className: 'EditorGroup',
+      'data-groupId': '1',
+      onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style: 'width:100%;',
       tabIndex: 0,
       type: VirtualDomElements.Div,
@@ -208,11 +210,13 @@ test('renderEditorGroup should handle empty tabs array', () => {
     {
       childCount: 1,
       className: 'WaterMarkWrapper',
+      'data-groupId': '1',
       type: VirtualDomElements.Div,
     },
     {
       childCount: 0,
       className: 'WaterMark',
+      'data-groupId': '1',
       type: VirtualDomElements.Div,
     },
   ])
@@ -232,6 +236,8 @@ test('renderEditorGroup should support height based sizing', () => {
   expect(result[0]).toEqual({
     childCount: 2,
     className: 'EditorGroup',
+    'data-groupId': '1',
+    onContextMenu: DomEventListenerFunctions.HandleContextMenu,
     style: 'height:50%;',
     tabIndex: 0,
     type: VirtualDomElements.Div,

@@ -1,6 +1,7 @@
 import { terminate } from '@lvce-editor/viewlet-registry'
 import { closeActiveEditor } from '../CloseActiveEditor/CloseActiveEditor.ts'
 import { closeAll } from '../CloseAll/CloseAll.ts'
+import { closeEditorGroup } from '../CloseEditorGroup/CloseEditorGroup.ts'
 import { closeFocusedTab } from '../CloseFocusedTab/CloseFocusedTab.ts'
 import { closeOtherTabs } from '../CloseOtherTabs/CloseOtherTabs.ts'
 import { closeSaved } from '../CloseSaved/CloseSaved.ts'
@@ -17,6 +18,7 @@ import { handleClickAction } from '../HandleClickAction/HandleClickAction.ts'
 import { handleClickCloseTab } from '../HandleClickCloseTab/HandleClickCloseTab.ts'
 import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
+import { handleContextMenu } from '../HandleContextMenu/HandleContextMenu.ts'
 import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleModifiedStatusChange } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
@@ -41,12 +43,15 @@ import { save } from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
 import { splitDown } from '../SplitDown/SplitDown.ts'
+import { splitLeft } from '../SplitLeft/SplitLeft.ts'
 import { splitRight } from '../SplitRight/SplitRight.ts'
+import { splitUp } from '../SplitUp/SplitUp.ts'
 
 export const commandMap = {
   'MainArea.closeActiveEditor': wrapCommand(closeActiveEditor),
   'MainArea.closeAll': wrapCommand(closeAll),
   'MainArea.closeAllEditors': wrapCommand(closeAll),
+  'MainArea.closeEditorGroup': wrapCommand(closeEditorGroup),
   'MainArea.closeFocusedTab': wrapCommand(closeFocusedTab),
   'MainArea.closeOthers': wrapCommand(closeOtherTabs),
   'MainArea.closeSaved': wrapCommand(closeSaved),
@@ -67,6 +72,7 @@ export const commandMap = {
   'MainArea.handleClickCloseTab': wrapCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapCommand(handleClickTab),
   'MainArea.handleClickTogglePreview': wrapCommand(handleClickTogglePreview),
+  'MainArea.handleContextMenu': wrapCommand(handleContextMenu),
   'MainArea.handleDoubleClick': wrapCommand(handleDoubleClick),
   'MainArea.handleHeaderDoubleClick': wrapCommand(handleHeaderDoubleClick),
   'MainArea.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),
@@ -90,6 +96,8 @@ export const commandMap = {
   'MainArea.saveState': wrapGetter(saveState),
   'MainArea.selectTab': wrapCommand(selectTab),
   'MainArea.splitDown': wrapCommand(splitDown),
+  'MainArea.splitLeft': wrapCommand(splitLeft),
   'MainArea.splitRight': wrapCommand(splitRight),
+  'MainArea.splitUp': wrapCommand(splitUp),
   'MainArea.terminate': terminate,
 }

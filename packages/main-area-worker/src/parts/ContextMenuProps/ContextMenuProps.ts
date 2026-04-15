@@ -8,4 +8,9 @@ export interface ContextMenuPropsTab extends ContextMenuPropsBase {
   readonly menuId: typeof MenuEntryId.Tab
 }
 
-export type ContextMenuProps = ContextMenuPropsTab
+export interface ContextMenuPropsMain extends ContextMenuPropsBase {
+  readonly groupId: number
+  readonly menuId: typeof MenuEntryId.Main
+}
+
+export type ContextMenuProps = ContextMenuPropsTab | ContextMenuPropsMain

@@ -2,9 +2,9 @@ import { expect, test } from '@jest/globals'
 import { MenuEntryId } from '@lvce-editor/constants'
 import * as GetMenuIds from '../src/parts/GetMenuIds/GetMenuIds.ts'
 
-test('getMenuIds - should return array containing Tab menu entry id', () => {
+test('getMenuIds - should return array containing main and tab menu entry ids', () => {
   const result = GetMenuIds.getMenuIds()
-  expect(result).toEqual([MenuEntryId.Tab])
+  expect(result).toEqual([MenuEntryId.Main, MenuEntryId.Tab])
 })
 
 test('getMenuIds - should return read-only array', () => {

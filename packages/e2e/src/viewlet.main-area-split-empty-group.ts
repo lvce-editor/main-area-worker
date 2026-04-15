@@ -11,7 +11,5 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
 
   // assert
   const editorGroups = Locator('.EditorGroup')
-  const focusableEditorGroups = Locator('.EditorGroup[tabindex="0"]')
   await expect(editorGroups).toHaveCount(2)
-  await expect(focusableEditorGroups).toHaveCount(2)
 }

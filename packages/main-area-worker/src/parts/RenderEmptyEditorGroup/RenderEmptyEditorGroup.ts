@@ -10,7 +10,7 @@ export const renderEmptyEditorGroup = (group: EditorGroup, groupIndex: number, s
       childCount: 2,
       className: ClassNames.EditorGroup,
       style,
-      tabindex: 0,
+      tabIndex: 0,
       type: VirtualDomElements.Div,
     },
     ...renderEmptyGroupCloseButton(group, groupIndex),

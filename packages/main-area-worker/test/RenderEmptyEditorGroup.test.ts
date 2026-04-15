@@ -23,7 +23,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
       childCount: 2,
       className: ClassNames.EditorGroup,
       style: 'width:100%;',
-      tabindex: 0,
+      tabIndex: 0,
       type: VirtualDomElements.Div,
     },
     {
@@ -65,7 +65,7 @@ test('renderEmptyEditorGroup should use provided style', () => {
     childCount: 2,
     className: ClassNames.EditorGroup,
     style: 'height:50%;',
-    tabindex: 0,
+    tabIndex: 0,
     type: VirtualDomElements.Div,
   })
 })

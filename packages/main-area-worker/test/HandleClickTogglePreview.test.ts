@@ -13,7 +13,7 @@ test('handleClickTogglePreview should return state unchanged', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

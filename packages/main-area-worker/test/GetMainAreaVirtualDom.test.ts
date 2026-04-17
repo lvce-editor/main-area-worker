@@ -8,7 +8,7 @@ import { getMainAreaVirtualDom } from '../src/parts/GetMainAreaVirtualDom/GetMai
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -136,7 +136,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
 test('getMainAreaVirtualDom should handle multiple groups', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -196,7 +196,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
 test('getMainAreaVirtualDom should add vertical class for split-down layout', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'vertical',
+    direction: 2,
     groups: [
       {
         activeTabId: undefined,
@@ -229,7 +229,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
 test('getMainAreaVirtualDom should handle empty groups array', () => {
   const layout: MainAreaLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal',
+    direction: 1,
     groups: [],
   }
   const result = getMainAreaVirtualDom(layout)
@@ -241,7 +241,7 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
 test('getMainAreaVirtualDom should position sashes at one-third and two-thirds', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,

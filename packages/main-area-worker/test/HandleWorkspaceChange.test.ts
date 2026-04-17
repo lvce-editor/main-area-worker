@@ -8,7 +8,7 @@ test('handleWorkspaceChange should clear activeGroupId and groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -36,7 +36,7 @@ test('handleWorkspaceChange should clear activeGroupId and groups', () => {
 
   expect(result.layout.activeGroupId).toBeUndefined()
   expect(result.layout.groups).toEqual([])
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
 })
 
 test('handleWorkspaceChange should preserve other state properties', () => {
@@ -46,7 +46,7 @@ test('handleWorkspaceChange should preserve other state properties', () => {
     height: 800,
     layout: {
       activeGroupId: 2,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -75,7 +75,7 @@ test('handleWorkspaceChange should handle empty groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }

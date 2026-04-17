@@ -11,7 +11,7 @@ test('closeTab should close a non-active tab', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -66,7 +66,7 @@ test('closeTab should close the active tab and select next tab', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -121,7 +121,7 @@ test('closeTab should close the last tab and remove the group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -157,7 +157,7 @@ test('closeTab should close active tab in middle and select tab at same index', 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -212,7 +212,7 @@ test('closeTab should close last tab when active and select previous tab', () =>
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,
@@ -267,7 +267,7 @@ test('closeTab should return state unchanged when group does not exist', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -304,7 +304,7 @@ test('closeTab should return state unchanged when tab does not exist', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -340,7 +340,7 @@ test('closeTab should preserve other groups when closing tab', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -405,7 +405,7 @@ test('closeTab should handle closing tab from different group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -471,7 +471,7 @@ test('closeTab should preserve other state properties', () => {
     assetDir: '/test',
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -511,7 +511,7 @@ test('closeTab should preserve other state properties', () => {
   expect(result.assetDir).toBe('/test')
   expect(result.platform).toBe(1)
   expect(result.uid).toBe(123)
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
   expect(result.layout.activeGroupId).toBe(1)
 })
 
@@ -520,7 +520,7 @@ test('closeTab should handle closing tab when group has no active tab', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -565,7 +565,7 @@ test('closeTab should handle closing first tab when active', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -619,7 +619,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -714,7 +714,7 @@ test('closeTab should handle tabs with custom editor type', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -769,7 +769,7 @@ test('closeTab should handle tabs with paths and languages', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -830,7 +830,7 @@ test('closeTab should handle closing dirty tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -885,7 +885,7 @@ test('closeTab should handle closing active dirty tab', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -940,7 +940,7 @@ test('closeTab should handle empty tabs array', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -965,7 +965,7 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -1010,7 +1010,7 @@ test('closeTab should handle closing second tab when first is active', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1056,7 +1056,7 @@ test('closeTab should remove group when closing last tab from single group', () 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1092,7 +1092,7 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -1154,7 +1154,7 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
 
   const result = closeTab(state, 1, 2)
 
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
   expect(result.layout.groups.length).toBe(2)
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[1].tabs.length).toBe(2)
@@ -1168,7 +1168,7 @@ test('closeTab should handle closing tab when tab index is at boundary', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1213,7 +1213,7 @@ test('closeTab should handle closing tab with same ID as group ID', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1259,7 +1259,7 @@ test('closeTab should handle closing tab from group with many tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 5,
@@ -1341,7 +1341,7 @@ test('closeTab should handle closing middle tab from many tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,
@@ -1414,7 +1414,7 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,
@@ -1478,7 +1478,7 @@ test('closeTab should remove editor group when closing last tab and multiple gro
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1535,7 +1535,7 @@ test('closeTab should remove editor group when closing last tab and update activ
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1610,7 +1610,7 @@ test('closeTab should remove editor group when closing last tab even if it is th
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1646,7 +1646,7 @@ test('closeTab should redistribute sizes when removing group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -1732,7 +1732,7 @@ test('findTabInState should find a tab in the specified group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1777,7 +1777,7 @@ test('findTabInState should return undefined when tab does not exist', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1811,7 +1811,7 @@ test('findTabInState should return undefined when group does not exist', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1845,7 +1845,7 @@ test('findTabInState should find tab in different groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1912,7 +1912,7 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1965,7 +1965,7 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -2018,7 +2018,7 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -2071,7 +2071,7 @@ test('closeTabWithViewlet should remove group when closing the last tab', async 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -2114,7 +2114,7 @@ test('closeTabWithViewlet should handle closing tab when tab not found', async (
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -2158,7 +2158,7 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -2220,7 +2220,7 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,

@@ -7,7 +7,7 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -40,7 +40,7 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
 
   expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///file.ts']])
   expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
   expect(result.layout.groups).toHaveLength(1)
 })
 
@@ -48,7 +48,7 @@ test('restoreAndCreateEditors should handle empty groups', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal',
+    direction: 1,
     groups: [],
   }
 
@@ -67,7 +67,7 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -105,7 +105,7 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 2,
@@ -154,7 +154,7 @@ test('restoreAndCreateEditors should preserve existing editorUid', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -192,7 +192,7 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 2,
-    direction: 'vertical',
+    direction: 2,
     groups: [
       {
         activeTabId: 1,
@@ -251,7 +251,7 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -290,7 +290,7 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -363,5 +363,5 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[1].id).toBe(2)
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
 })

@@ -9,7 +9,7 @@ test('loadContent should return empty layout when savedState is undefined', asyn
 
   expect(result.layout.groups).toHaveLength(0)
   expect(result.layout.activeGroupId).toBeUndefined()
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
 })
 
 test('loadContent should return empty layout when savedState is null', async () => {
@@ -41,7 +41,7 @@ test('loadContent should restore valid saved state', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -73,12 +73,48 @@ test('loadContent should restore valid saved state', async () => {
   expect(result.layout.activeGroupId).toBe(1)
 })
 
+test('loadContent should normalize legacy string directions', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 'horizontal',
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 'vertical',
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'Restored File',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.direction).toBe(1)
+  expect(result.layout.groups[0].direction).toBe(2)
+})
+
 test('loadContent should restore layout with multiple groups', async () => {
   const state = createDefaultState()
   const savedState = {
     layout: {
       activeGroupId: 2,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -123,7 +159,7 @@ test('loadContent should restore layout with multiple groups', async () => {
   const result = await LoadContent.loadContent(state, savedState)
 
   expect(result.layout.groups).toHaveLength(2)
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
   expect(result.layout.activeGroupId).toBe(2)
 })
 
@@ -132,7 +168,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -232,7 +268,7 @@ test('loadContent should return empty layout when layout has groups as non-array
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: 'not an array',
     },
   }
@@ -247,7 +283,7 @@ test('loadContent should return empty layout when group has invalid structure', 
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [{ invalid: 'group' }],
     },
   }
@@ -262,7 +298,7 @@ test('loadContent should restore layout with empty groups array', async () => {
   const savedState = {
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -271,7 +307,7 @@ test('loadContent should restore layout with empty groups array', async () => {
 
   expect(result.layout.groups).toHaveLength(0)
   expect(result.layout.activeGroupId).toBeUndefined()
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
 })
 
 test('loadContent should restore layout with custom editor tabs', async () => {
@@ -279,7 +315,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -313,7 +349,7 @@ test('loadContent should restore layout with tabs containing paths', async () =>
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -355,7 +391,7 @@ test('loadContent should load icon theme for tabs with uri', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -397,7 +433,7 @@ test('loadContent should load icons for multiple tabs', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -460,7 +496,7 @@ test('loadContent should update fileIconCache with loaded icons', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -503,7 +539,7 @@ test('loadContent should handle icon loading failure gracefully', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -547,7 +583,7 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
   const savedState = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

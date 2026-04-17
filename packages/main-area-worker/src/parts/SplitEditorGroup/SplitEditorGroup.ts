@@ -2,6 +2,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { SplitDirection } from '../MainAreaState/MainAreaState.ts'
 import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import * as Id from '../Id/Id.ts'
+import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 
 const rebalanceGroupSizes = <T extends { size: number }>(groups: readonly T[]): T[] => {
   const groupCount = groups.length
@@ -28,7 +29,7 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
   const newGroupId = Id.create()
 
   const isHorizontalSplit = direction === GroupDirection.Left || direction === GroupDirection.Right
-  const newLayoutDirection = isHorizontalSplit ? 'horizontal' : 'vertical'
+  const newLayoutDirection = isHorizontalSplit ? LayoutDirection.Horizontal : LayoutDirection.Vertical
 
   const updatedGroups = groups.map((group) => {
     if (group.id === groupId) {

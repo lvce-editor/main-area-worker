@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { set } from '../MainAreaStates/MainAreaStates.ts'
 
 export const create = (
@@ -20,7 +21,7 @@ export const create = (
     initial: true,
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: LayoutDirection.Horizontal,
       groups: [],
     },
     maxOpenEditorGroups: Number.POSITIVE_INFINITY,

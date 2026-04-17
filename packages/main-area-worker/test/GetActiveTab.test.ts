@@ -8,7 +8,7 @@ test('getActiveTab should return active tab when group is focused and has active
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -69,7 +69,7 @@ test('getActiveTab should return undefined when no group is focused', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -101,7 +101,7 @@ test('getActiveTab should return undefined when focused group has no activeTabId
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -123,7 +123,7 @@ test('getActiveTab should return undefined when activeTabId does not match any t
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 999,

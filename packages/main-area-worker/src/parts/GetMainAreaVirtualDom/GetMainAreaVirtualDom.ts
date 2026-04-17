@@ -1,6 +1,7 @@
 import { type VirtualDomNode, AriaRoles, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
+import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
 import { renderSash } from '../RenderSash/RenderSash.ts'
 import { renderSingleEditorGroup } from '../RenderSingleEditorGroup/RenderSingleEditorGroup.ts'
@@ -8,14 +9,18 @@ import * as SashId from '../SashId/SashId.ts'
 
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
-  const sizeProperty = direction === 'vertical' ? 'height' : 'width'
+  const sizeProperty = direction === LayoutDirection.Vertical ? 'height' : 'width'
   if (groups.length === 1) {
     return renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty)
   }
 
   const children = []
   const isSplit = groups.length > 1
-  const directionClassName = isSplit ? (direction === 'horizontal' ? ClassNames.EditorGroupsVertical : ClassNames.EditorGroupsHorizontal) : ''
+  const directionClassName = isSplit
+    ? direction === LayoutDirection.Horizontal
+      ? ClassNames.EditorGroupsVertical
+      : ClassNames.EditorGroupsHorizontal
+    : ''
   const editorGroupsContainerClassName = directionClassName
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER
@@ -28,7 +33,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const beforeGroupId = groups[i - 1].id
       const afterGroupId = groups[i].id
       const sashId = SashId.create(beforeGroupId, afterGroupId)
-      const style = direction === 'horizontal' ? `left:${sashOffset - groups[i].size}%;` : `top:${sashOffset - groups[i].size}%;`
+      const style = direction === LayoutDirection.Horizontal ? `left:${sashOffset - groups[i].size}%;` : `top:${sashOffset - groups[i].size}%;`
       children.push(...renderSash(direction, sashId, style))
       childCount++
     }

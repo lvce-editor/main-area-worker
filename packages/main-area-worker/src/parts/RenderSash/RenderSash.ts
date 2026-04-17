@@ -1,8 +1,9 @@
 import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import type { LayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 import { getSashClassName } from '../GetSashClassName/GetSashClassName.ts'
 
-export const renderSash = (direction: 'horizontal' | 'vertical', sashId: string, style: string): readonly VirtualDomNode[] => {
+export const renderSash = (direction: LayoutDirection, sashId: string, style: string): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 1,

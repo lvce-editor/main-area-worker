@@ -8,7 +8,7 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -64,7 +64,7 @@ test('closeTabsRight should return state unchanged when group does not exist', (
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -98,7 +98,7 @@ test('closeTabsRight should return state unchanged when there is no active tab',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -132,7 +132,7 @@ test('closeTabsRight should return state unchanged when active tab is at the end
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,
@@ -184,7 +184,7 @@ test('closeTabsRight should preserve other groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -278,7 +278,7 @@ test('closeTabsRight should handle single tab in group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -312,7 +312,7 @@ test('closeTabsRight should handle active tab at the beginning', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -367,7 +367,7 @@ test('closeTabsRight should preserve other state properties', () => {
     assetDir: '/test',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -408,7 +408,7 @@ test('closeTabsRight should preserve other state properties', () => {
   expect(result.platform).toBe(1)
   expect(result.uid).toBe(123)
   expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
 })
 
 test('closeTabsRight should handle tabs with custom properties', () => {
@@ -416,7 +416,7 @@ test('closeTabsRight should handle tabs with custom properties', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -478,7 +478,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -560,7 +560,7 @@ test('closeTabsRight should return state unchanged when active tab id not found 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 999,
@@ -603,7 +603,7 @@ test('closeTabsRight should close multiple tabs to the right', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -674,7 +674,7 @@ test('closeTabsRight should handle empty groups array', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -689,11 +689,11 @@ test('closeTabsRight should preserve group properties', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
-          direction: 'vertical',
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -727,7 +727,7 @@ test('closeTabsRight should preserve group properties', () => {
 
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result.layout.groups[0].size).toBe(75)
-  expect(result.layout.groups[0].direction).toBe('vertical')
+  expect(result.layout.groups[0].direction).toBe(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })
@@ -737,7 +737,7 @@ test('closeTabsRight should handle active tab in the middle', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,
@@ -810,7 +810,7 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -864,7 +864,7 @@ test('closeTabsRight should handle vertical layout direction', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -899,7 +899,7 @@ test('closeTabsRight should handle vertical layout direction', () => {
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
   expect(result.layout.groups[0].tabs.length).toBe(1)
 })
 
@@ -908,7 +908,7 @@ test('closeTabsRight should handle two tabs with one to close', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

@@ -8,7 +8,7 @@ test('getAllEditorUids should return empty array when no groups exist', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -23,7 +23,7 @@ test('getAllEditorUids should return empty array when groups have no tabs', () =
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -47,7 +47,7 @@ test('getAllEditorUids should filter out tabs with editorUid -1', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -90,7 +90,7 @@ test('getAllEditorUids should return all valid editorUids from single group', ()
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -133,7 +133,7 @@ test('getAllEditorUids should return all valid editorUids from multiple groups',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -194,7 +194,7 @@ test('getAllEditorUids should only return valid editorUids, filtering out -1', (
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -273,7 +273,7 @@ test('getAllEditorUids should handle three groups with mixed valid and invalid e
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,

@@ -8,7 +8,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
   ...createDefaultState(),
   layout: {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -81,7 +81,7 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -135,7 +135,7 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -201,7 +201,7 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -244,7 +244,7 @@ test('handleViewletReady works regardless of active tab - reference nodes render
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2, // Tab 2 is active, not tab 1

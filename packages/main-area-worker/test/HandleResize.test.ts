@@ -22,7 +22,7 @@ test.skip('handleResize should return resize commands array', async () => {
     assetDir: '/assets',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     platform: 2,
@@ -68,7 +68,7 @@ test.skip('handleResize should resize all editors', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -120,7 +120,7 @@ test.skip('handleResize should skip editors with editorUid -1', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

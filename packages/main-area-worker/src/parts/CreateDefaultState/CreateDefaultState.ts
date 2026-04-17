@@ -14,6 +14,7 @@ export const createDefaultState = (): MainAreaState => {
     },
     maxOpenEditorGroups: Number.POSITIVE_INFINITY,
     maxOpenEditors: Number.POSITIVE_INFINITY,
+    minGroupWidthPx: 250,
     platform: 0,
     splitButtonEnabled: false,
     tabHeight: 35,

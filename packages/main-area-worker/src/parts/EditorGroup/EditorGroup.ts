@@ -1,5 +1,5 @@
-import type { Tab } from '../Tab/Tab.ts'
 import type { LayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
+import type { Tab } from '../Tab/Tab.ts'
 
 export interface EditorGroup {
   readonly activeTabId: number | undefined

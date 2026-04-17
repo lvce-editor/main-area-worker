@@ -279,3 +279,43 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
   expect(firstSashOffset).toBeCloseTo(33.333_333, 5)
   expect(secondSashOffset).toBeCloseTo(66.666_666, 5)
 })
+
+test('getMainAreaVirtualDom should position horizontal sashes using effective widths when groups overflow', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: 1,
+    direction: 1,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        isEmpty: true,
+        size: 33.333_333,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 2,
+        isEmpty: true,
+        size: 33.333_333,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 3,
+        isEmpty: true,
+        size: 33.333_334,
+        tabs: [],
+      },
+    ],
+  }
+
+  const result = getMainAreaVirtualDom(layout, false, 600)
+
+  const sashNodes = result.filter((node) => node.className === 'Sash SashVertical')
+  expect(sashNodes).toHaveLength(2)
+  expect(sashNodes[0].style).toBe('left:250px;')
+  expect(sashNodes[1].style).toBe('left:500px;')
+})

@@ -7,7 +7,28 @@ import { renderSash } from '../RenderSash/RenderSash.ts'
 import { renderSingleEditorGroup } from '../RenderSingleEditorGroup/RenderSingleEditorGroup.ts'
 import * as SashId from '../SashId/SashId.ts'
 
-export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
+const MIN_GROUP_WIDTH_PX = 250
+
+const getSashOffset = (layout: MainAreaLayout, groupIndex: number, width: number): string => {
+  const { direction, groups } = layout
+  const percentOffset = groups.slice(0, groupIndex).reduce((total, group) => total + group.size, 0)
+
+  if (direction !== LayoutDirection.Horizontal || !width || !Number.isFinite(width)) {
+    return `${percentOffset}%`
+  }
+
+  const effectiveGroupSizes = groups.map((group) => Math.max((group.size / 100) * width, MIN_GROUP_WIDTH_PX))
+  const hasOverflowingGroups = effectiveGroupSizes.some((size, index) => size !== (groups[index].size / 100) * width)
+
+  if (!hasOverflowingGroups) {
+    return `${percentOffset}%`
+  }
+
+  const pixelOffset = effectiveGroupSizes.slice(0, groupIndex).reduce((total, size) => total + size, 0)
+  return `${pixelOffset}px`
+}
+
+export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false, width: number = 0): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
   const sizeProperty = direction === LayoutDirection.Vertical ? 'height' : 'width'
   if (groups.length === 1) {
@@ -33,7 +54,8 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const beforeGroupId = groups[i - 1].id
       const afterGroupId = groups[i].id
       const sashId = SashId.create(beforeGroupId, afterGroupId)
-      const style = direction === LayoutDirection.Horizontal ? `left:${sashOffset - groups[i].size}%;` : `top:${sashOffset - groups[i].size}%;`
+      const offset = getSashOffset(layout, i, width)
+      const style = direction === LayoutDirection.Horizontal ? `left:${offset};` : `top:${offset};`
       children.push(...renderSash(direction, sashId, style))
       childCount++
     }

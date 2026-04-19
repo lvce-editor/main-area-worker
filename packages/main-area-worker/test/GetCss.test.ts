@@ -24,7 +24,7 @@ test('getCss should include sash selectors', () => {
 test('getCss should include layout-specific group and sash rules', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,

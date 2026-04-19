@@ -11,8 +11,6 @@ const MIN_GROUP_WIDTH_PX = 250
 
 const getSashOffset = (layout: MainAreaLayout, groupIndex: number, width: number): string => {
   const { direction, groups } = layout
-<<<<<<< HEAD
-=======
   const percentOffset = groups.slice(0, groupIndex).reduce((total, group) => total + group.size, 0)
 
   if (direction !== LayoutDirection.Horizontal || !width || !Number.isFinite(width)) {
@@ -33,9 +31,8 @@ const getSashOffset = (layout: MainAreaLayout, groupIndex: number, width: number
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false, width: number = 0): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
   const sizeProperty = direction === LayoutDirection.Vertical ? 'height' : 'width'
->>>>>>> origin/main
   if (groups.length === 1) {
-    return renderSingleEditorGroup(layout, splitButtonEnabled)
+    return renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty)
   }
 
   const children = []
@@ -55,16 +52,12 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       const beforeGroupId = groups[i - 1].id
       const afterGroupId = groups[i].id
       const sashId = SashId.create(beforeGroupId, afterGroupId)
-<<<<<<< HEAD
-      children.push(...renderSash(direction, sashId))
-=======
       const offset = getSashOffset(layout, i, width)
       const style = direction === LayoutDirection.Horizontal ? `left:${offset};` : `top:${offset};`
       children.push(...renderSash(direction, sashId, style))
->>>>>>> origin/main
       childCount++
     }
-    const editorGroupDom = renderEditorGroup(groups[i], i, splitButtonEnabled)
+    const editorGroupDom = renderEditorGroup(groups[i], i, splitButtonEnabled, sizeProperty)
     children.push(...editorGroupDom)
     childCount++
   }

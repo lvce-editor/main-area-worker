@@ -3,13 +3,17 @@ import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
 
-export const renderSingleEditorGroup = (layout: MainAreaLayout, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
+export const renderSingleEditorGroup = (
+  layout: MainAreaLayout,
+  splitButtonEnabled: boolean,
+  sizeProperty: 'width' | 'height' = 'width',
+): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 1,
       className: ClassNames.Main,
       type: VirtualDomElements.Div,
     },
-    ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled),
+    ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled, sizeProperty),
   ]
 }

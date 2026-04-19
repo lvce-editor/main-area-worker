@@ -1,8 +1,9 @@
 import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
+import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import * as SashId from '../SashId/SashId.ts'
 
 const getEditorGroupCss = (layout: MainAreaLayout): readonly string[] => {
-  const groupSizeVariable = layout.direction === 'vertical' ? '--EditorGroupHeight' : '--EditorGroupWidth'
+  const groupSizeVariable = layout.direction === LayoutDirection.Vertical ? '--EditorGroupHeight' : '--EditorGroupWidth'
   return layout.groups.map((group) => {
     return `.EditorGroup[data-group-id="${group.id}"] {
   ${groupSizeVariable}: ${group.size}%;
@@ -14,7 +15,7 @@ const getSashCss = (layout: MainAreaLayout): readonly string[] => {
   if (layout.groups.length <= 1) {
     return []
   }
-  const sashPositionVariable = layout.direction === 'horizontal' ? '--SashLeft' : '--SashTop'
+  const sashPositionVariable = layout.direction === LayoutDirection.Horizontal ? '--SashLeft' : '--SashTop'
   const rules: string[] = []
   let sashOffset = 0
   for (let i = 1; i < layout.groups.length; i++) {

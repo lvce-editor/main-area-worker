@@ -31,6 +31,8 @@ test('renderEditorGroup should return correct structure for group with active ta
       childCount: 2,
       className: 'EditorGroup',
       'data-group-id': '1',
+      'data-groupId': '1',
+      style: 'width:100%;',
       type: VirtualDomElements.Div,
     },
     {
@@ -186,13 +188,10 @@ test('renderEditorGroup should handle empty tabs array', () => {
     {
       childCount: 2,
       className: 'EditorGroup',
-<<<<<<< HEAD
       'data-group-id': '1',
-=======
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style: 'width:100%;',
->>>>>>> origin/main
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -235,18 +234,15 @@ test('renderEditorGroup should expose the group id for CSS targeting', () => {
     size: 50,
     tabs: [],
   }
-  const result = renderEditorGroup(group, 0, true)
+  const result = renderEditorGroup(group, 0, true, 'height')
 
   expect(result[0]).toEqual({
     childCount: 2,
     className: 'EditorGroup',
-<<<<<<< HEAD
     'data-group-id': '1',
-=======
     'data-groupId': '1',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
     style: 'height:50%;',
->>>>>>> origin/main
     tabIndex: 0,
     type: VirtualDomElements.Div,
   })

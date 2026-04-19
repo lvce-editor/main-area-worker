@@ -1466,7 +1466,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
             },
             {
               editorType: 'text',
-              editorUid: -1,
+              editorUid: 42,
               icon: '',
               id: 2,
               isDirty: false,
@@ -1484,5 +1484,64 @@ test('selectTab should not trigger loading when tab is already loaded with conte
   const result = await selectTab(state, 0, 1)
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
+  expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
+})
+
+test('selectTab should recover restored tab when loadingState is loaded but editorUid is missing', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.readFile': async () => 'file content',
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 11,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'File 1',
+              uri: '/path/to/file-1.ts',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'File 2',
+              uri: '/path/to/file-2.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await selectTab(state, 0, 1)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', '/path/to/file-2.ts'],
+    ['FileSystem.readFile', '/path/to/file-2.ts'],
+  ])
+  expect(result.layout.groups[0].activeTabId).toBe(2)
+  expect(result.layout.groups[0].tabs[1].editorUid).not.toBe(-1)
   expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
 })

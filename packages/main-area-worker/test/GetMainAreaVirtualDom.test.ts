@@ -8,7 +8,7 @@ import { getMainAreaVirtualDom } from '../src/parts/GetMainAreaVirtualDom/GetMai
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -136,7 +136,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
 test('getMainAreaVirtualDom should handle multiple groups', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -196,7 +196,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
 test('getMainAreaVirtualDom should add vertical class for split-down layout', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'vertical',
+    direction: 2,
     groups: [
       {
         activeTabId: undefined,
@@ -229,7 +229,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
 test('getMainAreaVirtualDom should handle empty groups array', () => {
   const layout: MainAreaLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal',
+    direction: 1,
     groups: [],
   }
   const result = getMainAreaVirtualDom(layout)
@@ -241,7 +241,7 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
 test('getMainAreaVirtualDom should position sashes at one-third and two-thirds', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,
@@ -278,4 +278,44 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
   const secondSashOffset = Number(sashNodes[1].style?.replace('left:', '').replace('%;', ''))
   expect(firstSashOffset).toBeCloseTo(33.333_333, 5)
   expect(secondSashOffset).toBeCloseTo(66.666_666, 5)
+})
+
+test('getMainAreaVirtualDom should position horizontal sashes using effective widths when groups overflow', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: 1,
+    direction: 1,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        isEmpty: true,
+        size: 33.333_333,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 2,
+        isEmpty: true,
+        size: 33.333_333,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 3,
+        isEmpty: true,
+        size: 33.333_334,
+        tabs: [],
+      },
+    ],
+  }
+
+  const result = getMainAreaVirtualDom(layout, false, 600)
+
+  const sashNodes = result.filter((node) => node.className === 'Sash SashVertical')
+  expect(sashNodes).toHaveLength(2)
+  expect(sashNodes[0].style).toBe('left:250px;')
+  expect(sashNodes[1].style).toBe('left:500px;')
 })

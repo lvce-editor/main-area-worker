@@ -8,7 +8,7 @@ test('hasDirtyTabs should return true when dirty tabs exist', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -40,7 +40,7 @@ test('hasDirtyTabs should return false when no dirty tabs exist', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

@@ -8,7 +8,7 @@ test('closeAll should close all tabs and groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -71,7 +71,7 @@ test('closeAll should preserve layout direction', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -97,7 +97,7 @@ test('closeAll should preserve layout direction', () => {
 
   const result = closeAll(state)
 
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
   expect(result.layout.groups).toEqual([])
   expect(result.layout.activeGroupId).toBeUndefined()
 })
@@ -108,7 +108,7 @@ test('closeAll should preserve other state properties', () => {
     assetDir: '/test/assets',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -146,7 +146,7 @@ test('closeAll should handle empty state', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -162,7 +162,7 @@ test('closeAll should handle multiple groups with many tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,

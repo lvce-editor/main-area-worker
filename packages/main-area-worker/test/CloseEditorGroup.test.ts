@@ -8,7 +8,7 @@ test('closeEditorGroup should return state unchanged when group does not exist',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -40,7 +40,7 @@ test('closeEditorGroup should return state unchanged when there is only one grou
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -64,7 +64,7 @@ test('closeEditorGroup should close non-active group and redistribute sizes', ()
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -90,7 +90,7 @@ test('closeEditorGroup should close non-active group and redistribute sizes', ()
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,
@@ -111,7 +111,7 @@ test('closeEditorGroup should close active group and switch to first remaining g
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -137,7 +137,7 @@ test('closeEditorGroup should close active group and switch to first remaining g
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,
@@ -158,7 +158,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of thre
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -192,7 +192,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of thre
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,
@@ -221,7 +221,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -263,7 +263,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,
@@ -301,7 +301,7 @@ test('closeEditorGroup should preserve other state properties', () => {
     assetDir: '/test',
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: undefined,
@@ -329,7 +329,7 @@ test('closeEditorGroup should preserve other state properties', () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'vertical',
+    direction: 2,
     groups: [
       {
         activeTabId: undefined,
@@ -353,7 +353,7 @@ test('closeEditorGroup should handle closing middle group in three groups', () =
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -387,7 +387,7 @@ test('closeEditorGroup should handle closing middle group in three groups', () =
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,
@@ -416,7 +416,7 @@ test('closeEditorGroup should handle closing last group in three groups', () => 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -450,7 +450,7 @@ test('closeEditorGroup should handle closing last group in three groups', () => 
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,

@@ -10,7 +10,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -53,7 +53,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -109,7 +109,7 @@ test('loadFileIcons should handle empty tabs', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -122,7 +122,7 @@ test('loadFileIcons should handle empty tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal',
+    direction: 1,
     groups: [],
   }
 
@@ -137,7 +137,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -189,7 +189,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -250,7 +250,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -282,7 +282,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
   const { updatedLayout } = await loadFileIcons(state)
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -316,7 +316,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -349,7 +349,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -383,7 +383,7 @@ test('loadFileIcons should handle error and return original state', async () => 
     fileIconCache: { 'file:///cached.ts': 'cached-icon' },
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -427,7 +427,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -518,7 +518,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'vertical',
+    direction: 2,
     groups: [
       {
         activeTabId: 1,
@@ -621,7 +621,7 @@ test('loadFileIcons should preserve group structure', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -673,7 +673,7 @@ test('loadFileIcons should preserve group structure', async () => {
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -734,7 +734,7 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -766,7 +766,7 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,

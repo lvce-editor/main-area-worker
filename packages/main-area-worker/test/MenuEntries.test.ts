@@ -10,7 +10,7 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -89,7 +89,7 @@ test.skip('getMenuEntries throws when state has no tabs', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: -1,
@@ -115,7 +115,7 @@ test('getMenuEntries handles state with multiple tabs', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -165,7 +165,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -224,7 +224,7 @@ test('getMenuEntries returns consistent result for same input', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -263,7 +263,7 @@ test('getMenuEntries handles tab without uri', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,

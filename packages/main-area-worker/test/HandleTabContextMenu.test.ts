@@ -32,7 +32,7 @@ test('handleTabContextMenu should return state unchanged', async () => {
     assetDir: '/test/assets',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

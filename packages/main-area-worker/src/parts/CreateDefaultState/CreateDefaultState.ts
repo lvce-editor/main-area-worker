@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 
 export const createDefaultState = (): MainAreaState => {
   return {
@@ -9,7 +10,7 @@ export const createDefaultState = (): MainAreaState => {
     initial: false,
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: LayoutDirection.Horizontal,
       groups: [],
     },
     maxOpenEditorGroups: Number.POSITIVE_INFINITY,

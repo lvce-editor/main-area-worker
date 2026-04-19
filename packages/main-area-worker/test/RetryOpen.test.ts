@@ -16,7 +16,7 @@ test('retryOpen should return state unchanged when active tab has no uri', async
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -50,7 +50,7 @@ test('retryOpen should keep tab layout unchanged when reopening active tab uri',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

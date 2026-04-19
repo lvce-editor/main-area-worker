@@ -1,5 +1,6 @@
 import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import { isValidEditorGroup } from '../IsValidEditorGroup/IsValidEditorGroup.ts'
+import { isLayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 
 export const isValidMainAreaLayout = (layout: unknown): layout is MainAreaLayout => {
   if (!layout || typeof layout !== 'object') {
@@ -12,7 +13,7 @@ export const isValidMainAreaLayout = (layout: unknown): layout is MainAreaLayout
     return false
   }
 
-  if (layoutObj.direction !== 'horizontal' && layoutObj.direction !== 'vertical') {
+  if (!isLayoutDirection(layoutObj.direction)) {
     return false
   }
 

@@ -8,7 +8,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -63,7 +63,7 @@ test('closeOtherTabs should return state unchanged when group does not exist', (
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -97,7 +97,7 @@ test('closeOtherTabs should return state unchanged when there is no active tab',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -131,7 +131,7 @@ test('closeOtherTabs should preserve other groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -224,7 +224,7 @@ test('closeOtherTabs should handle single tab in group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -260,7 +260,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -314,7 +314,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,
@@ -369,7 +369,7 @@ test('closeOtherTabs should preserve other state properties', () => {
     assetDir: '/test',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -410,7 +410,7 @@ test('closeOtherTabs should preserve other state properties', () => {
   expect(result.platform).toBe(1)
   expect(result.uid).toBe(123)
   expect(result.layout.activeGroupId).toBe(1)
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
 })
 
 test('closeOtherTabs should handle tabs with custom properties', () => {
@@ -418,7 +418,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -478,7 +478,7 @@ test('closeOtherTabs should use active group when groupId is not provided', () =
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -566,7 +566,7 @@ test('closeOtherTabs should return state unchanged when activeGroupId is undefin
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

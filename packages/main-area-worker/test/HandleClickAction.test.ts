@@ -9,7 +9,7 @@ test('handleClickAction should return state unchanged when action is empty', asy
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -43,7 +43,7 @@ test('handleClickAction should return state unchanged when activeGroupId does no
     ...createDefaultState(),
     layout: {
       activeGroupId: 999,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -77,7 +77,7 @@ test('handleClickAction should close group when action is "close-group" with val
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -131,7 +131,7 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -183,7 +183,7 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -235,7 +235,7 @@ test('handleClickAction should split editor group right when action is "split-ri
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -273,7 +273,7 @@ test('handleClickAction should return state unchanged when action is unknown', a
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -307,7 +307,7 @@ test('handleClickAction should close active group when action is "close-group" w
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -361,7 +361,7 @@ test('handleClickAction should handle close-group with non-existent group id', a
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -417,7 +417,7 @@ test('handleClickAction should handle toggle-preview action', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

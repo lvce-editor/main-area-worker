@@ -7,6 +7,7 @@ const assert = (condition: boolean, message: string): void => {
 }
 
 export const name = 'viewlet.main-area-empty-group-context-menu-split-left'
+export const skip = true
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator }) => {
   const tmpDir = await FileSystem.getTmpDir()

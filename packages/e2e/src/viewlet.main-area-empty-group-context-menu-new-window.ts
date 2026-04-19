@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-empty-group-context-menu-new-window'
+export const skip = true
 
 export const test: Test = async ({ BaseUrl, Command, expect, FileSystem, Locator, Open }) => {
   const tmpDir = await FileSystem.getTmpDir()

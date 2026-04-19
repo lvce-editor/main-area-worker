@@ -9,7 +9,7 @@ test('splitRight should return state unchanged when group does not exist', () =>
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -33,7 +33,7 @@ test('splitRight should split single group into two horizontal groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -49,7 +49,7 @@ test('splitRight should split single group into two horizontal groups', () => {
 
   const result = splitRight(state, 1)
 
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
   expect(result.layout.groups.length).toBe(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].size).toBe(50)
@@ -64,7 +64,7 @@ test('splitRight should set new group as active', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -89,7 +89,7 @@ test('splitRight should place new group to the right', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -115,7 +115,7 @@ test('splitRight should split with multiple existing groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -152,7 +152,7 @@ test('splitRight should split middle group correctly', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -198,7 +198,7 @@ test('splitRight should create new group with empty tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -245,7 +245,7 @@ test('splitRight should preserve original group tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -281,7 +281,7 @@ test('splitRight should maintain activeTabId in original group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 5,
@@ -306,7 +306,7 @@ test('splitRight should create initial group when groups array is empty', () => 
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -321,7 +321,7 @@ test('splitRight should create initial group with undefined activeTabId when gro
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -336,7 +336,7 @@ test('splitRight should split empty groups into two when groups array is empty',
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -353,7 +353,7 @@ test('splitRight should set second group as focused after splitting empty groups
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -369,7 +369,7 @@ test('splitRight should set activeGroupId to second group after splitting empty 
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -384,7 +384,7 @@ test('splitRight should create second empty group when splitting empty groups', 
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -401,7 +401,7 @@ test('splitRight should generate unique id for initial group when groups is empt
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -416,7 +416,7 @@ test('splitRight should generate unique id for second group when splitting empty
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -432,7 +432,7 @@ test('splitRight should use provided groupId when groups is not empty', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -456,7 +456,7 @@ test('splitRight should use activeGroupId as fallback when groupId not provided 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -480,7 +480,7 @@ test('splitRight should use first group when activeGroupId is undefined and grou
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,

@@ -11,7 +11,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -68,7 +68,7 @@ test('selectTab should update active group and tab with valid indexes', async ()
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 2,
@@ -128,7 +128,7 @@ test('selectTab should switch to different group', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -185,7 +185,7 @@ test('selectTab should switch to different group', async () => {
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -243,7 +243,7 @@ test('selectTab should return original state for invalid group index', async () 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -304,7 +304,7 @@ test('selectTab should return original state for negative group index', async ()
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -365,7 +365,7 @@ test('selectTab should return original state for invalid tab index', async () =>
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -426,7 +426,7 @@ test('selectTab should return original state for negative tab index', async () =
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -487,7 +487,7 @@ test('selectTab should handle single group with single tab', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -515,7 +515,7 @@ test('selectTab should handle single group with single tab', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -547,7 +547,7 @@ test('selectTab should handle empty groups array', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -562,7 +562,7 @@ test('selectTab should handle group with empty tabs array', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -588,7 +588,7 @@ test('selectTab should preserve other groups state when switching focus', async 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -654,7 +654,7 @@ test('selectTab should preserve other groups state when switching focus', async 
 
   const expectedLayout = {
     activeGroupId: 4,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -723,7 +723,7 @@ test('selectTab should handle custom editor tabs', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -762,7 +762,7 @@ test('selectTab should handle custom editor tabs', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 2,
@@ -806,7 +806,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -852,7 +852,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 2,
@@ -898,7 +898,7 @@ test('selectTab should handle vertical layout direction', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -944,7 +944,7 @@ test('selectTab should handle vertical layout direction', async () => {
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'vertical',
+    direction: 2,
     groups: [
       {
         activeTabId: 1,
@@ -993,7 +993,7 @@ test('selectTab should return same state when clicking same tab that is already 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1048,7 +1048,7 @@ test('selectTab should return same state when clicking same tab that is already 
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -1107,7 +1107,7 @@ test('selectTab should return new state when clicking different tab in same grou
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1162,7 +1162,7 @@ test('selectTab should return new state when clicking different tab in same grou
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 2,
@@ -1221,7 +1221,7 @@ test('selectTab should return new state when clicking same tab index in differen
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1276,7 +1276,7 @@ test('selectTab should return new state when clicking same tab index in differen
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -1335,7 +1335,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -1363,7 +1363,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -1399,7 +1399,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -1446,7 +1446,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

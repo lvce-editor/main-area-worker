@@ -8,7 +8,7 @@ test('closeActiveEditor should close the active tab in focused group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -45,7 +45,7 @@ test('closeActiveEditor should close the active tab in focused group', () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 2,
@@ -76,7 +76,7 @@ test('closeActiveEditor should return same state when no focused group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -110,7 +110,7 @@ test('closeActiveEditor should return same state when no active tab in focused g
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -134,7 +134,7 @@ test('closeActiveEditor should return same state when no groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -149,7 +149,7 @@ test('closeActiveEditor should remove group when closing the last tab in focused
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -184,7 +184,7 @@ test('closeActiveEditor should close active tab in focused group when multiple g
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -250,7 +250,7 @@ test('closeActiveEditor should remove group when closing last tab with multiple 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

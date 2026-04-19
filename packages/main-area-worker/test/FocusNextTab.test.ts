@@ -11,7 +11,7 @@ test('focusNextTab should select the next tab in the active group', async () => 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -66,7 +66,7 @@ test('focusNextTab should cycle from last tab to first tab', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,
@@ -119,7 +119,7 @@ test('focusNextTab should return state if there is no active group', async () =>
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -162,7 +162,7 @@ test('focusNextTab should return state if active group is empty', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -186,7 +186,7 @@ test('focusNextTab should return state if active tab is not found', async () => 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 999,
@@ -231,7 +231,7 @@ test('focusNextTab should move from first tab to second tab', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -277,7 +277,7 @@ test('focusNextTab should cycle from last tab to first tab 2', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,

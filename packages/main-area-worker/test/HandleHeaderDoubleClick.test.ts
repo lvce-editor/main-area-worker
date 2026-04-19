@@ -11,7 +11,7 @@ test('handleHeaderDoubleClick should return state unchanged when groupIndexRaw i
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -50,7 +50,7 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -91,7 +91,7 @@ test('handleHeaderDoubleClick should add untitled tab to the active group', asyn
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

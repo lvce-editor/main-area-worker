@@ -4,7 +4,7 @@ import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctio
 import { renderSash } from '../src/parts/RenderSash/RenderSash.ts'
 
 test('renderSash vertical', () => {
-  const nodes = renderSash('vertical', '1:2', 'top:50%;')
+  const nodes = renderSash(2, '1:2', 'top:50%;')
   const node = nodes[0]
   const border = nodes[1]
   expect(node.className).toBe('Sash SashHorizontal')
@@ -20,7 +20,7 @@ test('renderSash vertical', () => {
 })
 
 test('renderSash horizontal', () => {
-  const nodes = renderSash('horizontal', '1:2', 'left:50%;')
+  const nodes = renderSash(1, '1:2', 'left:50%;')
   const node = nodes[0]
   const border = nodes[1]
   expect(node.className).toBe('Sash SashVertical')

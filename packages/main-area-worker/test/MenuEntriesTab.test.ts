@@ -13,7 +13,7 @@ test.skip('getMenuEntries returns correct menu entries for active tab with path'
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -76,7 +76,7 @@ test.skip('getMenuEntries includes correct path in args for reveal and find refe
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -112,7 +112,7 @@ test.skip('getMenuEntries handles tab without path', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -147,7 +147,7 @@ test.skip('getMenuEntries uses correct active tab from multiple tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -193,7 +193,7 @@ test.skip('getMenuEntries uses correct active group from multiple groups', () =>
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,

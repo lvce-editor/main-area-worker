@@ -8,7 +8,7 @@ test('closeSaved should close all non-dirty tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -63,7 +63,7 @@ test('closeSaved should update activeTabId when active tab is closed', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 2,
@@ -118,7 +118,7 @@ test('closeSaved should mark group empty when no dirty tabs remain', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -154,7 +154,7 @@ test('closeSaved should preserve groups with only dirty tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

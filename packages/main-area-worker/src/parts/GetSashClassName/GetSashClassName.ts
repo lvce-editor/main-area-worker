@@ -1,3 +1,5 @@
-export const getSashClassName = (direction: 'horizontal' | 'vertical'): string => {
-  return direction === 'horizontal' ? 'Sash SashVertical' : 'Sash SashHorizontal'
+import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
+
+export const getSashClassName = (direction: 1 | 2): string => {
+  return direction === LayoutDirection.Horizontal ? 'Sash SashVertical' : 'Sash SashHorizontal'
 }

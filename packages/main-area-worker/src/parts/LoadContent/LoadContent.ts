@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { tryRestoreLayout } from '../TryRestoreLayout/TryRestoreLayout.ts'
 import { loadFileIcons } from './LoadFileIcons.ts'
 import { restoreAndCreateEditors } from './RestoreAndCreateEditors.ts'
@@ -27,7 +28,7 @@ export const loadContent = async (state: MainAreaState, savedState: unknown): Pr
     initial: false,
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: LayoutDirection.Horizontal,
       groups: [],
     },
   }

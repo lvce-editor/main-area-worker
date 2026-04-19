@@ -9,7 +9,7 @@ test('saveState should save layout from default state', () => {
   const result: SavedState = saveState(state)
   expect(result.layout).toEqual(state.layout)
   expect(result.layout.activeGroupId).toBeUndefined()
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
   expect(result.layout.groups).toEqual([])
 })
 
@@ -18,7 +18,7 @@ test('saveState should save layout with custom configuration', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -44,7 +44,7 @@ test('saveState should save layout with custom configuration', () => {
   const result: SavedState = saveState(state)
   expect(result.layout).toEqual(state.layout)
   expect(result.layout.activeGroupId).toBe(2)
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
   expect(result.layout.groups).toHaveLength(1)
 })
 
@@ -55,7 +55,7 @@ test('saveState should only save layout, not other state properties', () => {
     disposed: true,
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     platform: 5,
@@ -75,7 +75,7 @@ test('saveState should save layout with multiple groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -129,7 +129,7 @@ test('saveState should save layout with custom editor tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -161,7 +161,7 @@ test('saveState should save layout with tabs containing paths and languages', ()
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -196,7 +196,7 @@ test('saveState should save layout with undefined activeGroupId', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -210,7 +210,7 @@ test('saveState should save layout with empty groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -233,7 +233,7 @@ test('saveState should return a new object, not mutate the original state', () =
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -266,7 +266,7 @@ test('saveState should filter out untitled editors from tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -322,7 +322,7 @@ test('saveState should remove groups that become empty after filtering untitled 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -386,7 +386,7 @@ test('saveState should set activeGroupId to undefined if active group is removed
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -420,7 +420,7 @@ test('saveState should preserve activeGroupId if active group still has tabs aft
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -485,7 +485,7 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,

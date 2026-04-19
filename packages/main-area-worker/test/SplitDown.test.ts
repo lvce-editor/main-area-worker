@@ -8,7 +8,7 @@ test('splitDown should return state unchanged when group does not exist', () => 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -32,7 +32,7 @@ test('splitDown should split a single editor group vertically', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -51,7 +51,7 @@ test('splitDown should split a single editor group vertically', () => {
 
   const expectedLayout = {
     activeGroupId: newGroupId,
-    direction: 'vertical',
+    direction: 2,
     groups: [
       {
         activeTabId: undefined,
@@ -80,7 +80,7 @@ test('splitDown should preserve tabs in the original group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -125,7 +125,7 @@ test('splitDown should split down with existing horizontal layout', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -149,7 +149,7 @@ test('splitDown should split down with existing horizontal layout', () => {
 
   const result = splitDown(state, 1)
 
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
   expect(result.layout.groups).toHaveLength(3)
   // First group should be resized
   expect(result.layout.groups[0].id).toBe(1)
@@ -166,7 +166,7 @@ test('splitDown should change layout direction from horizontal to vertical', () 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -182,7 +182,7 @@ test('splitDown should change layout direction from horizontal to vertical', () 
 
   const result = splitDown(state, 1)
 
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
 })
 
 test('splitDown should create a new group with empty tabs', () => {
@@ -190,7 +190,7 @@ test('splitDown should create a new group with empty tabs', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -226,7 +226,7 @@ test('splitDown should focus the new group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -253,7 +253,7 @@ test('splitDown should redistribute group sizes correctly', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -280,7 +280,7 @@ test('splitDown should not mutate original state', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -307,7 +307,7 @@ test('splitDown should preserve other state properties', () => {
     height: 600,
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,

@@ -8,7 +8,7 @@ test('closeFocusedTab should close the focused tab', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -45,7 +45,7 @@ test('closeFocusedTab should close the focused tab', () => {
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 2,
@@ -77,7 +77,7 @@ test('closeFocusedTab should return same state when no focused group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -111,7 +111,7 @@ test('closeFocusedTab should return same state when no active tab in focused gro
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -145,7 +145,7 @@ test('closeFocusedTab should return same state when no groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -160,7 +160,7 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -188,7 +188,7 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
 
   const expectedLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal',
+    direction: 1,
     groups: [],
   }
 
@@ -201,7 +201,7 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -256,7 +256,7 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
 
   const expectedLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -306,7 +306,7 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -352,7 +352,7 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
 
   const expectedLayout = {
     activeGroupId: 2,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 2,

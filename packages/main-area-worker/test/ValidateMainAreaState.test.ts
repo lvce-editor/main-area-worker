@@ -15,7 +15,7 @@ test('validateMainAreaState should return true for state with activeGroupId', ()
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -36,7 +36,7 @@ test('validateMainAreaState should return true for state with undefined activeGr
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -55,7 +55,7 @@ test('validateMainAreaState should return false for missing assetDir', () => {
   const state = {
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     platform: 0,
@@ -69,7 +69,7 @@ test('validateMainAreaState should return false for invalid assetDir type', () =
     assetDir: 123,
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     platform: 0,
@@ -83,7 +83,7 @@ test('validateMainAreaState should return false for missing platform', () => {
     assetDir: '',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     uid: 0,
@@ -96,7 +96,7 @@ test('validateMainAreaState should return false for invalid platform type', () =
     assetDir: '',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     platform: '0',
@@ -119,7 +119,7 @@ test('validateMainAreaState should return false for missing groups', () => {
     assetDir: '',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
     },
     platform: 0,
     uid: 0,
@@ -132,7 +132,7 @@ test('validateMainAreaState should return false for invalid groups type', () => 
     assetDir: '',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: 'not an array',
     },
     platform: 0,
@@ -146,7 +146,7 @@ test('validateMainAreaState should return false for groups with invalid group', 
     assetDir: '',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -168,7 +168,7 @@ test('validateMainAreaState should return false for invalid activeGroupId type',
     assetDir: '',
     layout: {
       activeGroupId: '1',
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     platform: 0,
@@ -196,7 +196,7 @@ test('validateMainAreaState should return false for missing uid', () => {
     assetDir: '',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     platform: 0,
@@ -209,7 +209,7 @@ test('validateMainAreaState should return false for invalid uid type', () => {
     assetDir: '',
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     platform: 0,

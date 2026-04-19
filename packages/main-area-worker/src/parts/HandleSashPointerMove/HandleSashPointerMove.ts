@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+<<<<<<< HEAD
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 
 const MIN_GROUP_WIDTH_PX = 250
@@ -19,6 +20,11 @@ const getMinGroupSizePercent = (axisSize: number): number => {
   // Ensure minimum is at least 10%, matching the CSS 250px constraint on typical widths
   return Math.max(minPercent, 10)
 }
+=======
+import { clamp } from '../Clamp/Clamp.ts'
+import { getMinGroupSizePercent } from '../GetMinGroupSizePercent/GetMinGroupSizePercent.ts'
+import { round } from '../Round/Round.ts'
+>>>>>>> origin/main
 
 export const handleSashPointerMove = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
   const { height, layout, sashDrag, width } = state
@@ -40,7 +46,7 @@ export const handleSashPointerMove = async (state: MainAreaState, clientX: numbe
   const deltaPercent = (deltaPx / axisSize) * 100
 
   const totalResizableSize = sashDrag.beforeSize + sashDrag.afterSize
-  let minGroupSize = getMinGroupSizePercent(axisSize)
+  let minGroupSize = getMinGroupSizePercent(axisSize, state.minGroupWidthPx)
 
   // If the minimum size makes it impossible to fit two groups, relax the constraint
   if (2 * minGroupSize > totalResizableSize) {

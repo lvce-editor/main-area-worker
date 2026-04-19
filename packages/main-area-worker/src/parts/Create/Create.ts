@@ -26,6 +26,7 @@ export const create = (
     },
     maxOpenEditorGroups: Number.POSITIVE_INFINITY,
     maxOpenEditors: Number.POSITIVE_INFINITY,
+    minGroupWidthPx: 250,
     platform,
     splitButtonEnabled: false,
     tabHeight,

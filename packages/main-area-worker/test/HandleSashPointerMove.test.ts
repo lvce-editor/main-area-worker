@@ -9,7 +9,7 @@ const createBaseState = (): MainAreaState => {
     height: 800,
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: undefined,
@@ -156,7 +156,7 @@ test('handleSashPointerMove should use vertical axis and round group sizes', asy
     height: 333,
     layout: {
       ...createBaseState().layout,
-      direction: 'vertical',
+      direction: 2,
     },
     sashDrag: {
       afterGroupId: 2,

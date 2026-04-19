@@ -11,7 +11,7 @@ test('handleClickTab should return state unchanged when groupIndexRaw is empty',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -48,7 +48,7 @@ test('handleClickTab should return state unchanged when indexRaw is empty', asyn
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -85,7 +85,7 @@ test('handleClickTab should return state unchanged when both groupIndexRaw and i
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -122,7 +122,7 @@ test('handleClickTab should select tab when valid groupIndex and index are provi
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -178,7 +178,7 @@ test('handleClickTab should select tab from second group', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -244,7 +244,7 @@ test('handleClickTab should return state unchanged when groupIndex is out of bou
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -281,7 +281,7 @@ test('handleClickTab should return state unchanged when tab index is out of boun
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -318,7 +318,7 @@ test('handleClickTab should return state unchanged when groupIndex is negative',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -355,7 +355,7 @@ test('handleClickTab should return state unchanged when tab index is negative', 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -392,7 +392,7 @@ test('handleClickTab should parse string indexes correctly', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

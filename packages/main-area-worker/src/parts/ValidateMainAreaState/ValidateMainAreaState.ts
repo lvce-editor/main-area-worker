@@ -1,5 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { isValidEditorGroup } from '../IsValidEditorGroup/IsValidEditorGroup.ts'
+import { isLayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 
 export const validateMainAreaState = (state: any): state is MainAreaState => {
   if (!state || typeof state.assetDir !== 'string' || typeof state.platform !== 'number' || !state.layout) {
@@ -11,7 +12,7 @@ export const validateMainAreaState = (state: any): state is MainAreaState => {
     Array.isArray(groups) &&
     groups.every(isValidEditorGroup) &&
     (activeGroupId === undefined || typeof activeGroupId === 'number') &&
-    (direction === 'horizontal' || direction === 'vertical') &&
+    isLayoutDirection(direction) &&
     typeof state.uid === 'number'
   )
 }

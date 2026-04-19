@@ -8,7 +8,7 @@ test('ensureActiveGroup should add tab to existing active group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: -1,
@@ -40,7 +40,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -52,7 +52,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
 
   expect(newState.layout).toEqual({
     activeGroupId: groupId,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: tabId,
@@ -86,7 +86,7 @@ test('ensureActiveGroup should use focused group when activeGroupId is undefined
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: -1,
@@ -124,7 +124,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -158,7 +158,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
 
   expect(newState.layout).toEqual({
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: tabId,

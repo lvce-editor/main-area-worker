@@ -186,8 +186,19 @@ test('renderEditorGroup should handle empty tabs array', () => {
     {
       childCount: 2,
       className: 'EditorGroup',
+<<<<<<< HEAD
       'data-group-id': '1',
+=======
+      'data-groupId': '1',
+      onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+      style: 'width:100%;',
+>>>>>>> origin/main
       tabIndex: 0,
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EmptyGroupHeader',
       type: VirtualDomElements.Div,
     },
     {
@@ -203,11 +214,13 @@ test('renderEditorGroup should handle empty tabs array', () => {
     {
       childCount: 1,
       className: 'WaterMarkWrapper',
+      'data-groupId': '1',
       type: VirtualDomElements.Div,
     },
     {
       childCount: 0,
       className: 'WaterMark',
+      'data-groupId': '1',
       type: VirtualDomElements.Div,
     },
   ])
@@ -227,7 +240,13 @@ test('renderEditorGroup should expose the group id for CSS targeting', () => {
   expect(result[0]).toEqual({
     childCount: 2,
     className: 'EditorGroup',
+<<<<<<< HEAD
     'data-group-id': '1',
+=======
+    'data-groupId': '1',
+    onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+    style: 'height:50%;',
+>>>>>>> origin/main
     tabIndex: 0,
     type: VirtualDomElements.Div,
   })

@@ -8,7 +8,7 @@ test('handleClickCloseTab should return state unchanged when rawGroupIndex is em
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -42,7 +42,7 @@ test('handleClickCloseTab should return state unchanged when rawIndex is empty',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -76,7 +76,7 @@ test('handleClickCloseTab should return state unchanged when groupIndex is negat
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -110,7 +110,7 @@ test('handleClickCloseTab should return state unchanged when groupIndex is out o
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -144,7 +144,7 @@ test('handleClickCloseTab should return state unchanged when tab index is negati
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -178,7 +178,7 @@ test('handleClickCloseTab should return state unchanged when tab index is out of
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -212,7 +212,7 @@ test('handleClickCloseTab should close the tab at the specified index', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -266,7 +266,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -330,7 +330,7 @@ test('handleClickCloseTab should close first tab when index is 0', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -376,7 +376,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 3,
@@ -431,7 +431,7 @@ test('handleClickCloseTab should remove group when closing only tab in group', (
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -467,7 +467,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

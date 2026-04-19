@@ -8,7 +8,7 @@ test('isTabActive returns true for active tab in active group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -51,7 +51,7 @@ test('isTabActive returns false for tab in non-active group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -103,7 +103,7 @@ test('isTabActive returns false when no active group exists', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 999, // Non-existent group
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

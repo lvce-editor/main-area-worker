@@ -21,6 +21,11 @@ test('renderEmptyGroupCloseButton should return close button for empty group', (
   expect(result).toEqual([
     {
       childCount: 1,
+      className: ClassNames.EmptyGroupHeader,
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
       className: ClassNames.EmptyGroupCloseButton,
       'data-groupId': '1',
       name: 'close-group',

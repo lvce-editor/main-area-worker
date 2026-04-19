@@ -8,7 +8,7 @@ test('handleDoubleClick should return state unchanged when no groups exist', asy
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -23,7 +23,7 @@ test('handleDoubleClick should return state unchanged when single group with sin
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -59,7 +59,7 @@ test('handleDoubleClick should preserve state properties', async () => {
     fileIconCache: {},
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -100,7 +100,7 @@ test('handleDoubleClick should not mutate original state', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -136,7 +136,7 @@ test('handleDoubleClick should handle multiple groups', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

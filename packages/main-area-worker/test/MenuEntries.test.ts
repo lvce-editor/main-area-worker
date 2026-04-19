@@ -10,7 +10,7 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -45,12 +45,40 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
   expect(result.length).toBeGreaterThan(0)
 })
 
-test('getMenuEntries returns empty array for unknown menuId', async () => {
+test('getMenuEntries returns main menu entries when menuId is Main', async () => {
   const state: MainAreaState = createDefaultState()
 
   const props: ContextMenuProps = {
-    menuId: MenuEntryId.Tab,
+    groupId: 7,
+    menuId: MenuEntryId.Main,
   }
+
+  const result = await MenuEntries.getMenuEntries(state, props)
+  expect(result).toBeDefined()
+  expect(Array.isArray(result)).toBe(true)
+  expect(result.length).toBeGreaterThan(0)
+  expect(result.find((entry) => entry.id === 'splitRight')).toEqual({
+    args: [7],
+    command: 'MainArea.splitRight',
+    flags: 0,
+    id: 'splitRight',
+    label: 'Split Right',
+  })
+  expect(result.find((entry) => entry.id === 'closeGroup')).toEqual({
+    args: [7],
+    command: 'MainArea.closeEditorGroup',
+    flags: 0,
+    id: 'closeGroup',
+    label: 'Close Editor Group',
+  })
+})
+
+test('getMenuEntries returns empty array for unknown menuId', async () => {
+  const state: MainAreaState = createDefaultState()
+
+  const props = {
+    menuId: 999,
+  } as unknown as ContextMenuProps
 
   const result = await MenuEntries.getMenuEntries(state, props)
   expect(result).toEqual([])
@@ -61,7 +89,7 @@ test.skip('getMenuEntries throws when state has no tabs', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: -1,
@@ -87,7 +115,7 @@ test('getMenuEntries handles state with multiple tabs', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -137,7 +165,7 @@ test('getMenuEntries handles state with multiple groups', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -196,7 +224,7 @@ test('getMenuEntries returns consistent result for same input', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,
@@ -235,7 +263,7 @@ test('getMenuEntries handles tab without uri', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 0,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 0,

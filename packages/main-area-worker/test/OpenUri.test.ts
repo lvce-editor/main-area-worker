@@ -38,7 +38,7 @@ test('openUri should add tab to active group when group exists', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -97,7 +97,7 @@ test('openUri should replace active preview tab instead of adding a new tab', as
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -144,7 +144,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -202,7 +202,7 @@ test('openUri should activate existing tab in different group', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -273,7 +273,7 @@ test('openUri should create group when activeGroupId points to non-existent grou
     ...createDefaultState(),
     layout: {
       activeGroupId: 999,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
   }
@@ -446,7 +446,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -869,7 +869,7 @@ test('openUri should preserve existing tabs when race condition occurs', async (
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

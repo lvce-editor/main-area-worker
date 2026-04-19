@@ -84,7 +84,7 @@ test('copyRelativePath should return the same state', async () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 5,

@@ -9,7 +9,7 @@ test('splitEditorGroup should split editor group to the right', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -42,7 +42,7 @@ test('splitEditorGroup should split editor group to the right', () => {
   expect(result.layout.groups[1].focused).toBe(true)
   expect(result.layout.groups[1].tabs.length).toBe(0)
   expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
   expect(result).not.toBe(state)
 })
 
@@ -51,7 +51,7 @@ test('splitEditorGroup should split editor group to the left', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -84,7 +84,7 @@ test('splitEditorGroup should split editor group to the left', () => {
   expect(result.layout.groups[1].focused).toBe(false)
   expect(result.layout.groups[1].size).toBe(50)
   expect(result.layout.activeGroupId).toBe(result.layout.groups[0].id)
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
 })
 
 test('splitEditorGroup should split editor group down', () => {
@@ -92,7 +92,7 @@ test('splitEditorGroup should split editor group down', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -125,7 +125,7 @@ test('splitEditorGroup should split editor group down', () => {
   expect(result.layout.groups[1].focused).toBe(true)
   expect(result.layout.groups[1].tabs.length).toBe(0)
   expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
 })
 
 test('splitEditorGroup should split editor group up', () => {
@@ -133,7 +133,7 @@ test('splitEditorGroup should split editor group up', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -166,7 +166,7 @@ test('splitEditorGroup should split editor group up', () => {
   expect(result.layout.groups[1].focused).toBe(false)
   expect(result.layout.groups[1].size).toBe(50)
   expect(result.layout.activeGroupId).toBe(result.layout.groups[0].id)
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
 })
 
 test('splitEditorGroup should return unchanged state if group not found', () => {
@@ -174,7 +174,7 @@ test('splitEditorGroup should return unchanged state if group not found', () => 
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -209,7 +209,7 @@ test('splitEditorGroup should preserve tabs in source group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -265,7 +265,7 @@ test('splitEditorGroup should create new group with unique id', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -291,7 +291,7 @@ test('splitEditorGroup should set new group as focused', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -317,7 +317,7 @@ test('splitEditorGroup should set new group activeTabId to undefined', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -352,7 +352,7 @@ test('splitEditorGroup should split multiple existing groups', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -414,7 +414,7 @@ test('splitEditorGroup should handle split of second group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -473,7 +473,7 @@ test('splitEditorGroup should set both source and new group size to 50', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -498,7 +498,7 @@ test('splitEditorGroup should preserve activeTabId in source group', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 42,
@@ -532,7 +532,7 @@ test('splitEditorGroup should handle vertical direction string correctly for rig
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'vertical',
+      direction: 2,
       groups: [
         {
           activeTabId: 1,
@@ -549,7 +549,7 @@ test('splitEditorGroup should handle vertical direction string correctly for rig
   const result = splitEditorGroup(state, 1, GroupDirection.Right)
 
   // Right is horizontal, so direction should change to horizontal
-  expect(result.layout.direction).toBe('horizontal')
+  expect(result.layout.direction).toBe(1)
 })
 
 test('splitEditorGroup should handle horizontal direction string correctly for up split', () => {
@@ -557,7 +557,7 @@ test('splitEditorGroup should handle horizontal direction string correctly for u
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -574,7 +574,7 @@ test('splitEditorGroup should handle horizontal direction string correctly for u
   const result = splitEditorGroup(state, 1, 'up')
 
   // Up is vertical, so direction should change to vertical
-  expect(result.layout.direction).toBe('vertical')
+  expect(result.layout.direction).toBe(2)
 })
 
 test('splitEditorGroup should not mutate original state', () => {
@@ -582,7 +582,7 @@ test('splitEditorGroup should not mutate original state', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -622,7 +622,7 @@ test('splitEditorGroup should return new state object', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,
@@ -647,7 +647,7 @@ test('splitEditorGroup should update activeGroupId in result state', () => {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

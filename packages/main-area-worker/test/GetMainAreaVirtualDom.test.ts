@@ -8,7 +8,7 @@ import { getMainAreaVirtualDom } from '../src/parts/GetMainAreaVirtualDom/GetMai
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -136,7 +136,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
 test('getMainAreaVirtualDom should handle multiple groups', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -186,6 +186,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   expect(sashNode?.['data-sash-id']).toBe('1:2')
   expect(sashNode?.['data-sashId']).toBe('1:2')
   expect(sashNode?.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
+  expect(sashNode?.role).toBe('none')
+  expect(sashNode?.type).toBe(VirtualDomElements.Button)
   expect(result[1].childCount).toBe(3) // direct children: group 1 + sash + group 2
   const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsVertical`)
   expect(editorGroupsContainer).toBeDefined()
@@ -194,7 +196,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
 test('getMainAreaVirtualDom should add vertical class for split-down layout', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'vertical',
+    direction: 2,
     groups: [
       {
         activeTabId: undefined,
@@ -227,7 +229,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
 test('getMainAreaVirtualDom should handle empty groups array', () => {
   const layout: MainAreaLayout = {
     activeGroupId: undefined,
-    direction: 'horizontal',
+    direction: 1,
     groups: [],
   }
   const result = getMainAreaVirtualDom(layout)
@@ -239,7 +241,7 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
 test('getMainAreaVirtualDom should position sashes at one-third and two-thirds', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: undefined,
@@ -274,4 +276,44 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
   expect(sashNodes).toHaveLength(2)
   expect(sashNodes[0]['data-sash-id']).toBe('1:2')
   expect(sashNodes[1]['data-sash-id']).toBe('2:3')
+})
+
+test('getMainAreaVirtualDom should position horizontal sashes using effective widths when groups overflow', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: 1,
+    direction: 1,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        isEmpty: true,
+        size: 33.333_333,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 2,
+        isEmpty: true,
+        size: 33.333_333,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 3,
+        isEmpty: true,
+        size: 33.333_334,
+        tabs: [],
+      },
+    ],
+  }
+
+  const result = getMainAreaVirtualDom(layout, false, 600)
+
+  const sashNodes = result.filter((node) => node.className === 'Sash SashVertical')
+  expect(sashNodes).toHaveLength(2)
+  expect(sashNodes[0].style).toBe('left:250px;')
+  expect(sashNodes[1].style).toBe('left:500px;')
 })

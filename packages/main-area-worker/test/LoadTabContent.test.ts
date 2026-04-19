@@ -9,7 +9,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
   ...createDefaultState(),
   layout: {
     activeGroupId: 1,
-    direction: 'horizontal',
+    direction: 1,
     groups: [
       {
         activeTabId: 1,
@@ -177,7 +177,7 @@ test.skip('loadTabContentAsync discards result when tab no longer exists', async
     ...createDefaultState(),
     layout: {
       activeGroupId: undefined,
-      direction: 'horizontal',
+      direction: 1,
       groups: [],
     },
     uid: 1,
@@ -221,7 +221,7 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
     ...createDefaultState(),
     layout: {
       activeGroupId: 2,
-      direction: 'horizontal',
+      direction: 1,
       groups: [
         {
           activeTabId: 1,

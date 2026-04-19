@@ -18,7 +18,7 @@ const shouldLoadContent = (tab: Tab): boolean => {
   if (tab.loadingState === 'loading') {
     return false
   }
-  if (tab.loadingState === 'loaded') {
+  if (tab.loadingState === 'loaded' && tab.editorUid !== -1) {
     return false
   }
   return true
@@ -109,7 +109,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   // If new tab's viewlet isn't ready yet, trigger creation (idempotent)
   const newTab = newState.layout.groups[groupIndex].tabs[index]
 
-  if (newTab.uri && (!newTab.loadingState || newTab.loadingState === 'loading')) {
+  if (newTab.uri && (newTab.editorUid === -1 || !newTab.loadingState || newTab.loadingState === 'loading')) {
     // Query RendererWorker for viewlet module ID
 
     const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.uri)

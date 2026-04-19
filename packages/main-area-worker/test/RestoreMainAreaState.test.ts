@@ -268,13 +268,11 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
           {
             editorType: 'text',
             editorUid: -1,
-            errorMessage: '',
             icon: '',
             id: 1,
             isDirty: false,
             isPreview: false,
             language: 'javascript',
-            loadingState: 'idle',
             title: 'script.ts',
             uri: '/path/to/script.ts',
           },
@@ -733,6 +731,61 @@ test('restoreMainAreaState should handle layout with group having invalid tab st
   ])
 })
 
+test('restoreMainAreaState should clear transient loading fields from restored tabs', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedState = JSON.stringify({
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 99,
+              errorMessage: 'Old error',
+              icon: '',
+              id: 2,
+              isDirty: true,
+              isPreview: true,
+              loadingState: 'loaded',
+              title: 'File 2',
+              uri: '/path/to/file.ts',
+            },
+          ],
+        },
+      ],
+    },
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+
+  expect(result.layout.groups[0].tabs).toEqual([
+    {
+      editorType: 'text',
+      editorUid: -1,
+      icon: '',
+      id: 2,
+      isDirty: false,
+      isPreview: true,
+      title: 'File 2',
+      uri: '/path/to/file.ts',
+    },
+  ])
+})
+
 test('restoreMainState should return valid layout', () => {
   const validLayout = {
     activeGroupId: 1,
@@ -921,7 +974,7 @@ test('restoreMainState should accept layout with valid groups', () => {
             editorUid: -1,
             icon: '',
             id: 2,
-            isDirty: true,
+            isDirty: false,
             isPreview: false,
             title: 'File 2',
           },

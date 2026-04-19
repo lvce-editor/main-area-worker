@@ -33,6 +33,5 @@ export const handleResize = async (state: MainAreaState, dimensions: any): Promi
     }
   }
 
-  allResizeCommands.push(['Viewlet.setBounds', uid, x, y, width, height])
   return allResizeCommands
 }

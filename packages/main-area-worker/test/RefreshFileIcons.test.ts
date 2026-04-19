@@ -1,14 +1,13 @@
 import { expect, test } from '@jest/globals'
 import { IconThemeWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
-import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { refreshFileIcons } from '../src/parts/RefreshFileIcons/RefreshFileIcons.ts'
 
 const createState = (): MainAreaState => {
   return {
     ...createDefaultState(),
-    uid: 1,
     layout: {
       activeGroupId: 1,
       direction: 1,
@@ -34,6 +33,7 @@ const createState = (): MainAreaState => {
         },
       ],
     },
+    uid: 1,
   }
 }
 

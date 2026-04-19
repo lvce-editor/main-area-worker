@@ -1,30 +1,8 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
-<<<<<<< HEAD
-import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
-
-const MIN_GROUP_WIDTH_PX = 250
-
-const clamp = (value: number, min: number, max: number): number => {
-  return Math.min(max, Math.max(min, value))
-}
-
-const round = (value: number): number => {
-  return Math.round(value * 100) / 100
-}
-
-const getMinGroupSizePercent = (axisSize: number): number => {
-  if (!axisSize) {
-    return 10
-  }
-  const minPercent = (MIN_GROUP_WIDTH_PX / axisSize) * 100
-  // Ensure minimum is at least 10%, matching the CSS 250px constraint on typical widths
-  return Math.max(minPercent, 10)
-}
-=======
 import { clamp } from '../Clamp/Clamp.ts'
 import { getMinGroupSizePercent } from '../GetMinGroupSizePercent/GetMinGroupSizePercent.ts'
+import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { round } from '../Round/Round.ts'
->>>>>>> origin/main
 
 export const handleSashPointerMove = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
   const { height, layout, sashDrag, width } = state

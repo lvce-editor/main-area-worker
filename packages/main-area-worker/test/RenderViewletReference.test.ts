@@ -11,7 +11,7 @@ test('renderViewletReference returns reference node with correct uid', () => {
     isDirty: false,
     isPreview: false,
     title: 'Test',
-  } as Tab
+  }
 
   const result = renderViewletReference(tab)
 
@@ -33,7 +33,7 @@ test('renderViewletReference handles different uid values', () => {
     isDirty: false,
     isPreview: false,
     title: 'Test',
-  } as Tab
+  }
 
   const result = renderViewletReference(tab)
 
@@ -54,7 +54,7 @@ test('renderViewletReference creates reference node for viewlet instance', () =>
     isDirty: false,
     isPreview: false,
     title: 'Test',
-  } as Tab
+  }
 
   const result = renderViewletReference(tab)
 

@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-all-three-editors'
 
-export const skip = 1
-
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
@@ -30,7 +28,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.closeAllEditors()
 
   // assert - verify all tabs are closed
-  await expect(tab1).not.toBeVisible()
-  await expect(tab2).not.toBeVisible()
-  await expect(tab3).not.toBeVisible()
+  await expect(tab1).toBeHidden()
+  await expect(tab2).toBeHidden()
+  await expect(tab3).toBeHidden()
 }

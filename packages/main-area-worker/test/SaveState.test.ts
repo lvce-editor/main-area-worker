@@ -191,6 +191,50 @@ test('saveState should save layout with tabs containing paths and languages', ()
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })
 
+test('saveState should preserve editorInput for custom tabs', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'diff-editor',
+                uriLeft: 'file:///left.ts',
+                uriRight: 'file:///right.ts',
+              },
+              editorType: 'custom',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'left.ts - right.ts',
+              uri: 'diff://?left=file%3A%2F%2F%2Fleft.ts&right=file%3A%2F%2F%2Fright.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result: SavedState = saveState(state)
+
+  expect(result.layout.groups[0].tabs[0].editorInput).toEqual({
+    type: 'diff-editor',
+    uriLeft: 'file:///left.ts',
+    uriRight: 'file:///right.ts',
+  })
+})
+
 test('saveState should save layout with undefined activeGroupId', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

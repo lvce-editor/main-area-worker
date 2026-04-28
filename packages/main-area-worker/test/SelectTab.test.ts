@@ -1102,6 +1102,55 @@ test('selectTab should return same state when clicking same tab that is already 
   expect(result).toBe(state) // Should return the same state object
 })
 
+test('selectTab should recover already active restored tab when editorUid is missing', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.readFile': async () => 'file content',
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'File 1',
+              uri: '/path/to/file-1.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await selectTab(state, 0, 0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', '/path/to/file-1.ts'],
+    ['FileSystem.readFile', '/path/to/file-1.ts'],
+  ])
+  expect(result).not.toBe(state)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
+  expect(result.layout.groups[0].tabs[0].loadingState).toBe('loaded')
+})
+
 test('selectTab should return new state when clicking different tab in same group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),

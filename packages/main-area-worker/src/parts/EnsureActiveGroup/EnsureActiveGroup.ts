@@ -1,3 +1,5 @@
+import type { EditorInput } from '../EditorInput/EditorInput.ts'
+import type { EditorType } from '../EditorType/EditorType.ts'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
@@ -5,7 +7,14 @@ import * as Id from '../Id/Id.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
-export const ensureActiveGroup = (state: MainAreaState, uri: string, preview: boolean = false): MainAreaState => {
+export const ensureActiveGroup = (
+  state: MainAreaState,
+  uri: string,
+  preview: boolean = false,
+  title: string = PathDisplay.getLabel(uri),
+  editorType: EditorType = 'text',
+  editorInput?: EditorInput,
+): MainAreaState => {
   // Find the active group (by activeGroupId or focused flag)
   const { layout } = state
   const { activeGroupId, groups } = layout
@@ -19,7 +28,6 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string, preview: bo
   if (activeGroup) {
     const activeTab = activeGroup.tabs.find((tab) => tab.id === activeGroup.activeTabId)
     if (activeTab?.isPreview) {
-      const title = PathDisplay.getLabel(uri)
       const updatedGroups = groups.map((group) => {
         if (group.id !== activeGroup.id) {
           return group
@@ -30,6 +38,8 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string, preview: bo
           }
           return {
             ...tab,
+            editorInput,
+            editorType,
             errorMessage: '',
             icon: '',
             isDirty: false,
@@ -56,11 +66,11 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string, preview: bo
     }
 
     // Create a new tab with the URI in the active group
-    const title = PathDisplay.getLabel(uri)
     const tabId = Id.create()
     const editorUid = Id.create()
     const newTab: Tab = {
-      editorType: 'text',
+      editorInput,
+      editorType,
       editorUid,
       errorMessage: '',
       icon: '',
@@ -74,7 +84,7 @@ export const ensureActiveGroup = (state: MainAreaState, uri: string, preview: bo
     }
     newState = openTab(state, activeGroup.id, newTab)
   } else {
-    newState = createEmptyGroup(state, uri, requestId, preview)
+    newState = createEmptyGroup(state, uri, requestId, preview, title, editorType, editorInput)
   }
 
   return newState

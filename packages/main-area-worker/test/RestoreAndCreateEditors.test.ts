@@ -365,3 +365,55 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
   expect(result.layout.groups[1].id).toBe(2)
   expect(result.layout.direction).toBe(1)
 })
+
+test('restoreAndCreateEditors should restore diff editor inputs without Layout.getModuleId', async () => {
+  const initialState = createDefaultState()
+  const restoredLayout = {
+    activeGroupId: 1,
+    direction: 1,
+    groups: [
+      {
+        activeTabId: 1,
+        focused: true,
+        id: 1,
+        isEmpty: false,
+        size: 100,
+        tabs: [
+          {
+            editorInput: {
+              type: 'diff-editor',
+              uriLeft: 'file:///left.ts',
+              uriRight: 'file:///right.ts',
+            },
+            editorType: 'custom',
+            editorUid: -1,
+            icon: '',
+            id: 1,
+            isDirty: false,
+            isPreview: false,
+            title: 'left.ts - right.ts',
+            uri: 'diff://?left=file%3A%2F%2F%2Fleft.ts&right=file%3A%2F%2F%2Fright.ts',
+          },
+        ],
+      },
+    ],
+  }
+
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+
+  const result = await restoreAndCreateEditors(initialState, restoredLayout)
+
+  expect(mockRpc.invocations).toEqual([
+    [
+      'Layout.createViewlet',
+      'DiffEditor',
+      expect.any(Number),
+      1,
+      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
+      'diff://?left=file%3A%2F%2F%2Fleft.ts&right=file%3A%2F%2F%2Fright.ts',
+    ],
+  ])
+  expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
+})

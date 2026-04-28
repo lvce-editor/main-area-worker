@@ -34,9 +34,10 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   const tab = group.tabs[index]
   const groupId = group.id
   const tabId = tab.id
+  const isAlreadyActive = layout.activeGroupId === groupId && group.activeTabId === tabId
 
-  // Return same state if this group and tab are already active
-  if (layout.activeGroupId === groupId && group.activeTabId === tabId) {
+  // Allow restored tabs without a live editor to recover even if they are already selected.
+  if (isAlreadyActive && !shouldLoadContentForTab(tab)) {
     return state
   }
 

@@ -1,5 +1,5 @@
-import type { EditorType } from '../EditorType/EditorType.ts'
 import type { EditorInput } from '../EditorInput/EditorInput.ts'
+import type { EditorType } from '../EditorType/EditorType.ts'
 import type { LoadingState } from '../LoadingState/LoadingState.ts'
 
 export interface Tab {

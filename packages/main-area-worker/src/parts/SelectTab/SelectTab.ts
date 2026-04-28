@@ -96,7 +96,9 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   const newTab = newState.layout.groups[groupIndex].tabs[index]
 
   if (newTab.uri && (newTab.editorUid === -1 || !newTab.loadingState || newTab.loadingState === 'loading')) {
-    const viewletModuleId = newTab.editorInput ? await getViewletModuleIdForEditorInput(newTab.editorInput) : await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
+    const viewletModuleId = newTab.editorInput
+      ? await getViewletModuleIdForEditorInput(newTab.editorInput)
+      : await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
     if (viewletModuleId) {
       // Calculate bounds: use main area bounds minus 35px for tab height
       const TAB_HEIGHT = 35

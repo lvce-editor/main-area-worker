@@ -4,10 +4,10 @@ import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
 
 export const getViewletModuleIdForEditorInput = async (editorInput: EditorInput): Promise<string | undefined> => {
   switch (editorInput.type) {
-    case 'editor':
-      return getViewletModuleId(editorInput.uri)
     case 'diff-editor':
       return ViewletModuleId.DiffEditor
+    case 'editor':
+      return getViewletModuleId(editorInput.uri)
     case 'extension-detail-view':
       return ViewletModuleId.ExtensionDetail
   }

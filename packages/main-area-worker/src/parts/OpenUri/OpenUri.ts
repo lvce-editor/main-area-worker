@@ -5,7 +5,7 @@ import { openInput } from '../OpenInput/OpenInput.ts'
 
 export const openUri = async (state: MainAreaState, options: OpenUriOptions | string): Promise<MainAreaState> => {
   const uri = getOptionUriOptions(options)
-  const preview = typeof options === 'string' ? false : options.preview ?? false
+  const preview = typeof options === 'string' ? false : (options.preview ?? false)
   return openInput(state, {
     editorInput: {
       type: 'editor',

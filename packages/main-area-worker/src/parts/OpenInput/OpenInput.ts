@@ -6,13 +6,13 @@ import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
+import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
 import { getEditorInputTitle } from '../GetEditorInputTitle/GetEditorInputTitle.ts'
 import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
-import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import { getFileIconsForTabs } from '../GetFileIcons/GetFileIcons.ts'
-import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
+import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
@@ -137,6 +137,7 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
         return stateWithIcon
       }
     } catch {
+      // ignore
     }
 
     const { newState: finalState } = get(uid)

@@ -17,6 +17,16 @@ const getBasename = (uri: string): string => {
   return uri.slice(lastSlashIndex + 1)
 }
 
+const inlineDiffPrefix = 'inline-diff://'
+const diffSeparator = '<->'
+
+const getInlineDiffLabel = (uri: string): string => {
+  const content = uri.slice(inlineDiffPrefix.length)
+  const separatorIndex = content.indexOf(diffSeparator)
+  const workingTreeUri = separatorIndex === -1 ? content : content.slice(separatorIndex + diffSeparator.length)
+  return `${getBasename(workingTreeUri)} (Working Tree)`
+}
+
 export const getLabel = (uri: string): string => {
   if (uri.startsWith('settings://')) {
     return 'Settings'
@@ -29,6 +39,9 @@ export const getLabel = (uri: string): string => {
   }
   if (uri.startsWith('language-models://')) {
     return 'Language Models'
+  }
+  if (uri.startsWith(inlineDiffPrefix)) {
+    return getInlineDiffLabel(uri)
   }
   return getBasename(uri)
 }

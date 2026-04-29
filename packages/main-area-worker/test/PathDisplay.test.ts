@@ -82,6 +82,12 @@ test('getLabel should return basename for other protocol schemes', () => {
   expect(result).toBe('file.txt')
 })
 
+test('getLabel should return working tree label for inline diff uri', () => {
+  const uri: string = 'inline-diff://data://before<->/path/to/file.txt'
+  const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
+  expect(result).toBe('file.txt (Working Tree)')
+})
+
 test('getFileIcon should return MaskIconRecordKey for app://keybindings', () => {
   const uri: string = 'app://keybindings'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)

@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-auto-modified-status'
 
-export const skip = 1
-
 export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
@@ -25,6 +23,6 @@ export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main, Wo
   await Editor.setCursor(0, 0)
   await Editor.type('// comment\n')
 
-  // assert - tab should automatically show modified status (asterisk)
-  await expect(tabTitle).toHaveText('*test.ts')
+  // assert - tab should automatically show modified status
+  await expect(tab).toHaveClass('MainTabModified')
 }

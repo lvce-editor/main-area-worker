@@ -42,6 +42,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 2,
       className: 'EditorGroup',
+      'data-groupId': '1',
       style: 'width:100%;',
       type: VirtualDomElements.Div,
     },
@@ -222,6 +223,8 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
   expect(editorGroupsContainer).toBeDefined()
   const editorGroupNodes = result.filter((node) => node.className === 'EditorGroup')
   expect(editorGroupNodes).toHaveLength(2)
+  expect(editorGroupNodes[0]['data-groupId']).toBe('1')
+  expect(editorGroupNodes[1]['data-groupId']).toBe('2')
   expect(editorGroupNodes[0].style).toBe('height:50%;')
   expect(editorGroupNodes[1].style).toBe('height:50%;')
 })
@@ -281,6 +284,8 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
 
   const sashNodes = result.filter((node) => node.className === 'Sash SashVertical')
   expect(sashNodes).toHaveLength(2)
+  expect(sashNodes[0]['data-sashId']).toBe('1:2')
+  expect(sashNodes[1]['data-sashId']).toBe('2:3')
   const firstSashOffset = Number(sashNodes[0].style?.replace('left:', '').replace('%;', ''))
   const secondSashOffset = Number(sashNodes[1].style?.replace('left:', '').replace('%;', ''))
   expect(firstSashOffset).toBeCloseTo(33.333_333, 5)

@@ -58,7 +58,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
   ])
 })
 
-test('renderEmptyEditorGroup should use provided style', () => {
+test('renderEmptyEditorGroup should expose the group id for CSS targeting', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
     focused: false,

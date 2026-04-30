@@ -24,6 +24,7 @@ export const renderEditorGroup = (
     {
       childCount: 2,
       className: ClassNames.EditorGroup,
+      'data-groupId': String(group.id),
       style,
       type: VirtualDomElements.Div,
     },

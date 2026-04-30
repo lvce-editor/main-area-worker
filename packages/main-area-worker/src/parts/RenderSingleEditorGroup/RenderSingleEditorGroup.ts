@@ -6,7 +6,7 @@ import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
 export const renderSingleEditorGroup = (
   layout: MainAreaLayout,
   splitButtonEnabled: boolean,
-  sizeProperty: 'width' | 'height',
+  sizeProperty: 'width' | 'height' = 'width',
 ): readonly VirtualDomNode[] => {
   return [
     {

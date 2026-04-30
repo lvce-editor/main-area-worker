@@ -43,10 +43,6 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       },
     ]
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
   let childCount = 0
   for (let i = 0; i < groups.length; i++) {
     if (i > 0) {

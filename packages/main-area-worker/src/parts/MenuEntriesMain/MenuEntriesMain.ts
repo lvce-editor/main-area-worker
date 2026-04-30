@@ -1,4 +1,5 @@
-import { MenuItemFlags } from '@lvce-editor/constants'
+import { MenuItemFlags, PlatformType } from '@lvce-editor/constants'
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
 import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'
 import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
@@ -14,7 +15,22 @@ const getArgs = (groupId: number | undefined): readonly number[] | undefined => 
   return [groupId]
 }
 
-export const getMenuEntries = (groupId?: number): readonly any[] => {
+const getNewWindowMenuEntries = (state: MainAreaState): readonly any[] => {
+  if (state.platform !== PlatformType.Electron) {
+    return []
+  }
+  return [
+    MenuEntrySeparator.menuEntrySeparator,
+    {
+      command: 'MainArea.newWindow',
+      flags: MenuItemFlags.None,
+      id: 'newWindow',
+      label: ViewletMainStrings.newWindow(),
+    },
+  ]
+}
+
+export const getMenuEntries = (state: MainAreaState, groupId?: number): readonly any[] => {
   const groupArgs = getArgs(groupId)
   const entries = [
     {
@@ -53,13 +69,7 @@ export const getMenuEntries = (groupId?: number): readonly any[] => {
       id: 'splitRight',
       label: ViewletMainStrings.splitRight(),
     },
-    MenuEntrySeparator.menuEntrySeparator,
-    {
-      command: 'Main.newWindow',
-      flags: MenuItemFlags.None,
-      id: 'newWindow',
-      label: ViewletMainStrings.newWindow(),
-    },
+    ...getNewWindowMenuEntries(state),
   ]
   if (!hasTargetGroup(groupId)) {
     return entries

@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { MenuEntryId } from '@lvce-editor/constants'
+import { MenuEntryId, PlatformType } from '@lvce-editor/constants'
 import type { ContextMenuProps } from '../src/parts/ContextMenuProps/ContextMenuProps.ts'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -71,6 +71,7 @@ test('getMenuEntries returns main menu entries when menuId is Main', async () =>
     id: 'closeGroup',
     label: 'Close Editor Group',
   })
+  expect(result.find((entry) => entry.id === 'newWindow')).toBeUndefined()
 })
 
 test('getMenuEntries omits group-specific entries for empty main area sentinel', async () => {
@@ -91,6 +92,28 @@ test('getMenuEntries omits group-specific entries for empty main area sentinel',
     label: 'Split Right',
   })
   expect(result.find((entry) => entry.id === 'closeGroup')).toBeUndefined()
+  expect(result.find((entry) => entry.id === 'newWindow')).toBeUndefined()
+})
+
+test('getMenuEntries includes new window for electron', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    platform: PlatformType.Electron,
+  }
+
+  const props: ContextMenuProps = {
+    groupId: 7,
+    menuId: MenuEntryId.Main,
+  }
+
+  const result = await MenuEntries.getMenuEntries(state, props)
+
+  expect(result.find((entry) => entry.id === 'newWindow')).toEqual({
+    command: 'MainArea.newWindow',
+    flags: 0,
+    id: 'newWindow',
+    label: 'New Window',
+  })
 })
 
 test('getMenuEntries returns empty array for unknown menuId', async () => {

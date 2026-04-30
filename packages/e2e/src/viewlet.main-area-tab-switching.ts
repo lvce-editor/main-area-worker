@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-tab-switching'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.txt`
@@ -16,7 +16,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await Main.openUri(file3)
 
   // act
-  await Command.execute('Main.selectTab', 0, 0)
+  await Main.selectTab(0, 0)
 
   // assert
   const selectedTab1 = Locator('.MainTabSelected[title$="file1.txt"]')

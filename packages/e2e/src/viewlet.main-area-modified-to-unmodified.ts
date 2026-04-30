@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-modified-to-unmodified'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/test.ts`
@@ -19,11 +19,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await expect(tabTitle).toHaveText('test.ts')
 
   // act - mark the file as dirty (modified) first
-  await Command.execute('Main.handleModifiedStatusChange', testFile, true)
+  await Main.handleModifiedStatusChange(testFile, true)
   await expect(tab).toHaveClass('MainTabModified')
 
   // act - mark the file as not dirty (saved)
-  await Command.execute('Main.handleModifiedStatusChange', testFile, false)
+  await Main.handleModifiedStatusChange(testFile, false)
 
   // assert - tab should not show dirty indicator
   await expect(tabTitle).toHaveText('test.ts')

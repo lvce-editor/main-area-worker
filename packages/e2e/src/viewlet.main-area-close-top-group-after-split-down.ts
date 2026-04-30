@@ -20,9 +20,9 @@ export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
   await FileSystem.writeFile(fileBottom, 'content-bottom')
 
   await Main.openUri(fileTop)
-  await Command.execute('Main.splitDown')
+  await Main.splitDown()
 
-  const savedState1 = await Command.execute('MainArea.saveState', 2)
+  const savedState1 = await Main.saveState(2)
   assert(savedState1.layout.groups.length === 2, `Expected 2 groups, got ${savedState1.layout.groups.length}`)
 
   const topGroupId = savedState1.layout.groups[0].id
@@ -31,7 +31,7 @@ export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
 
   await Command.execute('MainArea.handleClickAction', 2, 'close-group', String(topGroupId))
 
-  const savedState2 = await Command.execute('MainArea.saveState', 2)
+  const savedState2 = await Main.saveState(2)
   assert(savedState2.layout.groups.length === 1, `Expected 1 group, got ${savedState2.layout.groups.length}`)
   assert(savedState2.layout.groups[0].tabs.length === 1, `Expected 1 tab, got ${savedState2.layout.groups[0].tabs.length}`)
   assert(savedState2.layout.groups[0].tabs[0].path === fileBottom, `Expected remaining tab to be ${fileBottom}`)

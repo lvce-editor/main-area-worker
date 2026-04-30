@@ -1,14 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { SavedState } from '../SavedState/SavedState.ts'
-
-const getFilteredGroups = (groups: MainAreaState['layout']['groups']): MainAreaState['layout']['groups'] => {
-  return groups
-    .map((group) => ({
-      ...group,
-      tabs: group.tabs.filter((tab) => !tab.uri?.startsWith('untitled://')),
-    }))
-    .filter((group) => group.tabs.length > 0)
-}
+import { getFilteredGroups } from '../GetFilteredGroups/GetFilteredGroups.ts'
 
 export const saveState = (state: MainAreaState): SavedState => {
   const { layout } = state

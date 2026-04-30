@@ -8,7 +8,6 @@ export const renderSash = (direction: LayoutDirection, sashId: string, style: st
     {
       childCount: 1,
       className: getSashClassName(direction),
-      'data-sash-id': sashId,
       'data-sashId': sashId,
       onPointerDown: DomEventListenerFunctions.HandleSashPointerDown,
       role: 'none',

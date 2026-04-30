@@ -10,7 +10,6 @@ export const renderEmptyEditorGroup = (group: EditorGroup, groupIndex: number, s
     {
       childCount: 2,
       className: ClassNames.EditorGroup,
-      'data-group-id': String(group.id),
       'data-groupId': String(group.id),
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style,

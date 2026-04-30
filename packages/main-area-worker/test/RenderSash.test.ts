@@ -8,7 +8,6 @@ test('renderSash vertical', () => {
   const node = nodes[0]
   const border = nodes[1]
   expect(node.className).toBe('Sash SashHorizontal')
-  expect(node['data-sash-id']).toBe('1:2')
   expect(node['data-sashId']).toBe('1:2')
   expect(node.childCount).toBe(1)
   expect(node.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
@@ -25,7 +24,6 @@ test('renderSash horizontal', () => {
   const node = nodes[0]
   const border = nodes[1]
   expect(node.className).toBe('Sash SashVertical')
-  expect(node['data-sash-id']).toBe('1:2')
   expect(node['data-sashId']).toBe('1:2')
   expect(node.childCount).toBe(1)
   expect(node.role).toBe('none')

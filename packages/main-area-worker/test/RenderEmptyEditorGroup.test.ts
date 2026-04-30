@@ -22,7 +22,6 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
     {
       childCount: 2,
       className: ClassNames.EditorGroup,
-      'data-group-id': '1',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style: 'width:100%;',
@@ -74,7 +73,6 @@ test('renderEmptyEditorGroup should expose the group id for CSS targeting', () =
   expect(result[0]).toEqual({
     childCount: 2,
     className: ClassNames.EditorGroup,
-    'data-group-id': '2',
     'data-groupId': '2',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
     style: 'height:50%;',

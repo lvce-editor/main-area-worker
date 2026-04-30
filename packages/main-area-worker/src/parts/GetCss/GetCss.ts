@@ -5,7 +5,7 @@ import * as SashId from '../SashId/SashId.ts'
 const getEditorGroupCss = (layout: MainAreaLayout): readonly string[] => {
   const groupSizeVariable = layout.direction === LayoutDirection.Vertical ? '--EditorGroupHeight' : '--EditorGroupWidth'
   return layout.groups.map((group) => {
-    return `.EditorGroup[data-group-id="${group.id}"] {
+    return `.EditorGroup[data-groupId="${group.id}"] {
   ${groupSizeVariable}: ${group.size}%;
 }`
   })
@@ -23,7 +23,7 @@ const getSashCss = (layout: MainAreaLayout): readonly string[] => {
     const beforeGroupId = layout.groups[i - 1].id
     const afterGroupId = layout.groups[i].id
     const sashId = SashId.create(beforeGroupId, afterGroupId)
-    rules.push(`.Sash[data-sash-id="${sashId}"] {
+    rules.push(`.Sash[data-sashId="${sashId}"] {
   ${sashPositionVariable}: ${sashOffset}%;
 }`)
   }

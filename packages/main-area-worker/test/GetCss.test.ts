@@ -45,10 +45,10 @@ test('getCss should include layout-specific group and sash rules', () => {
     ],
   }
   const css = getCss(layout)
-  expect(css).toContain('.EditorGroup[data-group-id="1"]')
+  expect(css).toContain('.EditorGroup[data-groupId="1"]')
   expect(css).toContain('--EditorGroupWidth: 40%')
-  expect(css).toContain('.EditorGroup[data-group-id="2"]')
+  expect(css).toContain('.EditorGroup[data-groupId="2"]')
   expect(css).toContain('--EditorGroupWidth: 60%')
-  expect(css).toContain('.Sash[data-sash-id="1:2"]')
+  expect(css).toContain('.Sash[data-sashId="1:2"]')
   expect(css).toContain('--SashLeft: 40%')
 })

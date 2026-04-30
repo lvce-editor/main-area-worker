@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-tab-context-menu-close-all'
 
 export const skip = true
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.ts`
@@ -25,7 +25,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await expect(tab3).toBeVisible()
 
   // act
-  await Command.execute('Main.handleTabContextMenu', 0, 0)
+  await Main.handleTabContextMenu(0, 0, 0)
   const closeAllMenuItem = Locator('text=Close All')
   await expect(closeAllMenuItem).toBeVisible()
   await closeAllMenuItem.click()

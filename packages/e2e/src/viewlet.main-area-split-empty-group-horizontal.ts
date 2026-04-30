@@ -2,9 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-split-empty-group-horizontal'
 
-export const test: Test = async ({ Command, expect, Locator }) => {
+export const test: Test = async ({ expect, Locator, Main }) => {
   // act
-  await Command.execute('Main.splitDown')
+  await Main.splitDown()
 
   // assert
   const editorGroups = Locator('.EditorGroup')

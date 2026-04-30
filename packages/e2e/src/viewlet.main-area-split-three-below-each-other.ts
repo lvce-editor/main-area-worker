@@ -3,15 +3,15 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'viewlet.main-area-split-three-below-each-other'
 export const skip = true
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.ts`
 
   await FileSystem.writeFile(file1, 'content1')
 
   await Main.openUri(file1)
-  await Command.execute('Main.splitDown')
-  await Command.execute('Main.splitDown')
+  await Main.splitDown()
+  await Main.splitDown()
 
   const editorGroups = Locator('.EditorGroup')
   await expect(editorGroups).toHaveCount(3)

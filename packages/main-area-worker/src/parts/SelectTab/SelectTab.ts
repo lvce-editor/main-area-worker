@@ -4,25 +4,11 @@ import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
 import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
+import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import * as MainAreaStates from '../MainAreaStates/MainAreaStates.ts'
+import { shouldLoadContentForTab } from '../ShouldLoadContentForTab/ShouldLoadContentForTab.ts'
 import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
-
-const shouldLoadContent = (tab: Tab): boolean => {
-  // Load if:
-  // - Has a path (file-based tab)
-  // - Not already loaded or currently loading
-  if (!tab.uri) {
-    return false
-  }
-  if (tab.loadingState === 'loading') {
-    return false
-  }
-  if (tab.loadingState === 'loaded') {
-    return false
-  }
-  return true
-}
 
 const getActiveTabId = (state: MainAreaState): number | undefined => {
   const { layout } = state
@@ -48,9 +34,10 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   const tab = group.tabs[index]
   const groupId = group.id
   const tabId = tab.id
+  const isAlreadyActive = layout.activeGroupId === groupId && group.activeTabId === tabId
 
-  // Return same state if this group and tab are already active
-  if (layout.activeGroupId === groupId && group.activeTabId === tabId) {
+  // Allow restored tabs without a live editor to recover even if they are already selected.
+  if (isAlreadyActive && !shouldLoadContentForTab(tab)) {
     return state
   }
 
@@ -58,7 +45,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   const previousTabId = getActiveTabId(state)
 
   // Check if we need to load content for the newly selected tab
-  const needsLoading = shouldLoadContent(tab)
+  const needsLoading = shouldLoadContentForTab(tab)
   const requestId = needsLoading ? GetNextRequestId.getNextRequestId() : 0
 
   // Update the groups array with the new active tab and active group
@@ -109,10 +96,10 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   // If new tab's viewlet isn't ready yet, trigger creation (idempotent)
   const newTab = newState.layout.groups[groupIndex].tabs[index]
 
-  if (newTab.uri && (!newTab.loadingState || newTab.loadingState === 'loading')) {
-    // Query RendererWorker for viewlet module ID
-
-    const viewletModuleId = await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
+  if (newTab.uri && (newTab.editorUid === -1 || !newTab.loadingState || newTab.loadingState === 'loading')) {
+    const viewletModuleId = newTab.editorInput
+      ? await getViewletModuleIdForEditorInput(newTab.editorInput)
+      : await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
     if (viewletModuleId) {
       // Calculate bounds: use main area bounds minus 35px for tab height
       const TAB_HEIGHT = 35

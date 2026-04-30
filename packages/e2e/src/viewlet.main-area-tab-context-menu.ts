@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-tab-context-menu'
 
 export const skip = 1
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/test-context-menu.ts`
@@ -15,7 +15,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await expect(tab).toBeVisible()
 
   // act
-  await Command.execute('Main.handleTabContextMenu', 0, 0, 0)
+  await Main.handleTabContextMenu(0, 0, 0)
 
   // assert
   const closeMenuItem = Locator('text=Close').first()

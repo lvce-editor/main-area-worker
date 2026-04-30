@@ -73,6 +73,26 @@ test('getMenuEntries returns main menu entries when menuId is Main', async () =>
   })
 })
 
+test('getMenuEntries omits group-specific entries for empty main area sentinel', async () => {
+  const state: MainAreaState = createDefaultState()
+
+  const props: ContextMenuProps = {
+    groupId: -1,
+    menuId: MenuEntryId.Main,
+  }
+
+  const result = await MenuEntries.getMenuEntries(state, props)
+
+  expect(result.find((entry) => entry.id === 'splitRight')).toEqual({
+    args: undefined,
+    command: 'MainArea.splitRight',
+    flags: 0,
+    id: 'splitRight',
+    label: 'Split Right',
+  })
+  expect(result.find((entry) => entry.id === 'closeGroup')).toBeUndefined()
+})
+
 test('getMenuEntries returns empty array for unknown menuId', async () => {
   const state: MainAreaState = createDefaultState()
 

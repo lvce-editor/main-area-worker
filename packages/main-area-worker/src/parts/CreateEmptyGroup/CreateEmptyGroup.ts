@@ -1,17 +1,27 @@
+import type { EditorInput } from '../EditorInput/EditorInput.ts'
+import type { EditorType } from '../EditorType/EditorType.ts'
 import type { EditorGroup, MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
-export const createEmptyGroup = (state: MainAreaState, uri: string, requestId: number, preview: boolean = false): MainAreaState => {
+export const createEmptyGroup = (
+  state: MainAreaState,
+  uri: string,
+  requestId: number,
+  preview: boolean = false,
+  title: string = PathDisplay.getLabel(uri),
+  editorType: EditorType = 'text',
+  editorInput?: EditorInput,
+): MainAreaState => {
   const { layout } = state
   const { groups } = layout
 
   const groupId = Id.create()
-  const title = PathDisplay.getLabel(uri)
   const tabId = Id.create()
   const editorUid = Id.create()
   const newTab: Tab = {
-    editorType: 'text',
+    editorInput,
+    editorType,
     editorUid,
     errorMessage: '',
     icon: '',

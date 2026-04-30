@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-focus-previous-tab'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange - create test files
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.txt`
@@ -28,14 +28,14 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await expect(selectedTab3).toBeVisible()
 
   // act - focus previous tab
-  await Command.execute('Main.focusPreviousTab', 0)
+  await Main.focusPrevious()
 
   // assert - verify second tab is now selected
   const selectedTab2 = Locator('.MainTabSelected[title$="file2.txt"]')
   await expect(selectedTab2).toBeVisible()
 
   // act - focus previous tab again
-  await Command.execute('Main.focusPreviousTab', 0)
+  await Main.focusPrevious()
 
   // assert - verify first tab is now selected
   const selectedTab1 = Locator('.MainTabSelected[title$="file1.txt"]')

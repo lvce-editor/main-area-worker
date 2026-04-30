@@ -31,15 +31,15 @@ const openFiles = async (files: readonly string[], Main: any): Promise<void> => 
   }
 }
 
-const editFiles = async (fileCount: number, Command: any, Editor: any): Promise<void> => {
+const editFiles = async (fileCount: number, Editor: any, Main: any): Promise<void> => {
   for (let i = 0; i < fileCount; i++) {
-    await Command.execute('Main.selectTab', 0, i)
+    await Main.selectTab(0, i)
     await Editor.setCursor(0, 0)
     await Editor.type('a')
   }
 }
 
-export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const files = await createFiles(tmpDir, FileSystem)
 
@@ -48,12 +48,12 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   const tabs = Locator('.MainTab')
   await expect(tabs).toHaveCount(fileCount)
 
-  await editFiles(fileCount, Command, Editor)
+  await editFiles(fileCount, Editor, Main)
 
   const modifiedTabs = Locator('.MainTabModified')
   await expect(modifiedTabs).toHaveCount(fileCount)
 
-  await Command.execute('Main.saveAll')
+  await Main.saveAll()
 
   await expect(modifiedTabs).toHaveCount(0)
 }

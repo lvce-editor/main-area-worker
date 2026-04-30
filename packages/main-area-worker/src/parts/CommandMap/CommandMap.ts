@@ -21,6 +21,7 @@ import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClic
 import { handleContextMenu } from '../HandleContextMenu/HandleContextMenu.ts'
 import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
+import { handleIconThemeChange } from '../HandleIconThemeChange/HandleIconThemeChange.ts'
 import { handleModifiedStatusChange } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
 import { handleResize } from '../HandleResize/HandleResize.ts'
 import { handleSashPointerDown } from '../HandleSashPointerDown/HandleSashPointerDown.ts'
@@ -34,6 +35,7 @@ import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { getCommandIds, wrapCommand, wrapGetter } from '../MainAreaStates/MainAreaStates.ts'
 import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
 import { newFile } from '../NewFile/NewFile.ts'
+import { openInput } from '../OpenInput/OpenInput.ts'
 import { openUri } from '../OpenUri/OpenUri.ts'
 import { openUris } from '../OpenUris/OpenUris.ts'
 import { refresh } from '../Refresh/Refresh.ts'
@@ -75,6 +77,7 @@ export const commandMap = {
   'MainArea.handleContextMenu': wrapCommand(handleContextMenu),
   'MainArea.handleDoubleClick': wrapCommand(handleDoubleClick),
   'MainArea.handleHeaderDoubleClick': wrapCommand(handleHeaderDoubleClick),
+  'MainArea.handleIconThemeChange': wrapCommand(handleIconThemeChange),
   'MainArea.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),
   'MainArea.handleResize': wrapGetter(handleResize), // TODO would need to have a function that returns newstate as well as commands
   'MainArea.handleSashPointerDown': wrapCommand(handleSashPointerDown),
@@ -86,6 +89,7 @@ export const commandMap = {
   'MainArea.initialize': initialize,
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
   'MainArea.newFile': wrapCommand(newFile),
+  'MainArea.openInput': wrapCommand(openInput),
   'MainArea.openUri': wrapCommand(openUri),
   'MainArea.openUris': wrapCommand(openUris),
   'MainArea.refresh': wrapCommand(refresh),

@@ -2,6 +2,16 @@ import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import { isValidMainAreaLayout } from '../IsValidMainAreaLayout/IsValidMainAreaLayout.ts'
 import { normalizeLayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 
+const normalizeRestoredTab = (tab: any): any => {
+  const { errorMessage: _errorMessage, loadingState: _loadingState, ...rest } = tab ?? {}
+  return {
+    ...rest,
+    editorUid: -1,
+    isDirty: false,
+    isPreview: typeof tab?.isPreview === 'boolean' ? tab.isPreview : false,
+  }
+}
+
 export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefined => {
   if (savedState === undefined || savedState === null) {
     return undefined
@@ -34,14 +44,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
       return {
         ...group,
         ...(groupDirection === undefined ? {} : { direction: groupDirection }),
-        tabs: Array.isArray(group?.tabs)
-          ? group.tabs.map((tab: any) => ({
-              ...tab,
-              editorUid: -1,
-              isDirty: false,
-              isPreview: typeof tab?.isPreview === 'boolean' ? tab.isPreview : false,
-            }))
-          : [],
+        tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : [],
       }
     }),
   }

@@ -7,6 +7,16 @@ interface SavedMainAreaState {
   version: string
 }
 
+const normalizeRestoredTab = (tab: any): any => {
+  const { errorMessage: _errorMessage, loadingState: _loadingState, ...rest } = tab ?? {}
+  return {
+    ...rest,
+    editorUid: -1,
+    isDirty: false,
+    isPreview: typeof tab?.isPreview === 'boolean' ? tab.isPreview : false,
+  }
+}
+
 const normalizeLayoutTabsForRestoreMainState = (layout: unknown): unknown => {
   if (!layout || typeof layout !== 'object') {
     return layout
@@ -19,12 +29,7 @@ const normalizeLayoutTabsForRestoreMainState = (layout: unknown): unknown => {
     ...value,
     groups: value.groups.map((group: any) => ({
       ...group,
-      tabs: Array.isArray(group?.tabs)
-        ? group.tabs.map((tab: any) => ({
-            ...tab,
-            isPreview: typeof tab?.isPreview === 'boolean' ? tab.isPreview : false,
-          }))
-        : group?.tabs,
+      tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : group?.tabs,
     })),
   }
 }
@@ -41,14 +46,7 @@ const normalizeLayoutTabsForRestoreMainAreaState = (layout: unknown): unknown =>
     ...value,
     groups: value.groups.map((group: any) => ({
       ...group,
-      tabs: Array.isArray(group?.tabs)
-        ? group.tabs.map((tab: any) => ({
-            ...tab,
-            editorUid: -1,
-            isDirty: false,
-            isPreview: typeof tab?.isPreview === 'boolean' ? tab.isPreview : false,
-          }))
-        : group?.tabs,
+      tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : group?.tabs,
     })),
   }
 }

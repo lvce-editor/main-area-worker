@@ -15,7 +15,7 @@ export const handleResize = async (state: MainAreaState, dimensions: any): Promi
   }
 
   // Resize all editor children to their new bounds
-  const { layout, tabHeight, uid } = state
+  const { layout, tabHeight } = state
   const { groups } = layout
   const contentHeight = height - tabHeight
 

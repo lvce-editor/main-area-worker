@@ -1,7 +1,11 @@
 import { type VirtualDomNode, AriaRoles, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
+<<<<<<< HEAD
 import { getSashOffset } from '../GetSashOffset/GetSashOffset.ts'
+=======
+import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+>>>>>>> origin/main
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
 import { renderSash } from '../RenderSash/RenderSash.ts'
@@ -25,6 +29,28 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
   const editorGroupsContainerClassName = directionClassName
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER
+<<<<<<< HEAD
+=======
+  if (groups.length === 0) {
+    return [
+      {
+        childCount: 1,
+        className: ClassNames.Main,
+        type: VirtualDomElements.Div,
+      },
+      {
+        childCount: 0,
+        className: editorGroupsContainerClassName,
+        'data-groupId': '',
+        onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+        role: AriaRoles.None,
+        type: VirtualDomElements.Div,
+      },
+    ]
+  }
+
+  let sashOffset = 0
+>>>>>>> origin/main
   let childCount = 0
   for (let i = 0; i < groups.length; i++) {
     if (i > 0) {

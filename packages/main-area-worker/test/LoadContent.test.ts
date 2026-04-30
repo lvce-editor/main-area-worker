@@ -385,7 +385,6 @@ test('loadContent should load icon theme for tabs with uri', async () => {
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-typescript'],
   })
-  void mockRpc
 
   const state = createDefaultState()
   const savedState = {
@@ -427,7 +426,6 @@ test('loadContent should load icons for multiple tabs', async () => {
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-typescript', 'file-icon-text'],
   })
-  void mockRpc
 
   const state = createDefaultState()
   const savedState = {
@@ -487,7 +485,6 @@ test('loadContent should update fileIconCache with loaded icons', async () => {
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-typescript'],
   })
-  void mockRpc
 
   const state = {
     ...createDefaultState(),
@@ -533,7 +530,6 @@ test('loadContent should handle icon loading failure gracefully', async () => {
       throw new Error('Icon loading failed')
     },
   })
-  void mockRpc
 
   const state = createDefaultState()
   const savedState = {
@@ -577,7 +573,6 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-typescript', 'file-icon-text'],
   })
-  void mockRpc
 
   const state = createDefaultState()
   const savedState = {

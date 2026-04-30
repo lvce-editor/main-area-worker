@@ -1,17 +1,19 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { SavedState } from '../SavedState/SavedState.ts'
 
-export const saveState = (state: MainAreaState): SavedState => {
-  const { layout } = state
-
-  // Filter out untitled editors from tabs
-  const filteredGroups = layout.groups
+const getFilteredGroups = (groups: MainAreaState['layout']['groups']): MainAreaState['layout']['groups'] => {
+  return groups
     .map((group) => ({
       ...group,
       tabs: group.tabs.filter((tab) => !tab.uri?.startsWith('untitled://')),
     }))
-    // Remove groups that become empty after filtering
     .filter((group) => group.tabs.length > 0)
+}
+
+export const saveState = (state: MainAreaState): SavedState => {
+  const { layout } = state
+
+  const filteredGroups = getFilteredGroups(layout.groups)
 
   // Update activeGroupId if it points to a removed group
   const { activeGroupId: originalActiveGroupId } = layout

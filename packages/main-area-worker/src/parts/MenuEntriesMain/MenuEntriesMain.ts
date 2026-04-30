@@ -3,8 +3,12 @@ import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
 import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'
 import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
 
+const hasTargetGroup = (groupId: number | undefined): groupId is number => {
+  return groupId !== undefined && groupId >= 0
+}
+
 const getArgs = (groupId: number | undefined): readonly number[] | undefined => {
-  if (groupId === undefined) {
+  if (!hasTargetGroup(groupId)) {
     return undefined
   }
   return [groupId]
@@ -57,7 +61,7 @@ export const getMenuEntries = (groupId?: number): readonly any[] => {
       label: ViewletMainStrings.newWindow(),
     },
   ]
-  if (groupId === undefined) {
+  if (!hasTargetGroup(groupId)) {
     return entries
   }
   return [

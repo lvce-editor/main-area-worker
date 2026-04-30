@@ -46,8 +46,6 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
   const editorGroupsContainerClassName = directionClassName
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER
-<<<<<<< HEAD
-=======
   if (groups.length === 0) {
     return [
       {
@@ -66,8 +64,6 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
     ]
   }
 
-  let sashOffset = 0
->>>>>>> origin/main
   let childCount = 0
   for (let i = 0; i < groups.length; i++) {
     if (i > 0) {

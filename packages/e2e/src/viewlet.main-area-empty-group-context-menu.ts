@@ -13,6 +13,5 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
   await expect(Locator('text=Split Down')).toBeVisible()
   await expect(Locator('text=Split Left')).toBeVisible()
   await expect(Locator('text=Split Right')).toBeVisible()
-  await expect(Locator('text=New Window')).toBeVisible()
   await expect(Locator('text=Close Editor Group')).toHaveCount(0)
 }

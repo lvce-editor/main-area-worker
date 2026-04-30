@@ -7,7 +7,7 @@ import * as MenuEntriesTab from '../MenuEntriesTab/MenuEntriesTab.ts'
 export const getMenuEntries = async (state: MainAreaState, props: ContextMenuProps): Promise<readonly any[]> => {
   switch (props.menuId) {
     case MenuEntryId.Main:
-      return MenuEntriesMain.getMenuEntries(props.groupId)
+      return MenuEntriesMain.getMenuEntries(state, props.groupId)
     case MenuEntryId.Tab:
       return MenuEntriesTab.getMenuEntries(state)
     default:

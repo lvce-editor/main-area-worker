@@ -1,4 +1,4 @@
-import type { MainAreaState, EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaState, EditorGroup, EditorType, Tab } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
@@ -46,7 +46,7 @@ const getStateWithTab = (
   uri: string,
   preview: boolean,
   title: string,
-  editorType: string,
+  editorType: EditorType,
 ): { stateWithTab: MainAreaState; tabId: number } => {
   if (shouldRetryExistingTab && existingTab) {
     const focusedState = focusEditorGroup(currentState, existingTab.groupId)
@@ -109,7 +109,7 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
   const editorType = getEditorInputEditorType(editorInput)
 
   const existingTab = findTabByUri(state, uri)
-  const shouldRetryExistingTab = existingTab && existingTab.tab.loadingState === 'error'
+  const shouldRetryExistingTab = !!existingTab && existingTab.tab.loadingState === 'error'
   if (existingTab && !shouldRetryExistingTab) {
     const focusedState = focusEditorGroup(state, existingTab.groupId)
     return switchTab(focusedState, existingTab.groupId, existingTab.tab.id)

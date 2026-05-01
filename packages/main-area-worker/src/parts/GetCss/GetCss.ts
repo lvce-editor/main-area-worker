@@ -43,10 +43,10 @@ export const getCss = (layout?: MainAreaLayout): string => {
   width: var(--EditorGroupWidth, auto);
   height: var(--EditorGroupHeight, auto);
 }`,
-    `.SashVertical {
+    `.MainArea .SashVertical {
   left: var(--SashLeft);
 }`,
-    `.SashHorizontal {
+    `.MainArea .SashHorizontal {
   top: var(--SashTop);
 }`,
   ]

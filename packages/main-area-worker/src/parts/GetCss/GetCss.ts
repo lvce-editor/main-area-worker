@@ -41,7 +41,7 @@ export const getCss = (layout?: MainAreaLayout): string => {
     `.EditorGroup {
   min-width: 250px;
   width: var(--EditorGroupWidth, auto);
-  height: var(--EditorGroupHeight, auto);
+  /*height: var(--EditorGroupHeight, auto);*/
 }`,
     `.MainArea .SashVertical {
   left: var(--SashLeft);

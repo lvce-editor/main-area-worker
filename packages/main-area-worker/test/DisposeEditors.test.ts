@@ -60,7 +60,7 @@ test('disposeEditors should handle many editor uids', async () => {
 
 test('disposeEditors should silently ignore errors during disposal', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async (editorUid: number) => {
+    'Viewlet.dispose': async (editorUid: number): Promise<void> => {
       if (editorUid === 2) {
         throw new Error('Disposal failed')
       }

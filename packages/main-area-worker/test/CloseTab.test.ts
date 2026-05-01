@@ -2205,6 +2205,7 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
   expect(result.layout.groups[0].tabs.length).toBe(2)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 200]])
 })
 
 test('closeTabWithViewlet should close active middle tab and switch to next tab', async () => {
@@ -2267,4 +2268,5 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
   expect(result.layout.groups[0].tabs.length).toBe(2)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(3)
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 200]])
 })

@@ -8,6 +8,7 @@ export default [
     rules: {
       '@cspell/spellchecker': 'off',
       '@typescript-eslint/prefer-readonly-parameter-types': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
     },
   },
 ]

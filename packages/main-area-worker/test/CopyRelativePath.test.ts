@@ -105,6 +105,10 @@ test('copyRelativePath should return the same state', async () => {
   expect(result).toBe(state)
   expect(result.uid).toBe(456)
   expect(result.layout.activeGroupId).toBe(2)
+  expect(mockRpc.invocations).toEqual([
+    ['Workspace.pathBaseName', path],
+    ['ClipBoard.writeText', 'file.ts'],
+  ])
 })
 
 test('copyRelativePath should handle file URIs', async () => {

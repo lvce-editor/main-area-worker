@@ -9,7 +9,7 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
   const tab = FindTabInState.findTabInState(state, groupId, tabId)
   const commands: ViewletCommand[] = []
 
-  if (tab && tab.editorUid !== undefined) {
+  if (tab && tab.editorUid !== -1) {
     const { commands: disposeCommands } = ViewletLifecycle.disposeViewletForTab(state, tabId)
     commands.push(...disposeCommands)
   }

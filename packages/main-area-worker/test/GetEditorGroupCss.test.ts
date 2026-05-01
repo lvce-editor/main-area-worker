@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
-import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 import type { MainAreaLayout } from '../src/parts/MainAreaLayout/MainAreaLayout.ts'
 import { getEditorGroupCss } from '../src/parts/GetEditorGroupCss/GetEditorGroupCss.ts'
+import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 
 test('getEditorGroupCss should use width variable for horizontal layouts', () => {
   const layout: MainAreaLayout = {

@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
-import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 import type { MainAreaLayout } from '../src/parts/MainAreaLayout/MainAreaLayout.ts'
 import { getSashCss } from '../src/parts/GetSashCss/GetSashCss.ts'
+import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 
 test('getSashCss should return no rules when layout has one group', () => {
   const layout: MainAreaLayout = {

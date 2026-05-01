@@ -29,8 +29,7 @@ export const focusIndex = async (state: any, index: number): Promise<any> => {
 
   const oldEditor = editors[oldActiveIndex]
   const oldId = await ViewletMap.getModuleId(oldEditor.uri)
-
-  const oldInstance = ViewletStates.getInstance(oldId)
+  ViewletStates.getInstance(oldId)
 
   const previousUid = oldEditor.uid
   Assert.number(previousUid)
@@ -115,7 +114,6 @@ const getIsCloseButton = (tabs, index, eventX, x): number => {
     total += tabs[index].tabWidth
   }
 
-  const tab = tabs[index]
   const offset = eventX - x - total
   const closeButtonWidth = 23
   return -offset < closeButtonWidth
@@ -128,7 +126,7 @@ export const handleTabClick = (state, button, eventX, eventY): any => {
   const { activeGroupIndex, groups } = state
   const group = groups[activeGroupIndex]
 
-  const { editors, x, y } = group
+  const { editors, x } = group
   const index = GetTabIndex.getTabIndex(editors, x, eventX)
   if (index === -1) {
     return state

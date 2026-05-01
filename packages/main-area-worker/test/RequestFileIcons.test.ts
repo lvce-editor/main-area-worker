@@ -7,7 +7,6 @@ test('requestFileIcons should return empty array for empty input', async () => {
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => [],
   })
-  void mockRpc
 
   const result = await requestFileIcons([])
 
@@ -19,7 +18,6 @@ test('requestFileIcons should request icons for single file', async () => {
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-typescript'],
   })
-  void mockRpc
 
   const requests: IconRequest[] = [{ name: 'index.ts', path: '/src/index.ts', type: 1 }]
 
@@ -33,7 +31,6 @@ test('requestFileIcons should request icons for multiple files', async () => {
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-typescript', 'file-icon-javascript', 'file-icon-json'],
   })
-  void mockRpc
 
   const requests: IconRequest[] = [
     { name: 'index.ts', path: '/src/index.ts', type: 1 },
@@ -60,7 +57,6 @@ test('requestFileIcons should convert icon requests using toSimpleIconRequest', 
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['file-icon-typescript'],
   })
-  void mockRpc
 
   const requests: IconRequest[] = [
     { name: 'file.ts', path: '/path/to/file.ts', type: 3 }, // Directory type
@@ -75,7 +71,6 @@ test('requestFileIcons should return array of icon strings', async () => {
   using mockRpc = IconThemeWorker.registerMockRpc({
     'IconTheme.getIcons': async () => ['icon-1', 'icon-2', 'icon-3'],
   })
-  void mockRpc
 
   const requests: IconRequest[] = [
     { name: 'file1.ts', path: '/path/file1.ts', type: 1 },
@@ -90,4 +85,14 @@ test('requestFileIcons should return array of icon strings', async () => {
   expect(result[0]).toBe('icon-1')
   expect(result[1]).toBe('icon-2')
   expect(result[2]).toBe('icon-3')
+  expect(mockRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'file1.ts', type: 1 },
+        { name: 'file2.ts', type: 1 },
+        { name: 'file3.ts', type: 1 },
+      ],
+    ],
+  ])
 })

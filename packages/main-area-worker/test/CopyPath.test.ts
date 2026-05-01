@@ -108,6 +108,7 @@ test('copyPath should return the same state', async () => {
   expect(result).toBe(state)
   expect(result.uid).toBe(123)
   expect(result.layout.activeGroupId).toBe(1)
+  expect(mockRpc.invocations).toEqual([['ClipBoard.writeText', path]])
 })
 
 test('copyPath should handle empty string path', async () => {

@@ -10,6 +10,13 @@ import { shouldLoadContentForTab } from '../ShouldLoadContentForTab/ShouldLoadCo
 import { startContentLoading } from '../StartContentLoading/StartContentLoading.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
+interface SelectedTabData {
+  group: MainAreaState['layout']['groups'][number]
+  groupId: number
+  tab: Tab
+  tabId: number
+}
+
 const getActiveTabId = (state: MainAreaState): number | undefined => {
   const { layout } = state
   const { activeGroupId, groups } = layout
@@ -17,68 +24,154 @@ const getActiveTabId = (state: MainAreaState): number | undefined => {
   return activeGroup?.activeTabId
 }
 
-export const selectTab = async (state: MainAreaState, groupIndex: number, index: number): Promise<MainAreaState> => {
-  const { layout, uid } = state
-  const { groups } = layout
-
-  // Validate indexes
-  if (groupIndex < 0 || groupIndex >= groups.length) {
-    return state
+const getSelectedTabData = (state: MainAreaState, groupIndex: number, index: number): SelectedTabData | undefined => {
+  const group = state.layout.groups[groupIndex]
+  if (!group || index < 0 || index >= group.tabs.length) {
+    return undefined
   }
-
-  const group = groups[groupIndex]
-  if (index < 0 || index >= group.tabs.length) {
-    return state
-  }
-
   const tab = group.tabs[index]
-  const groupId = group.id
-  const tabId = tab.id
-  const isAlreadyActive = layout.activeGroupId === groupId && group.activeTabId === tabId
-
-  // Allow restored tabs without a live editor to recover even if they are already selected.
-  if (isAlreadyActive && !shouldLoadContentForTab(tab)) {
-    return state
+  return {
+    group,
+    groupId: group.id,
+    tab,
+    tabId: tab.id,
   }
+}
 
-  // Get previous active tab ID for viewlet switching
-  const previousTabId = getActiveTabId(state)
-
-  // Check if we need to load content for the newly selected tab
-  const needsLoading = shouldLoadContentForTab(tab)
-  const requestId = needsLoading ? GetNextRequestId.getNextRequestId() : 0
-
-  // Update the groups array with the new active tab and active group
-  // Also set loading state if needed
-  const updatedGroups = groups.map((g, i) => {
-    if (i !== groupIndex) {
+const getUpdatedGroups = (
+  groups: readonly MainAreaState['layout']['groups'][number][],
+  groupIndex: number,
+  needsLoading: boolean,
+  tabId: number,
+): MainAreaState['layout']['groups'] => {
+  return groups.map((group, index) => {
+    if (index !== groupIndex) {
       return {
-        ...g,
+        ...group,
         focused: false,
       }
     }
 
-    // This is the group being selected
-    const updatedTabs = needsLoading
-      ? g.tabs.map((t): Tab => {
-          if (t.id === tabId) {
-            return {
-              ...t,
-              errorMessage: '',
-              loadingState: 'loading',
-            }
+    const tabs = needsLoading
+      ? group.tabs.map((tab): Tab => {
+          if (tab.id !== tabId) {
+            return tab
           }
-          return t
+          return {
+            ...tab,
+            errorMessage: '',
+            loadingState: 'loading',
+          }
         })
-      : g.tabs
+      : group.tabs
 
     return {
-      ...g,
+      ...group,
       activeTabId: tabId,
       focused: true,
-      tabs: updatedTabs,
+      tabs,
     }
   })
+}
+
+const shouldCreateViewletForSelectedTab = (tab: Tab): boolean => {
+  return Boolean(tab.uri) && (tab.editorUid === -1 || !tab.loadingState || tab.loadingState === 'loading')
+}
+
+const getSelectedTabBounds = (state: MainAreaState) => {
+  return {
+    height: state.height - state.tabHeight,
+    width: state.width,
+    x: state.x,
+    y: state.y + state.tabHeight,
+  }
+}
+
+const getViewletModuleId = async (tab: Tab): Promise<string | undefined> => {
+  return tab.editorInput ? getViewletModuleIdForEditorInput(tab.editorInput) : RendererWorker.invoke('Layout.getModuleId', tab.uri)
+}
+
+const maybeStartLoading = async (
+  state: MainAreaState,
+  newState: MainAreaState,
+  tabId: number,
+  tab: Tab,
+  needsLoading: boolean,
+  requestId: number,
+): Promise<MainAreaState> => {
+  if (needsLoading && tab.uri) {
+    return startContentLoading(state, newState, tabId, tab.uri, requestId)
+  }
+  return newState
+}
+
+const maybeCreateViewletForSelectedTab = async (
+  state: MainAreaState,
+  newState: MainAreaState,
+  groupIndex: number,
+  index: number,
+  tabId: number,
+  tab: Tab,
+  uid: number,
+  needsLoading: boolean,
+  requestId: number,
+  switchCommands: readonly any[],
+): Promise<MainAreaState | undefined> => {
+  const selectedTab = newState.layout.groups[groupIndex].tabs[index]
+  if (!shouldCreateViewletForSelectedTab(selectedTab)) {
+    return undefined
+  }
+
+  const viewletModuleId = await getViewletModuleId(selectedTab)
+  if (!viewletModuleId) {
+    return undefined
+  }
+
+  const bounds = getSelectedTabBounds(newState)
+  let stateWithViewlet = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
+  MainAreaStates.set(uid, state, stateWithViewlet)
+
+  if (switchCommands.length > 0) {
+    await ExecuteViewletCommands.executeViewletCommands(switchCommands)
+  }
+
+  const tabWithViewlet = findTabById(stateWithViewlet, tabId)
+  if (tabWithViewlet) {
+    const { editorUid } = tabWithViewlet.tab
+    if (editorUid !== -1 && selectedTab.uri) {
+      await createViewlet(viewletModuleId, editorUid, tabId, bounds, selectedTab.uri)
+      stateWithViewlet = ViewletLifecycle.handleViewletReady(stateWithViewlet, editorUid)
+      MainAreaStates.set(uid, state, stateWithViewlet)
+    }
+  }
+
+  return maybeStartLoading(state, stateWithViewlet, tabId, tab, needsLoading, requestId)
+}
+
+export const selectTab = async (state: MainAreaState, groupIndex: number, index: number): Promise<MainAreaState> => {
+  const { layout, uid } = state
+  const { groups } = layout
+
+  if (groupIndex < 0 || groupIndex >= groups.length) {
+    return state
+  }
+
+  const selectedTabData = getSelectedTabData(state, groupIndex, index)
+  if (!selectedTabData) {
+    return state
+  }
+
+  const { group, groupId, tab, tabId } = selectedTabData
+  const isAlreadyActive = layout.activeGroupId === groupId && group.activeTabId === tabId
+
+  if (isAlreadyActive && !shouldLoadContentForTab(tab)) {
+    return state
+  }
+
+  const previousTabId = getActiveTabId(state)
+  const needsLoading = shouldLoadContentForTab(tab)
+  const requestId = needsLoading ? GetNextRequestId.getNextRequestId() : 0
+  const updatedGroups = getUpdatedGroups(groups, groupIndex, needsLoading, tabId)
 
   let newState: MainAreaState = {
     ...state,
@@ -89,73 +182,30 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     },
   }
 
-  // Switch viewlet: detach old, attach new (if ready)
   const { commands: switchCommands, newState: stateWithViewlet } = ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
   newState = stateWithViewlet
 
-  // If new tab's viewlet isn't ready yet, trigger creation (idempotent)
-  const newTab = newState.layout.groups[groupIndex].tabs[index]
-
-  if (newTab.uri && (newTab.editorUid === -1 || !newTab.loadingState || newTab.loadingState === 'loading')) {
-    const viewletModuleId = newTab.editorInput
-      ? await getViewletModuleIdForEditorInput(newTab.editorInput)
-      : await RendererWorker.invoke('Layout.getModuleId', newTab.uri)
-    if (viewletModuleId) {
-      // Calculate bounds: use main area bounds minus 35px for tab height
-      const TAB_HEIGHT = 35
-      const bounds = {
-        height: newState.height - TAB_HEIGHT,
-        width: newState.width,
-        x: newState.x,
-        y: newState.y + TAB_HEIGHT,
-      }
-      const createdState = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
-      newState = createdState
-
-      // Store updated state before creating viewlet
-      MainAreaStates.set(uid, state, newState)
-
-      // Execute viewlet commands if any
-      if (switchCommands.length > 0) {
-        await ExecuteViewletCommands.executeViewletCommands(switchCommands)
-      }
-
-      // Get the tab to extract editorUid for viewlet creation
-      const tabWithViewlet = findTabById(newState, tabId)
-      if (tabWithViewlet) {
-        const { editorUid } = tabWithViewlet.tab
-        if (editorUid !== -1 && newTab.uri) {
-          // Create the actual viewlet instance
-          await createViewlet(viewletModuleId, editorUid, tabId, bounds, newTab.uri)
-
-          // Mark viewlet as ready
-          newState = ViewletLifecycle.handleViewletReady(newState, editorUid)
-          MainAreaStates.set(uid, state, newState)
-        }
-      }
-
-      // Start loading content in the background if needed
-      if (needsLoading && tab.uri) {
-        const latestState = await startContentLoading(state, newState, tabId, tab.uri, requestId)
-        return latestState
-      }
-
-      return newState
-    }
+  const maybeCreatedState = await maybeCreateViewletForSelectedTab(
+    state,
+    newState,
+    groupIndex,
+    index,
+    tabId,
+    tab,
+    uid,
+    needsLoading,
+    requestId,
+    switchCommands,
+  )
+  if (maybeCreatedState) {
+    return maybeCreatedState
   }
 
   MainAreaStates.set(uid, state, newState)
 
-  // Execute viewlet commands if any
   if (switchCommands.length > 0) {
     await ExecuteViewletCommands.executeViewletCommands(switchCommands)
   }
 
-  // Start loading content in the background if needed
-  if (needsLoading && tab.uri) {
-    const latestState = await startContentLoading(state, newState, tabId, tab.uri, requestId)
-    return latestState
-  }
-
-  return newState
+  return maybeStartLoading(state, newState, tabId, tab, needsLoading, requestId)
 }

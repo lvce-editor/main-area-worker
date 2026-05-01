@@ -17,24 +17,7 @@ const normalizeRestoredTab = (tab: any): any => {
   }
 }
 
-const normalizeLayoutTabsForRestoreMainState = (layout: unknown): unknown => {
-  if (!layout || typeof layout !== 'object') {
-    return layout
-  }
-  const value = layout as Record<string, unknown>
-  if (!Array.isArray(value.groups)) {
-    return layout
-  }
-  return {
-    ...value,
-    groups: value.groups.map((group: any) => ({
-      ...group,
-      tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : group?.tabs,
-    })),
-  }
-}
-
-const normalizeLayoutTabsForRestoreMainAreaState = (layout: unknown): unknown => {
+const normalizeLayoutTabsForRestore = (layout: unknown): unknown => {
   if (!layout || typeof layout !== 'object') {
     return layout
   }
@@ -52,7 +35,7 @@ const normalizeLayoutTabsForRestoreMainAreaState = (layout: unknown): unknown =>
 }
 
 export const restoreMainState = (value: unknown): MainAreaLayout => {
-  const normalizedValue = normalizeLayoutTabsForRestoreMainState(value)
+  const normalizedValue = normalizeLayoutTabsForRestore(value)
   if (!isValidMainAreaLayout(normalizedValue)) {
     throw new Error('Invalid layout: value does not match MainAreaLayout type')
   }
@@ -66,7 +49,7 @@ export const restoreMainAreaState = (savedState: string, currentState: MainAreaS
     // Normalize all tabs to have editorUid: -1 so SelectTab will create viewlets
     // Mark all restored tabs as not dirty
     // Only normalize if the layout structure is valid
-    const normalizedLayout = normalizeLayoutTabsForRestoreMainAreaState(parsed.layout)
+    const normalizedLayout = normalizeLayoutTabsForRestore(parsed.layout)
 
     return {
       ...currentState,

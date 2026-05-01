@@ -9,6 +9,13 @@ import { renderSash } from '../RenderSash/RenderSash.ts'
 import { renderSingleEditorGroup } from '../RenderSingleEditorGroup/RenderSingleEditorGroup.ts'
 import * as SashId from '../SashId/SashId.ts'
 
+const getDirectionClassName = (direction: number, isSplit: boolean): string => {
+  if (!isSplit) {
+    return ''
+  }
+  return direction === LayoutDirection.Horizontal ? ClassNames.EditorGroupsVertical : ClassNames.EditorGroupsHorizontal
+}
+
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false, width: number = 0): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
   const sizeProperty = direction === LayoutDirection.Vertical ? 'height' : 'width'
@@ -18,11 +25,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
 
   const children = []
   const isSplit = groups.length > 1
-  const directionClassName = isSplit
-    ? direction === LayoutDirection.Horizontal
-      ? ClassNames.EditorGroupsVertical
-      : ClassNames.EditorGroupsHorizontal
-    : ''
+  const directionClassName = getDirectionClassName(direction, isSplit)
   const editorGroupsContainerClassName = directionClassName
     ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}`
     : ClassNames.EDITOR_GROUPS_CONTAINER

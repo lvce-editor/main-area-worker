@@ -5,6 +5,58 @@ import * as FocusEditorGroup from '../FocusEditorGroup/FocusEditorGroup.ts'
 import * as SplitEditorGroup from '../SplitEditorGroup/SplitEditorGroup.ts'
 import * as SwitchTab from '../SwitchTab/SwitchTab.ts'
 
+type MainAreaClickDataset = Record<string, string>
+
+const parseId = (value: string | undefined): number | undefined => {
+  if (!value) {
+    return undefined
+  }
+  const parsedValue = Number.parseInt(value, 10)
+  return Number.isNaN(parsedValue) ? undefined : parsedValue
+}
+
+const getTabLocation = (dataset: MainAreaClickDataset): { groupId: number; tabId: number } | undefined => {
+  const groupId = parseId(dataset.groupId)
+  const tabId = parseId(dataset.tabId)
+  if (groupId === undefined || tabId === undefined) {
+    return undefined
+  }
+  return { groupId, tabId }
+}
+
+const handleTabClick = (state: MainAreaState, dataset: MainAreaClickDataset): MainAreaState | undefined => {
+  const location = getTabLocation(dataset)
+  if (!location) {
+    return undefined
+  }
+  return SwitchTab.switchTab(state, location.groupId, location.tabId)
+}
+
+const handleTabClose = (state: MainAreaState, dataset: MainAreaClickDataset): MainAreaState | undefined => {
+  const location = getTabLocation(dataset)
+  if (!location) {
+    return undefined
+  }
+  return CloseTab.closeTab(state, location.groupId, location.tabId)
+}
+
+const handleGroupFocus = (state: MainAreaState, dataset: MainAreaClickDataset): MainAreaState | undefined => {
+  const groupId = parseId(dataset.groupId)
+  if (groupId === undefined) {
+    return undefined
+  }
+  return FocusEditorGroup.focusEditorGroup(state, groupId)
+}
+
+const handleSplitAction = (state: MainAreaState, dataset: MainAreaClickDataset): MainAreaState | undefined => {
+  const groupId = parseId(dataset.groupId)
+  if (groupId === undefined || !dataset.action?.startsWith('split-')) {
+    return undefined
+  }
+  const direction = dataset.action.replace('split-', '') as SplitDirection
+  return SplitEditorGroup.splitEditorGroup(state, groupId, direction)
+}
+
 export const handleMainAreaClick = (
   state: MainAreaState,
   event: {
@@ -21,47 +73,31 @@ export const handleMainAreaClick = (
 
   const { dataset } = target
 
-  // Handle tab click
   if (dataset.tabId) {
-    const { groupId } = dataset
-    if (groupId) {
-      const parsedGroupId = Number.parseInt(groupId, 10)
-      const parsedTabId = Number.parseInt(dataset.tabId, 10)
-      if (!Number.isNaN(parsedGroupId) && !Number.isNaN(parsedTabId)) {
-        return SwitchTab.switchTab(state, parsedGroupId, parsedTabId)
-      }
+    const nextState = handleTabClick(state, dataset)
+    if (nextState) {
+      return nextState
     }
   }
 
-  // Handle tab close button
   if (dataset.action === 'close-tab' && dataset.tabId) {
-    const { groupId } = dataset
-    if (groupId) {
-      const parsedGroupId = Number.parseInt(groupId, 10)
-      const parsedTabId = Number.parseInt(dataset.tabId, 10)
-      if (!Number.isNaN(parsedGroupId) && !Number.isNaN(parsedTabId)) {
-        return CloseTab.closeTab(state, parsedGroupId, parsedTabId)
-      }
+    const nextState = handleTabClose(state, dataset)
+    if (nextState) {
+      return nextState
     }
   }
 
-  // Handle editor group focus
   if (dataset.groupId && !dataset.tabId) {
-    const parsedGroupId = Number.parseInt(dataset.groupId, 10)
-    if (!Number.isNaN(parsedGroupId)) {
-      return FocusEditorGroup.focusEditorGroup(state, parsedGroupId)
+    const nextState = handleGroupFocus(state, dataset)
+    if (nextState) {
+      return nextState
     }
   }
 
-  // Handle split actions
   if (dataset.action?.startsWith('split-')) {
-    const { groupId } = dataset
-    if (groupId) {
-      const parsedGroupId = Number.parseInt(groupId, 10)
-      if (!Number.isNaN(parsedGroupId)) {
-        const direction = dataset.action.replace('split-', '') as SplitDirection
-        return SplitEditorGroup.splitEditorGroup(state, parsedGroupId, direction)
-      }
+    const nextState = handleSplitAction(state, dataset)
+    if (nextState) {
+      return nextState
     }
   }
 

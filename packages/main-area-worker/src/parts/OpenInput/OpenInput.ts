@@ -17,6 +17,86 @@ import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
+const getTabCount = (state: MainAreaState): number => {
+  return state.layout.groups.reduce((sum: number, group: EditorGroup) => sum + group.tabs.length, 0)
+}
+
+const getCurrentState = (state: MainAreaState): MainAreaState => {
+  const { uid } = state
+  const stateFromStore = get(uid)
+  if (!stateFromStore) {
+    set(uid, state, state)
+    return state
+  }
+
+  const storedState = stateFromStore.newState
+  if (getTabCount(storedState) > getTabCount(state)) {
+    return storedState
+  }
+
+  set(uid, state, state)
+  return state
+}
+
+const getStateWithTab = (
+  currentState: MainAreaState,
+  editorInput: OpenInputOptions['editorInput'],
+  existingTab: ReturnType<typeof findTabByUri>,
+  shouldRetryExistingTab: boolean,
+  uri: string,
+  preview: boolean,
+  title: string,
+  editorType: string,
+): { stateWithTab: MainAreaState; tabId: number } => {
+  if (shouldRetryExistingTab && existingTab) {
+    const focusedState = focusEditorGroup(currentState, existingTab.groupId)
+    return {
+      stateWithTab: updateTab(focusedState, existingTab.tab.id, {
+        editorInput,
+        errorMessage: '',
+        loadingState: 'loading',
+        title,
+        uri,
+      }),
+      tabId: existingTab.tab.id,
+    }
+  }
+
+  const stateWithTab = ensureActiveGroup(currentState, uri, preview, title, editorType, editorInput)
+  return {
+    stateWithTab,
+    tabId: getActiveTabId(stateWithTab)!,
+  }
+}
+
+const updateTabIcon = async (uid: number, state: MainAreaState, readyState: MainAreaState, tabId: number): Promise<MainAreaState | undefined> => {
+  const newTab = findTabById(readyState, tabId)
+  if (!newTab || !newTab.tab.uri) {
+    return undefined
+  }
+
+  try {
+    const { newFileIconCache } = await getFileIconsForTabs([newTab.tab], readyState.fileIconCache)
+    const { newState: stateBeforeIconUpdate } = get(uid)
+    const icon = newFileIconCache[newTab.tab.uri] || ''
+    const stateWithIcon = {
+      ...stateBeforeIconUpdate,
+      fileIconCache: newFileIconCache,
+      layout: {
+        ...stateBeforeIconUpdate.layout,
+        groups: stateBeforeIconUpdate.layout.groups.map((group: EditorGroup) => ({
+          ...group,
+          tabs: group.tabs.map((tab: Tab) => (tab.id === tabId ? { ...tab, icon } : tab)),
+        })),
+      },
+    }
+    set(uid, state, stateWithIcon)
+    return stateWithIcon
+  } catch {
+    return undefined
+  }
+}
+
 export const openInput = async (state: MainAreaState, options: OpenInputOptions): Promise<MainAreaState> => {
   Assert.object(state)
   Assert.object(options)
@@ -36,41 +116,8 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
   }
 
   const previousTabId = getActiveTabId(state)
-  const stateFromStore = get(uid)
-  let currentState: MainAreaState
-
-  if (stateFromStore) {
-    const storedState = stateFromStore.newState
-    const storedTabCount = storedState.layout.groups.reduce((sum: number, group: EditorGroup) => sum + group.tabs.length, 0)
-    const passedTabCount = state.layout.groups.reduce((sum: number, group: EditorGroup) => sum + group.tabs.length, 0)
-
-    if (storedTabCount > passedTabCount) {
-      currentState = storedState
-    } else {
-      currentState = state
-      set(uid, state, state)
-    }
-  } else {
-    currentState = state
-    set(uid, state, state)
-  }
-
-  let tabId: number
-  let stateWithTab: MainAreaState
-  if (shouldRetryExistingTab && existingTab) {
-    const focusedState = focusEditorGroup(currentState, existingTab.groupId)
-    stateWithTab = updateTab(focusedState, existingTab.tab.id, {
-      editorInput,
-      errorMessage: '',
-      loadingState: 'loading',
-      title,
-      uri,
-    })
-    tabId = existingTab.tab.id
-  } else {
-    stateWithTab = ensureActiveGroup(currentState, uri, preview, title, editorType, editorInput)
-    tabId = getActiveTabId(stateWithTab)!
-  }
+  const currentState = getCurrentState(state)
+  const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetryExistingTab, uri, preview, title, editorType)
 
   set(uid, state, stateWithTab)
 
@@ -116,28 +163,9 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
 
     set(uid, state, readyState)
 
-    try {
-      const newTab = findTabById(readyState, tabId)
-      if (newTab && newTab.tab.uri) {
-        const { newFileIconCache } = await getFileIconsForTabs([newTab.tab], readyState.fileIconCache)
-        const { newState: stateBeforeIconUpdate } = get(uid)
-        const icon = newFileIconCache[newTab.tab.uri] || ''
-        const stateWithIcon = {
-          ...stateBeforeIconUpdate,
-          fileIconCache: newFileIconCache,
-          layout: {
-            ...stateBeforeIconUpdate.layout,
-            groups: stateBeforeIconUpdate.layout.groups.map((group: EditorGroup) => ({
-              ...group,
-              tabs: group.tabs.map((tab: Tab) => (tab.id === tabId ? { ...tab, icon } : tab)),
-            })),
-          },
-        }
-        set(uid, state, stateWithIcon)
-        return stateWithIcon
-      }
-    } catch {
-      // ignore
+    const stateWithIcon = await updateTabIcon(uid, state, readyState, tabId)
+    if (stateWithIcon) {
+      return stateWithIcon
     }
 
     const { newState: finalState } = get(uid)

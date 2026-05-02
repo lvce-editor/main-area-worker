@@ -235,6 +235,49 @@ test('saveState should preserve editorInput for custom tabs', () => {
   })
 })
 
+test('saveState should normalize extension detail tabs based on URI', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'extension-detail://chat',
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'chat',
+              uri: 'extension-detail://chat',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result: SavedState = saveState(state)
+
+  expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[0].editorInput).toEqual({
+    extensionId: 'chat',
+    type: 'extension-detail-view',
+  })
+})
+
 test('saveState should save layout with undefined activeGroupId', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

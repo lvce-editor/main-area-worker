@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { IconThemeWorker } from '@lvce-editor/rpc-registry'
+import { IconThemeWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as LoadContent from '../src/parts/LoadContent/LoadContent.ts'
 
@@ -635,4 +635,88 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
   ])
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
   expect(result.layout.groups[1].tabs[0].icon).toBe('file-icon-text')
+})
+
+test('loadContent should restore extension detail tabs with the correct editor input type', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => {
+      throw new Error('should not resolve extension detail tabs through Layout.getModuleId')
+    },
+  })
+
+  using iconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['extensions', 'extensions'],
+  })
+
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'theme-ayu',
+              uri: 'extension-detail://theme-ayu',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'chat',
+              uri: 'extension-detail://chat',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[1].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[0].editorInput).toEqual({
+    extensionId: 'theme-ayu',
+    type: 'extension-detail-view',
+  })
+  expect(result.layout.groups[0].tabs[1].editorInput).toEqual({
+    extensionId: 'chat',
+    type: 'extension-detail-view',
+  })
+  expect(rendererRpc.invocations).toEqual([
+    [
+      'Layout.createViewlet',
+      'ExtensionDetail',
+      expect.any(Number),
+      2,
+      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
+      'extension-detail://chat',
+    ],
+  ])
+  expect(iconRpc.invocations).toEqual([
+    [
+      'IconTheme.getIcons',
+      [
+        { name: 'theme-ayu', type: 1 },
+        { name: 'chat', type: 1 },
+      ],
+    ],
+  ])
 })

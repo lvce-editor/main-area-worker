@@ -292,6 +292,31 @@ test('openUri should create group when activeGroupId points to non-existent grou
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
 })
 
+test('openUri should open extension detail URIs with extension detail editor input', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+
+  const state = createDefaultState()
+
+  const result = await openUri(state, {
+    focu: false,
+    preview: false,
+    uri: 'extension-detail://chat',
+  })
+
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(tab.editorType).toBe('custom')
+  expect(tab.editorInput).toEqual({
+    extensionId: 'chat',
+    type: 'extension-detail-view',
+  })
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail://chat'],
+  ])
+})
+
 test('openUri should validate state parameter', async () => {
   const options: OpenUriOptions = {
     focu: false,

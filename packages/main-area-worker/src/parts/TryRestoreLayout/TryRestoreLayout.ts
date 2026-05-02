@@ -1,11 +1,13 @@
 import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import { isValidMainAreaLayout } from '../IsValidMainAreaLayout/IsValidMainAreaLayout.ts'
 import { normalizeLayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
+import { normalizeTabEditorInput } from '../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 
 const normalizeRestoredTab = (tab: any): any => {
   const { errorMessage: _errorMessage, loadingState: _loadingState, ...rest } = tab ?? {}
+  const normalizedTab = normalizeTabEditorInput(rest)
   return {
-    ...rest,
+    ...normalizedTab,
     editorUid: -1,
     isDirty: false,
     isPreview: typeof tab?.isPreview === 'boolean' ? tab.isPreview : false,

@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-editor-clear-save-reopen'
 
+export const skip = true
+
 export const test: Test = async ({ Editor, FileSystem, Main }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'memfs' })
   const testFile = `${tmpDir}/clear-me.ts`

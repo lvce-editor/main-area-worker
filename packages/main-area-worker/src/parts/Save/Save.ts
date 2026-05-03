@@ -1,6 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
-import { saveEditor } from '../SaveEditor/SaveEditor.ts'
+import { getEditorSaveState, saveEditor } from '../SaveEditor/SaveEditor.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
 export const save = async (state: MainAreaState): Promise<MainAreaState> => {
@@ -17,6 +17,11 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   await saveEditor(tab.editorUid)
 
   if (!tab.isDirty) {
+    return state
+  }
+
+  const editorState = await getEditorSaveState(tab.editorUid)
+  if (editorState.modified) {
     return state
   }
 

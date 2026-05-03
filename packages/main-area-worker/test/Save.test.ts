@@ -182,6 +182,7 @@ test('save should return state when no focused group', async () => {
 test('save should set isDirty to false when tab is loaded and dirty', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => undefined,
+    'Editor.saveState': async () => ({ modified: false }),
   })
 
   const state: MainAreaState = {
@@ -223,6 +224,7 @@ test('save should set isDirty to false when tab is loaded and dirty', async () =
 test('save should preserve other tab properties when saving', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => undefined,
+    'Editor.saveState': async () => ({ modified: false }),
   })
 
   const state: MainAreaState = {
@@ -269,6 +271,7 @@ test('save should preserve other tab properties when saving', async () => {
 test('save should handle multiple groups correctly', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => undefined,
+    'Editor.saveState': async () => ({ modified: false }),
   })
 
   const state: MainAreaState = {
@@ -325,4 +328,48 @@ test('save should handle multiple groups correctly', async () => {
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
   expect(result.layout.groups[1].tabs[0].isDirty).toBe(true)
   expect(_mockRpc.invocations[0]).toEqual(['Editor.save', 111])
+})
+
+test('save should keep tab dirty when editor save fails', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Editor.save': async () => undefined,
+    'Editor.saveState': async () => ({ modified: true }),
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 123,
+              icon: '',
+              id: 1,
+              isDirty: true,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await save(state)
+
+  expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.save', 123],
+    ['Editor.saveState', 123],
+  ])
 })

@@ -108,15 +108,15 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
   const title = getEditorInputTitle(editorInput)
   const editorType = getEditorInputEditorType(editorInput)
 
-  const existingTab = findTabByUri(state, uri)
+  const currentState = getCurrentState(state)
+  const existingTab = findTabByUri(currentState, uri)
   const shouldRetryExistingTab = !!existingTab && existingTab.tab.loadingState === 'error'
   if (existingTab && !shouldRetryExistingTab) {
-    const focusedState = focusEditorGroup(state, existingTab.groupId)
+    const focusedState = focusEditorGroup(currentState, existingTab.groupId)
     return switchTab(focusedState, existingTab.groupId, existingTab.tab.id)
   }
 
-  const previousTabId = getActiveTabId(state)
-  const currentState = getCurrentState(state)
+  const previousTabId = getActiveTabId(currentState)
   const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetryExistingTab, uri, preview, title, editorType)
 
   set(uid, state, stateWithTab)

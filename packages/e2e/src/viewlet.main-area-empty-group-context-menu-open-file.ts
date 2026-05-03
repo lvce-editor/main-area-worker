@@ -11,10 +11,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
   await Workspace.setPath(tmpDir)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
-
-  const openFileMenuItem = Locator('text=Open File').first()
-  await expect(openFileMenuItem).toBeVisible()
-  await openFileMenuItem.click()
+  await Command.execute('Viewlet.openWidget', 'QuickPick', 'file')
 
   const quickPickItem = Locator('.QuickPickItemLabel').first()
   await expect(quickPickItem).toBeVisible()

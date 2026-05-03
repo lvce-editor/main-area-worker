@@ -27,6 +27,7 @@ import {
   SplitAndMove,
   MoveIntoNewWindow,
   CopyIntoNewWindow,
+  NewTextFile,
   TogglePreview,
   Retry,
 } from '../UiStrings/UiStrings.ts'
@@ -57,6 +58,10 @@ export const splitEditorGroup = (): string => {
 
 export const newWindow = (): string => {
   return I18nString.i18nString(NewWindow)
+}
+
+export const newTextFile = (): string => {
+  return I18nString.i18nString(NewTextFile)
 }
 
 export const close = (): string => {

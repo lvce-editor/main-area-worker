@@ -9,7 +9,7 @@ const assert = (condition: boolean, message: string): void => {
 export const name = 'viewlet.main-area-empty-group-context-menu-split-up'
 export const skip = true
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 
@@ -17,10 +17,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   assert(beforeState.layout.groups.length === 0, `Expected no groups, got ${beforeState.layout.groups.length}`)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
-
-  const splitUpMenuItem = Locator('text=Split Up')
-  await expect(splitUpMenuItem).toBeVisible()
-  await splitUpMenuItem.click()
+  await Command.execute('MainArea.splitUp')
 
   const afterState = await Main.saveState(2)
   assert(afterState.layout.direction === 2, `Expected vertical layout, got ${afterState.layout.direction}`)

@@ -18,6 +18,7 @@ export const getMenuEntries = (state: MainAreaState): readonly any[] => {
     return []
   }
   const { uri: path } = tab
+  console.log({ tab })
   return [
     {
       command: 'Main.closeFocusedTab',

@@ -10,6 +10,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
 
+  await expect(Locator('text=New Text File')).toBeVisible()
   await expect(Locator('text=Open File')).toBeVisible()
   await expect(Locator('text=Split Up')).toBeVisible()
   await expect(Locator('text=Split Down')).toBeVisible()

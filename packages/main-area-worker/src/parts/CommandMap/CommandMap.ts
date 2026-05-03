@@ -5,6 +5,7 @@ import { closeEditorGroup } from '../CloseEditorGroup/CloseEditorGroup.ts'
 import { closeFocusedTab } from '../CloseFocusedTab/CloseFocusedTab.ts'
 import { closeOtherTabs } from '../CloseOtherTabs/CloseOtherTabs.ts'
 import { closeSaved } from '../CloseSaved/CloseSaved.ts'
+import { closeTabsByUris } from '../CloseTabsByUris/CloseTabsByUris.ts'
 import { closeTabsRight } from '../CloseTabsRight/CloseTabsRight.ts'
 import { copyPath } from '../CopyPath/CopyPath.ts'
 import { copyRelativePath } from '../CopyRelativePath/CopyRelativePath.ts'
@@ -51,6 +52,26 @@ import { splitRight } from '../SplitRight/SplitRight.ts'
 import { splitUp } from '../SplitUp/SplitUp.ts'
 
 export const commandMap = {
+  'Main.closeActiveEditor': wrapCommand(closeActiveEditor),
+  'Main.closeAll': wrapCommand(closeAll),
+  'Main.closeAllEditors': wrapCommand(closeAll),
+  'Main.closeFocusedTab': wrapCommand(closeFocusedTab),
+  'Main.closeOthers': wrapCommand(closeOtherTabs),
+  'Main.closeSaved': wrapCommand(closeSaved),
+  'Main.closeTabsRight': wrapCommand(closeTabsRight),
+  'Main.closeTabsByUris': wrapCommand(closeTabsByUris),
+  'Main.copyPath': wrapCommand(copyPath),
+  'Main.copyRelativePath': wrapCommand(copyRelativePath),
+  'Main.focusNext': wrapCommand(focusNextTab),
+  'Main.focusNextTab': wrapCommand(focusNextTab),
+  'Main.focusPrevious': wrapCommand(focusPreviousTab),
+  'Main.focusPreviousTab': wrapCommand(focusPreviousTab),
+  'Main.handleTabContextMenu': wrapCommand(handleTabContextMenu),
+  'Main.openInput': wrapCommand(openInput),
+  'Main.openUri': wrapCommand(openUri),
+  'Main.openUris': wrapCommand(openUris),
+  'Main.save': wrapCommand(save),
+  'Main.splitRight': wrapCommand(splitRight),
   'MainArea.closeActiveEditor': wrapCommand(closeActiveEditor),
   'MainArea.closeAll': wrapCommand(closeAll),
   'MainArea.closeAllEditors': wrapCommand(closeAll),
@@ -59,6 +80,7 @@ export const commandMap = {
   'MainArea.closeOthers': wrapCommand(closeOtherTabs),
   'MainArea.closeSaved': wrapCommand(closeSaved),
   'MainArea.closeTabsRight': wrapCommand(closeTabsRight),
+  'MainArea.closeTabsByUris': wrapCommand(closeTabsByUris),
   'MainArea.copyPath': wrapCommand(copyPath),
   'MainArea.copyRelativePath': wrapCommand(copyRelativePath),
   'MainArea.create': MainArea.create,

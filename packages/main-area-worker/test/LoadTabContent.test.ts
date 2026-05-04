@@ -139,6 +139,32 @@ test('loadTabContentAsync handles error', async () => {
   expect(mockRpc.invocations.length).toBe(1)
 })
 
+test('loadTabContentAsync normalizes directory read errors', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.readFile': async () => {
+      throw new Error('EISDIR: illegal operation on a directory, read')
+    },
+  })
+
+  GetNextRequestId.resetRequestIdCounter()
+  const requestId = GetNextRequestId.getNextRequestId()
+
+  const state: MainAreaState = {
+    ...createStateWithTab({
+      loadingState: 'loading',
+    }),
+  }
+
+  const getLatestState = (): MainAreaState => state
+
+  const result = await LoadTabContent.loadTabContentAsync(1, '/test/folder', requestId, getLatestState)
+
+  const tab = LoadTabContent.findTab(result, 1)
+  expect(tab?.loadingState).toBe('error')
+  expect(tab?.errorMessage).toBe('Expected a file but received a folder')
+  expect(mockRpc.invocations.length).toBe(1)
+})
+
 test.skip('loadTabContentAsync discards result when request ID changed (race condition)', async () => {
   RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => 'old content',

@@ -22,6 +22,16 @@ export const loadFileContent = async (path: string): Promise<string> => {
   return content
 }
 
+const getLoadFileErrorMessage = (error: unknown): string => {
+  if (!(error instanceof Error)) {
+    return 'Failed to load file content'
+  }
+  if (error.message.includes('EISDIR') || error.message.includes('illegal operation on a directory') || error.message.includes('is a directory')) {
+    return 'Expected a file but received a folder'
+  }
+  return error.message
+}
+
 export const loadTabContentAsync = async (
   tabId: number,
   path: string,
@@ -67,7 +77,7 @@ export const loadTabContentAsync = async (
       return latestState
     }
 
-    const errorMessage = error instanceof Error ? error.message : 'Failed to load file content'
+    const errorMessage = getLoadFileErrorMessage(error)
     return updateTab(latestState, tabId, {
       errorMessage,
       loadingState: 'error',

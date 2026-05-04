@@ -2,6 +2,7 @@ import { afterEach, expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as DirentType from '../src/parts/DirentType/DirentType.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openInput } from '../src/parts/OpenInput/OpenInput.ts'
 
@@ -159,4 +160,27 @@ test('openInput should activate existing diff editor tab', async () => {
 
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('openInput should show an error when opening a folder path', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.stat': async () => DirentType.Directory,
+  })
+
+  const state = createDefaultState()
+
+  const result = await openInput(state, {
+    editorInput: {
+      type: 'editor',
+      uri: '/tmp/folder-to-open',
+    },
+    focu: false,
+    preview: false,
+  })
+
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(tab.loadingState).toBe('error')
+  expect(tab.errorMessage).toBe('Expected a file but received a folder')
+  expect(mockRpc.invocations).toEqual([['FileSystem.stat', '/tmp/folder-to-open']])
 })

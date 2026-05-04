@@ -1,7 +1,10 @@
+import { RendererWorker } from '@lvce-editor/rpc-registry'
+import type { EditorInput } from '../EditorInput/EditorInput.ts'
 import type { MainAreaState, EditorGroup, EditorType, Tab } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
+import * as DirentType from '../DirentType/DirentType.ts'
 import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
@@ -97,6 +100,33 @@ const updateTabIcon = async (uid: number, state: MainAreaState, readyState: Main
   }
 }
 
+const isLocalEditorInput = (editorInput: EditorInput): editorInput is Extract<EditorInput, { type: 'editor' }> => {
+  if (editorInput.type !== 'editor') {
+    return false
+  }
+  return editorInput.uri.startsWith('file://') || !editorInput.uri.includes('://')
+}
+
+const shouldCheckDirectoryEditorInput = (editorInput: EditorInput): editorInput is Extract<EditorInput, { type: 'editor' }> => {
+  if (!isLocalEditorInput(editorInput)) {
+    return false
+  }
+  const baseName = editorInput.uri.slice(editorInput.uri.lastIndexOf('/') + 1)
+  return baseName.endsWith('/') || (baseName !== '' && !baseName.includes('.'))
+}
+
+const isDirectoryEditorInput = async (editorInput: OpenInputOptions['editorInput']): Promise<boolean> => {
+  if (!shouldCheckDirectoryEditorInput(editorInput)) {
+    return false
+  }
+  try {
+    const type = await RendererWorker.invoke('FileSystem.stat', editorInput.uri)
+    return type === DirentType.Directory
+  } catch {
+    return false
+  }
+}
+
 export const openInput = async (state: MainAreaState, options: OpenInputOptions): Promise<MainAreaState> => {
   Assert.object(state)
   Assert.object(options)
@@ -120,6 +150,16 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
   const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetryExistingTab, uri, preview, title, editorType)
 
   set(uid, state, stateWithTab)
+
+  if (await isDirectoryEditorInput(editorInput)) {
+    const { newState: latestState } = get(uid)
+    const errorState = updateTab(latestState, tabId, {
+      errorMessage: 'Expected a file but received a folder',
+      loadingState: 'error',
+    })
+    set(uid, state, errorState)
+    return errorState
+  }
 
   try {
     const viewletModuleId = await getViewletModuleIdForEditorInput(editorInput)

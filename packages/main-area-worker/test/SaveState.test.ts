@@ -311,8 +311,16 @@ test('saveState should save layout with empty groups', () => {
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0]).toEqual({
+    activeTabId: undefined,
+    focused: false,
+    id: 1,
+    isEmpty: true,
+    size: 100,
+    tabs: [],
+  })
+  expect(result.layout.activeGroupId).toBe(1)
 })
 
 test('saveState should return a new object, not mutate the original state', () => {
@@ -404,7 +412,7 @@ test('saveState should filter out untitled editors from tabs', () => {
   expect(result.layout.groups[0].tabs[1].title).toBe('File 2')
 })
 
-test('saveState should remove groups that become empty after filtering untitled editors', () => {
+test('saveState should preserve groups that become empty after filtering untitled editors', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -463,12 +471,20 @@ test('saveState should remove groups that become empty after filtering untitled 
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[0].title).toBe('File 1')
+  expect(result.layout.groups[1]).toEqual({
+    activeTabId: undefined,
+    focused: false,
+    id: 2,
+    isEmpty: true,
+    size: 50,
+    tabs: [],
+  })
 })
 
-test('saveState should set activeGroupId to undefined if active group is removed due to being empty', () => {
+test('saveState should preserve activeGroupId when active group becomes empty after filtering', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -498,8 +514,16 @@ test('saveState should set activeGroupId to undefined if active group is removed
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0]).toEqual({
+    activeTabId: undefined,
+    focused: true,
+    id: 1,
+    isEmpty: true,
+    size: 100,
+    tabs: [],
+  })
+  expect(result.layout.activeGroupId).toBe(1)
 })
 
 test('saveState should preserve activeGroupId if active group still has tabs after filtering', () => {
@@ -665,11 +689,19 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups).toHaveLength(2)
-  expect(result.layout.groups[0].id).toBe(2)
-  expect(result.layout.groups[0].tabs).toHaveLength(1)
-  expect(result.layout.groups[0].tabs[0].title).toBe('File A')
-  expect(result.layout.groups[1].id).toBe(3)
-  expect(result.layout.groups[1].tabs).toHaveLength(2)
+  expect(result.layout.groups).toHaveLength(3)
+  expect(result.layout.groups[0]).toEqual({
+    activeTabId: undefined,
+    focused: false,
+    id: 1,
+    isEmpty: true,
+    size: 33,
+    tabs: [],
+  })
+  expect(result.layout.groups[1].id).toBe(2)
+  expect(result.layout.groups[1].tabs).toHaveLength(1)
+  expect(result.layout.groups[1].tabs[0].title).toBe('File A')
+  expect(result.layout.groups[2].id).toBe(3)
+  expect(result.layout.groups[2].tabs).toHaveLength(2)
   expect(result.layout.activeGroupId).toBe(2)
 })

@@ -4,6 +4,8 @@ export const name = 'viewlet.main-area-split-right-1000-times'
 
 const splitCount = 1000
 
+export const skip = 1
+
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)

@@ -26,7 +26,7 @@ export const getSashCss = (layout: MainAreaLayout, width: number = 0): readonly 
       segments.some((segment) => segment.direction !== undefined) || layout.direction !== LayoutDirection.Horizontal || !width
         ? `${segmentOffset}%`
         : getSashOffset(layout, i, width)
-    rules.push(`[data-sashId="${escapedSashId}"] {
+    rules.push(`[data-sash-id="${escapedSashId}"] {
   ${sashPositionProperty}: ${sashOffset};
 }`)
   }
@@ -44,7 +44,7 @@ export const getSashCss = (layout: MainAreaLayout, width: number = 0): readonly 
       const sashId = SashId.create(beforeGroupId, afterGroupId)
       const escapedSashId = escapeCssAttributeValue(sashId)
       const relativeOffset = Number(((nestedOffset / segmentSize) * 100).toFixed(6))
-      rules.push(`[data-sashId="${escapedSashId}"] {
+      rules.push(`[data-sash-id="${escapedSashId}"] {
   ${nestedProperty}: ${relativeOffset}%;
 }`)
     }

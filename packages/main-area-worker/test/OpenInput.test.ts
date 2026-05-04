@@ -184,3 +184,60 @@ test('openInput should show an error when opening a folder path', async () => {
   expect(tab.errorMessage).toBe('Expected a file but received a folder')
   expect(mockRpc.invocations).toEqual([['FileSystem.stat', '/tmp/folder-to-open']])
 })
+
+test('openInput should activate an existing stored tab when the call-site state is stale', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+
+  const staleState = createDefaultState()
+  const storedState: MainAreaState = {
+    ...staleState,
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'file:///path/to/file.ts',
+              },
+              editorType: 'text',
+              editorUid: 1,
+              errorMessage: '',
+              icon: 'file-icon',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              language: 'typescript',
+              loadingState: 'idle',
+              title: 'file.ts',
+              uri: 'file:///path/to/file.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  MainAreaStates.set(staleState.uid, staleState, storedState)
+
+  const result = await openInput(staleState, {
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///path/to/file.ts',
+    },
+    focu: false,
+    preview: false,
+  })
+
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toEqual([])
+})

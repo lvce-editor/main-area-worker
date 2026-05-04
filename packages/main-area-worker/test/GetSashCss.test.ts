@@ -144,3 +144,49 @@ test('getSashCss should use pixel left positions for horizontal layouts with ove
 }`,
   ])
 })
+
+test('getSashCss should use percentage offsets for nested segments and nested sashes', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: 1,
+    direction: LayoutDirection.Horizontal,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: false,
+        id: 1,
+        isEmpty: true,
+        size: 30,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        direction: LayoutDirection.Vertical,
+        focused: false,
+        id: 2,
+        isEmpty: true,
+        size: 20,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        direction: LayoutDirection.Vertical,
+        focused: false,
+        id: 3,
+        isEmpty: true,
+        size: 50,
+        tabs: [],
+      },
+    ],
+  }
+
+  const result = getSashCss(layout, 600)
+
+  expect(result).toEqual([
+    `[data-sash-id="1:2"] {
+  left: 30%;
+}`,
+    `[data-sash-id="2:3"] {
+  top: 28.571429%;
+}`,
+  ])
+})

@@ -5,13 +5,15 @@ import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEven
 import * as InputName from '../InputName/InputName.ts'
 import * as MainStrings from '../MainStrings/MainStrings.ts'
 
+const emptyHeader: VirtualDomNode = {
+  childCount: 1,
+  className: ClassNames.EmptyGroupHeader,
+  type: VirtualDomElements.Div,
+}
+
 export const renderEmptyGroupCloseButton = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   return [
-    {
-      childCount: 1,
-      className: ClassNames.EmptyGroupHeader,
-      type: VirtualDomElements.Div,
-    },
+    emptyHeader,
     {
       childCount: 1,
       className: ClassNames.EmptyGroupCloseButton,

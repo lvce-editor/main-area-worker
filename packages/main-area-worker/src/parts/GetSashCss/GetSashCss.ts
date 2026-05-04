@@ -5,8 +5,8 @@ import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import * as SashId from '../SashId/SashId.ts'
 
 interface ProtoSashCss {
-  readonly sashId: string
   readonly property: 'left' | 'top'
+  readonly sashId: string
   readonly value: string
 }
 
@@ -18,7 +18,7 @@ const toSashProperty = (direction: LayoutDirection.LayoutDirection): 'left' | 't
   return direction === LayoutDirection.Horizontal ? 'left' : 'top'
 }
 
-const renderSashCss = ({ sashId, property, value }: ProtoSashCss): string => {
+const renderSashCss = ({ property, sashId, value }: ProtoSashCss): string => {
   const escapedSashId = escapeCssAttributeValue(sashId)
   return `[data-sash-id="${escapedSashId}"] {
   ${property}: ${value};
@@ -38,8 +38,8 @@ const getProtoSashCss = (layout: MainAreaLayout, width: number): readonly ProtoS
     const value =
       hasNestedSegments || layout.direction !== LayoutDirection.Horizontal || !width ? `${segmentOffset}%` : getSashOffset(layout, i, width)
     rules.push({
-      sashId,
       property: toSashProperty(layout.direction),
+      sashId,
       value,
     })
   }
@@ -56,8 +56,8 @@ const getProtoSashCss = (layout: MainAreaLayout, width: number): readonly ProtoS
       const sashId = SashId.create(beforeGroupId, afterGroupId)
       const value = `${Number(((nestedOffset / segmentSize) * 100).toFixed(6))}%`
       rules.push({
-        sashId,
         property: toSashProperty(segment.direction),
+        sashId,
         value,
       })
     }

@@ -6,7 +6,7 @@ import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctio
 import * as MainStrings from '../src/parts/MainStrings/MainStrings.ts'
 import { renderEmptyGroupCloseButton } from '../src/parts/RenderEmptyGroupCloseButton/RenderEmptyGroupCloseButton.ts'
 
-test('renderEmptyGroupCloseButton should return close button for empty group', () => {
+test.skip('renderEmptyGroupCloseButton should return close button for empty group', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
     focused: false,

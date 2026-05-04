@@ -21,6 +21,10 @@ export const renderEmptyGroupCloseButton = (group: EditorGroup, groupIndex: numb
       title: MainStrings.closeEditorGroup(),
       type: VirtualDomElements.Button,
     },
-    text('✕'),
+    {
+      type: VirtualDomElements.Div,
+      className: 'MaskIcon MaskIconClose',
+      childCount: 0,
+    },
   ]
 }

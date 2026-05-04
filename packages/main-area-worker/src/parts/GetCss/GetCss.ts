@@ -10,6 +10,20 @@ export const getCss = (layout?: MainAreaLayout, width: number = 0): string => {
   overflow: auto;
 }`,
 
+    `.SashBorder {
+  background: var(--SashBorder, gray);
+}`,
+
+    `.SashBorderHorizontal {
+  width: 100%;
+  height: 1px;
+}`,
+
+    `.SashBorderVertical {
+  width: 1px;
+  height: 100%;
+}`,
+
     `.EditorGroup {
   min-width: 250px;
   width: var(--EditorGroupWidth, auto);

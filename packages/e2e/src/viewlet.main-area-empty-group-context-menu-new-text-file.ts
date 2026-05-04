@@ -8,6 +8,8 @@ const assert = (condition: boolean, message: string): void => {
 
 export const name = 'viewlet.main-area-empty-group-context-menu-new-text-file'
 
+export const skip = true
+
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)

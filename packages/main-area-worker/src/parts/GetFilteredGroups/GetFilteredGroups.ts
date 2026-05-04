@@ -3,9 +3,14 @@ import { normalizeTabEditorInput } from '../NormalizeTabEditorInput/NormalizeTab
 
 export const getFilteredGroups = (groups: readonly EditorGroup[]): readonly EditorGroup[] => {
   return groups
-    .map((group) => ({
-      ...group,
-      tabs: group.tabs.filter((tab) => !tab.uri?.startsWith('untitled://')).map(normalizeTabEditorInput),
-    }))
-    .filter((group) => group.tabs.length > 0)
+    .map((group) => {
+      const tabs = group.tabs.filter((tab) => !tab.uri?.startsWith('untitled://')).map(normalizeTabEditorInput)
+      const activeTabId = tabs.some((tab) => tab.id === group.activeTabId) ? group.activeTabId : undefined
+      return {
+        ...group,
+        activeTabId,
+        isEmpty: tabs.length === 0,
+        tabs,
+      }
+    })
 }

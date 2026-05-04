@@ -468,6 +468,56 @@ test('splitEditorGroup should handle split of second group', () => {
   expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
 })
 
+test('splitEditorGroup should preserve parent layout direction when splitting across axes', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 2,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: false,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 1',
+            },
+          ],
+        },
+        {
+          activeTabId: undefined,
+          focused: true,
+          id: 2,
+          isEmpty: true,
+          size: 50,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = splitEditorGroup(state, 2, 'down')
+
+  expect(result.layout.direction).toBe(1)
+  expect(result.layout.groups).toHaveLength(3)
+  expect(result.layout.groups[0].size).toBe(50)
+  expect(result.layout.groups[1].direction).toBe(2)
+  expect(result.layout.groups[1].size).toBe(25)
+  expect(result.layout.groups[1].focused).toBe(false)
+  expect(result.layout.groups[2].direction).toBe(2)
+  expect(result.layout.groups[2].size).toBe(25)
+  expect(result.layout.groups[2].focused).toBe(true)
+})
+
 test('splitEditorGroup should set both source and new group size to 50', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

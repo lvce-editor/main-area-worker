@@ -2,7 +2,7 @@ import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import { getEditorGroupCss } from '../GetEditorGroupCss/GetEditorGroupCss.ts'
 import { getSashCss } from '../GetSashCss/GetSashCss.ts'
 
-export const getCss = (layout?: MainAreaLayout): string => {
+export const getCss = (layout?: MainAreaLayout, width: number = 0): string => {
   const rules = [
     `.MainArea {
 }`,
@@ -15,15 +15,9 @@ export const getCss = (layout?: MainAreaLayout): string => {
   width: var(--EditorGroupWidth, auto);
   /*height: var(--EditorGroupHeight, auto);*/
 }`,
-    `.MainArea .SashVertical {
-  left: var(--SashLeft);
-}`,
-    `.MainArea .SashHorizontal {
-  top: var(--SashTop);
-}`,
   ]
   if (layout) {
-    rules.push(...getEditorGroupCss(layout), ...getSashCss(layout))
+    rules.push(...getEditorGroupCss(layout), ...getSashCss(layout, width))
   }
   const css = rules.join('\n')
   return css

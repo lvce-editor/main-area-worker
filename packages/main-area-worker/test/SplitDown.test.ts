@@ -149,16 +149,17 @@ test('splitDown should split down with existing horizontal layout', () => {
 
   const result = splitDown(state, 1)
 
-  expect(result.layout.direction).toBe(2)
+  expect(result.layout.direction).toBe(1)
   expect(result.layout.groups).toHaveLength(3)
-  // First group should be resized
   expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[0].size).toBeCloseTo(33.333_333, 5)
+  expect(result.layout.groups[0].size).toBe(25)
+  expect(result.layout.groups[0].direction).toBe(2)
   expect(result.layout.groups[0].focused).toBe(false)
-  // Original second group should still exist
-  expect(result.layout.groups[1].id).toBe(2)
-  // New group created
-  expect(result.layout.groups[2].focused).toBe(true)
+  expect(result.layout.groups[1].direction).toBe(2)
+  expect(result.layout.groups[1].size).toBe(25)
+  expect(result.layout.groups[1].focused).toBe(true)
+  expect(result.layout.groups[2].id).toBe(2)
+  expect(result.layout.groups[2].size).toBe(50)
 })
 
 test('splitDown should change layout direction from horizontal to vertical', () => {

@@ -3,7 +3,7 @@ import type { LayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getSashClassName } from '../GetSashClassName/GetSashClassName.ts'
 
-export const renderSash = (direction: LayoutDirection, sashId: string, style: string): readonly VirtualDomNode[] => {
+export const renderSash = (direction: LayoutDirection, sashId: string): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 1,
@@ -11,7 +11,6 @@ export const renderSash = (direction: LayoutDirection, sashId: string, style: st
       'data-sashId': sashId,
       onPointerDown: DomEventListenerFunctions.HandleSashPointerDown,
       role: 'none',
-      style,
       type: VirtualDomElements.Button,
     },
     {

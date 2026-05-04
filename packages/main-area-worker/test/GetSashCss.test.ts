@@ -59,10 +59,10 @@ test('getSashCss should use left positions for horizontal layouts', () => {
   const result = getSashCss(layout, 0)
 
   expect(result).toEqual([
-    `[data-sashId="1:2"] {
+    `[data-sash-id="1:2"] {
   left: 25%;
 }`,
-    `[data-sashId="2:3"] {
+    `[data-sash-id="2:3"] {
   left: 60%;
 }`,
   ])
@@ -95,7 +95,7 @@ test('getSashCss should use top positions for vertical layouts', () => {
   const result = getSashCss(layout, 0)
 
   expect(result).toEqual([
-    `[data-sashId="1:2"] {
+    `[data-sash-id="1:2"] {
   top: 45%;
 }`,
   ])
@@ -136,10 +136,10 @@ test('getSashCss should use pixel left positions for horizontal layouts with ove
   const result = getSashCss(layout, 600)
 
   expect(result).toEqual([
-    `[data-sashId="1:2"] {
+    `[data-sash-id="1:2"] {
   left: 250px;
 }`,
-    `[data-sashId="2:3"] {
+    `[data-sash-id="2:3"] {
   left: 500px;
 }`,
   ])

@@ -26,7 +26,7 @@ export const getSashCss = (layout: MainAreaLayout, width: number = 0): readonly 
       segments.some((segment) => segment.direction !== undefined) || layout.direction !== LayoutDirection.Horizontal || !width
         ? `${segmentOffset}%`
         : getSashOffset(layout, i, width)
-    rules.push(`[data-sashId="${escapedSashId}"] {
+    rules.push(`[data-sash-id="${escapedSashId}"] {
   ${sashPositionProperty}: ${sashOffset};
 }`)
   }

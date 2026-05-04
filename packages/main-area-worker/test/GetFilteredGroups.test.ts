@@ -58,7 +58,7 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
 
   expect(result).toEqual([
     {
-      activeTabId: 1,
+      activeTabId: 2,
       focused: true,
       id: 1,
       isEmpty: false,

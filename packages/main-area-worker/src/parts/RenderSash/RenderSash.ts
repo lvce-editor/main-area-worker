@@ -3,6 +3,10 @@ import type { LayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getSashClassName } from '../GetSashClassName/GetSashClassName.ts'
 
+const getSashBorderClassName = (direction: LayoutDirection): string => {
+  return direction === 1 ? 'SashBorder SashBorderVertical' : 'SashBorder SashBorderHorizontal'
+}
+
 export const renderSash = (direction: LayoutDirection, sashId: string): readonly VirtualDomNode[] => {
   return [
     {
@@ -15,7 +19,7 @@ export const renderSash = (direction: LayoutDirection, sashId: string): readonly
     },
     {
       childCount: 0,
-      className: 'SashBorder',
+      className: getSashBorderClassName(direction),
       type: VirtualDomElements.Div,
     },
   ]

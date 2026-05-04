@@ -4,6 +4,7 @@ import { getActiveGroup } from '../GetActiveGroup/GetActiveGroup.ts'
 import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
 import * as InputName from '../InputName/InputName.ts'
+import { parseRawGroupId } from '../ParseRawGroupId/ParseRawGroupId.ts'
 import { retryOpen } from '../RetryOpen/RetryOpen.ts'
 import { splitEditorGroup } from '../SplitEditorGroup/SplitEditorGroup.ts'
 
@@ -24,12 +25,13 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
   }
 
   switch (action) {
-    case InputName.CloseGroup:
-      if (rawGroupId) {
-        const groupId = Number.parseInt(rawGroupId, 10)
-        return closeEditorGroup(state, groupId)
+    case InputName.CloseGroup: {
+      const groupId = parseRawGroupId(rawGroupId)
+      if (groupId === undefined) {
+        return state
       }
-      return state
+      return closeEditorGroup(state, groupId)
+    }
     case InputName.RetryOpen:
       return retryOpen(state)
     case InputName.SplitRight:

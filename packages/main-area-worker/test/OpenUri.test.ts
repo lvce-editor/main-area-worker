@@ -729,6 +729,39 @@ test('openUri should handle race condition when second call starts while first a
   expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file2.ts'])
 })
 
+test('openUri should not create duplicate tabs when the same URI is opened simultaneously', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  const moduleIdPromise = Promise.withResolvers<string>()
+
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => moduleIdPromise.promise,
+  })
+
+  using _mockIconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-typescript'],
+  })
+
+  const state: MainAreaState = createDefaultState()
+
+  const promise1 = openUri(state, 'file:///path/to/file.ts')
+  const promise2 = openUri(state, 'file:///path/to/file.ts')
+
+  moduleIdPromise.resolve('editor.text')
+
+  const [result1, result2] = await Promise.all([promise1, promise2])
+
+  expect(result1.layout.groups[0].tabs).toHaveLength(1)
+  expect(result2.layout.groups[0].tabs).toHaveLength(1)
+  expect(result2.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
+
+  const getModuleIdInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.getModuleId')
+  const createViewletInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.createViewlet')
+  expect(getModuleIdInvocations).toHaveLength(1)
+  expect(createViewletInvocations).toHaveLength(1)
+  expect(getModuleIdInvocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.ts'])
+})
+
 test('openUri should handle race condition when second call starts while first awaits file icons', async () => {
   const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
   let iconCallCount = 0

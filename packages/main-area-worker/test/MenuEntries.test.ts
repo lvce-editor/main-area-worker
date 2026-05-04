@@ -57,6 +57,12 @@ test('getMenuEntries returns main menu entries when menuId is Main', async () =>
   expect(result).toBeDefined()
   expect(Array.isArray(result)).toBe(true)
   expect(result.length).toBeGreaterThan(0)
+  expect(result.find((entry) => entry.id === 'newTextFile')).toEqual({
+    command: 'MainArea.newFile',
+    flags: 0,
+    id: 'newTextFile',
+    label: 'New Text File',
+  })
   expect(result.find((entry) => entry.id === 'splitRight')).toEqual({
     args: [7],
     command: 'MainArea.splitRight',
@@ -84,6 +90,12 @@ test('getMenuEntries omits group-specific entries for empty main area sentinel',
 
   const result = await MenuEntries.getMenuEntries(state, props)
 
+  expect(result.find((entry) => entry.id === 'newTextFile')).toEqual({
+    command: 'MainArea.newFile',
+    flags: 0,
+    id: 'newTextFile',
+    label: 'New Text File',
+  })
   expect(result.find((entry) => entry.id === 'splitRight')).toEqual({
     args: undefined,
     command: 'MainArea.splitRight',
@@ -108,6 +120,12 @@ test('getMenuEntries includes new window for electron', async () => {
 
   const result = await MenuEntries.getMenuEntries(state, props)
 
+  expect(result.find((entry) => entry.id === 'newTextFile')).toEqual({
+    command: 'MainArea.newFile',
+    flags: 0,
+    id: 'newTextFile',
+    label: 'New Text File',
+  })
   expect(result.find((entry) => entry.id === 'newWindow')).toEqual({
     command: 'MainArea.newWindow',
     flags: 0,

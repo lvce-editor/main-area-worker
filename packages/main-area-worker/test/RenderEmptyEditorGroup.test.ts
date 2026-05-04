@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../src/parts/MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../src/parts/ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
@@ -42,7 +42,11 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
       title: MainStrings.closeEditorGroup(),
       type: VirtualDomElements.Button,
     },
-    text('✕'),
+    {
+      childCount: 0,
+      className: ClassNames.MaskIconClose,
+      type: VirtualDomElements.Div,
+    },
     {
       childCount: 1,
       className: 'WaterMarkWrapper',

@@ -207,7 +207,11 @@ test('renderEditorGroup should handle empty tabs array', () => {
       title: 'Close Editor Group',
       type: VirtualDomElements.Button,
     },
-    text('✕'),
+    {
+      childCount: 0,
+      className: 'MaskIcon MaskIconClose',
+      type: VirtualDomElements.Div,
+    },
     {
       childCount: 1,
       className: 'WaterMarkWrapper',

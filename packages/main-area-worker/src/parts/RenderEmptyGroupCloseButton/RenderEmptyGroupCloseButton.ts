@@ -1,4 +1,4 @@
-import { type VirtualDomNode, VirtualDomElements, text } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
@@ -21,6 +21,10 @@ export const renderEmptyGroupCloseButton = (group: EditorGroup, groupIndex: numb
       title: MainStrings.closeEditorGroup(),
       type: VirtualDomElements.Button,
     },
-    text('✕'),
+    {
+      childCount: 0,
+      className: ClassNames.MaskIconClose,
+      type: VirtualDomElements.Div,
+    },
   ]
 }

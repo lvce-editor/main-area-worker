@@ -43,6 +43,31 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   ])
 })
 
+test('openInput should normalize legacy editor module ids from Layout.getModuleId', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+  })
+
+  const state = createDefaultState()
+
+  const result = await openInput(state, {
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///path/to/file.ts',
+    },
+    focu: false,
+    preview: false,
+  })
+
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+  ])
+})
+
 test('openInput should open diff editor input without Layout.getModuleId', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},

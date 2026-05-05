@@ -6,7 +6,9 @@ import { findTabById } from '../FindTabById/FindTabById.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as Id from '../Id/Id.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
+import { normalizeViewletModuleId } from '../NormalizeViewletModuleId/NormalizeViewletModuleId.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
+import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
 export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
@@ -82,7 +84,8 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     y: stateWithNewTab.y + stateWithNewTab.tabHeight,
   }
 
-  const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateWithNewTab, tabId, 'EditorText', bounds)
+  const viewletModuleId = normalizeViewletModuleId(ViewletModuleId.EditorText)
+  const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateWithNewTab, tabId, viewletModuleId, bounds)
   let intermediateState = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
@@ -104,7 +107,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     throw new Error(`invalid editorUid`)
   }
 
-  await createViewlet('Editor', actualEditorUid, tabId, bounds, newTab.uri || '')
+  await createViewlet(viewletModuleId, actualEditorUid, tabId, bounds, newTab.uri || '')
 
   // After viewlet is created, get the latest state and mark it as ready
   const { newState: latestState } = get(uid)

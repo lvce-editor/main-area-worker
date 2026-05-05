@@ -24,7 +24,7 @@ export const InlineDiffEditor = 'InlineDiffEditor'
 
 export const EditorPlainText = 'EditorPlainText'
 
-export const EditorText = 'Editor'
+export const EditorText = 'editor.text'
 
 export const EditorWidgetError = 'EditorWidgetError'
 

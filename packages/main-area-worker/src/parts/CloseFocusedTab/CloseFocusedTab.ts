@@ -1,11 +1,11 @@
 import type { EditorGroup, MainAreaState } from '../MainAreaState/MainAreaState.ts'
-import { closeTab } from '../CloseTab/CloseTab.ts'
+import { closeTabAndSave } from '../CloseTabAndSave/CloseTabAndSave.ts'
 
 const isFocused = (group: EditorGroup): boolean => {
   return group.focused
 }
 
-export const closeFocusedTab = (state: MainAreaState): MainAreaState => {
+export const closeFocusedTab = async (state: MainAreaState): Promise<MainAreaState> => {
   const { layout } = state
   const { groups } = layout
 
@@ -19,5 +19,5 @@ export const closeFocusedTab = (state: MainAreaState): MainAreaState => {
     return state
   }
 
-  return closeTab(state, focusedGroup.id, activeTabId)
+  return closeTabAndSave(state, focusedGroup.id, activeTabId)
 }

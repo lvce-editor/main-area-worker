@@ -3,7 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeFocusedTab } from '../src/parts/CloseFocusedTab/CloseFocusedTab.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
-test('closeFocusedTab should close the focused tab', () => {
+test('closeFocusedTab should close the focused tab', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -41,7 +41,7 @@ test('closeFocusedTab should close the focused tab', () => {
     },
   }
 
-  const result = closeFocusedTab(state)
+  const result = await closeFocusedTab(state)
 
   const expectedLayout = {
     activeGroupId: 1,
@@ -72,7 +72,7 @@ test('closeFocusedTab should close the focused tab', () => {
   expect(result).not.toBe(state)
 })
 
-test('closeFocusedTab should return same state when no focused group', () => {
+test('closeFocusedTab should return same state when no focused group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -101,12 +101,12 @@ test('closeFocusedTab should return same state when no focused group', () => {
     },
   }
 
-  const result = closeFocusedTab(state)
+  const result = await closeFocusedTab(state)
 
   expect(result).toBe(state)
 })
 
-test('closeFocusedTab should return same state when no active tab in focused group', () => {
+test('closeFocusedTab should return same state when no active tab in focused group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -135,12 +135,12 @@ test('closeFocusedTab should return same state when no active tab in focused gro
     },
   }
 
-  const result = closeFocusedTab(state)
+  const result = await closeFocusedTab(state)
 
   expect(result).toBe(state)
 })
 
-test('closeFocusedTab should return same state when no groups', () => {
+test('closeFocusedTab should return same state when no groups', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -150,12 +150,12 @@ test('closeFocusedTab should return same state when no groups', () => {
     },
   }
 
-  const result = closeFocusedTab(state)
+  const result = await closeFocusedTab(state)
 
   expect(result).toBe(state)
 })
 
-test('closeFocusedTab should remove group when closing the last tab in focused group', () => {
+test('closeFocusedTab should remove group when closing the last tab in focused group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -184,7 +184,7 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
     },
   }
 
-  const result = closeFocusedTab(state)
+  const result = await closeFocusedTab(state)
 
   const expectedLayout = {
     activeGroupId: undefined,
@@ -196,7 +196,7 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
   expect(result).not.toBe(state)
 })
 
-test('closeFocusedTab should close tab in focused group when multiple groups exist', () => {
+test('closeFocusedTab should close tab in focused group when multiple groups exist', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -252,7 +252,7 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
     },
   }
 
-  const result = closeFocusedTab(state)
+  const result = await closeFocusedTab(state)
 
   const expectedLayout = {
     activeGroupId: 1,
@@ -301,7 +301,7 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
   expect(result).not.toBe(state)
 })
 
-test('closeFocusedTab should remove group when closing last tab with multiple groups', () => {
+test('closeFocusedTab should remove group when closing last tab with multiple groups', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -348,7 +348,7 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
     },
   }
 
-  const result = closeFocusedTab(state)
+  const result = await closeFocusedTab(state)
 
   const expectedLayout = {
     activeGroupId: 2,

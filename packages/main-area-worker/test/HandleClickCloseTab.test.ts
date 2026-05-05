@@ -3,7 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleClickCloseTab } from '../src/parts/HandleClickCloseTab/HandleClickCloseTab.ts'
 
-test('handleClickCloseTab should return state unchanged when rawGroupIndex is empty', () => {
+test('handleClickCloseTab should return state unchanged when rawGroupIndex is empty', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -32,12 +32,12 @@ test('handleClickCloseTab should return state unchanged when rawGroupIndex is em
     },
   }
 
-  const result = handleClickCloseTab(state, '', '0')
+  const result = await handleClickCloseTab(state, '', '0')
 
   expect(result).toBe(state)
 })
 
-test('handleClickCloseTab should return state unchanged when rawIndex is empty', () => {
+test('handleClickCloseTab should return state unchanged when rawIndex is empty', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -66,12 +66,12 @@ test('handleClickCloseTab should return state unchanged when rawIndex is empty',
     },
   }
 
-  const result = handleClickCloseTab(state, '0', '')
+  const result = await handleClickCloseTab(state, '0', '')
 
   expect(result).toBe(state)
 })
 
-test('handleClickCloseTab should return state unchanged when groupIndex is negative', () => {
+test('handleClickCloseTab should return state unchanged when groupIndex is negative', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -100,12 +100,12 @@ test('handleClickCloseTab should return state unchanged when groupIndex is negat
     },
   }
 
-  const result = handleClickCloseTab(state, '-1', '0')
+  const result = await handleClickCloseTab(state, '-1', '0')
 
   expect(result).toBe(state)
 })
 
-test('handleClickCloseTab should return state unchanged when groupIndex is out of bounds', () => {
+test('handleClickCloseTab should return state unchanged when groupIndex is out of bounds', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -134,12 +134,12 @@ test('handleClickCloseTab should return state unchanged when groupIndex is out o
     },
   }
 
-  const result = handleClickCloseTab(state, '5', '0')
+  const result = await handleClickCloseTab(state, '5', '0')
 
   expect(result).toBe(state)
 })
 
-test('handleClickCloseTab should return state unchanged when tab index is negative', () => {
+test('handleClickCloseTab should return state unchanged when tab index is negative', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -168,12 +168,12 @@ test('handleClickCloseTab should return state unchanged when tab index is negati
     },
   }
 
-  const result = handleClickCloseTab(state, '0', '-1')
+  const result = await handleClickCloseTab(state, '0', '-1')
 
   expect(result).toBe(state)
 })
 
-test('handleClickCloseTab should return state unchanged when tab index is out of bounds', () => {
+test('handleClickCloseTab should return state unchanged when tab index is out of bounds', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -202,12 +202,12 @@ test('handleClickCloseTab should return state unchanged when tab index is out of
     },
   }
 
-  const result = handleClickCloseTab(state, '0', '5')
+  const result = await handleClickCloseTab(state, '0', '5')
 
   expect(result).toBe(state)
 })
 
-test('handleClickCloseTab should close the tab at the specified index', () => {
+test('handleClickCloseTab should close the tab at the specified index', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -254,14 +254,14 @@ test('handleClickCloseTab should close the tab at the specified index', () => {
     },
   }
 
-  const result = handleClickCloseTab(state, '0', '1')
+  const result = await handleClickCloseTab(state, '0', '1')
 
   expect(result.layout.groups[0].tabs.length).toBe(2)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result).not.toBe(state)
 })
 
-test('handleClickCloseTab should close tab from the correct group', () => {
+test('handleClickCloseTab should close tab from the correct group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -317,7 +317,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
     },
   }
 
-  const result = handleClickCloseTab(state, '1', '0')
+  const result = await handleClickCloseTab(state, '1', '0')
 
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[1].tabs.length).toBe(1)
@@ -325,7 +325,7 @@ test('handleClickCloseTab should close tab from the correct group', () => {
   expect(result).not.toBe(state)
 })
 
-test('handleClickCloseTab should close first tab when index is 0', () => {
+test('handleClickCloseTab should close first tab when index is 0', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -363,7 +363,7 @@ test('handleClickCloseTab should close first tab when index is 0', () => {
     },
   }
 
-  const result = handleClickCloseTab(state, '0', '0')
+  const result = await handleClickCloseTab(state, '0', '0')
 
   expect(result.layout.groups[0].tabs.length).toBe(1)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 1)).toBeUndefined()
@@ -371,7 +371,7 @@ test('handleClickCloseTab should close first tab when index is 0', () => {
   expect(result).not.toBe(state)
 })
 
-test('handleClickCloseTab should close last tab when index points to last element', () => {
+test('handleClickCloseTab should close last tab when index points to last element', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -418,7 +418,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
     },
   }
 
-  const result = handleClickCloseTab(state, '0', '2')
+  const result = await handleClickCloseTab(state, '0', '2')
 
   expect(result.layout.groups[0].tabs.length).toBe(2)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 3)).toBeUndefined()
@@ -426,7 +426,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
   expect(result).not.toBe(state)
 })
 
-test('handleClickCloseTab should remove group when closing only tab in group', () => {
+test('handleClickCloseTab should remove group when closing only tab in group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -455,14 +455,14 @@ test('handleClickCloseTab should remove group when closing only tab in group', (
     },
   }
 
-  const result = handleClickCloseTab(state, '0', '0')
+  const result = await handleClickCloseTab(state, '0', '0')
 
   expect(result.layout.groups.length).toBe(0)
   expect(result.layout.activeGroupId).toBeUndefined()
   expect(result).not.toBe(state)
 })
 
-test('handleClickCloseTab should remove empty group when multiple groups exist', () => {
+test('handleClickCloseTab should remove empty group when multiple groups exist', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -509,7 +509,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
     },
   }
 
-  const result = handleClickCloseTab(state, '0', '0')
+  const result = await handleClickCloseTab(state, '0', '0')
 
   expect(result.layout.groups.length).toBe(1)
   expect(result.layout.groups[0].id).toBe(2)

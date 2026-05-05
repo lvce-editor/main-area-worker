@@ -17,22 +17,10 @@ test('createViewlet should handle different viewlet module ids', async () => {
     'Layout.createViewlet': async () => {},
   })
 
-  await CreateViewlet.createViewlet('editor.text', 5, 10, { height: 200, width: 200, x: 10, y: 10 }, 'file:///path/to/file.ts')
-
-  expect(mockRpc.invocations).toEqual([
-    ['Layout.createViewlet', 'editor.text', 5, 10, { height: 200, width: 200, x: 10, y: 10 }, 'file:///path/to/file.ts'],
-  ])
-})
-
-test('createViewlet should normalize legacy editor module ids', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
-    'Layout.createViewlet': async () => {},
-  })
-
   await CreateViewlet.createViewlet('Editor', 5, 10, { height: 200, width: 200, x: 10, y: 10 }, 'file:///path/to/file.ts')
 
   expect(mockRpc.invocations).toEqual([
-    ['Layout.createViewlet', 'editor.text', 5, 10, { height: 200, width: 200, x: 10, y: 10 }, 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'Editor', 5, 10, { height: 200, width: 200, x: 10, y: 10 }, 'file:///path/to/file.ts'],
   ])
 })
 

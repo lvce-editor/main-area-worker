@@ -1,5 +1,4 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import { normalizeViewletModuleId } from '../NormalizeViewletModuleId/NormalizeViewletModuleId.ts'
 
 export const getViewletModuleId = async (uri: string): Promise<string | undefined> => {
   // Query RendererWorker for viewlet module ID (optional, may fail in tests)
@@ -9,8 +8,5 @@ export const getViewletModuleId = async (uri: string): Promise<string | undefine
   } catch {
     // Viewlet creation is optional - silently ignore if RendererWorker isn't available
   }
-  if (!viewletModuleId) {
-    return viewletModuleId
-  }
-  return normalizeViewletModuleId(viewletModuleId)
+  return viewletModuleId
 }

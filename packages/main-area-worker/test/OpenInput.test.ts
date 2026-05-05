@@ -14,7 +14,7 @@ afterEach(() => {
 test('openInput should open editor input via Layout.getModuleId', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
-    'Layout.getModuleId': async () => 'editor.text',
+    'Layout.getModuleId': async () => 'Editor',
   })
 
   const state = createDefaultState()
@@ -39,7 +39,7 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   expect(tab.title).toBe('file.ts')
   expect(mockRpc.invocations).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
   ])
 })
 

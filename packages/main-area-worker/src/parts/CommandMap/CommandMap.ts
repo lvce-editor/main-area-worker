@@ -66,6 +66,7 @@ export const commandMap = {
   'Main.focusNextTab': wrapCommand(focusNextTab),
   'Main.focusPrevious': wrapCommand(focusPreviousTab),
   'Main.focusPreviousTab': wrapCommand(focusPreviousTab),
+  'Main.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),
   'Main.handleTabContextMenu': wrapCommand(handleTabContextMenu),
   'Main.openInput': wrapCommand(openInput),
   'Main.openUri': wrapCommand(openUri),

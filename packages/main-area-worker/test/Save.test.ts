@@ -75,6 +75,7 @@ test('save should return state when tab is loading', async () => {
 test('save should clear dirty state after a successful save', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => ({ modified: false }),
+    'Main.handleModifiedStatusChange': async () => undefined,
   })
 
   const state: MainAreaState = {
@@ -111,13 +112,17 @@ test('save should clear dirty state after a successful save', async () => {
 
   const result = await save(state)
 
-  expect(mockRpc.invocations).toEqual([['Editor.save', 123]])
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.save', 123],
+    ['Main.handleModifiedStatusChange', 'file:///file-1', false],
+  ])
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
 })
 
 test('save should use the latest stored state when the call-site state is stale', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => ({ modified: false }),
+    'Main.handleModifiedStatusChange': async () => undefined,
   })
 
   const staleState = createDefaultState()
@@ -157,6 +162,9 @@ test('save should use the latest stored state when the call-site state is stale'
 
   const result = await save(staleState)
 
-  expect(mockRpc.invocations).toEqual([['Editor.save', 7]])
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.save', 7],
+    ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
+  ])
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
 })

@@ -33,7 +33,17 @@ const replacement = `const mainAreaWorkerUrl = \`\${assetDir}/packages/main-area
 if (!content.includes(occurrence)) {
   throw new Error('occurrence not found')
 }
-const newContent = content.replace(occurrence, replacement)
+const editorCommandOccurrence = `    case 'EditorDiagnostics':
+      return EditorDiagnostics;`
+const editorCommandReplacement = `    case 'Editor':
+      return EditorText;
+    case 'EditorDiagnostics':
+      return EditorDiagnostics;`
+if (!content.includes(editorCommandOccurrence)) {
+  throw new Error('editor command occurrence not found')
+}
+const contentWithMainAreaWorkerUrl = content.replace(occurrence, replacement)
+const newContent = contentWithMainAreaWorkerUrl.replace(editorCommandOccurrence, editorCommandReplacement)
 await writeFile(rendererWorkerPath, newContent)
 
 await cp(join(root, 'dist'), join(root, '.tmp', 'static'), { recursive: true })

@@ -5,24 +5,43 @@ import { get } from '../MainAreaStates/MainAreaStates.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
-export const save = async (state: MainAreaState): Promise<MainAreaState> => {
-  const stateFromStore = get(state.uid)
-  const requestedActiveTabData = getActiveTab(state)
-  let currentState = state
-
-  if (stateFromStore) {
-    const storedState = stateFromStore.newState
-    const storedActiveTabData = getActiveTab(storedState)
-    if (storedActiveTabData) {
-      if (
-        !requestedActiveTabData ||
-        storedActiveTabData.tab.id === requestedActiveTabData.tab.id ||
-        storedActiveTabData.tab.uri === requestedActiveTabData.tab.uri
-      ) {
-        currentState = storedState
-      }
-    }
+const getLatestStoredState = (
+  uid: number,
+  fallbackState: MainAreaState,
+  referenceTabId: number | undefined,
+  referenceTabUri: string | undefined,
+  allowMissingReference = false,
+): MainAreaState => {
+  const stateFromStore = get(uid)
+  if (!stateFromStore) {
+    return fallbackState
   }
+  const storedState = stateFromStore.newState
+  const storedActiveTabData = getActiveTab(storedState)
+  if (!storedActiveTabData) {
+    return fallbackState
+  }
+  if (allowMissingReference && referenceTabId === undefined && referenceTabUri === undefined) {
+    return storedState
+  }
+  if (storedActiveTabData.tab.id === referenceTabId) {
+    return storedState
+  }
+  if (referenceTabUri && storedActiveTabData.tab.uri === referenceTabUri) {
+    return storedState
+  }
+  return fallbackState
+}
+
+export const save = async (state: MainAreaState): Promise<MainAreaState> => {
+  const requestedActiveTabData = getActiveTab(state)
+  const currentState = getLatestStoredState(
+    state.uid,
+    state,
+    requestedActiveTabData?.tab.id,
+    requestedActiveTabData?.tab.uri,
+    !requestedActiveTabData,
+  )
 
   const activeTabData = getActiveTab(currentState)
   if (!activeTabData) {
@@ -36,11 +55,11 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
 
   if (!tab.isDirty) {
     await saveEditor(tab.editorUid)
-    return get(state.uid)?.newState ?? currentState
+    return getLatestStoredState(state.uid, currentState, tab.id, tab.uri)
   }
 
   const editorState = await saveEditor(tab.editorUid)
-  const latestState = get(state.uid)?.newState ?? currentState
+  const latestState = getLatestStoredState(state.uid, currentState, tab.id, tab.uri)
   if (editorState?.modified) {
     return latestState
   }
@@ -48,7 +67,7 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   if (tab.uri) {
     await RendererWorker.handleModifiedStatusChange(tab.uri, false)
   }
-  const stateAfterModifiedStatusChange = get(state.uid)?.newState ?? latestState
+  const stateAfterModifiedStatusChange = getLatestStoredState(state.uid, latestState, tab.id, tab.uri)
 
   return updateTab(stateAfterModifiedStatusChange, tab.id, { isDirty: false })
 }

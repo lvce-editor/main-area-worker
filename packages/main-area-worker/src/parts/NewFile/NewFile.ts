@@ -8,8 +8,8 @@ import * as Id from '../Id/Id.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { normalizeViewletModuleId } from '../NormalizeViewletModuleId/NormalizeViewletModuleId.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
-import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
+import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
 
 export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   Assert.object(state)

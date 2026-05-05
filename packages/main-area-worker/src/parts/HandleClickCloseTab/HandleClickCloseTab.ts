@@ -1,7 +1,7 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
-import { closeTab } from '../CloseTab/CloseTab.ts'
+import { closeTabAndSave } from '../CloseTabAndSave/CloseTabAndSave.ts'
 
-export const handleClickCloseTab = (state: MainAreaState, rawGroupIndex: string, rawIndex: string): MainAreaState => {
+export const handleClickCloseTab = async (state: MainAreaState, rawGroupIndex: string, rawIndex: string): Promise<MainAreaState> => {
   if (!rawGroupIndex || !rawIndex) {
     return state
   }
@@ -25,5 +25,5 @@ export const handleClickCloseTab = (state: MainAreaState, rawGroupIndex: string,
   const groupId = group.id
   const tabId = tab.id
 
-  return closeTab(state, groupId, tabId)
+  return closeTabAndSave(state, groupId, tabId)
 }

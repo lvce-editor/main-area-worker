@@ -1,9 +1,9 @@
 import { afterEach, expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
-import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { closeTabAndSave } from '../src/parts/CloseTabAndSave/CloseTabAndSave.ts'
+import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 
 afterEach(() => {
   const defaultState = createDefaultState()

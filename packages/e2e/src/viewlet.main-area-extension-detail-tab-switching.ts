@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-extension-detail-tab-switching'
 
 export const skip = 1
 
-export const test: Test = async ({ expect, Locator, Main }) => {
+export const test: Test = async ({ Command, expect, Locator, Main }) => {
   // arrange
   await Main.openUri('extension-detail://theme-ayu')
   await Main.openUri('extension-detail://chat')
@@ -15,6 +15,12 @@ export const test: Test = async ({ expect, Locator, Main }) => {
   await expect(chatTab).toBeVisible()
 
   const selectedChatTab = Locator('.MainTabSelected[title="chat"]')
+  await expect(selectedChatTab).toBeVisible()
+
+  await Command.execute('Window.reload')
+
+  await expect(themeAyuTab).toBeVisible()
+  await expect(chatTab).toBeVisible()
   await expect(selectedChatTab).toBeVisible()
 
   // act

@@ -2,7 +2,13 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-restore-closed-tab-empty-groups'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
+const assert = (condition: boolean, message: string): void => {
+  if (!condition) {
+    throw new Error(message)
+  }
+}
+
+export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 

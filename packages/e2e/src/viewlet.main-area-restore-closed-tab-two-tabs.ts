@@ -27,7 +27,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
     throw new Error(`Expected second tab to be ${file2}, got ${group.tabs[1].uri}`)
   }
 
-  await expect(Locator('.MainTab')).toHaveCount(2)
-  await expect(Locator('.MainTab[title$="restore-two-tabs-1.ts"]')).toBeVisible()
-  await expect(Locator('.MainTabSelected[title$="restore-two-tabs-2.ts"]')).toBeVisible()
+  const mainTabs = Locator('.MainTab')
+  await expect(mainTabs).toHaveCount(2)
+  const tab1 = Locator('.MainTab[title$="restore-two-tabs-1.ts"]')
+  await expect(tab1).toBeVisible()
+  const selectedTab = Locator('.MainTabSelected[title$="restore-two-tabs-2.ts"]')
+  await expect(selectedTab).toBeVisible()
 }

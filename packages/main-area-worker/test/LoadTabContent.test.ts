@@ -165,7 +165,7 @@ test('loadTabContentAsync normalizes directory read errors', async () => {
   expect(mockRpc.invocations.length).toBe(1)
 })
 
-test.skip('loadTabContentAsync discards result when request ID changed (race condition)', async () => {
+test('loadTabContentAsync discards result when request ID changed (race condition)', async () => {
   RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => 'old content',
   })

@@ -8,5 +8,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
 
   await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 
-  await expect(Locator('.MainTab')).toHaveCount(0)
+  const mainTabs = Locator('.MainTab')
+  await expect(mainTabs).toHaveCount(0)
 }

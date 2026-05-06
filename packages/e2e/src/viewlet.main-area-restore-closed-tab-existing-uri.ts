@@ -27,7 +27,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   assert(group.tabs.length === 2, `Expected 2 tabs, got ${group.tabs.length}`)
   assert(group.tabs.filter((tab) => tab.uri === file2).length === 1, `Expected one tab for ${file2}`)
 
-  await expect(Locator('.MainTab')).toHaveCount(2)
-  await expect(Locator('.MainTab[title$="restore-existing-2.ts"]')).toHaveCount(1)
-  await expect(Locator('.MainTabSelected[title$="restore-existing-2.ts"]')).toBeVisible()
+  const mainTabs = Locator('.MainTab')
+  await expect(mainTabs).toHaveCount(2)
+  const existingTab = Locator('.MainTab[title$="restore-existing-2.ts"]')
+  await expect(existingTab).toHaveCount(1)
+  const selectedTab = Locator('.MainTabSelected[title$="restore-existing-2.ts"]')
+  await expect(selectedTab).toBeVisible()
 }

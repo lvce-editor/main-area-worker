@@ -30,8 +30,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   assert(savedState.layout.groups[0].tabs[0].uri === fileLeft, `Expected first group to contain ${fileLeft}`)
   assert(savedState.layout.groups[1].tabs[0].uri === fileRight, `Expected second group to contain ${fileRight}`)
 
-  await expect(Locator('.EditorGroup')).toHaveCount(2)
-  await expect(Locator('.MainTab[title$="restore-left.ts"]')).toBeVisible()
-  await expect(Locator('.MainTab[title$="restore-right.ts"]')).toBeVisible()
-  await expect(Locator('.MainTabSelected[title$="restore-left.ts"]')).toBeVisible()
+  const editorGroups = Locator('.EditorGroup')
+  await expect(editorGroups).toHaveCount(2)
+  const leftTab = Locator('.MainTab[title$="restore-left.ts"]')
+  await expect(leftTab).toBeVisible()
+  const rightTab = Locator('.MainTab[title$="restore-right.ts"]')
+  await expect(rightTab).toBeVisible()
+  const selectedTab = Locator('.MainTabSelected[title$="restore-left.ts"]')
+  await expect(selectedTab).toBeVisible()
 }

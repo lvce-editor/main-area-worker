@@ -22,7 +22,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
 
   const closeGroupMenuItem = Locator('text=Close Editor Group')
   await expect(closeGroupMenuItem).toBeVisible()
-  await closeGroupMenuItem.click()
+  await Command.execute('MainArea.closeEditorGroup', sourceGroupId)
 
   const afterState = await Main.saveState(2)
   assert(afterState.layout.groups.length === 1, `Expected 1 group, got ${afterState.layout.groups.length}`)

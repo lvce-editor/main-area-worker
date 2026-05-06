@@ -27,10 +27,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await expect(tab3).toBeVisible()
 
   // act - select second tab and close tabs to the right
-  await tab2.click()
-  await tab2.click({
-    button: 'right',
-  })
+  await Main.selectTab(0, 1)
+  await Main.handleTabContextMenu(0, 0, 0)
+  const closeRightMenuItem = Locator('text=Close To The Right')
+  await expect(closeRightMenuItem).toBeVisible()
   // TODO: implement close tabs right context menu action
 
   // assert - only file1 and file2 remain

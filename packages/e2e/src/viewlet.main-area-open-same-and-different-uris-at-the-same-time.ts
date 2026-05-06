@@ -14,6 +14,8 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
 
   await Promise.all([Main.openUri(sharedFile), Main.openUri(sharedFile), Main.openUri(otherFile)])
 
-  await expect(Locator('.MainTab[title$="shared.txt"]')).toHaveCount(1)
-  await expect(Locator('.MainTab[title$="other.txt"]')).toHaveCount(1)
+  const sharedTab = Locator('.MainTab[title$="shared.txt"]')
+  const otherTab = Locator('.MainTab[title$="other.txt"]')
+  await expect(sharedTab).toHaveCount(1)
+  await expect(otherTab).toHaveCount(1)
 }

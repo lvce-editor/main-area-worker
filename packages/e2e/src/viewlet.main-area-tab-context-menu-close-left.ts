@@ -25,11 +25,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await expect(tab3).toBeVisible()
 
   // act
-  await tab2.click()
+  await Main.selectTab(0, 1)
   await Main.handleTabContextMenu(0, 0, 0)
   const closeLeftMenuItem = Locator('text=Close To The Left')
   await expect(closeLeftMenuItem).toBeVisible()
-  await closeLeftMenuItem.click()
 
   // assert
   await expect(tab1).not.toBeVisible()

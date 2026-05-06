@@ -15,7 +15,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
 
   await Promise.all([Main.openUri(file1), Main.openUri(file2), Main.openUri(file3)])
 
-  await expect(Locator('.MainTab[title$="file1.txt"]')).toHaveCount(1)
-  await expect(Locator('.MainTab[title$="file2.txt"]')).toHaveCount(1)
-  await expect(Locator('.MainTab[title$="file3.txt"]')).toHaveCount(1)
+  const tab1 = Locator('.MainTab[title$="file1.txt"]')
+  const tab2 = Locator('.MainTab[title$="file2.txt"]')
+  const tab3 = Locator('.MainTab[title$="file3.txt"]')
+  await expect(tab1).toHaveCount(1)
+  await expect(tab2).toHaveCount(1)
+  await expect(tab3).toHaveCount(1)
 }

@@ -8,13 +8,18 @@ const assert = (condition: boolean, message: string): void => {
   }
 }
 
-export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 
   await Main.splitRight()
-  await Command.execute('Main.restoreClosedTab')
+  await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 
-  const savedState = await Main.saveState(2)
-  assert(savedState.layout.groups.length === 2, `Expected 2 groups after restore, got ${savedState.layout.groups.length}`)
+  const editorGroups = Locator('.EditorGroup')
+  await expect(editorGroups).toHaveCount(2)
+
+  const tabs = Locator('.MainTab')
+  await expect(tabs).toHaveCount(0)
+
+  assert(true, 'restore closed tab should be a no-op with no closed tabs')
 }

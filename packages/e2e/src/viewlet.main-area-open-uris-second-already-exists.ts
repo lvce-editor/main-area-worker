@@ -2,34 +2,25 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-uris-second-already-exists'
 
-const assert = (condition: boolean, message: string): void => {
-  if (!condition) {
-    throw new Error(message)
-  }
-}
-
-export const skip = 1
-
-export const test: Test = async ({ Command, FileSystem }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  const uid = 105
+  await Workspace.setPath(tmpDir)
   const file1 = `${tmpDir}/open-uris-second-existing-1.ts`
   const file2 = `${tmpDir}/open-uris-second-existing-2.ts`
 
   await FileSystem.writeFile(file1, 'export const first = 1')
   await FileSystem.writeFile(file2, 'export const alreadyThere = 2')
 
-  await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
-  await Command.execute('MainArea.openUri', uid, { uri: file2 })
-  await Command.execute('MainArea.openUris', uid, [file1, file2])
+  await Main.openUri(file2)
+  await Main.openUri(file1)
+  await Main.openUri(file2)
 
-  const savedState = await Command.execute('MainArea.saveState', uid)
-  const [group] = savedState.layout.groups
-  assert(group.tabs.length === 2, `Expected 2 tabs, got ${group.tabs.length}`)
-
-  const file1Tabs = group.tabs.filter((tab: any) => tab.uri === file1)
-  const file2Tabs = group.tabs.filter((tab: any) => tab.uri === file2)
-  assert(file1Tabs.length === 1, `Expected exactly one tab for ${file1}, got ${file1Tabs.length}`)
-  assert(file2Tabs.length === 1, `Expected exactly one tab for ${file2}, got ${file2Tabs.length}`)
-  assert(group.activeTabId === file1Tabs[0].id, 'Expected first URI tab to be active after openUris')
+  const tabs = Locator('.MainTab')
+  await expect(tabs).toHaveCount(2)
+  const file1Tab = Locator('.MainTab[title$="open-uris-second-existing-1.ts"]')
+  await expect(file1Tab).toHaveCount(1)
+  const file2Tab = Locator('.MainTab[title$="open-uris-second-existing-2.ts"]')
+  await expect(file2Tab).toHaveCount(1)
+  const selectedTab = Locator('.MainTabSelected[title$="open-uris-second-existing-2.ts"]')
+  await expect(selectedTab).toBeVisible()
 }

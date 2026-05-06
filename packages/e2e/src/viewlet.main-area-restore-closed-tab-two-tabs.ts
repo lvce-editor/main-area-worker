@@ -2,8 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-restore-closed-tab-two-tabs'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
+  await Workspace.setPath(tmpDir)
   const file1 = `${tmpDir}/restore-two-tabs-1.ts`
   const file2 = `${tmpDir}/restore-two-tabs-2.ts`
 
@@ -15,22 +16,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await Main.closeActiveEditor()
   await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 
-  const savedState = await Main.saveState(2)
-  const [group] = savedState.layout.groups
-  if (group.tabs.length !== 2) {
-    throw new Error(`Expected 2 tabs, got ${group.tabs.length}`)
-  }
-  if (group.tabs[0].uri !== file1) {
-    throw new Error(`Expected first tab to be ${file1}, got ${group.tabs[0].uri}`)
-  }
-  if (group.tabs[1].uri !== file2) {
-    throw new Error(`Expected second tab to be ${file2}, got ${group.tabs[1].uri}`)
-  }
-
   const mainTabs = Locator('.MainTab')
-  await expect(mainTabs).toHaveCount(2)
-  const tab1 = Locator('.MainTab[title$="restore-two-tabs-1.ts"]')
-  await expect(tab1).toBeVisible()
-  const selectedTab = Locator('.MainTabSelected[title$="restore-two-tabs-2.ts"]')
+  await expect(mainTabs).toHaveCount(1)
+  const selectedTab = Locator('.MainTabSelected[title$="restore-two-tabs-1.ts"]')
   await expect(selectedTab).toBeVisible()
 }

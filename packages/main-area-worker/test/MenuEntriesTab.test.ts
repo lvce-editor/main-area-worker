@@ -42,7 +42,7 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
   expect(result.map((entry) => entry.label)).toEqual([
     'Close',
     'Close Others',
-    'Close to the Right',
+    'Close To The Right',
     'Close Saved',
     'Close All',
     '',

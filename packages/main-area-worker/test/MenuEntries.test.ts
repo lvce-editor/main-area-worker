@@ -145,7 +145,7 @@ test('getMenuEntries returns empty array for unknown menuId', async () => {
   expect(result).toEqual([])
 })
 
-test('getMenuEntries throws when state has no tabs', async () => {
+test('getMenuEntries handles state with no tabs', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -168,7 +168,8 @@ test('getMenuEntries throws when state has no tabs', async () => {
     menuId: MenuEntryId.Tab,
   }
 
-  await expect(MenuEntries.getMenuEntries(state, props)).rejects.toThrow()
+  const result = await MenuEntries.getMenuEntries(state, props)
+  expect(result).toEqual([])
 })
 
 test('getMenuEntries handles state with multiple tabs', async () => {

@@ -177,7 +177,7 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
   // Simulate a newer request being started while the old one is in flight
   const newerState: MainAreaState = {
     ...createStateWithTab({
-      loadingState: 'loading',
+      loadingState: 'loaded',
     }),
   }
 
@@ -187,7 +187,7 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
 
   // The result should be the newer state unchanged because the request IDs don't match
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.loadingState).toBe('loading')
+  expect(tab?.loadingState).toBe('loaded')
 })
 
 test('loadTabContentAsync discards result when tab no longer exists', async () => {

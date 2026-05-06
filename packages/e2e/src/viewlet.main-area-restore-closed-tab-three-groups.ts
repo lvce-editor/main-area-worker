@@ -27,7 +27,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
 
   await Main.selectTab(1, 0)
   await Main.closeActiveEditor()
-  await Command.execute('Main.restoreClosedTab')
+  await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 
   const savedState = await Main.saveState(2)
   assert(savedState.layout.groups.length === 3, `Expected 3 groups, got ${savedState.layout.groups.length}`)

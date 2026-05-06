@@ -24,7 +24,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Main.openUri(file3)
   await Main.selectTab(0, 1)
   await Main.closeActiveEditor()
-  await Command.execute('Main.restoreClosedTab')
+  await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 
   const savedState = await Main.saveState(2)
   const [group] = savedState.layout.groups

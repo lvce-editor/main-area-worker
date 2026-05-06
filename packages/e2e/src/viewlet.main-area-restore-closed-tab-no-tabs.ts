@@ -6,7 +6,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 
-  await Command.execute('Main.restoreClosedTab')
+  await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 
   await expect(Locator('.MainTab')).toHaveCount(0)
 }

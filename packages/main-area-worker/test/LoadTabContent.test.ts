@@ -190,7 +190,7 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
   expect(tab?.loadingState).toBe('loading')
 })
 
-test.skip('loadTabContentAsync discards result when tab no longer exists', async () => {
+test('loadTabContentAsync discards result when tab no longer exists', async () => {
   RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => 'content',
   })

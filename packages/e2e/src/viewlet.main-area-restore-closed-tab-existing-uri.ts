@@ -22,6 +22,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await Main.openUri(file2)
   await Command.execute('Main.restoreClosedTab')
 
+  const savedState = await Main.saveState(2)
+  const [group] = savedState.layout.groups
+  assert(group.tabs.length === 2, `Expected 2 tabs, got ${group.tabs.length}`)
+  assert(group.tabs.filter((tab) => tab.uri === file2).length === 1, `Expected one tab for ${file2}`)
+
   await expect(Locator('.MainTab')).toHaveCount(2)
   await expect(Locator('.MainTab[title$="restore-existing-2.ts"]')).toHaveCount(1)
   await expect(Locator('.MainTabSelected[title$="restore-existing-2.ts"]')).toBeVisible()

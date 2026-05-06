@@ -74,6 +74,7 @@ export const commandMap = {
   'Main.openUris': wrapCommand(openUris),
   'Main.restoreClosedTab': wrapCommand(restoreClosedTab),
   'Main.save': wrapCommand(save),
+  'Main.saveState': wrapGetter(saveState),
   'Main.splitRight': wrapCommand(splitRight),
   'MainArea.closeActiveEditor': wrapCommand(closeActiveEditor),
   'MainArea.closeAll': wrapCommand(closeAll),

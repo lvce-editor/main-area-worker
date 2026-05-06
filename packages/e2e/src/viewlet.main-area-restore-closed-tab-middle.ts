@@ -26,6 +26,13 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Main.closeActiveEditor()
   await Command.execute('Main.restoreClosedTab')
 
+  const savedState = await Main.saveState(2)
+  const [group] = savedState.layout.groups
+  assert(group.tabs.length === 3, `Expected 3 tabs, got ${group.tabs.length}`)
+  assert(group.tabs[0].uri === file1, `Expected first tab to be ${file1}, got ${group.tabs[0].uri}`)
+  assert(group.tabs[1].uri === file2, `Expected second tab to be ${file2}, got ${group.tabs[1].uri}`)
+  assert(group.tabs[2].uri === file3, `Expected third tab to be ${file3}, got ${group.tabs[2].uri}`)
+
   await expect(Locator('.MainTab')).toHaveCount(3)
   await expect(Locator('.MainTab[title$="restore-middle-1.ts"]')).toBeVisible()
   await expect(Locator('.MainTab[title$="restore-middle-2.ts"]')).toBeVisible()

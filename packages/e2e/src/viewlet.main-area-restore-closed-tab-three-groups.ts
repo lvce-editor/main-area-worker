@@ -29,6 +29,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Main.closeActiveEditor()
   await Command.execute('Main.restoreClosedTab')
 
+  const savedState = await Main.saveState(2)
+  assert(savedState.layout.groups.length === 3, `Expected 3 groups, got ${savedState.layout.groups.length}`)
+  assert(savedState.layout.groups[1].tabs[0].uri === file2, `Expected middle group to contain ${file2}`)
+
   await expect(Locator('.EditorGroup')).toHaveCount(3)
   await expect(Locator('.MainTab[title$="restore-groups-1.ts"]')).toBeVisible()
   await expect(Locator('.MainTab[title$="restore-groups-2.ts"]')).toBeVisible()

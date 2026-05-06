@@ -43,6 +43,7 @@ import { openUris } from '../OpenUris/OpenUris.ts'
 import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
+import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { save } from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
@@ -71,6 +72,7 @@ export const commandMap = {
   'Main.openInput': wrapCommand(openInput),
   'Main.openUri': wrapCommand(openUri),
   'Main.openUris': wrapCommand(openUris),
+  'Main.restoreClosedTab': wrapCommand(restoreClosedTab),
   'Main.save': wrapCommand(save),
   'Main.splitRight': wrapCommand(splitRight),
   'MainArea.closeActiveEditor': wrapCommand(closeActiveEditor),
@@ -121,6 +123,7 @@ export const commandMap = {
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,
   'MainArea.resize': wrapGetter(handleResize),
+  'MainArea.restoreClosedTab': wrapCommand(restoreClosedTab),
   'MainArea.save': wrapCommand(save),
   'MainArea.saveState': wrapGetter(saveState),
   'MainArea.selectTab': wrapCommand(selectTab),

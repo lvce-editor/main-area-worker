@@ -15,6 +15,7 @@ export const create = (
 ): void => {
   const state: MainAreaState = {
     assetDir,
+    closedTabs: [],
     fileIconCache: {},
     height,
     iframes: [],

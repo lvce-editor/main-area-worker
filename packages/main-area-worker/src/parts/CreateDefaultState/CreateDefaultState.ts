@@ -4,6 +4,7 @@ import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 export const createDefaultState = (): MainAreaState => {
   return {
     assetDir: '',
+    closedTabs: [],
     fileIconCache: {},
     height: 0,
     iframes: [],

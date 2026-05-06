@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { addClosedTabs } from '../AddClosedTabs/AddClosedTabs.ts'
 
 export const closeOtherTabs = (state: MainAreaState, groupId?: number): MainAreaState => {
   const { layout } = state
@@ -19,6 +20,15 @@ export const closeOtherTabs = (state: MainAreaState, groupId?: number): MainArea
     return state
   }
 
+  const closedTabs = group.tabs
+    .map((tab, tabIndex) => ({
+      group,
+      groupIndex: groups.findIndex((g) => g.id === targetGroupId),
+      tab,
+      tabIndex,
+    }))
+    .filter((entry) => entry.tab.id !== activeTabId)
+
   const newGroups = groups.map((g) => {
     if (g.id === targetGroupId) {
       const newTabs = g.tabs.filter((tab) => tab.id === activeTabId)
@@ -33,7 +43,7 @@ export const closeOtherTabs = (state: MainAreaState, groupId?: number): MainArea
   })
 
   return {
-    ...state,
+    ...addClosedTabs(state, closedTabs),
     layout: {
       ...layout,
       groups: newGroups,

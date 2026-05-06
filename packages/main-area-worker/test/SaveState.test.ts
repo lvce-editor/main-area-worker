@@ -705,3 +705,53 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
   expect(result.layout.groups[2].tabs).toHaveLength(2)
   expect(result.layout.activeGroupId).toBe(2)
 })
+
+test('saveState should not persist transient closed tab history', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    closedTabs: [
+      {
+        group: {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'closed.ts',
+              uri: '/tmp/closed.ts',
+            },
+          ],
+        },
+        groupIndex: 0,
+        tab: {
+          editorType: 'text',
+          editorUid: -1,
+          icon: '',
+          id: 1,
+          isDirty: false,
+          isPreview: false,
+          title: 'closed.ts',
+          uri: '/tmp/closed.ts',
+        },
+        tabIndex: 0,
+      },
+    ],
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [],
+    },
+  }
+
+  const result = saveState(state)
+
+  expect((result as any).closedTabs).toBeUndefined()
+})

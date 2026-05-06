@@ -1,4 +1,5 @@
 import type { EditorGroup, MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
+import { addClosedTabs } from '../AddClosedTabs/AddClosedTabs.ts'
 import { withGroups } from '../WithGroups/WithGroups.ts'
 
 const getNextActiveTabId = (tabs: readonly Tab[], newTabs: readonly Tab[], activeTabId: number | undefined): number | undefined => {
@@ -32,6 +33,16 @@ const closeSavedInGroup = (group: EditorGroup): EditorGroup => {
 
 export const closeSaved = (state: MainAreaState): MainAreaState => {
   const { groups } = state.layout
+  const closedTabs = groups.flatMap((group, groupIndex) => {
+    return group.tabs
+      .map((tab, tabIndex) => ({
+        group,
+        groupIndex,
+        tab,
+        tabIndex,
+      }))
+      .filter((entry) => !entry.tab.isDirty)
+  })
   const newGroups = groups.map(closeSavedInGroup)
-  return withGroups(state, newGroups)
+  return withGroups(addClosedTabs(state, closedTabs), newGroups)
 }

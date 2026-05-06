@@ -1,5 +1,7 @@
+import type { EditorGroup } from '../EditorGroup/EditorGroup.ts'
 import type { FileIconCache } from '../FileIconCache/FileIconCache.ts'
 import type { MainAreaLayout } from '../MainAreaLayout/MainAreaLayout.ts'
+import type { Tab } from '../Tab/Tab.ts'
 
 export type { EditorGroup } from '../EditorGroup/EditorGroup.ts'
 export type { EditorType } from '../EditorType/EditorType.ts'
@@ -19,8 +21,16 @@ export interface SashDragState {
   readonly startClientY: number
 }
 
+export interface ClosedTabEntry {
+  readonly group: EditorGroup
+  readonly groupIndex: number
+  readonly tab: Tab
+  readonly tabIndex: number
+}
+
 export interface MainAreaState {
   readonly assetDir: string
+  readonly closedTabs: readonly ClosedTabEntry[]
   readonly disposed?: boolean
   readonly fileIconCache: FileIconCache
   readonly height: number

@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { addClosedTabs } from '../AddClosedTabs/AddClosedTabs.ts'
 import { getGroupById } from '../GetGroupById/GetGroupById.ts'
 import { withGroups } from '../WithGroups/WithGroups.ts'
 
@@ -27,6 +28,14 @@ export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaS
     return state
   }
 
+  const groupIndex = groups.findIndex((g) => g.id === groupId)
+  const closedTabs = tabs.slice(activeTabIndex + 1).map((tab, index) => ({
+    group,
+    groupIndex,
+    tab,
+    tabIndex: activeTabIndex + index + 1,
+  }))
+
   const newGroups = groups.map((g) => {
     if (g.id === groupId) {
       return {
@@ -38,5 +47,5 @@ export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaS
     return g
   })
 
-  return withGroups(state, newGroups)
+  return withGroups(addClosedTabs(state, closedTabs), newGroups)
 }

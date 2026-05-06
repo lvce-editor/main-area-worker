@@ -12,9 +12,8 @@ export const getViewletModuleIds = async (layout: MainAreaLayout): Promise<Recor
     const activeTab = tabs.find((tab: Tab) => tab.id === group.activeTabId)
     if (activeTab && (activeTab.editorInput || activeTab.uri)) {
       const normalizedTab = normalizeTabEditorInput(activeTab)
-      const viewletModuleId = normalizedTab.editorInput
-        ? await getViewletModuleIdForEditorInput(normalizedTab.editorInput)
-        : await getViewletModuleId(normalizedTab.uri!)
+      const { editorInput, uri } = normalizedTab
+      const viewletModuleId = normalizedTab.editorInput ? await getViewletModuleIdForEditorInput(editorInput) : await getViewletModuleId(uri)
       if (viewletModuleId) {
         viewletModuleIds[activeTab.id] = viewletModuleId
       }

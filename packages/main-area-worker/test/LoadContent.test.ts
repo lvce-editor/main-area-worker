@@ -775,14 +775,14 @@ test('loadContent should normalize stale extension detail editor inputs from sav
     type: 'extension-detail-view',
   })
   expect(rendererRpc.invocations).toEqual([
-    ['Layout.createViewlet', 'ExtensionDetail', restoredTab.editorUid, restoredTab.id, { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) }, 'extension-detail://chat'],
-  ])
-  expect(iconRpc.invocations).toEqual([
     [
-      'IconTheme.getIcons',
-      [
-        { name: 'chat', type: 1 },
-      ],
+      'Layout.createViewlet',
+      'ExtensionDetail',
+      restoredTab.editorUid,
+      restoredTab.id,
+      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
+      'extension-detail://chat',
     ],
   ])
+  expect(iconRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'chat', type: 1 }]]])
 })

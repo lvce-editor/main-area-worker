@@ -851,7 +851,14 @@ test('selectTab should normalize stale extension detail tabs before switching', 
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(mockRpc.invocations).toEqual([
-    ['Layout.createViewlet', 'ExtensionDetail', result.layout.groups[0].tabs[1].editorUid, 2, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail://chat'],
+    [
+      'Layout.createViewlet',
+      'ExtensionDetail',
+      result.layout.groups[0].tabs[1].editorUid,
+      2,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'extension-detail://chat',
+    ],
   ])
 })
 

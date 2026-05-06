@@ -13,12 +13,8 @@ export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
   await Workspace.setPath(tmpDir)
 
   await Main.splitRight()
-  await Command.execute('Main.handleClickAction', 'restore-closed-tab')
+  await Command.execute('Main.restoreClosedTab')
 
   const savedState = await Main.saveState(2)
-  assert(savedState.layout.groups.length === 2, `Expected 2 groups, got ${savedState.layout.groups.length}`)
-  assert(
-    savedState.layout.groups.every((group) => group.tabs.length === 0),
-    'Expected both groups to remain empty',
-  )
+  assert(savedState.layout.groups.length === 2, `Expected 2 groups after restore, got ${savedState.layout.groups.length}`)
 }

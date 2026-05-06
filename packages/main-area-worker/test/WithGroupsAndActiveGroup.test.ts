@@ -71,9 +71,9 @@ test('withGroupsAndActiveGroup should replace multiple groups', () => {
 test('withGroupsAndActiveGroup should preserve other state properties', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
-    width: 1280,
     height: 720,
     uid: 99,
+    width: 1280,
     workspaceuri: '/workspace/my-project',
   }
 

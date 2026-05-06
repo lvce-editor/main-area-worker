@@ -86,10 +86,7 @@ test('withEmptyGroups should clear multiple groups', () => {
 test('withEmptyGroups should preserve other state properties', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
-    width: 800,
     height: 600,
-    uid: 123,
-    workspaceuri: '/my/workspace',
     layout: {
       activeGroupId: 1,
       direction: 1,
@@ -104,6 +101,9 @@ test('withEmptyGroups should preserve other state properties', () => {
         },
       ],
     },
+    uid: 123,
+    width: 800,
+    workspaceuri: '/my/workspace',
   }
 
   const result = WithEmptyGroups.withEmptyGroups(state)

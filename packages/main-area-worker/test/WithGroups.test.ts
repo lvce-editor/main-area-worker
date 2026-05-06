@@ -52,9 +52,9 @@ test('withGroups should replace multiple groups', () => {
 test('withGroups should preserve other state properties', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
-    width: 1024,
     height: 768,
     uid: 42,
+    width: 1024,
   }
 
   const newGroup: EditorGroup = {

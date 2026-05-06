@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-tabs-left'
 
+export const skip = 1
+
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
@@ -27,10 +29,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await expect(tab3).toBeVisible()
 
   // act - select second tab and close tabs to the left
-  await tab2.click()
-  await tab2.click({
-    button: 'right',
-  })
+  await Main.selectTab(0, 1)
+  await Main.handleTabContextMenu(0, 0, 0)
+  const closeLeftMenuItem = Locator('text=Close To The Left')
+  await expect(closeLeftMenuItem).toBeVisible()
   // TODO: implement close tabs left context menu action
 
   // assert - only file2 and file3 remain

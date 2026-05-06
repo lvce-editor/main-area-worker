@@ -18,6 +18,7 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Worksp
   const remainingExplorerItem = Locator('[role="treeitem"][title$="b-keep-me.ts"]')
   const deletedTab = Locator('.MainTab[title$="a-delete-me.ts"]')
   const remainingTab = Locator('.MainTab[title$="b-keep-me.ts"]')
+  const tabs = Locator('.MainTab')
   await expect(deletedExplorerItem).toBeVisible()
   await expect(remainingExplorerItem).toBeVisible()
 
@@ -26,7 +27,7 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Worksp
 
   await expect(deletedTab).toBeVisible()
   await expect(remainingTab).toBeVisible()
-  await expect(Locator('.MainTab')).toHaveCount(2)
+  await expect(tabs).toHaveCount(2)
 
   // act
   await Explorer.focusIndex(0)
@@ -37,5 +38,5 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Worksp
   await expect(remainingExplorerItem).toBeVisible()
   await expect(deletedTab).toBeHidden()
   await expect(remainingTab).toBeVisible()
-  await expect(Locator('.MainTab')).toHaveCount(1)
+  await expect(tabs).toHaveCount(1)
 }

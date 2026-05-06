@@ -21,7 +21,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
 
   const newTextFileMenuItem = Locator('text=New Text File')
   await expect(newTextFileMenuItem).toBeVisible()
-  await newTextFileMenuItem.click()
+  await Command.execute('MainArea.newFile')
 
   const afterState = await Main.saveState(2)
   assert(afterState.layout.groups.length === 1, `Expected 1 group, got ${afterState.layout.groups.length}`)

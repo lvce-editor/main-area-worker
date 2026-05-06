@@ -16,6 +16,8 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
 
   await Promise.all([Main.closeAllEditors(), Main.closeAllEditors()])
 
-  await expect(Locator('.MainTab[title$="close-all-1.txt"]')).toBeHidden()
-  await expect(Locator('.MainTab[title$="close-all-2.txt"]')).toBeHidden()
+  const tab1 = Locator('.MainTab[title$="close-all-1.txt"]')
+  const tab2 = Locator('.MainTab[title$="close-all-2.txt"]')
+  await expect(tab1).toBeHidden()
+  await expect(tab2).toBeHidden()
 }

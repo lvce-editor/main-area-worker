@@ -19,6 +19,7 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Worksp
 
   // assert
   const tab = Locator('.MainTab[title$="open-once.ts"]')
+  const tabs = Locator('.MainTab')
   await expect(tab).toBeVisible()
-  await expect(Locator('.MainTab')).toHaveCount(1)
+  await expect(tabs).toHaveCount(1)
 }

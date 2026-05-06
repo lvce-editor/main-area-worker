@@ -2,6 +2,7 @@ import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import * as ExecuteViewletCommands from '../../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import * as GetNextRequestId from '../../GetNextRequestId/GetNextRequestId.ts'
 import * as MainAreaStates from '../../MainAreaStates/MainAreaStates.ts'
+import { normalizeTabEditorInput } from '../../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 import { shouldLoadContentForTab } from '../../ShouldLoadContentForTab/ShouldLoadContentForTab.ts'
 import * as ViewletLifecycle from '../../ViewletLifecycle/ViewletLifecycle.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
@@ -24,14 +25,15 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   }
 
   const { group, groupId, tab, tabId } = selectedTabData
+  const normalizedTab = normalizeTabEditorInput(tab)
   const isAlreadyActive = layout.activeGroupId === groupId && group.activeTabId === tabId
 
-  if (isAlreadyActive && !shouldLoadContentForTab(tab)) {
+  if (isAlreadyActive && !shouldLoadContentForTab(normalizedTab)) {
     return state
   }
 
   const previousTabId = getActiveTabId(state)
-  const needsLoading = shouldLoadContentForTab(tab)
+  const needsLoading = shouldLoadContentForTab(normalizedTab)
   const requestId = needsLoading ? GetNextRequestId.getNextRequestId() : 0
   const updatedGroups = getUpdatedGroups(groups, groupIndex, needsLoading, tabId)
 
@@ -53,7 +55,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     groupIndex,
     index,
     tabId,
-    tab,
+    normalizedTab,
     uid,
     needsLoading,
     requestId,
@@ -69,5 +71,5 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     await ExecuteViewletCommands.executeViewletCommands(switchCommands)
   }
 
-  return maybeStartLoading(state, newState, tabId, tab, needsLoading, requestId)
+  return maybeStartLoading(state, newState, tabId, normalizedTab, needsLoading, requestId)
 }

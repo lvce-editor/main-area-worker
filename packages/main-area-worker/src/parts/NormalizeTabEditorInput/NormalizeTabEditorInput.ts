@@ -1,6 +1,7 @@
 import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
+import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
 
-const getEditorInputFromUri = (uri: string): any => {
+export const getEditorInputFromUri = (uri: string): any => {
   if (uri.startsWith('diff://?')) {
     try {
       const parsed = new URL(uri)
@@ -36,8 +37,9 @@ const getEditorInputFromUri = (uri: string): any => {
 }
 
 const getNormalizedEditorInput = (tab: any): any => {
-  if (typeof tab?.uri === 'string') {
-    const inferredEditorInput = getEditorInputFromUri(tab.uri)
+  const uri = typeof tab?.uri === 'string' ? tab.uri : typeof tab?.editorInput?.uri === 'string' ? tab.editorInput.uri : undefined
+  if (uri) {
+    const inferredEditorInput = getEditorInputFromUri(uri)
     if (inferredEditorInput.type !== 'editor') {
       return inferredEditorInput
     }
@@ -51,10 +53,13 @@ export const normalizeTabEditorInput = (tab: any): any => {
     return tab
   }
 
+  const uri = typeof tab?.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
+
   return {
     ...tab,
     editorInput,
     editorType: getEditorInputEditorType(editorInput),
+    uri,
   }
 }
 

@@ -5,6 +5,7 @@ import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
 import * as InputName from '../InputName/InputName.ts'
 import { parseRawGroupId } from '../ParseRawGroupId/ParseRawGroupId.ts'
+import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { retryOpen } from '../RetryOpen/RetryOpen.ts'
 import { splitEditorGroup } from '../SplitEditorGroup/SplitEditorGroup.ts'
 
@@ -13,6 +14,10 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
   const { activeGroupId, groups } = layout
   if (!action) {
     return state
+  }
+
+  if (action === InputName.RestoreClosedTab) {
+    return restoreClosedTab(state)
   }
 
   if (activeGroupId === undefined) {

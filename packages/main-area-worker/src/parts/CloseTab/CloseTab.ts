@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { addClosedTabs } from '../AddClosedTabs/AddClosedTabs.ts'
 import { getGroupIndexById } from '../GetGroupIndexById/GetGroupIndexById.ts'
 import { redistributeSizesWithRounding } from '../RedistributeSizesWithRounding/RedistributeSizesWithRounding.ts'
 import { withEmptyGroups } from '../WithEmptyGroups/WithEmptyGroups.ts'
@@ -15,11 +16,21 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
   }
 
   const group = groups[groupIndex]
+  const tabIndex = group.tabs.findIndex((tab) => tab.id === tabId)
+
   // Check if the tab exists in the group
-  const tabWasRemoved = group.tabs.some((tab) => tab.id === tabId)
-  if (!tabWasRemoved) {
+  if (tabIndex === -1) {
     return state
   }
+
+  const stateWithClosedTab = addClosedTabs(state, [
+    {
+      group,
+      groupIndex,
+      tab: group.tabs[tabIndex],
+      tabIndex,
+    },
+  ])
 
   const newGroups = groups.map((grp) => {
     if (grp.id === groupId) {
@@ -27,7 +38,6 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
 
       let newActiveTabId = grp.activeTabId
       if (grp.activeTabId === tabId) {
-        const tabIndex = grp.tabs.findIndex((tab) => tab.id === tabId)
         if (newTabs.length > 0) {
           newActiveTabId = newTabs[Math.min(tabIndex, newTabs.length - 1)].id
         } else {
@@ -56,12 +66,12 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
 
       const newActiveGroupId = activeGroupId === groupId ? remainingGroups[0]?.id : activeGroupId
 
-      return withGroupsAndActiveGroup(state, redistributedGroups, newActiveGroupId)
+      return withGroupsAndActiveGroup(stateWithClosedTab, redistributedGroups, newActiveGroupId)
     }
 
     // If no remaining groups, return empty layout
-    return withEmptyGroups(state)
+    return withEmptyGroups(stateWithClosedTab)
   }
 
-  return withGroups(state, newGroups)
+  return withGroups(stateWithClosedTab, newGroups)
 }

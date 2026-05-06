@@ -165,7 +165,7 @@ test('loadTabContentAsync normalizes directory read errors', async () => {
   expect(mockRpc.invocations.length).toBe(1)
 })
 
-test.skip('loadTabContentAsync discards result when request ID changed (race condition)', async () => {
+test('loadTabContentAsync discards result when request ID changed (race condition)', async () => {
   RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => 'old content',
   })
@@ -177,7 +177,7 @@ test.skip('loadTabContentAsync discards result when request ID changed (race con
   // Simulate a newer request being started while the old one is in flight
   const newerState: MainAreaState = {
     ...createStateWithTab({
-      loadingState: 'loading',
+      loadingState: 'loaded',
     }),
   }
 
@@ -187,10 +187,10 @@ test.skip('loadTabContentAsync discards result when request ID changed (race con
 
   // The result should be the newer state unchanged because the request IDs don't match
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.loadingState).toBe('loading')
+  expect(tab?.loadingState).toBe('loaded')
 })
 
-test.skip('loadTabContentAsync discards result when tab no longer exists', async () => {
+test('loadTabContentAsync discards result when tab no longer exists', async () => {
   RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => 'content',
   })

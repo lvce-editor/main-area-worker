@@ -37,11 +37,12 @@ export const getEditorInputFromUri = (uri: string): any => {
 }
 
 const getNormalizedEditorInput = (tab: any): any => {
+  const { uri: tabUri, editorInput: tabEditorInput } = tab ?? {}
   let uri
-  if (typeof tab?.uri === 'string') {
-    uri = tab.uri
-  } else if (typeof tab?.editorInput?.uri === 'string') {
-    uri = tab.editorInput.uri
+  if (typeof tabUri === 'string') {
+    uri = tabUri
+  } else if (typeof tabEditorInput?.uri === 'string') {
+    uri = tabEditorInput.uri
   }
   if (uri) {
     const inferredEditorInput = getEditorInputFromUri(uri)

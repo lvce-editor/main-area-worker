@@ -246,6 +246,57 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
 })
 
+test('restoreMainAreaState should normalize stale extension detail editor inputs', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedState = JSON.stringify({
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'extension-detail://chat',
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'chat',
+            },
+          ],
+        },
+      ],
+    },
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+  const restoredTab = result.layout.groups[0].tabs[0]
+
+  expect(restoredTab.uri).toBe('extension-detail://chat')
+  expect(restoredTab.editorType).toBe('custom')
+  expect(restoredTab.editorInput).toEqual({
+    extensionId: 'chat',
+    type: 'extension-detail-view',
+  })
+})
+
 test('restoreMainAreaState should handle layout with tabs containing paths and languages', () => {
   const currentState: MainAreaState = {
     ...createDefaultState(),

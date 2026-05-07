@@ -3,6 +3,7 @@ import { createViewlet } from '../../CreateViewlet/CreateViewlet.ts'
 import * as ExecuteViewletCommands from '../../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import { findTabById } from '../../FindTabById/FindTabById.ts'
 import * as MainAreaStates from '../../MainAreaStates/MainAreaStates.ts'
+import { normalizeTabEditorInput } from '../../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 import * as ViewletLifecycle from '../../ViewletLifecycle/ViewletLifecycle.ts'
 import { getSelectedTabBounds } from '../GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
@@ -21,7 +22,7 @@ export const maybeCreateViewletForSelectedTab = async (
   requestId: number,
   switchCommands: readonly any[],
 ): Promise<MainAreaState | undefined> => {
-  const selectedTab = newState.layout.groups[groupIndex].tabs[index]
+  const selectedTab = normalizeTabEditorInput(newState.layout.groups[groupIndex].tabs[index])
   if (!shouldCreateViewletForSelectedTab(selectedTab)) {
     return undefined
   }

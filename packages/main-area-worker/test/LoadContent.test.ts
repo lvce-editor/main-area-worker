@@ -720,3 +720,69 @@ test('loadContent should restore extension detail tabs with the correct editor i
     ],
   ])
 })
+
+test('loadContent should normalize stale extension detail editor inputs from saved state', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => {
+      throw new Error('should not resolve normalized extension detail tabs through Layout.getModuleId')
+    },
+  })
+
+  using iconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['extensions'],
+  })
+
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'extension-detail://chat',
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'chat',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+  const restoredTab = result.layout.groups[0].tabs[0]
+
+  expect(restoredTab.uri).toBe('extension-detail://chat')
+  expect(restoredTab.editorType).toBe('custom')
+  expect(restoredTab.editorInput).toEqual({
+    extensionId: 'chat',
+    type: 'extension-detail-view',
+  })
+  expect(rendererRpc.invocations).toEqual([
+    [
+      'Layout.createViewlet',
+      'ExtensionDetail',
+      restoredTab.editorUid,
+      restoredTab.id,
+      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
+      'extension-detail://chat',
+    ],
+  ])
+  expect(iconRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'chat', type: 1 }]]])
+})

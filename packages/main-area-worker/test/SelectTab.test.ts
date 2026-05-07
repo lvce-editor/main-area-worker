@@ -797,6 +797,71 @@ test('selectTab should handle custom editor tabs', async () => {
   expect(result.layout).toEqual(expectedLayout)
 })
 
+test('selectTab should normalize stale extension detail tabs before switching', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => {
+      throw new Error('should not resolve stale extension detail tabs through Layout.getModuleId')
+    },
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 1',
+              uri: '/path/to/file-1.ts',
+            },
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'extension-detail://chat',
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'chat',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await selectTab(state, 0, 1)
+
+  expect(result.layout.groups[0].activeTabId).toBe(2)
+  expect(mockRpc.invocations).toEqual([
+    [
+      'Layout.createViewlet',
+      'ExtensionDetail',
+      result.layout.groups[0].tabs[1].editorUid,
+      2,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'extension-detail://chat',
+    ],
+  ])
+})
+
 test('selectTab should handle tabs with paths and languages', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async () => 'Editor',

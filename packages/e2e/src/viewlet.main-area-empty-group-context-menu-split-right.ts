@@ -1,5 +1,5 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-import { assertSavedStateLayout } from './assertSavedStateLayout.ts'
+import { assertSavedStateLayout } from './assertSavedStateLayout.js'
 
 const assert = (condition: boolean, message: string): void => {
   if (!condition) {

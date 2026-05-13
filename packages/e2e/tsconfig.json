@@ -8,6 +8,7 @@
     "moduleResolution": "nodenext",
     "rootDir": ".",
     "allowJs": true,
+    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,

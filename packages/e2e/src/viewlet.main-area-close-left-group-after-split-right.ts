@@ -1,5 +1,5 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-import { assertSavedStateLayout } from './assertSavedStateLayout.js'
+import { assertSavedStateLayout } from './assertSavedStateLayout.ts'
 
 export const name = 'viewlet.main-area-close-left-group-after-split-right'
 

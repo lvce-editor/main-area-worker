@@ -1,4 +1,5 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
+import { assertSavedStateLayout } from './assertSavedStateLayout.ts'
 
 export const name = 'viewlet.main-area-close-top-group-after-split-down'
 
@@ -23,16 +24,18 @@ export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
   await Main.splitDown()
 
   const savedState1 = await Main.saveState(2)
-  assert(savedState1.layout.groups.length === 2, `Expected 2 groups, got ${savedState1.layout.groups.length}`)
+  const layout1 = assertSavedStateLayout(savedState1, 'savedState1')
+  assert(layout1.groups.length === 2, `Expected 2 groups, got ${layout1.groups.length}`)
 
-  const topGroupId = savedState1.layout.groups[0].id
+  const topGroupId = layout1.groups[0].id
 
   await Main.openUri(fileBottom)
 
   await Command.execute('MainArea.handleClickAction', 2, 'close-group', String(topGroupId))
 
   const savedState2 = await Main.saveState(2)
-  assert(savedState2.layout.groups.length === 1, `Expected 1 group, got ${savedState2.layout.groups.length}`)
-  assert(savedState2.layout.groups[0].tabs.length === 1, `Expected 1 tab, got ${savedState2.layout.groups[0].tabs.length}`)
-  assert(savedState2.layout.groups[0].tabs[0].path === fileBottom, `Expected remaining tab to be ${fileBottom}`)
+  const layout2 = assertSavedStateLayout(savedState2, 'savedState2')
+  assert(layout2.groups.length === 1, `Expected 1 group, got ${layout2.groups.length}`)
+  assert(layout2.groups[0].tabs.length === 1, `Expected 1 tab, got ${layout2.groups[0].tabs.length}`)
+  assert(layout2.groups[0].tabs[0].path === fileBottom, `Expected remaining tab to be ${fileBottom}`)
 }

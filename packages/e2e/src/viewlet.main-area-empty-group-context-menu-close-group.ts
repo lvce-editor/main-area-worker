@@ -1,4 +1,5 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
+import { assertSavedStateLayout } from './assertSavedStateLayout.ts'
 
 const assert = (condition: boolean, message: string): void => {
   if (!condition) {
@@ -16,7 +17,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Main.splitRight()
 
   const beforeState = await Main.saveState(2)
-  const sourceGroupId = beforeState.layout.groups[1].id
+  const beforeLayout = assertSavedStateLayout(beforeState, 'beforeState')
+  const sourceGroupId = beforeLayout.groups[1].id
 
   await Command.execute('Main.handleContextMenu', String(sourceGroupId), 10, 10)
 
@@ -25,6 +27,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Command.execute('MainArea.closeEditorGroup', sourceGroupId)
 
   const afterState = await Main.saveState(2)
-  assert(afterState.layout.groups.length === 1, `Expected 1 group, got ${afterState.layout.groups.length}`)
-  assert(afterState.layout.groups[0].id !== sourceGroupId, `Expected group ${sourceGroupId} to be removed`)
+  const afterLayout = assertSavedStateLayout(afterState, 'afterState')
+  assert(afterLayout.groups.length === 1, `Expected 1 group, got ${afterLayout.groups.length}`)
+  assert(afterLayout.groups[0].id !== sourceGroupId, `Expected group ${sourceGroupId} to be removed`)
 }

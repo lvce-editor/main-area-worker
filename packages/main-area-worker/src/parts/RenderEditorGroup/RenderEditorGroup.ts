@@ -9,15 +9,13 @@ export const renderEditorGroup = (
   group: EditorGroup,
   groupIndex: number,
   splitButtonEnabled: boolean = false,
-  sizeProperty: 'width' | 'height' = 'width',
 ): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
-  const style = `${sizeProperty}:${group.size}%;`
   const hasTabs = group.tabs.length > 0
   const hasEmptyGroupCloseButton = !hasTabs
 
   if (hasEmptyGroupCloseButton) {
-    return renderEmptyEditorGroup(group, groupIndex, style)
+    return renderEmptyEditorGroup(group, groupIndex)
   }
 
   return [
@@ -25,7 +23,6 @@ export const renderEditorGroup = (
       childCount: 2,
       className: ClassNames.EditorGroup,
       'data-groupId': String(group.id),
-      style,
       type: VirtualDomElements.Div,
     },
     ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled),

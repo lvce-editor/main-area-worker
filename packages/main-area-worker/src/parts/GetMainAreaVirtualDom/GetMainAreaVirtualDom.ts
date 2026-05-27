@@ -34,7 +34,6 @@ const renderSegmentChildren = (
   const segments = getGroupSegments(groups, direction)
   const children: VirtualDomNode[] = []
   let childCount = 0
-  const sizeProperty = getSizeProperty(direction)
   for (let i = 0; i < segments.length; i++) {
     const segment = segments[i]
     if (i > 0) {
@@ -46,12 +45,11 @@ const renderSegmentChildren = (
       childCount++
     }
     if (segment.direction === undefined) {
-      children.push(...renderEditorGroup(segment.groups[0], segment.startIndex, splitButtonEnabled, sizeProperty))
+      children.push(...renderEditorGroup(segment.groups[0], segment.startIndex, splitButtonEnabled))
       childCount++
       continue
     }
     const nestedDirection = segment.direction
-    const nestedSizeProperty = getSizeProperty(nestedDirection)
     const nestedChildCount = segment.groups.length + segment.groups.length - 1
     const nestedChildren: VirtualDomNode[] = []
     let nestedCount = 0
@@ -74,7 +72,6 @@ const renderSegmentChildren = (
           },
           segment.startIndex + j,
           splitButtonEnabled,
-          nestedSizeProperty,
         ),
       )
       nestedCount++
@@ -95,9 +92,8 @@ const renderSegmentChildren = (
 
 export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
-  const sizeProperty = getSizeProperty(direction)
   if (groups.length === 1) {
-    return renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty)
+    return renderSingleEditorGroup(layout, splitButtonEnabled)
   }
 
   const editorGroupsContainerClassName = getContainerClassName(direction, groups.length)

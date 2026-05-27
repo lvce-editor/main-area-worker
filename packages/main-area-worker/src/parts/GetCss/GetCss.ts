@@ -26,8 +26,6 @@ export const getCss = (layout?: MainAreaLayout, width: number = 0): string => {
 
     `.EditorGroup {
   min-width: 250px;
-  width: var(--EditorGroupWidth, auto);
-  /*height: var(--EditorGroupHeight, auto);*/
 }`,
   ]
   if (layout) {

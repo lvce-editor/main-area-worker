@@ -5,14 +5,13 @@ import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEven
 import { renderEmptyGroupCloseButton } from '../RenderEmptyGroupCloseButton/RenderEmptyGroupCloseButton.ts'
 import { renderWaterMark } from '../RenderWaterMark/RenderWaterMark.ts'
 
-export const renderEmptyEditorGroup = (group: EditorGroup, groupIndex: number, style: string): readonly VirtualDomNode[] => {
+export const renderEmptyEditorGroup = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   return [
     {
       childCount: 2,
       className: ClassNames.EditorGroup,
       'data-groupId': String(group.id),
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-      style,
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },

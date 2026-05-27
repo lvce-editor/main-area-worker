@@ -9,6 +9,8 @@ export const getEditorInputTitle = (editorInput: EditorInput): string => {
       return `${leftTitle} - ${rightTitle}`
     }
     case 'editor':
+    case 'image':
+    case 'video':
       return PathDisplay.getLabel(editorInput.uri)
     case 'extension-detail-view':
       return editorInput.extensionId

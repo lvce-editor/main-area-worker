@@ -7,6 +7,8 @@ export const getViewletModuleIdForEditorInput = async (editorInput: EditorInput)
     case 'diff-editor':
       return ViewletModuleId.DiffEditor
     case 'editor':
+    case 'image':
+    case 'video':
       return getViewletModuleId(editorInput.uri)
     case 'extension-detail-view':
       return ViewletModuleId.ExtensionDetail

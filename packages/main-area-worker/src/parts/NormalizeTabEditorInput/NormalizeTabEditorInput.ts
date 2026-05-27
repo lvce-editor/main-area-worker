@@ -1,6 +1,35 @@
 import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
 import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
 
+const imageExtensions = new Set(['.avif', '.bmp', '.gif', '.ico', '.jpeg', '.jpg', '.png', '.svg', '.tif', '.tiff', '.webp'])
+const videoExtensions = new Set(['.avi', '.m4v', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogv', '.webm'])
+
+const getPathName = (uri: string): string => {
+  if (uri.startsWith('file://')) {
+    try {
+      return new URL(uri).pathname
+    } catch {
+      return uri
+    }
+  }
+  return uri
+}
+
+const getLowerCaseExtension = (uri: string): string => {
+  const pathName = getPathName(uri)
+  const queryIndex = pathName.indexOf('?')
+  const hashIndex = pathName.indexOf('#')
+  const endIndex =
+    queryIndex === -1 ? (hashIndex === -1 ? pathName.length : hashIndex) : hashIndex === -1 ? queryIndex : Math.min(queryIndex, hashIndex)
+  const cleanPath = pathName.slice(0, endIndex)
+  const lastDotIndex = cleanPath.lastIndexOf('.')
+  const lastSlashIndex = cleanPath.lastIndexOf('/')
+  if (lastDotIndex === -1 || lastDotIndex < lastSlashIndex) {
+    return ''
+  }
+  return cleanPath.slice(lastDotIndex).toLowerCase()
+}
+
 export const getEditorInputFromUri = (uri: string): any => {
   if (uri.startsWith('diff://?')) {
     try {
@@ -27,6 +56,21 @@ export const getEditorInputFromUri = (uri: string): any => {
         extensionId,
         type: 'extension-detail-view',
       }
+    }
+  }
+
+  const extension = getLowerCaseExtension(uri)
+  if (imageExtensions.has(extension)) {
+    return {
+      type: 'image',
+      uri,
+    }
+  }
+
+  if (videoExtensions.has(extension)) {
+    return {
+      type: 'video',
+      uri,
     }
   }
 

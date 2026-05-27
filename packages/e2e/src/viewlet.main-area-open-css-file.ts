@@ -13,7 +13,7 @@ export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) 
   const tab = Locator('.MainTab[title$="test.css"]')
   await expect(tab).toBeVisible()
 
-  const editor = Locator('.TextEditor')
+  const editor = Locator('.EditorText')
   await expect(editor).toBeVisible()
   await Editor.shouldHaveText(testContent)
 }

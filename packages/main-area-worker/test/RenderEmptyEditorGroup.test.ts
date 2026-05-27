@@ -16,7 +16,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
     tabs: [],
   }
 
-  const result = renderEmptyEditorGroup(group, 0, 'width:100%;')
+  const result = renderEmptyEditorGroup(group, 0)
 
   expect(result).toEqual([
     {
@@ -24,7 +24,6 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
       className: ClassNames.EditorGroup,
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-      style: 'width:100%;',
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -72,14 +71,13 @@ test('renderEmptyEditorGroup should expose the group id for CSS targeting', () =
     tabs: [],
   }
 
-  const result = renderEmptyEditorGroup(group, 0, 'height:50%;')
+  const result = renderEmptyEditorGroup(group, 0)
 
   expect(result[0]).toEqual({
     childCount: 2,
     className: ClassNames.EditorGroup,
     'data-groupId': '2',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-    style: 'height:50%;',
     tabIndex: 0,
     type: VirtualDomElements.Div,
   })

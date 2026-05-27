@@ -34,6 +34,7 @@ const renderSegmentChildren = (
   const segments = getGroupSegments(groups, direction)
   const children: VirtualDomNode[] = []
   let childCount = 0
+  const sizeProperty = getSizeProperty(direction)
   for (let i = 0; i < segments.length; i++) {
     const segment = segments[i]
     if (i > 0) {

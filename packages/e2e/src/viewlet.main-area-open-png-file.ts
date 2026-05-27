@@ -2,14 +2,12 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-png-file'
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
-  const tmpDir = await FileSystem.getTmpDir()
-  const testFile = `${tmpDir}/test.png`
-  await FileSystem.writeFile(testFile, '')
+export const test: Test = async ({ expect, Locator, Main }) => {
+  const testFile = import.meta.resolve('../fixtures/media/tiny.png')
 
   await Main.openUri(testFile)
 
-  const tab = Locator('.MainTab[title$="test.png"]')
+  const tab = Locator('.MainTab[title$="tiny.png"]')
   await expect(tab).toBeVisible()
 
   const image = Locator('img').first()

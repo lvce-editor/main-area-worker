@@ -109,7 +109,7 @@ test('loadTabContentAsync loads content successfully', async () => {
   const tab = LoadTabContent.findTab(result, 1)
   expect(tab?.loadingState).toBe('loaded')
   expect(tab?.errorMessage).toBeUndefined()
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0]).toEqual(['FileSystem.readFile', '/test/file.txt'])
 })
 
@@ -136,7 +136,7 @@ test('loadTabContentAsync handles error', async () => {
   const tab = LoadTabContent.findTab(result, 1)
   expect(tab?.loadingState).toBe('error')
   expect(tab?.errorMessage).toBe('File not found')
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
 })
 
 test('loadTabContentAsync normalizes directory read errors', async () => {
@@ -162,7 +162,7 @@ test('loadTabContentAsync normalizes directory read errors', async () => {
   const tab = LoadTabContent.findTab(result, 1)
   expect(tab?.loadingState).toBe('error')
   expect(tab?.errorMessage).toBe('Expected a file but received a folder')
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
 })
 
 test('loadTabContentAsync discards result when request ID changed (race condition)', async () => {
@@ -214,7 +214,7 @@ test('loadTabContentAsync discards result when tab no longer exists', async () =
   const result = await LoadTabContent.loadTabContentAsync(1, '/test/file.txt', requestId, getLatestState)
 
   // Should return the state without any groups
-  expect(result.layout.groups.length).toBe(0)
+  expect(result.layout.groups).toHaveLength(0)
 })
 
 test('loadTabContentAsync handles non-Error exception', async () => {

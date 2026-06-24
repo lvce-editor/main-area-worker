@@ -50,13 +50,13 @@ test('splitRight should split single group into two horizontal groups', () => {
   const result = splitRight(state, 1)
 
   expect(result.layout.direction).toBe(1)
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].size).toBe(50)
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[1].size).toBe(50)
   expect(result.layout.groups[1].focused).toBe(true)
-  expect(result.layout.groups[1].tabs.length).toBe(0)
+  expect(result.layout.groups[1].tabs).toHaveLength(0)
 })
 
 test('splitRight should set new group as active', () => {
@@ -139,9 +139,9 @@ test('splitRight should split with multiple existing groups', () => {
 
   const result = splitRight(state, 1)
 
-  expect(result.layout.groups.length).toBe(3)
+  expect(result.layout.groups).toHaveLength(3)
   expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[0].size).toBeCloseTo(33.333_333, 5)
+  expect(result.layout.groups[0].size).toBeCloseTo(33.333333, 5)
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[1].id).toBe(2)
   expect(result.layout.groups[2].focused).toBe(true)
@@ -184,7 +184,7 @@ test('splitRight should split middle group correctly', () => {
 
   const result = splitRight(state, 2)
 
-  expect(result.layout.groups.length).toBe(4)
+  expect(result.layout.groups).toHaveLength(4)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[1].id).toBe(2)
   expect(result.layout.groups[1].size).toBe(25)
@@ -225,8 +225,8 @@ test('splitRight should create new group with empty tabs', () => {
 
   const result = splitRight(state, 1)
 
-  expect(result.layout.groups[1].tabs.length).toBe(0)
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[1].tabs).toHaveLength(0)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
 })
 
 test('splitRight should preserve original group tabs', () => {
@@ -343,7 +343,7 @@ test('splitRight should split empty groups into two when groups array is empty',
 
   const result = splitRight(state)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].size).toBe(50)
   expect(result.layout.groups[1].size).toBe(50)
 })
@@ -448,7 +448,7 @@ test('splitRight should use provided groupId when groups is not empty', () => {
 
   const result = splitRight(state, 1)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
 })
 
 test('splitRight should use activeGroupId as fallback when groupId not provided and groups not empty', () => {
@@ -472,7 +472,7 @@ test('splitRight should use activeGroupId as fallback when groupId not provided 
 
   const result = splitRight(state)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
 })
 
 test('splitRight should use first group when activeGroupId is undefined and groups not empty', () => {
@@ -496,6 +496,6 @@ test('splitRight should use first group when activeGroupId is undefined and grou
 
   const result = splitRight(state)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
 })

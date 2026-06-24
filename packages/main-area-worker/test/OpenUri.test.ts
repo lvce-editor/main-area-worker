@@ -24,9 +24,9 @@ test('openUri should create a new group and tab when no groups exist', async () 
   const result = await openUri(state, options)
 
   expect(result).toBeDefined()
-  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.activeGroupId).toBeDefined()
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
   expect(result.layout.groups[0].tabs[0].title).toBe('file.ts')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
@@ -74,8 +74,8 @@ test('openUri should add tab to active group when group exists', async () => {
   const result = await openUri(state, options)
 
   expect(result).toBeDefined()
-  expect(result.layout.groups.length).toBe(1)
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs[1].uri).toBe('file:///path/to/new/file.ts')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[1].id)
 })
@@ -132,7 +132,7 @@ test('openUri should replace active preview tab instead of adding a new tab', as
 
   const result = await openUri(state, options)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/replacement.ts')
   expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
@@ -193,7 +193,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
   const result = await openUri(state, options)
 
   expect(result).toBeDefined()
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })
 
@@ -260,9 +260,9 @@ test('openUri should activate existing tab in different group', async () => {
   const result = await openUri(state, options)
 
   expect(result).toBeDefined()
-  expect(result.layout.groups.length).toBe(2)
-  expect(result.layout.groups[0].tabs.length).toBe(1)
-  expect(result.layout.groups[1].tabs.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[1].tabs).toHaveLength(1)
   expect(result.layout.activeGroupId).toBe(2)
   expect(result.layout.groups[1].activeTabId).toBe(2)
   expect(result.layout.groups[1].focused).toBe(true)
@@ -286,9 +286,9 @@ test('openUri should create group when activeGroupId points to non-existent grou
   const result = await openUri(state, options)
 
   expect(result).toBeDefined()
-  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.activeGroupId).toBeDefined()
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
 })
 
@@ -508,7 +508,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
   const tab = result.layout.groups[0].tabs[1]
 
   expect(result).toBeDefined()
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(mockRpc.invocations).toEqual([
     ['Layout.getModuleId', 'file:///path/to/new.ts'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/new.ts'],
@@ -805,7 +805,7 @@ test('openUri should handle race condition when second call starts while first a
   const [_result1, result2] = await Promise.all([promise1, promise2])
 
   // Both tabs should exist
-  expect(result2.layout.groups[0].tabs.length).toBe(2)
+  expect(result2.layout.groups[0].tabs).toHaveLength(2)
 
   // Verify both URIs are present
   const allUris = result2.layout.groups[0].tabs.map((tab) => tab.uri)
@@ -876,7 +876,7 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
 
   // All 4 tabs should exist
   // @ts-ignore
-  expect(finalResult.layout.groups[0].tabs.length).toBe(4)
+  expect(finalResult.layout.groups[0].tabs).toHaveLength(4)
 
   // Verify all URIs are present
   // @ts-ignore
@@ -888,7 +888,7 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
 
   // No duplicate tabs
   const uniqueUris = [...new Set(allUris)]
-  expect(uniqueUris.length).toBe(4)
+  expect(uniqueUris).toHaveLength(4)
 
   const getModuleIdInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.getModuleId')
   const createViewletInvocations = mockRpc.invocations.filter(([method]) => method === 'Layout.createViewlet')
@@ -969,7 +969,7 @@ test('openUri should preserve existing tabs when race condition occurs', async (
   const [_result1, result2] = await Promise.all([promise1, promise2])
 
   // Should have 3 tabs: 1 existing + 2 new
-  expect(result2.layout.groups[0].tabs.length).toBe(3)
+  expect(result2.layout.groups[0].tabs).toHaveLength(3)
 
   // Existing tab should still be there
   const existingTab = result2.layout.groups[0].tabs.find((tab) => tab.uri === 'file:///existing/file.ts')
@@ -1022,7 +1022,7 @@ test('openUri should handle race condition with createViewlet delays', async () 
   // Wait for both to be waiting on createViewlet
   await bothCallsWaiting.promise
 
-  expect(createViewletResolvers.length).toBe(2)
+  expect(createViewletResolvers).toHaveLength(2)
 
   // Resolve second one first
   createViewletResolvers[1].resolve()
@@ -1031,7 +1031,7 @@ test('openUri should handle race condition with createViewlet delays', async () 
   const [_result1, result2] = await Promise.all([promise1, promise2])
 
   // Both tabs should exist in final state
-  expect(result2.layout.groups[0].tabs.length).toBe(2)
+  expect(result2.layout.groups[0].tabs).toHaveLength(2)
 
   const allUris = result2.layout.groups[0].tabs.map((tab) => tab.uri)
   expect(allUris).toContain('file:///path/to/file1.ts')

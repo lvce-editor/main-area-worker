@@ -57,7 +57,7 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
   expect(result.layout.groups).toHaveLength(0)
 })
 
-test.skip('closeTabAndSave should save an editor-backed tab before closing it', async () => {
+test('closeTabAndSave should save an editor-backed tab before closing it', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
@@ -81,7 +81,7 @@ test.skip('closeTabAndSave should save an editor-backed tab before closing it', 
               editorUid: 123,
               icon: '',
               id: 1,
-              isDirty: false,
+              isDirty: true,
               isPreview: false,
               title: 'test.ts',
               uri: 'file:///test.ts',

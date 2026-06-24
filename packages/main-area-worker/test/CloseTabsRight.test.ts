@@ -52,7 +52,7 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[1].id).toBe(2)
   expect(result.layout.groups[0].activeTabId).toBe(2)
@@ -264,10 +264,10 @@ test('closeTabsRight should preserve other groups', () => {
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[1].id).toBe(2)
-  expect(result.layout.groups[1].tabs.length).toBe(3)
+  expect(result.layout.groups[1].tabs).toHaveLength(3)
   expect(result.layout.groups[1].tabs[0].id).toBe(4)
   expect(result.layout.groups[1].tabs[1].id).toBe(5)
   expect(result.layout.groups[1].tabs[2].id).toBe(6)
@@ -356,7 +356,7 @@ test('closeTabsRight should handle active tab at the beginning', () => {
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })
@@ -464,7 +464,7 @@ test('closeTabsRight should handle tabs with custom properties', () => {
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
   expect(result.layout.groups[0].tabs[0].language).toBe('typescript')
@@ -549,8 +549,8 @@ test('closeTabsRight should close tabs in second group when specified', () => {
 
   const result = closeTabsRight(state, 2)
 
-  expect(result.layout.groups[0].tabs.length).toBe(2)
-  expect(result.layout.groups[1].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
+  expect(result.layout.groups[1].tabs).toHaveLength(2)
   expect(result.layout.groups[1].tabs[0].id).toBe(3)
   expect(result.layout.groups[1].tabs[1].id).toBe(4)
 })
@@ -665,7 +665,7 @@ test('closeTabsRight should close multiple tabs to the right', () => {
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
 })
 
@@ -799,7 +799,7 @@ test('closeTabsRight should handle active tab in the middle', () => {
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(3)
+  expect(result.layout.groups[0].tabs).toHaveLength(3)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[1].id).toBe(2)
   expect(result.layout.groups[0].tabs[2].id).toBe(3)
@@ -854,7 +854,7 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
   expect(result.layout.groups[0].tabs[1].isDirty).toBe(false)
 })
@@ -900,7 +900,7 @@ test('closeTabsRight should handle vertical layout direction', () => {
   const result = closeTabsRight(state, 1)
 
   expect(result.layout.direction).toBe(2)
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
 })
 
 test('closeTabsRight should handle two tabs with one to close', () => {
@@ -943,6 +943,6 @@ test('closeTabsRight should handle two tabs with one to close', () => {
 
   const result = closeTabsRight(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
 })

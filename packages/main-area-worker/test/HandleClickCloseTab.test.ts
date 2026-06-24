@@ -256,7 +256,7 @@ test('handleClickCloseTab should close the tab at the specified index', async ()
 
   const result = await handleClickCloseTab(state, '0', '1')
 
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result).not.toBe(state)
 })
@@ -319,8 +319,8 @@ test('handleClickCloseTab should close tab from the correct group', async () => 
 
   const result = await handleClickCloseTab(state, '1', '0')
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
-  expect(result.layout.groups[1].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[1].tabs).toHaveLength(1)
   expect(result.layout.groups[1].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result).not.toBe(state)
 })
@@ -365,7 +365,7 @@ test('handleClickCloseTab should close first tab when index is 0', async () => {
 
   const result = await handleClickCloseTab(state, '0', '0')
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 1)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result).not.toBe(state)
@@ -420,7 +420,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
 
   const result = await handleClickCloseTab(state, '0', '2')
 
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 3)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result).not.toBe(state)
@@ -457,7 +457,7 @@ test('handleClickCloseTab should remove group when closing only tab in group', a
 
   const result = await handleClickCloseTab(state, '0', '0')
 
-  expect(result.layout.groups.length).toBe(0)
+  expect(result.layout.groups).toHaveLength(0)
   expect(result.layout.activeGroupId).toBeUndefined()
   expect(result).not.toBe(state)
 })
@@ -511,7 +511,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
 
   const result = await handleClickCloseTab(state, '0', '0')
 
-  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].id).toBe(2)
   expect(result.layout.activeGroupId).toBe(2)
   expect(result).not.toBe(state)

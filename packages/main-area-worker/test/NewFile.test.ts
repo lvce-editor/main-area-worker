@@ -44,7 +44,7 @@ test('newFile should create a new empty tab in the active group', async () => {
 
   const result = await newFile(state)
 
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs[1].title).toBe('Untitled')
   expect(result.layout.groups[0].tabs[1].editorType).toBe('text')
   expect(result.layout.groups[0].tabs[1].isDirty).toBe(false)
@@ -62,8 +62,8 @@ test('newFile should create a new group if no active group exists', async () => 
 
   const result = await newFile(state)
 
-  expect(result.layout.groups.length).toBe(1)
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].title).toBe('Untitled')
   expect(result.layout.groups[0].tabs[0].editorType).toBe('text')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
@@ -122,7 +122,7 @@ test('newFile should preserve existing tabs when creating new tab', async () => 
 
   const result = await newFile(state)
 
-  expect(result.layout.groups[0].tabs.length).toBe(3)
+  expect(result.layout.groups[0].tabs).toHaveLength(3)
   expect(result.layout.groups[0].tabs[0].title).toBe('file1.js')
   expect(result.layout.groups[0].tabs[1].title).toBe('file2.ts')
   expect(result.layout.groups[0].tabs[2].title).toBe('Untitled')

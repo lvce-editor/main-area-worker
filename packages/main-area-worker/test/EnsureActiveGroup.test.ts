@@ -26,7 +26,7 @@ test('ensureActiveGroup should add tab to existing active group', () => {
   const tabId = newState.layout.groups[0].tabs[0].id
 
   expect(tabId).toBeGreaterThan(0)
-  expect(newState.layout.groups[0].tabs.length).toBe(1)
+  expect(newState.layout.groups[0].tabs).toHaveLength(1)
   expect(newState.layout.groups[0].tabs[0].id).toBe(tabId)
   expect(newState.layout.groups[0].tabs[0].uri).toBe('/test/file.ts')
   expect(newState.layout.groups[0].tabs[0].loadingState).toBe('loading')
@@ -111,12 +111,12 @@ test('ensureActiveGroup should use focused group when activeGroupId is undefined
   const newState = ensureActiveGroup(state, '/test/file.ts')
   const tabId = newState.layout.groups[1].tabs[0].id
 
-  expect(newState.layout.groups[1].tabs.length).toBe(1)
+  expect(newState.layout.groups[1].tabs).toHaveLength(1)
   expect(newState.layout.groups[1].tabs[0].id).toBe(tabId)
   expect(newState.layout.groups[1].tabs[0].uri).toBe('/test/file.ts')
   expect(newState.layout.groups[1].tabs[0].title).toBe('file.ts')
   expect(newState.layout.groups[1].activeTabId).toBe(tabId)
-  expect(newState.layout.groups[0].tabs.length).toBe(0)
+  expect(newState.layout.groups[0].tabs).toHaveLength(0)
 })
 
 test('ensureActiveGroup should preserve existing tabs when adding new tab', () => {

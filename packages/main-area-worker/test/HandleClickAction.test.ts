@@ -121,7 +121,7 @@ test('handleClickAction should close group when action is "close-group" with val
 
   const result = await handleClickAction(state, 'close-group', '2')
 
-  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].size).toBe(100)
 })
@@ -261,7 +261,7 @@ test('handleClickAction should split editor group right when action is "split-ri
 
   const result = await handleClickAction(state, 'split-right')
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].size).toBe(50)
   expect(result.layout.groups[1].size).toBe(50)
@@ -351,7 +351,7 @@ test('handleClickAction should close active group when action is "close-group" w
 
   const result = await handleClickAction(state, 'close-group', '1')
 
-  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].id).toBe(2)
   expect(result.layout.activeGroupId).toBe(2)
 })

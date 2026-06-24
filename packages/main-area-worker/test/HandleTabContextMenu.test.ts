@@ -18,7 +18,7 @@ test('handleTabContextMenu should show context menu with correct parameters', as
   const result = await handleTabContextMenu(state, 2, 100, 200)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0]).toEqual(['ContextMenu.show2', 123, MenuEntryId.Tab, 100, 200, { menuId: MenuEntryId.Tab }])
 })
 
@@ -64,7 +64,7 @@ test('handleTabContextMenu should return state unchanged', async () => {
   expect(result.assetDir).toBe('/test/assets')
   expect(result.platform).toBe(1)
   expect(result.uid).toBe(456)
-  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
 })
 
 test('handleTabContextMenu should handle zero coordinates', async () => {
@@ -80,7 +80,7 @@ test('handleTabContextMenu should handle zero coordinates', async () => {
   const result = await handleTabContextMenu(state, 2, 0, 0)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0]).toEqual(['ContextMenu.show2', 1, MenuEntryId.Tab, 0, 0, { menuId: MenuEntryId.Tab }])
 })
 
@@ -97,7 +97,7 @@ test('handleTabContextMenu should handle large coordinates', async () => {
   const result = await handleTabContextMenu(state, 2, 1920, 1080)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0]).toEqual(['ContextMenu.show2', 999, MenuEntryId.Tab, 1920, 1080, { menuId: MenuEntryId.Tab }])
 })
 
@@ -113,6 +113,6 @@ test('handleTabContextMenu should use uid from state', async () => {
 
   await handleTabContextMenu(state, 2, 10, 20)
 
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0][1]).toBe(42)
 })

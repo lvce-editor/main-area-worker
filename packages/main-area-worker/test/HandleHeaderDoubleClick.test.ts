@@ -78,7 +78,7 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
 
   expect(result).not.toBe(state)
   expect(result.layout.groups[0].tabs.length).toBeGreaterThan(1)
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0][0]).toBe('Layout.createViewlet')
 })
 
@@ -122,6 +122,6 @@ test('handleHeaderDoubleClick should add untitled tab to the active group', asyn
 
   expect(untitledTab).toBeDefined()
   expect(untitledTab?.uri).toContain('untitled://')
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0][0]).toBe('Layout.createViewlet')
 })

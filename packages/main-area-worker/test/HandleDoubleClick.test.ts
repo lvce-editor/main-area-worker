@@ -180,7 +180,7 @@ test('handleDoubleClick should handle multiple groups', async () => {
 
   const result = await handleDoubleClick(state)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[1].id).toBe(2)
 })

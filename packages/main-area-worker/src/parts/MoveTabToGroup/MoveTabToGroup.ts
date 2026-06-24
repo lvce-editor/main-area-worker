@@ -10,9 +10,9 @@ export const moveTabToGroup = (
   const { layout } = state
   const { groups } = layout
   const sourceGroup = groups.find((group) => group.id === sourceGroupId)
-  const targetGroup = groups.find((group) => group.id === targetGroupId)
+  const hasTargetGroup = groups.some((group) => group.id === targetGroupId)
 
-  if (!sourceGroup || !targetGroup || sourceGroupId === targetGroupId) {
+  if (!sourceGroup || !hasTargetGroup || sourceGroupId === targetGroupId) {
     return state
   }
 

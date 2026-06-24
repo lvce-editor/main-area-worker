@@ -89,7 +89,7 @@ test('renderEditor should handle text editor with empty content', () => {
   }
   const result = renderEditor(tab)
 
-  expect(result.length).toBe(3)
+  expect(result).toHaveLength(3)
   expect(result[2].text).toBe('')
 })
 
@@ -105,7 +105,7 @@ test('renderEditor should handle text editor with undefined content', () => {
   }
   const result = renderEditor(tab)
 
-  expect(result.length).toBe(3)
+  expect(result).toHaveLength(3)
   expect(result[2].text).toBe('')
 })
 

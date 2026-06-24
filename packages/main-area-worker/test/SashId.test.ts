@@ -16,30 +16,30 @@ test('parse should parse valid sash id', () => {
 
 test('parse should return undefined for empty string', () => {
   const result = SashId.parse('')
-  expect(result).toBe(undefined)
+  expect(result).toBeUndefined()
 })
 
 test('parse should return undefined when before group id is missing', () => {
   const result = SashId.parse(':2')
-  expect(result).toBe(undefined)
+  expect(result).toBeUndefined()
 })
 
 test('parse should return undefined when after group id is missing', () => {
   const result = SashId.parse('1:')
-  expect(result).toBe(undefined)
+  expect(result).toBeUndefined()
 })
 
 test('parse should return undefined for non-numeric before group id', () => {
   const result = SashId.parse('abc:2')
-  expect(result).toBe(undefined)
+  expect(result).toBeUndefined()
 })
 
 test('parse should return undefined for non-numeric after group id', () => {
   const result = SashId.parse('1:abc')
-  expect(result).toBe(undefined)
+  expect(result).toBeUndefined()
 })
 
 test('parse should return undefined for infinity values', () => {
   const result = SashId.parse('Infinity:2')
-  expect(result).toBe(undefined)
+  expect(result).toBeUndefined()
 })

@@ -2,6 +2,6 @@ export const parseRawGroupId = (rawGroupId: string | undefined): number | undefi
   if (!rawGroupId) {
     return undefined
   }
-  const groupId = Number.parseFloat(rawGroupId)
+  const groupId = Number(rawGroupId)
   return Number.isNaN(groupId) ? undefined : groupId
 }

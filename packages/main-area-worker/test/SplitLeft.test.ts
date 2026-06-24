@@ -62,7 +62,7 @@ test('splitLeft should split single editor group horizontally', () => {
   const newGroupId = result.layout.groups[0].id
 
   expect(result.layout.direction).toBe(1)
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result.layout.groups[0].size).toBe(50)
   expect(result.layout.groups[1].focused).toBe(false)
@@ -125,7 +125,7 @@ test('splitLeft should use activeGroupId when groupId not provided', () => {
 
   const result = SplitLeft.splitLeft(state)
 
-  expect(result.layout.groups.length).toBe(3)
+  expect(result.layout.groups).toHaveLength(3)
 })
 
 test('splitLeft with empty groups should create initial group', () => {
@@ -140,7 +140,7 @@ test('splitLeft with empty groups should create initial group', () => {
 
   const result = SplitLeft.splitLeft(state)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].isEmpty).toBe(true)
   expect(result.layout.groups[1].isEmpty).toBe(true)
 })

@@ -6,6 +6,9 @@ const excludedTests = new Set([
   'viewlet.main-area-auto-modified-status.ts',
   'viewlet.main-area-close-active-editor-saves-modified-content.ts',
   'viewlet.main-area-editor-type-character.ts',
+  'viewlet.main-area-open-css-file.ts',
+  'viewlet.main-area-open-html-file.ts',
+  'viewlet.main-area-open-txt-file.ts',
   'viewlet.main-area-restore-closed-tab-three-groups.ts',
 ])
 

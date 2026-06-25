@@ -6,11 +6,13 @@ export const renderTabActions = (isDirty: boolean, tabIndex: number, groupIndex:
   if (isDirty) {
     return [
       {
+        'aria-label': 'Close',
         childCount: 1,
         className: ClassNames.EditorTabCloseButton,
         'data-groupIndex': groupIndex,
         'data-index': tabIndex,
-        type: VirtualDomElements.Div,
+        onClick: DomEventListenerFunctions.HandleClickClose,
+        type: VirtualDomElements.Button,
       },
       {
         childCount: 0,

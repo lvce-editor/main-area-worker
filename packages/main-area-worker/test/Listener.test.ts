@@ -25,13 +25,11 @@ test('register should store the listener in state', () => {
   expect(Listener.state[id]).toBe(testListener)
 })
 
-let calledWith: ReadonlyArray<any> = []
-const argsListener = (...args: ReadonlyArray<any>): void => {
-  calledWith = args
-}
-
 test('execute should call the registered listener with arguments', () => {
-  calledWith = []
+  let calledWith: ReadonlyArray<any> = []
+  const argsListener = (...args: ReadonlyArray<any>): void => {
+    calledWith = args
+  }
   const id = Listener.register(argsListener)
   Listener.execute(id, 'arg1', 'arg2', 123)
   expect(calledWith).toEqual(['arg1', 'arg2', 123])
@@ -67,18 +65,15 @@ test('unregister should remove the listener from state', () => {
   expect(Listener.state[id]).toBeUndefined()
 })
 
-let listener1Called = false
-let listener2Called = false
-const listener1 = (): void => {
-  listener1Called = true
-}
-const listener2 = (): void => {
-  listener2Called = true
-}
-
 test('multiple listeners should work independently', () => {
-  listener1Called = false
-  listener2Called = false
+  let listener1Called = false
+  let listener2Called = false
+  const listener1 = (): void => {
+    listener1Called = true
+  }
+  const listener2 = (): void => {
+    listener2Called = true
+  }
   const id1 = Listener.register(listener1)
   const id2 = Listener.register(listener2)
   Listener.execute(id1)
@@ -112,13 +107,11 @@ test('register should return unique IDs', () => {
   expect(id1).not.toBe(id2)
 })
 
-let receivedArgs: ReadonlyArray<any> = []
-const multiArgListener = (a: string, b: number, c: boolean): void => {
-  receivedArgs = [a, b, c]
-}
-
 test('execute should pass multiple arguments correctly', () => {
-  receivedArgs = []
+  let receivedArgs: ReadonlyArray<any> = []
+  const multiArgListener = (a: string, b: number, c: boolean): void => {
+    receivedArgs = [a, b, c]
+  }
   const id = Listener.register(multiArgListener)
   Listener.execute(id, 'hello', 42, true)
   expect(receivedArgs).toEqual(['hello', 42, true])

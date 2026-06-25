@@ -7,9 +7,11 @@ const rpcInstances: Rpc[] = []
 
 afterEach(() => {
   for (const rpc of rpcInstances) {
-    if (rpc && typeof (rpc as any).dispose === 'function') {
-      ;(rpc as any).dispose()
+    if (!(rpc && typeof (rpc as any).dispose === 'function')) {
+      continue
     }
+
+    ;(rpc as any).dispose()
   }
   rpcInstances.length = 0
 })

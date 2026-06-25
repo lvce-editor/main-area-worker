@@ -52,7 +52,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
 
   const result = closeOtherTabs(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(2)
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result).not.toBe(state)
@@ -211,9 +211,9 @@ test('closeOtherTabs should preserve other groups', () => {
 
   const result = closeOtherTabs(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(2)
-  expect(result.layout.groups[1].tabs.length).toBe(3)
+  expect(result.layout.groups[1].tabs).toHaveLength(3)
   expect(result.layout.groups[1].tabs[0].id).toBe(4)
   expect(result.layout.groups[1].tabs[1].id).toBe(5)
   expect(result.layout.groups[1].tabs[2].id).toBe(6)
@@ -250,7 +250,7 @@ test('closeOtherTabs should handle single tab in group', () => {
 
   const result = closeOtherTabs(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })
@@ -304,7 +304,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
 
   const result = closeOtherTabs(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })
@@ -358,7 +358,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
 
   const result = closeOtherTabs(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(3)
   expect(result.layout.groups[0].activeTabId).toBe(3)
 })
@@ -466,7 +466,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
 
   const result = closeOtherTabs(state, 1)
 
-  expect(result.layout.groups[0].tabs.length).toBe(1)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].id).toBe(2)
   expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
@@ -550,12 +550,12 @@ test('closeOtherTabs should use active group when groupId is not provided', () =
   const result = closeOtherTabs(state)
 
   // First group should be unchanged
-  expect(result.layout.groups[0].tabs.length).toBe(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[1].id).toBe(2)
 
   // Second group (active) should only have the active tab
-  expect(result.layout.groups[1].tabs.length).toBe(1)
+  expect(result.layout.groups[1].tabs).toHaveLength(1)
   expect(result.layout.groups[1].tabs[0].id).toBe(4)
   expect(result.layout.groups[1].activeTabId).toBe(4)
   expect(result).not.toBe(state)

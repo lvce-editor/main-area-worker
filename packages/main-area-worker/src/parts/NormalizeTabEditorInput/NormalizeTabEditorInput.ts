@@ -50,7 +50,7 @@ export const getEditorInputFromUri = (uri: string): any => {
 
   if (uri.startsWith('extension-detail://')) {
     const extensionIdWithPath = uri.slice('extension-detail://'.length)
-    const extensionId = extensionIdWithPath.split('/')[0]
+    const extensionId = extensionIdWithPath.split('/', 1)[0]
     if (extensionId) {
       return {
         extensionId,

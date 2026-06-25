@@ -24,6 +24,6 @@ export const focusPreviousTab = async (state: MainAreaState): Promise<MainAreaSt
   }
 
   // If not at the first tab, select the previous tab, otherwise cycle to last
-  const previousTabIndex = activeTabIndex > 0 ? activeTabIndex - 1 : activeGroup.tabs.length - 1
+  const previousTabIndex = (activeTabIndex > 0 ? activeTabIndex : activeGroup.tabs.length) - 1
   return selectTab(state, activeGroupIndex, previousTabIndex)
 }

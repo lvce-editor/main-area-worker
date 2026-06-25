@@ -92,7 +92,7 @@ export const focusLast = (state): any => {
 }
 
 const getPreviousIndex = (editors, activeIndex): number => {
-  return activeIndex === 0 ? editors.length - 1 : activeIndex - 1
+  return (activeIndex === 0 ? editors.length : activeIndex) - 1
 }
 
 export const focusPrevious = (state): any => {
@@ -100,7 +100,7 @@ export const focusPrevious = (state): any => {
 }
 
 const getNextIndex = (editors, activeIndex): number => {
-  return activeIndex === editors.length - 1 ? 0 : activeIndex + 1
+  return (activeIndex + 1) % editors.length
 }
 
 export const focusNext = (state): any => {

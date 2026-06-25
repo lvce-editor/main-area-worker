@@ -81,7 +81,7 @@ test('requestFileIcons should return array of icon strings', async () => {
   const result = await requestFileIcons(requests)
 
   expect(Array.isArray(result)).toBe(true)
-  expect(result.length).toBe(3)
+  expect(result).toHaveLength(3)
   expect(result[0]).toBe('icon-1')
   expect(result[1]).toBe('icon-2')
   expect(result[2]).toBe('icon-3')

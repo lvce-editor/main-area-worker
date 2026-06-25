@@ -11,7 +11,7 @@ export const handleContextMenu = async (state: MainAreaState, rawGroupId: string
   if (rawGroupId === undefined) {
     return state
   }
-  const groupId = rawGroupId === '' ? NoGroupId : Number.parseInt(rawGroupId, 10)
+  const groupId = rawGroupId === '' ? NoGroupId : Number(rawGroupId)
   if (Number.isNaN(groupId)) {
     return state
   }

@@ -11,7 +11,7 @@ const parseId = (value: string | undefined): number | undefined => {
   if (!value) {
     return undefined
   }
-  const parsedValue = Number.parseInt(value, 10)
+  const parsedValue = Number(value)
   return Number.isNaN(parsedValue) ? undefined : parsedValue
 }
 

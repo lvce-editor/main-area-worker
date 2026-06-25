@@ -61,7 +61,7 @@ test('splitUp should split single editor group vertically', () => {
   const result = SplitUp.splitUp(state, 1)
 
   expect(result.layout.direction).toBe(2)
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].size).toBe(50)
   expect(result.layout.groups[1].size).toBe(50)
 })
@@ -87,7 +87,7 @@ test('splitUp should preserve tabs in the original group', () => {
 
   const result = SplitUp.splitUp(state, 1)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups.some((g) => g.tabs.length === 2)).toBe(true)
 })
 
@@ -120,7 +120,7 @@ test('splitUp should use activeGroupId when groupId not provided', () => {
 
   const result = SplitUp.splitUp(state)
 
-  expect(result.layout.groups.length).toBe(3)
+  expect(result.layout.groups).toHaveLength(3)
 })
 
 test('splitUp should return unchanged state when activeGroupId is undefined and groupId not provided and groups exist', () => {
@@ -183,6 +183,6 @@ test('splitUp should set new group as focused', () => {
 
   const result = SplitUp.splitUp(state, 1)
 
-  expect(result.layout.groups.length).toBe(2)
-  expect(result.layout.groups.some((g) => g.focused === true)).toBe(true)
+  expect(result.layout.groups).toHaveLength(2)
+  expect(result.layout.groups.some((g) => g.focused)).toBe(true)
 })

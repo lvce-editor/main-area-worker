@@ -35,12 +35,12 @@ test('splitEditorGroup should split editor group to the right', () => {
 
   const result = splitEditorGroup(state, 1, GroupDirection.Right)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[0].size).toBe(50)
   expect(result.layout.groups[1].focused).toBe(true)
-  expect(result.layout.groups[1].tabs.length).toBe(0)
+  expect(result.layout.groups[1].tabs).toHaveLength(0)
   expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
   expect(result.layout.direction).toBe(1)
   expect(result).not.toBe(state)
@@ -77,9 +77,9 @@ test('splitEditorGroup should split editor group to the left', () => {
 
   const result = splitEditorGroup(state, 1, GroupDirection.Left)
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].focused).toBe(true)
-  expect(result.layout.groups[0].tabs.length).toBe(0)
+  expect(result.layout.groups[0].tabs).toHaveLength(0)
   expect(result.layout.groups[1].id).toBe(1)
   expect(result.layout.groups[1].focused).toBe(false)
   expect(result.layout.groups[1].size).toBe(50)
@@ -118,12 +118,12 @@ test('splitEditorGroup should split editor group down', () => {
 
   const result = splitEditorGroup(state, 1, 'down')
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[0].size).toBe(50)
   expect(result.layout.groups[1].focused).toBe(true)
-  expect(result.layout.groups[1].tabs.length).toBe(0)
+  expect(result.layout.groups[1].tabs).toHaveLength(0)
   expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
   expect(result.layout.direction).toBe(2)
 })
@@ -159,9 +159,9 @@ test('splitEditorGroup should split editor group up', () => {
 
   const result = splitEditorGroup(state, 1, 'up')
 
-  expect(result.layout.groups.length).toBe(2)
+  expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].focused).toBe(true)
-  expect(result.layout.groups[0].tabs.length).toBe(0)
+  expect(result.layout.groups[0].tabs).toHaveLength(0)
   expect(result.layout.groups[1].id).toBe(1)
   expect(result.layout.groups[1].focused).toBe(false)
   expect(result.layout.groups[1].size).toBe(50)
@@ -201,7 +201,7 @@ test('splitEditorGroup should return unchanged state if group not found', () => 
   const result = splitEditorGroup(state, 999, GroupDirection.Right)
 
   expect(result).toBe(state)
-  expect(result.layout.groups.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
 })
 
 test('splitEditorGroup should preserve tabs in source group', () => {
@@ -253,11 +253,11 @@ test('splitEditorGroup should preserve tabs in source group', () => {
 
   const result = splitEditorGroup(state, 1, GroupDirection.Right)
 
-  expect(result.layout.groups[0].tabs.length).toBe(3)
+  expect(result.layout.groups[0].tabs).toHaveLength(3)
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[1].id).toBe(2)
   expect(result.layout.groups[0].tabs[2].id).toBe(3)
-  expect(result.layout.groups[1].tabs.length).toBe(0)
+  expect(result.layout.groups[1].tabs).toHaveLength(0)
 })
 
 test('splitEditorGroup should create new group with unique id', () => {
@@ -283,7 +283,7 @@ test('splitEditorGroup should create new group with unique id', () => {
   const result2 = splitEditorGroup(result1, 1, GroupDirection.Right)
 
   expect(result1.layout.groups[1].id).not.toBe(result2.layout.groups[2].id)
-  expect(result2.layout.groups.length).toBe(3)
+  expect(result2.layout.groups).toHaveLength(3)
 })
 
 test('splitEditorGroup should set new group as focused', () => {
@@ -396,15 +396,15 @@ test('splitEditorGroup should split multiple existing groups', () => {
 
   const result = splitEditorGroup(state, 1, GroupDirection.Right)
 
-  expect(result.layout.groups.length).toBe(3)
+  expect(result.layout.groups).toHaveLength(3)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[1].id).toBe(2)
   expect(result.layout.groups[0].focused).toBe(false)
   expect(result.layout.groups[1].focused).toBe(false)
   expect(result.layout.groups[2].focused).toBe(true)
-  expect(result.layout.groups[0].size).toBeCloseTo(33.333_333, 5)
-  expect(result.layout.groups[1].size).toBeCloseTo(33.333_333, 5)
-  expect(result.layout.groups[2].size).toBeCloseTo(33.333_334, 5)
+  expect(result.layout.groups[0].size).toBeCloseTo(33.333333, 5)
+  expect(result.layout.groups[1].size).toBeCloseTo(33.333333, 5)
+  expect(result.layout.groups[2].size).toBeCloseTo(33.333334, 5)
   const totalSize = result.layout.groups.reduce((sum, group) => sum + group.size, 0)
   expect(totalSize).toBeCloseTo(100, 5)
 })
@@ -458,11 +458,11 @@ test('splitEditorGroup should handle split of second group', () => {
 
   const result = splitEditorGroup(state, 2, GroupDirection.Left)
 
-  expect(result.layout.groups.length).toBe(3)
+  expect(result.layout.groups).toHaveLength(3)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].focused).toBe(true)
   expect(result.layout.groups[1].focused).toBe(true)
-  expect(result.layout.groups[1].tabs.length).toBe(0)
+  expect(result.layout.groups[1].tabs).toHaveLength(0)
   expect(result.layout.groups[2].id).toBe(2)
   expect(result.layout.groups[2].focused).toBe(false)
   expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
@@ -662,7 +662,7 @@ test('splitEditorGroup should not mutate original state', () => {
 
   splitEditorGroup(state, 1, GroupDirection.Right)
 
-  expect(state.layout.groups.length).toBe(originalGroupsLength)
+  expect(state.layout.groups).toHaveLength(originalGroupsLength)
   expect(state.layout.groups[0].focused).toBe(originalGroupFocused)
   expect(state.layout.groups[0].size).toBe(originalGroupSize)
 })

@@ -23,7 +23,7 @@ test('applyRender should return commands when diffResult contains RenderItems', 
 
   const result = ApplyRender.applyRender(oldState, newState, [DiffType.RenderItems])
 
-  expect(result.length).toBe(1)
+  expect(result).toHaveLength(1)
   expect(result[0][0]).toBe(ViewletCommand.SetDom2)
   expect(result[0][1]).toBe(1)
   expect(Array.isArray(result[0][2])).toBe(true)
@@ -38,7 +38,7 @@ test('applyRender should return multiple commands when diffResult contains multi
 
   const result = ApplyRender.applyRender(oldState, newState, [DiffType.RenderItems, DiffType.RenderItems])
 
-  expect(result.length).toBe(2)
+  expect(result).toHaveLength(2)
   expect(result[0][0]).toBe(ViewletCommand.SetDom2)
   expect(result[0][1]).toBe(2)
   expect(result[1][0]).toBe(ViewletCommand.SetDom2)

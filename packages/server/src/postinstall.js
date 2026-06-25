@@ -23,6 +23,7 @@ const isCommitHash = (dirent) => {
 const dirents = await readdir(serverStaticPath)
 const commitHash = dirents.find(isCommitHash) || ''
 const rendererWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'renderer-worker', 'dist', 'rendererWorkerMain.js')
+const diffViewWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'diff-view', 'dist', 'diffViewWorkerMain.js')
 
 const content = await readFile(rendererWorkerMainPath, 'utf-8')
 
@@ -37,4 +38,20 @@ const mainAreaWorkerUrl = \`${remoteUrl}\``
 
   const newContent = content.replace(occurrence, replacement)
   await writeFile(rendererWorkerMainPath, newContent)
+}
+
+const diffViewContent = await readFile(diffViewWorkerMainPath, 'utf-8')
+if (!diffViewContent.includes("'DiffView.getKeyBindings'")) {
+  const occurrence = `const commandMap = {
+  'Diff.getCommandIds': getCommandIds,`
+  if (!diffViewContent.includes(occurrence)) {
+    throw new Error('diff view command map occurrence not found')
+  }
+  const replacement = `const getKeyBindings = () => []
+
+const commandMap = {
+  'Diff.getCommandIds': getCommandIds,
+  'DiffView.getKeyBindings': getKeyBindings,`
+  const newContent = diffViewContent.replace(occurrence, replacement)
+  await writeFile(diffViewWorkerMainPath, newContent)
 }

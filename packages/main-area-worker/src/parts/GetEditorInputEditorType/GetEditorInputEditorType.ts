@@ -5,6 +5,8 @@ export const getEditorInputEditorType = (editorInput: EditorInput): EditorType =
   switch (editorInput.type) {
     case 'diff-editor':
     case 'extension-detail-view':
+    case 'image':
+    case 'video':
       return 'custom'
     case 'editor':
       return 'text'

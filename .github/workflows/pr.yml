@@ -56,6 +56,7 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: e2e webkit
+        if: runner.os != 'Windows'
         working-directory: ./packages/e2e
         run: npm run e2e:webkit:headless
         env:

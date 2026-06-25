@@ -14,6 +14,7 @@ export const getRemoteUrl = (path) => {
 const nodeModulesPath = join(root, 'packages', 'server', 'node_modules')
 
 const serverStaticPath = join(nodeModulesPath, '@lvce-editor', 'static-server', 'static')
+const serverPath = join(nodeModulesPath, '@lvce-editor', 'server', 'src', 'server.js')
 
 const RE_COMMIT_HASH = /^[a-z\d]+$/
 const isCommitHash = (dirent) => {
@@ -54,4 +55,22 @@ const commandMap = {
   'DiffView.getKeyBindings': getKeyBindings,`
   const newContent = diffViewContent.replace(occurrence, replacement)
   await writeFile(diffViewWorkerMainPath, newContent)
+}
+
+const serverContent = await readFile(serverPath, 'utf-8')
+if (!serverContent.includes('const { socket } = res')) {
+  const occurrence = `  if (!hasErrorListener.has(res.socket)) {
+    res.socket.on('error', handleSocketError)
+    hasErrorListener.add(res.socket)
+  }`
+  if (!serverContent.includes(occurrence)) {
+    throw new Error('server socket error listener occurrence not found')
+  }
+  const replacement = `  const { socket } = res
+  if (socket && !hasErrorListener.has(socket)) {
+    socket.on('error', handleSocketError)
+    hasErrorListener.add(socket)
+  }`
+  const newContent = serverContent.replace(occurrence, replacement)
+  await writeFile(serverPath, newContent)
 }

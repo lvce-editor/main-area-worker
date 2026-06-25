@@ -20,7 +20,7 @@ test('copyPath should copy the file path to clipboard', async () => {
   const result = await copyPath(state, path)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0]).toEqual(['ClipBoard.writeText', path])
 })
 
@@ -37,7 +37,7 @@ test('copyPath should handle absolute paths', async () => {
 
   await copyPath(state, path)
 
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0][1]).toBe(path)
 })
 
@@ -54,7 +54,7 @@ test('copyPath should handle Windows paths', async () => {
 
   await copyPath(state, path)
 
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0][1]).toBe(path)
 })
 
@@ -71,7 +71,7 @@ test('copyPath should handle file URIs', async () => {
 
   await copyPath(state, path)
 
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0][1]).toBe(path)
 })
 
@@ -124,6 +124,6 @@ test('copyPath should handle empty string path', async () => {
 
   await copyPath(state, path)
 
-  expect(mockRpc.invocations.length).toBe(1)
+  expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0][1]).toBe('')
 })

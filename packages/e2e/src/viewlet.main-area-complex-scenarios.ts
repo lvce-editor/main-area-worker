@@ -84,7 +84,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
 
   await Command.execute('MainArea.handleClickCloseTab', uid, '1', '0')
   const savedState7 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState7.layout.groups[1].tabs.length >= 0, 'Second group should have zero or more tabs')
+  assert(savedState7.layout.groups[1] !== undefined, 'Second group should exist')
 
   await Command.execute('MainArea.openUri', uid, {
     focu: false,

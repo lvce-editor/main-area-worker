@@ -98,9 +98,9 @@ test('retryOpen should keep tab layout unchanged when reopening active tab uri',
 
   const result = await retryOpen(state)
 
-  expect(result.layout.groups.length).toBe(2)
-  expect(result.layout.groups[0].tabs.length).toBe(1)
-  expect(result.layout.groups[1].tabs.length).toBe(1)
+  expect(result.layout.groups).toHaveLength(2)
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[1].tabs).toHaveLength(1)
   expect(result.layout.activeGroupId).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.groups[0].focused).toBe(true)

@@ -45,7 +45,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
       const groupDirection = normalizeLayoutDirection(group?.direction)
       return {
         ...group,
-        ...(groupDirection === undefined ? {} : { direction: groupDirection }),
+        ...(groupDirection !== undefined && { direction: groupDirection }),
         tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : [],
       }
     }),

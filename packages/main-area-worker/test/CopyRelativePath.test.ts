@@ -24,7 +24,7 @@ test('copyRelativePath should copy the relative path to clipboard', async () => 
   const result = await copyRelativePath(state, path)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations.length).toBe(2)
+  expect(mockRpc.invocations).toHaveLength(2)
   expect(mockRpc.invocations[0]).toEqual(['Workspace.pathBaseName', path])
   expect(mockRpc.invocations[1]).toEqual(['ClipBoard.writeText', 'src/test.ts'])
 })
@@ -45,7 +45,7 @@ test('copyRelativePath should handle nested paths', async () => {
 
   await copyRelativePath(state, path)
 
-  expect(mockRpc.invocations.length).toBe(2)
+  expect(mockRpc.invocations).toHaveLength(2)
   expect(mockRpc.invocations[1][1]).toBe('src/components/Button/Button.tsx')
 })
 
@@ -65,7 +65,7 @@ test('copyRelativePath should handle root level files', async () => {
 
   await copyRelativePath(state, path)
 
-  expect(mockRpc.invocations.length).toBe(2)
+  expect(mockRpc.invocations).toHaveLength(2)
   expect(mockRpc.invocations[1][1]).toBe('README.md')
 })
 
@@ -127,7 +127,7 @@ test('copyRelativePath should handle file URIs', async () => {
 
   await copyRelativePath(state, path)
 
-  expect(mockRpc.invocations.length).toBe(2)
+  expect(mockRpc.invocations).toHaveLength(2)
   expect(mockRpc.invocations[0][1]).toBe(path)
   expect(mockRpc.invocations[1][1]).toBe('docs/guide.md')
 })
@@ -148,6 +148,6 @@ test('copyRelativePath should handle Windows paths', async () => {
 
   await copyRelativePath(state, path)
 
-  expect(mockRpc.invocations.length).toBe(2)
+  expect(mockRpc.invocations).toHaveLength(2)
   expect(mockRpc.invocations[1][1]).toBe('src\\main.ts')
 })

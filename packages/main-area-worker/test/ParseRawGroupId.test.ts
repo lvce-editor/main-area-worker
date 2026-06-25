@@ -13,10 +13,10 @@ test('parseRawGroupId should parse decimal group id', () => {
 
 test('parseRawGroupId should return undefined when raw group id is missing', () => {
   const result = parseRawGroupId(undefined)
-  expect(result).toBe(undefined)
+  expect(result).toBeUndefined()
 })
 
 test('parseRawGroupId should return undefined when raw group id is invalid', () => {
   const result = parseRawGroupId('invalid')
-  expect(result).toBe(undefined)
+  expect(result).toBeUndefined()
 })

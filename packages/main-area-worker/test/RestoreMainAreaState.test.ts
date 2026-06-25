@@ -560,7 +560,7 @@ test('restoreMainAreaState should handle layout with invalid direction', () => {
 
   const result = restoreMainAreaState(savedState, currentState)
 
-  expect(result.layout.direction).toBe('invalid')
+  expect((result.layout as any).direction).toBe('invalid')
 })
 
 test('restoreMainAreaState should handle layout with invalid activeGroupId type', () => {
@@ -702,7 +702,7 @@ test('restoreMainAreaState should handle layout with group having invalid focuse
 
   const result = restoreMainAreaState(savedState, currentState)
 
-  expect(result.layout.groups[0].focused).toBe('invalid')
+  expect((result.layout.groups[0] as any).focused).toBe('invalid')
 })
 
 test('restoreMainAreaState should handle layout with group having invalid tabs', () => {

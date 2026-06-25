@@ -74,7 +74,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
         focused: false,
         id: 1,
         isEmpty: true,
-        size: 33.333_333,
+        size: 33.333333,
         tabs: [],
       },
       {
@@ -82,7 +82,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
         focused: false,
         id: 2,
         isEmpty: true,
-        size: 33.333_333,
+        size: 33.333333,
         tabs: [],
       },
       {
@@ -90,7 +90,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
         focused: false,
         id: 3,
         isEmpty: true,
-        size: 33.333_334,
+        size: 33.333334,
         tabs: [],
       },
     ],

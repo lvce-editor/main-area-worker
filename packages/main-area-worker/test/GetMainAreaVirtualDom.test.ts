@@ -290,7 +290,7 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
   }
   const result = getMainAreaVirtualDom(layout)
 
-  expect(result.length).toBe(2) // 1 (Main) + 1 (EditorGroupsContainer)
+  expect(result).toHaveLength(2) // 1 (Main) + 1 (EditorGroupsContainer)
   expect(result[1]).toEqual({
     childCount: 0,
     className: ClassNames.EDITOR_GROUPS_CONTAINER,
@@ -311,7 +311,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
         focused: false,
         id: 1,
         isEmpty: true,
-        size: 33.333_333,
+        size: 33.333333,
         tabs: [],
       },
       {
@@ -319,7 +319,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
         focused: false,
         id: 2,
         isEmpty: true,
-        size: 33.333_333,
+        size: 33.333333,
         tabs: [],
       },
       {
@@ -327,7 +327,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
         focused: false,
         id: 3,
         isEmpty: true,
-        size: 33.333_334,
+        size: 33.333334,
         tabs: [],
       },
     ],
@@ -351,7 +351,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
         focused: false,
         id: 1,
         isEmpty: true,
-        size: 33.333_333,
+        size: 33.333333,
         tabs: [],
       },
       {
@@ -359,7 +359,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
         focused: false,
         id: 2,
         isEmpty: true,
-        size: 33.333_333,
+        size: 33.333333,
         tabs: [],
       },
       {
@@ -367,7 +367,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
         focused: false,
         id: 3,
         isEmpty: true,
-        size: 33.333_334,
+        size: 33.333334,
         tabs: [],
       },
     ],

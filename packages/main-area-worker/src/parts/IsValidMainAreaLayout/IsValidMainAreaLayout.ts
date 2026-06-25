@@ -21,9 +21,5 @@ export const isValidMainAreaLayout = (layout: unknown): layout is MainAreaLayout
     return false
   }
 
-  if (!layoutObj.groups.every(isValidEditorGroup)) {
-    return false
-  }
-
-  return true
+  return !!layoutObj.groups.every(isValidEditorGroup)
 }

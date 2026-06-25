@@ -63,7 +63,7 @@ test('handleSashPointerMove should return original state for invalid pointer val
     },
   }
 
-  const result = await handleSashPointerMove(state, Number.NaN, 200)
+  const result = await handleSashPointerMove(state, NaN, 200)
 
   expect(result).toBe(state)
 })

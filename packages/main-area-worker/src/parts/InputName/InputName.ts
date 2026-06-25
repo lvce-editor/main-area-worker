@@ -1,5 +1,3 @@
-export const Notifications = 'Notifications'
-export const Problems = 'Problems'
 export const CloseGroup = 'close-group'
 export const RetryOpen = 'retry-open'
 export const RestoreClosedTab = 'restore-closed-tab'

@@ -5,11 +5,6 @@ import { renderError } from './RenderError/RenderError.ts'
 import { renderLoading } from './RenderLoading/RenderLoading.ts'
 import { renderViewletReference } from './RenderViewletReference/RenderViewletReference.ts'
 
-export { renderContent } from './RenderContent/RenderContent.ts'
-export { renderError } from './RenderError/RenderError.ts'
-export { renderLoading } from './RenderLoading/RenderLoading.ts'
-export { renderViewletReference } from './RenderViewletReference/RenderViewletReference.ts'
-
 export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] => {
   if (!tab) {
     // Keep backward compatible behavior: render empty content

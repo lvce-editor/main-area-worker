@@ -39,7 +39,7 @@ const getLowerCaseExtension = (uri: string): string => {
   return cleanPath.slice(lastDotIndex).toLowerCase()
 }
 
-export const getEditorInputFromUri = (uri: string): any => {
+const getEditorInputFromUri = (uri: string): any => {
   if (uri.startsWith('diff://?')) {
     try {
       const parsed = new URL(uri)

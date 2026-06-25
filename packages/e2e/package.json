@@ -6,10 +6,15 @@
   "main": "index.js",
   "scripts": {
     "e2e": "node ./node_modules/@lvce-editor/test-with-playwright/bin/test-with-playwright.js  --only-extension=. --test-path=.",
+    "e2e:firefox": "npm run patch:playwright-firefox-worker-websocket && node ./node_modules/@lvce-editor/test-with-playwright/bin/test-with-playwright.js --only-extension=. --test-path=. --browser=firefox",
+    "e2e:firefox:headless": "npm run patch:playwright-firefox-worker-websocket && node ./node_modules/@lvce-editor/test-with-playwright/bin/test-with-playwright.js --only-extension=. --test-path=. --browser=firefox --headless",
     "e2e:headless": "node ./node_modules/@lvce-editor/test-with-playwright/bin/test-with-playwright.js  --only-extension=. --test-path=. --headless",
+    "e2e:webkit": "node ./scripts/run-webkit-e2e.js",
+    "e2e:webkit:headless": "node ./scripts/run-webkit-e2e.js --headless",
+    "patch:playwright-firefox-worker-websocket": "node ./scripts/patch-playwright-firefox-worker-websocket.js",
     "type-check": "tsc"
   },
   "devDependencies": {
-    "@lvce-editor/test-with-playwright": "^17.2.0"
+    "@lvce-editor/test-with-playwright": "^22.1.0"
   }
 }

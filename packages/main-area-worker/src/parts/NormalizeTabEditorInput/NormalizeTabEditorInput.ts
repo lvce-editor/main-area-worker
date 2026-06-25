@@ -4,6 +4,18 @@ import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
 const imageExtensions = new Set(['.avif', '.bmp', '.gif', '.ico', '.jpeg', '.jpg', '.png', '.svg', '.tif', '.tiff', '.webp'])
 const videoExtensions = new Set(['.avi', '.m4v', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogv', '.webm'])
 
+const getPathEndIndex = (pathName: string): number => {
+  const queryIndex = pathName.indexOf('?')
+  const hashIndex = pathName.indexOf('#')
+  if (queryIndex === -1) {
+    return hashIndex === -1 ? pathName.length : hashIndex
+  }
+  if (hashIndex === -1) {
+    return queryIndex
+  }
+  return Math.min(queryIndex, hashIndex)
+}
+
 const getPathName = (uri: string): string => {
   if (uri.startsWith('file://')) {
     try {
@@ -17,10 +29,7 @@ const getPathName = (uri: string): string => {
 
 const getLowerCaseExtension = (uri: string): string => {
   const pathName = getPathName(uri)
-  const queryIndex = pathName.indexOf('?')
-  const hashIndex = pathName.indexOf('#')
-  const endIndex =
-    queryIndex === -1 ? (hashIndex === -1 ? pathName.length : hashIndex) : hashIndex === -1 ? queryIndex : Math.min(queryIndex, hashIndex)
+  const endIndex = getPathEndIndex(pathName)
   const cleanPath = pathName.slice(0, endIndex)
   const lastDotIndex = cleanPath.lastIndexOf('.')
   const lastSlashIndex = cleanPath.lastIndexOf('/')

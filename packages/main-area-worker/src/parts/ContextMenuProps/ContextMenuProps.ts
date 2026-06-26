@@ -1,14 +1,14 @@
 import type { MenuEntryId } from '@lvce-editor/constants'
 
-export interface ContextMenuPropsBase {
+interface ContextMenuPropsBase {
   readonly menuId: number
 }
 
-export interface ContextMenuPropsTab extends ContextMenuPropsBase {
+interface ContextMenuPropsTab extends ContextMenuPropsBase {
   readonly menuId: typeof MenuEntryId.Tab
 }
 
-export interface ContextMenuPropsMain extends ContextMenuPropsBase {
+interface ContextMenuPropsMain extends ContextMenuPropsBase {
   readonly groupId: number
   readonly menuId: typeof MenuEntryId.Main
 }

@@ -17,7 +17,7 @@ export const findTab = (state: MainAreaState, tabId: number): Tab | undefined =>
   return undefined
 }
 
-export const loadFileContent = async (path: string): Promise<string> => {
+const loadFileContent = async (path: string): Promise<string> => {
   const content = await RendererWorker.readFile(path)
   return content
 }

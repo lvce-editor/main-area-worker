@@ -58,7 +58,7 @@ const commandMap = {
 }
 
 const serverContent = await readFile(serverPath, 'utf-8')
-if (!serverContent.includes('const { socket } = res')) {
+if (!serverContent.includes('const { socket } = res') && !serverContent.includes('if (res.socket && !hasErrorListener.has(res.socket))')) {
   const occurrence = `  if (!hasErrorListener.has(res.socket)) {
     res.socket.on('error', handleSocketError)
     hasErrorListener.add(res.socket)

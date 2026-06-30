@@ -58,12 +58,13 @@ const commandMap = {
 }
 
 const serverContent = await readFile(serverPath, 'utf-8')
-if (!serverContent.includes('const { socket } = res') && !serverContent.includes('if (res.socket && !hasErrorListener.has(res.socket))')) {
+let newServerContent = serverContent
+if (!newServerContent.includes('const { socket } = res') && !newServerContent.includes('if (res.socket && !hasErrorListener.has(res.socket))')) {
   const occurrence = `  if (!hasErrorListener.has(res.socket)) {
     res.socket.on('error', handleSocketError)
     hasErrorListener.add(res.socket)
   }`
-  if (!serverContent.includes(occurrence)) {
+  if (!newServerContent.includes(occurrence)) {
     throw new Error('server socket error listener occurrence not found')
   }
   const replacement = `  const { socket } = res
@@ -71,6 +72,25 @@ if (!serverContent.includes('const { socket } = res') && !serverContent.includes
     socket.on('error', handleSocketError)
     hasErrorListener.add(socket)
   }`
-  const newContent = serverContent.replace(occurrence, replacement)
-  await writeFile(serverPath, newContent)
+  newServerContent = newServerContent.replace(occurrence, replacement)
+}
+
+if (!newServerContent.includes('if (!socket) {')) {
+  const occurrence = `const sendHandleSharedProcess = async (request, socket, method, ...params) => {
+  request.on('error', handleRequestError)
+  socket.on('error', handleSocketUpgradeError)`
+  if (!newServerContent.includes(occurrence)) {
+    throw new Error('server shared process socket occurrence not found')
+  }
+  const replacement = `const sendHandleSharedProcess = async (request, socket, method, ...params) => {
+  if (!socket) {
+    return
+  }
+  request.on('error', handleRequestError)
+  socket.on('error', handleSocketUpgradeError)`
+  newServerContent = newServerContent.replace(occurrence, replacement)
+}
+
+if (newServerContent !== serverContent) {
+  await writeFile(serverPath, newServerContent)
 }

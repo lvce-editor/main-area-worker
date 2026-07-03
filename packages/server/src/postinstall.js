@@ -59,10 +59,15 @@ const commandMap = {
 
 const serverContent = await readFile(serverPath, 'utf-8')
 if (!serverContent.includes('const { socket } = res')) {
-  const occurrence = `  if (!hasErrorListener.has(res.socket)) {
+  const oldOccurrence = `  if (!hasErrorListener.has(res.socket)) {
     res.socket.on('error', handleSocketError)
     hasErrorListener.add(res.socket)
   }`
+  const currentOccurrence = `  if (res.socket && !hasErrorListener.has(res.socket)) {
+    res.socket.on('error', handleSocketError)
+    hasErrorListener.add(res.socket)
+  }`
+  const occurrence = serverContent.includes(oldOccurrence) ? oldOccurrence : currentOccurrence
   if (!serverContent.includes(occurrence)) {
     throw new Error('server socket error listener occurrence not found')
   }

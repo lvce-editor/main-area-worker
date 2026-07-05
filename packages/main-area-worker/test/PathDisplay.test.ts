@@ -64,6 +64,18 @@ test('getLabel should return Simple Browser for simple-browser:// uri with path'
   expect(result).toBe('Simple Browser')
 })
 
+test('getLabel should return Process Explorer for process-explorer:// uri', () => {
+  const uri: string = 'process-explorer://'
+  const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
+  expect(result).toBe('Process Explorer')
+})
+
+test('getLabel should return Process Explorer for process-explorer:// uri with path', () => {
+  const uri: string = 'process-explorer://main'
+  const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
+  expect(result).toBe('Process Explorer')
+})
+
 test('getLabel should return basename for regular file path', () => {
   const uri: string = '/path/to/file.txt'
   const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
@@ -104,6 +116,18 @@ test('getFileIcon should return MaskIconExtensions for extension-detail:// uri w
   const uri: string = 'extension-detail://extension-id/details'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
   expect(result).toBe('MaskIconExtensions')
+})
+
+test('getFileIcon should return MaskIconDebugAlt2 for process-explorer:// uri', () => {
+  const uri: string = 'process-explorer://'
+  const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
+  expect(result).toBe('MaskIconDebugAlt2')
+})
+
+test('getFileIcon should return MaskIconDebugAlt2 for process-explorer:// uri with path', () => {
+  const uri: string = 'process-explorer://main'
+  const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
+  expect(result).toBe('MaskIconDebugAlt2')
 })
 
 test('getFileIcon should return empty string for regular file path', () => {

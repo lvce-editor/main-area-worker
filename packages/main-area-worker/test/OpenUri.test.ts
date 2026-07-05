@@ -317,6 +317,30 @@ test('openUri should open extension detail URIs with extension detail editor inp
   ])
 })
 
+test('openUri should use Process Explorer title for process explorer URI', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'ProcessExplorer',
+  })
+
+  const state = createDefaultState()
+
+  const result = await openUri(state, {
+    focu: false,
+    preview: false,
+    uri: 'process-explorer://',
+  })
+
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(tab.uri).toBe('process-explorer://')
+  expect(tab.title).toBe('Process Explorer')
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'process-explorer://'],
+    ['Layout.createViewlet', 'ProcessExplorer', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'process-explorer://'],
+  ])
+})
+
 test('openUri should validate state parameter', async () => {
   const options: OpenUriOptions = {
     focu: false,

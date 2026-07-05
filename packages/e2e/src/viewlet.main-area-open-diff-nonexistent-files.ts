@@ -21,6 +21,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const rightErrorMessage = Locator('.DiffEditorContentRight .DiffEditorErrorMessage')
   await expect(leftErrorMessage).toBeVisible()
   await expect(rightErrorMessage).toBeVisible()
-  await expect(leftErrorMessage).toHaveText(`Failed to read file "${leftUri}": TypeError: Invalid URL`)
-  await expect(rightErrorMessage).toHaveText(`Failed to read file "${rightUri}": TypeError: Invalid URL`)
+  await expect(leftErrorMessage).toHaveText(`Error: Failed to read file "${leftUri}": TypeError: Invalid URL`)
+  await expect(rightErrorMessage).toHaveText(`Error: Failed to read file "${rightUri}": TypeError: Invalid URL`)
 }

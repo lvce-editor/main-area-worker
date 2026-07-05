@@ -10,5 +10,5 @@ export const shouldLoadContentForTab = (tab: Tab): boolean => {
   if (tab.loadingState === 'loading') {
     return false
   }
-  return !(tab.loadingState === 'loaded' && tab.editorUid !== -1)
+  return tab.loadingState !== 'loaded' || tab.editorUid === -1
 }

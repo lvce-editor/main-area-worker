@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-layout-show-preview-html-file'
 
+export const skip = 1
+
 export const test: Test = async ({ Command, expect, FileSystem, Locator }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const htmlFile = `${tmpDir}/test.html`

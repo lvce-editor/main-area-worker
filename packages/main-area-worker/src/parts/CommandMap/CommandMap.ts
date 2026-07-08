@@ -31,6 +31,7 @@ import { handleSashPointerUp } from '../HandleSashPointerUp/HandleSashPointerUp.
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
 import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceChange.ts'
+import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { getCommandIds, wrapCommand, wrapGetter } from '../MainAreaStates/MainAreaStates.ts'
@@ -69,6 +70,7 @@ export const commandMap = {
   'Main.focusPreviousTab': wrapCommand(focusPreviousTab),
   'Main.handleModifiedStatusChange': wrapCommand(handleModifiedStatusChange),
   'Main.handleTabContextMenu': wrapCommand(handleTabContextMenu),
+  'Main.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
   'Main.openInput': wrapCommand(openInput),
   'Main.openUri': wrapCommand(openUri),
   'Main.openUris': wrapCommand(openUris),

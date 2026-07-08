@@ -750,8 +750,8 @@ test('loadContent should restore extension detail tabs with the correct editor i
     [
       'IconTheme.getIcons',
       [
-        { name: 'theme-ayu', type: 1 },
-        { name: 'chat', type: 1 },
+        { name: 'extensions', type: 2 },
+        { name: 'extensions', type: 2 },
       ],
     ],
   ])
@@ -820,5 +820,5 @@ test('loadContent should normalize stale extension detail editor inputs from sav
       'extension-detail://chat',
     ],
   ])
-  expect(iconRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'chat', type: 1 }]]])
+  expect(iconRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'extensions', type: 2 }]]])
 })

@@ -21,6 +21,9 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
   if (typeof savedState !== 'object') {
     return undefined
   }
+  if ((savedState as Record<string, unknown>).restore === false) {
+    return undefined
+  }
   const { layout } = savedState as Record<string, unknown>
   if (!layout || typeof layout !== 'object') {
     return undefined

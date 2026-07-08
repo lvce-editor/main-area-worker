@@ -36,6 +36,42 @@ test('loadContent should return empty layout when savedState.layout is invalid',
   expect(result.layout.activeGroupId).toBeUndefined()
 })
 
+test('loadContent should return empty layout when restore is disabled', async () => {
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'Restored File',
+            },
+          ],
+        },
+      ],
+    },
+    restore: false,
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
 test('loadContent should restore valid saved state', async () => {
   const state = createDefaultState()
   const savedState = {

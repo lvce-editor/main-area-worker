@@ -1,6 +1,7 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { loadFileIcons } from '../LoadContent/LoadFileIcons.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 
 export const handleUriChange = async (state: MainAreaState, oldUri: string, newUri: string): Promise<MainAreaState> => {
   const { layout } = state
@@ -15,6 +16,7 @@ export const handleUriChange = async (state: MainAreaState, oldUri: string, newU
             ...tab,
             title: newTitle,
             uri: newUri,
+            uriTitle: getUriTitle(newUri, state.homeDirUri || ''),
           }
         }
         return tab

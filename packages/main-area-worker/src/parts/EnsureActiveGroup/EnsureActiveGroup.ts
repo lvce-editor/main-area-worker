@@ -6,6 +6,7 @@ import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 
 export const ensureActiveGroup = (
   state: MainAreaState,
@@ -48,6 +49,7 @@ export const ensureActiveGroup = (
             loadingState: 'loading',
             title,
             uri,
+            uriTitle: getUriTitle(uri, state.homeDirUri || ''),
           }
         })
         return {
@@ -81,6 +83,7 @@ export const ensureActiveGroup = (
       loadingState: 'loading',
       title,
       uri: uri,
+      uriTitle: getUriTitle(uri, state.homeDirUri || ''),
     }
     newState = openTab(state, activeGroup.id, newTab)
   } else {

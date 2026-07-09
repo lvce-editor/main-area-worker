@@ -32,6 +32,7 @@ export interface MainAreaState {
   readonly disposed?: boolean
   readonly fileIconCache: FileIconCache
   readonly height: number
+  readonly homeDirUri?: string
   readonly iframes: readonly any[]
   readonly initial: boolean
   readonly layout: MainAreaLayout

@@ -3,6 +3,7 @@ import type { EditorType } from '../EditorType/EditorType.ts'
 import type { EditorGroup, MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 
 export const createEmptyGroup = (
   state: MainAreaState,
@@ -32,6 +33,7 @@ export const createEmptyGroup = (
     loadingState: 'loading',
     title,
     uri,
+    uriTitle: getUriTitle(uri, state.homeDirUri || ''),
   }
   const newGroup: EditorGroup = {
     activeTabId: newTab.id,

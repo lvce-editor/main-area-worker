@@ -109,6 +109,55 @@ test('loadContent should restore valid saved state', async () => {
   expect(result.layout.activeGroupId).toBe(1)
 })
 
+test('loadContent should add pretty uri titles for restored file tabs under the home dir', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'text-editor',
+    'Workspace.getHomeDir': async () => '/home/user',
+  })
+
+  using iconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['file-icon-markdown'],
+  })
+
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'file.md',
+              uri: 'file:///home/user/Documents/file.md',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+
+  expect(result.homeDirUri).toBe('file:///home/user')
+  expect(result.layout.groups[0].tabs[0].title).toBe('file.md')
+  expect(result.layout.groups[0].tabs[0].uriTitle).toBe('~/Documents/file.md')
+  expect(rendererRpc.invocations).toContainEqual(['Workspace.getHomeDir'])
+  expect(iconRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'file.md', type: 1 }]]])
+})
+
 test('loadContent should normalize legacy string directions', async () => {
   const state = createDefaultState()
   const savedState = {
@@ -737,6 +786,7 @@ test('loadContent should restore extension detail tabs with the correct editor i
     type: 'extension-detail-view',
   })
   expect(rendererRpc.invocations).toEqual([
+    ['Workspace.getHomeDir'],
     [
       'Layout.createViewlet',
       'ExtensionDetail',
@@ -811,6 +861,7 @@ test('loadContent should normalize stale extension detail editor inputs from sav
     type: 'extension-detail-view',
   })
   expect(rendererRpc.invocations).toEqual([
+    ['Workspace.getHomeDir'],
     [
       'Layout.createViewlet',
       'ExtensionDetail',

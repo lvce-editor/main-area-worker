@@ -18,6 +18,7 @@ export const create = (
     closedTabs: [],
     fileIconCache: {},
     height,
+    homeDirUri: '',
     iframes: [],
     initial: true,
     layout: {

@@ -2,42 +2,56 @@ import { expect, test } from '@jest/globals'
 import * as PathDisplay from '../src/parts/PathDisplay/PathDisplay.ts'
 
 test('getTitle should return empty string for empty uri', () => {
-  const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle('', '/home/user')
+  const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle('', 'file:///home/user')
   expect(result).toBe('')
 })
 
 test('getTitle should return uri when homeDir is empty', () => {
-  const uri: string = '/some/path/file.txt'
+  const uri: string = 'file:///some/path/file.txt'
   const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle(uri, '')
   expect(result).toBe(uri)
 })
 
 test('getTitle should return uri when uri does not start with homeDir', () => {
-  const uri: string = '/other/path/file.txt'
-  const homeDir: string = '/home/user'
+  const uri: string = 'file:///other/path/file.txt'
+  const homeDir: string = 'file:///home/user'
   const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle(uri, homeDir)
   expect(result).toBe(uri)
 })
 
-test('getTitle should replace homeDir with ~ when uri starts with homeDir', () => {
-  const homeDir: string = '/home/user'
-  const uri: string = '/home/user/documents/file.txt'
+test('getTitle should replace homeDir uri with ~ when file uri starts with homeDir uri', () => {
+  const homeDir: string = 'file:///home/user'
+  const uri: string = 'file:///home/user/documents/file.txt'
   const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle(uri, homeDir)
   expect(result).toBe('~/documents/file.txt')
 })
 
 test('getTitle should handle exact match with homeDir', () => {
-  const homeDir: string = '/home/user'
-  const uri: string = '/home/user'
+  const homeDir: string = 'file:///home/user'
+  const uri: string = 'file:///home/user'
   const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle(uri, homeDir)
   expect(result).toBe('~')
 })
 
 test('getTitle should handle uri that is just homeDir with trailing slash', () => {
-  const homeDir: string = '/home/user'
-  const uri: string = '/home/user/'
+  const homeDir: string = 'file:///home/user'
+  const uri: string = 'file:///home/user/'
   const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle(uri, homeDir)
   expect(result).toBe('~/')
+})
+
+test('getTitle should not replace plain paths', () => {
+  const homeDir: string = 'file:///home/user'
+  const uri: string = '/home/user/documents/file.txt'
+  const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle(uri, homeDir)
+  expect(result).toBe(uri)
+})
+
+test('getTitle should not replace similar sibling paths', () => {
+  const homeDir: string = 'file:///home/user'
+  const uri: string = 'file:///home/user2/documents/file.txt'
+  const result: ReturnType<typeof PathDisplay.getTitle> = PathDisplay.getTitle(uri, homeDir)
+  expect(result).toBe(uri)
 })
 
 test('getLabel should return Settings for settings:// uri', () => {

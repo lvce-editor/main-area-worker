@@ -6,7 +6,7 @@ import { newWindow } from '../src/parts/NewWindow/NewWindow.ts'
 
 test('newWindow should ask renderer worker to open a new window', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Main.newWindow': async () => {},
+    'ElectronWindow.openNew': async () => {},
   })
 
   const state: MainAreaState = createDefaultState()
@@ -14,5 +14,5 @@ test('newWindow should ask renderer worker to open a new window', async () => {
   const result = await newWindow(state)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations).toEqual([['Main.newWindow']])
+  expect(mockRpc.invocations).toEqual([['ElectronWindow.openNew']])
 })

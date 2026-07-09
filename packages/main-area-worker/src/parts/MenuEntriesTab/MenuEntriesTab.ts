@@ -126,7 +126,7 @@ export const getMenuEntries = (state: MainAreaState): readonly any[] => {
       label: ViewletMainStrings.splitAndMove(),
     },
     {
-      command: '',
+      command: 'MainArea.moveIntoNewWindow',
       flags: MenuItemFlags.None,
       id: 'moveIntoNewWindow',
       label: ViewletMainStrings.moveIntoNewWindow(),

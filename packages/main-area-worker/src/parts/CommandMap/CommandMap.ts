@@ -7,6 +7,7 @@ import { closeOtherTabs } from '../CloseOtherTabs/CloseOtherTabs.ts'
 import { closeSaved } from '../CloseSaved/CloseSaved.ts'
 import { closeTabsByUris } from '../CloseTabsByUris/CloseTabsByUris.ts'
 import { closeTabsRight } from '../CloseTabsRight/CloseTabsRight.ts'
+import { copyIntoNewWindow } from '../CopyIntoNewWindow/CopyIntoNewWindow.ts'
 import { copyPath } from '../CopyPath/CopyPath.ts'
 import { copyRelativePath } from '../CopyRelativePath/CopyRelativePath.ts'
 import * as MainArea from '../Create/Create.ts'
@@ -49,6 +50,17 @@ import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { save } from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
+import {
+  flipLayout,
+  setEditorLayoutGrid,
+  setEditorLayoutSingle,
+  setEditorLayoutThreeColumns,
+  setEditorLayoutThreeRows,
+  setEditorLayoutTwoColumns,
+  setEditorLayoutTwoColumnsBottom,
+  setEditorLayoutTwoRows,
+  setEditorLayoutTwoRowsRight,
+} from '../SetEditorLayout/SetEditorLayout.ts'
 import { splitDown } from '../SplitDown/SplitDown.ts'
 import { splitLeft } from '../SplitLeft/SplitLeft.ts'
 import { splitRight } from '../SplitRight/SplitRight.ts'
@@ -88,10 +100,12 @@ export const commandMap = {
   'MainArea.closeSaved': wrapCommand(closeSaved),
   'MainArea.closeTabsByUris': wrapCommand(closeTabsByUris),
   'MainArea.closeTabsRight': wrapCommand(closeTabsRight),
+  'MainArea.copyIntoNewWindow': wrapCommand(copyIntoNewWindow),
   'MainArea.copyPath': wrapCommand(copyPath),
   'MainArea.copyRelativePath': wrapCommand(copyRelativePath),
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
+  'MainArea.flipEditorLayout': wrapCommand(flipLayout),
   'MainArea.focusNext': wrapCommand(focusNextTab),
   'MainArea.focusNextTab': wrapCommand(focusNextTab),
   'MainArea.focusPrevious': wrapCommand(focusPreviousTab),
@@ -132,6 +146,14 @@ export const commandMap = {
   'MainArea.save': wrapCommand(save),
   'MainArea.saveState': wrapGetter(saveState),
   'MainArea.selectTab': wrapCommand(selectTab),
+  'MainArea.setEditorLayoutGrid': wrapCommand(setEditorLayoutGrid),
+  'MainArea.setEditorLayoutSingle': wrapCommand(setEditorLayoutSingle),
+  'MainArea.setEditorLayoutThreeColumns': wrapCommand(setEditorLayoutThreeColumns),
+  'MainArea.setEditorLayoutThreeRows': wrapCommand(setEditorLayoutThreeRows),
+  'MainArea.setEditorLayoutTwoColumns': wrapCommand(setEditorLayoutTwoColumns),
+  'MainArea.setEditorLayoutTwoColumnsBottom': wrapCommand(setEditorLayoutTwoColumnsBottom),
+  'MainArea.setEditorLayoutTwoRows': wrapCommand(setEditorLayoutTwoRows),
+  'MainArea.setEditorLayoutTwoRowsRight': wrapCommand(setEditorLayoutTwoRowsRight),
   'MainArea.splitDown': wrapCommand(splitDown),
   'MainArea.splitLeft': wrapCommand(splitLeft),
   'MainArea.splitRight': wrapCommand(splitRight),

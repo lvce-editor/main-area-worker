@@ -105,6 +105,7 @@ test('getMenuEntries includes correct path in args for reveal and find reference
   expect(getEntryById(result, 'copyPath').args).toEqual(['/workspace/src/index.ts'])
   expect(getEntryById(result, 'copyRelativePath').args).toEqual(['/workspace/src/index.ts'])
   expect(getEntryById(result, 'moveIntoNewWindow').command).toBe('MainArea.moveIntoNewWindow')
+  expect(getEntryById(result, 'copyIntoNewWindow').command).toBe('MainArea.copyIntoNewWindow')
   expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, '/workspace/src/index.ts'])
 })
 

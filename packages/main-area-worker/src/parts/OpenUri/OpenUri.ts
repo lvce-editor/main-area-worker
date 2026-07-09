@@ -9,7 +9,7 @@ export const openUri = async (state: MainAreaState, options: OpenUriOptions | st
   const preview = typeof options === 'string' ? false : (options.preview ?? false)
   return openInput(state, {
     editorInput: getNormalizedOpenEditorInput(uri),
-    focu: typeof options === 'string' ? false : options.focu,
+    focus: typeof options === 'string' ? false : options.focus,
     preview,
   })
 }

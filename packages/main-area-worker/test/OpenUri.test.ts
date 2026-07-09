@@ -16,7 +16,7 @@ afterEach(() => {
 test('openUri should create a new group and tab when no groups exist', async () => {
   const state: MainAreaState = createDefaultState()
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -66,7 +66,7 @@ test('openUri should add tab to active group when group exists', async () => {
     },
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/new/file.ts',
   }
@@ -83,7 +83,7 @@ test('openUri should add tab to active group when group exists', async () => {
 test('openUri should default preview to false when omitted', async () => {
   const state: MainAreaState = createDefaultState()
   const options = {
-    focu: false,
+    focus: false,
     uri: 'file:///path/to/file.ts',
   }
 
@@ -125,7 +125,7 @@ test('openUri should replace active preview tab instead of adding a new tab', as
     },
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/replacement.ts',
   }
@@ -185,7 +185,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
     },
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -252,7 +252,7 @@ test('openUri should activate existing tab in different group', async () => {
     },
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file2.ts',
   }
@@ -278,7 +278,7 @@ test('openUri should create group when activeGroupId points to non-existent grou
     },
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -300,7 +300,7 @@ test('openUri should open extension detail URIs with extension detail editor inp
   const state = createDefaultState()
 
   const result = await openUri(state, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'extension-detail://chat',
   })
@@ -326,7 +326,7 @@ test('openUri should use Process Explorer title for process explorer URI', async
   const state = createDefaultState()
 
   const result = await openUri(state, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'process-explorer://',
   })
@@ -343,7 +343,7 @@ test('openUri should use Process Explorer title for process explorer URI', async
 
 test('openUri should validate state parameter', async () => {
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -374,7 +374,7 @@ test('openUri should calculate bounds with correct TAB_HEIGHT offset', async () 
     y: 200,
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -397,7 +397,7 @@ test('openUri should create viewlet for new tab', async () => {
 
   const state: MainAreaState = createDefaultState()
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -419,7 +419,7 @@ test('openUri should not create viewlet when getViewletModuleId returns undefine
 
   const state: MainAreaState = createDefaultState()
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -438,7 +438,7 @@ test('openUri should assign valid editorUid after viewlet creation', async () =>
 
   const state: MainAreaState = createDefaultState()
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -471,7 +471,7 @@ test('openUri should pass correct parameters to createViewlet', async () => {
     y: 100,
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/test.js',
   }
@@ -523,7 +523,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
     },
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/new.ts',
   }
@@ -553,7 +553,7 @@ test('openUri should handle bounds calculation with different main area dimensio
     y: 0,
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///large-screen.ts',
   }
@@ -581,7 +581,7 @@ test('openUri should use TAB_HEIGHT constant of 35 pixels', async () => {
     y: 50,
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///document.md',
   }
@@ -610,7 +610,7 @@ test('openUri should load and set file icon for new tab', async () => {
     fileIconCache: {},
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }
@@ -643,7 +643,7 @@ test('openUri should update fileIconCache with loaded icon', async () => {
     fileIconCache: {},
   }
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.txt',
   }
@@ -674,7 +674,7 @@ test('openUri should handle icon loading failure gracefully', async () => {
 
   const state: MainAreaState = createDefaultState()
   const options: OpenUriOptions = {
-    focu: false,
+    focus: false,
     preview: false,
     uri: 'file:///path/to/file.ts',
   }

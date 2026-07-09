@@ -28,19 +28,19 @@ export const test: Test = async ({ Command, FileSystem }) => {
   await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file1,
   })
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file2,
   })
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file3,
   })
@@ -58,7 +58,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState3.layout.groups[0].tabs.length === 2, `Expected 2 tabs, got ${savedState3.layout.groups[0].tabs.length}`)
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file1,
   })
@@ -69,7 +69,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState4.layout.groups[0].activeTabId === tab1.id, 'Active tab should be file1')
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file4,
   })
@@ -85,7 +85,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState7.layout.groups[0].tabs.length === 2, `Expected 2 tabs, got ${savedState7.layout.groups[0].tabs.length}`)
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file5,
   })
@@ -96,7 +96,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState8.layout.groups[0].activeTabId === tab5.id, 'Active tab should be file5')
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file2,
   })
@@ -114,7 +114,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState10.layout.groups[0].activeTabId === undefined, 'Active tab should be undefined when no tabs')
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file1,
   })

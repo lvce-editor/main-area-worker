@@ -26,13 +26,13 @@ export const test: Test = async ({ Command, FileSystem }) => {
   await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file1,
   })
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file2,
   })
@@ -49,7 +49,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState2.layout.direction === 'horizontal', `Expected horizontal direction, got ${savedState2.layout.direction}`)
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file3,
   })
@@ -73,7 +73,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState5.layout.groups[0].focused === false, 'First group should not be focused')
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file4,
   })

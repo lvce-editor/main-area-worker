@@ -7,6 +7,7 @@ export const createDefaultState = (): MainAreaState => {
     closedTabs: [],
     fileIconCache: {},
     height: 0,
+    homeDirUri: '',
     iframes: [],
     initial: false,
     layout: {

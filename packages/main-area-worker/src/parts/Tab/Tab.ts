@@ -15,4 +15,5 @@ export interface Tab {
   readonly loadingState?: LoadingState
   readonly title: string
   readonly uri?: string
+  readonly uriTitle?: string
 }

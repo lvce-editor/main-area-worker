@@ -2,9 +2,13 @@ export const getTitle = (uri: string, homeDir: string): string => {
   if (!uri) {
     return ''
   }
-  // TODO tree shake this out in web
-  if (homeDir && uri.startsWith(homeDir)) {
-    return `~${uri.slice(homeDir.length)}`
+  const normalizedHomeDir = homeDir.endsWith('/') ? homeDir.slice(0, -1) : homeDir
+  if (
+    uri.startsWith('file://') &&
+    normalizedHomeDir.startsWith('file://') &&
+    (uri === normalizedHomeDir || uri.startsWith(`${normalizedHomeDir}/`))
+  ) {
+    return `~${uri.slice(normalizedHomeDir.length)}`
   }
   return uri
 }

@@ -173,6 +173,24 @@ test('renderTab should use title as fallback when path is undefined', () => {
   expect(result[0].title).toBe('Untitled')
 })
 
+test('renderTab should prefer uriTitle for the tab tooltip', () => {
+  const tab: Tab = {
+    editorType: 'text',
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'file.md',
+    uri: 'file:///home/user/file.md',
+    uriTitle: '~/file.md',
+  }
+  const result = renderTab(tab, false, 0, 0)
+
+  expect(result[0].title).toBe('~/file.md')
+  expect(result[3].text).toBe('file.md')
+})
+
 test('renderTab should add preview class for preview tabs', () => {
   const tab: Tab = {
     editorType: 'text',

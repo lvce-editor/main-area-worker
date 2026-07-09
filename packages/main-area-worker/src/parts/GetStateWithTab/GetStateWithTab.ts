@@ -5,6 +5,7 @@ import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
+import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 
 export const getStateWithTab = (
   currentState: MainAreaState,
@@ -25,6 +26,7 @@ export const getStateWithTab = (
         loadingState: 'loading',
         title,
         uri,
+        uriTitle: getUriTitle(uri, currentState.homeDirUri || ''),
       }),
       tabId: existingTab.tab.id,
     }

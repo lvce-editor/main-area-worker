@@ -43,6 +43,36 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   ])
 })
 
+test('openInput should add pretty uri title for file under home dir', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+  })
+
+  const state = {
+    ...createDefaultState(),
+    homeDirUri: 'file:///home/user',
+  }
+
+  const result = await openInput(state, {
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///home/user/Documents/file.md',
+    },
+    focu: false,
+    preview: false,
+  })
+
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(tab.title).toBe('file.md')
+  expect(tab.uriTitle).toBe('~/Documents/file.md')
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///home/user/Documents/file.md'],
+    ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///home/user/Documents/file.md'],
+  ])
+})
+
 test('openInput should open diff editor input without Layout.getModuleId', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},

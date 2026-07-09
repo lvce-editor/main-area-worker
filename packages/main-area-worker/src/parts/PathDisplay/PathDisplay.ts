@@ -28,6 +28,9 @@ const getInlineDiffLabel = (uri: string): string => {
 }
 
 export const getLabel = (uri: string): string => {
+  if (uri === 'app://keybindings') {
+    return 'Keyboard Shortcuts'
+  }
   if (uri.startsWith('settings://')) {
     return 'Settings'
   }
@@ -56,7 +59,7 @@ export const getLabel = (uri: string): string => {
  */
 export const getFileIcon = (uri: string): string => {
   if (uri === 'app://keybindings') {
-    return `MaskIconRecordKey`
+    return `MaskIconKeyboardTab`
   }
   if (uri.startsWith('extension-detail://')) {
     return `MaskIconExtensions`

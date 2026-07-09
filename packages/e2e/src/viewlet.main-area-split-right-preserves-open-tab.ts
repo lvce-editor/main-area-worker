@@ -15,6 +15,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   await expect(locator1).toBeVisible()
   const locator2 = Locator('.EditorGroup')
   await expect(locator2).toHaveCount(2)
-  const locator3 = Locator('.SashVertical')
+  const locator3 = Locator('.Main .SashVertical')
   await expect(locator3).toHaveCount(1)
 }

@@ -16,7 +16,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   await Main.closeActiveEditor()
 
   const locator1 = Locator('.MainTab[title$="close-neighbor-2.ts"]')
-  await expect(locator1).not.toBeVisible()
+  await expect(locator1).toBeHidden()
   const locator2 = Locator('.MainTabSelected[title$="close-neighbor-1.ts"]')
   await expect(locator2).toBeVisible()
   const locator3 = Locator('.MainTab')

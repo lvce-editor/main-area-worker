@@ -19,5 +19,5 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const locator1 = Locator('.MainTab')
   await expect(locator1).toHaveCount(0)
   const locator2 = Locator('.EditorGroup')
-  await expect(locator2).toHaveCount(2)
+  await expect(locator2).toHaveCount(0)
 }

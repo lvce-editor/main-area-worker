@@ -22,7 +22,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const locator1 = Locator('.MainTab[title$="close-middle-1.ts"]')
   await expect(locator1).toBeVisible()
   const locator2 = Locator('.MainTab[title$="close-middle-2.ts"]')
-  await expect(locator2).not.toBeVisible()
+  await expect(locator2).toBeHidden()
   const locator3 = Locator('.MainTab[title$="close-middle-3.ts"]')
   await expect(locator3).toBeVisible()
   const locator4 = Locator('.MainTab')

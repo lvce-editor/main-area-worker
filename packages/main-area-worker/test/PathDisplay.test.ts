@@ -76,6 +76,12 @@ test('getLabel should return Process Explorer for process-explorer:// uri with p
   expect(result).toBe('Process Explorer')
 })
 
+test('getLabel should return Keyboard Shortcuts for app://keybindings', () => {
+  const uri: string = 'app://keybindings'
+  const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
+  expect(result).toBe('Keyboard Shortcuts')
+})
+
 test('getLabel should return basename for regular file path', () => {
   const uri: string = '/path/to/file.txt'
   const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
@@ -100,10 +106,10 @@ test('getLabel should return working tree label for inline diff uri', () => {
   expect(result).toBe('file.txt (Working Tree)')
 })
 
-test('getFileIcon should return MaskIconRecordKey for app://keybindings', () => {
+test('getFileIcon should return MaskIconKeyboardTab for app://keybindings', () => {
   const uri: string = 'app://keybindings'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
-  expect(result).toBe('MaskIconRecordKey')
+  expect(result).toBe('MaskIconKeyboardTab')
 })
 
 test('getFileIcon should return MaskIconExtensions for extension-detail:// uri', () => {

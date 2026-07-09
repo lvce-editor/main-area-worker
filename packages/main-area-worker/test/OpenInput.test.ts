@@ -24,7 +24,7 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
       type: 'editor',
       uri: 'file:///path/to/file.ts',
     },
-    focu: false,
+    focus: false,
     preview: false,
   })
 
@@ -59,7 +59,7 @@ test('openInput should add pretty uri title for file under home dir', async () =
       type: 'editor',
       uri: 'file:///home/user/Documents/file.md',
     },
-    focu: false,
+    focus: false,
     preview: false,
   })
 
@@ -86,7 +86,7 @@ test('openInput should open diff editor input without Layout.getModuleId', async
       uriLeft: 'file:///path/to/left.ts',
       uriRight: 'file:///path/to/right.ts',
     },
-    focu: false,
+    focus: false,
     preview: false,
   })
 
@@ -123,7 +123,7 @@ test('openInput should open extension detail view input without Layout.getModule
       extensionId: 'abc',
       type: 'extension-detail-view',
     },
-    focu: false,
+    focus: false,
     preview: false,
   })
 
@@ -184,7 +184,7 @@ test('openInput should activate existing diff editor tab', async () => {
       uriLeft: 'file:///path/to/left.ts',
       uriRight: 'file:///path/to/right.ts',
     },
-    focu: false,
+    focus: false,
     preview: false,
   })
 
@@ -204,7 +204,7 @@ test('openInput should show an error when opening a folder path', async () => {
       type: 'editor',
       uri: '/tmp/folder-to-open',
     },
-    focu: false,
+    focus: false,
     preview: false,
   })
 
@@ -262,7 +262,7 @@ test('openInput should activate an existing stored tab when the call-site state 
       type: 'editor',
       uri: 'file:///path/to/file.ts',
     },
-    focu: false,
+    focus: false,
     preview: false,
   })
 

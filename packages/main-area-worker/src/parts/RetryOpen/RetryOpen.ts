@@ -12,7 +12,7 @@ export const retryOpen = async (state: MainAreaState): Promise<MainAreaState> =>
   if (tab.editorInput) {
     return openInput(state, {
       editorInput: tab.editorInput,
-      focu: false,
+      focus: false,
       preview: tab.isPreview,
     })
   }

@@ -1,5 +1,5 @@
 export interface OpenUriOptions {
-  readonly focu: boolean
+  readonly focus: boolean
   readonly preview?: boolean
   readonly uri: string
 }

@@ -22,7 +22,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file1,
   })
@@ -37,7 +37,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState2.layout.groups[0].activeTabId === undefined, 'Active tab should be undefined when no tabs')
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file2,
   })
@@ -47,13 +47,13 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState3.layout.groups[0].activeTabId === savedState3.layout.groups[0].tabs[0].id, 'Active tab should be first tab')
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file1,
   })
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file2,
   })
@@ -70,7 +70,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   assert(savedState5.layout.groups[0].tabs.length === 0, `Expected 0 tabs, got ${savedState5.layout.groups[0].tabs.length}`)
 
   await Command.execute('MainArea.openUri', uid, {
-    focu: false,
+    focus: false,
     preview: false,
     uri: file1,
   })

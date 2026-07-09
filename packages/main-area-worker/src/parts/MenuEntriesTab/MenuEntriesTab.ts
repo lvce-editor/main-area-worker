@@ -132,7 +132,7 @@ export const getMenuEntries = (state: MainAreaState): readonly any[] => {
       label: ViewletMainStrings.moveIntoNewWindow(),
     },
     {
-      command: '',
+      command: 'MainArea.copyIntoNewWindow',
       flags: MenuItemFlags.None,
       id: 'copyIntoNewWindow',
       label: ViewletMainStrings.copyIntoNewWindow(),

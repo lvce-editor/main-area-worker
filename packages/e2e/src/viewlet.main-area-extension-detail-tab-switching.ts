@@ -16,6 +16,8 @@ export const test: Test = async ({ Command, expect, Locator, Main }) => {
 
   const selectedChatTab = Locator('.MainTabSelected[title="chat"]')
   await expect(selectedChatTab).toBeVisible()
+  const extensionIcon = chatTab.locator('.TabIcon .MaskIconExtensions')
+  await expect(extensionIcon).toBeVisible()
 
   await Command.execute('Window.reload')
 

@@ -26,7 +26,7 @@ test('getMissingIconRequestsForTabs should request file icons by basename', () =
   ])
 })
 
-test('getMissingIconRequestsForTabs should request extension detail icons from the extension folder icon', () => {
+test('getMissingIconRequestsForTabs should skip extension detail icons', () => {
   const tabs: readonly Tab[] = [
     {
       editorInput: {
@@ -44,13 +44,7 @@ test('getMissingIconRequestsForTabs should request extension detail icons from t
     },
   ]
 
-  expect(getMissingIconRequestsForTabs(tabs, {})).toEqual([
-    {
-      name: 'extensions',
-      path: 'extension-detail://builtin.theme-ayu',
-      type: DirentType.Directory,
-    },
-  ])
+  expect(getMissingIconRequestsForTabs(tabs, {})).toEqual([])
 })
 
 test('getMissingIconRequestsForTabs should skip cached icons', () => {

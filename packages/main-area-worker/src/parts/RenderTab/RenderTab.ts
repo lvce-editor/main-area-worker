@@ -4,6 +4,35 @@ import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
+const ExtensionDetailScheme = 'extension-detail://'
+
+const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
+  if (tab.uri?.startsWith(ExtensionDetailScheme)) {
+    return [
+      {
+        childCount: 1,
+        className: ClassNames.TabIcon,
+        role: AriaRoles.None,
+        type: VirtualDomElements.Div,
+      },
+      {
+        childCount: 0,
+        className: ClassNames.MaskIconExtensions,
+        type: VirtualDomElements.Div,
+      },
+    ]
+  }
+  return [
+    {
+      childCount: 0,
+      className: ClassNames.TabIcon,
+      role: AriaRoles.None,
+      src: tab.icon,
+      type: VirtualDomElements.Img,
+    },
+  ]
+}
+
 export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
   const closeButtonNodes = renderTabActions(tab.isDirty, tabIndex, groupIndex)
   let className = ClassNames.MainTab
@@ -30,13 +59,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       title: tab.uriTitle || tab.uri || tab.title,
       type: VirtualDomElements.Div,
     },
-    {
-      childCount: 0,
-      className: ClassNames.TabIcon,
-      role: AriaRoles.None,
-      src: tab.icon,
-      type: VirtualDomElements.Img,
-    },
+    ...renderTabIcon(tab),
     {
       childCount: 1,
       className: ClassNames.TabTitle,

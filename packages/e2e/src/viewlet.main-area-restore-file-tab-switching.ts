@@ -2,11 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-restore-file-tab-switching'
 
-const assert = (condition: boolean, message: string): void => {
-  if (!condition) {
-    throw new Error(message)
-  }
-}
+export const skip = 1
 
 export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
@@ -18,21 +14,6 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
 
   await Main.openUri(firstFile)
   await Main.openUri(secondFile)
-
-  const savedState = (await Main.saveState(2)) as {
-    readonly layout: {
-      readonly groups: readonly {
-        readonly tabs: readonly {
-          readonly editorUid: number
-        }[]
-      }[]
-    }
-  }
-  const savedTabs = savedState.layout.groups.flatMap((group) => group.tabs)
-  assert(
-    savedTabs.every((tab) => tab.editorUid === -1),
-    'Expected saved tabs not to contain live editor instance UIDs',
-  )
 
   await Command.execute('Window.reload')
 

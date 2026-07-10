@@ -795,3 +795,51 @@ test('saveState should not persist transient closed tab history', () => {
 
   expect((result as any).closedTabs).toBeUndefined()
 })
+
+test('saveState should not persist live editor instance state', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: '/tmp/active.ts',
+              },
+              editorType: 'text',
+              editorUid: 0.123,
+              errorMessage: 'stale error',
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'active.ts',
+              uri: '/tmp/active.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = saveState(state)
+  const savedTab = result.layout.groups[0].tabs[0]
+
+  expect(savedTab.editorUid).toBe(-1)
+  expect(savedTab.loadingState).toBeUndefined()
+  expect(savedTab.errorMessage).toBeUndefined()
+  expect(savedTab.editorInput).toEqual({
+    type: 'editor',
+    uri: '/tmp/active.ts',
+  })
+})

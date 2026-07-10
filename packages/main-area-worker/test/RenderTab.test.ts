@@ -207,6 +207,32 @@ test('renderTab should add preview class for preview tabs', () => {
   expect(result[0].className).toBe('MainTab MainTabPreview')
 })
 
+test('renderTab should use the built-in keyboard icon for the Keyboard Shortcuts tab', () => {
+  const tab: Tab = {
+    editorType: 'custom',
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'Keyboard Shortcuts',
+    uri: 'app://keybindings',
+  }
+  const result = renderTab(tab, false, 0, 0)
+
+  expect(result[1]).toEqual({
+    childCount: 1,
+    className: 'TabIcon',
+    role: 'none',
+    type: VirtualDomElements.Div,
+  })
+  expect(result[2]).toEqual({
+    childCount: 0,
+    className: 'MaskIcon MaskIconRecordKey',
+    type: VirtualDomElements.Div,
+  })
+})
+
 test('renderTab should use the built-in extensions icon for extension detail tabs', () => {
   const tab: Tab = {
     editorType: 'custom',

@@ -5,22 +5,30 @@ import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEven
 import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
 const ExtensionDetailScheme = 'extension-detail://'
+const KeyBindingsUri = 'app://keybindings'
+
+const renderMaskIcon = (className: string): readonly VirtualDomNode[] => {
+  return [
+    {
+      childCount: 1,
+      className: ClassNames.TabIcon,
+      role: AriaRoles.None,
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className,
+      type: VirtualDomElements.Div,
+    },
+  ]
+}
 
 const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
+  if (tab.uri === KeyBindingsUri) {
+    return renderMaskIcon(ClassNames.MaskIconRecordKey)
+  }
   if (tab.uri?.startsWith(ExtensionDetailScheme)) {
-    return [
-      {
-        childCount: 1,
-        className: ClassNames.TabIcon,
-        role: AriaRoles.None,
-        type: VirtualDomElements.Div,
-      },
-      {
-        childCount: 0,
-        className: ClassNames.MaskIconExtensions,
-        type: VirtualDomElements.Div,
-      },
-    ]
+    return renderMaskIcon(ClassNames.MaskIconExtensions)
   }
   return [
     {

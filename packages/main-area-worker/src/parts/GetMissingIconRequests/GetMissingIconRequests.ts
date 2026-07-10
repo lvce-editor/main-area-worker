@@ -4,7 +4,6 @@ import type { Tab } from '../Tab/Tab.ts'
 import * as DirentType from '../DirentType/DirentType.ts'
 
 const ExtensionDetailScheme = 'extension-detail://'
-const ExtensionIconName = 'extensions'
 
 const getBasename = (uri: string): string => {
   const lastSlashIndex = uri.lastIndexOf('/')
@@ -17,7 +16,7 @@ const getBasename = (uri: string): string => {
 const getMissingTabs = (tabs: readonly Tab[], fileIconCache: FileIconCache): readonly Tab[] => {
   const missingTabs: Tab[] = []
   for (const tab of tabs) {
-    if (tab.uri && !(tab.uri in fileIconCache)) {
+    if (tab.uri && !tab.uri.startsWith(ExtensionDetailScheme) && !(tab.uri in fileIconCache)) {
       missingTabs.push(tab)
     }
   }
@@ -26,13 +25,6 @@ const getMissingTabs = (tabs: readonly Tab[], fileIconCache: FileIconCache): rea
 
 const tabToIconRequest = (tab: Tab): IconRequest => {
   const uri = tab.uri || ''
-  if (uri.startsWith(ExtensionDetailScheme)) {
-    return {
-      name: ExtensionIconName,
-      path: uri,
-      type: DirentType.Directory,
-    }
-  }
   return {
     name: getBasename(uri),
     path: uri,

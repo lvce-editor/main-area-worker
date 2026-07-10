@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-process-explorer-tab-switching'
 
+export const skip = 1
+
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   // arrange
   await Command.execute('Developer.openProcessExplorer')

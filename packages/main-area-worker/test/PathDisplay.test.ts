@@ -120,10 +120,10 @@ test('getLabel should return working tree label for inline diff uri', () => {
   expect(result).toBe('file.txt (Working Tree)')
 })
 
-test('getFileIcon should return MaskIconKeyboardTab for app://keybindings', () => {
+test('getFileIcon should return MaskIconRecordKey for app://keybindings', () => {
   const uri: string = 'app://keybindings'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
-  expect(result).toBe('MaskIconKeyboardTab')
+  expect(result).toBe('MaskIconRecordKey')
 })
 
 test('getFileIcon should return MaskIconExtensions for extension-detail:// uri', () => {

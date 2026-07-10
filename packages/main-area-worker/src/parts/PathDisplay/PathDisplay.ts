@@ -63,7 +63,7 @@ export const getLabel = (uri: string): string => {
  */
 export const getFileIcon = (uri: string): string => {
   if (uri === 'app://keybindings') {
-    return `MaskIconKeyboardTab`
+    return `MaskIconRecordKey`
   }
   if (uri.startsWith('extension-detail://')) {
     return `MaskIconExtensions`

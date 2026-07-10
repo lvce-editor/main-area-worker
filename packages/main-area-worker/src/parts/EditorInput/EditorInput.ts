@@ -28,4 +28,9 @@ interface ExtensionDetailViewInput extends BaseEditorInput {
   readonly type: 'extension-detail-view'
 }
 
-export type EditorInput = EditorEditorInput | ImageEditorInput | VideoEditorInput | DiffEditorInput | ExtensionDetailViewInput
+interface ProcessExplorerEditorInput extends BaseEditorInput {
+  readonly type: 'process-explorer'
+}
+
+export type EditorInput =
+  EditorEditorInput | ImageEditorInput | VideoEditorInput | DiffEditorInput | ExtensionDetailViewInput | ProcessExplorerEditorInput

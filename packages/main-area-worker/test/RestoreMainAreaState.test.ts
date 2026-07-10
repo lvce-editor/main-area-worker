@@ -297,6 +297,57 @@ test('restoreMainAreaState should normalize stale extension detail editor inputs
   })
 })
 
+test('restoreMainAreaState should normalize stale process explorer editor inputs', () => {
+  const currentState: MainAreaState = {
+    ...createDefaultState(),
+    assetDir: '/test/path',
+    platform: 1,
+    uid: 1,
+  }
+
+  const savedState = JSON.stringify({
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'process-explorer://',
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'Process Explorer',
+              uri: 'process-explorer://',
+            },
+          ],
+        },
+      ],
+    },
+    version: '1.0.0',
+  })
+
+  const result = restoreMainAreaState(savedState, currentState)
+  const restoredTab = result.layout.groups[0].tabs[0]
+
+  expect(restoredTab.uri).toBe('process-explorer://')
+  expect(restoredTab.editorType).toBe('custom')
+  expect(restoredTab.editorInput).toEqual({
+    type: 'process-explorer',
+  })
+})
+
 test('restoreMainAreaState should handle layout with tabs containing paths and languages', () => {
   const currentState: MainAreaState = {
     ...createDefaultState(),

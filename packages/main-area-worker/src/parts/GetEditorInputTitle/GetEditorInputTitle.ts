@@ -14,5 +14,7 @@ export const getEditorInputTitle = (editorInput: EditorInput): string => {
       return PathDisplay.getLabel(editorInput.uri)
     case 'extension-detail-view':
       return editorInput.extensionId
+    case 'process-explorer':
+      return 'Process Explorer'
   }
 }

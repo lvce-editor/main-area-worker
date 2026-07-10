@@ -26,7 +26,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await expect(editorGroups).toHaveCount(3)
   await expect(closeButtons).toHaveCount(3)
 
-  const savedState = await Main.saveState(2)
+  const savedState = await Command.execute('MainArea.saveState', 2)
   const layout = getLayout(savedState)
   await Command.execute('MainArea.handleClickAction', 2, 'close-group', String(layout.groups[0].id))
   await Command.execute('MainArea.handleClickAction', 2, 'close-group', String(layout.groups[1].id))

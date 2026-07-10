@@ -130,6 +130,7 @@ export const commandMap = {
   'MainArea.handleTabContextMenu': wrapCommand(handleTabContextMenu),
   'MainArea.handleUriChange': wrapCommand(handleUriChange),
   'MainArea.handleWorkspaceChange': wrapCommand(handleWorkspaceChange),
+  'MainArea.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': wrapCommand(LoadContent.loadContent),
   'MainArea.moveIntoNewWindow': wrapCommand(moveIntoNewWindow),

@@ -862,6 +862,68 @@ test('selectTab should normalize stale extension detail tabs before switching', 
   ])
 })
 
+test('selectTab should recreate restored process explorer tabs without loading them as files', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'process-explorer',
+              },
+              editorType: 'custom',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'Process Explorer',
+              uri: 'process-explorer://',
+            },
+            {
+              editorInput: {
+                type: 'editor',
+                uri: '/path/to/file.txt',
+              },
+              editorType: 'text',
+              editorUid: 42,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'file.txt',
+              uri: '/path/to/file.txt',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await selectTab(state, 0, 0)
+
+  const processExplorerTab = result.layout.groups[0].tabs[0]
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(processExplorerTab.editorUid).not.toBe(-1)
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.createViewlet', 'ProcessExplorer', processExplorerTab.editorUid, 1, { height: -35, width: 0, x: 0, y: 35 }, 'process-explorer://'],
+  ])
+})
+
 test('selectTab should handle tabs with paths and languages', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.getModuleId': async () => 'Editor',

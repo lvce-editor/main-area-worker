@@ -68,6 +68,12 @@ const getEditorInputFromUri = (uri: string): any => {
     }
   }
 
+  if (uri.startsWith('process-explorer://')) {
+    return {
+      type: 'process-explorer',
+    }
+  }
+
   const extension = getLowerCaseExtension(uri)
   if (imageExtensions.has(extension)) {
     return {

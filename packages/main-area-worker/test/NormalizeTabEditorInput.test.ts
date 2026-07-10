@@ -29,3 +29,9 @@ test('getNormalizedOpenEditorInput keeps text files as editor input', () => {
     uri: 'file:///test/file.ts',
   })
 })
+
+test('getNormalizedOpenEditorInput returns process explorer input for process explorer URIs', () => {
+  expect(getNormalizedOpenEditorInput('process-explorer://')).toEqual({
+    type: 'process-explorer',
+  })
+})

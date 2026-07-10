@@ -235,6 +235,46 @@ test('saveState should preserve editorInput for custom tabs', () => {
   })
 })
 
+test('saveState should preserve process explorer editor input', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'process-explorer',
+              },
+              editorType: 'custom',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'Process Explorer',
+              uri: 'process-explorer://',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result: SavedState = saveState(state)
+
+  expect(result.layout.groups[0].tabs[0].editorInput).toEqual({
+    type: 'process-explorer',
+  })
+})
+
 test('saveState should normalize extension detail tabs based on URI', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

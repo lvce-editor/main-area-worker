@@ -10,6 +10,7 @@ export const renderEditorGroup = (
   groupIndex: number,
   splitButtonEnabled: boolean = false,
   sizeProperty: 'width' | 'height' = 'width',
+  closeButtonEnabled: boolean = true,
 ): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
   const style = `${sizeProperty}:${group.size}%;`
@@ -17,7 +18,7 @@ export const renderEditorGroup = (
   const hasEmptyGroupCloseButton = !hasTabs
 
   if (hasEmptyGroupCloseButton) {
-    return renderEmptyEditorGroup(group, groupIndex, style)
+    return renderEmptyEditorGroup(group, groupIndex, style, closeButtonEnabled)
   }
 
   return [

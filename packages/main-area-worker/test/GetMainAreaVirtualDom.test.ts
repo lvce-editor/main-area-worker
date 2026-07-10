@@ -134,6 +134,54 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
   ])
 })
 
+test('getMainAreaVirtualDom should hide the close button for a single empty group', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: 1,
+    direction: 1,
+    groups: [
+      {
+        activeTabId: undefined,
+        focused: true,
+        id: 1,
+        isEmpty: true,
+        size: 100,
+        tabs: [],
+      },
+    ],
+  }
+
+  const result = getMainAreaVirtualDom(layout, true)
+
+  expect(result).toEqual([
+    {
+      childCount: 1,
+      className: 'Main',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'EditorGroup',
+      'data-groupId': '1',
+      onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+      style: 'width:100%;',
+      tabIndex: 0,
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      className: 'WaterMarkWrapper',
+      'data-groupId': '1',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'WaterMark',
+      'data-groupId': '1',
+      type: VirtualDomElements.Div,
+    },
+  ])
+})
+
 test('getMainAreaVirtualDom should handle multiple groups', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,

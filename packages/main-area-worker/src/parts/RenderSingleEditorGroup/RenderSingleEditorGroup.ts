@@ -14,6 +14,6 @@ export const renderSingleEditorGroup = (
       className: ClassNames.Main,
       type: VirtualDomElements.Div,
     },
-    ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled, sizeProperty),
+    ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled, sizeProperty, false),
   ]
 }

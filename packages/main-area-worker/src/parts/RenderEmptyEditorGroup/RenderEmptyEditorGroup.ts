@@ -5,10 +5,16 @@ import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEven
 import { renderEmptyGroupCloseButton } from '../RenderEmptyGroupCloseButton/RenderEmptyGroupCloseButton.ts'
 import { renderWaterMark } from '../RenderWaterMark/RenderWaterMark.ts'
 
-export const renderEmptyEditorGroup = (group: EditorGroup, groupIndex: number, style: string): readonly VirtualDomNode[] => {
+export const renderEmptyEditorGroup = (
+  group: EditorGroup,
+  groupIndex: number,
+  style: string,
+  closeButtonEnabled: boolean = true,
+): readonly VirtualDomNode[] => {
+  const closeButtonDom = closeButtonEnabled ? renderEmptyGroupCloseButton(group, groupIndex) : []
   return [
     {
-      childCount: 2,
+      childCount: closeButtonEnabled ? 2 : 1,
       className: ClassNames.EditorGroup,
       'data-groupId': String(group.id),
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
@@ -16,7 +22,7 @@ export const renderEmptyEditorGroup = (group: EditorGroup, groupIndex: number, s
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
-    ...renderEmptyGroupCloseButton(group, groupIndex),
+    ...closeButtonDom,
     ...renderWaterMark(group.id),
   ]
 }

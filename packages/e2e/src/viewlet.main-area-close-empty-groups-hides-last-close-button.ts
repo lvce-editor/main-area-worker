@@ -2,19 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-empty-groups-hides-last-close-button'
 
-interface SavedGroup {
-  readonly id: number
-}
-
-interface SavedLayout {
-  readonly groups: readonly SavedGroup[]
-}
-
-const getLayout = (savedState: unknown): SavedLayout => {
-  return (savedState as { readonly layout: SavedLayout }).layout
-}
-
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 
@@ -26,10 +14,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await expect(editorGroups).toHaveCount(3)
   await expect(closeButtons).toHaveCount(3)
 
-  const savedState = await Command.execute('MainArea.saveState', 2)
-  const layout = getLayout(savedState)
-  await Command.execute('MainArea.handleClickAction', 2, 'close-group', String(layout.groups[0].id))
-  await Command.execute('MainArea.handleClickAction', 2, 'close-group', String(layout.groups[1].id))
+  await closeButtons.first().dispatchEvent('click', '{"bubbles": true}')
+  await closeButtons.first().dispatchEvent('click', '{"bubbles": true}')
 
   await expect(editorGroups).toHaveCount(1)
   await expect(closeButtons).toHaveCount(0)

@@ -28,6 +28,7 @@ export const create = (
     },
     maxOpenEditorGroups: Infinity,
     maxOpenEditors: Infinity,
+    minGroupHeightPx: 80,
     minGroupWidthPx: 250,
     platform,
     splitButtonEnabled: false,

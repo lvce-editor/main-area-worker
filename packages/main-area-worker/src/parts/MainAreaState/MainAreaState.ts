@@ -38,6 +38,7 @@ export interface MainAreaState {
   readonly layout: MainAreaLayout
   readonly maxOpenEditorGroups: number
   readonly maxOpenEditors: number
+  readonly minGroupHeightPx: number
   readonly minGroupWidthPx: number
   readonly platform: number
   readonly sashDrag?: SashDragState

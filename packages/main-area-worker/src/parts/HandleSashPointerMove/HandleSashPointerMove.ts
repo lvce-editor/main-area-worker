@@ -24,7 +24,8 @@ export const handleSashPointerMove = async (state: MainAreaState, clientX: numbe
   const deltaPercent = (deltaPx / axisSize) * 100
 
   const totalResizableSize = sashDrag.beforeSize + sashDrag.afterSize
-  let minGroupSize = getMinGroupSizePercent(axisSize, state.minGroupWidthPx)
+  const minGroupSizePx = direction === LayoutDirection.Horizontal ? state.minGroupWidthPx : state.minGroupHeightPx
+  let minGroupSize = getMinGroupSizePercent(axisSize, minGroupSizePx)
 
   // If the minimum size makes it impossible to fit two groups, relax the constraint
   if (2 * minGroupSize > totalResizableSize) {

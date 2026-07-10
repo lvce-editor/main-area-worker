@@ -171,6 +171,30 @@ test('handleSashPointerMove should use vertical axis and round group sizes', asy
 
   const result = await handleSashPointerMove(state, 100, 101)
 
-  expect(result.layout.groups[0].size).toBe(40)
-  expect(result.layout.groups[1].size).toBe(40)
+  expect(result.layout.groups[0].size).toBeCloseTo(40.3)
+  expect(result.layout.groups[1].size).toBeCloseTo(39.7)
+})
+
+test('handleSashPointerMove should clamp vertical groups to the minimum height', async () => {
+  const state: MainAreaState = {
+    ...createBaseState(),
+    layout: {
+      ...createBaseState().layout,
+      direction: 2,
+    },
+    sashDrag: {
+      afterGroupId: 2,
+      afterSize: 40,
+      beforeGroupId: 1,
+      beforeSize: 40,
+      sashId: '1:2',
+      startClientX: 100,
+      startClientY: 200,
+    },
+  }
+
+  const result = await handleSashPointerMove(state, 100, -1000)
+
+  expect(result.layout.groups[0].size).toBe(10)
+  expect(result.layout.groups[1].size).toBe(70)
 })

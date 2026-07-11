@@ -14,5 +14,7 @@ export const getViewletModuleIdForEditorInput = async (editorInput: EditorInput)
       return ViewletModuleId.ExtensionDetail
     case 'process-explorer':
       return ViewletModuleId.ProcessExplorer
+    case 'running-extensions':
+      return ViewletModuleId.RunningExtensions
   }
 }

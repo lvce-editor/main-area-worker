@@ -50,6 +50,9 @@ export const getLabel = (uri: string): string => {
   if (uri.startsWith('process-explorer://')) {
     return 'Process Explorer'
   }
+  if (uri.startsWith('running-extensions://')) {
+    return 'Running Extensions'
+  }
   if (uri.startsWith(inlineDiffPrefix)) {
     return getInlineDiffLabel(uri)
   }
@@ -70,6 +73,9 @@ export const getFileIcon = (uri: string): string => {
   }
   if (uri.startsWith('process-explorer://')) {
     return `MaskIconDebugAlt2`
+  }
+  if (uri.startsWith('running-extensions://')) {
+    return `MaskIconExtensions`
   }
   return ''
 }

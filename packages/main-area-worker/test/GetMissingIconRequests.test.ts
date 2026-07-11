@@ -47,6 +47,26 @@ test('getMissingIconRequestsForTabs should skip extension detail icons', () => {
   expect(getMissingIconRequestsForTabs(tabs, {})).toEqual([])
 })
 
+test('getMissingIconRequestsForTabs should skip running extensions icons', () => {
+  const tabs: readonly Tab[] = [
+    {
+      editorInput: {
+        type: 'running-extensions',
+      },
+      editorType: 'custom',
+      editorUid: -1,
+      icon: '',
+      id: 1,
+      isDirty: false,
+      isPreview: false,
+      title: 'Running Extensions',
+      uri: 'running-extensions://',
+    },
+  ]
+
+  expect(getMissingIconRequestsForTabs(tabs, {})).toEqual([])
+})
+
 test('getMissingIconRequestsForTabs should skip cached icons', () => {
   const tabs: readonly Tab[] = [
     {

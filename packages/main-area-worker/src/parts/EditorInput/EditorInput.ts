@@ -32,5 +32,15 @@ interface ProcessExplorerEditorInput extends BaseEditorInput {
   readonly type: 'process-explorer'
 }
 
+interface RunningExtensionsEditorInput extends BaseEditorInput {
+  readonly type: 'running-extensions'
+}
+
 export type EditorInput =
-  EditorEditorInput | ImageEditorInput | VideoEditorInput | DiffEditorInput | ExtensionDetailViewInput | ProcessExplorerEditorInput
+  | EditorEditorInput
+  | ImageEditorInput
+  | VideoEditorInput
+  | DiffEditorInput
+  | ExtensionDetailViewInput
+  | ProcessExplorerEditorInput
+  | RunningExtensionsEditorInput

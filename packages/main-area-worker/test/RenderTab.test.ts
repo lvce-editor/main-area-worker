@@ -63,6 +63,36 @@ test('renderTab should return correct structure for clean tab', () => {
   ])
 })
 
+test('renderTab should use the extensions mask icon for running extensions', () => {
+  const tab: Tab = {
+    editorType: 'custom',
+    editorUid: -1,
+    errorMessage: '',
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    language: '',
+    loadingState: 'idle',
+    title: 'Running Extensions',
+    uri: 'running-extensions://',
+  }
+
+  const result = renderTab(tab, true, 0, 0)
+
+  expect(result[1]).toEqual({
+    childCount: 1,
+    className: 'TabIcon',
+    role: 'none',
+    type: VirtualDomElements.Div,
+  })
+  expect(result[2]).toEqual({
+    childCount: 0,
+    className: 'MaskIcon MaskIconExtensions',
+    type: VirtualDomElements.Div,
+  })
+})
+
 test('renderTab should show dirty indicator for dirty tab', () => {
   const tab: Tab = {
     editorType: 'text',

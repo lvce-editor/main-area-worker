@@ -90,6 +90,10 @@ test('getLabel should return Process Explorer for process-explorer:// uri with p
   expect(result).toBe('Process Explorer')
 })
 
+test('getLabel should return Running Extensions for running-extensions:// uri', () => {
+  expect(PathDisplay.getLabel('running-extensions://')).toBe('Running Extensions')
+})
+
 test('getLabel should return Keyboard Shortcuts for app://keybindings', () => {
   const uri: string = 'app://keybindings'
   const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
@@ -148,6 +152,10 @@ test('getFileIcon should return MaskIconDebugAlt2 for process-explorer:// uri wi
   const uri: string = 'process-explorer://main'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
   expect(result).toBe('MaskIconDebugAlt2')
+})
+
+test('getFileIcon should return MaskIconExtensions for running-extensions:// uri', () => {
+  expect(PathDisplay.getFileIcon('running-extensions://')).toBe('MaskIconExtensions')
 })
 
 test('getFileIcon should return empty string for regular file path', () => {

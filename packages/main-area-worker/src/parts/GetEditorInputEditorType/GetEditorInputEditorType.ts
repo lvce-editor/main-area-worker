@@ -7,6 +7,7 @@ export const getEditorInputEditorType = (editorInput: EditorInput): EditorType =
     case 'extension-detail-view':
     case 'image':
     case 'process-explorer':
+    case 'running-extensions':
     case 'video':
       return 'custom'
     case 'editor':

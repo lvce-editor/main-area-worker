@@ -35,3 +35,9 @@ test('getNormalizedOpenEditorInput returns process explorer input for process ex
     type: 'process-explorer',
   })
 })
+
+test('getNormalizedOpenEditorInput returns running extensions input for running extensions URIs', () => {
+  expect(getNormalizedOpenEditorInput('running-extensions://')).toEqual({
+    type: 'running-extensions',
+  })
+})

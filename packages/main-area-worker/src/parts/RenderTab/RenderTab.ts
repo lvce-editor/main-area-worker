@@ -6,6 +6,7 @@ import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
 const ExtensionDetailScheme = 'extension-detail://'
 const KeyBindingsUri = 'app://keybindings'
+const RunningExtensionsScheme = 'running-extensions://'
 
 const renderMaskIcon = (className: string): readonly VirtualDomNode[] => {
   return [
@@ -28,6 +29,9 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
     return renderMaskIcon(ClassNames.MaskIconRecordKey)
   }
   if (tab.uri?.startsWith(ExtensionDetailScheme)) {
+    return renderMaskIcon(ClassNames.MaskIconExtensions)
+  }
+  if (tab.uri?.startsWith(RunningExtensionsScheme)) {
     return renderMaskIcon(ClassNames.MaskIconExtensions)
   }
   return [

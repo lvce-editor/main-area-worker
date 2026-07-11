@@ -74,6 +74,12 @@ const getEditorInputFromUri = (uri: string): any => {
     }
   }
 
+  if (uri.startsWith('running-extensions://')) {
+    return {
+      type: 'running-extensions',
+    }
+  }
+
   const extension = getLowerCaseExtension(uri)
   if (imageExtensions.has(extension)) {
     return {

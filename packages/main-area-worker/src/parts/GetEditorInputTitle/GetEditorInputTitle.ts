@@ -16,5 +16,7 @@ export const getEditorInputTitle = (editorInput: EditorInput): string => {
       return editorInput.extensionId
     case 'process-explorer':
       return 'Process Explorer'
+    case 'running-extensions':
+      return 'Running Extensions'
   }
 }

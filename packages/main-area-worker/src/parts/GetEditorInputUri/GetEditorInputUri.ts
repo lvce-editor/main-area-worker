@@ -12,5 +12,7 @@ export const getEditorInputUri = (editorInput: EditorInput): string => {
       return `extension-detail://${editorInput.extensionId}`
     case 'process-explorer':
       return 'process-explorer://'
+    case 'running-extensions':
+      return 'running-extensions://'
   }
 }

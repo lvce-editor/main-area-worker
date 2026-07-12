@@ -9,9 +9,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const file2 = `${tmpDir}/restore-middle-2.ts`
   const file3 = `${tmpDir}/restore-middle-3.ts`
 
-  await FileSystem.writeFile(file1, 'export const first = 1')
-  await FileSystem.writeFile(file2, 'export const second = 2')
-  await FileSystem.writeFile(file3, 'export const third = 3')
+  await FileSystem.setFiles([
+    { content: 'export const first = 1', uri: file1 },
+    { content: 'export const second = 2', uri: file2 },
+    { content: 'export const third = 3', uri: file3 },
+  ])
 
   await Main.openUri(file1)
   await Main.openUri(file2)

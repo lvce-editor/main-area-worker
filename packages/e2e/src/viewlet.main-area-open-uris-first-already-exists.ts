@@ -16,8 +16,10 @@ export const test: Test = async ({ Command, FileSystem }) => {
   const file1 = `${tmpDir}/open-uris-existing-1.ts`
   const file2 = `${tmpDir}/open-uris-existing-2.ts`
 
-  await FileSystem.writeFile(file1, 'export const existing = 1')
-  await FileSystem.writeFile(file2, 'export const newFile = 2')
+  await FileSystem.setFiles([
+    { content: 'export const existing = 1', uri: file1 },
+    { content: 'export const newFile = 2', uri: file2 },
+  ])
 
   await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
   await Command.execute('MainArea.openUri', uid, { uri: file1 })

@@ -9,8 +9,10 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Worksp
   const tmpDir = await FileSystem.getTmpDir()
   const deletedFile = `${tmpDir}/a-delete-me.ts`
   const remainingFile = `${tmpDir}/b-keep-me.ts`
-  await FileSystem.writeFile(deletedFile, 'export const deletedFile = true')
-  await FileSystem.writeFile(remainingFile, 'export const remainingFile = true')
+  await FileSystem.setFiles([
+    { content: 'export const deletedFile = true', uri: deletedFile },
+    { content: 'export const remainingFile = true', uri: remainingFile },
+  ])
   await Workspace.setPath(tmpDir)
   await Explorer.refresh()
 

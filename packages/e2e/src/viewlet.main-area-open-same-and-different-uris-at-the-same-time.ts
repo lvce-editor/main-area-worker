@@ -9,8 +9,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const sharedFile = `${tmpDir}/shared.txt`
   const otherFile = `${tmpDir}/other.txt`
 
-  await FileSystem.writeFile(sharedFile, 'shared')
-  await FileSystem.writeFile(otherFile, 'other')
+  await FileSystem.setFiles([
+    { content: 'shared', uri: sharedFile },
+    { content: 'other', uri: otherFile },
+  ])
 
   await Promise.all([Main.openUri(sharedFile), Main.openUri(sharedFile), Main.openUri(otherFile)])
 

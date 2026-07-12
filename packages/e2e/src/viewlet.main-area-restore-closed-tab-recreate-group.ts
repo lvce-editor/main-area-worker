@@ -8,8 +8,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const fileLeft = `${tmpDir}/restore-left.ts`
   const fileRight = `${tmpDir}/restore-right.ts`
 
-  await FileSystem.writeFile(fileLeft, 'left')
-  await FileSystem.writeFile(fileRight, 'right')
+  await FileSystem.setFiles([
+    { content: 'left', uri: fileLeft },
+    { content: 'right', uri: fileRight },
+  ])
 
   await Main.openUri(fileLeft)
   await Main.splitRight()

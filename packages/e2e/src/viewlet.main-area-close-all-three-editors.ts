@@ -8,9 +8,11 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const file1 = `${tmpDir}/file1.ts`
   const file2 = `${tmpDir}/file2.ts`
   const file3 = `${tmpDir}/file3.ts`
-  await FileSystem.writeFile(file1, 'export const file1 = () => "one"')
-  await FileSystem.writeFile(file2, 'export const file2 = () => "two"')
-  await FileSystem.writeFile(file3, 'export const file3 = () => "three"')
+  await FileSystem.setFiles([
+    { content: 'export const file1 = () => "one"', uri: file1 },
+    { content: 'export const file2 = () => "two"', uri: file2 },
+    { content: 'export const file3 = () => "three"', uri: file3 },
+  ])
 
   // act - open 3 files
   await Main.openUri(file1)

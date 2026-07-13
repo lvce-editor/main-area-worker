@@ -1,11 +1,10 @@
+import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import type { EditorGroup, MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { getFileIconsForTabs } from '../GetFileIcons/GetFileIcons.ts'
-import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 
 export const updateTabIcon = async (
-  uid: number,
-  state: MainAreaState,
+  context: AsyncCommandContext<MainAreaState>,
   readyState: MainAreaState,
   tabId: number,
 ): Promise<MainAreaState | undefined> => {
@@ -16,7 +15,7 @@ export const updateTabIcon = async (
 
   try {
     const { newFileIconCache } = await getFileIconsForTabs([newTab.tab], readyState.fileIconCache)
-    const { newState: stateBeforeIconUpdate } = get(uid)
+    const stateBeforeIconUpdate = context.getState()
     const icon = newFileIconCache[newTab.tab.uri] || ''
     const stateWithIcon = {
       ...stateBeforeIconUpdate,
@@ -29,8 +28,7 @@ export const updateTabIcon = async (
         })),
       },
     }
-    set(uid, state, stateWithIcon)
-    return stateWithIcon
+    return context.updateState(() => stateWithIcon)
   } catch {
     return undefined
   }

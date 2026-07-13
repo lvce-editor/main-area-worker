@@ -14,7 +14,6 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
-    'Viewlet.dispose': async () => undefined,
   })
 
   const state: MainAreaState = {
@@ -54,7 +53,6 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
   expect(mockRpc.invocations).toEqual([
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
-    ['Viewlet.dispose', 123],
   ])
   expect(result.layout.groups).toHaveLength(0)
 })
@@ -63,7 +61,6 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
-    'Viewlet.dispose': async () => undefined,
   })
 
   const state: MainAreaState = {
@@ -100,7 +97,6 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
   expect(mockRpc.invocations).toEqual([
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
-    ['Viewlet.dispose', 123],
   ])
   expect(result.layout.groups).toHaveLength(0)
 })

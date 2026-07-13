@@ -3,7 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleWorkspaceChange } from '../src/parts/HandleWorkspaceChange/HandleWorkspaceChange.ts'
 
-test('handleWorkspaceChange should clear activeGroupId and groups', () => {
+test('handleWorkspaceChange should clear activeGroupId and groups', async () => {
   const initialState: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -32,14 +32,14 @@ test('handleWorkspaceChange should clear activeGroupId and groups', () => {
     },
   }
 
-  const result = handleWorkspaceChange(initialState)
+  const result = await handleWorkspaceChange(initialState)
 
   expect(result.layout.activeGroupId).toBeUndefined()
   expect(result.layout.groups).toEqual([])
   expect(result.layout.direction).toBe(1)
 })
 
-test('handleWorkspaceChange should preserve other state properties', () => {
+test('handleWorkspaceChange should preserve other state properties', async () => {
   const initialState: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/assets',
@@ -62,7 +62,7 @@ test('handleWorkspaceChange should preserve other state properties', () => {
     width: 1200,
   }
 
-  const result = handleWorkspaceChange(initialState)
+  const result = await handleWorkspaceChange(initialState)
 
   expect(result.assetDir).toBe('/assets')
   expect(result.height).toBe(800)
@@ -70,7 +70,7 @@ test('handleWorkspaceChange should preserve other state properties', () => {
   expect(result.tabHeight).toBe(40)
 })
 
-test('handleWorkspaceChange should handle empty groups', () => {
+test('handleWorkspaceChange should handle empty groups', async () => {
   const initialState: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -80,8 +80,34 @@ test('handleWorkspaceChange should handle empty groups', () => {
     },
   }
 
-  const result = handleWorkspaceChange(initialState)
+  const result = await handleWorkspaceChange(initialState)
 
   expect(result.layout.activeGroupId).toBeUndefined()
   expect(result.layout.groups).toEqual([])
+})
+
+test('handleWorkspaceChange should restore saved editor groups', async () => {
+  const initialState = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = await handleWorkspaceChange(initialState, '/restored/workspace', savedState)
+
+  expect(result.layout.activeGroupId).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].id).toBe(1)
 })

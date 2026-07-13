@@ -28,7 +28,7 @@ const tmpRoot = join(cwd, '.tmp')
 const tmpTestPath = join(tmpRoot, 'e2e-webkit')
 const sourcePath = join(cwd, 'src')
 const fixturesPath = join(cwd, 'fixtures')
-const testBatchSize = 40
+const testBatchSize = 10
 
 const copyWebkitTests = async (entries, batchIndex) => {
   const relativeTestPath = join('.tmp', 'e2e-webkit', String(batchIndex))

@@ -26,31 +26,35 @@ const excludedTests = new Set([
 const cwd = process.cwd()
 const tmpRoot = join(cwd, '.tmp')
 const tmpTestPath = join(tmpRoot, 'e2e-webkit')
-const tmpSourcePath = join(tmpTestPath, 'src')
-const tmpFixturesPath = join(tmpTestPath, 'fixtures')
 const sourcePath = join(cwd, 'src')
 const fixturesPath = join(cwd, 'fixtures')
+const testBatchSize = 40
 
-const copyWebkitTests = async () => {
-  await rm(tmpTestPath, { force: true, recursive: true })
+const copyWebkitTests = async (entries, batchIndex) => {
+  const relativeTestPath = join('.tmp', 'e2e-webkit', String(batchIndex))
+  const absoluteTestPath = join(cwd, relativeTestPath)
+  const tmpSourcePath = join(absoluteTestPath, 'src')
+  const tmpFixturesPath = join(absoluteTestPath, 'fixtures')
   await mkdir(tmpSourcePath, { recursive: true })
 
-  const entries = await readdir(sourcePath, { withFileTypes: true })
   for (const entry of entries) {
-    if (!entry.isFile() || excludedTests.has(entry.name)) {
-      continue
-    }
     await cp(join(sourcePath, entry.name), join(tmpSourcePath, entry.name))
   }
 
   await cp(fixturesPath, tmpFixturesPath, { recursive: true })
+  return relativeTestPath
 }
 
-const run = async () => {
+const getWebkitTests = async () => {
+  const entries = await readdir(sourcePath, { withFileTypes: true })
+  return entries.filter((entry) => entry.isFile() && !excludedTests.has(entry.name))
+}
+
+const run = async (testPath) => {
   const args = [
     './node_modules/@lvce-editor/test-with-playwright/bin/test-with-playwright.js',
     '--only-extension=.',
-    '--test-path=.tmp/e2e-webkit',
+    `--test-path=${testPath}`,
     '--browser=webkit',
     ...process.argv.slice(2),
   ]
@@ -66,9 +70,17 @@ const run = async () => {
 }
 
 try {
-  await copyWebkitTests()
-  const code = await run()
-  process.exitCode = code ?? 1
+  await rm(tmpTestPath, { force: true, recursive: true })
+  const tests = await getWebkitTests()
+  for (let index = 0; index < tests.length; index += testBatchSize) {
+    const batch = tests.slice(index, index + testBatchSize)
+    const testPath = await copyWebkitTests(batch, index / testBatchSize)
+    const code = await run(testPath)
+    if (code !== 0) {
+      process.exitCode = code ?? 1
+      break
+    }
+  }
 } finally {
   await rm(tmpTestPath, { force: true, recursive: true })
 }

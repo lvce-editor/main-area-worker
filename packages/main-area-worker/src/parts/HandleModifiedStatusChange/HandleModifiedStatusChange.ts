@@ -1,3 +1,4 @@
+import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const handleModifiedStatusChange = (state: MainAreaState, uri: string, newStatus: boolean): MainAreaState => {
@@ -24,4 +25,12 @@ export const handleModifiedStatusChange = (state: MainAreaState, uri: string, ne
       groups: updatedGroups,
     },
   }
+}
+
+export const handleModifiedStatusChangeWithContext = async (
+  context: AsyncCommandContext<MainAreaState>,
+  uri: string,
+  newStatus: boolean,
+): Promise<void> => {
+  await context.updateState((state) => handleModifiedStatusChange(state, uri, newStatus))
 }

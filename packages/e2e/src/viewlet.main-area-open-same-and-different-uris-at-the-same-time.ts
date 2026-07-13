@@ -1,7 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-same-and-different-uris-at-the-same-time'
-export const skip = 1
+export const skip = 0
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()

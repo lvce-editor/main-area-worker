@@ -9,9 +9,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const file2 = `${tmpDir}/restore-groups-2.ts`
   const file3 = `${tmpDir}/restore-groups-3.ts`
 
-  await FileSystem.writeFile(file1, 'one')
-  await FileSystem.writeFile(file2, 'two')
-  await FileSystem.writeFile(file3, 'three')
+  await FileSystem.setFiles([
+    { content: 'one', uri: file1 },
+    { content: 'two', uri: file2 },
+    { content: 'three', uri: file3 },
+  ])
 
   await Main.openUri(file1)
   await Main.splitRight()

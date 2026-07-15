@@ -9,8 +9,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const testFile2 = `${tmpDir}/test2.ts`
   const testContent1 = 'export const hello = () => "world"'
   const testContent2 = 'export const goodbye = () => "world"'
-  await FileSystem.writeFile(testFile1, testContent1)
-  await FileSystem.writeFile(testFile2, testContent2)
+  await FileSystem.setFiles([
+    { content: testContent1, uri: testFile1 },
+    { content: testContent2, uri: testFile2 },
+  ])
 
   // act - open first file
   await Main.openUri(testFile1)

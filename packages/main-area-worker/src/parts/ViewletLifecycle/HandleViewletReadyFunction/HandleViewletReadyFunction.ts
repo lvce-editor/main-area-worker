@@ -7,7 +7,7 @@ import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
  * With reference nodes, attachment is handled automatically by virtual DOM rendering.
  * No commands needed - state update is sufficient.
  */
-export const handleViewletReady = (state: MainAreaState, editorUid: number): MainAreaState => {
+export const handleViewletReady = (state: MainAreaState, editorUid: number, title?: string): MainAreaState => {
   if (editorUid === -1) {
     throw new Error('Invalid editorUid -1')
   }
@@ -24,6 +24,7 @@ export const handleViewletReady = (state: MainAreaState, editorUid: number): Mai
   const newState = updateTab(state, tab.id, {
     editorUid,
     loadingState: 'loaded',
+    ...(title && { title }),
   })
 
   // No attach commands needed - virtual DOM reference nodes handle positioning

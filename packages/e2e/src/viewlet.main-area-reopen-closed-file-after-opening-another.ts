@@ -8,8 +8,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const file1 = `${tmpDir}/reopen-after-other-1.ts`
   const file2 = `${tmpDir}/reopen-after-other-2.ts`
 
-  await FileSystem.writeFile(file1, 'one')
-  await FileSystem.writeFile(file2, 'two')
+  await FileSystem.setFiles([
+    { content: 'one', uri: file1 },
+    { content: 'two', uri: file2 },
+  ])
 
   await Main.openUri(file1)
   await Main.openUri(file2)

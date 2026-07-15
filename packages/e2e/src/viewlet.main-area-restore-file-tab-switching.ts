@@ -9,8 +9,10 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await Workspace.setPath(tmpDir)
   const firstFile = `${tmpDir}/restore-switch-first.ts`
   const secondFile = `${tmpDir}/restore-switch-second.ts`
-  await FileSystem.writeFile(firstFile, 'first file')
-  await FileSystem.writeFile(secondFile, 'second file')
+  await FileSystem.setFiles([
+    { content: 'first file', uri: firstFile },
+    { content: 'second file', uri: secondFile },
+  ])
 
   await Main.openUri(firstFile)
   await Main.openUri(secondFile)

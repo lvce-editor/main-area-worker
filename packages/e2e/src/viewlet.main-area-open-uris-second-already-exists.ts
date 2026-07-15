@@ -8,8 +8,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const file1 = `${tmpDir}/open-uris-second-existing-1.ts`
   const file2 = `${tmpDir}/open-uris-second-existing-2.ts`
 
-  await FileSystem.writeFile(file1, 'export const first = 1')
-  await FileSystem.writeFile(file2, 'export const alreadyThere = 2')
+  await FileSystem.setFiles([
+    { content: 'export const first = 1', uri: file1 },
+    { content: 'export const alreadyThere = 2', uri: file2 },
+  ])
 
   await Main.openUri(file2)
   await Main.openUri(file1)

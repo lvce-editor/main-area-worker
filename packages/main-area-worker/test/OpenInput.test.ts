@@ -37,7 +37,7 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   })
   expect(tab.uri).toBe('file:///path/to/file.ts')
   expect(tab.title).toBe('file.ts')
-  expect(mockRpc.invocations).toEqual([
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
     ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
   ])
@@ -67,7 +67,7 @@ test('openInput should add pretty uri title for file under home dir', async () =
 
   expect(tab.title).toBe('file.md')
   expect(tab.uriTitle).toBe('~/Documents/file.md')
-  expect(mockRpc.invocations).toEqual([
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     ['Layout.getModuleId', 'file:///home/user/Documents/file.md'],
     ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///home/user/Documents/file.md'],
   ])
@@ -99,7 +99,7 @@ test('openInput should open diff editor input without Layout.getModuleId', async
   })
   expect(tab.uri).toBe('diff://?left=file%3A%2F%2F%2Fpath%2Fto%2Fleft.ts&right=file%3A%2F%2F%2Fpath%2Fto%2Fright.ts')
   expect(tab.title).toBe('left.ts - right.ts')
-  expect(mockRpc.invocations).toEqual([
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     [
       'Layout.createViewlet',
       'DiffEditor',
@@ -135,7 +135,7 @@ test('openInput should open extension detail view input without Layout.getModule
   })
   expect(tab.uri).toBe('extension-detail://abc')
   expect(tab.title).toBe('abc')
-  expect(mockRpc.invocations).toEqual([
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail://abc'],
   ])
 })
@@ -212,7 +212,7 @@ test('openInput should show an error when opening a folder path', async () => {
 
   expect(tab.loadingState).toBe('error')
   expect(tab.errorMessage).toBe('Expected a file but received a folder')
-  expect(mockRpc.invocations).toEqual([['FileSystem.stat', '/tmp/folder-to-open']])
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([['FileSystem.stat', '/tmp/folder-to-open']])
 })
 
 test('openInput should activate an existing stored tab when the call-site state is stale', async () => {
@@ -269,5 +269,5 @@ test('openInput should activate an existing stored tab when the call-site state 
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(mockRpc.invocations).toEqual([])
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([])
 })

@@ -351,6 +351,7 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
       { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
       'file:///file1.ts',
     ],
+    ['Viewlet.getTitle', expect.any(Number)],
     [
       'Layout.createViewlet',
       'editor.text',
@@ -359,6 +360,7 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
       { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
       'file:///file2.ts',
     ],
+    ['Viewlet.getTitle', expect.any(Number)],
   ])
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
@@ -414,6 +416,7 @@ test('restoreAndCreateEditors should restore diff editor inputs without Layout.g
       { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
       'diff://?left=file%3A%2F%2F%2Fleft.ts&right=file%3A%2F%2F%2Fright.ts',
     ],
+    ['Viewlet.getTitle', expect.any(Number)],
   ])
   expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
 })

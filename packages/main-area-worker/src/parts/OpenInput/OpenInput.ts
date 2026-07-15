@@ -1,3 +1,4 @@
+import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
@@ -19,47 +20,51 @@ import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import { updateTabIcon } from '../UpdateTabIcon/UpdateTabIcon.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
-export const openInput = async (state: MainAreaState, options: OpenInputOptions): Promise<MainAreaState> => {
+export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
+  const state = context.getState()
   Assert.object(state)
   Assert.object(options)
 
-  const { uid } = state
   const { editorInput } = options
   const preview = options.preview ?? false
   const uri = getEditorInputUri(editorInput)
   const title = getEditorInputTitle(editorInput)
   const editorType = getEditorInputEditorType(editorInput)
-  const currentState = getCurrentState(state)
+  const currentState = state
   const existingTab = findTabByUri(currentState, uri)
   const shouldRetryExistingTab = !!existingTab && existingTab.tab.loadingState === 'error'
   if (existingTab && !shouldRetryExistingTab) {
     const focusedState = focusEditorGroup(currentState, existingTab.groupId)
-    return switchTab(focusedState, existingTab.groupId, existingTab.tab.id)
+    const switchedState = switchTab(focusedState, existingTab.groupId, existingTab.tab.id)
+    await context.updateState(() => switchedState)
+    return
   }
   const previousTabId = getActiveTabId(currentState)
   const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetryExistingTab, uri, preview, title, editorType)
 
-  set(uid, state, stateWithTab)
+  await context.updateState(() => stateWithTab)
 
   if (await isDirectoryEditorInput(editorInput)) {
-    const { newState: latestState } = get(uid)
+    const latestState = context.getState()
     const errorState = updateTab(latestState, tabId, {
       errorMessage: 'Expected a file but received a folder',
       loadingState: 'error',
     })
-    set(uid, state, errorState)
-    return errorState
+    await context.updateState(() => errorState)
+    return
   }
 
   try {
     const viewletModuleId = await getViewletModuleIdForEditorInput(editorInput)
-    const { newState: stateAfterModuleId } = get(uid)
+    const stateAfterModuleId = context.getState()
 
     if (!viewletModuleId) {
-      return updateTab(stateAfterModuleId, tabId, {
+      const unsupportedState = updateTab(stateAfterModuleId, tabId, {
         errorMessage: 'Could not determine editor type for this URI',
         loadingState: 'error',
       })
+      await context.updateState(() => unsupportedState)
+      return
     }
 
     const bounds = {
@@ -74,11 +79,11 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
     const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId)
     intermediateState = switchedState
 
-    set(uid, state, intermediateState)
+    await context.updateState(() => intermediateState)
 
     const tabWithViewlet = findTabById(intermediateState, tabId)
     if (!tabWithViewlet) {
-      return intermediateState
+      return
     }
 
     const { editorUid } = tabWithViewlet.tab
@@ -86,28 +91,41 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
       throw new Error('invalid editorUid')
     }
 
-    await createViewlet(viewletModuleId, editorUid, tabId, bounds, uri)
+    const renderedTitle = await createViewlet(viewletModuleId, editorUid, tabId, bounds, uri)
 
-    const { newState: latestState } = get(uid)
-    const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
+    const latestState = context.getState()
+    const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid, renderedTitle)
 
-    set(uid, state, readyState)
+    await context.updateState(() => readyState)
 
-    const stateWithIcon = await updateTabIcon(uid, state, readyState, tabId)
+    const stateWithIcon = await updateTabIcon(context, readyState, tabId)
     if (stateWithIcon) {
-      return stateWithIcon
+      return
     }
-
-    const { newState: finalState } = get(uid)
-    return finalState
   } catch (error) {
-    const { newState: latestState } = get(uid)
+    const latestState = context.getState()
     const errorMessage = error instanceof Error ? error.message : 'Failed to open URI'
     const errorState = updateTab(latestState, tabId, {
       errorMessage,
       loadingState: 'error',
     })
-    set(uid, state, errorState)
-    return errorState
+    await context.updateState(() => errorState)
   }
+}
+
+export const openInput = async (state: MainAreaState, options: OpenInputOptions): Promise<MainAreaState> => {
+  const { uid } = state
+  let currentState = getCurrentState(state)
+  const context: AsyncCommandContext<MainAreaState> = {
+    getState: () => get(uid)?.newState ?? currentState,
+    updateState: (updater) => {
+      const storedState = get(uid)
+      const latestState = storedState?.newState ?? currentState
+      currentState = updater(latestState)
+      set(uid, storedState?.oldState ?? state, currentState)
+      return Promise.resolve(currentState)
+    },
+  }
+  await openInputWithContext(context, options)
+  return context.getState()
 }

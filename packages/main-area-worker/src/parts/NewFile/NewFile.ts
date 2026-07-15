@@ -106,11 +106,11 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     throw new Error(`invalid editorUid`)
   }
 
-  await createViewlet(viewletModuleId, actualEditorUid, tabId, bounds, newTab.uri || '')
+  const title = await createViewlet(viewletModuleId, actualEditorUid, tabId, bounds, newTab.uri || '')
 
   // After viewlet is created, get the latest state and mark it as ready
   const { newState: latestState } = get(uid)
-  const readyState = ViewletLifecycle.handleViewletReady(latestState, actualEditorUid)
+  const readyState = ViewletLifecycle.handleViewletReady(latestState, actualEditorUid, title)
 
   return readyState
 }

@@ -785,7 +785,7 @@ test('loadContent should restore extension detail tabs with the correct editor i
     extensionId: 'chat',
     type: 'extension-detail-view',
   })
-  expect(rendererRpc.invocations).toEqual([
+  expect(rendererRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     ['Workspace.getHomeDir'],
     [
       'Layout.createViewlet',
@@ -852,7 +852,7 @@ test('loadContent should normalize stale extension detail editor inputs from sav
     extensionId: 'chat',
     type: 'extension-detail-view',
   })
-  expect(rendererRpc.invocations).toEqual([
+  expect(rendererRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     ['Workspace.getHomeDir'],
     [
       'Layout.createViewlet',

@@ -301,6 +301,28 @@ test('handleViewletReady disposes viewlet when tab no longer exists', () => {
   expect(result).toBe(state)
 })
 
+test('handleViewletReady uses a title rendered by the provider', () => {
+  const state = createStateWithTab({ editorUid: 100, title: 'builtin.theme-atom-one-dark' })
+
+  const result = ViewletLifecycle.handleViewletReady(state, 100, 'Atom One Dark Theme')
+
+  expect(result.layout.groups[0].tabs[0]).toMatchObject({
+    loadingState: 'loaded',
+    title: 'Atom One Dark Theme',
+  })
+})
+
+test('handleViewletReady preserves the fallback title when the provider has no title', () => {
+  const state = createStateWithTab({ editorUid: 100, title: 'test.ts' })
+
+  const result = ViewletLifecycle.handleViewletReady(state, 100)
+
+  expect(result.layout.groups[0].tabs[0]).toMatchObject({
+    loadingState: 'loaded',
+    title: 'test.ts',
+  })
+})
+
 test('disposeViewletForTab creates dispose command for tab with viewlet', () => {
   const state = createStateWithTab({ editorUid: 100 })
   const result = ViewletLifecycle.disposeViewletForTab(state, 1)

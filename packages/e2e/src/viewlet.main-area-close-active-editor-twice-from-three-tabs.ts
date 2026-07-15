@@ -9,9 +9,11 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const file2 = `${tmpDir}/close-twice-2.ts`
   const file3 = `${tmpDir}/close-twice-3.ts`
 
-  await FileSystem.writeFile(file1, 'one')
-  await FileSystem.writeFile(file2, 'two')
-  await FileSystem.writeFile(file3, 'three')
+  await FileSystem.setFiles([
+    { content: 'one', uri: file1 },
+    { content: 'two', uri: file2 },
+    { content: 'three', uri: file3 },
+  ])
 
   await Main.openUri(file1)
   await Main.openUri(file2)

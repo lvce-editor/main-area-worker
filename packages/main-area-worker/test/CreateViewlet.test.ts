@@ -9,7 +9,7 @@ test('createViewlet should call Layout.createViewlet with correct parameters', a
 
   await CreateViewlet.createViewlet('test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts')
 
-  expect(mockRpc.invocations).toEqual([['Layout.createViewlet', 'test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts']])
+  expect(mockRpc.invocations[0]).toEqual(['Layout.createViewlet', 'test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts'])
 })
 
 test('createViewlet should handle different viewlet module ids', async () => {
@@ -19,8 +19,13 @@ test('createViewlet should handle different viewlet module ids', async () => {
 
   await CreateViewlet.createViewlet('Editor', 5, 10, { height: 200, width: 200, x: 10, y: 10 }, 'file:///path/to/file.ts')
 
-  expect(mockRpc.invocations).toEqual([
-    ['Layout.createViewlet', 'Editor', 5, 10, { height: 200, width: 200, x: 10, y: 10 }, 'file:///path/to/file.ts'],
+  expect(mockRpc.invocations[0]).toEqual([
+    'Layout.createViewlet',
+    'Editor',
+    5,
+    10,
+    { height: 200, width: 200, x: 10, y: 10 },
+    'file:///path/to/file.ts',
   ])
 })
 
@@ -31,7 +36,7 @@ test('createViewlet should handle different editorUids', async () => {
 
   await CreateViewlet.createViewlet('test.viewlet', 42, 1, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts')
 
-  expect(mockRpc.invocations).toEqual([['Layout.createViewlet', 'test.viewlet', 42, 1, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts']])
+  expect(mockRpc.invocations[0]).toEqual(['Layout.createViewlet', 'test.viewlet', 42, 1, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts'])
 })
 
 test('createViewlet should handle different tabIds', async () => {
@@ -41,7 +46,7 @@ test('createViewlet should handle different tabIds', async () => {
 
   await CreateViewlet.createViewlet('test.viewlet', 1, 99, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts')
 
-  expect(mockRpc.invocations).toEqual([['Layout.createViewlet', 'test.viewlet', 1, 99, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts']])
+  expect(mockRpc.invocations[0]).toEqual(['Layout.createViewlet', 'test.viewlet', 1, 99, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts'])
 })
 
 test('createViewlet should handle different bounds', async () => {
@@ -52,7 +57,7 @@ test('createViewlet should handle different bounds', async () => {
   const bounds = { height: 500, width: 500, x: 50, y: 50 }
   await CreateViewlet.createViewlet('test.viewlet', 1, 2, bounds, 'file:///test.ts')
 
-  expect(mockRpc.invocations).toEqual([['Layout.createViewlet', 'test.viewlet', 1, 2, bounds, 'file:///test.ts']])
+  expect(mockRpc.invocations[0]).toEqual(['Layout.createViewlet', 'test.viewlet', 1, 2, bounds, 'file:///test.ts'])
 })
 
 test('createViewlet should handle different uris', async () => {
@@ -62,8 +67,13 @@ test('createViewlet should handle different uris', async () => {
 
   await CreateViewlet.createViewlet('test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, 'file:///path/to/another/file.js')
 
-  expect(mockRpc.invocations).toEqual([
-    ['Layout.createViewlet', 'test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, 'file:///path/to/another/file.js'],
+  expect(mockRpc.invocations[0]).toEqual([
+    'Layout.createViewlet',
+    'test.viewlet',
+    1,
+    2,
+    { height: 100, width: 100, x: 0, y: 0 },
+    'file:///path/to/another/file.js',
   ])
 })
 
@@ -75,7 +85,7 @@ test('createViewlet should be awaitable', async () => {
   const result = await CreateViewlet.createViewlet('test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts')
 
   expect(result).toBeUndefined()
-  expect(mockRpc.invocations).toEqual([['Layout.createViewlet', 'test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts']])
+  expect(mockRpc.invocations[0]).toEqual(['Layout.createViewlet', 'test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, 'file:///test.ts'])
 })
 
 test('createViewlet should handle empty uri string', async () => {
@@ -85,7 +95,7 @@ test('createViewlet should handle empty uri string', async () => {
 
   await CreateViewlet.createViewlet('test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, '')
 
-  expect(mockRpc.invocations).toEqual([['Layout.createViewlet', 'test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, '']])
+  expect(mockRpc.invocations[0]).toEqual(['Layout.createViewlet', 'test.viewlet', 1, 2, { height: 100, width: 100, x: 0, y: 0 }, ''])
 })
 
 test('createViewlet should handle null bounds', async () => {
@@ -95,5 +105,31 @@ test('createViewlet should handle null bounds', async () => {
 
   await CreateViewlet.createViewlet('test.viewlet', 1, 2, null, 'file:///test.ts')
 
-  expect(mockRpc.invocations).toEqual([['Layout.createViewlet', 'test.viewlet', 1, 2, null, 'file:///test.ts']])
+  expect(mockRpc.invocations[0]).toEqual(['Layout.createViewlet', 'test.viewlet', 1, 2, null, 'file:///test.ts'])
+})
+
+test('createViewlet should return a title rendered by the provider', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Viewlet.getTitle': async () => 'Atom One Dark Theme',
+  })
+
+  const result = await CreateViewlet.createViewlet('ExtensionDetail', 1, 2, null, 'extension-detail://builtin.theme-atom-one-dark')
+
+  expect(result).toBe('Atom One Dark Theme')
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.createViewlet', 'ExtensionDetail', 1, 2, null, 'extension-detail://builtin.theme-atom-one-dark'],
+    ['Viewlet.getTitle', 1],
+  ])
+})
+
+test('createViewlet should preserve the fallback title when the provider has no title', async () => {
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Viewlet.getTitle': async () => '',
+  })
+
+  const result = await CreateViewlet.createViewlet('EditorText', 1, 2, null, 'file:///test.ts')
+
+  expect(result).toBeUndefined()
 })

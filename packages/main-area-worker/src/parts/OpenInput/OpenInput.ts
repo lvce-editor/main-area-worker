@@ -91,10 +91,10 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       throw new Error('invalid editorUid')
     }
 
-    await createViewlet(viewletModuleId, editorUid, tabId, bounds, uri)
+    const renderedTitle = await createViewlet(viewletModuleId, editorUid, tabId, bounds, uri)
 
     const latestState = context.getState()
-    const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
+    const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid, renderedTitle)
 
     await context.updateState(() => readyState)
 

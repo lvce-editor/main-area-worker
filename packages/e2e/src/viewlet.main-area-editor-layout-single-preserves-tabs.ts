@@ -14,8 +14,10 @@ export const test: Test = async ({ Command, FileSystem }) => {
   const file1 = `${tmpDir}/one.txt`
   const file2 = `${tmpDir}/two.txt`
   const uid = 9025
-  await FileSystem.writeFile(file1, 'one')
-  await FileSystem.writeFile(file2, 'two')
+  await FileSystem.setFiles([
+    { content: 'one', uri: file1 },
+    { content: 'two', uri: file2 },
+  ])
   await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
   await Command.execute('MainArea.openUri', uid, { uri: file1 })
   await Command.execute('MainArea.openUri', uid, { uri: file2 })

@@ -8,8 +8,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const jsonFile = `${tmpDir}/data.json`
   const textFile = `${tmpDir}/notes.txt`
 
-  await FileSystem.writeFile(jsonFile, '{"ok": true}')
-  await FileSystem.writeFile(textFile, 'hello')
+  await FileSystem.setFiles([
+    { content: '{"ok": true}', uri: jsonFile },
+    { content: 'hello', uri: textFile },
+  ])
 
   await Main.openUri(jsonFile)
   await Main.openUri(textFile)

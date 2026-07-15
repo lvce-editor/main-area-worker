@@ -17,11 +17,13 @@ export const test: Test = async ({ Command, FileSystem }) => {
   const file4 = `${tmpDir}/file4.ts`
   const file5 = `${tmpDir}/file5.ts`
 
-  await FileSystem.writeFile(file1, 'content1')
-  await FileSystem.writeFile(file2, 'content2')
-  await FileSystem.writeFile(file3, 'content3')
-  await FileSystem.writeFile(file4, 'content4')
-  await FileSystem.writeFile(file5, 'content5')
+  await FileSystem.setFiles([
+    { content: 'content1', uri: file1 },
+    { content: 'content2', uri: file2 },
+    { content: 'content3', uri: file3 },
+    { content: 'content4', uri: file4 },
+    { content: 'content5', uri: file5 },
+  ])
 
   const uid = 3
 

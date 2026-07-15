@@ -39,8 +39,10 @@ export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
   const fileLeft = `${tmpDir}/file-left.ts`
   const fileRight = `${tmpDir}/file-right.ts`
 
-  await FileSystem.writeFile(fileLeft, 'content-left')
-  await FileSystem.writeFile(fileRight, 'content-right')
+  await FileSystem.setFiles([
+    { content: 'content-left', uri: fileLeft },
+    { content: 'content-right', uri: fileRight },
+  ])
 
   await Main.openUri(fileLeft)
   await Main.splitRight()

@@ -16,8 +16,10 @@ export const test: Test = async ({ Command, FileSystem }) => {
   const file1 = `${tmpDir}/open-uris-duplicate-1.ts`
   const file2 = `${tmpDir}/open-uris-duplicate-2.ts`
 
-  await FileSystem.writeFile(file1, 'export const file1 = 1')
-  await FileSystem.writeFile(file2, 'export const file2 = 2')
+  await FileSystem.setFiles([
+    { content: 'export const file1 = 1', uri: file1 },
+    { content: 'export const file2 = 2', uri: file2 },
+  ])
 
   await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
   await Command.execute('MainArea.openUris', uid, [file1, file1, file2, file2])

@@ -9,9 +9,11 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   const file1 = `${tmpDir}/file1.txt`
   const file2 = `${tmpDir}/file2.txt`
   const file3 = `${tmpDir}/file3.txt`
-  await FileSystem.writeFile(file1, 'content1')
-  await FileSystem.writeFile(file2, 'content2')
-  await FileSystem.writeFile(file3, 'content3')
+  await FileSystem.setFiles([
+    { content: 'content1', uri: file1 },
+    { content: 'content2', uri: file2 },
+    { content: 'content3', uri: file3 },
+  ])
 
   await Promise.all([Main.openUri(file1), Main.openUri(file2), Main.openUri(file3)])
 

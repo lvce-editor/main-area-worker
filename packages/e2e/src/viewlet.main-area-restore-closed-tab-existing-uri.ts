@@ -8,8 +8,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const file1 = `${tmpDir}/restore-existing-1.ts`
   const file2 = `${tmpDir}/restore-existing-2.ts`
 
-  await FileSystem.writeFile(file1, 'one')
-  await FileSystem.writeFile(file2, 'two')
+  await FileSystem.setFiles([
+    { content: 'one', uri: file1 },
+    { content: 'two', uri: file2 },
+  ])
 
   await Main.openUri(file1)
   await Main.openUri(file2)

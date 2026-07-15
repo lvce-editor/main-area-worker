@@ -1,6 +1,7 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { closeTab } from '../CloseTab/CloseTab.ts'
+import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
@@ -15,6 +16,10 @@ export const closeTabAndSave = async (state: MainAreaState, groupId: number, tab
     if (!editorState?.modified && tab.uri) {
       await RendererWorker.handleModifiedStatusChange(tab.uri, false)
     }
+  }
+
+  if (tab.uri?.startsWith('simple-browser://')) {
+    return closeTabWithViewlet(state, groupId, tabId)
   }
 
   return closeTab(state, groupId, tabId)

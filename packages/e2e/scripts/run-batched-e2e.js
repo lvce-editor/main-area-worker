@@ -33,7 +33,6 @@ const run = async (browser, testPath, forwardedArgs) => {
     '--only-extension=.',
     `--test-path=${testPath}`,
     `--browser=${browser}`,
-    '--reuse-page',
     ...forwardedArgs,
   ]
 

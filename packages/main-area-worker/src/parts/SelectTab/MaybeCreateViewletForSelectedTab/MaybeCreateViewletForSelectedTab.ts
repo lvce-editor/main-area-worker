@@ -44,8 +44,8 @@ export const maybeCreateViewletForSelectedTab = async (
   if (tabWithViewlet) {
     const { editorUid } = tabWithViewlet.tab
     if (editorUid !== -1 && selectedTab.uri) {
-      await createViewlet(viewletModuleId, editorUid, tabId, bounds, selectedTab.uri)
-      stateWithViewlet = ViewletLifecycle.handleViewletReady(stateWithViewlet, editorUid)
+      const title = await createViewlet(viewletModuleId, editorUid, tabId, bounds, selectedTab.uri)
+      stateWithViewlet = ViewletLifecycle.handleViewletReady(stateWithViewlet, editorUid, title)
       MainAreaStates.set(uid, state, stateWithViewlet)
     }
   }

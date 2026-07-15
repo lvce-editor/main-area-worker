@@ -22,7 +22,7 @@ export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayo
   const viewletModuleIds = await getViewletModuleIds(newState.layout)
 
   // Create viewlets and get editor UIDs
-  const editorUids = await createViewlets(newState.layout, viewletModuleIds, bounds)
+  const { editorUids, titles } = await createViewlets(newState.layout, viewletModuleIds, bounds)
 
   // Update tabs with editor UIDs
   newState = updateTabs(newState, editorUids)
@@ -33,7 +33,7 @@ export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayo
     if (activeTab && viewletModuleIds[activeTab.id]) {
       const editorUid = editorUids[activeTab.id]
       newState = ViewletLifecycle.createViewletForTab(newState, activeTab.id, viewletModuleIds[activeTab.id], bounds)
-      newState = ViewletLifecycle.handleViewletReady(newState, editorUid)
+      newState = ViewletLifecycle.handleViewletReady(newState, editorUid, titles[activeTab.id])
     }
   }
 

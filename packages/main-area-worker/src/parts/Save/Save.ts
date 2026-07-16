@@ -1,9 +1,9 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { Tab } from '../Tab/Tab.ts'
 import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
 import { get } from '../MainAreaStates/MainAreaStates.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
-import type { Tab } from '../Tab/Tab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
 const settingsUri = 'app://settings.json'

@@ -1,3 +1,4 @@
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { loadFileIcons } from '../LoadContent/LoadFileIcons.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
@@ -7,6 +8,15 @@ export const handleUriChange = async (state: MainAreaState, oldUri: string, newU
   const { layout } = state
   const { groups } = layout
   const newTitle = PathDisplay.getLabel(newUri)
+  const editorUriUpdates: Promise<unknown>[] = []
+  for (const group of groups) {
+    for (const tab of group.tabs) {
+      if (tab.uri === oldUri && tab.editorType === 'text' && tab.editorUid !== -1) {
+        editorUriUpdates.push(RendererWorker.invoke('Editor.handleUriChange', tab.editorUid, newUri))
+      }
+    }
+  }
+  await Promise.all(editorUriUpdates)
   const updatedGroups = groups.map((group) => {
     return {
       ...group,

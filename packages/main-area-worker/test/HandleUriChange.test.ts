@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleUriChange } from '../src/parts/HandleUriChange/HandleUriChange.ts'
@@ -55,6 +56,29 @@ test('handleUriChange should update single tab URI', async () => {
   const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].tabs[0].uri).toBe('/test/newfile.txt')
+})
+
+test('handleUriChange should retarget a loaded text editor', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Editor.handleUriChange'() {},
+  })
+  const state = createStateWithTabs([{ editorUid: 42, uri: '/test/original.txt' }])
+
+  const result = await handleUriChange(state, '/test/original.txt', '/test/renamed.txt')
+
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/test/renamed.txt')
+  expect(result.layout.groups[0].tabs[0].title).toBe('renamed.txt')
+  expect(mockRpc.invocations).toEqual([['Editor.handleUriChange', 42, '/test/renamed.txt']])
+})
+
+test('handleUriChange should not send text editor commands to custom editors', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+  const state = createStateWithTabs([{ editorType: 'custom', editorUid: 42, uri: '/test/original.txt' }])
+
+  const result = await handleUriChange(state, '/test/original.txt', '/test/renamed.txt')
+
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/test/renamed.txt')
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('handleUriChange should update multiple tabs with same old URI', async () => {

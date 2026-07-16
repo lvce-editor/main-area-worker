@@ -430,3 +430,50 @@ test('handleClickTab should parse string indexes correctly', async () => {
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(mockRpc.invocations).toEqual([])
 })
+
+test('handleClickTab should return state unchanged for secondary button clicks', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 1',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 2',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await handleClickTab(state, '0', '1', 2)
+
+  expect(result).toBe(state)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toEqual([])
+})

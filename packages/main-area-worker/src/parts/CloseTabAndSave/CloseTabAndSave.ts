@@ -13,7 +13,10 @@ export const closeTabAndSave = async (state: MainAreaState, groupId: number, tab
 
   if (tab.editorUid !== -1 && tab.isDirty) {
     const editorState = await saveEditor(tab.editorUid)
-    if (!editorState?.modified && tab.uri) {
+    if (editorState?.modified !== false) {
+      return state
+    }
+    if (tab.uri) {
       await RendererWorker.handleModifiedStatusChange(tab.uri, false)
     }
   }

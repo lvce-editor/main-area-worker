@@ -14,6 +14,7 @@ export const test: Test = async ({ Command, Editor, expect, Locator, Main }) => 
   await Editor.setCursor(0, 0)
   await Editor.type('unsaved content')
   await Editor.shouldHaveText('unsaved content')
+  await expect(untitledTab).toHaveClass('MainTabModified')
 
   await Main.closeActiveEditor()
 

@@ -5,26 +5,13 @@ import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
-const hasUnsavedUntitledContent = async (editorUid: number, uri: string | undefined): Promise<boolean> => {
-  if (!uri?.startsWith('untitled:')) {
-    return false
-  }
-  try {
-    const content = await RendererWorker.invoke('Editor.getText', editorUid)
-    return typeof content === 'string' && content.length > 0
-  } catch {
-    return true
-  }
-}
-
 export const closeTabAndSave = async (state: MainAreaState, groupId: number, tabId: number): Promise<MainAreaState> => {
   const tab = findTabInState(state, groupId, tabId)
   if (!tab) {
     return state
   }
 
-  const shouldSave = tab.editorUid !== -1 && (tab.isDirty || (await hasUnsavedUntitledContent(tab.editorUid, tab.uri)))
-  if (shouldSave) {
+  if (tab.editorUid !== -1 && tab.isDirty) {
     const editorState = await saveEditor(tab.editorUid)
     if (editorState?.modified !== false) {
       return state

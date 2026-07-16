@@ -103,7 +103,6 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
 
 test('closeTabAndSave should keep a modified untitled tab open when saving is canceled', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.getText': async () => 'unsaved content',
     'Editor.save': async () => ({ modified: true }),
   })
 
@@ -126,7 +125,7 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
               errorMessage: '',
               icon: '',
               id: 1,
-              isDirty: false,
+              isDirty: true,
               isPreview: false,
               language: 'plaintext',
               loadingState: 'loaded',
@@ -141,54 +140,8 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
 
   const result = await closeTabAndSave(state, 1, 1)
 
-  expect(mockRpc.invocations).toEqual([
-    ['Editor.getText', 123],
-    ['Editor.save', 123],
-  ])
+  expect(mockRpc.invocations).toEqual([['Editor.save', 123]])
   expect(result).toBe(state)
-})
-
-test('closeTabAndSave should close an empty unmodified untitled tab without saving', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.getText': async () => '',
-  })
-
-  const state: MainAreaState = {
-    ...createDefaultState(),
-    layout: {
-      activeGroupId: 1,
-      direction: 1,
-      groups: [
-        {
-          activeTabId: 1,
-          focused: true,
-          id: 1,
-          isEmpty: false,
-          size: 100,
-          tabs: [
-            {
-              editorType: 'text',
-              editorUid: 123,
-              errorMessage: '',
-              icon: '',
-              id: 1,
-              isDirty: false,
-              isPreview: false,
-              language: 'plaintext',
-              loadingState: 'loaded',
-              title: 'Untitled',
-              uri: 'untitled:///1',
-            },
-          ],
-        },
-      ],
-    },
-  }
-
-  const result = await closeTabAndSave(state, 1, 1)
-
-  expect(mockRpc.invocations).toEqual([['Editor.getText', 123]])
-  expect(result.layout.groups).toHaveLength(0)
 })
 
 test('closeTabAndSave should keep a dirty tab open when saving fails', async () => {

@@ -1,3 +1,4 @@
+import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.ts'
 
@@ -12,4 +13,13 @@ export const handleWorkspaceRefresh = async (state: MainAreaState, deletedUris: 
     }
   }
   return newState
+}
+
+export const handleWorkspaceRefreshWithContext = async (
+  context: AsyncCommandContext<MainAreaState>,
+  deletedUris: readonly string[] = [],
+): Promise<void> => {
+  const state = context.getState()
+  const newState = await handleWorkspaceRefresh(state, deletedUris)
+  await context.updateState(() => newState)
 }

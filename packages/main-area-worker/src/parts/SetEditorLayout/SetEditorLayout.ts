@@ -6,6 +6,7 @@ import * as LayoutDirectionType from '../LayoutDirection/LayoutDirection.ts'
 
 export interface LayoutSlot {
   readonly direction?: LayoutDirection
+  readonly segmentId?: number
   readonly size: number
 }
 
@@ -82,6 +83,7 @@ export const setEditorLayout = (state: MainAreaState, direction: LayoutDirection
       ...group,
       direction: slot.direction,
       focused,
+      segmentId: slot.segmentId,
       size: slot.size,
     }
   })
@@ -130,26 +132,30 @@ export const setEditorLayoutThreeRows = (state: MainAreaState): MainAreaState =>
 }
 
 export const setEditorLayoutGrid = (state: MainAreaState): MainAreaState => {
+  const leftSegmentId = Id.create()
+  const rightSegmentId = Id.create()
   return setEditorLayout(state, LayoutDirectionType.Horizontal, [
-    { direction: LayoutDirectionType.Vertical, size: 25 },
-    { direction: LayoutDirectionType.Vertical, size: 25 },
-    { direction: LayoutDirectionType.Vertical, size: 25 },
-    { direction: LayoutDirectionType.Vertical, size: 25 },
+    { direction: LayoutDirectionType.Vertical, segmentId: leftSegmentId, size: 25 },
+    { direction: LayoutDirectionType.Vertical, segmentId: leftSegmentId, size: 25 },
+    { direction: LayoutDirectionType.Vertical, segmentId: rightSegmentId, size: 25 },
+    { direction: LayoutDirectionType.Vertical, segmentId: rightSegmentId, size: 25 },
   ])
 }
 
 export const setEditorLayoutTwoRowsRight = (state: MainAreaState): MainAreaState => {
+  const segmentId = Id.create()
   return setEditorLayout(state, LayoutDirectionType.Horizontal, [
     { size: 50 },
-    { direction: LayoutDirectionType.Vertical, size: 25 },
-    { direction: LayoutDirectionType.Vertical, size: 25 },
+    { direction: LayoutDirectionType.Vertical, segmentId, size: 25 },
+    { direction: LayoutDirectionType.Vertical, segmentId, size: 25 },
   ])
 }
 
 export const setEditorLayoutTwoColumnsBottom = (state: MainAreaState): MainAreaState => {
+  const segmentId = Id.create()
   return setEditorLayout(state, LayoutDirectionType.Vertical, [
     { size: 50 },
-    { direction: LayoutDirectionType.Horizontal, size: 25 },
-    { direction: LayoutDirectionType.Horizontal, size: 25 },
+    { direction: LayoutDirectionType.Horizontal, segmentId, size: 25 },
+    { direction: LayoutDirectionType.Horizontal, segmentId, size: 25 },
   ])
 }

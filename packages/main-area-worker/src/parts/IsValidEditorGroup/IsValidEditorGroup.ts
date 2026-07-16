@@ -11,6 +11,7 @@ export const isValidEditorGroup = (group: any): group is EditorGroup => {
     (group.activeTabId === undefined || typeof group.activeTabId === 'number') &&
     (group.direction === undefined || isLayoutDirection(group.direction)) &&
     typeof group.focused === 'boolean' &&
+    (group.segmentId === undefined || typeof group.segmentId === 'number') &&
     typeof group.size === 'number' &&
     group.size > 0 &&
     typeof group.isEmpty === 'boolean'

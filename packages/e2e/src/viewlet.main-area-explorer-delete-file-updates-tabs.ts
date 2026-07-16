@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-explorer-delete-file-updates-tabs'
 
 export const skip = true
 
-export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Workspace }) => {
+export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const deletedFile = `${tmpDir}/a-delete-me.ts`
@@ -25,7 +25,7 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Worksp
   await expect(remainingExplorerItem).toBeVisible()
 
   await Explorer.handleClick(0)
-  await Explorer.handleClick(1)
+  await Main.openUri(remainingFile)
 
   await expect(deletedTab).toBeVisible()
   await expect(remainingTab).toBeVisible()

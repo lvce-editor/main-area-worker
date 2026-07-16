@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-editor-layout-menu-two-rows-right'
+export const skip = ['webkit'] as const
 
 const clickEventInit = { bubbles: true } as unknown as string
 

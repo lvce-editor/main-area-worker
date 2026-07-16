@@ -99,6 +99,7 @@ const splitWithinMatchingNestedDirection = (
   const newGroup = {
     ...baseNewGroup,
     direction: splitLayoutDirection,
+    segmentId: sourceGroup.segmentId,
     size: Number((sourceGroup.size / 2).toFixed(6)),
   }
   const insertIndex = isTrailingSplit(direction) ? sourceIndex + 1 : sourceIndex
@@ -118,15 +119,18 @@ const splitStandaloneSourceIntoNestedDirection = (
 ): MainAreaState => {
   const sourceIndex = groups.findIndex((group) => group.id === groupId)
   const halfSize = Number((sourceGroup.size / 2).toFixed(6))
+  const segmentId = sourceGroup.segmentId ?? sourceGroup.id
   const updatedSourceGroup: EditorGroup = {
     ...sourceGroup,
     direction: splitLayoutDirection,
     focused: false,
+    segmentId,
     size: halfSize,
   }
   const newGroup: EditorGroup = {
     ...baseNewGroup,
     direction: splitLayoutDirection,
+    segmentId,
     size: Number((sourceGroup.size - halfSize).toFixed(6)),
   }
   const replacementGroups = isTrailingSplit(direction) ? [updatedSourceGroup, newGroup] : [newGroup, updatedSourceGroup]

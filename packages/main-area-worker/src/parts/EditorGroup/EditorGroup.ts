@@ -7,6 +7,7 @@ export interface EditorGroup {
   readonly focused: boolean
   readonly id: number
   readonly isEmpty: boolean
+  readonly segmentId?: number
   readonly size: number
   readonly tabs: readonly Tab[]
 }

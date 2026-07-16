@@ -91,6 +91,9 @@ test('setEditorLayoutGrid creates two columns with two rows each', () => {
     LayoutDirection.Vertical,
     LayoutDirection.Vertical,
   ])
+  expect(result.layout.groups[0].segmentId).toBe(result.layout.groups[1].segmentId)
+  expect(result.layout.groups[2].segmentId).toBe(result.layout.groups[3].segmentId)
+  expect(result.layout.groups[0].segmentId).not.toBe(result.layout.groups[2].segmentId)
   expect(result.layout.groups.map((group) => group.size)).toEqual([25, 25, 25, 25])
 })
 

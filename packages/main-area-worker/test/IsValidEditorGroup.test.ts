@@ -36,6 +36,19 @@ test('isValidEditorGroup should return true for group with undefined activeTabId
   expect(isValidEditorGroup(group)).toBe(true)
 })
 
+test('isValidEditorGroup should return true for group with segmentId', () => {
+  const group: EditorGroup = {
+    activeTabId: undefined,
+    focused: false,
+    id: 1,
+    isEmpty: true,
+    segmentId: 2,
+    size: 50,
+    tabs: [],
+  }
+  expect(isValidEditorGroup(group)).toBe(true)
+})
+
 test('isValidEditorGroup should return false for null', () => {
   expect(isValidEditorGroup(null)).toBeFalsy()
 })
@@ -139,6 +152,19 @@ test('isValidEditorGroup should return false for invalid focused type', () => {
     focused: 'true',
     id: 1,
     isEmpty: true,
+    size: 50,
+    tabs: [],
+  }
+  expect(isValidEditorGroup(group)).toBe(false)
+})
+
+test('isValidEditorGroup should return false for invalid segmentId type', () => {
+  const group = {
+    activeTabId: undefined,
+    focused: true,
+    id: 1,
+    isEmpty: true,
+    segmentId: '2',
     size: 50,
     tabs: [],
   }

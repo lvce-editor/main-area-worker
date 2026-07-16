@@ -2,13 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-modified-untitled-cancel'
 
-export const test: Test = async ({ Command, Editor, expect, Locator, Main, TitleBarMenuBar }) => {
-  await TitleBarMenuBar.focus()
-  await TitleBarMenuBar.handleKeyArrowDown()
-
-  const newFileMenuItem = Locator('.MenuItem', { hasText: 'New File' })
-  await expect(newFileMenuItem).toBeVisible()
-  await Command.execute('TitleBar.handleMenuClick', 0, 0)
+export const test: Test = async ({ Command, Editor, expect, Locator, Main }) => {
+  await Command.execute('Main.newFile')
 
   const untitledTab = Locator('.MainTab[title^="untitled:///"]')
   await expect(untitledTab).toHaveClass('MainTabSelected')

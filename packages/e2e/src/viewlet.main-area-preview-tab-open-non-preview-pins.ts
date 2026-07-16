@@ -28,8 +28,8 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
     preview: false,
   })
 
-  const firstTab = Locator('.MainTab[title$="pin-existing-first.ts"]')
-  await expect(firstTab).not.toHaveClass('MainTabPreview')
+  const firstTab = Locator('.MainTab:not(.MainTabPreview)[title$="pin-existing-first.ts"]')
+  await expect(firstTab).toBeVisible()
 
   await Main.openInput({
     editorInput: {

@@ -24,7 +24,8 @@ export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) 
   await Editor.setCursor(0, 0)
   await Editor.type('// modified\n')
   await expect(firstTab).toHaveClass('MainTabModified')
-  await expect(firstTab).not.toHaveClass('MainTabPreview')
+  const pinnedFirstTab = Locator('.MainTab:not(.MainTabPreview)[title$="modified-preview-first.ts"]')
+  await expect(pinnedFirstTab).toBeVisible()
 
   await Main.openInput({
     editorInput: {
@@ -37,7 +38,7 @@ export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) 
 
   const secondTab = Locator('.MainTabPreview[title$="modified-preview-second.ts"]')
   const tabs = Locator('.MainTab')
-  await expect(firstTab).toBeVisible()
+  await expect(pinnedFirstTab).toBeVisible()
   await expect(secondTab).toBeVisible()
   await expect(tabs).toHaveCount(2)
 }

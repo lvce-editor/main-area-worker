@@ -22,7 +22,8 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
 
   const firstTab = Locator('.MainTab[title$="double-click-first.ts"]')
   await firstTab.dispatchEvent('dblclick', { bubbles: true } as any)
-  await expect(firstTab).not.toHaveClass('MainTabPreview')
+  const pinnedFirstTab = Locator('.MainTab:not(.MainTabPreview)[title$="double-click-first.ts"]')
+  await expect(pinnedFirstTab).toBeVisible()
 
   await Main.openInput({
     editorInput: {
@@ -35,7 +36,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
 
   const secondTab = Locator('.MainTabPreview[title$="double-click-second.ts"]')
   const tabs = Locator('.MainTab')
-  await expect(firstTab).toBeVisible()
+  await expect(pinnedFirstTab).toBeVisible()
   await expect(secondTab).toBeVisible()
   await expect(tabs).toHaveCount(2)
 }

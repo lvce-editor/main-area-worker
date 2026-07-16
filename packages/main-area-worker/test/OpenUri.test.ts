@@ -92,6 +92,17 @@ test('openUri should default preview to false when omitted', async () => {
   expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
 })
 
+test('openUri should create a preview tab when requested', async () => {
+  const state: MainAreaState = createDefaultState()
+  const result = await openUri(state, {
+    focus: true,
+    preview: true,
+    uri: 'file:///path/to/preview.ts',
+  })
+
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(true)
+})
+
 test('openUri should replace active preview tab instead of adding a new tab', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -137,6 +148,62 @@ test('openUri should replace active preview tab instead of adding a new tab', as
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/replacement.ts')
   expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
   expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('openUri should dispose the replaced preview editor and create a new one', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.stat': async () => 1,
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.dispose': async () => {},
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 42,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: true,
+              loadingState: 'loaded',
+              title: 'Preview File',
+              uri: 'file:///path/to/preview-file.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await openUri(state, {
+    focus: true,
+    preview: true,
+    uri: 'file:///path/to/replacement.ts',
+  })
+
+  const [tab] = result.layout.groups[0].tabs
+  expect(tab.editorUid).not.toBe(42)
+  expect(mockRpc.invocations).toContainEqual(['Viewlet.dispose', 42])
+  expect(mockRpc.invocations).toContainEqual([
+    'Layout.createViewlet',
+    'editor.text',
+    tab.editorUid,
+    tab.id,
+    { height: -35, width: 0, x: 0, y: 35 },
+    'file:///path/to/replacement.ts',
+  ])
 })
 
 test('openUri should activate existing tab if URI already exists', async () => {
@@ -195,6 +262,47 @@ test('openUri should activate existing tab if URI already exists', async () => {
   expect(result).toBeDefined()
   expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('openUri should pin an existing preview tab when opened as non-preview', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: true,
+              loadingState: 'loaded',
+              title: 'Preview File',
+              uri: 'file:///path/to/file.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await openUri(state, {
+    focus: true,
+    preview: false,
+    uri: 'file:///path/to/file.ts',
+  })
+
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
 })
 
 test('openUri should activate existing tab in different group', async () => {

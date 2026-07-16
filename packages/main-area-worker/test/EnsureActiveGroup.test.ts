@@ -199,3 +199,87 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
   })
   expect(editorUid).toBeGreaterThan(0)
 })
+
+test('ensureActiveGroup should replace the active preview tab', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 42,
+              icon: 'old-icon',
+              id: 1,
+              isDirty: false,
+              isPreview: true,
+              loadingState: 'loaded',
+              title: 'old.ts',
+              uri: '/test/old.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = ensureActiveGroup(state, '/test/new.ts', true)
+  const [tab] = result.layout.groups[0].tabs
+
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(tab.id).toBe(1)
+  expect(tab.editorUid).toBeGreaterThan(0)
+  expect(tab.editorUid).not.toBe(42)
+  expect(tab.icon).toBe('')
+  expect(tab.isPreview).toBe(true)
+  expect(tab.loadingState).toBe('loading')
+  expect(tab.title).toBe('new.ts')
+  expect(tab.uri).toBe('/test/new.ts')
+})
+
+test('ensureActiveGroup should keep pinned tabs when opening a preview', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 42,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'pinned.ts',
+              uri: '/test/pinned.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = ensureActiveGroup(state, '/test/preview.ts', true)
+
+  expect(result.layout.groups[0].tabs).toHaveLength(2)
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/test/pinned.ts')
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
+  expect(result.layout.groups[0].tabs[1].uri).toBe('/test/preview.ts')
+  expect(result.layout.groups[0].tabs[1].isPreview).toBe(true)
+})

@@ -66,6 +66,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
+      onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,
       role: 'tab',
       title: tab.uriTitle || tab.uri || tab.title,

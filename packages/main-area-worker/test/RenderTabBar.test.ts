@@ -40,6 +40,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       'data-groupIndex': 0,
       'data-index': 0,
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
+      onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,
       role: 'tab',
       title: '/path/to/Test File',

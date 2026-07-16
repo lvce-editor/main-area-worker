@@ -130,6 +130,6 @@ test('handleEditorModified should preserve other tab properties when setting isD
 
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
   expect(result.layout.groups[0].tabs[0].icon).toBe('my-icon')
-  expect(result.layout.groups[0].tabs[0].isPreview).toBe(true)
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
   expect(result.layout.groups[0].tabs[0].title).toBe('myfile.ts')
 })

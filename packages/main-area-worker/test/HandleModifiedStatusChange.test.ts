@@ -57,6 +57,21 @@ test('handleModifiedStatusChange should update single tab modified status to tru
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
 })
 
+test('handleModifiedStatusChange should pin a preview tab when it becomes modified', () => {
+  const state = createStateWithTabs([{ isDirty: false, isPreview: true, uri: '/test/file.txt' }])
+  const result = handleModifiedStatusChange(state, '/test/file.txt', true)
+
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
+})
+
+test('handleModifiedStatusChange should preserve preview state when status remains unmodified', () => {
+  const state = createStateWithTabs([{ isDirty: false, isPreview: true, uri: '/test/file.txt' }])
+  const result = handleModifiedStatusChange(state, '/test/file.txt', false)
+
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(true)
+})
+
 test('handleModifiedStatusChange should update single tab modified status to false', () => {
   const state = createStateWithTabs([{ isDirty: true, uri: '/test/file.txt' }])
   const result = handleModifiedStatusChange(state, '/test/file.txt', false)

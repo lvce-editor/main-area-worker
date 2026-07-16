@@ -12,6 +12,7 @@ export const handleModifiedStatusChange = (state: MainAreaState, uri: string, ne
           return {
             ...tab,
             isDirty: newStatus,
+            isPreview: newStatus ? false : tab.isPreview,
           }
         }
         return tab

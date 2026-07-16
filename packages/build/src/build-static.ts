@@ -37,13 +37,13 @@ const saveReturnOccurrence = `|| key === 'getPlatform') {
 const saveReturnReplacement = `|| key === 'getPlatform' || key === 'save') {
       return newState;
     }`
-if (!content.includes(occurrence)) {
+if (!content.includes(occurrence) && !content.includes(replacement)) {
   throw new Error('occurrence not found')
 }
 if (!content.includes(saveReturnOccurrence)) {
   throw new Error('save return occurrence not found')
 }
-const contentWithMainAreaWorkerUrl = content.replace(occurrence, replacement)
+const contentWithMainAreaWorkerUrl = content.includes(occurrence) ? content.replace(occurrence, replacement) : content
 const contentWithSaveReturnValue = contentWithMainAreaWorkerUrl.replace(saveReturnOccurrence, saveReturnReplacement)
 await writeFile(rendererWorkerPath, contentWithSaveReturnValue)
 await cp(workerPath, mainAreaWorkerDistPath)

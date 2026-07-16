@@ -3,7 +3,18 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
 import { get } from '../MainAreaStates/MainAreaStates.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
+import type { Tab } from '../Tab/Tab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
+
+const settingsUri = 'app://settings.json'
+
+const saveEditorAndHandleSettingsChange = async (tab: Tab) => {
+  const editorState = await saveEditor(tab.editorUid)
+  if (!editorState?.modified && tab.uri === settingsUri) {
+    await RendererWorker.invoke('Layout.handleSettingsChanged')
+  }
+  return editorState
+}
 
 const getLatestStoredState = (
   uid: number,
@@ -54,11 +65,11 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   }
 
   if (!tab.isDirty) {
-    await saveEditor(tab.editorUid)
+    await saveEditorAndHandleSettingsChange(tab)
     return getLatestStoredState(state.uid, currentState, tab.id, tab.uri)
   }
 
-  const editorState = await saveEditor(tab.editorUid)
+  const editorState = await saveEditorAndHandleSettingsChange(tab)
   const latestState = getLatestStoredState(state.uid, currentState, tab.id, tab.uri)
   if (editorState?.modified) {
     return latestState

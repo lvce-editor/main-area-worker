@@ -1,15 +1,34 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-import { runEditorLayoutMenuTest } from './shared/editorLayoutMenu.js'
 
 export const name = 'viewlet.main-area-editor-layout-menu-split-down'
 
-export const test: Test = async (api) => {
-  await runEditorLayoutMenuTest(api, 'split-down.txt', 'Split Down', 1, async ({ expect, Locator }) => {
-    const groups = Locator('.EditorGroup')
-    await expect(groups).toHaveCount(2)
-    await expect(groups.nth(0).locator('.MainTab[title$="split-down.txt"]')).toBeVisible()
-    await expect(groups.nth(1).locator('.MainTab')).toHaveCount(0)
-    await expect(Locator('.editor-groups-container.EditorGroupsHorizontal')).toHaveCount(1)
-    await expect(Locator('.Main .SashHorizontal')).toHaveCount(1)
-  })
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
+  await Main.closeAllEditors()
+  const tmpDir = await FileSystem.getTmpDir()
+  const file = `${tmpDir}/split-down.txt`
+  await FileSystem.writeFile(file, 'editor layout menu test')
+  await Main.openUri(file)
+
+  await TitleBarMenuBar.focus()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowDown()
+  await Command.execute('TitleBar.handleMenuClick', 0, 4)
+  const menuItem = Locator('#Menu-1 .MenuItem', { hasText: 'Split Down' })
+  await expect(menuItem).toBeVisible()
+  await Command.execute('TitleBar.handleMenuClick', 1, 1)
+
+  const groups = Locator('.EditorGroup')
+  const firstGroup = groups.nth(0)
+  const secondGroup = groups.nth(1)
+  const firstGroupTab = firstGroup.locator('.MainTab[title$="split-down.txt"]')
+  const secondGroupTabs = secondGroup.locator('.MainTab')
+  const groupsContainer = Locator('.editor-groups-container.EditorGroupsHorizontal')
+  const sash = Locator('.Main .SashHorizontal')
+  await expect(groups).toHaveCount(2)
+  await expect(firstGroupTab).toBeVisible()
+  await expect(secondGroupTabs).toHaveCount(0)
+  await expect(groupsContainer).toHaveCount(1)
+  await expect(sash).toHaveCount(1)
 }

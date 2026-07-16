@@ -1,13 +1,27 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-import { runEditorLayoutMenuTest } from './shared/editorLayoutMenu.js'
 
 export const name = 'viewlet.main-area-editor-layout-menu-single'
 
-export const test: Test = async (api) => {
-  await runEditorLayoutMenuTest(api, 'single.txt', 'Single', 8, async ({ expect, Locator }) => {
-    const group = Locator('.EditorGroup')
-    await expect(group).toHaveCount(1)
-    await expect(group).toHaveAttribute('style', 'width: 100%;')
-    await expect(group.locator('.MainTab[title$="single.txt"]')).toBeVisible()
-  })
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
+  await Main.closeAllEditors()
+  const tmpDir = await FileSystem.getTmpDir()
+  const file = `${tmpDir}/single.txt`
+  await FileSystem.writeFile(file, 'editor layout menu test')
+  await Main.openUri(file)
+
+  await TitleBarMenuBar.focus()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowDown()
+  await Command.execute('TitleBar.handleMenuClick', 0, 4)
+  const menuItem = Locator('#Menu-1 .MenuItem', { hasText: 'Single' })
+  await expect(menuItem).toBeVisible()
+  await Command.execute('TitleBar.handleMenuClick', 1, 8)
+
+  const group = Locator('.EditorGroup')
+  const tab = group.locator('.MainTab[title$="single.txt"]')
+  await expect(group).toHaveCount(1)
+  await expect(group).toHaveAttribute('style', 'width: 100%;')
+  await expect(tab).toBeVisible()
 }

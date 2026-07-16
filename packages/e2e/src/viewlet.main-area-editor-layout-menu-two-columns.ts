@@ -1,23 +1,35 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-import { runEditorLayoutMenuTest } from './shared/editorLayoutMenu.js'
 
 export const name = 'viewlet.main-area-editor-layout-menu-two-columns'
 
-export const test: Test = async (api) => {
-  await runEditorLayoutMenuTest(
-    api,
-    'two-columns.txt',
-    'Two Columns',
-    9,
-    async ({ expect, Locator }) => {
-      const groups = Locator('.EditorGroup')
-      await expect(groups).toHaveCount(2)
-      await expect(groups.nth(0)).toHaveAttribute('style', 'width: 50%;')
-      await expect(groups.nth(0).locator('.MainTab[title$="two-columns.txt"]')).toBeVisible()
-      await expect(groups.nth(1)).toHaveAttribute('style', 'width: 50%;')
-      await expect(Locator('.editor-groups-container.EditorGroupsVertical')).toHaveCount(1)
-      await expect(Locator('.Main .SashVertical')).toHaveCount(1)
-    },
-    0,
-  )
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
+  await Main.closeAllEditors()
+  const tmpDir = await FileSystem.getTmpDir()
+  const file = `${tmpDir}/two-columns.txt`
+  await FileSystem.writeFile(file, 'editor layout menu test')
+  await Main.openUri(file)
+
+  await TitleBarMenuBar.focus()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowRight()
+  await TitleBarMenuBar.handleKeyArrowDown()
+  await Command.execute('TitleBar.handleMenuClick', 0, 4)
+  const matchingMenuItems = Locator('#Menu-1 .MenuItem', { hasText: 'Two Columns' })
+  const menuItem = matchingMenuItems.nth(0)
+  await expect(menuItem).toBeVisible()
+  await Command.execute('TitleBar.handleMenuClick', 1, 9)
+
+  const groups = Locator('.EditorGroup')
+  const firstGroup = groups.nth(0)
+  const secondGroup = groups.nth(1)
+  const firstGroupTab = firstGroup.locator('.MainTab[title$="two-columns.txt"]')
+  const groupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
+  const sash = Locator('.Main .SashVertical')
+  await expect(groups).toHaveCount(2)
+  await expect(firstGroup).toHaveAttribute('style', 'width: 50%;')
+  await expect(firstGroupTab).toBeVisible()
+  await expect(secondGroup).toHaveAttribute('style', 'width: 50%;')
+  await expect(groupsContainer).toHaveCount(1)
+  await expect(sash).toHaveCount(1)
 }

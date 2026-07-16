@@ -2,9 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-explorer-delete-file-updates-tabs'
 
-export const skip = true
-
-export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Dialog, expect, Explorer, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   const deletedFile = `${tmpDir}/a-delete-me.ts`
@@ -26,6 +24,7 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Main, 
 
   await Explorer.handleClick(0)
   await Main.openUri(remainingFile)
+  await Dialog.mockConfirm(() => true)
 
   await expect(deletedTab).toBeVisible()
   await expect(remainingTab).toBeVisible()

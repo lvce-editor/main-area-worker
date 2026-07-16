@@ -1,9 +1,10 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeAll } from '../src/parts/CloseAll/CloseAll.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
-test('closeAll should close all tabs and groups', () => {
+test('closeAll should close all tabs and groups', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -59,14 +60,14 @@ test('closeAll should close all tabs and groups', () => {
     },
   }
 
-  const result = closeAll(state)
+  const result = await closeAll(state)
 
   expect(result.layout.groups).toEqual([])
   expect(result.layout.activeGroupId).toBeUndefined()
   expect(result).not.toBe(state)
 })
 
-test('closeAll should preserve layout direction', () => {
+test('closeAll should preserve layout direction', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -95,14 +96,14 @@ test('closeAll should preserve layout direction', () => {
     },
   }
 
-  const result = closeAll(state)
+  const result = await closeAll(state)
 
   expect(result.layout.direction).toBe(2)
   expect(result.layout.groups).toEqual([])
   expect(result.layout.activeGroupId).toBeUndefined()
 })
 
-test('closeAll should preserve other state properties', () => {
+test('closeAll should preserve other state properties', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/test/assets',
@@ -134,14 +135,14 @@ test('closeAll should preserve other state properties', () => {
     uid: 123,
   }
 
-  const result = closeAll(state)
+  const result = await closeAll(state)
 
   expect(result.assetDir).toBe('/test/assets')
   expect(result.platform).toBe(1)
   expect(result.uid).toBe(123)
 })
 
-test('closeAll should handle empty state', () => {
+test('closeAll should handle empty state', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -151,13 +152,13 @@ test('closeAll should handle empty state', () => {
     },
   }
 
-  const result = closeAll(state)
+  const result = await closeAll(state)
 
   expect(result.layout.groups).toEqual([])
   expect(result.layout.activeGroupId).toBeUndefined()
 })
 
-test('closeAll should handle multiple groups with many tabs', () => {
+test('closeAll should handle multiple groups with many tabs', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -240,8 +241,66 @@ test('closeAll should handle multiple groups with many tabs', () => {
     },
   }
 
-  const result = closeAll(state)
+  const result = await closeAll(state)
 
   expect(result.layout.groups).toEqual([])
   expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('closeAll should dispose editor viewlets', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.dispose': async () => {},
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 101,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 1',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 2',
+            },
+            {
+              editorType: 'text',
+              editorUid: 102,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 3',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  await closeAll(state)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Viewlet.dispose', 101],
+    ['Viewlet.dispose', 102],
+  ])
 })

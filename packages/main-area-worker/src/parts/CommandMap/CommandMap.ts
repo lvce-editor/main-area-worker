@@ -32,6 +32,7 @@ import { handleSashPointerUp } from '../HandleSashPointerUp/HandleSashPointerUp.
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
 import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceChange.ts'
+import { handleWorkspaceRefresh } from '../HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
 import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
@@ -131,6 +132,7 @@ export const commandMap = {
   'MainArea.handleTabContextMenu': wrapSerialCommand(handleTabContextMenu),
   'MainArea.handleUriChange': wrapSerialCommand(handleUriChange),
   'MainArea.handleWorkspaceChange': wrapSerialCommand(handleWorkspaceChange),
+  'MainArea.handleWorkspaceRefresh': wrapSerialCommand(handleWorkspaceRefresh),
   'MainArea.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': wrapSerialCommand(LoadContent.loadContent),

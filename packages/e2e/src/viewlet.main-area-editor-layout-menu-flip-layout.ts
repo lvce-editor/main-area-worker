@@ -2,7 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-editor-layout-menu-flip-layout'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
+const clickEventInit = { bubbles: true } as unknown as string
+
+export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
   await Main.closeAllEditors()
   const tmpDir = await FileSystem.getTmpDir()
   const file = `${tmpDir}/flip-layout.txt`
@@ -14,10 +16,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   await TitleBarMenuBar.handleKeyArrowRight()
   await TitleBarMenuBar.handleKeyArrowRight()
   await TitleBarMenuBar.handleKeyArrowDown()
-  await Command.execute('TitleBar.handleMenuClick', 0, 4)
+  const editorLayoutMenuItem = Locator('#Menu-0 .MenuItem', { hasText: 'Editor Layout' })
+  await expect(editorLayoutMenuItem).toBeVisible()
+  await editorLayoutMenuItem.dispatchEvent('click', clickEventInit)
   const menuItem = Locator('#Menu-1 .MenuItem', { hasText: 'Flip Layout' })
   await expect(menuItem).toBeVisible()
-  await Command.execute('TitleBar.handleMenuClick', 1, 17)
+  await menuItem.dispatchEvent('click', clickEventInit)
 
   const group = Locator('.EditorGroup')
   const tab = group.locator('.MainTab[title$="flip-layout.txt"]')

@@ -46,6 +46,7 @@ import { openUrisWithContext } from '../OpenUris/OpenUris.ts'
 import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
+import { reopenEditorWith } from '../ReopenEditorWith/ReopenEditorWith.ts'
 import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { save } from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
@@ -142,6 +143,7 @@ export const commandMap = {
   'MainArea.refresh': wrapSerialCommand(refresh),
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,
+  'MainArea.reopenEditorWith': wrapSerialAsyncCommand(reopenEditorWith),
   'MainArea.resize': wrapGetter(handleResize),
   'MainArea.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
   'MainArea.save': wrapSerialCommand(save),

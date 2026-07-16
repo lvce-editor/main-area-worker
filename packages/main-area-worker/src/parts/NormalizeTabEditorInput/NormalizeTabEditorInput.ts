@@ -103,6 +103,9 @@ const getEditorInputFromUri = (uri: string): any => {
 
 const getNormalizedEditorInput = (tab: any): any => {
   const { editorInput: tabEditorInput, uri: tabUri } = tab ?? {}
+  if ((tabEditorInput?.type === 'editor' && tabEditorInput.forceText) || tabEditorInput?.type === 'webview') {
+    return tabEditorInput
+  }
   let uri
   if (typeof tabUri === 'string') {
     uri = tabUri

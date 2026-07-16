@@ -9,6 +9,7 @@ export const getEditorInputEditorType = (editorInput: EditorInput): EditorType =
     case 'process-explorer':
     case 'running-extensions':
     case 'video':
+    case 'webview':
       return 'custom'
     case 'editor':
       return 'text'

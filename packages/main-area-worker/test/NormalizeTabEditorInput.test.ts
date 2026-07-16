@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { getNormalizedOpenEditorInput } from '../src/parts/NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
+import { getNormalizedOpenEditorInput, normalizeTabEditorInput } from '../src/parts/NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 
 test('getNormalizedOpenEditorInput returns image input for image files', () => {
   expect(getNormalizedOpenEditorInput('file:///test/tiny.png')).toEqual({
@@ -27,6 +27,27 @@ test('getNormalizedOpenEditorInput keeps text files as editor input', () => {
   expect(getNormalizedOpenEditorInput('file:///test/file.ts')).toEqual({
     type: 'editor',
     uri: 'file:///test/file.ts',
+  })
+})
+
+test('normalizeTabEditorInput preserves an image explicitly reopened as text', () => {
+  expect(
+    normalizeTabEditorInput({
+      editorInput: {
+        forceText: true,
+        type: 'editor',
+        uri: 'file:///test/tiny.png',
+      },
+      editorType: 'text',
+      uri: 'file:///test/tiny.png',
+    }),
+  ).toMatchObject({
+    editorInput: {
+      forceText: true,
+      type: 'editor',
+      uri: 'file:///test/tiny.png',
+    },
+    editorType: 'text',
   })
 })
 

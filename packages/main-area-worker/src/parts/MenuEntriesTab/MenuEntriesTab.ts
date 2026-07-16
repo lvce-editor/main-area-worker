@@ -66,7 +66,7 @@ export const getMenuEntries = (state: MainAreaState): readonly any[] => {
     },
     MenuEntrySeparator.menuEntrySeparator,
     {
-      command: '',
+      command: 'Main.reopenEditorWith',
       flags: MenuItemFlags.None,
       id: 'reopenEditorWith',
       label: ViewletMainStrings.reopenEditorWith(),

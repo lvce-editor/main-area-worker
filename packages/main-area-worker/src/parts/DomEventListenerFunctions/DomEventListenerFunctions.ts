@@ -8,3 +8,4 @@ export const HandleHeaderDoubleClick = 15
 export const HandleSashPointerDown = 16
 export const HandleSashPointerMove = 17
 export const HandleSashPointerUp = 18
+export const HandleDoubleClick = 19

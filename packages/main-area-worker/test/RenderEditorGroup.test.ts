@@ -54,6 +54,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       'data-groupIndex': 0,
       'data-index': 0,
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
+      onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,
       role: 'tab',
       title: '/path/to/Test File',

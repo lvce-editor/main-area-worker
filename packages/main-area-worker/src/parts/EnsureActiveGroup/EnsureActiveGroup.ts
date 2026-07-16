@@ -41,6 +41,7 @@ export const ensureActiveGroup = (
             ...tab,
             editorInput,
             editorType,
+            editorUid: Id.create(),
             errorMessage: '',
             icon: '',
             isDirty: false,

@@ -1,138 +1,23 @@
 import { expect, test } from '@jest/globals'
-import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleDoubleClick } from '../src/parts/HandleDoubleClick/HandleDoubleClick.ts'
 
-test('handleDoubleClick should return state unchanged when no groups exist', async () => {
-  const state: MainAreaState = {
-    ...createDefaultState(),
-    layout: {
-      activeGroupId: 1,
-      direction: 1,
-      groups: [],
-    },
+const createTab = (id: number, isPreview: boolean): Tab => {
+  return {
+    editorType: 'text',
+    editorUid: id,
+    icon: '',
+    id,
+    isDirty: false,
+    isPreview,
+    title: `File ${id}`,
+    uri: `file:///file-${id}.txt`,
   }
+}
 
-  const result = await handleDoubleClick(state)
-
-  expect(result).toBe(state)
-})
-
-test('handleDoubleClick should return state unchanged when single group with single tab exists', async () => {
-  const state: MainAreaState = {
-    ...createDefaultState(),
-    layout: {
-      activeGroupId: 1,
-      direction: 1,
-      groups: [
-        {
-          activeTabId: 1,
-          focused: true,
-          id: 1,
-          isEmpty: false,
-          size: 100,
-          tabs: [
-            {
-              editorType: 'text',
-              editorUid: -1,
-              icon: '',
-              id: 1,
-              isDirty: false,
-              isPreview: false,
-              title: 'File 1',
-            },
-          ],
-        },
-      ],
-    },
-  }
-
-  const result = await handleDoubleClick(state)
-
-  expect(result).toBe(state)
-})
-
-test('handleDoubleClick should preserve state properties', async () => {
-  const state: MainAreaState = {
-    ...createDefaultState(),
-    assetDir: '/assets',
-    fileIconCache: {},
-    layout: {
-      activeGroupId: 1,
-      direction: 1,
-      groups: [
-        {
-          activeTabId: 1,
-          focused: true,
-          id: 1,
-          isEmpty: false,
-          size: 100,
-          tabs: [
-            {
-              editorType: 'text',
-              editorUid: -1,
-              icon: '',
-              id: 1,
-              isDirty: false,
-              isPreview: false,
-              title: 'File 1',
-            },
-          ],
-        },
-      ],
-    },
-    platform: 2,
-    tabHeight: 40,
-    uid: 123,
-  }
-
-  const result = await handleDoubleClick(state)
-
-  expect(result.assetDir).toBe('/assets')
-  expect(result.platform).toBe(2)
-  expect(result.tabHeight).toBe(40)
-  expect(result.uid).toBe(123)
-  expect(result.layout.activeGroupId).toBe(1)
-})
-
-test('handleDoubleClick should not mutate original state', async () => {
-  const state: MainAreaState = {
-    ...createDefaultState(),
-    layout: {
-      activeGroupId: 1,
-      direction: 1,
-      groups: [
-        {
-          activeTabId: 1,
-          focused: true,
-          id: 1,
-          isEmpty: false,
-          size: 100,
-          tabs: [
-            {
-              editorType: 'text',
-              editorUid: -1,
-              icon: '',
-              id: 1,
-              isDirty: false,
-              isPreview: false,
-              title: 'File 1',
-            },
-          ],
-        },
-      ],
-    },
-    uid: 1,
-  }
-
-  const originalState = JSON.stringify(state)
-  await handleDoubleClick(state)
-
-  expect(JSON.stringify(state)).toBe(originalState)
-})
-
-test('handleDoubleClick should handle multiple groups', async () => {
-  const state: MainAreaState = {
+const createState = (): MainAreaState => {
+  return {
     ...createDefaultState(),
     layout: {
       activeGroupId: 1,
@@ -144,57 +29,59 @@ test('handleDoubleClick should handle multiple groups', async () => {
           id: 1,
           isEmpty: false,
           size: 50,
-          tabs: [
-            {
-              editorType: 'text',
-              editorUid: -1,
-              icon: '',
-              id: 1,
-              isDirty: false,
-              isPreview: false,
-              title: 'File 1',
-            },
-          ],
+          tabs: [createTab(1, true), createTab(2, false)],
         },
         {
-          activeTabId: 2,
+          activeTabId: 3,
           focused: false,
           id: 2,
           isEmpty: false,
           size: 50,
-          tabs: [
-            {
-              editorType: 'text',
-              editorUid: -1,
-              icon: '',
-              id: 2,
-              isDirty: false,
-              isPreview: false,
-              title: 'File 2',
-            },
-          ],
+          tabs: [createTab(3, true)],
         },
       ],
     },
   }
+}
 
-  const result = await handleDoubleClick(state)
+test('handleDoubleClick should pin a preview tab', () => {
+  const result = handleDoubleClick(createState(), '0', '0')
 
-  expect(result.layout.groups).toHaveLength(2)
-  expect(result.layout.groups[0].id).toBe(1)
-  expect(result.layout.groups[1].id).toBe(2)
+  expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
 })
 
-test('handleDoubleClick should return a valid MainAreaState', async () => {
-  const state: MainAreaState = {
-    ...createDefaultState(),
-  }
+test('handleDoubleClick should pin an inactive preview tab', () => {
+  const result = handleDoubleClick(createState(), '1', '0')
 
-  const result = await handleDoubleClick(state)
+  expect(result.layout.groups[1].tabs[0].isPreview).toBe(false)
+  expect(result.layout.activeGroupId).toBe(1)
+})
 
-  expect(result).toHaveProperty('assetDir')
-  expect(result).toHaveProperty('layout')
-  expect(result).toHaveProperty('platform')
-  expect(result).toHaveProperty('tabHeight')
-  expect(result).toHaveProperty('uid')
+test('handleDoubleClick should return the same state for a pinned tab', () => {
+  const state = createState()
+  const result = handleDoubleClick(state, '0', '1')
+
+  expect(result).toBe(state)
+})
+
+test('handleDoubleClick should return the same state for invalid indices', () => {
+  const state = createState()
+
+  expect(handleDoubleClick(state, '3', '0')).toBe(state)
+  expect(handleDoubleClick(state, '0', '3')).toBe(state)
+})
+
+test('handleDoubleClick should return the same state for missing indices', () => {
+  const state = createState()
+
+  expect(handleDoubleClick(state, '', '0')).toBe(state)
+  expect(handleDoubleClick(state, '0', '')).toBe(state)
+})
+
+test('handleDoubleClick should not mutate the original state', () => {
+  const state = createState()
+
+  handleDoubleClick(state, '0', '0')
+
+  expect(state.layout.groups[0].tabs[0].isPreview).toBe(true)
 })

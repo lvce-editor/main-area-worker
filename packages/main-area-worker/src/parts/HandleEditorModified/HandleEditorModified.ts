@@ -8,5 +8,8 @@ export const handleEditorModified = (state: MainAreaState, editorUid: number): M
     return state
   }
 
-  return updateTab(state, tab.id, { isDirty: true })
+  return updateTab(state, tab.id, {
+    isDirty: true,
+    isPreview: false,
+  })
 }

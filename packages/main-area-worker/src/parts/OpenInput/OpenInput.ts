@@ -3,6 +3,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
+import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
@@ -20,6 +21,21 @@ import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import { updateTabIcon } from '../UpdateTabIcon/UpdateTabIcon.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
+const getExistingTabState = (state: MainAreaState, existingTab: NonNullable<ReturnType<typeof findTabByUri>>, preview: boolean): MainAreaState => {
+  const focusedState = focusEditorGroup(state, existingTab.groupId)
+  const pinnedState = !preview && existingTab.tab.isPreview ? updateTab(focusedState, existingTab.tab.id, { isPreview: false }) : focusedState
+  return switchTab(pinnedState, existingTab.groupId, existingTab.tab.id)
+}
+
+const getActivePreviewEditorUid = (state: MainAreaState): number => {
+  const activeGroup =
+    state.layout.activeGroupId === undefined
+      ? state.layout.groups.find((group) => group.focused)
+      : state.layout.groups.find((group) => group.id === state.layout.activeGroupId)
+  const activeTab = activeGroup?.tabs.find((tab) => tab.id === activeGroup.activeTabId)
+  return activeTab?.isPreview ? activeTab.editorUid : -1
+}
+
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
   const state = context.getState()
   Assert.object(state)
@@ -34,15 +50,18 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const existingTab = findTabByUri(currentState, uri)
   const shouldRetryExistingTab = !!existingTab && existingTab.tab.loadingState === 'error'
   if (existingTab && !shouldRetryExistingTab) {
-    const focusedState = focusEditorGroup(currentState, existingTab.groupId)
-    const switchedState = switchTab(focusedState, existingTab.groupId, existingTab.tab.id)
+    const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
     return
   }
+  const replacedEditorUid = getActivePreviewEditorUid(currentState)
   const previousTabId = getActiveTabId(currentState)
   const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetryExistingTab, uri, preview, title, editorType)
 
   await context.updateState(() => stateWithTab)
+  if (replacedEditorUid !== -1) {
+    await disposeEditors([replacedEditorUid])
+  }
 
   if (await isDirectoryEditorInput(editorInput)) {
     const latestState = context.getState()

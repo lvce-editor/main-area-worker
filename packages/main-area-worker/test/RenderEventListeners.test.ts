@@ -17,3 +17,10 @@ test('renderEventListeners should pass the mouse button to the tab click handler
 
   expect(listener?.params).toEqual(['handleClickTab', 'event.target.dataset.groupIndex', 'event.target.dataset.index', EventExpression.Button])
 })
+
+test('renderEventListeners should pass tab indices to the double click handler', () => {
+  const result = RenderEventListeners.renderEventListeners()
+  const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDoubleClick)
+
+  expect(listener?.params).toEqual(['handleDoubleClick', 'event.target.dataset.groupIndex', 'event.target.dataset.index'])
+})

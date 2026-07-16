@@ -3,6 +3,7 @@ interface BaseEditorInput {
 }
 
 interface EditorEditorInput extends BaseEditorInput {
+  readonly forceText?: boolean
   readonly type: 'editor'
   readonly uri: string
 }
@@ -14,6 +15,12 @@ interface ImageEditorInput extends BaseEditorInput {
 
 interface VideoEditorInput extends BaseEditorInput {
   readonly type: 'video'
+  readonly uri: string
+}
+
+interface WebViewEditorInput extends BaseEditorInput {
+  readonly providerId: string
+  readonly type: 'webview'
   readonly uri: string
 }
 
@@ -44,3 +51,4 @@ export type EditorInput =
   | ExtensionDetailViewInput
   | ProcessExplorerEditorInput
   | RunningExtensionsEditorInput
+  | WebViewEditorInput

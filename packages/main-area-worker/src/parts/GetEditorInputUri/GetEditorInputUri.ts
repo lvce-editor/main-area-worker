@@ -7,6 +7,7 @@ export const getEditorInputUri = (editorInput: EditorInput): string => {
     case 'editor':
     case 'image':
     case 'video':
+    case 'webview':
       return editorInput.uri
     case 'extension-detail-view':
       return `extension-detail://${editorInput.extensionId}`

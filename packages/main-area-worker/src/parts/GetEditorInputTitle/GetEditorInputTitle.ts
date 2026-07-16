@@ -11,6 +11,7 @@ export const getEditorInputTitle = (editorInput: EditorInput): string => {
     case 'editor':
     case 'image':
     case 'video':
+    case 'webview':
       return PathDisplay.getLabel(editorInput.uri)
     case 'extension-detail-view':
       return editorInput.extensionId

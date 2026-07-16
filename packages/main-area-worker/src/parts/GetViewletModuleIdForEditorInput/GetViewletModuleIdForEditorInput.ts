@@ -7,14 +7,17 @@ export const getViewletModuleIdForEditorInput = async (editorInput: EditorInput)
     case 'diff-editor':
       return ViewletModuleId.DiffEditor
     case 'editor':
+      return editorInput.forceText ? ViewletModuleId.EditorText : getViewletModuleId(editorInput.uri)
+    case 'extension-detail-view':
+      return ViewletModuleId.ExtensionDetail
     case 'image':
     case 'video':
       return getViewletModuleId(editorInput.uri)
-    case 'extension-detail-view':
-      return ViewletModuleId.ExtensionDetail
     case 'process-explorer':
       return ViewletModuleId.ProcessExplorer
     case 'running-extensions':
       return ViewletModuleId.RunningExtensions
+    case 'webview':
+      return getViewletModuleId(editorInput.uri, editorInput.providerId)
   }
 }

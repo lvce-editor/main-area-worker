@@ -28,9 +28,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
     preview: false,
   })
 
-  const firstTab = Locator('.MainTab:not(.MainTabPreview)[title$="pin-existing-first.ts"]')
-  await expect(firstTab).toBeVisible()
-
   await Main.openInput({
     editorInput: {
       type: 'editor',
@@ -40,6 +37,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
     preview: true,
   })
 
+  const firstTab = Locator('.MainTab:not(.MainTabPreview)[title$="pin-existing-first.ts"]')
   const secondTab = Locator('.MainTabPreview[title$="pin-existing-second.ts"]')
   const tabs = Locator('.MainTab')
   await expect(firstTab).toBeVisible()

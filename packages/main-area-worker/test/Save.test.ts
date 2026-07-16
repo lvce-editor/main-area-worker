@@ -119,6 +119,55 @@ test('save should clear dirty state after a successful save', async () => {
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
 })
 
+test('save should notify layout after saving settings', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Editor.save': async () => ({ modified: false }),
+    'Layout.handleSettingsChanged': async () => undefined,
+    'Main.handleModifiedStatusChange': async () => undefined,
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 123,
+              errorMessage: '',
+              icon: '',
+              id: 1,
+              isDirty: true,
+              isPreview: false,
+              language: 'json',
+              loadingState: 'loaded',
+              title: 'settings.json',
+              uri: 'app://settings.json',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await save(state)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.save', 123],
+    ['Layout.handleSettingsChanged'],
+    ['Main.handleModifiedStatusChange', 'app://settings.json', false],
+  ])
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
+})
+
 test('save should use the latest stored state when the call-site state is stale', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.save': async () => ({ modified: false }),

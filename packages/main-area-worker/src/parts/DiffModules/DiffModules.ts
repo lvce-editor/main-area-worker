@@ -1,9 +1,12 @@
+import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as DiffCss from '../DiffCss/DiffCss.ts'
 import * as DiffItems from '../DiffItems/DiffItems.ts'
-import * as DiffPendingViewletDisposal from '../DiffPendingViewletDisposal/DiffPendingViewletDisposal.ts'
-import * as DiffPendingViewletFocus from '../DiffPendingViewletFocus/DiffPendingViewletFocus.ts'
 import * as DiffType from '../DiffType/DiffType.ts'
 
-export const modules = [DiffItems.isEqual, DiffCss.isEqual, DiffPendingViewletDisposal.isEqual, DiffPendingViewletFocus.isEqual]
+const isPendingViewletUpdateEqual = (oldState: MainAreaState, newState: MainAreaState): boolean => {
+  return newState.pendingViewletUpdate === undefined
+}
 
-export const numbers = [DiffType.RenderIncremental, DiffType.RenderCss, DiffType.RenderPendingViewletDisposal, DiffType.RenderPendingViewletFocus]
+export const modules = [DiffItems.isEqual, DiffCss.isEqual, isPendingViewletUpdateEqual]
+
+export const numbers = [DiffType.RenderIncremental, DiffType.RenderCss, DiffType.RenderPendingViewletUpdate]

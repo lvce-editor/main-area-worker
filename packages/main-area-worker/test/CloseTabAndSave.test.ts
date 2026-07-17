@@ -62,7 +62,7 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.pendingViewletDisposal).toBe(123)
+  expect(result.pendingViewletUpdate).toEqual({ disposal: 123 })
 })
 
 test('closeTabAndSave should save an editor-backed tab before closing it', async () => {
@@ -114,7 +114,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.pendingViewletDisposal).toBe(123)
+  expect(result.pendingViewletUpdate).toEqual({ disposal: 123 })
 })
 
 test('closeTabAndSave should keep a modified untitled tab open when saving is canceled', async () => {
@@ -324,7 +324,7 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
     ],
   ])
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.pendingViewletDisposal).toBe(123)
+  expect(result.pendingViewletUpdate).toEqual({ disposal: 123 })
 })
 
 test('closeTabAndSave should skip saving tabs without editor instances', async () => {
@@ -415,7 +415,6 @@ test('closeTabAndSave should dispose a Settings editor after switching to the re
   const result = await closeTabAndSave(state, 1, 2)
 
   expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(result.pendingViewletDisposal).toBe(123)
-  expect(result.pendingViewletFocus).toBe(122)
+  expect(result.pendingViewletUpdate).toEqual({ disposal: 123, focus: 122 })
   expect(mockRpc.invocations).toEqual([])
 })

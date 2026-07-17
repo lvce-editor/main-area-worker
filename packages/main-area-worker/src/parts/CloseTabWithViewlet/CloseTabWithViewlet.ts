@@ -3,14 +3,14 @@ import type { ViewletCommand } from '../ViewletCommand/ViewletCommand.ts'
 import * as CloseTab from '../CloseTab/CloseTab.ts'
 import * as ExecuteViewletCommands from '../ExecuteViewletCommands/ExecuteViewletCommands.ts'
 import * as FindTabInState from '../FindTabInState/FindTabInState.ts'
-import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
+import { disposeViewletForTab } from '../ViewletLifecycle/DisposeViewletForTab/DisposeViewletForTab.ts'
 
 export const closeTabWithViewlet = async (state: MainAreaState, groupId: number, tabId: number): Promise<MainAreaState> => {
   const tab = FindTabInState.findTabInState(state, groupId, tabId)
   const commands: ViewletCommand[] = []
 
   if (tab && tab.editorUid !== -1) {
-    const { commands: disposeCommands } = ViewletLifecycle.disposeViewletForTab(state, tabId)
+    const { commands: disposeCommands } = disposeViewletForTab(state, tabId)
     commands.push(...disposeCommands)
   }
 
@@ -24,29 +24,24 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
     if (newActiveTabId === undefined) {
       return {
         ...newState,
-        pendingViewletDisposal: tab?.editorUid,
+        pendingViewletUpdate: {
+          disposal: tab!.editorUid,
+        },
       }
     }
 
-    const { newState: switchedState } = ViewletLifecycle.switchViewlet(newState, undefined, newActiveTabId)
     const newActiveTab = newGroup?.tabs.find((candidate) => candidate.id === newActiveTabId)
     return {
-      ...switchedState,
-      pendingViewletDisposal: tab?.editorUid,
-      pendingViewletFocus: newActiveTab?.editorUid === -1 ? undefined : newActiveTab?.editorUid,
+      ...newState,
+      pendingViewletUpdate: {
+        disposal: tab!.editorUid,
+        focus: newActiveTab?.editorUid === -1 ? undefined : newActiveTab?.editorUid,
+      },
     }
   }
 
-  if (newActiveTabId === undefined) {
-    if (commands.length > 0) {
-      await ExecuteViewletCommands.executeViewletCommands(commands)
-    }
-    return newState
+  if (commands.length > 0) {
+    await ExecuteViewletCommands.executeViewletCommands(commands)
   }
-
-  const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, undefined, newActiveTabId)
-  if (switchCommands.length > 0) {
-    await ExecuteViewletCommands.executeViewletCommands(switchCommands)
-  }
-  return switchedState
+  return newState
 }

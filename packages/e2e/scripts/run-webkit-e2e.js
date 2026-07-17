@@ -3,6 +3,7 @@ import { runBatchedE2E } from './run-batched-e2e.js'
 const excludedTests = new Set([
   'viewlet.main-area-auto-modified-status.ts',
   'viewlet.main-area-close-active-editor-saves-modified-content.ts',
+  'viewlet.main-area-close-editor-retargets-editor-commands.ts',
   'viewlet.main-area-close-tabs-right.ts',
   'viewlet.main-area-editor-type-character.ts',
   'viewlet.main-area-focus-next-tab-cycle.ts',

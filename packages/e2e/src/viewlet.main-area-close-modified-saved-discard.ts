@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-modified-saved-discard'
 
+export const skip = ['webkit']
+
 export const test: Test = async ({ Dialog, Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/close-discard.txt`

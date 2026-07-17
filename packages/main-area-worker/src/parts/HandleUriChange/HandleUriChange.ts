@@ -7,32 +7,42 @@ import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 export const handleUriChange = async (state: MainAreaState, oldUri: string, newUri: string): Promise<MainAreaState> => {
   const { layout } = state
   const { groups } = layout
-  const newTitle = PathDisplay.getLabel(newUri)
   const editorUriUpdates: Promise<unknown>[] = []
-  for (const group of groups) {
-    for (const tab of group.tabs) {
-      if (tab.uri === oldUri && tab.editorType === 'text' && tab.editorUid !== -1) {
-        editorUriUpdates.push(RendererWorker.invoke('Editor.handleUriChange', tab.editorUid, newUri))
-      }
-    }
-  }
-  await Promise.all(editorUriUpdates)
   const updatedGroups = groups.map((group) => {
     return {
       ...group,
       tabs: group.tabs.map((tab) => {
-        if (tab.uri === oldUri) {
+        const uri = tab.uri || ''
+        let renamedUri = ''
+        if (uri === oldUri) {
+          renamedUri = newUri
+        } else if (uri.startsWith(`${oldUri}/`) || uri.startsWith(`${oldUri}\\`)) {
+          renamedUri = `${newUri}${uri.slice(oldUri.length)}`
+        }
+        if (renamedUri) {
+          if (tab.editorType === 'text' && tab.editorUid !== -1) {
+            editorUriUpdates.push(RendererWorker.invoke('Editor.handleUriChange', tab.editorUid, renamedUri))
+          }
+          const editorInput =
+            tab.editorInput && 'uri' in tab.editorInput
+              ? {
+                  ...tab.editorInput,
+                  uri: renamedUri,
+                }
+              : tab.editorInput
           return {
             ...tab,
-            title: newTitle,
-            uri: newUri,
-            uriTitle: getUriTitle(newUri, state.homeDirUri || ''),
+            editorInput,
+            title: PathDisplay.getLabel(renamedUri),
+            uri: renamedUri,
+            uriTitle: getUriTitle(renamedUri, state.homeDirUri || ''),
           }
         }
         return tab
       }),
     }
   })
+  await Promise.all(editorUriUpdates)
   const stateWithUpdatedUri: MainAreaState = {
     ...state,
     layout: {

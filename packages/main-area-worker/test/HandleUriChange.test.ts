@@ -71,6 +71,31 @@ test('handleUriChange should retarget a loaded text editor', async () => {
   expect(mockRpc.invocations).toEqual([['Editor.handleUriChange', 42, '/test/renamed.txt']])
 })
 
+test('handleUriChange should retarget descendants after a folder rename', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Editor.handleUriChange'() {},
+  })
+  const state = createStateWithTabs([
+    {
+      editorInput: {
+        type: 'editor',
+        uri: '/test/old/folder/file.txt',
+      },
+      editorUid: 42,
+      uri: '/test/old/folder/file.txt',
+    },
+  ])
+
+  const result = await handleUriChange(state, '/test/old', '/test/new')
+
+  expect(result.layout.groups[0].tabs[0].uri).toBe('/test/new/folder/file.txt')
+  expect(result.layout.groups[0].tabs[0].editorInput).toEqual({
+    type: 'editor',
+    uri: '/test/new/folder/file.txt',
+  })
+  expect(mockRpc.invocations).toEqual([['Editor.handleUriChange', 42, '/test/new/folder/file.txt']])
+})
+
 test('handleUriChange should not send text editor commands to custom editors', async () => {
   using mockRpc = RendererWorker.registerMockRpc({})
   const state = createStateWithTabs([{ editorType: 'custom', editorUid: 42, uri: '/test/original.txt' }])

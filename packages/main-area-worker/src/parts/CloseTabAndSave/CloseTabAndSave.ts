@@ -5,6 +5,23 @@ import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
+const promptSave = async (title: string): Promise<string> => {
+  const shouldSave = await RendererWorker.confirm(`Do you want to save the changes you made to ${title}?`, {
+    cancelMessage: 'More Options',
+    confirmMessage: 'Save',
+    title: 'Save Changes',
+  })
+  if (shouldSave) {
+    return 'save'
+  }
+  const shouldDiscard = await RendererWorker.confirm(`Discard the changes you made to ${title}?`, {
+    cancelMessage: 'Cancel',
+    confirmMessage: "Don't Save",
+    title: 'Save Changes',
+  })
+  return shouldDiscard ? 'discard' : 'cancel'
+}
+
 export const closeTabAndSave = async (state: MainAreaState, groupId: number, tabId: number): Promise<MainAreaState> => {
   const tab = findTabInState(state, groupId, tabId)
   if (!tab) {
@@ -12,12 +29,20 @@ export const closeTabAndSave = async (state: MainAreaState, groupId: number, tab
   }
 
   if (tab.editorUid !== -1 && tab.isDirty) {
-    const editorState = await saveEditor(tab.editorUid)
-    if (editorState?.modified !== false) {
+    const savePromptResult = await promptSave(tab.title)
+    if (savePromptResult === 'cancel') {
       return state
     }
-    if (tab.uri) {
-      await RendererWorker.handleModifiedStatusChange(tab.uri, false)
+    if (savePromptResult === 'save') {
+      const editorState = await saveEditor(tab.editorUid)
+      if (editorState?.modified !== false) {
+        return state
+      }
+      if (tab.uri) {
+        await RendererWorker.handleModifiedStatusChange(tab.uri, false)
+      }
+    } else if (savePromptResult !== 'discard') {
+      return state
     }
   }
 

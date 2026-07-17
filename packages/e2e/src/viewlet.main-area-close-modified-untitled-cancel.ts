@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-close-modified-untitled-cancel'
 
 export const skip = ['webkit']
 
-export const test: Test = async ({ Command, Editor, expect, Locator, Main }) => {
+export const test: Test = async ({ Command, Dialog, Editor, expect, Locator, Main }) => {
   await Command.execute('Main.newFile')
 
   const untitledTab = Locator('.MainTab[title^="untitled:///"]')
@@ -16,6 +16,7 @@ export const test: Test = async ({ Command, Editor, expect, Locator, Main }) => 
   await Editor.shouldHaveText('unsaved content')
   await expect(untitledTab).toHaveClass('MainTabModified')
 
+  await Dialog.mockConfirm(() => false)
   await Main.closeActiveEditor()
 
   await expect(untitledTab).toBeVisible()

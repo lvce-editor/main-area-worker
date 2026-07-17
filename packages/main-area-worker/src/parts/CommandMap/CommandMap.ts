@@ -71,6 +71,7 @@ import { splitUp } from '../SplitUp/SplitUp.ts'
 export const commandMap = {
   'Main.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
   'Main.closeAll': wrapSerialCommand(closeAll),
+  'Main.CloseAllEditors': wrapSerialCommand(closeAll),
   'Main.closeAllEditors': wrapSerialCommand(closeAll),
   'Main.closeFocusedTab': wrapSerialCommand(closeFocusedTab),
   'Main.closeOthers': wrapSerialCommand(closeOtherTabs),

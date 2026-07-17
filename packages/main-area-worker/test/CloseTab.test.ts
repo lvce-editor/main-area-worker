@@ -2101,7 +2101,8 @@ test('closeTabWithViewlet should remove group when closing the last tab', async 
 
   expect(result.layout.groups).toHaveLength(0)
   expect(result.layout.activeGroupId).toBeUndefined()
-  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 100]])
+  expect(result.pendingViewletDisposal).toBe(100)
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('closeTabWithViewlet should handle closing tab when tab not found', async () => {

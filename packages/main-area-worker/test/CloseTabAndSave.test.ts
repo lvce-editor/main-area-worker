@@ -60,9 +60,9 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
     ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
-    ['Viewlet.dispose', 123],
   ])
   expect(result.layout.groups).toHaveLength(0)
+  expect(result.pendingViewletDisposal).toBe(123)
 })
 
 test('closeTabAndSave should save an editor-backed tab before closing it', async () => {
@@ -112,9 +112,9 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
     ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
-    ['Viewlet.dispose', 123],
   ])
   expect(result.layout.groups).toHaveLength(0)
+  expect(result.pendingViewletDisposal).toBe(123)
 })
 
 test('closeTabAndSave should keep a modified untitled tab open when saving is canceled', async () => {
@@ -322,9 +322,9 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
       'Discard the changes you made to test.ts?',
       { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
     ],
-    ['Viewlet.dispose', 123],
   ])
   expect(result.layout.groups).toHaveLength(0)
+  expect(result.pendingViewletDisposal).toBe(123)
 })
 
 test('closeTabAndSave should skip saving tabs without editor instances', async () => {

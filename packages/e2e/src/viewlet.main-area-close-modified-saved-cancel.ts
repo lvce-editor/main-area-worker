@@ -9,6 +9,7 @@ export const test: Test = async ({ Dialog, Editor, expect, FileSystem, Locator, 
   await Main.openUri(testFile)
   await Editor.setCursor(0, 8)
   await Editor.type('Q')
+  await Editor.shouldHaveText('baselineQ')
 
   const tab = Locator('.MainTab[title$="close-cancel.txt"]')
   await expect(tab).toHaveClass('MainTabModified')

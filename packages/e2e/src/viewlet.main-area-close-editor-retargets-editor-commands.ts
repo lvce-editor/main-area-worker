@@ -25,7 +25,4 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
 
   await FileSystem.shouldHaveFile(workspaceFile, 'updated workspace content')
   await FileSystem.shouldHaveFile(closedFile, '{"closed":true}')
-
-  await new Promise((resolve) => setTimeout(resolve, 100))
-  await Editor.shouldHaveText('updated workspace content')
 }

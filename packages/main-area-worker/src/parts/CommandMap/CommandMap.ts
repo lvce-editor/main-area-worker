@@ -96,6 +96,7 @@ export const commandMap = {
   'Main.splitRight': wrapSerialCommand(splitRight),
   'MainArea.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
   'MainArea.closeAll': wrapSerialCommand(closeAll),
+  'MainArea.CloseAllEditors': wrapSerialCommand(closeAll),
   'MainArea.closeAllEditors': wrapSerialCommand(closeAll),
   'MainArea.closeEditorGroup': wrapSerialCommand(closeEditorGroup),
   'MainArea.closeFocusedTab': wrapSerialCommand(closeFocusedTab),

@@ -7,4 +7,5 @@ test('commandMap - includes MainArea.hasActiveTextEditor', () => {
 
 test('commandMap - includes the close all editors command palette id', () => {
   expect(commandMap['Main.CloseAllEditors']).toBeDefined()
+  expect(commandMap['MainArea.CloseAllEditors']).toBeDefined()
 })

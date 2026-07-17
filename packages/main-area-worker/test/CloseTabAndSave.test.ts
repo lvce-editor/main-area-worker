@@ -12,6 +12,7 @@ afterEach(() => {
 
 test('closeTabAndSave should save a dirty tab before closing it', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
   })
@@ -51,6 +52,11 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
   const result = await closeTabAndSave(state, 1, 1)
 
   expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])
@@ -59,6 +65,7 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
 
 test('closeTabAndSave should save an editor-backed tab before closing it', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
   })
@@ -95,6 +102,11 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
   const result = await closeTabAndSave(state, 1, 1)
 
   expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])
@@ -103,6 +115,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
 
 test('closeTabAndSave should keep a modified untitled tab open when saving is canceled', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
     'Editor.save': async () => ({ modified: true }),
   })
 
@@ -140,12 +153,20 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
 
   const result = await closeTabAndSave(state, 1, 1)
 
-  expect(mockRpc.invocations).toEqual([['Editor.save', 123]])
+  expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to Untitled?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
+    ['Editor.save', 123],
+  ])
   expect(result).toBe(state)
 })
 
 test('closeTabAndSave should keep a dirty tab open when saving fails', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
     'Editor.save': async () => undefined,
   })
 
@@ -183,8 +204,121 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
 
   const result = await closeTabAndSave(state, 1, 1)
 
-  expect(mockRpc.invocations).toEqual([['Editor.save', 123]])
+  expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
+    ['Editor.save', 123],
+  ])
   expect(result).toBe(state)
+})
+
+test('closeTabAndSave should keep a dirty tab open when closing is canceled', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => false,
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 123,
+              icon: '',
+              id: 1,
+              isDirty: true,
+              isPreview: false,
+              title: 'test.ts',
+              uri: 'file:///test.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabAndSave(state, 1, 1)
+
+  expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
+    [
+      'ConfirmPrompt.prompt',
+      'Discard the changes you made to test.ts?',
+      { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
+    ],
+  ])
+  expect(result).toBe(state)
+})
+
+test('closeTabAndSave should close a dirty tab without saving when changes are discarded', async () => {
+  let promptCount = 0
+  using mockRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => {
+      promptCount++
+      return promptCount === 2
+    },
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 123,
+              icon: '',
+              id: 1,
+              isDirty: true,
+              isPreview: false,
+              title: 'test.ts',
+              uri: 'file:///test.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabAndSave(state, 1, 1)
+
+  expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
+    [
+      'ConfirmPrompt.prompt',
+      'Discard the changes you made to test.ts?',
+      { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
+    ],
+  ])
+  expect(result.layout.groups).toHaveLength(0)
 })
 
 test('closeTabAndSave should skip saving tabs without editor instances', async () => {

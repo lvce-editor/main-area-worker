@@ -2003,7 +2003,8 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 1)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 100]])
+  expect(result.pendingViewletUpdate).toEqual({ disposal: 100, focus: undefined })
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid', async () => {
@@ -2099,7 +2100,8 @@ test('closeTabWithViewlet should remove group when closing the last tab', async 
 
   expect(result.layout.groups).toHaveLength(0)
   expect(result.layout.activeGroupId).toBeUndefined()
-  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 100]])
+  expect(result.pendingViewletUpdate).toEqual({ disposal: 100 })
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('closeTabWithViewlet should handle closing tab when tab not found', async () => {
@@ -2268,5 +2270,6 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
   expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs.find((tab) => tab.id === 2)).toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(3)
-  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 200]])
+  expect(result.pendingViewletUpdate).toEqual({ disposal: 200, focus: 300 })
+  expect(mockRpc.invocations).toEqual([])
 })

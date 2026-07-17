@@ -1,8 +1,8 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
-import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { WorkspaceChanges, WorkspaceRefresh } from '../WorkspaceChanges/WorkspaceChanges.ts'
 import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.ts'
+import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 
 const normalizeWorkspaceChanges = (changes: WorkspaceRefresh): WorkspaceChanges => {
   if (Array.isArray(changes)) {

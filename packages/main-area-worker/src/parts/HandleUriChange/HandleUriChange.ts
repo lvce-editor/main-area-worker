@@ -1,7 +1,7 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { EditorInput } from '../EditorInput/EditorInput.ts'
-import { getRenamedUri } from '../GetRenamedUri/GetRenamedUri.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { getRenamedUri } from '../GetRenamedUri/GetRenamedUri.ts'
 import { loadFileIcons } from '../LoadContent/LoadFileIcons.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'

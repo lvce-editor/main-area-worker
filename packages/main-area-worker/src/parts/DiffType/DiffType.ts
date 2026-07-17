@@ -6,3 +6,5 @@ export const RenderValue = 8
 export const RenderSelection = 9
 export const RenderCss = 10
 export const RenderIncremental = 11
+export const RenderPendingViewletDisposal = 12
+export const RenderPendingViewletFocus = 13

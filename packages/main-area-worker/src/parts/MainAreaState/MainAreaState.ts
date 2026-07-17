@@ -40,6 +40,8 @@ export interface MainAreaState {
   readonly maxOpenEditors: number
   readonly minGroupHeightPx: number
   readonly minGroupWidthPx: number
+  pendingViewletDisposal?: number
+  pendingViewletFocus?: number
   readonly platform: number
   readonly sashDrag?: SashDragState
   readonly splitButtonEnabled: boolean

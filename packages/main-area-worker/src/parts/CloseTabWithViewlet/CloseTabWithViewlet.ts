@@ -18,20 +18,26 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
 
   const group = state.layout.groups.find((g) => g.id === groupId)
   const wasActiveTab = group?.activeTabId === tabId
-  if (wasActiveTab) {
-    const newGroup = newState.layout.groups.find((g) => g.id === groupId)
-    const newActiveTabId = newGroup?.activeTabId
-    if (newActiveTabId !== undefined) {
-      const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, undefined, newActiveTabId)
-      commands.push(...switchCommands)
+  const newGroup = wasActiveTab ? newState.layout.groups.find((candidate) => candidate.id === groupId) : undefined
+  const newActiveTabId = newGroup?.activeTabId
+  if (newActiveTabId === undefined) {
+    if (commands.length > 0) {
       await ExecuteViewletCommands.executeViewletCommands(commands)
-      return switchedState
+    }
+    return newState
+  }
+
+  const { commands: switchCommands, newState: switchedState } = ViewletLifecycle.switchViewlet(newState, undefined, newActiveTabId)
+  if (commands.length > 0) {
+    const newActiveTab = newGroup?.tabs.find((candidate) => candidate.id === newActiveTabId)
+    return {
+      ...switchedState,
+      pendingViewletDisposal: tab?.editorUid,
+      pendingViewletFocus: newActiveTab?.editorUid === -1 ? undefined : newActiveTab?.editorUid,
     }
   }
-
-  if (commands.length > 0) {
-    await ExecuteViewletCommands.executeViewletCommands(commands)
+  if (switchCommands.length > 0) {
+    await ExecuteViewletCommands.executeViewletCommands(switchCommands)
   }
-
-  return newState
+  return switchedState
 }

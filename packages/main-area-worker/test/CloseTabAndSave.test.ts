@@ -15,6 +15,7 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
     'ConfirmPrompt.prompt': async () => true,
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.dispose': async () => undefined,
   })
 
   const state: MainAreaState = {
@@ -59,6 +60,7 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
     ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
+    ['Viewlet.dispose', 123],
   ])
   expect(result.layout.groups).toHaveLength(0)
 })
@@ -68,6 +70,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
     'ConfirmPrompt.prompt': async () => true,
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.dispose': async () => undefined,
   })
 
   const state: MainAreaState = {
@@ -109,6 +112,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
     ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
+    ['Viewlet.dispose', 123],
   ])
   expect(result.layout.groups).toHaveLength(0)
 })
@@ -273,6 +277,7 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
       promptCount++
       return promptCount === 2
     },
+    'Viewlet.dispose': async () => undefined,
   })
 
   const state: MainAreaState = {
@@ -317,6 +322,7 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
       'Discard the changes you made to test.ts?',
       { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
     ],
+    ['Viewlet.dispose', 123],
   ])
   expect(result.layout.groups).toHaveLength(0)
 })
@@ -362,10 +368,9 @@ test('closeTabAndSave should skip saving tabs without editor instances', async (
   expect(result.layout.groups).toHaveLength(0)
 })
 
-test('closeTabAndSave should await viewlet disposal before closing the tab', async () => {
-  const { promise: disposePromise, resolve: resolveDispose } = Promise.withResolvers<void>()
+test('closeTabAndSave should dispose a Settings editor after switching to the replacement editor', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async () => disposePromise,
+    'Viewlet.dispose': async () => undefined,
   })
 
   const state: MainAreaState = {
@@ -375,7 +380,7 @@ test('closeTabAndSave should await viewlet disposal before closing the tab', asy
       direction: 1,
       groups: [
         {
-          activeTabId: 1,
+          activeTabId: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -383,13 +388,23 @@ test('closeTabAndSave should await viewlet disposal before closing the tab', asy
           tabs: [
             {
               editorType: 'text',
-              editorUid: 123,
+              editorUid: 122,
               icon: '',
               id: 1,
               isDirty: false,
               isPreview: false,
-              title: 'Simple Browser',
-              uri: 'simple-browser://1',
+              title: 'workspace-file.txt',
+              uri: 'file:///workspace-file.txt',
+            },
+            {
+              editorType: 'text',
+              editorUid: 123,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'settings.json',
+              uri: 'app://settings.json',
             },
           ],
         },
@@ -397,14 +412,10 @@ test('closeTabAndSave should await viewlet disposal before closing the tab', asy
     },
   }
 
-  const closePromise = closeTabAndSave(state, 1, 1)
+  const result = await closeTabAndSave(state, 1, 2)
 
-  const pendingResult = await Promise.race([closePromise, Promise.resolve(undefined)])
-  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 123]])
-  expect(pendingResult).toBeUndefined()
-
-  resolveDispose()
-  const result = await closePromise
-
-  expect(result.layout.groups).toHaveLength(0)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(result.pendingViewletDisposal).toBe(123)
+  expect(result.pendingViewletFocus).toBe(122)
+  expect(mockRpc.invocations).toEqual([])
 })

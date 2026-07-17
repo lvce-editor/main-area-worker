@@ -4,35 +4,20 @@ import type { WorkspaceChanges, WorkspaceRefresh } from '../WorkspaceChanges/Wor
 import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 
-const normalizeWorkspaceChanges = (changes: WorkspaceRefresh): WorkspaceChanges => {
-  if (Array.isArray(changes)) {
-    return {
-      deleted: changes,
-    }
-  }
-  return changes as WorkspaceChanges
-}
-
-const isDeleted = (uri: string, deletedUris: readonly string[]): boolean => {
-  return deletedUris.some((deletedUri) => uri === deletedUri || uri.startsWith(`${deletedUri}/`) || uri.startsWith(`${deletedUri}\\`))
-}
-
 export const handleWorkspaceRefresh = async (state: MainAreaState, refresh: WorkspaceRefresh = {}): Promise<MainAreaState> => {
-  const { deleted = [], renamed = [] } = normalizeWorkspaceChanges(refresh)
+  const changes: WorkspaceChanges = Array.isArray(refresh) ? { deleted: refresh } : (refresh as WorkspaceChanges)
+  const { deleted = [], renamed = [] } = changes
   let newState = state
   for (const [oldUri, newUri] of renamed) {
     newState = await handleUriChange(newState, oldUri, newUri)
   }
-  const tabsToClose: [groupId: number, tabId: number][] = []
+  const deletedUris = new Set(deleted)
   for (const group of newState.layout.groups) {
     for (const tab of group.tabs) {
-      if (tab.editorInput?.type === 'editor' && isDeleted(tab.editorInput.uri, deleted)) {
-        tabsToClose.push([group.id, tab.id])
+      if (tab.editorInput?.type === 'editor' && deletedUris.has(tab.editorInput.uri)) {
+        newState = await closeTabWithViewlet(newState, group.id, tab.id)
       }
     }
-  }
-  for (const [groupId, tabId] of tabsToClose) {
-    newState = await closeTabWithViewlet(newState, groupId, tabId)
   }
   return newState
 }

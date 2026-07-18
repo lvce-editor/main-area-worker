@@ -12,12 +12,13 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
 
   const editorGroups = Locator('.EditorGroup')
   const closeButtons = Locator('.EmptyGroupCloseButton')
+  const mainTabs = Locator('.MainTab')
   const lowerGroupCloseButton = editorGroups.nth(1).locator('.EmptyGroupCloseButton')
   await expect(editorGroups).toHaveCount(2)
   await expect(closeButtons).toHaveCount(2)
   await lowerGroupCloseButton.dispatchEvent('click', clickEventInit)
 
   await expect(editorGroups).toHaveCount(1)
-  await expect(Locator('.MainTab')).toHaveCount(0)
+  await expect(mainTabs).toHaveCount(0)
   await expect(closeButtons).toHaveCount(0)
 }

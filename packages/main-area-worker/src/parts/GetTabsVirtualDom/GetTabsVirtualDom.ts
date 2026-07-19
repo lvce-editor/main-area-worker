@@ -1,4 +1,4 @@
-import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { AriaRoles, type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { renderTab } from '../RenderTab/RenderTab.ts'
@@ -8,7 +8,7 @@ export const getTabsVirtualDom = (group: EditorGroup, groupIndex: number, tabsCh
     {
       childCount: tabsChildCount,
       className: ClassNames.MainTabs,
-      role: 'tablist',
+      role: AriaRoles.TabList,
       type: VirtualDomElements.Div,
     },
     ...group.tabs.flatMap((tab: Tab, tabIndex: number) => renderTab(tab, tab.id === group.activeTabId, tabIndex, groupIndex)),

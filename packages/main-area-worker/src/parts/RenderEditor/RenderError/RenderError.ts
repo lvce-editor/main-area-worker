@@ -7,7 +7,7 @@ import * as MainStrings from '../../MainStrings/MainStrings.ts'
 export const renderError = (errorMessage: string): readonly VirtualDomNode[] => {
   return [
     {
-      childCount: 2,
+      childCount: 1,
       className: ClassNames.TextEditorError,
       type: VirtualDomElements.Div,
     },

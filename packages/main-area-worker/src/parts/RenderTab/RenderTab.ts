@@ -68,7 +68,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,
-      role: 'tab',
+      role: AriaRoles.Tab,
       title: tab.uriTitle || tab.uri || tab.title,
       type: VirtualDomElements.Div,
     },

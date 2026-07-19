@@ -4,6 +4,7 @@ import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderEmptyGroupCloseButton } from '../RenderEmptyGroupCloseButton/RenderEmptyGroupCloseButton.ts'
 import { renderWaterMark } from '../RenderWaterMark/RenderWaterMark.ts'
+import * as TabIndex from '../TabIndex/TabIndex.ts'
 
 export const renderEmptyEditorGroup = (
   group: EditorGroup,
@@ -19,7 +20,7 @@ export const renderEmptyEditorGroup = (
       'data-groupId': String(group.id),
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style,
-      tabIndex: 0,
+      tabIndex: TabIndex.Focusable,
       type: VirtualDomElements.Div,
     },
     ...closeButtonDom,

@@ -11,6 +11,12 @@ const emptyHeader: VirtualDomNode = {
   type: VirtualDomElements.Div,
 }
 
+const closeIconNode: VirtualDomNode = {
+  childCount: 0,
+  className: ClassNames.MaskIconClose,
+  type: VirtualDomElements.Div,
+}
+
 export const renderEmptyGroupCloseButton = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
   return [
     emptyHeader,
@@ -23,10 +29,6 @@ export const renderEmptyGroupCloseButton = (group: EditorGroup, groupIndex: numb
       title: MainStrings.closeEditorGroup(),
       type: VirtualDomElements.Button,
     },
-    {
-      childCount: 0,
-      className: ClassNames.MaskIconClose,
-      type: VirtualDomElements.Div,
-    },
+    closeIconNode,
   ]
 }

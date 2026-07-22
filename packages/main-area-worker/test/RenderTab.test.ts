@@ -94,6 +94,33 @@ test('renderTab should use the extensions mask icon for running extensions', () 
   })
 })
 
+test('renderTab should use the search mask icon for search editors', () => {
+  const tab: Tab = {
+    editorType: 'custom',
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'Search',
+    uri: 'search-editor://42-123/Search',
+  }
+
+  const result = renderTab(tab, true, 0, 0)
+
+  expect(result[1]).toEqual({
+    childCount: 1,
+    className: 'TabIcon',
+    role: 'none',
+    type: VirtualDomElements.Div,
+  })
+  expect(result[2]).toEqual({
+    childCount: 0,
+    className: 'MaskIcon MaskIconSearch',
+    type: VirtualDomElements.Div,
+  })
+})
+
 test('renderTab should show dirty indicator for dirty tab', () => {
   const tab: Tab = {
     editorType: 'text',

@@ -37,23 +37,23 @@ const createState = (uri: string): MainAreaState => ({
 
 test('notifies Problems when the active file changes', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.executeViewletCommand': () => undefined,
+    'Problems.handleActiveEditorChange': () => undefined,
   })
   await notifyActiveEditorChange(createState('file:///one.txt'), createState('file:///two.txt'))
-  expect(mockRpc.invocations).toEqual([['Viewlet.executeViewletCommand', 'Problems', 'handleActiveEditorChange', 'file:///two.txt']])
+  expect(mockRpc.invocations).toEqual([['Problems.handleActiveEditorChange', 'file:///two.txt']])
 })
 
 test('notifies Problems with an empty uri after the last editor closes', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.executeViewletCommand': () => undefined,
+    'Problems.handleActiveEditorChange': () => undefined,
   })
   await notifyActiveEditorChange(createState('file:///one.txt'), createState(''))
-  expect(mockRpc.invocations).toEqual([['Viewlet.executeViewletCommand', 'Problems', 'handleActiveEditorChange', '']])
+  expect(mockRpc.invocations).toEqual([['Problems.handleActiveEditorChange', '']])
 })
 
 test('does not notify Problems when the active file is unchanged', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.executeViewletCommand': () => undefined,
+    'Problems.handleActiveEditorChange': () => undefined,
   })
   await notifyActiveEditorChange(createState('file:///one.txt'), createState('file:///one.txt'))
   expect(mockRpc.invocations).toEqual([])
@@ -62,7 +62,7 @@ test('does not notify Problems when the active file is unchanged', async () => {
 test('does not fail the editor command when Problems cannot receive the notification', async () => {
   const warn = jest.spyOn(console, 'warn').mockImplementation(() => {})
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.executeViewletCommand': () => {
+    'Problems.handleActiveEditorChange': () => {
       throw new Error('command unavailable')
     },
   })

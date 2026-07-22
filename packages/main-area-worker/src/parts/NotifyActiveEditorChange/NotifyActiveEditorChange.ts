@@ -9,7 +9,7 @@ export const notifyActiveEditorChange = async (oldState: MainAreaState, newState
     return
   }
   try {
-    await RendererWorker.invoke('Viewlet.executeViewletCommand', 'Problems', 'handleActiveEditorChange', newUri)
+    await RendererWorker.invoke('Problems.handleActiveEditorChange', newUri)
   } catch (error) {
     console.warn('Failed to notify Problems view about active editor change', error)
   }

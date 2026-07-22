@@ -1,4 +1,4 @@
-import { type VirtualDomNode, AriaRoles, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, AriaRoles, mergeClassNames, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { LayoutDirection as LayoutDirectionType } from '../LayoutDirection/LayoutDirection.ts'
 import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
@@ -19,7 +19,13 @@ const getDirectionClassName = (direction: number, isSplit: boolean): string => {
 
 const getContainerClassName = (direction: LayoutDirectionType, childCount: number): string => {
   const directionClassName = getDirectionClassName(direction, childCount > 1)
-  return directionClassName ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}` : ClassNames.EDITOR_GROUPS_CONTAINER
+  return directionClassName ? mergeClassNames(ClassNames.EDITOR_GROUPS_CONTAINER, directionClassName) : ClassNames.EDITOR_GROUPS_CONTAINER
+}
+
+const mainNode: VirtualDomNode = {
+  childCount: 1,
+  className: ClassNames.Main,
+  type: VirtualDomElements.Div,
 }
 
 const getSizeProperty = (direction: LayoutDirectionType): 'width' | 'height' => {
@@ -103,11 +109,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
   const editorGroupsContainerClassName = getContainerClassName(direction, groups.length)
   if (groups.length === 0) {
     return [
-      {
-        childCount: 1,
-        className: ClassNames.Main,
-        type: VirtualDomElements.Div,
-      },
+      mainNode,
       {
         childCount: 0,
         className: editorGroupsContainerClassName,
@@ -120,11 +122,7 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
   }
   const { childCount, children } = renderSegmentChildren(direction, groups, splitButtonEnabled)
   return [
-    {
-      childCount: 1,
-      className: ClassNames.Main,
-      type: VirtualDomElements.Div,
-    },
+    mainNode,
     {
       childCount,
       className: editorGroupsContainerClassName,

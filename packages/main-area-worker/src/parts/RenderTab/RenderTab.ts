@@ -1,4 +1,4 @@
-import { type VirtualDomNode, AriaRoles, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, AriaRoles, mergeClassNames, text, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
@@ -8,14 +8,22 @@ const ExtensionDetailScheme = 'extension-detail://'
 const KeyBindingsUri = 'app://keybindings'
 const RunningExtensionsScheme = 'running-extensions://'
 
+const tabIconNode: VirtualDomNode = {
+  childCount: 1,
+  className: ClassNames.TabIcon,
+  role: AriaRoles.None,
+  type: VirtualDomElements.Div,
+}
+
+const tabTitleNode: VirtualDomNode = {
+  childCount: 1,
+  className: ClassNames.TabTitle,
+  type: VirtualDomElements.Span,
+}
+
 const renderMaskIcon = (className: string): readonly VirtualDomNode[] => {
   return [
-    {
-      childCount: 1,
-      className: ClassNames.TabIcon,
-      role: AriaRoles.None,
-      type: VirtualDomElements.Div,
-    },
+    tabIconNode,
     {
       childCount: 0,
       className,
@@ -49,13 +57,13 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
   const closeButtonNodes = renderTabActions(tab.isDirty, tabIndex, groupIndex)
   let className = ClassNames.MainTab
   if (isActive) {
-    className += ' ' + ClassNames.MainTabSelected
+    className = mergeClassNames(className, ClassNames.MainTabSelected)
   }
   if (tab.isDirty) {
-    className += ' ' + ClassNames.MainTabModified
+    className = mergeClassNames(className, ClassNames.MainTabModified)
   }
   if (tab.isPreview) {
-    className += ' ' + ClassNames.MainTabPreview
+    className = mergeClassNames(className, ClassNames.MainTabPreview)
   }
 
   return [
@@ -73,11 +81,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       type: VirtualDomElements.Div,
     },
     ...renderTabIcon(tab),
-    {
-      childCount: 1,
-      className: ClassNames.TabTitle,
-      type: VirtualDomElements.Span,
-    },
+    tabTitleNode,
     text(tab.title),
     ...closeButtonNodes,
   ]

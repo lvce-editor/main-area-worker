@@ -9,6 +9,9 @@ test('renderEventListeners should return array with HandleClick event listener',
   expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashPointerDown)).toBe(true)
   expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashPointerMove)).toBe(true)
   expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashPointerUp)).toBe(true)
+  expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashCornerPointerDown)).toBe(true)
+  expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashCornerPointerMove)).toBe(true)
+  expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashCornerPointerUp)).toBe(true)
 })
 
 test('renderEventListeners should pass the mouse button to the tab click handler', () => {

@@ -26,6 +26,9 @@ import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeader
 import { handleIconThemeChange } from '../HandleIconThemeChange/HandleIconThemeChange.ts'
 import { handleModifiedStatusChangeWithContext } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
 import { handleResize } from '../HandleResize/HandleResize.ts'
+import { handleSashCornerPointerDown } from '../HandleSashCornerPointerDown/HandleSashCornerPointerDown.ts'
+import { handleSashCornerPointerMove } from '../HandleSashCornerPointerMove/HandleSashCornerPointerMove.ts'
+import { handleSashCornerPointerUp } from '../HandleSashCornerPointerUp/HandleSashCornerPointerUp.ts'
 import { handleSashPointerDown } from '../HandleSashPointerDown/HandleSashPointerDown.ts'
 import { handleSashPointerMove } from '../HandleSashPointerMove/HandleSashPointerMove.ts'
 import { handleSashPointerUp } from '../HandleSashPointerUp/HandleSashPointerUp.ts'
@@ -126,6 +129,9 @@ export const commandMap = {
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
   'MainArea.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
   'MainArea.handleResize': wrapGetter(handleResize), // TODO would need to have a function that returns newstate as well as commands
+  'MainArea.handleSashCornerPointerDown': wrapSerialCommand(handleSashCornerPointerDown),
+  'MainArea.handleSashCornerPointerMove': wrapSerialCommand(handleSashCornerPointerMove),
+  'MainArea.handleSashCornerPointerUp': wrapSerialCommand(handleSashCornerPointerUp),
   'MainArea.handleSashPointerDown': wrapSerialCommand(handleSashPointerDown),
   'MainArea.handleSashPointerMove': wrapSerialCommand(handleSashPointerMove),
   'MainArea.handleSashPointerUp': wrapSerialCommand(handleSashPointerUp),

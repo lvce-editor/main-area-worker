@@ -4,9 +4,11 @@ import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getGroupSegments, getSegmentSize } from '../GetGroupSegments/GetGroupSegments.ts'
+import { getSashCorner } from '../GetSashCorner/GetSashCorner.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
 import { renderSash } from '../RenderSash/RenderSash.ts'
+import { renderSashCorner } from '../RenderSashCorner/RenderSashCorner.ts'
 import { renderSingleEditorGroup } from '../RenderSingleEditorGroup/RenderSingleEditorGroup.ts'
 import * as SashId from '../SashId/SashId.ts'
 
@@ -119,6 +121,8 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
     ]
   }
   const { childCount, children } = renderSegmentChildren(direction, groups, splitButtonEnabled)
+  const sashCorner = getSashCorner(layout)
+  const sashCornerChildren = sashCorner ? [renderSashCorner()] : []
   return [
     {
       childCount: 1,
@@ -126,11 +130,12 @@ export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled
       type: VirtualDomElements.Div,
     },
     {
-      childCount,
+      childCount: childCount + sashCornerChildren.length,
       className: editorGroupsContainerClassName,
       role: AriaRoles.None,
       type: VirtualDomElements.Div,
     },
     ...children,
+    ...sashCornerChildren,
   ]
 }

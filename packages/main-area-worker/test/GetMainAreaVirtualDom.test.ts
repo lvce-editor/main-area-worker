@@ -331,6 +331,67 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
   expect(horizontalSashes).toHaveLength(1)
 })
 
+test('getMainAreaVirtualDom should render a sash corner for an aligned grid', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: 1,
+    direction: 1,
+    groups: [
+      {
+        activeTabId: undefined,
+        direction: 2,
+        focused: true,
+        id: 1,
+        isEmpty: true,
+        segmentId: 1,
+        size: 25,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        direction: 2,
+        focused: false,
+        id: 2,
+        isEmpty: true,
+        segmentId: 1,
+        size: 25,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        direction: 2,
+        focused: false,
+        id: 3,
+        isEmpty: true,
+        segmentId: 2,
+        size: 25,
+        tabs: [],
+      },
+      {
+        activeTabId: undefined,
+        direction: 2,
+        focused: false,
+        id: 4,
+        isEmpty: true,
+        segmentId: 2,
+        size: 25,
+        tabs: [],
+      },
+    ],
+  }
+
+  const result = getMainAreaVirtualDom(layout)
+  const sashCorner = result.find((node) => node.className === 'SashCorner')
+
+  expect(sashCorner).toEqual({
+    childCount: 0,
+    className: 'SashCorner',
+    onPointerDown: DomEventListenerFunctions.HandleSashCornerPointerDown,
+    role: 'none',
+    type: VirtualDomElements.Button,
+  })
+  expect(result[1].childCount).toBe(10)
+})
+
 test('getMainAreaVirtualDom should handle empty groups array', () => {
   const layout: MainAreaLayout = {
     activeGroupId: undefined,

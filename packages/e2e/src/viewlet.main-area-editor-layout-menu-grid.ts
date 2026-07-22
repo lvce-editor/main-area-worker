@@ -31,10 +31,13 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMe
   const horizontalContainers = Locator('.editor-groups-container.EditorGroupsHorizontal')
   const verticalSash = Locator('.Main .SashVertical')
   const horizontalSashes = Locator('.Main .SashHorizontal')
+  const sashCorner = Locator('.Main .SashCorner')
   await expect(groups).toHaveCount(4)
   await expect(firstGroupTab).toBeVisible()
   await expect(verticalContainer).toHaveCount(1)
   await expect(horizontalContainers).toHaveCount(2)
   await expect(verticalSash).toHaveCount(1)
   await expect(horizontalSashes).toHaveCount(2)
+  await expect(sashCorner).toBeVisible()
+  await expect(sashCorner).toHaveCount(1)
 }

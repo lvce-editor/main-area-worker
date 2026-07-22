@@ -19,6 +19,19 @@ interface SashDragState {
   readonly startClientY: number
 }
 
+interface SashCornerDragState {
+  readonly groupSizes: readonly {
+    readonly id: number
+    readonly size: number
+  }[]
+  readonly startClientX: number
+  readonly startClientY: number
+  readonly xAfterGroupIds: readonly number[]
+  readonly xBeforeGroupIds: readonly number[]
+  readonly yAfterGroupIds: readonly number[]
+  readonly yBeforeGroupIds: readonly number[]
+}
+
 export interface ClosedTabEntry {
   readonly group: EditorGroup
   readonly groupIndex: number
@@ -45,6 +58,7 @@ export interface MainAreaState {
     readonly focus?: number
   }
   readonly platform: number
+  readonly sashCornerDrag?: SashCornerDragState
   readonly sashDrag?: SashDragState
   readonly splitButtonEnabled: boolean
   readonly tabHeight: number

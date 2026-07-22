@@ -4,6 +4,8 @@ export const name = 'viewlet.main-area-editor-layout-menu-grid'
 export const skip = ['webkit'] as const
 
 const clickEventInit = { bubbles: true } as unknown as string
+const pointerDownEventInit = { bubbles: true, clientX: 500, clientY: 400, pointerId: 1, pointerType: 'mouse' } as unknown as string
+const pointerMoveEventInit = { bubbles: true, clientX: 400, clientY: 300, pointerId: 1, pointerType: 'mouse' } as unknown as string
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
   await Main.closeAllEditors()
@@ -29,6 +31,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMe
   const firstGroupTab = firstGroup.locator('.MainTab[title$="grid.txt"]')
   const verticalContainer = Locator('.editor-groups-container.EditorGroupsVertical')
   const horizontalContainers = Locator('.editor-groups-container.EditorGroupsHorizontal')
+  const firstHorizontalContainer = horizontalContainers.nth(0)
   const verticalSash = Locator('.Main .SashVertical')
   const horizontalSashes = Locator('.Main .SashHorizontal')
   const sashCorner = Locator('.Main .SashCorner')
@@ -40,4 +43,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMe
   await expect(horizontalSashes).toHaveCount(2)
   await expect(sashCorner).toBeVisible()
   await expect(sashCorner).toHaveCount(1)
+
+  await sashCorner.dispatchEvent('pointerdown', pointerDownEventInit)
+  await sashCorner.dispatchEvent('pointermove', pointerMoveEventInit)
+  await sashCorner.dispatchEvent('pointerup', pointerMoveEventInit)
+  await expect(firstHorizontalContainer).not.toHaveAttribute('style', 'width:50%;')
+  await expect(firstGroup).not.toHaveAttribute('style', 'height:50%;')
 }

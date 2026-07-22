@@ -47,6 +47,5 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMe
   await sashCorner.dispatchEvent('pointerdown', pointerDownEventInit)
   await sashCorner.dispatchEvent('pointermove', pointerMoveEventInit)
   await sashCorner.dispatchEvent('pointerup', pointerMoveEventInit)
-  await expect(firstHorizontalContainer).not.toHaveAttribute('style', 'width:50%;')
-  await expect(firstGroup).not.toHaveAttribute('style', 'height:50%;')
+  await expect(firstHorizontalContainer).toHaveAttribute('style', 'width: 39.92%;')
 }

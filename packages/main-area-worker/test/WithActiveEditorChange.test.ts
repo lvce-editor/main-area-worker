@@ -36,18 +36,18 @@ const createState = (uri: string): MainAreaState => ({
 
 test('wraps state commands and notifies after their result is available', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Problems.handleActiveEditorChange': () => undefined,
+    'Layout.handleActiveEditorChange': () => undefined,
   })
   const oldState = createState('file:///one.txt')
   const newState = createState('file:///two.txt')
   const wrapped = withActiveEditorChange(() => newState)
   await expect(wrapped(oldState)).resolves.toBe(newState)
-  expect(mockRpc.invocations).toEqual([['Problems.handleActiveEditorChange', 'file:///two.txt']])
+  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///two.txt']])
 })
 
 test('wraps context commands and notifies after their final update', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Problems.handleActiveEditorChange': () => undefined,
+    'Layout.handleActiveEditorChange': () => undefined,
   })
   let state = createState('file:///one.txt')
   const context: AsyncCommandContext<MainAreaState> = {
@@ -61,5 +61,5 @@ test('wraps context commands and notifies after their final update', async () =>
     await commandContext.updateState(() => createState('file:///two.txt'))
   })
   await wrapped(context)
-  expect(mockRpc.invocations).toEqual([['Problems.handleActiveEditorChange', 'file:///two.txt']])
+  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///two.txt']])
 })

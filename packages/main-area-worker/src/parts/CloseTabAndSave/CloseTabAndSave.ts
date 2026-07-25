@@ -1,11 +1,11 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { DialogWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
 const promptSave = async (title: string): Promise<string> => {
-  const shouldSave = await RendererWorker.confirm(`Do you want to save the changes you made to ${title}?`, {
+  const shouldSave = await DialogWorker.invoke('ConfirmPrompt.prompt', `Do you want to save the changes you made to ${title}?`, {
     cancelMessage: 'More Options',
     confirmMessage: 'Save',
     title: 'Save Changes',
@@ -13,7 +13,7 @@ const promptSave = async (title: string): Promise<string> => {
   if (shouldSave) {
     return 'save'
   }
-  const shouldDiscard = await RendererWorker.confirm(`Discard the changes you made to ${title}?`, {
+  const shouldDiscard = await DialogWorker.invoke('ConfirmPrompt.prompt', `Discard the changes you made to ${title}?`, {
     cancelMessage: 'Cancel',
     confirmMessage: "Don't Save",
     title: 'Save Changes',

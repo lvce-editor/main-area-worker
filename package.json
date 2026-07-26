@@ -3,10 +3,13 @@
   "version": "0.0.0-dev",
   "license": "MIT",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "node packages/build/src/build.js",
     "build:static": "node packages/build/src/build-static.ts",
-    "build:watch": "./packages/build/node_modules/.bin/esbuild --format=esm --bundle --external:node:buffer --external:electron --external:ws --external:node:worker_threads --watch packages/main-area-worker/src/mainAreaWorkerMain.ts --outfile=.tmp/dist/dist/mainAreaWorkerMain.js",
+    "build:watch": "npm run build:watch --workspace build",
     "dev": "node packages/build/src/dev.js",
     "e2e": "cd packages/e2e && npm run e2e",
     "e2e:firefox": "cd packages/e2e && npm run e2e:firefox",
@@ -15,10 +18,9 @@
     "e2e:webkit": "cd packages/e2e && npm run e2e:webkit",
     "e2e:webkit:headless": "cd packages/e2e && npm run e2e:webkit:headless",
     "format": "prettier --write .",
-    "postinstall": "lerna bootstrap --ci",
     "lint": "eslint . && prettier --check . && knip --no-config-hints",
     "measure": "cd packages/build && npm run measure",
-    "test": "lerna run test",
+    "test": "npm test --workspaces --if-present",
     "type-check": "tsc -b"
   },
   "prettier": {
@@ -27,12 +29,10 @@
     "printWidth": 150
   },
   "devDependencies": {
-    "@lerna/legacy-package-management": "^8.2.4",
     "@lvce-editor/eslint-config": "^16.5.0",
     "@lvce-editor/eslint-plugin-github-actions": "^16.5.0",
     "eslint": "^10.7.0",
     "knip": "^6.26.0",
-    "lerna": "^8.2.3",
     "prettier": "^3.9.5",
     "typescript": "^6.0.3"
   }

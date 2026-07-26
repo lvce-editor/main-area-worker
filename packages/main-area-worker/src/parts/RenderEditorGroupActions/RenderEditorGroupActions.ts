@@ -6,6 +6,12 @@ import * as InputName from '../InputName/InputName.ts'
 import { isHtmlFile } from '../IsHtmlFile/IsHtmlFile.ts'
 import * as MainStrings from '../MainStrings/MainStrings.ts'
 
+const previewIconNode: VirtualDomNode = {
+  childCount: 0,
+  className: ClassNames.MaskIconPreview,
+  type: VirtualDomElements.Div,
+}
+
 export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: Tab) => tab.id === group.activeTabId)
   const showTogglePreview = isHtmlFile(activeTab)
@@ -29,11 +35,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
         title: MainStrings.togglePreview(),
         type: VirtualDomElements.Button,
       },
-      {
-        childCount: 0,
-        className: ClassNames.MaskIconPreview,
-        type: VirtualDomElements.Div,
-      },
+      previewIconNode,
     )
   }
 

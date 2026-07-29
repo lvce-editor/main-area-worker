@@ -6,7 +6,9 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const files = Array.from({ length: 5 }, (_, index) => `${tmpDir}/focus-previous-four-${index + 1}.ts`)
   await FileSystem.setFiles(files.map((uri, index) => ({ content: `export const value = ${index}`, uri })))
-  await Main.openUris(files)
+  for (const file of files) {
+    await Main.openUri(file)
+  }
 
   for (let i = 0; i < 4; i++) {
     await Main.focusPrevious()

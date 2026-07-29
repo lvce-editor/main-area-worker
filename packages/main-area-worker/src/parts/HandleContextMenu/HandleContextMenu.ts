@@ -6,6 +6,7 @@ import * as ContextMenu from '../ContextMenu/ContextMenu.ts'
 const NoGroupId = -1
 
 export const handleContextMenu = async (state: MainAreaState, rawGroupId: string | undefined, x: number, y: number): Promise<MainAreaState> => {
+  const { uid } = state
   Assert.number(x)
   Assert.number(y)
   if (rawGroupId === undefined) {
@@ -15,7 +16,7 @@ export const handleContextMenu = async (state: MainAreaState, rawGroupId: string
   if (Number.isNaN(groupId)) {
     return state
   }
-  await ContextMenu.show2(state.uid, MenuEntryId.Main, x, y, {
+  await ContextMenu.show2(uid, MenuEntryId.Main, x, y, {
     groupId,
     menuId: MenuEntryId.Main,
   })

@@ -32,7 +32,8 @@ const closeSavedInGroup = (group: EditorGroup): EditorGroup => {
 }
 
 export const closeSaved = (state: MainAreaState): MainAreaState => {
-  const { groups } = state.layout
+  const { layout } = state
+  const { groups } = layout
   const closedTabs = groups.flatMap((group, groupIndex) => {
     return group.tabs
       .map((tab, tabIndex) => ({

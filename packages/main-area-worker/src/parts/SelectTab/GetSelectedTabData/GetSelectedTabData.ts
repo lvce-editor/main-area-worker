@@ -8,7 +8,8 @@ export interface SelectedTabData {
 }
 
 export const getSelectedTabData = (state: MainAreaState, groupIndex: number, index: number): SelectedTabData | undefined => {
-  const group = state.layout.groups[groupIndex]
+  const { layout } = state
+  const group = layout.groups[groupIndex]
   if (!group || index < 0 || index >= group.tabs.length) {
     return undefined
   }

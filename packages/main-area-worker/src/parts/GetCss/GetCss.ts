@@ -1,14 +1,25 @@
-import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
+import type { DragOverlay, MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
+import { getDragOverlayCss } from '../GetDragOverlayCss/GetDragOverlayCss.ts'
 import { getEditorGroupCss } from '../GetEditorGroupCss/GetEditorGroupCss.ts'
 import { getSashCorner } from '../GetSashCorner/GetSashCorner.ts'
 import { getSashCss } from '../GetSashCss/GetSashCss.ts'
 
-export const getCss = (layout?: MainAreaLayout, width: number = 0): string => {
+export const getCss = (layout?: MainAreaLayout, width: number = 0, dragOverlay?: DragOverlay): string => {
   const rules = [
-    `.MainArea {
+    `.Main {
+  position: relative;
 }`,
     `.editor-groups-container {
   overflow: auto;
+}`,
+
+    `.DragOverlay {
+  position: absolute;
+  z-index: 1;
+  contain: strict;
+  pointer-events: none;
+  background: rgba(83, 89, 93, 0.5);
+  transition: all 100ms;
 }`,
 
     `.SashBorder {
@@ -59,7 +70,7 @@ export const getCss = (layout?: MainAreaLayout, width: number = 0): string => {
 }`,
   ]
   if (layout) {
-    rules.push(...getEditorGroupCss(layout), ...getSashCss(layout, width))
+    rules.push(...getEditorGroupCss(layout), ...getDragOverlayCss(dragOverlay), ...getSashCss(layout, width))
     const sashCorner = getSashCorner(layout)
     if (sashCorner) {
       rules.push(`.SashCorner {

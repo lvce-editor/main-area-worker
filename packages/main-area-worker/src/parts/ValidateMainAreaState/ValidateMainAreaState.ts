@@ -3,16 +3,19 @@ import { isValidEditorGroup } from '../IsValidEditorGroup/IsValidEditorGroup.ts'
 import { isLayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 
 export const validateMainAreaState = (state: any): state is MainAreaState => {
-  if (!state || typeof state.assetDir !== 'string' || typeof state.platform !== 'number' || !state.layout) {
+  if (!state) {
     return false
   }
-  const { layout } = state
+  const { assetDir, layout, platform, uid } = state
+  if (typeof assetDir !== 'string' || typeof platform !== 'number' || !layout) {
+    return false
+  }
   const { activeGroupId, direction, groups } = layout
   return (
     Array.isArray(groups) &&
     groups.every(isValidEditorGroup) &&
     (activeGroupId === undefined || typeof activeGroupId === 'number') &&
     isLayoutDirection(direction) &&
-    typeof state.uid === 'number'
+    typeof uid === 'number'
   )
 }

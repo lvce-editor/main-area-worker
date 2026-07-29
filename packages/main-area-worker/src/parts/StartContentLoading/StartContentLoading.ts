@@ -9,11 +9,12 @@ export const startContentLoading = async (
   path: string,
   requestId: number,
 ): Promise<MainAreaState> => {
+  const { uid } = state
   try {
     const getLatestState = (): MainAreaState => {
-      return get(state.uid).newState
+      return get(uid).newState
     }
-    set(state.uid, oldState, state)
+    set(uid, oldState, state)
     const newState = await LoadTabContent.loadTabContentAsync(tabId, path, requestId, getLatestState)
     return newState
   } catch {

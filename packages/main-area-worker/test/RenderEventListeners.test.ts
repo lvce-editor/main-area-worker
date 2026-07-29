@@ -27,3 +27,25 @@ test('renderEventListeners should pass tab indices to the double click handler',
 
   expect(listener?.params).toEqual(['handleDoubleClick', 'event.target.dataset.groupIndex', 'event.target.dataset.index'])
 })
+
+test('renderEventListeners should register drag event listeners', () => {
+  const result = RenderEventListeners.renderEventListeners()
+  const dragOver = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragOver)
+  const dragLeave = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragLeave)
+  const drop = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDrop)
+
+  expect(dragOver).toEqual({
+    name: DomEventListenerFunctions.HandleDragOver,
+    params: ['handleDragOver', EventExpression.ClientX, EventExpression.ClientY],
+    preventDefault: true,
+  })
+  expect(dragLeave).toEqual({
+    name: DomEventListenerFunctions.HandleDragLeave,
+    params: ['handleDragLeave'],
+  })
+  expect(drop).toEqual({
+    name: DomEventListenerFunctions.HandleDrop,
+    params: ['handleDragLeave'],
+    preventDefault: true,
+  })
+})

@@ -16,7 +16,7 @@ export const renderEmptyEditorGroup = (
   return [
     {
       childCount: closeButtonEnabled ? 2 : 1,
-      className: ClassNames.EditorGroup,
+      className: ClassNames.EditorGroupEmpty,
       'data-groupId': String(group.id),
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style,

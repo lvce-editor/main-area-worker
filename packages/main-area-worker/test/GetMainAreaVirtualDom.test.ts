@@ -37,6 +37,9 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 1,
       className: 'Main',
+      onDragLeave: DomEventListenerFunctions.HandleDragLeave,
+      onDragOver: DomEventListenerFunctions.HandleDragOver,
+      onDrop: DomEventListenerFunctions.HandleDrop,
       type: VirtualDomElements.Div,
     },
     {
@@ -157,11 +160,14 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
     {
       childCount: 1,
       className: 'Main',
+      onDragLeave: DomEventListenerFunctions.HandleDragLeave,
+      onDragOver: DomEventListenerFunctions.HandleDragOver,
+      onDrop: DomEventListenerFunctions.HandleDrop,
       type: VirtualDomElements.Div,
     },
     {
       childCount: 1,
-      className: 'EditorGroup',
+      className: 'EditorGroup EditorGroupEmpty',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style: 'width:100%;',
@@ -269,7 +275,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
 
   const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsHorizontal`)
   expect(editorGroupsContainer).toBeDefined()
-  const editorGroupNodes = result.filter((node) => node.className === 'EditorGroup')
+  const editorGroupNodes = result.filter((node) => node.className === ClassNames.EditorGroupEmpty)
   expect(editorGroupNodes).toHaveLength(2)
   expect(editorGroupNodes[0]['data-groupId']).toBe('1')
   expect(editorGroupNodes[1]['data-groupId']).toBe('2')
@@ -407,6 +413,29 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
     'data-groupId': '',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
     role: 'none',
+    type: VirtualDomElements.Div,
+  })
+})
+
+test('getMainAreaVirtualDom should render a drag overlay', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: undefined,
+    direction: 1,
+    groups: [],
+  }
+
+  const result = getMainAreaVirtualDom(layout, false, {
+    height: 300,
+    width: 400,
+    x: 0,
+    y: 0,
+  })
+
+  expect(result[0].childCount).toBe(1)
+  expect(result[1].childCount).toBe(1)
+  expect(result.at(-1)).toEqual({
+    childCount: 0,
+    className: 'DragOverlay',
     type: VirtualDomElements.Div,
   })
 })

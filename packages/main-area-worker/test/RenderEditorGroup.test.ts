@@ -187,7 +187,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
   expect(result).toEqual([
     {
       childCount: 2,
-      className: 'EditorGroup',
+      className: 'EditorGroup EditorGroupEmpty',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style: 'width:100%;',
@@ -241,7 +241,7 @@ test('renderEditorGroup should expose the group id for CSS targeting', () => {
 
   expect(result[0]).toEqual({
     childCount: 2,
-    className: 'EditorGroup',
+    className: 'EditorGroup EditorGroupEmpty',
     'data-groupId': '1',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
     style: 'height:50%;',

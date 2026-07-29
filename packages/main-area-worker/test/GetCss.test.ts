@@ -20,6 +20,11 @@ test('getCss should include sash border orientation rules', () => {
   expect(result).toContain(`.SashCorner {
   position: absolute;`)
   expect(result).toContain('cursor: all-scroll;')
+  expect(result).toContain(`.Main {
+  position: relative;
+}`)
+  expect(result).toContain(`.DragOverlay {
+  position: absolute;`)
 })
 
 test('getCss should position the sash corner at the grid intersection', () => {
@@ -75,5 +80,26 @@ test('getCss should position the sash corner at the grid intersection', () => {
   expect(result).toContain(`.SashCorner {
   left: 60%;
   top: 50%;
+}`)
+})
+
+test('getCss should position the drag overlay', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: undefined,
+    direction: LayoutDirection.Horizontal,
+    groups: [],
+  }
+  const result = getCss(layout, 800, {
+    height: 300,
+    width: 400,
+    x: 0,
+    y: 35,
+  })
+
+  expect(result).toContain(`.DragOverlay {
+  left: 0px;
+  top: 35px;
+  width: 400px;
+  height: 300px;
 }`)
 })

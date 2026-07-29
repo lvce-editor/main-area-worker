@@ -1,11 +1,24 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { DialogWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
+const missingDialogWorkerRelay = 'Command "SendMessagePortToExtensionHostWorker.sendMessagePortToDialogWorker" not found'
+
+const confirm = async (message: string, options: Parameters<typeof RendererWorker.confirm>[1]): Promise<boolean> => {
+  try {
+    return await DialogWorker.invoke('ConfirmPrompt.prompt', message, options)
+  } catch (error) {
+    if (!String(error).includes(missingDialogWorkerRelay)) {
+      throw error
+    }
+    return RendererWorker.confirm(message, options)
+  }
+}
+
 const promptSave = async (title: string): Promise<string> => {
-  const shouldSave = await RendererWorker.confirm(`Do you want to save the changes you made to ${title}?`, {
+  const shouldSave = await confirm(`Do you want to save the changes you made to ${title}?`, {
     cancelMessage: 'More Options',
     confirmMessage: 'Save',
     title: 'Save Changes',
@@ -13,7 +26,7 @@ const promptSave = async (title: string): Promise<string> => {
   if (shouldSave) {
     return 'save'
   }
-  const shouldDiscard = await RendererWorker.confirm(`Discard the changes you made to ${title}?`, {
+  const shouldDiscard = await confirm(`Discard the changes you made to ${title}?`, {
     cancelMessage: 'Cancel',
     confirmMessage: "Don't Save",
     title: 'Save Changes',

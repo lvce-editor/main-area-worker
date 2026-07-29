@@ -28,7 +28,7 @@ test('openUris should call openUri behavior when uri array has one item', async 
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
 })
 
-test('openUris should open first uri and create tabs for remaining uris', async () => {
+test('openUris should open each uri and select the last tab', async () => {
   const state: MainAreaState = createDefaultState()
 
   const result = await openUris(state, ['file:///path/to/file-a.ts', 'file:///path/to/file-b.ts', 'file:///path/to/file-c.ts'])
@@ -38,5 +38,5 @@ test('openUris should open first uri and create tabs for remaining uris', async 
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file-a.ts')
   expect(result.layout.groups[0].tabs[1].uri).toBe('file:///path/to/file-b.ts')
   expect(result.layout.groups[0].tabs[2].uri).toBe('file:///path/to/file-c.ts')
-  expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
+  expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[2].id)
 })

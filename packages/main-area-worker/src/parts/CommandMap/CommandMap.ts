@@ -22,6 +22,8 @@ import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
 import { handleContextMenu } from '../HandleContextMenu/HandleContextMenu.ts'
 import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
+import { handleDragLeave } from '../HandleDragLeave/HandleDragLeave.ts'
+import { handleDragOver } from '../HandleDragOver/HandleDragOver.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleIconThemeChange } from '../HandleIconThemeChange/HandleIconThemeChange.ts'
 import { handleModifiedStatusChangeWithContext } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
@@ -155,6 +157,8 @@ export const commandMap = {
   'MainArea.handleClickTogglePreview': wrapSerialCommand(handleClickTogglePreview),
   'MainArea.handleContextMenu': wrapSerialCommand(handleContextMenu),
   'MainArea.handleDoubleClick': wrapSerialCommand(handleDoubleClick),
+  'MainArea.handleDragLeave': wrapSerialCommand(handleDragLeave),
+  'MainArea.handleDragOver': wrapSerialCommand(handleDragOver),
   'MainArea.handleHeaderDoubleClick': wrapSerialCommand(handleHeaderDoubleClick),
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
   'MainArea.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),

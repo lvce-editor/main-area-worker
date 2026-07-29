@@ -21,20 +21,15 @@ const paragraphNode: VirtualDomNode = {
   type: VirtualDomElements.P,
 }
 
+const retryButtonNode: VirtualDomNode = {
+  childCount: 1,
+  className: mergeClassNames(ClassNames.Button, ClassNames.ButtonSecondary),
+  'data-action': InputName.RetryOpen,
+  name: InputName.RetryOpen,
+  onClick: DomEventListenerFunctions.HandleClickAction,
+  type: VirtualDomElements.Button,
+}
+
 export const renderError = (errorMessage: string): readonly VirtualDomNode[] => {
-  return [
-    textEditorErrorNode,
-    editorContentErrorNode,
-    paragraphNode,
-    text(`Error: ${errorMessage}`),
-    {
-      childCount: 1,
-      className: mergeClassNames(ClassNames.Button, ClassNames.ButtonSecondary),
-      'data-action': InputName.RetryOpen,
-      name: InputName.RetryOpen,
-      onClick: DomEventListenerFunctions.HandleClickAction,
-      type: VirtualDomElements.Button,
-    },
-    text(MainStrings.retry()),
-  ]
+  return [textEditorErrorNode, editorContentErrorNode, paragraphNode, text(`Error: ${errorMessage}`), retryButtonNode, text(MainStrings.retry())]
 }

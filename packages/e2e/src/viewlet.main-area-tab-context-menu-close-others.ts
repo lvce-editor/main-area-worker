@@ -34,7 +34,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await Command.execute('Main.closeOthers')
 
   // assert
-  await expect(tab1).not.toBeVisible()
+  await expect(tab1).toBeHidden()
   await expect(tab2).toBeVisible()
-  await expect(tab3).not.toBeVisible()
+  await expect(tab3).toBeHidden()
 }

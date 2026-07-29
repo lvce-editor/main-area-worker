@@ -1,5 +1,6 @@
 import type { EditorGroup, MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const getTabCount = (state: MainAreaState): number => {
-  return state.layout.groups.reduce((sum: number, group: EditorGroup) => sum + group.tabs.length, 0)
+  const { layout } = state
+  return layout.groups.reduce((sum: number, group: EditorGroup) => sum + group.tabs.length, 0)
 }

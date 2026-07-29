@@ -39,10 +39,18 @@ export interface ClosedTabEntry {
   readonly tabIndex: number
 }
 
+export interface DragOverlay {
+  readonly height: number
+  readonly width: number
+  readonly x: number
+  readonly y: number
+}
+
 export interface MainAreaState {
   readonly assetDir: string
   readonly closedTabs: readonly ClosedTabEntry[]
   readonly disposed?: boolean
+  readonly dragOverlay?: DragOverlay
   readonly fileIconCache: FileIconCache
   readonly height: number
   readonly homeDirUri?: string

@@ -14,12 +14,6 @@ export default [
     },
   },
   {
-    files: ['packages/main-area-worker/src/**/*.ts'],
-    rules: {
-      'virtual-dom/prefer-state-destructuring': 'off',
-    },
-  },
-  {
     files: [
       'packages/main-area-worker/src/parts/GetMainAreaVirtualDom/GetMainAreaVirtualDom.ts',
       'packages/main-area-worker/src/parts/RenderEditorGroup/RenderEditorGroup.ts',

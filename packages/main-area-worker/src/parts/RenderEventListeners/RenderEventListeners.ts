@@ -66,5 +66,19 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       name: DomEventListenersFunctions.HandleSashCornerPointerUp,
       params: ['handleSashCornerPointerUp', EventExpression.ClientX, EventExpression.ClientY],
     },
+    {
+      name: DomEventListenersFunctions.HandleDragOver,
+      params: ['handleDragOver', EventExpression.ClientX, EventExpression.ClientY],
+      preventDefault: true,
+    },
+    {
+      name: DomEventListenersFunctions.HandleDragLeave,
+      params: ['handleDragLeave'],
+    },
+    {
+      name: DomEventListenersFunctions.HandleDrop,
+      params: ['handleDragLeave'],
+      preventDefault: true,
+    },
   ]
 }

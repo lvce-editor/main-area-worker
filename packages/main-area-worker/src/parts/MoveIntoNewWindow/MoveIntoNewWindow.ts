@@ -4,7 +4,8 @@ import { closeTabAndSave } from '../CloseTabAndSave/CloseTabAndSave.ts'
 import { findGroupById } from '../FindGroupById/FindGroupById.ts'
 
 export const moveIntoNewWindow = async (state: MainAreaState): Promise<MainAreaState> => {
-  const { activeGroupId } = state.layout
+  const { layout } = state
+  const { activeGroupId } = layout
   const group = findGroupById(state, activeGroupId ?? 0)
   if (!group) {
     return state

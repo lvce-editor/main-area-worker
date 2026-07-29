@@ -7,7 +7,8 @@ import { withGroups } from '../WithGroups/WithGroups.ts'
 import { withGroupsAndActiveGroup } from '../WithGroupsAndActiveGroup/WithGroupsAndActiveGroup.ts'
 
 export const closeTab = (state: MainAreaState, groupId: number, tabId: number): MainAreaState => {
-  const { activeGroupId, groups } = state.layout
+  const { layout } = state
+  const { activeGroupId, groups } = layout
 
   // Find the group to close the tab from
   const groupIndex = getGroupIndexById(state, groupId)

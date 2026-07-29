@@ -6,6 +6,7 @@ import * as FindTabInState from '../FindTabInState/FindTabInState.ts'
 import { disposeViewletForTab } from '../ViewletLifecycle/DisposeViewletForTab/DisposeViewletForTab.ts'
 
 export const closeTabWithViewlet = async (state: MainAreaState, groupId: number, tabId: number): Promise<MainAreaState> => {
+  const { layout } = state
   const tab = FindTabInState.findTabInState(state, groupId, tabId)
   const commands: ViewletCommand[] = []
 
@@ -16,7 +17,7 @@ export const closeTabWithViewlet = async (state: MainAreaState, groupId: number,
 
   const newState = CloseTab.closeTab(state, groupId, tabId)
 
-  const group = state.layout.groups.find((g) => g.id === groupId)
+  const group = layout.groups.find((g) => g.id === groupId)
   const wasActiveTab = group?.activeTabId === tabId
   const newGroup = wasActiveTab ? newState.layout.groups.find((candidate) => candidate.id === groupId) : undefined
   const newActiveTabId = newGroup?.activeTabId

@@ -5,7 +5,7 @@ import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 
 export const handleUriChange = async (state: MainAreaState, oldUri: string, newUri: string): Promise<MainAreaState> => {
-  const { layout } = state
+  const { homeDirUri, layout } = state
   const { groups } = layout
   const editorUriUpdates: Promise<unknown>[] = []
   const updatedGroups = groups.map((group) => {
@@ -35,7 +35,7 @@ export const handleUriChange = async (state: MainAreaState, oldUri: string, newU
             editorInput,
             title: PathDisplay.getLabel(renamedUri),
             uri: renamedUri,
-            uriTitle: getUriTitle(renamedUri, state.homeDirUri || ''),
+            uriTitle: getUriTitle(renamedUri, homeDirUri || ''),
           }
         }
         return tab

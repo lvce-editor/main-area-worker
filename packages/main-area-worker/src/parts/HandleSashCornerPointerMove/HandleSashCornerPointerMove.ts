@@ -17,7 +17,7 @@ const getBeforeSize = (startSize: number, deltaPx: number, axisSize: number, min
 }
 
 export const handleSashCornerPointerMove = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
-  const { height, sashCornerDrag, width } = state
+  const { height, layout, minGroupHeightPx, minGroupWidthPx, sashCornerDrag, width } = state
   if (!sashCornerDrag || !width || !height || !Number.isFinite(clientX) || !Number.isFinite(clientY)) {
     return state
   }
@@ -29,8 +29,8 @@ export const handleSashCornerPointerMove = async (state: MainAreaState, clientX:
   }
   const xBeforeStartSize = sumGroupSizes(groupSizes, xBeforeGroupIds)
   const yBeforeStartSize = sumGroupSizes(groupSizes, yBeforeGroupIds)
-  const xBeforeSize = getBeforeSize(xBeforeStartSize, clientX - startClientX, width, state.minGroupWidthPx, totalSize)
-  const yBeforeSize = getBeforeSize(yBeforeStartSize, clientY - startClientY, height, state.minGroupHeightPx, totalSize)
+  const xBeforeSize = getBeforeSize(xBeforeStartSize, clientX - startClientX, width, minGroupWidthPx, totalSize)
+  const yBeforeSize = getBeforeSize(yBeforeStartSize, clientY - startClientY, height, minGroupHeightPx, totalSize)
   const xAfterSize = totalSize - xBeforeSize
   const yAfterSize = totalSize - yBeforeSize
   const xBeforeGroupIdSet = new Set(xBeforeGroupIds)
@@ -39,8 +39,8 @@ export const handleSashCornerPointerMove = async (state: MainAreaState, clientX:
   return {
     ...state,
     layout: {
-      ...state.layout,
-      groups: state.layout.groups.map((group) => {
+      ...layout,
+      groups: layout.groups.map((group) => {
         const xSize = xBeforeGroupIdSet.has(group.id) ? xBeforeSize : xAfterSize
         const ySize = yBeforeGroupIdSet.has(group.id) ? yBeforeSize : yAfterSize
         return {

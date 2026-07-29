@@ -98,12 +98,13 @@ export const setEditorLayout = (state: MainAreaState, direction: LayoutDirection
 }
 
 export const flipLayout = (state: MainAreaState): MainAreaState => {
+  const { layout } = state
   return {
     ...state,
     layout: {
-      ...state.layout,
-      direction: flipDirection(state.layout.direction),
-      groups: state.layout.groups.map((group) => ({
+      ...layout,
+      direction: flipDirection(layout.direction),
+      groups: layout.groups.map((group) => ({
         ...group,
         direction: group.direction === undefined ? undefined : flipDirection(group.direction),
       })),

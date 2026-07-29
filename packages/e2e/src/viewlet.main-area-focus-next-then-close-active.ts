@@ -6,9 +6,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const files = Array.from({ length: 5 }, (_, index) => `${tmpDir}/focus-next-close-${index + 1}.ts`)
   await FileSystem.setFiles(files.map((uri, index) => ({ content: `export const value = ${index}`, uri })))
-  for (const file of files) {
-    await Main.openUri(file)
-  }
+  await Main.openUris(files)
   await Main.selectTab(0, 1)
 
   await Main.focusNext()

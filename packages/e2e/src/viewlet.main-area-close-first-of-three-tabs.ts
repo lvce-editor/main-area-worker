@@ -6,9 +6,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const files = Array.from({ length: 3 }, (_, index) => `${tmpDir}/close-first-three-${index + 1}.ts`)
   await FileSystem.setFiles(files.map((uri, index) => ({ content: `export const value = ${index}`, uri })))
-  for (const file of files) {
-    await Main.openUri(file)
-  }
+  await Main.openUris(files)
   await Main.selectTab(0, 0)
 
   await Main.closeActiveEditor()

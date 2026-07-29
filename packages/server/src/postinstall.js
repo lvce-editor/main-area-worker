@@ -25,6 +25,7 @@ const dirents = await readdir(serverStaticPath)
 const commitHash = dirents.find(isCommitHash) || ''
 const rendererWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'renderer-worker', 'dist', 'rendererWorkerMain.js')
 const diffViewWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'diff-view', 'dist', 'diffViewWorkerMain.js')
+const testWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'test-worker', 'dist', 'testWorkerMain.js')
 
 const content = await readFile(rendererWorkerMainPath, 'utf-8')
 
@@ -55,6 +56,27 @@ const commandMap = {
   'DiffView.getKeyBindings': getKeyBindings,`
   const newContent = diffViewContent.replace(occurrence, replacement)
   await writeFile(diffViewWorkerMainPath, newContent)
+}
+
+const testWorkerContent = await readFile(testWorkerMainPath, 'utf-8')
+if (!testWorkerContent.includes('const openUris = async uris => {')) {
+  const openUriOccurrence = `const openUri = async uri => {
+  await invoke('Main.openUri', uri);
+};`
+  const openUrisReplacement = `${openUriOccurrence}
+const openUris = async uris => {
+  await invoke('Main.openUris', uris);
+};`
+  const mainOccurrence = `  openUri,
+  save,`
+  const mainReplacement = `  openUri,
+  openUris,
+  save,`
+  if (!testWorkerContent.includes(openUriOccurrence) || !testWorkerContent.includes(mainOccurrence)) {
+    throw new Error('test worker main open uri occurrence not found')
+  }
+  const newTestWorkerContent = testWorkerContent.replace(openUriOccurrence, openUrisReplacement).replace(mainOccurrence, mainReplacement)
+  await writeFile(testWorkerMainPath, newTestWorkerContent)
 }
 
 const serverContent = await readFile(serverPath, 'utf-8')

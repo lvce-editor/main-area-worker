@@ -21,8 +21,8 @@ const updateTabUriTitle = (tab: Tab, homeDirUri: string): Tab => {
 }
 
 export const updateTabUriTitles = (state: MainAreaState): MainAreaState => {
-  const { layout } = state
-  const homeDirUri = state.homeDirUri || ''
+  const { homeDirUri: rawHomeDirUri, layout } = state
+  const homeDirUri = rawHomeDirUri || ''
   return {
     ...state,
     layout: {

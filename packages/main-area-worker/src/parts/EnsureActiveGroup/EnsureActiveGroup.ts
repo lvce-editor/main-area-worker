@@ -17,7 +17,7 @@ export const ensureActiveGroup = (
   editorInput?: EditorInput,
 ): MainAreaState => {
   // Find the active group (by activeGroupId or focused flag)
-  const { layout } = state
+  const { homeDirUri, layout } = state
   const { activeGroupId, groups } = layout
   const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
 
@@ -50,7 +50,7 @@ export const ensureActiveGroup = (
             loadingState: 'loading',
             title,
             uri,
-            uriTitle: getUriTitle(uri, state.homeDirUri || ''),
+            uriTitle: getUriTitle(uri, homeDirUri || ''),
           }
         })
         return {
@@ -84,7 +84,7 @@ export const ensureActiveGroup = (
       loadingState: 'loading',
       title,
       uri: uri,
-      uriTitle: getUriTitle(uri, state.homeDirUri || ''),
+      uriTitle: getUriTitle(uri, homeDirUri || ''),
     }
     newState = openTab(state, activeGroup.id, newTab)
   } else {

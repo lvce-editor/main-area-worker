@@ -14,7 +14,7 @@ export const createEmptyGroup = (
   editorType: EditorType = 'text',
   editorInput?: EditorInput,
 ): MainAreaState => {
-  const { layout } = state
+  const { homeDirUri, layout } = state
   const { groups } = layout
 
   const groupId = Id.create()
@@ -33,7 +33,7 @@ export const createEmptyGroup = (
     loadingState: 'loading',
     title,
     uri,
-    uriTitle: getUriTitle(uri, state.homeDirUri || ''),
+    uriTitle: getUriTitle(uri, homeDirUri || ''),
   }
   const newGroup: EditorGroup = {
     activeTabId: newTab.id,

@@ -28,7 +28,7 @@ export const splitUp = (state: MainAreaState, groupId?: number): MainAreaState =
     return SplitEditorGroup.splitEditorGroup(stateWithInitialGroup, initialGroupId, 'up')
   }
 
-  const resolvedGroupId = groupId ?? state.layout.activeGroupId
+  const resolvedGroupId = groupId ?? layout.activeGroupId
   if (!resolvedGroupId) {
     return state
   }

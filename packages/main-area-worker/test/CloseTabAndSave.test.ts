@@ -12,12 +12,15 @@ afterEach(() => {
 
 test('closeTabAndSave should save a dirty tab before closing it', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
     'Viewlet.dispose': async () => undefined,
   })
   using mockDialogRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt': async () => {
+      throw new Error('Command "SendMessagePortToExtensionHostWorker.sendMessagePortToDialogWorker" not found (renderer worker)')
+    },
   })
 
   const state: MainAreaState = {
@@ -62,6 +65,11 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
     ],
   ])
   expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])

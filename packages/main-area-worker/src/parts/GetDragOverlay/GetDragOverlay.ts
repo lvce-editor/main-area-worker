@@ -3,13 +3,13 @@ import * as EditorSplitDirection from '../EditorSplitDirection/EditorSplitDirect
 
 const getSplitDirection = (x: number, y: number, width: number, height: number): number => {
   const percentX = x / width
-  const percentY = y / height
   if (percentX < 0.25) {
     return EditorSplitDirection.Left
   }
   if (percentX > 0.75) {
     return EditorSplitDirection.Right
   }
+  const percentY = y / height
   if (percentY < 0.25) {
     return EditorSplitDirection.Up
   }
@@ -23,14 +23,14 @@ const getOverlay = (x: number, y: number, width: number, height: number, splitDi
   const halfHeight = height / 2
   const halfWidth = width / 2
   switch (splitDirection) {
-    case EditorSplitDirection.Up:
-      return { height: halfHeight, width, x, y }
     case EditorSplitDirection.Down:
       return { height: halfHeight, width, x, y: y + halfHeight }
     case EditorSplitDirection.Left:
       return { height, width: halfWidth, x, y }
     case EditorSplitDirection.Right:
       return { height, width: halfWidth, x: x + halfWidth, y }
+    case EditorSplitDirection.Up:
+      return { height: halfHeight, width, x, y }
     default:
       return { height, width, x, y }
   }

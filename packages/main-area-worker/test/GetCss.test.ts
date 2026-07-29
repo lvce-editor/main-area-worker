@@ -82,3 +82,24 @@ test('getCss should position the sash corner at the grid intersection', () => {
   top: 50%;
 }`)
 })
+
+test('getCss should position the drag overlay', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: undefined,
+    direction: LayoutDirection.Horizontal,
+    groups: [],
+  }
+  const result = getCss(layout, 800, {
+    height: 300,
+    width: 400,
+    x: 0,
+    y: 35,
+  })
+
+  expect(result).toContain(`.DragOverlay {
+  left: 0px;
+  top: 35px;
+  width: 400px;
+  height: 300px;
+}`)
+})

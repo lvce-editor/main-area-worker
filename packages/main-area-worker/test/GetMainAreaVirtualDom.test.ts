@@ -431,7 +431,8 @@ test('getMainAreaVirtualDom should render a drag overlay', () => {
     y: 0,
   })
 
-  expect(result[0].childCount).toBe(2)
+  expect(result[0].childCount).toBe(1)
+  expect(result[1].childCount).toBe(1)
   expect(result.at(-1)).toEqual({
     childCount: 0,
     className: 'DragOverlay',

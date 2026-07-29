@@ -39,11 +39,12 @@ const addDragOverlay = (dom: readonly VirtualDomNode[], dragOverlay: DragOverlay
     return dom
   }
   return [
+    dom[0],
     {
-      ...dom[0],
-      childCount: dom[0].childCount + 1,
+      ...dom[1],
+      childCount: dom[1].childCount + 1,
     },
-    ...dom.slice(1),
+    ...dom.slice(2),
     getDragOverlayVirtualDom(),
   ]
 }

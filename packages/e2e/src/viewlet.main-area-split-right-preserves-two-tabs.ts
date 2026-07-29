@@ -6,9 +6,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const files = [`${tmpDir}/split-right-two-1.ts`, `${tmpDir}/split-right-two-2.ts`]
   await FileSystem.setFiles(files.map((uri, index) => ({ content: `export const value = ${index}`, uri })))
-  for (const file of files) {
-    await Main.openUri(file)
-  }
+  await Main.openUris(files)
 
   await Main.splitRight()
 

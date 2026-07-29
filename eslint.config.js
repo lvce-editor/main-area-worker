@@ -20,6 +20,24 @@ export default [
     },
   },
   {
+    files: ['packages/e2e/tsconfig.json'],
+    rules: {
+      'tsconfig/allow-importing-ts-extensions': 'off',
+      'tsconfig/dont-skip-lib-check': 'off',
+      'tsconfig/exact-optional-property-types': 'off',
+      'tsconfig/force-consistent-casing-in-file-names': 'off',
+      'tsconfig/no-implicit-any': 'off',
+      'tsconfig/no-unchecked-side-effect-imports': 'off',
+    },
+  },
+  {
+    files: ['packages/main-area-worker/tsconfig.json'],
+    rules: {
+      'tsconfig/dont-skip-lib-check': 'off',
+      'tsconfig/exact-optional-property-types': 'off',
+    },
+  },
+  {
     files: [
       'packages/main-area-worker/src/parts/GetMainAreaVirtualDom/GetMainAreaVirtualDom.ts',
       'packages/main-area-worker/src/parts/RenderEditorGroup/RenderEditorGroup.ts',

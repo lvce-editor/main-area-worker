@@ -5,6 +5,12 @@ import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderEditorGroupHeader } from '../RenderEditorGroupHeader/RenderEditorGroupHeader.ts'
 import { renderEmptyEditorGroup } from '../RenderEmptyEditorGroup/RenderEmptyEditorGroup.ts'
 
+const editorContainerNode: VirtualDomNode = {
+  childCount: 1,
+  className: ClassNames.EditorContainer,
+  type: VirtualDomElements.Div,
+}
+
 export const renderEditorGroup = (
   group: EditorGroup,
   groupIndex: number,
@@ -30,11 +36,7 @@ export const renderEditorGroup = (
       type: VirtualDomElements.Div,
     },
     ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled),
-    {
-      childCount: 1,
-      className: ClassNames.EditorContainer,
-      type: VirtualDomElements.Div,
-    },
+    editorContainerNode,
     ...renderEditor(activeTab),
   ]
 }

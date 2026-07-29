@@ -158,6 +158,10 @@ test('getFileIcon should return MaskIconExtensions for running-extensions:// uri
   expect(PathDisplay.getFileIcon('running-extensions://')).toBe('MaskIconExtensions')
 })
 
+test('getFileIcon should return MaskIconSearch for search-editor:// uri', () => {
+  expect(PathDisplay.getFileIcon('search-editor://42-123/Search')).toBe('MaskIconSearch')
+})
+
 test('getFileIcon should return empty string for regular file path', () => {
   const uri: string = '/path/to/file.txt'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)

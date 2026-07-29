@@ -5,10 +5,20 @@ import { getSashCss } from '../GetSashCss/GetSashCss.ts'
 
 export const getCss = (layout?: MainAreaLayout, width: number = 0): string => {
   const rules = [
-    `.MainArea {
+    `.Main {
+  position: relative;
 }`,
     `.editor-groups-container {
   overflow: auto;
+}`,
+
+    `.DragOverlay {
+  position: absolute;
+  z-index: 1;
+  contain: strict;
+  pointer-events: none;
+  background: rgba(83, 89, 93, 0.5);
+  transition: all 100ms;
 }`,
 
     `.SashBorder {

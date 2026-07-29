@@ -37,6 +37,9 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 1,
       className: 'Main',
+      onDragLeave: DomEventListenerFunctions.HandleDragLeave,
+      onDragOver: DomEventListenerFunctions.HandleDragOver,
+      onDrop: DomEventListenerFunctions.HandleDrop,
       type: VirtualDomElements.Div,
     },
     {
@@ -157,6 +160,9 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
     {
       childCount: 1,
       className: 'Main',
+      onDragLeave: DomEventListenerFunctions.HandleDragLeave,
+      onDragOver: DomEventListenerFunctions.HandleDragOver,
+      onDrop: DomEventListenerFunctions.HandleDrop,
       type: VirtualDomElements.Div,
     },
     {
@@ -407,6 +413,29 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
     'data-groupId': '',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
     role: 'none',
+    type: VirtualDomElements.Div,
+  })
+})
+
+test('getMainAreaVirtualDom should render a drag overlay', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: undefined,
+    direction: 1,
+    groups: [],
+  }
+
+  const result = getMainAreaVirtualDom(layout, false, {
+    height: 300,
+    width: 400,
+    x: 0,
+    y: 0,
+  })
+
+  expect(result[0].childCount).toBe(2)
+  expect(result.at(-1)).toEqual({
+    childCount: 0,
+    className: 'DragOverlay',
+    style: 'left:0px;top:0px;width:400px;height:300px;',
     type: VirtualDomElements.Div,
   })
 })

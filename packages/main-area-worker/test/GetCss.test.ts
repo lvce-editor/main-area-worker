@@ -20,6 +20,11 @@ test('getCss should include sash border orientation rules', () => {
   expect(result).toContain(`.SashCorner {
   position: absolute;`)
   expect(result).toContain('cursor: all-scroll;')
+  expect(result).toContain(`.Main {
+  position: relative;
+}`)
+  expect(result).toContain(`.DragOverlay {
+  position: absolute;`)
 })
 
 test('getCss should position the sash corner at the grid intersection', () => {

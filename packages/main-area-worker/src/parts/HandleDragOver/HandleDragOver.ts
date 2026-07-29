@@ -11,8 +11,9 @@ const isEqual = (oldOverlay: MainAreaState['dragOverlay'], newOverlay: MainAreaS
 }
 
 export const handleDragOver = (state: MainAreaState, eventX: number, eventY: number): MainAreaState => {
+  const { dragOverlay: oldDragOverlay } = state
   const dragOverlay = getDragOverlay(state, eventX, eventY)
-  if (isEqual(state.dragOverlay, dragOverlay)) {
+  if (isEqual(oldDragOverlay, dragOverlay)) {
     return state
   }
   return {

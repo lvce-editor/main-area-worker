@@ -1,11 +1,13 @@
 import { spawn } from 'node:child_process'
 import { cp, mkdir, readdir, rm } from 'node:fs/promises'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const cwd = process.cwd()
 const tmpRoot = join(cwd, '.tmp')
 const sourcePath = join(cwd, 'src')
 const fixturesPath = join(cwd, 'fixtures')
+const testWithPlaywrightPath = fileURLToPath(import.meta.resolve('@lvce-editor/test-with-playwright/bin/test-with-playwright.js'))
 
 const copyTests = async (entries, browser, batchIndex) => {
   const relativeTestPath = join('.tmp', `e2e-${browser}`, String(batchIndex))
@@ -28,13 +30,7 @@ const getTests = async (excludedTests) => {
 }
 
 const run = async (browser, testPath, forwardedArgs) => {
-  const args = [
-    './node_modules/@lvce-editor/test-with-playwright/bin/test-with-playwright.js',
-    '--only-extension=.',
-    `--test-path=${testPath}`,
-    `--browser=${browser}`,
-    ...forwardedArgs,
-  ]
+  const args = [testWithPlaywrightPath, '--only-extension=.', `--test-path=${testPath}`, `--browser=${browser}`, ...forwardedArgs]
 
   const child = spawn(process.execPath, args, {
     cwd,

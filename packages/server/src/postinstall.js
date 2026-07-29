@@ -1,4 +1,5 @@
 import { cp, readFile, readdir, writeFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -11,9 +12,10 @@ export const getRemoteUrl = (path) => {
   return `/remote/${url}`
 }
 
-const staticServerEntryPath = fileURLToPath(import.meta.resolve('@lvce-editor/static-server'))
-const staticServerRoot = dirname(dirname(staticServerEntryPath))
 const serverEntryPath = fileURLToPath(import.meta.resolve('@lvce-editor/server'))
+const serverRequire = createRequire(serverEntryPath)
+const staticServerEntryPath = serverRequire.resolve('@lvce-editor/static-server')
+const staticServerRoot = dirname(dirname(staticServerEntryPath))
 const serverRoot = dirname(serverEntryPath)
 
 const serverStaticPath = join(staticServerRoot, 'static')

@@ -161,7 +161,7 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
     },
     {
       childCount: 1,
-      className: 'EditorGroup',
+      className: 'EditorGroup EditorGroupEmpty',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style: 'width:100%;',
@@ -269,7 +269,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
 
   const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsHorizontal`)
   expect(editorGroupsContainer).toBeDefined()
-  const editorGroupNodes = result.filter((node) => node.className === 'EditorGroup')
+  const editorGroupNodes = result.filter((node) => node.className === ClassNames.EditorGroupEmpty)
   expect(editorGroupNodes).toHaveLength(2)
   expect(editorGroupNodes[0]['data-groupId']).toBe('1')
   expect(editorGroupNodes[1]['data-groupId']).toBe('2')

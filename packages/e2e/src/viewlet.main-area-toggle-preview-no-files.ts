@@ -15,5 +15,5 @@ export const test: Test = async ({ expect, Locator, Main }) => {
 
   // assert
   const preview = Locator('.Preview')
-  await expect(preview).not.toBeVisible()
+  await expect(preview).toBeHidden()
 }

@@ -33,7 +33,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await expect(closeLeftMenuItem).toBeVisible()
 
   // assert
-  await expect(tab1).not.toBeVisible()
+  await expect(tab1).toBeHidden()
   await expect(tab2).toBeVisible()
   await expect(tab3).toBeVisible()
 }

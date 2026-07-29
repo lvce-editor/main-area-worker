@@ -4,7 +4,8 @@ import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
 import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'
 
 export const getNewWindowMenuEntries = (state: MainAreaState): readonly any[] => {
-  if (state.platform !== PlatformType.Electron) {
+  const { platform } = state
+  if (platform !== PlatformType.Electron) {
     return []
   }
   return [

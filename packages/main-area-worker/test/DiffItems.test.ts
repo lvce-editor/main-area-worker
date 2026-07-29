@@ -15,6 +15,20 @@ test('isEqual should return true for states with same items', () => {
   expect(DiffItems.isEqual(state1, state2)).toBe(true)
 })
 
+test('isEqual should return false when drag overlays differ', () => {
+  const state1: MainAreaState = createDefaultState()
+  const state2: MainAreaState = {
+    ...state1,
+    dragOverlay: {
+      height: 300,
+      width: 400,
+      x: 0,
+      y: 0,
+    },
+  }
+  expect(DiffItems.isEqual(state1, state2)).toBe(false)
+})
+
 test('isEqual should return false when left arrays differ', () => {
   const state1: MainAreaState = createDefaultState()
   const state2: MainAreaState = {

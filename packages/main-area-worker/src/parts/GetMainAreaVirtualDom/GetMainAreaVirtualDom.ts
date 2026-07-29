@@ -1,8 +1,9 @@
-import { type VirtualDomNode, AriaRoles, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, AriaRoles, mergeClassNames, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { LayoutDirection as LayoutDirectionType } from '../LayoutDirection/LayoutDirection.ts'
-import type { MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
+import type { DragOverlay, MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import { getDragOverlayVirtualDom } from '../GetDragOverlayVirtualDom/GetDragOverlayVirtualDom.ts'
 import { getGroupSegments, getSegmentSize } from '../GetGroupSegments/GetGroupSegments.ts'
 import { getSashCorner } from '../GetSashCorner/GetSashCorner.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
@@ -21,7 +22,31 @@ const getDirectionClassName = (direction: number, isSplit: boolean): string => {
 
 const getContainerClassName = (direction: LayoutDirectionType, childCount: number): string => {
   const directionClassName = getDirectionClassName(direction, childCount > 1)
-  return directionClassName ? `${ClassNames.EDITOR_GROUPS_CONTAINER} ${directionClassName}` : ClassNames.EDITOR_GROUPS_CONTAINER
+  return directionClassName ? mergeClassNames(ClassNames.EDITOR_GROUPS_CONTAINER, directionClassName) : ClassNames.EDITOR_GROUPS_CONTAINER
+}
+
+const mainNode: VirtualDomNode = {
+  childCount: 1,
+  className: ClassNames.Main,
+  onDragLeave: DomEventListenerFunctions.HandleDragLeave,
+  onDragOver: DomEventListenerFunctions.HandleDragOver,
+  onDrop: DomEventListenerFunctions.HandleDrop,
+  type: VirtualDomElements.Div,
+}
+
+const addDragOverlay = (dom: readonly VirtualDomNode[], dragOverlay: DragOverlay | undefined): readonly VirtualDomNode[] => {
+  if (!dragOverlay) {
+    return dom
+  }
+  return [
+    dom[0],
+    {
+      ...dom[1],
+      childCount: dom[1].childCount + 1,
+    },
+    ...dom.slice(2),
+    getDragOverlayVirtualDom(),
+  ]
 }
 
 const getSizeProperty = (direction: LayoutDirectionType): 'width' | 'height' => {
@@ -95,47 +120,49 @@ const renderSegmentChildren = (
   return { childCount, children }
 }
 
-export const getMainAreaVirtualDom = (layout: MainAreaLayout, splitButtonEnabled: boolean = false): readonly VirtualDomNode[] => {
+export const getMainAreaVirtualDom = (
+  layout: MainAreaLayout,
+  splitButtonEnabled: boolean = false,
+  dragOverlay?: DragOverlay,
+): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
   const sizeProperty = getSizeProperty(direction)
   if (groups.length === 1) {
-    return renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty)
+    return addDragOverlay(renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty), dragOverlay)
   }
 
   const editorGroupsContainerClassName = getContainerClassName(direction, groups.length)
   if (groups.length === 0) {
-    return [
-      {
-        childCount: 1,
-        className: ClassNames.Main,
-        type: VirtualDomElements.Div,
-      },
-      {
-        childCount: 0,
-        className: editorGroupsContainerClassName,
-        'data-groupId': '',
-        onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-        role: AriaRoles.None,
-        type: VirtualDomElements.Div,
-      },
-    ]
+    return addDragOverlay(
+      [
+        mainNode,
+        {
+          childCount: 0,
+          className: editorGroupsContainerClassName,
+          'data-groupId': '',
+          onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+          role: AriaRoles.None,
+          type: VirtualDomElements.Div,
+        },
+      ],
+      dragOverlay,
+    )
   }
   const { childCount, children } = renderSegmentChildren(direction, groups, splitButtonEnabled)
   const sashCorner = getSashCorner(layout)
   const sashCornerChildren = sashCorner ? [renderSashCorner()] : []
-  return [
-    {
-      childCount: 1,
-      className: ClassNames.Main,
-      type: VirtualDomElements.Div,
-    },
-    {
-      childCount: childCount + sashCornerChildren.length,
-      className: editorGroupsContainerClassName,
-      role: AriaRoles.None,
-      type: VirtualDomElements.Div,
-    },
-    ...children,
-    ...sashCornerChildren,
-  ]
+  return addDragOverlay(
+    [
+      mainNode,
+      {
+        childCount: childCount + sashCornerChildren.length,
+        className: editorGroupsContainerClassName,
+        role: AriaRoles.None,
+        type: VirtualDomElements.Div,
+      },
+      ...children,
+      ...sashCornerChildren,
+    ],
+    dragOverlay,
+  )
 }

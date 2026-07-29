@@ -45,14 +45,9 @@ const getLatestStoredState = (
 }
 
 export const save = async (state: MainAreaState): Promise<MainAreaState> => {
+  const { uid } = state
   const requestedActiveTabData = getActiveTab(state)
-  const currentState = getLatestStoredState(
-    state.uid,
-    state,
-    requestedActiveTabData?.tab.id,
-    requestedActiveTabData?.tab.uri,
-    !requestedActiveTabData,
-  )
+  const currentState = getLatestStoredState(uid, state, requestedActiveTabData?.tab.id, requestedActiveTabData?.tab.uri, !requestedActiveTabData)
 
   const activeTabData = getActiveTab(currentState)
   if (!activeTabData) {
@@ -66,11 +61,11 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
 
   if (!tab.isDirty) {
     await saveEditorAndHandleSettingsChange(tab)
-    return getLatestStoredState(state.uid, currentState, tab.id, tab.uri)
+    return getLatestStoredState(uid, currentState, tab.id, tab.uri)
   }
 
   const editorState = await saveEditorAndHandleSettingsChange(tab)
-  const latestState = getLatestStoredState(state.uid, currentState, tab.id, tab.uri)
+  const latestState = getLatestStoredState(uid, currentState, tab.id, tab.uri)
   if (editorState?.modified) {
     return latestState
   }
@@ -78,7 +73,7 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   if (tab.uri) {
     await RendererWorker.handleModifiedStatusChange(tab.uri, false)
   }
-  const stateAfterModifiedStatusChange = getLatestStoredState(state.uid, latestState, tab.id, tab.uri)
+  const stateAfterModifiedStatusChange = getLatestStoredState(uid, latestState, tab.id, tab.uri)
 
   return updateTab(stateAfterModifiedStatusChange, tab.id, { isDirty: false })
 }

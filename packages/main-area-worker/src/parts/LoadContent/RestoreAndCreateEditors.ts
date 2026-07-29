@@ -6,16 +6,17 @@ import { updateTabs } from '../UpdateTabs/UpdateTabs.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
 export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayout: any): Promise<MainAreaState> => {
+  const { tabHeight } = state
   let newState: MainAreaState = {
     ...state,
     layout: restoredLayout,
   }
 
   const bounds = {
-    height: newState.height - state.tabHeight,
+    height: newState.height - tabHeight,
     width: newState.width,
     x: newState.x,
-    y: newState.y + state.tabHeight,
+    y: newState.y + tabHeight,
   }
 
   // Get viewlet module IDs for all active tabs

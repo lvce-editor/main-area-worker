@@ -5,7 +5,7 @@ import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { round } from '../Round/Round.ts'
 
 export const handleSashPointerMove = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
-  const { height, layout, sashDrag, width } = state
+  const { height, layout, minGroupHeightPx, minGroupWidthPx, sashDrag, width } = state
   if (!sashDrag) {
     return state
   }
@@ -24,7 +24,7 @@ export const handleSashPointerMove = async (state: MainAreaState, clientX: numbe
   const deltaPercent = (deltaPx / axisSize) * 100
 
   const totalResizableSize = sashDrag.beforeSize + sashDrag.afterSize
-  const minGroupSizePx = direction === LayoutDirection.Horizontal ? state.minGroupWidthPx : state.minGroupHeightPx
+  const minGroupSizePx = direction === LayoutDirection.Horizontal ? minGroupWidthPx : minGroupHeightPx
   let minGroupSize = getMinGroupSizePercent(axisSize, minGroupSizePx)
 
   // If the minimum size makes it impossible to fit two groups, relax the constraint

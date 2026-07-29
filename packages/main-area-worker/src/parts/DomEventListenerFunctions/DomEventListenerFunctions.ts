@@ -12,3 +12,6 @@ export const HandleDoubleClick = 19
 export const HandleSashCornerPointerDown = 20
 export const HandleSashCornerPointerMove = 21
 export const HandleSashCornerPointerUp = 22
+export const HandleDragOver = 23
+export const HandleDragLeave = 24
+export const HandleDrop = 25

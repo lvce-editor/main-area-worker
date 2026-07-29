@@ -29,11 +29,12 @@ const getSplitLayoutDirection = (direction: SplitDirection): LayoutDirection.Lay
 }
 
 const createNextState = (state: MainAreaState, activeGroupId: number, groups: readonly EditorGroup[]): MainAreaState => {
+  const { layout } = state
   return {
     ...state,
     layout: {
       activeGroupId,
-      direction: state.layout.direction,
+      direction: layout.direction,
       groups,
     },
   }

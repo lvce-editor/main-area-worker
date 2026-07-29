@@ -1,7 +1,8 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const getActiveFileUri = (state: MainAreaState): string => {
-  const { activeGroupId, groups } = state.layout
+  const { layout } = state
+  const { activeGroupId, groups } = layout
   const activeGroup = groups.find((group) => group.id === activeGroupId)
   const activeTab = activeGroup?.tabs.find((tab) => tab.id === activeGroup.activeTabId)
   if (!activeTab) {

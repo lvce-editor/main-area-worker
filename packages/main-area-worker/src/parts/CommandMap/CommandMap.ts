@@ -22,6 +22,8 @@ import { handleClickTab } from '../HandleClickTab/HandleClickTab.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
 import { handleContextMenu } from '../HandleContextMenu/HandleContextMenu.ts'
 import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
+import { handleDragLeave } from '../HandleDragLeave/HandleDragLeave.ts'
+import { handleDragOver } from '../HandleDragOver/HandleDragOver.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleIconThemeChange } from '../HandleIconThemeChange/HandleIconThemeChange.ts'
 import { handleModifiedStatusChangeWithContext } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
@@ -39,7 +41,7 @@ import { handleWorkspaceRefreshWithContext } from '../HandleWorkspaceRefresh/Han
 import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
-import { getCommandIds, wrapAsyncCommand, wrapGetter, wrapSerialAsyncCommand, wrapSerialCommand } from '../MainAreaStates/MainAreaStates.ts'
+import { get, getCommandIds, set, wrapAsyncCommand, wrapGetter, wrapSerialAsyncCommand, wrapSerialCommand } from '../MainAreaStates/MainAreaStates.ts'
 import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
 import { moveIntoNewWindow } from '../MoveIntoNewWindow/MoveIntoNewWindow.ts'
 import { newFile } from '../NewFile/NewFile.ts'
@@ -51,6 +53,7 @@ import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
 import { reopenEditorWith } from '../ReopenEditorWith/ReopenEditorWith.ts'
+import * as Resize from '../Resize/Resize.ts'
 import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { save } from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
@@ -70,6 +73,35 @@ import { splitDown } from '../SplitDown/SplitDown.ts'
 import { splitLeft } from '../SplitLeft/SplitLeft.ts'
 import { splitRight } from '../SplitRight/SplitRight.ts'
 import { splitUp } from '../SplitUp/SplitUp.ts'
+
+const pendingLoads = new Map<number, Promise<void>>()
+const loadContent = wrapSerialCommand(LoadContent.loadContent)
+
+const loadContentTracked = async (uid: number, ...args: readonly any[]): Promise<void> => {
+  const loading = loadContent(uid, ...args)
+  pendingLoads.set(uid, loading)
+  try {
+    await loading
+  } finally {
+    if (pendingLoads.get(uid) === loading) {
+      pendingLoads.delete(uid)
+    }
+  }
+}
+
+const resize = async (uid: number, dimensions: any): Promise<readonly any[]> => {
+  const loading = pendingLoads.get(uid)
+  if (loading) {
+    await loading
+  }
+  const instance = get(uid)
+  if (!instance) {
+    return []
+  }
+  const resizedState = Resize.resize(instance.newState, dimensions)
+  set(uid, instance.oldState, resizedState)
+  return handleResize(resizedState, dimensions)
+}
 
 export const commandMap = {
   'Main.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
@@ -125,10 +157,12 @@ export const commandMap = {
   'MainArea.handleClickTogglePreview': wrapSerialCommand(handleClickTogglePreview),
   'MainArea.handleContextMenu': wrapSerialCommand(handleContextMenu),
   'MainArea.handleDoubleClick': wrapSerialCommand(handleDoubleClick),
+  'MainArea.handleDragLeave': wrapSerialCommand(handleDragLeave),
+  'MainArea.handleDragOver': wrapSerialCommand(handleDragOver),
   'MainArea.handleHeaderDoubleClick': wrapSerialCommand(handleHeaderDoubleClick),
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
   'MainArea.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
-  'MainArea.handleResize': wrapGetter(handleResize), // TODO would need to have a function that returns newstate as well as commands
+  'MainArea.handleResize': resize,
   'MainArea.handleSashCornerPointerDown': wrapSerialCommand(handleSashCornerPointerDown),
   'MainArea.handleSashCornerPointerMove': wrapSerialCommand(handleSashCornerPointerMove),
   'MainArea.handleSashCornerPointerUp': wrapSerialCommand(handleSashCornerPointerUp),
@@ -141,7 +175,7 @@ export const commandMap = {
   'MainArea.handleWorkspaceRefresh': wrapAsyncCommand(handleWorkspaceRefreshWithContext),
   'MainArea.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
   'MainArea.initialize': initialize,
-  'MainArea.loadContent': wrapSerialCommand(LoadContent.loadContent),
+  'MainArea.loadContent': loadContentTracked,
   'MainArea.moveIntoNewWindow': wrapSerialCommand(moveIntoNewWindow),
   'MainArea.newFile': wrapSerialCommand(newFile),
   'MainArea.newWindow': wrapSerialCommand(newWindow),
@@ -152,7 +186,7 @@ export const commandMap = {
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,
   'MainArea.reopenEditorWith': wrapSerialAsyncCommand(reopenEditorWith),
-  'MainArea.resize': wrapGetter(handleResize),
+  'MainArea.resize': resize,
   'MainArea.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
   'MainArea.save': wrapSerialCommand(save),
   'MainArea.saveState': wrapGetter(saveState),

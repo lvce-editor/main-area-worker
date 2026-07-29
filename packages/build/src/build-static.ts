@@ -1,15 +1,9 @@
 import { cp, readFile, writeFile } from 'node:fs/promises'
-import { createRequire } from 'node:module'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { root } from './root.js'
 
-const serverRequire = createRequire(join(root, 'packages', 'server', 'package.json'))
-const sharedProcessPath = serverRequire.resolve('@lvce-editor/shared-process')
-
-const sharedProcessUrl = pathToFileURL(sharedProcessPath).toString()
-
-const sharedProcess = await import(sharedProcessUrl)
+const sharedProcess = await import('@lvce-editor/shared-process')
 
 process.env.PATH_PREFIX = '/main-area-worker'
 const { commitHash } = await sharedProcess.exportStatic({

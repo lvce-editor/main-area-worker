@@ -33,7 +33,7 @@ const normalizeLayoutTabsForRestore = (layout: unknown): unknown => {
       if (!group || typeof group !== 'object' || !Array.isArray(group.tabs)) {
         return group
       }
-      const direction = Object.hasOwn(group, 'direction') ? group.direction : value.direction
+      const { direction } = Object.hasOwn(group, 'direction') ? group : value
       return {
         ...group,
         direction,

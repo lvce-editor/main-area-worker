@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { PatchType } from '@lvce-editor/constants'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { renderIncremental } from '../src/parts/RenderIncremental/RenderIncremental.ts'
 
@@ -24,6 +25,8 @@ test('renderIncremental should add the drag overlay to the main area', () => {
     'Viewlet.setPatches',
     2,
     [
+      { index: 0, type: PatchType.NavigateChild },
+      { type: PatchType.NavigateParent },
       {
         nodes: [
           {

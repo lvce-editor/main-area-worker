@@ -16,7 +16,8 @@ const offsetsMatch = (first: number, second: number): boolean => {
 }
 
 export const getSashCorner = (layout: MainAreaLayout): SashCorner | undefined => {
-  const segments = getGroupSegments(layout.groups, layout.direction)
+  const { direction, groups } = layout
+  const segments = getGroupSegments(groups, direction)
   if (segments.length !== 2) {
     return undefined
   }
@@ -44,7 +45,7 @@ export const getSashCorner = (layout: MainAreaLayout): SashCorner | undefined =>
   }
 
   const rootOffset = (firstSegmentSize / totalSize) * 100
-  if (layout.direction === LayoutDirection.Horizontal) {
+  if (direction === LayoutDirection.Horizontal) {
     return {
       leftOffset: rootOffset,
       topOffset: firstNestedOffset,

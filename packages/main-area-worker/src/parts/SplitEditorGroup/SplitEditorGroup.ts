@@ -30,11 +30,12 @@ const getSplitLayoutDirection = (direction: SplitDirection): LayoutDirection.Lay
 
 const createNextState = (state: MainAreaState, activeGroupId: number, groups: readonly EditorGroup[]): MainAreaState => {
   const { layout } = state
+  const { direction } = layout
   return {
     ...state,
     layout: {
       activeGroupId,
-      direction: layout.direction,
+      direction,
       groups,
     },
   }
@@ -176,7 +177,7 @@ const splitAtRootLevel = (
 
 export const splitEditorGroup = (state: MainAreaState, groupId: number, direction: SplitDirection): MainAreaState => {
   const { layout } = state
-  const { groups } = layout
+  const { direction: layoutDirection, groups } = layout
   const sourceGroup = groups.find((group) => group.id === groupId)
   if (!sourceGroup) {
     return state
@@ -203,13 +204,13 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
     return splitWithinMatchingNestedDirection(state, groups, sourceGroup, groupId, newGroupId, direction, splitLayoutDirection, baseNewGroup)
   }
 
-  if (splitLayoutDirection !== layout.direction && sourceGroup.direction === undefined) {
+  if (splitLayoutDirection !== layoutDirection && sourceGroup.direction === undefined) {
     return splitStandaloneSourceIntoNestedDirection(state, groups, sourceGroup, groupId, newGroupId, direction, splitLayoutDirection, baseNewGroup)
   }
 
-  const segments = getGroupSegments(groups, layout.direction)
+  const segments = getGroupSegments(groups, layoutDirection)
   const hasNestedSegments = segments.some((segment) => segment.direction !== undefined)
-  if (splitLayoutDirection === layout.direction && !hasNestedSegments) {
+  if (splitLayoutDirection === layoutDirection && !hasNestedSegments) {
     return splitAtRootLevel(state, groups, groupId, newGroupId, direction, baseNewGroup)
   }
 

@@ -5,13 +5,13 @@ import * as SplitEditorGroup from '../SplitEditorGroup/SplitEditorGroup.ts'
 
 export const splitUp = (state: MainAreaState, groupId?: number): MainAreaState => {
   const { layout } = state
-  const { activeGroupId, groups } = layout
+  const { activeGroupId, direction, groups } = layout
 
   if (groups.length === 0) {
     const initialGroupId = Id.create()
     const initialGroup: EditorGroup = {
       activeTabId: undefined,
-      direction: layout.direction,
+      direction,
       focused: true,
       id: initialGroupId,
       isEmpty: true,

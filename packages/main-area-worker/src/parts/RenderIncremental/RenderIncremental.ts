@@ -1,10 +1,16 @@
 import { PatchType, ViewletCommand } from '@lvce-editor/constants'
 import { diffTree } from '@lvce-editor/virtual-dom-worker'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { renderItems } from '../RenderItems/RenderItems.ts'
 
 const avoidRootReplacement = (patches: readonly any[]): readonly any[] => {
-  if (patches.length !== 1 || patches[0].type !== PatchType.Add) {
+  if (
+    patches.length !== 1 ||
+    patches[0].type !== PatchType.Add ||
+    patches[0].nodes?.length !== 1 ||
+    patches[0].nodes[0].className !== ClassNames.DragOverlay
+  ) {
     return patches
   }
   return [{ index: 0, type: PatchType.NavigateChild }, { type: PatchType.NavigateParent }, ...patches]

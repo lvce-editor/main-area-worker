@@ -13,15 +13,6 @@ export const getCss = (layout?: MainAreaLayout, width: number = 0, dragOverlay?:
   overflow: auto;
 }`,
 
-    `.DragOverlay {
-  position: absolute;
-  z-index: 1;
-  contain: strict;
-  pointer-events: none;
-  background: rgba(83, 89, 93, 0.5);
-  transition: all 100ms;
-}`,
-
     `.SashBorder {
   background: var(--SashBorder, gray);
 }`,

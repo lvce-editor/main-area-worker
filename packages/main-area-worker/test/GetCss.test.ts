@@ -23,8 +23,6 @@ test('getCss should include sash border orientation rules', () => {
   expect(result).toContain(`.Main {
   position: relative;
 }`)
-  expect(result).toContain(`.DragOverlay {
-  position: absolute;`)
 })
 
 test('getCss should position the sash corner at the grid intersection', () => {
@@ -97,9 +95,9 @@ test('getCss should position the drag overlay', () => {
   })
 
   expect(result).toContain(`.DragOverlay {
-  left: 0px;
-  top: 35px;
-  width: 400px;
-  height: 300px;
+  --DragOverlayLeft: 0px;
+  --DragOverlayTop: 35px;
+  --DragOverlayWidth: 400px;
+  --DragOverlayHeight: 300px;
 }`)
 })

@@ -30,10 +30,10 @@ test('getEditorGroupCss should use width variable for horizontal layouts', () =>
   const result = getEditorGroupCss(layout)
 
   expect(result).toEqual([
-    `.EditorGroup[data-groupId="1"] {
+    `.EditorGroup-1 {
   --EditorGroupWidth: 40%;
 }`,
-    `.EditorGroup[data-groupId="2"] {
+    `.EditorGroup-2 {
   --EditorGroupWidth: 60%;
 }`,
   ])
@@ -58,7 +58,7 @@ test('getEditorGroupCss should use height variable for vertical layouts', () => 
   const result = getEditorGroupCss(layout)
 
   expect(result).toEqual([
-    `.EditorGroup[data-groupId="1"] {
+    `.EditorGroup-1 {
   --EditorGroupHeight: 100%;
 }`,
   ])

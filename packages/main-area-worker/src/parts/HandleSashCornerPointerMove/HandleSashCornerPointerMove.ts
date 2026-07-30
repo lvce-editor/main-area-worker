@@ -18,6 +18,7 @@ const getBeforeSize = (startSize: number, deltaPx: number, axisSize: number, min
 
 export const handleSashCornerPointerMove = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
   const { height, layout, minGroupHeightPx, minGroupWidthPx, sashCornerDrag, width } = state
+  const { groups } = layout
   if (!sashCornerDrag || !width || !height || !Number.isFinite(clientX) || !Number.isFinite(clientY)) {
     return state
   }
@@ -40,7 +41,7 @@ export const handleSashCornerPointerMove = async (state: MainAreaState, clientX:
     ...state,
     layout: {
       ...layout,
-      groups: layout.groups.map((group) => {
+      groups: groups.map((group) => {
         const xSize = xBeforeGroupIdSet.has(group.id) ? xBeforeSize : xAfterSize
         const ySize = yBeforeGroupIdSet.has(group.id) ? yBeforeSize : yAfterSize
         return {

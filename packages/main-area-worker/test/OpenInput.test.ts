@@ -7,6 +7,7 @@ import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openInput } from '../src/parts/OpenInput/OpenInput.ts'
 
 afterEach(() => {
+  MainAreaStates.clear()
   const defaultState = createDefaultState()
   MainAreaStates.set(0, defaultState, defaultState)
 })
@@ -270,4 +271,88 @@ test('openInput should activate an existing stored tab when the call-site state 
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([])
+})
+
+test('openInput should use default options and initialize missing stored state', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+  })
+  const state = {
+    ...createDefaultState(),
+    uid: 99,
+  }
+
+  const result = await openInput(state, {
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///new.ts',
+    },
+    focus: false,
+  })
+
+  expect(result.layout.groups[0].tabs[0]).toMatchObject({
+    isPreview: false,
+    loadingState: 'loaded',
+    uri: 'file:///new.ts',
+  })
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toHaveLength(2)
+})
+
+test('openInput should expose an Error message when resolving the viewlet fails', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {
+      throw new Error('module lookup failed')
+    },
+    'Layout.getModuleId': async () => 'Editor',
+  })
+  const state = {
+    ...createDefaultState(),
+    uid: 98,
+  }
+
+  const result = await openInput(state, {
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///failed.ts',
+    },
+    focus: false,
+    preview: false,
+  })
+
+  expect(result.layout.groups[0].tabs[0]).toMatchObject({
+    errorMessage: 'module lookup failed',
+    loadingState: 'error',
+  })
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
+    ['Layout.getModuleId', 'file:///failed.ts'],
+    ['Layout.createViewlet', 'Editor', expect.any(Number), expect.any(Number), { height: -35, width: 0, x: 0, y: 35 }, 'file:///failed.ts'],
+  ])
+})
+
+test('openInput should use a generic message for non-Error failures', async () => {
+  RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {
+      throw 'module lookup failed'
+    },
+    'Layout.getModuleId': async () => 'Editor',
+  })
+  const state = {
+    ...createDefaultState(),
+    uid: 97,
+  }
+
+  const result = await openInput(state, {
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///failed.ts',
+    },
+    focus: false,
+    preview: false,
+  })
+
+  expect(result.layout.groups[0].tabs[0]).toMatchObject({
+    errorMessage: 'Failed to open URI',
+    loadingState: 'error',
+  })
 })

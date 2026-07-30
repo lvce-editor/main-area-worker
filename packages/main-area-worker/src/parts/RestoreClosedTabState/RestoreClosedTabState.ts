@@ -48,6 +48,7 @@ const getStateWithoutLastClosedTab = (state: MainAreaState): MainAreaState => {
 
 const restoreExistingUri = (state: MainAreaState, entry: ClosedTabEntry): RestoreClosedTabResult | undefined => {
   const { layout } = state
+  const { groups: layoutGroups } = layout
   if (!entry.tab.uri) {
     return undefined
   }
@@ -57,12 +58,12 @@ const restoreExistingUri = (state: MainAreaState, entry: ClosedTabEntry): Restor
     return undefined
   }
 
-  const groupIndex = layout.groups.findIndex((group) => group.id === existing.groupId)
+  const groupIndex = layoutGroups.findIndex((group) => group.id === existing.groupId)
   if (groupIndex === -1) {
     return undefined
   }
 
-  const tabIndex = layout.groups[groupIndex].tabs.findIndex((tab) => tab.id === existing.tab.id)
+  const tabIndex = layoutGroups[groupIndex].tabs.findIndex((tab) => tab.id === existing.tab.id)
   if (tabIndex === -1) {
     return undefined
   }

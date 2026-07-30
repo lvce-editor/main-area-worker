@@ -2,5 +2,6 @@ import type { EditorGroup, MainAreaState } from '../MainAreaState/MainAreaState.
 
 export const getGroupById = (state: MainAreaState, groupId: number): EditorGroup | undefined => {
   const { layout } = state
-  return layout.groups.find((group) => group.id === groupId)
+  const { groups } = layout
+  return groups.find((group) => group.id === groupId)
 }

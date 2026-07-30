@@ -3,7 +3,10 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 import * as GetRenderer from '../src/parts/GetRenderer/GetRenderer.ts'
+import { renderCss } from '../src/parts/RenderCss/RenderCss.ts'
+import { renderIncremental } from '../src/parts/RenderIncremental/RenderIncremental.ts'
 import * as RenderItems from '../src/parts/RenderItems/RenderItems.ts'
+import { renderPendingViewletUpdate } from '../src/parts/RenderPendingViewletUpdate/RenderPendingViewletUpdate.ts'
 
 test('getRenderer should return RenderItems.renderItems for RenderItems diff type', () => {
   const renderer = GetRenderer.getRenderer(DiffType.RenderItems)
@@ -59,4 +62,16 @@ test('getRenderer should return a function that can be called with state', () =>
   expect(() => {
     renderer(oldState, newState)
   }).not.toThrow()
+})
+
+test('getRenderer should return the css renderer', () => {
+  expect(GetRenderer.getRenderer(DiffType.RenderCss)).toBe(renderCss)
+})
+
+test('getRenderer should return the incremental renderer', () => {
+  expect(GetRenderer.getRenderer(DiffType.RenderIncremental)).toBe(renderIncremental)
+})
+
+test('getRenderer should return the pending viewlet update renderer', () => {
+  expect(GetRenderer.getRenderer(DiffType.RenderPendingViewletUpdate)).toBe(renderPendingViewletUpdate)
 })

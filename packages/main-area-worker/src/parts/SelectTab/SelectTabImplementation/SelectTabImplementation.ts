@@ -13,7 +13,7 @@ import { maybeStartLoading } from '../MaybeStartLoading/MaybeStartLoading.ts'
 
 export const selectTab = async (state: MainAreaState, groupIndex: number, index: number): Promise<MainAreaState> => {
   const { layout, uid } = state
-  const { groups } = layout
+  const { activeGroupId, groups } = layout
 
   if (groupIndex < 0 || groupIndex >= groups.length) {
     return state
@@ -26,7 +26,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
 
   const { group, groupId, tab, tabId } = selectedTabData
   const normalizedTab = normalizeTabEditorInput(tab)
-  const isAlreadyActive = layout.activeGroupId === groupId && group.activeTabId === tabId
+  const isAlreadyActive = activeGroupId === groupId && group.activeTabId === tabId
 
   if (isAlreadyActive && !shouldLoadContentForTab(normalizedTab)) {
     return state

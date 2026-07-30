@@ -26,7 +26,8 @@ const renderSashCss = ({ property, sashId, value }: ProtoSashCss): string => {
 }
 
 const getProtoSashCss = (layout: MainAreaLayout, width: number): readonly ProtoSashCss[] => {
-  const segments = getGroupSegments(layout.groups, layout.direction)
+  const { direction, groups } = layout
+  const segments = getGroupSegments(groups, direction)
   const hasNestedSegments = segments.some((segment) => segment.direction !== undefined)
   const rules: ProtoSashCss[] = []
   let segmentOffset = 0
@@ -35,10 +36,9 @@ const getProtoSashCss = (layout: MainAreaLayout, width: number): readonly ProtoS
     const beforeGroupId = segments[i - 1].groups.at(-1)?.id || 0
     const afterGroupId = segments[i].groups[0].id
     const sashId = SashId.create(beforeGroupId, afterGroupId)
-    const value =
-      hasNestedSegments || layout.direction !== LayoutDirection.Horizontal || !width ? `${segmentOffset}%` : getSashOffset(layout, i, width)
+    const value = hasNestedSegments || direction !== LayoutDirection.Horizontal || !width ? `${segmentOffset}%` : getSashOffset(layout, i, width)
     rules.push({
-      property: toSashProperty(layout.direction),
+      property: toSashProperty(direction),
       sashId,
       value,
     })
@@ -66,7 +66,8 @@ const getProtoSashCss = (layout: MainAreaLayout, width: number): readonly ProtoS
 }
 
 export const getSashCss = (layout: MainAreaLayout, width: number = 0): readonly string[] => {
-  if (layout.groups.length <= 1) {
+  const { groups } = layout
+  if (groups.length <= 1) {
     return []
   }
   return getProtoSashCss(layout, width).map(renderSashCss)

@@ -8,10 +8,11 @@ interface CreatedViewlets {
 }
 
 export const createViewlets = async (layout: any, viewletModuleIds: Record<string, string>, bounds: any): Promise<CreatedViewlets> => {
+  const { groups } = layout
   const editorUids: Record<string, number> = {}
   const titles: Record<string, string> = {}
 
-  for (const group of layout.groups) {
+  for (const group of groups) {
     const activeTab = group.tabs.find((tab: Tab) => tab.id === group.activeTabId)
     if (activeTab && viewletModuleIds[activeTab.id]) {
       const editorUid = activeTab.editorUid === -1 ? Id.create() : activeTab.editorUid

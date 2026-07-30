@@ -5,7 +5,7 @@ import * as SplitEditorGroup from '../SplitEditorGroup/SplitEditorGroup.ts'
 
 export const splitUp = (state: MainAreaState, groupId?: number): MainAreaState => {
   const { layout } = state
-  const { groups } = layout
+  const { activeGroupId, groups } = layout
 
   if (groups.length === 0) {
     const initialGroupId = Id.create()
@@ -28,7 +28,7 @@ export const splitUp = (state: MainAreaState, groupId?: number): MainAreaState =
     return SplitEditorGroup.splitEditorGroup(stateWithInitialGroup, initialGroupId, 'up')
   }
 
-  const resolvedGroupId = groupId ?? layout.activeGroupId
+  const resolvedGroupId = groupId ?? activeGroupId
   if (!resolvedGroupId) {
     return state
   }

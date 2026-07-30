@@ -22,7 +22,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
   expect(result).toEqual([
     {
       childCount: 2,
-      className: ClassNames.EditorGroupEmpty,
+      className: `${ClassNames.EditorGroupEmpty} EditorGroup-1`,
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style: 'width:100%;',
@@ -63,7 +63,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
   ])
 })
 
-test('renderEmptyEditorGroup should expose the group id for CSS targeting', () => {
+test('renderEmptyEditorGroup should expose a unique group class for CSS targeting', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
     direction: 1,
@@ -78,7 +78,7 @@ test('renderEmptyEditorGroup should expose the group id for CSS targeting', () =
 
   expect(result[0]).toEqual({
     childCount: 2,
-    className: ClassNames.EditorGroupEmpty,
+    className: `${ClassNames.EditorGroupEmpty} EditorGroup-2`,
     'data-groupId': '2',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
     style: 'height:50%;',

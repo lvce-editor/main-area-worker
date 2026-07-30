@@ -19,12 +19,11 @@ const stateWithOverlay = {
   },
 }
 
-test('renderIncremental should navigate into the main content before adding the drag overlay', () => {
+test('renderIncremental should add the drag overlay to the main area', () => {
   expect(renderIncremental(state, stateWithOverlay)).toEqual([
     'Viewlet.setPatches',
     2,
     [
-      { index: 0, type: 7 },
       {
         nodes: [
           {
@@ -39,13 +38,10 @@ test('renderIncremental should navigate into the main content before adding the 
   ])
 })
 
-test('renderIncremental should navigate into the main content before removing the drag overlay', () => {
+test('renderIncremental should remove the drag overlay from the main area', () => {
   expect(renderIncremental(stateWithOverlay, state)).toEqual([
     'Viewlet.setPatches',
     2,
-    [
-      { index: 0, type: 7 },
-      { index: 0, type: 9 },
-    ],
+    [{ index: 1, type: 9 }],
   ])
 })

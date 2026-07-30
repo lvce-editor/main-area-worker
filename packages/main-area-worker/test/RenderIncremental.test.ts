@@ -39,9 +39,5 @@ test('renderIncremental should add the drag overlay to the main area', () => {
 })
 
 test('renderIncremental should remove the drag overlay from the main area', () => {
-  expect(renderIncremental(stateWithOverlay, state)).toEqual([
-    'Viewlet.setPatches',
-    2,
-    [{ index: 1, type: 9 }],
-  ])
+  expect(renderIncremental(stateWithOverlay, state)).toEqual(['Viewlet.setPatches', 2, [{ index: 1, type: 9 }]])
 })

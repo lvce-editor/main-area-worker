@@ -1,6 +1,14 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
+const resizeChild = async (editorUid: number, dimensions: any): Promise<readonly any[]> => {
+  try {
+    return await RendererWorker.invoke('Viewlet.resize', editorUid, dimensions)
+  } catch {
+    return []
+  }
+}
+
 export const handleResize = async (state: MainAreaState, dimensions: any): Promise<readonly any[]> => {
   const { height, width, x, y } = dimensions
 
@@ -9,19 +17,21 @@ export const handleResize = async (state: MainAreaState, dimensions: any): Promi
   const { groups } = layout
   const contentHeight = height - tabHeight
 
-  const allResizeCommands = []
-  for (const group of groups) {
-    for (const tab of group.tabs) {
-      if (tab.editorUid !== -1) {
-        try {
-          const resizeCommands = await RendererWorker.invoke('Viewlet.resize', tab.editorUid, { height: contentHeight, width, x, y: y + tabHeight })
-          allResizeCommands.push(...resizeCommands)
-        } catch {
-          // ignore
-        }
-      }
+  const resizePromises = []
+  const tabs = groups.flatMap((group) => group.tabs)
+  for (const tab of tabs) {
+    if (tab.editorUid === -1) {
+      continue
     }
+    const resizePromise = resizeChild(tab.editorUid, {
+      height: contentHeight,
+      width,
+      x,
+      y: y + tabHeight,
+    })
+    resizePromises.push(resizePromise)
   }
 
-  return allResizeCommands
+  const resizeCommands = await Promise.all(resizePromises)
+  return resizeCommands.flat()
 }

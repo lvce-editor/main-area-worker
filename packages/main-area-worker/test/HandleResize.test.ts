@@ -115,6 +115,61 @@ test('handleResize should resize all editors', async () => {
   ])
 })
 
+test('handleResize should resize editors in parallel', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 1,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 100,
+              icon: 'file',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'test.ts',
+            },
+            {
+              editorType: 'text',
+              editorUid: 101,
+              icon: 'file',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'other.ts',
+            },
+          ],
+        },
+      ],
+    },
+    tabHeight: 40,
+    uid: 1,
+  }
+  const firstResize = Promise.withResolvers<readonly any[]>()
+
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.resize': async (editorUid: number) => {
+      return editorUid === 100 ? firstResize.promise : []
+    },
+  })
+
+  const resizePromise = handleResize(state, { height: 600, width: 800, x: 10, y: 20 })
+  const invocationCountBeforeFirstResizeCompletes = mockRpc.invocations.length
+  firstResize.resolve([])
+  await resizePromise
+
+  expect(invocationCountBeforeFirstResizeCompletes).toBe(2)
+})
+
 test('handleResize should skip editors with editorUid -1', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),

@@ -1,5 +1,5 @@
-import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
 import type { MainAreaLayout } from '../MainAreaLayout/MainAreaLayout.ts'
+import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 
 export const getEditorGroupCss = (layout: MainAreaLayout): readonly string[] => {

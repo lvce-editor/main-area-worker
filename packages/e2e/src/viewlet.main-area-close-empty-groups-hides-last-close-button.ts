@@ -2,7 +2,15 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-empty-groups-hides-last-close-button'
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
+const getFirstGroupId = (state: unknown): number => {
+  const groupId = (state as { readonly layout?: { readonly groups?: readonly { readonly id?: number }[] } }).layout?.groups?.[0]?.id
+  if (groupId === undefined) {
+    throw new Error('Expected the main area state to have at least one group')
+  }
+  return groupId
+}
+
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 
@@ -14,12 +22,12 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   await expect(editorGroups).toHaveCount(3)
   await expect(closeButtons).toHaveCount(3)
 
-  // The runtime expects EventInit, although the current test-worker types declare string.
-  const clickEventInit = { bubbles: true } as unknown as string
-  await closeButtons.first().dispatchEvent('click', clickEventInit)
+  const stateWithThreeGroups = await Main.saveState(2)
+  await Command.execute('MainArea.closeEditorGroup', getFirstGroupId(stateWithThreeGroups))
   await expect(editorGroups).toHaveCount(2)
   await expect(closeButtons).toHaveCount(2)
-  await closeButtons.first().dispatchEvent('click', clickEventInit)
+  const stateWithTwoGroups = await Main.saveState(2)
+  await Command.execute('MainArea.closeEditorGroup', getFirstGroupId(stateWithTwoGroups))
 
   await expect(editorGroups).toHaveCount(1)
   await expect(closeButtons).toHaveCount(0)

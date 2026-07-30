@@ -6,6 +6,7 @@ import { getTabsVirtualDom } from '../src/parts/GetTabsVirtualDom/GetTabsVirtual
 test('getTabsVirtualDom should return correct structure with empty tabs', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: true,
@@ -38,6 +39,7 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
 
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,
@@ -92,6 +94,7 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
 
   const group: EditorGroup = {
     activeTabId: 2,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -140,6 +143,7 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
 
   const group: EditorGroup = {
     activeTabId: 2,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -177,6 +181,7 @@ test('getTabsVirtualDom should handle undefined activeTabId', () => {
 
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,
@@ -205,6 +210,7 @@ test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
 
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,
@@ -245,6 +251,7 @@ test('getTabsVirtualDom should use provided tabsChildCount', () => {
 
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,

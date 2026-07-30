@@ -24,6 +24,7 @@ test('handleEditorModified should return state unchanged when tab not found', ()
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -49,6 +50,7 @@ test('handleEditorModified should set isDirty to true when tab is found', () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -73,6 +75,7 @@ test('handleEditorModified should find tab by editorUid across groups', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -81,6 +84,7 @@ test('handleEditorModified should find tab by editorUid across groups', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -106,6 +110,7 @@ test('handleEditorModified should preserve other tab properties when setting isD
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

@@ -12,6 +12,7 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -68,6 +69,7 @@ test('closeTabsRight should return state unchanged when group does not exist', (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -102,6 +104,7 @@ test('closeTabsRight should return state unchanged when there is no active tab',
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -136,6 +139,7 @@ test('closeTabsRight should return state unchanged when active tab is at the end
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -188,6 +192,7 @@ test('closeTabsRight should preserve other groups', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -224,6 +229,7 @@ test('closeTabsRight should preserve other groups', () => {
         },
         {
           activeTabId: 5,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -282,6 +288,7 @@ test('closeTabsRight should handle single tab in group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -316,6 +323,7 @@ test('closeTabsRight should handle active tab at the beginning', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -371,6 +379,7 @@ test('closeTabsRight should preserve other state properties', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -420,6 +429,7 @@ test('closeTabsRight should handle tabs with custom properties', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -482,6 +492,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -509,6 +520,7 @@ test('closeTabsRight should close tabs in second group when specified', () => {
         },
         {
           activeTabId: 4,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -564,6 +576,7 @@ test('closeTabsRight should return state unchanged when active tab id not found 
       groups: [
         {
           activeTabId: 999,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -607,6 +620,7 @@ test('closeTabsRight should close multiple tabs to the right', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -741,6 +755,7 @@ test('closeTabsRight should handle active tab in the middle', () => {
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -814,6 +829,7 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -868,6 +884,7 @@ test('closeTabsRight should handle vertical layout direction', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -912,6 +929,7 @@ test('closeTabsRight should handle two tabs with one to close', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

@@ -12,6 +12,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -85,6 +86,7 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -139,6 +141,7 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -205,6 +208,7 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -247,7 +251,8 @@ test('handleViewletReady works regardless of active tab - reference nodes render
       direction: 1,
       groups: [
         {
-          activeTabId: 2, // Tab 2 is active, not tab 1
+          activeTabId: 2,
+          direction: 1, // Tab 2 is active, not tab 1
           focused: true,
           id: 1,
           isEmpty: false,

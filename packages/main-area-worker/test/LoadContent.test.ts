@@ -45,6 +45,7 @@ test('loadContent should return empty layout when restore is disabled', async ()
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -81,6 +82,7 @@ test('loadContent should restore valid saved state', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -128,6 +130,7 @@ test('loadContent should add pretty uri titles for restored file tabs under the 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -203,6 +206,7 @@ test('loadContent should restore layout with multiple groups', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -221,6 +225,7 @@ test('loadContent should restore layout with multiple groups', async () => {
         },
         {
           activeTabId: 2,
+          direction: 2,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -257,6 +262,7 @@ test('loadContent should restore layout with multiple tabs per group', async () 
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -404,6 +410,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -438,6 +445,7 @@ test('loadContent should restore layout with tabs containing paths', async () =>
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -479,6 +487,7 @@ test('loadContent should load icon theme for tabs with uri', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -520,6 +529,7 @@ test('loadContent should load icons for multiple tabs', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -582,6 +592,7 @@ test('loadContent should update fileIconCache with loaded icons', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -624,6 +635,7 @@ test('loadContent should handle icon loading failure gracefully', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -667,6 +679,7 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -686,6 +699,7 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -742,6 +756,7 @@ test('loadContent should restore extension detail tabs with the correct editor i
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -819,6 +834,7 @@ test('loadContent should normalize stale extension detail editor inputs from sav
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

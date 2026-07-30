@@ -9,6 +9,7 @@ test('getSashOffset should return percentage offset for vertical layouts', () =>
     groups: [
       {
         activeTabId: undefined,
+        direction: 2,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -17,6 +18,7 @@ test('getSashOffset should return percentage offset for vertical layouts', () =>
       },
       {
         activeTabId: undefined,
+        direction: 2,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -36,6 +38,7 @@ test('getSashOffset should return percentage offset for horizontal layouts witho
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -44,6 +47,7 @@ test('getSashOffset should return percentage offset for horizontal layouts witho
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -52,6 +56,7 @@ test('getSashOffset should return percentage offset for horizontal layouts witho
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 3,
         isEmpty: true,
@@ -71,6 +76,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -79,6 +85,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -87,6 +94,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 3,
         isEmpty: true,

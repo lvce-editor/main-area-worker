@@ -6,6 +6,7 @@ test('GetActiveGroup should return group when found by ID', () => {
   const groups: EditorGroup[] = [
     {
       activeTabId: 1,
+      direction: 1,
       focused: false,
       id: 1,
       isEmpty: false,
@@ -24,6 +25,7 @@ test('GetActiveGroup should return group when found by ID', () => {
     },
     {
       activeTabId: 2,
+      direction: 1,
       focused: true,
       id: 2,
       isEmpty: false,
@@ -52,6 +54,7 @@ test('GetActiveGroup should return undefined when group not found', () => {
   const groups: EditorGroup[] = [
     {
       activeTabId: 1,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: false,
@@ -78,6 +81,7 @@ test('GetActiveGroup should return first matching group by ID', () => {
   const groups: EditorGroup[] = [
     {
       activeTabId: 1,
+      direction: 1,
       focused: false,
       id: 1,
       isEmpty: false,
@@ -96,6 +100,7 @@ test('GetActiveGroup should return first matching group by ID', () => {
     },
     {
       activeTabId: 3,
+      direction: 1,
       focused: false,
       id: 3,
       isEmpty: false,
@@ -130,6 +135,7 @@ test('GetActiveGroup should return group with zero ID', () => {
   const groups: EditorGroup[] = [
     {
       activeTabId: undefined,
+      direction: 1,
       focused: true,
       id: 0,
       isEmpty: true,
@@ -147,6 +153,7 @@ test('GetActiveGroup should return group from array with multiple tabs', () => {
   const groups: EditorGroup[] = [
     {
       activeTabId: 2,
+      direction: 1,
       focused: false,
       id: 1,
       isEmpty: false,

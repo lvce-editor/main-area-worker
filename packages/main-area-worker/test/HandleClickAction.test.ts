@@ -13,6 +13,7 @@ test('handleClickAction should return state unchanged when action is empty', asy
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -63,6 +64,7 @@ test('handleClickAction should return state unchanged when activeGroupId does no
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -97,6 +99,7 @@ test('handleClickAction should close group when action is "close-group" with val
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -115,6 +118,7 @@ test('handleClickAction should close group when action is "close-group" with val
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -151,6 +155,7 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -169,6 +174,7 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -203,6 +209,7 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -221,6 +228,7 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -255,6 +263,7 @@ test('handleClickAction should split editor group right when action is "split-ri
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -293,6 +302,7 @@ test('handleClickAction should route retry-open to the active tab', async () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -327,6 +337,7 @@ test('handleClickAction should return state unchanged when action is unknown', a
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -361,6 +372,7 @@ test('handleClickAction should close active group when action is "close-group" w
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -379,6 +391,7 @@ test('handleClickAction should close active group when action is "close-group" w
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -415,6 +428,7 @@ test('handleClickAction should handle close-group with non-existent group id', a
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -433,6 +447,7 @@ test('handleClickAction should handle close-group with non-existent group id', a
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -471,6 +486,7 @@ test('handleClickAction should handle toggle-preview action', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

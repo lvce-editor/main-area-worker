@@ -12,6 +12,7 @@ test('closeActiveEditor should close the active tab in focused group', async () 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -49,6 +50,7 @@ test('closeActiveEditor should close the active tab in focused group', async () 
     groups: [
       {
         activeTabId: 2,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -80,6 +82,7 @@ test('closeActiveEditor should return same state when no focused group', async (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -114,6 +117,7 @@ test('closeActiveEditor should return same state when no active tab in focused g
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -153,6 +157,7 @@ test('closeActiveEditor should remove group when closing the last tab in focused
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -188,6 +193,7 @@ test('closeActiveEditor should close active tab in focused group when multiple g
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -215,6 +221,7 @@ test('closeActiveEditor should close active tab in focused group when multiple g
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -254,6 +261,7 @@ test('closeActiveEditor should remove group when closing last tab with multiple 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -272,6 +280,7 @@ test('closeActiveEditor should remove group when closing last tab with multiple 
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,

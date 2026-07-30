@@ -15,6 +15,7 @@ test('handleHeaderDoubleClick should return state unchanged when groupIndexRaw i
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -54,6 +55,7 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -95,6 +97,7 @@ test('handleHeaderDoubleClick should add untitled tab to the active group', asyn
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

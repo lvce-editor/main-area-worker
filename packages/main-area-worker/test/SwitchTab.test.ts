@@ -24,6 +24,7 @@ test('switchTab should return state unchanged when group does not exist', () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -48,6 +49,7 @@ test('switchTab should return state unchanged when tab does not exist in group',
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -73,6 +75,7 @@ test('switchTab should change active tab in group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -97,6 +100,7 @@ test('switchTab should switch to third tab', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -121,6 +125,7 @@ test('switchTab should not affect other groups', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -129,6 +134,7 @@ test('switchTab should not affect other groups', () => {
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,

@@ -14,6 +14,7 @@ const createState = (): MainAreaState => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

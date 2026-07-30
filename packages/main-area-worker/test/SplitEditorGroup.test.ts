@@ -5,13 +5,13 @@ import * as GroupDirection from '../src/parts/GroupDirection/GroupDirection.ts'
 import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 import { splitEditorGroup } from '../src/parts/SplitEditorGroup/SplitEditorGroup.ts'
 
-const createGroup = (id: number, size: number, direction?: LayoutDirection.LayoutDirection) => ({
+const createGroup = (id: number, size: number, direction: LayoutDirection.LayoutDirection) => ({
   activeTabId: id,
   direction,
   focused: id === 1,
   id,
   isEmpty: false,
-  segmentId: direction === undefined ? undefined : 10,
+  segmentId: 10,
   size,
   tabs: [
     {
@@ -35,6 +35,7 @@ test('splitEditorGroup should split editor group to the right', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -77,6 +78,7 @@ test('splitEditorGroup should split editor group to the left', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -118,6 +120,7 @@ test('splitEditorGroup should split editor group down', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -159,6 +162,7 @@ test('splitEditorGroup should split editor group up', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -200,6 +204,7 @@ test('splitEditorGroup should return unchanged state if group not found', () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -235,6 +240,7 @@ test('splitEditorGroup should preserve tabs in source group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -291,6 +297,7 @@ test('splitEditorGroup should create new group with unique id', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -317,6 +324,7 @@ test('splitEditorGroup should set new group as focused', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -343,6 +351,7 @@ test('splitEditorGroup should set new group activeTabId to undefined', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -378,6 +387,7 @@ test('splitEditorGroup should split multiple existing groups', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -396,6 +406,7 @@ test('splitEditorGroup should split multiple existing groups', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -440,6 +451,7 @@ test('splitEditorGroup should handle split of second group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -458,6 +470,7 @@ test('splitEditorGroup should handle split of second group', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -499,6 +512,7 @@ test('splitEditorGroup should preserve parent layout direction when splitting ac
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -517,6 +531,7 @@ test('splitEditorGroup should preserve parent layout direction when splitting ac
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: true,
@@ -549,6 +564,7 @@ test('splitEditorGroup should set both source and new group size to 50', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -574,6 +590,7 @@ test('splitEditorGroup should preserve activeTabId in source group', () => {
       groups: [
         {
           activeTabId: 42,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -608,6 +625,7 @@ test('splitEditorGroup should handle vertical direction string correctly for rig
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -633,6 +651,7 @@ test('splitEditorGroup should handle horizontal direction string correctly for u
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -715,6 +734,7 @@ test('splitEditorGroup should not mutate original state', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -755,6 +775,7 @@ test('splitEditorGroup should return new state object', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -780,6 +801,7 @@ test('splitEditorGroup should update activeGroupId in result state', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,

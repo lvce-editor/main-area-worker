@@ -29,10 +29,17 @@ const normalizeLayoutTabsForRestore = (layout: unknown): unknown => {
   }
   return {
     ...value,
-    groups: value.groups.map((group: any) => ({
-      ...group,
-      tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : group?.tabs,
-    })),
+    groups: value.groups.map((group: any) => {
+      if (!group || typeof group !== 'object' || !Array.isArray(group.tabs)) {
+        return group
+      }
+      const { direction } = Object.hasOwn(group, 'direction') ? group : value
+      return {
+        ...group,
+        direction,
+        tabs: group.tabs.map(normalizeRestoredTab),
+      }
+    }),
   }
 }
 

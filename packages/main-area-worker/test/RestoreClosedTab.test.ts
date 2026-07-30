@@ -24,6 +24,7 @@ test('restoreClosedTab returns unchanged state when the restore stack is empty',
 test('restoreClosedTab focuses an already open tab from the restore stack', async () => {
   const group = {
     activeTabId: 1,
+    direction: 1 as const,
     focused: true,
     id: 1,
     isEmpty: false,

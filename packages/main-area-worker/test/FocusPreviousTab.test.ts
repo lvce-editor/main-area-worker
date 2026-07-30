@@ -15,6 +15,7 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -70,6 +71,7 @@ test('focusPreviousTab should cycle from first tab to last tab', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -123,6 +125,7 @@ test('focusPreviousTab should return state if there is no active group', async (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -166,6 +169,7 @@ test('focusPreviousTab should return state if active group is empty', async () =
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -190,6 +194,7 @@ test('focusPreviousTab should return state if active tab is not found', async ()
       groups: [
         {
           activeTabId: 999,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -235,6 +240,7 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -290,6 +296,7 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -317,6 +324,7 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
         },
         {
           activeTabId: 4,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,

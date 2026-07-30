@@ -12,6 +12,7 @@ test('handleClickCloseTab should return state unchanged when rawGroupIndex is em
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -46,6 +47,7 @@ test('handleClickCloseTab should return state unchanged when rawIndex is empty',
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -80,6 +82,7 @@ test('handleClickCloseTab should return state unchanged when groupIndex is negat
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -114,6 +117,7 @@ test('handleClickCloseTab should return state unchanged when groupIndex is out o
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -148,6 +152,7 @@ test('handleClickCloseTab should return state unchanged when tab index is negati
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -182,6 +187,7 @@ test('handleClickCloseTab should return state unchanged when tab index is out of
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -216,6 +222,7 @@ test('handleClickCloseTab should close the tab at the specified index', async ()
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -270,6 +277,7 @@ test('handleClickCloseTab should close tab from the correct group', async () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -288,6 +296,7 @@ test('handleClickCloseTab should close tab from the correct group', async () => 
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -334,6 +343,7 @@ test('handleClickCloseTab should close first tab when index is 0', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -380,6 +390,7 @@ test('handleClickCloseTab should close last tab when index points to last elemen
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -435,6 +446,7 @@ test('handleClickCloseTab should remove group when closing only tab in group', a
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -471,6 +483,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -489,6 +502,7 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,

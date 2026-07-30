@@ -12,6 +12,7 @@ test('closeTabsByUris should remove tabs with matching uris', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -60,6 +61,7 @@ test('closeTabsByUris should remove empty groups after closing the last tab', ()
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

@@ -24,6 +24,7 @@ test('splitUp should return state unchanged when group does not exist', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -48,6 +49,7 @@ test('splitUp should split single editor group vertically', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -75,6 +77,7 @@ test('splitUp should preserve tabs in the original group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -100,6 +103,7 @@ test('splitUp should use activeGroupId when groupId not provided', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -108,6 +112,7 @@ test('splitUp should use activeGroupId when groupId not provided', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -132,6 +137,7 @@ test('splitUp should return unchanged state when activeGroupId is undefined and 
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -171,6 +177,7 @@ test('splitUp should set new group as focused', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

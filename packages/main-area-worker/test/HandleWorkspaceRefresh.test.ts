@@ -13,6 +13,7 @@ test('closes missing text file tabs and preserves existing tabs', async () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -68,6 +69,7 @@ test('ignores non-text editor inputs', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -107,6 +109,7 @@ test('preserves text file tabs when no files were deleted', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -146,6 +149,7 @@ test('supports the legacy deleted uri array', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -188,6 +192,7 @@ test('retargets open files below a renamed folder', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

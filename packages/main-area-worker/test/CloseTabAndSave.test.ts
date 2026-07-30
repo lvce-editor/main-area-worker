@@ -31,6 +31,7 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -95,6 +96,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -149,6 +151,7 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -202,6 +205,7 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -252,6 +256,7 @@ test('closeTabAndSave should keep a dirty tab open when closing is canceled', as
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -310,6 +315,7 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -363,6 +369,7 @@ test('closeTabAndSave should skip saving tabs without editor instances', async (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -410,6 +417,7 @@ test('closeTabAndSave should propagate unexpected dialog errors', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -449,6 +457,7 @@ test('closeTabAndSave should save and close a dirty tab without a uri', async ()
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -489,6 +498,7 @@ test('closeTabAndSave should dispose a Settings editor after switching to the re
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

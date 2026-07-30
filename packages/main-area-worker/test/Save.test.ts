@@ -28,6 +28,7 @@ const createSaveState = ({
     groups: [
       {
         activeTabId: id,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -62,6 +63,7 @@ test('save should return state when no active tab', async () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -86,6 +88,7 @@ test('save should return state when tab is loading', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -129,6 +132,7 @@ test('save should clear dirty state after a successful save', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -177,6 +181,7 @@ test('save should notify layout after saving settings', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -226,6 +231,7 @@ test('save should use the latest stored state when the call-site state is stale'
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

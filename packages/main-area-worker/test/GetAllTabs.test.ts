@@ -12,6 +12,7 @@ test('getAllTabs should return all tabs from all groups', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -39,6 +40,7 @@ test('getAllTabs should return all tabs from all groups', () => {
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -74,6 +76,7 @@ test('getAllTabs should return empty array when no tabs exist', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,

@@ -18,6 +18,7 @@ test('newFile should create a new empty tab in the active group', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -83,6 +84,7 @@ test('newFile should preserve existing tabs when creating new tab', async () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -143,6 +145,7 @@ test('newFile should create a new tab with unique ID', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -186,6 +189,7 @@ test('newFile should set active group to the group where tab was created', async
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -227,6 +231,7 @@ test('newFile should create a group when existing groups are inactive', async ()
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,

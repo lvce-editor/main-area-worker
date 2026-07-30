@@ -34,6 +34,7 @@ test('closeTab should add closed tab to the restore stack', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -66,6 +67,7 @@ test('restoreClosedTabState should restore the most recently closed tab at its o
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -102,6 +104,7 @@ test('restoreClosedTabState should restore closed tabs in LIFO order across grou
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -110,6 +113,7 @@ test('restoreClosedTabState should restore closed tabs in LIFO order across grou
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -142,6 +146,7 @@ test('restoreClosedTabState should recreate a removed group at its original posi
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -150,6 +155,7 @@ test('restoreClosedTabState should recreate a removed group at its original posi
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -158,6 +164,7 @@ test('restoreClosedTabState should recreate a removed group at its original posi
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: false,
@@ -187,6 +194,7 @@ test('restoreClosedTabState should focus an existing tab instead of restoring a 
       {
         group: {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -204,6 +212,7 @@ test('restoreClosedTabState should focus an existing tab instead of restoring a 
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -232,6 +241,7 @@ test('restoreClosedTabState should focus a duplicate tab and unfocus other group
       {
         group: {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -249,6 +259,7 @@ test('restoreClosedTabState should focus a duplicate tab and unfocus other group
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -257,6 +268,7 @@ test('restoreClosedTabState should focus a duplicate tab and unfocus other group
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -281,6 +293,7 @@ test('restoreClosedTabState should restore a tab without a uri into its existing
       {
         group: {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -298,6 +311,7 @@ test('restoreClosedTabState should restore a tab without a uri into its existing
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -306,6 +320,7 @@ test('restoreClosedTabState should restore a tab without a uri into its existing
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -331,6 +346,7 @@ test('restoreClosedTabState should recreate the only group', () => {
       {
         group: {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

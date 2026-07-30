@@ -54,7 +54,7 @@ const splitOnlyGroup = (
     if (group.id === groupId) {
       return {
         ...group,
-        direction: undefined,
+        direction: splitLayoutDirection,
         focused: false,
         size: 50,
       }
@@ -63,7 +63,7 @@ const splitOnlyGroup = (
   })
   const newGroup = {
     ...baseNewGroup,
-    direction: undefined,
+    direction: splitLayoutDirection,
     size: 50,
   }
   const reorderedGroups = isTrailingSplit(direction) ? [...updatedGroups, newGroup] : [newGroup, ...updatedGroups]
@@ -152,7 +152,7 @@ const splitAtRootLevel = (
     if (group.id === groupId) {
       return {
         ...group,
-        direction: undefined,
+        direction: state.layout.direction,
         focused: false,
         size: 50,
       }
@@ -161,7 +161,7 @@ const splitAtRootLevel = (
   })
   const newGroup = {
     ...baseNewGroup,
-    direction: undefined,
+    direction: state.layout.direction,
     size: 50,
   }
 
@@ -189,6 +189,7 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
 
   const baseNewGroup: EditorGroup = {
     activeTabId: undefined,
+    direction: sourceGroup.direction,
     focused: true,
     id: newGroupId,
     isEmpty: true,
@@ -200,11 +201,11 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
     return splitOnlyGroup(state, groups, groupId, newGroupId, direction, splitLayoutDirection, baseNewGroup)
   }
 
-  if (sourceGroup.direction === splitLayoutDirection) {
+  if (sourceGroup.direction !== layoutDirection && sourceGroup.direction === splitLayoutDirection) {
     return splitWithinMatchingNestedDirection(state, groups, sourceGroup, groupId, newGroupId, direction, splitLayoutDirection, baseNewGroup)
   }
 
-  if (splitLayoutDirection !== layoutDirection && sourceGroup.direction === undefined) {
+  if (splitLayoutDirection !== layoutDirection && sourceGroup.direction === layoutDirection) {
     return splitStandaloneSourceIntoNestedDirection(state, groups, sourceGroup, groupId, newGroupId, direction, splitLayoutDirection, baseNewGroup)
   }
 

@@ -92,7 +92,7 @@ test('getSashCorner should return undefined for a non-grid layout', () => {
     ...layout,
     groups: groups.slice(0, 2).map((group) => ({
       ...group,
-      direction: undefined,
+      direction: LayoutDirection.Horizontal,
       segmentId: undefined,
       size: 50,
     })),

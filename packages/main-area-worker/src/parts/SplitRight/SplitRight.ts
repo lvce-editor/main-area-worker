@@ -6,13 +6,14 @@ import * as SplitEditorGroup from '../SplitEditorGroup/SplitEditorGroup.ts'
 
 export const splitRight = (state: MainAreaState, groupId?: number): MainAreaState => {
   const { layout } = state
-  const { activeGroupId, groups } = layout
+  const { activeGroupId, direction, groups } = layout
 
   // If there are no groups, create an initial empty group first
   if (groups.length === 0) {
     const initialGroupId = Id.create()
     const initialGroup: EditorGroup = {
       activeTabId: undefined,
+      direction,
       focused: true,
       id: initialGroupId,
       isEmpty: true,

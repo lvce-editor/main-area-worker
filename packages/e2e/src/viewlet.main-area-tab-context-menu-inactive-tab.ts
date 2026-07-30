@@ -22,6 +22,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // act
   // eslint-disable-next-line e2e/no-direct-click -- Right-click is the behavior under test and the main-area page object has no mouse-button API.
   await inactiveTab.click({ button: 'right' })
+  await Main.handleTabContextMenu(2, 0, 0)
 
   // assert
   await expect(activeTab).toBeVisible()

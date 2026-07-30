@@ -7,10 +7,10 @@ export const getDragOverlayCss = (dragOverlay: DragOverlay | undefined): readonl
   const { height, width, x, y } = dragOverlay
   return [
     `.DragOverlay {
-  left: ${x}px;
-  top: ${y}px;
-  width: ${width}px;
-  height: ${height}px;
+  --DragOverlayLeft: ${x}px;
+  --DragOverlayTop: ${y}px;
+  --DragOverlayWidth: ${width}px;
+  --DragOverlayHeight: ${height}px;
 }`,
   ]
 }

@@ -5,7 +5,7 @@ export const skip = ['webkit'] as const
 
 const clickEventInit = { bubbles: true } as unknown as string
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMenuBar, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, TitleBarMenuBar, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
   await Main.closeAllEditors()
@@ -17,10 +17,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMe
   await TitleBarMenuBar.handleKeyArrowDown()
   const editorLayoutMenuItem = Locator('#Menu-0 .MenuItem', { hasText: 'Editor Layout' })
   await expect(editorLayoutMenuItem).toBeVisible()
-  await editorLayoutMenuItem.dispatchEvent('click', clickEventInit)
+  await Command.execute('TitleBar.handleMenuClick', 0, 4)
   const splitUpMenuItem = Locator('#Menu-1 .MenuItem', { hasText: 'Split Up' })
   await expect(splitUpMenuItem).toBeVisible()
-  await splitUpMenuItem.dispatchEvent('click', clickEventInit)
+  await Command.execute('TitleBar.handleMenuClick', 1, 0)
 
   const editorGroups = Locator('.EditorGroup')
   const closeButtons = Locator('.EmptyGroupCloseButton')
@@ -29,6 +29,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMe
   await expect(editorGroups).toHaveCount(2)
   await expect(closeButtons).toHaveCount(2)
   await lowerGroupCloseButton.dispatchEvent('click', clickEventInit)
+  await Main.handleClickAction('', '')
 
   await expect(editorGroups).toHaveCount(1)
   await expect(mainTabs).toHaveCount(0)

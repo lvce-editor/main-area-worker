@@ -79,9 +79,9 @@ test('getCss should position the drag overlay', () => {
   })
 
   expect(result).toContain(`.DragOverlay {
-  left: 0px;
-  top: 35px;
-  width: 400px;
-  height: 300px;
+  --DragOverlayLeft: 0px;
+  --DragOverlayTop: 35px;
+  --DragOverlayWidth: 400px;
+  --DragOverlayHeight: 300px;
 }`)
 })

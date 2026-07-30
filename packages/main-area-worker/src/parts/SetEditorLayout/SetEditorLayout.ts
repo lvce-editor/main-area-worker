@@ -73,9 +73,10 @@ const getGroupsForSlotCount = (groups: readonly EditorGroup[], slotCount: number
 
 export const setEditorLayout = (state: MainAreaState, direction: LayoutDirection, slots: readonly LayoutSlot[]): MainAreaState => {
   const { layout } = state
-  const groups = getGroupsForSlotCount(layout.groups, slots.length, layout.activeGroupId)
-  const originalActiveIndex = layout.groups.findIndex((group) => group.id === layout.activeGroupId)
-  const activeIndex = originalActiveIndex >= slots.length ? slots.length - 1 : getActiveGroupIndex(groups, layout.activeGroupId)
+  const { activeGroupId, groups: currentGroups } = layout
+  const groups = getGroupsForSlotCount(currentGroups, slots.length, activeGroupId)
+  const originalActiveIndex = currentGroups.findIndex((group) => group.id === activeGroupId)
+  const activeIndex = originalActiveIndex >= slots.length ? slots.length - 1 : getActiveGroupIndex(groups, activeGroupId)
   const nextGroups = groups.map((group, index) => {
     const slot = slots[index]
     const focused = index === activeIndex
@@ -99,12 +100,13 @@ export const setEditorLayout = (state: MainAreaState, direction: LayoutDirection
 
 export const flipLayout = (state: MainAreaState): MainAreaState => {
   const { layout } = state
+  const { direction, groups } = layout
   return {
     ...state,
     layout: {
       ...layout,
-      direction: flipDirection(layout.direction),
-      groups: layout.groups.map((group) => ({
+      direction: flipDirection(direction),
+      groups: groups.map((group) => ({
         ...group,
         direction: group.direction === undefined ? undefined : flipDirection(group.direction),
       })),

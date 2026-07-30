@@ -5,9 +5,10 @@ import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditor
 import { normalizeTabEditorInput } from '../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 
 export const getViewletModuleIds = async (layout: MainAreaLayout): Promise<Record<string, string>> => {
+  const { groups } = layout
   const viewletModuleIds: Record<string, string> = {}
 
-  for (const group of layout.groups) {
+  for (const group of groups) {
     const { tabs } = group
     const activeTab = tabs.find((tab: Tab) => tab.id === group.activeTabId)
     if (activeTab && (activeTab.editorInput || activeTab.uri)) {

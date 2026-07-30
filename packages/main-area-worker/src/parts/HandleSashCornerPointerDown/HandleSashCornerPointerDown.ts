@@ -3,6 +3,7 @@ import { getSashCorner } from '../GetSashCorner/GetSashCorner.ts'
 
 export const handleSashCornerPointerDown = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
   const { layout } = state
+  const { groups } = layout
   if (!Number.isFinite(clientX) || !Number.isFinite(clientY)) {
     return state
   }
@@ -13,7 +14,7 @@ export const handleSashCornerPointerDown = async (state: MainAreaState, clientX:
   return {
     ...state,
     sashCornerDrag: {
-      groupSizes: layout.groups.map((group) => ({
+      groupSizes: groups.map((group) => ({
         id: group.id,
         size: group.size,
       })),

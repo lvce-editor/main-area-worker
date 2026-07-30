@@ -5,6 +5,7 @@ import { getAllTabs } from './GetAllTabs.ts'
 
 export const loadFileIcons = async (state: MainAreaState): Promise<{ fileIconCache: FileIconCache; updatedLayout: any }> => {
   const { fileIconCache, layout } = state
+  const { groups } = layout
   try {
     const allTabs = getAllTabs(layout)
     const { newFileIconCache } = await getFileIconsForTabs(allTabs, fileIconCache)
@@ -12,7 +13,7 @@ export const loadFileIcons = async (state: MainAreaState): Promise<{ fileIconCac
     // Update tabs with their icons
     const updatedLayout = {
       ...layout,
-      groups: layout.groups.map((group) => ({
+      groups: groups.map((group) => ({
         ...group,
         tabs: group.tabs.map((tab) => ({
           ...tab,

@@ -7,6 +7,7 @@ import { renderEditorGroupActions } from '../src/parts/RenderEditorGroupActions/
 test('renderEditorGroupActions should return empty array when splitButtonEnabled is false and no HTML file', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -33,6 +34,7 @@ test('renderEditorGroupActions should return empty array when splitButtonEnabled
 test('renderEditorGroupActions should render split button when splitButtonEnabled is true', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -83,6 +85,7 @@ test('renderEditorGroupActions should render split button when splitButtonEnable
 test('renderEditorGroupActions should render toggle preview button for HTML files', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -134,6 +137,7 @@ test('renderEditorGroupActions should render toggle preview button for HTML file
 test('renderEditorGroupActions should not render toggle preview button for non-HTML files', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -160,6 +164,7 @@ test('renderEditorGroupActions should not render toggle preview button for non-H
 test('renderEditorGroupActions should render both buttons when HTML file and splitButtonEnabled is true', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -226,6 +231,7 @@ test('renderEditorGroupActions should render both buttons when HTML file and spl
 test('renderEditorGroupActions should not render toggle preview button when tab has no uri', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -251,6 +257,7 @@ test('renderEditorGroupActions should not render toggle preview button when tab 
 test('renderEditorGroupActions should not render toggle preview button when no active tab', () => {
   const group: EditorGroup = {
     activeTabId: 2,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -277,6 +284,7 @@ test('renderEditorGroupActions should not render toggle preview button when no a
 test('renderEditorGroupActions should handle empty tabs array', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,

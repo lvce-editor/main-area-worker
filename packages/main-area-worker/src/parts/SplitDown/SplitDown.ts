@@ -12,6 +12,7 @@ export const splitDown = (state: MainAreaState, groupId?: number): MainAreaState
     const initialGroupId = Id.create()
     const initialGroup: EditorGroup = {
       activeTabId: undefined,
+      direction: layout.direction,
       focused: true,
       id: initialGroupId,
       isEmpty: true,

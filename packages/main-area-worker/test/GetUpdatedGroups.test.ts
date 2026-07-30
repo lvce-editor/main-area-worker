@@ -19,6 +19,7 @@ test('getUpdatedGroups should focus selected group and update active tab', () =>
   const groups: MainAreaLayout['groups'] = [
     {
       activeTabId: 1,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: false,
@@ -27,6 +28,7 @@ test('getUpdatedGroups should focus selected group and update active tab', () =>
     },
     {
       activeTabId: 3,
+      direction: 1,
       focused: false,
       id: 2,
       isEmpty: false,
@@ -38,6 +40,7 @@ test('getUpdatedGroups should focus selected group and update active tab', () =>
   expect(getUpdatedGroups(groups, 1, false, 3)).toEqual([
     {
       activeTabId: 1,
+      direction: 1,
       focused: false,
       id: 1,
       isEmpty: false,
@@ -46,6 +49,7 @@ test('getUpdatedGroups should focus selected group and update active tab', () =>
     },
     {
       activeTabId: 3,
+      direction: 1,
       focused: true,
       id: 2,
       isEmpty: false,
@@ -59,6 +63,7 @@ test('getUpdatedGroups should reset loading state and error message for selected
   const groups: MainAreaLayout['groups'] = [
     {
       activeTabId: 1,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: false,
@@ -70,6 +75,7 @@ test('getUpdatedGroups should reset loading state and error message for selected
   expect(getUpdatedGroups(groups, 0, true, 1)).toEqual([
     {
       activeTabId: 1,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: false,

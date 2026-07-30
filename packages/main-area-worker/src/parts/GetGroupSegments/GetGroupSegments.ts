@@ -16,7 +16,7 @@ export const getGroupSegments = (groups: readonly EditorGroup[], parentDirection
   let index = 0
   while (index < groups.length) {
     const group = groups[index]
-    if (group.direction !== undefined && group.direction !== parentDirection) {
+    if (group.direction !== parentDirection) {
       const startIndex = index
       const nestedGroups = [group]
       const { segmentId } = group

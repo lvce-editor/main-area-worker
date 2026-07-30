@@ -12,6 +12,7 @@ test('getActiveTab should return active tab when group is focused and has active
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -39,6 +40,7 @@ test('getActiveTab should return active tab when group is focused and has active
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -73,6 +75,7 @@ test('getActiveTab should return undefined when no group is focused', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -105,6 +108,7 @@ test('getActiveTab should return undefined when focused group has no activeTabId
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -127,6 +131,7 @@ test('getActiveTab should return undefined when activeTabId does not match any t
       groups: [
         {
           activeTabId: 999,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

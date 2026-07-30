@@ -6,6 +6,7 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
   const groups: readonly EditorGroup[] = [
     {
       activeTabId: 1,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: false,
@@ -35,6 +36,7 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
     },
     {
       activeTabId: 3,
+      direction: 1,
       focused: false,
       id: 2,
       isEmpty: false,
@@ -59,6 +61,7 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
   expect(result).toEqual([
     {
       activeTabId: 2,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: false,
@@ -78,6 +81,7 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
     },
     {
       activeTabId: undefined,
+      direction: 1,
       focused: false,
       id: 2,
       isEmpty: true,

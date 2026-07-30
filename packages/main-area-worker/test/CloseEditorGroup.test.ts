@@ -18,6 +18,7 @@ test('closeEditorGroup should return state unchanged when group does not exist',
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -26,6 +27,7 @@ test('closeEditorGroup should return state unchanged when group does not exist',
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -50,6 +52,7 @@ test('closeEditorGroup should return state unchanged when there is only one grou
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -74,6 +77,7 @@ test('closeEditorGroup should close non-active group and redistribute sizes', ()
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -82,6 +86,7 @@ test('closeEditorGroup should close non-active group and redistribute sizes', ()
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -100,6 +105,7 @@ test('closeEditorGroup should close non-active group and redistribute sizes', ()
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: true,
@@ -121,6 +127,7 @@ test('closeEditorGroup should close active group and switch to first remaining g
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -129,6 +136,7 @@ test('closeEditorGroup should close active group and switch to first remaining g
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -147,6 +155,7 @@ test('closeEditorGroup should close active group and switch to first remaining g
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -168,6 +177,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of thre
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -176,6 +186,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of thre
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -184,6 +195,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of thre
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: true,
@@ -202,6 +214,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of thre
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: true,
@@ -210,6 +223,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of thre
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 3,
         isEmpty: true,
@@ -231,6 +245,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -239,6 +254,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -247,6 +263,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: true,
@@ -255,6 +272,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 4,
           isEmpty: true,
@@ -273,6 +291,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: true,
@@ -281,6 +300,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -289,6 +309,7 @@ test('closeEditorGroup should redistribute sizes evenly when closing one of four
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 4,
         isEmpty: true,
@@ -311,6 +332,7 @@ test('closeEditorGroup should preserve other state properties', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -319,6 +341,7 @@ test('closeEditorGroup should preserve other state properties', () => {
         },
         {
           activeTabId: undefined,
+          direction: 2,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -339,6 +362,7 @@ test('closeEditorGroup should preserve other state properties', () => {
     groups: [
       {
         activeTabId: undefined,
+        direction: 2,
         focused: true,
         id: 1,
         isEmpty: true,
@@ -363,6 +387,7 @@ test('closeEditorGroup should handle closing middle group in three groups', () =
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,
@@ -371,6 +396,7 @@ test('closeEditorGroup should handle closing middle group in three groups', () =
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: true,
@@ -379,6 +405,7 @@ test('closeEditorGroup should handle closing middle group in three groups', () =
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: true,
@@ -397,6 +424,7 @@ test('closeEditorGroup should handle closing middle group in three groups', () =
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -405,6 +433,7 @@ test('closeEditorGroup should handle closing middle group in three groups', () =
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 3,
         isEmpty: true,
@@ -426,6 +455,7 @@ test('closeEditorGroup should handle closing last group in three groups', () => 
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -434,6 +464,7 @@ test('closeEditorGroup should handle closing last group in three groups', () => 
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -442,6 +473,7 @@ test('closeEditorGroup should handle closing last group in three groups', () => 
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: true,
@@ -460,6 +492,7 @@ test('closeEditorGroup should handle closing last group in three groups', () => 
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: true,
@@ -468,6 +501,7 @@ test('closeEditorGroup should handle closing last group in three groups', () => 
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: true,

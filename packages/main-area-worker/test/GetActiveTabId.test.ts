@@ -12,6 +12,7 @@ test('getActiveTabId should return active tab id from active group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -20,6 +21,7 @@ test('getActiveTabId should return active tab id from active group', () => {
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -42,6 +44,7 @@ test('getActiveTabId should return undefined when active group is missing', () =
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

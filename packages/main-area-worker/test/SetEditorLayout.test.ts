@@ -14,7 +14,12 @@ import {
   setEditorLayoutTwoRowsRight,
 } from '../src/parts/SetEditorLayout/SetEditorLayout.ts'
 
-const createGroup = (id: number, size: number, focused = false, direction?: LayoutDirection.LayoutDirection): EditorGroup => {
+const createGroup = (
+  id: number,
+  size: number,
+  focused = false,
+  direction: LayoutDirection.LayoutDirection = LayoutDirection.Horizontal,
+): EditorGroup => {
   return {
     activeTabId: id,
     direction,
@@ -63,7 +68,11 @@ test('setEditorLayoutSingle merges all tabs into one group', () => {
 test('setEditorLayout expands missing groups with empty groups', () => {
   const state = createState([createGroup(1, 100)])
 
-  const result = setEditorLayout(state, LayoutDirection.Horizontal, [{ size: 33.333333 }, { size: 33.333333 }, { size: 33.333334 }])
+  const result = setEditorLayout(state, LayoutDirection.Horizontal, [
+    { direction: LayoutDirection.Horizontal, size: 33.333333 },
+    { direction: LayoutDirection.Horizontal, size: 33.333333 },
+    { direction: LayoutDirection.Horizontal, size: 33.333334 },
+  ])
 
   expect(result.layout.groups).toHaveLength(3)
   expect(result.layout.groups[0].tabs).toHaveLength(1)
@@ -74,7 +83,10 @@ test('setEditorLayout expands missing groups with empty groups', () => {
 test('setEditorLayout merges extra groups into the final slot', () => {
   const state = createState([createGroup(1, 25), createGroup(2, 25), createGroup(3, 25), createGroup(4, 25)], 4)
 
-  const result = setEditorLayout(state, LayoutDirection.Vertical, [{ size: 50 }, { size: 50 }])
+  const result = setEditorLayout(state, LayoutDirection.Vertical, [
+    { direction: LayoutDirection.Vertical, size: 50 },
+    { direction: LayoutDirection.Vertical, size: 50 },
+  ])
 
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([1])
@@ -107,7 +119,11 @@ test('setEditorLayoutTwoRowsRight creates one left column and two rows on the ri
   const result = setEditorLayoutTwoRowsRight(state)
 
   expect(result.layout.direction).toBe(LayoutDirection.Horizontal)
-  expect(result.layout.groups.map((group) => group.direction)).toEqual([undefined, LayoutDirection.Vertical, LayoutDirection.Vertical])
+  expect(result.layout.groups.map((group) => group.direction)).toEqual([
+    LayoutDirection.Horizontal,
+    LayoutDirection.Vertical,
+    LayoutDirection.Vertical,
+  ])
   expect(result.layout.groups.map((group) => group.size)).toEqual([50, 25, 25])
 })
 
@@ -117,7 +133,11 @@ test('setEditorLayoutTwoColumnsBottom creates one top row and two columns on the
   const result = setEditorLayoutTwoColumnsBottom(state)
 
   expect(result.layout.direction).toBe(LayoutDirection.Vertical)
-  expect(result.layout.groups.map((group) => group.direction)).toEqual([undefined, LayoutDirection.Horizontal, LayoutDirection.Horizontal])
+  expect(result.layout.groups.map((group) => group.direction)).toEqual([
+    LayoutDirection.Vertical,
+    LayoutDirection.Horizontal,
+    LayoutDirection.Horizontal,
+  ])
   expect(result.layout.groups.map((group) => group.size)).toEqual([50, 25, 25])
 })
 

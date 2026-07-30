@@ -150,6 +150,7 @@ test('openInput should activate existing diff editor tab', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -228,6 +229,7 @@ test('openInput should activate an existing stored tab when the call-site state 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

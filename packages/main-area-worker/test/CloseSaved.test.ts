@@ -46,6 +46,7 @@ test('closeSaved should close all non-dirty tabs', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -101,6 +102,7 @@ test('closeSaved should update activeTabId when active tab is closed', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -156,6 +158,7 @@ test('closeSaved should mark group empty when no dirty tabs remain', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -192,6 +195,7 @@ test('closeSaved should preserve groups with only dirty tabs', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -210,6 +214,7 @@ test('closeSaved should preserve groups with only dirty tabs', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,

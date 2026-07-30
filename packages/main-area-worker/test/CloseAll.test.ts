@@ -13,6 +13,7 @@ test('closeAll should close all tabs and groups', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -40,6 +41,7 @@ test('closeAll should close all tabs and groups', async () => {
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -76,6 +78,7 @@ test('closeAll should preserve layout direction', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -113,6 +116,7 @@ test('closeAll should preserve other state properties', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -167,6 +171,7 @@ test('closeAll should handle multiple groups with many tabs', async () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -194,6 +199,7 @@ test('closeAll should handle multiple groups with many tabs', async () => {
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -212,6 +218,7 @@ test('closeAll should handle multiple groups with many tabs', async () => {
         },
         {
           activeTabId: 4,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: false,
@@ -259,6 +266,7 @@ test('closeAll should dispose editor viewlets', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

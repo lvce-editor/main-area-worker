@@ -42,6 +42,7 @@ test('openUri should add tab to active group when group exists', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -112,6 +113,7 @@ test('openUri should replace active preview tab instead of adding a new tab', as
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -165,6 +167,7 @@ test('openUri should dispose the replaced preview editor and create a new one', 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -215,6 +218,7 @@ test('openUri should activate existing tab if URI already exists', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -273,6 +277,7 @@ test('openUri should pin an existing preview tab when opened as non-preview', as
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -314,6 +319,7 @@ test('openUri should activate existing tab in different group', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -336,6 +342,7 @@ test('openUri should activate existing tab in different group', async () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -609,6 +616,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1065,6 +1073,7 @@ test('openUri should preserve existing tabs when race condition occurs', async (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

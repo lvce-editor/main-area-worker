@@ -7,6 +7,7 @@ import { renderTabBar } from '../src/parts/RenderTabBar/RenderTabBar.ts'
 test('renderTabBar should return correct structure for single tab', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,
@@ -79,6 +80,7 @@ test('renderTabBar should return correct structure for single tab', () => {
 test('renderTabBar should handle multiple tabs', () => {
   const group: EditorGroup = {
     activeTabId: 2,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,
@@ -115,6 +117,7 @@ test('renderTabBar should handle multiple tabs', () => {
 test('renderTabBar should handle empty tabs array', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: true,

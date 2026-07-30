@@ -12,6 +12,7 @@ test('closeOtherTabs should close all tabs except the active one', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -67,6 +68,7 @@ test('closeOtherTabs should return state unchanged when group does not exist', (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -101,6 +103,7 @@ test('closeOtherTabs should return state unchanged when there is no active tab',
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -135,6 +138,7 @@ test('closeOtherTabs should preserve other groups', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -171,6 +175,7 @@ test('closeOtherTabs should preserve other groups', () => {
         },
         {
           activeTabId: 5,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -228,6 +233,7 @@ test('closeOtherTabs should handle single tab in group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -264,6 +270,7 @@ test('closeOtherTabs should handle active tab at the beginning', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -318,6 +325,7 @@ test('closeOtherTabs should handle active tab at the end', () => {
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -373,6 +381,7 @@ test('closeOtherTabs should preserve other state properties', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -422,6 +431,7 @@ test('closeOtherTabs should handle tabs with custom properties', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -482,6 +492,7 @@ test('closeOtherTabs should use active group when groupId is not provided', () =
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -509,6 +520,7 @@ test('closeOtherTabs should use active group when groupId is not provided', () =
         },
         {
           activeTabId: 4,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -570,6 +582,7 @@ test('closeOtherTabs should return state unchanged when activeGroupId is undefin
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

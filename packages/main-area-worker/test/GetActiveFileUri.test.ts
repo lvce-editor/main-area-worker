@@ -11,6 +11,7 @@ const createState = (tabs: readonly Tab[], activeTabId: number | undefined = tab
     groups: [
       {
         activeTabId,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: tabs.length === 0,

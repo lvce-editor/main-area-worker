@@ -8,6 +8,7 @@ test('withGroups should replace groups', () => {
 
   const newGroup: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,
@@ -26,6 +27,7 @@ test('withGroups should replace multiple groups', () => {
 
   const group1: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,
@@ -35,6 +37,7 @@ test('withGroups should replace multiple groups', () => {
 
   const group2: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 2,
     isEmpty: true,
@@ -59,6 +62,7 @@ test('withGroups should preserve other state properties', () => {
 
   const newGroup: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,
@@ -82,6 +86,7 @@ test('withGroups should replace with empty groups', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -109,6 +114,7 @@ test('withGroups should preserve activeGroupId', () => {
 
   const newGroup: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,

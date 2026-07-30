@@ -12,6 +12,7 @@ test('handleWorkspaceChange should clear activeGroupId and groups', async () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -50,6 +51,7 @@ test('handleWorkspaceChange should preserve other state properties', async () =>
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 2,
           isEmpty: true,
@@ -95,6 +97,7 @@ test('handleWorkspaceChange should restore saved editor groups', async () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,

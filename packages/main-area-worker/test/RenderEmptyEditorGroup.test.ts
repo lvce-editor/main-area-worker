@@ -9,6 +9,7 @@ import { renderEmptyEditorGroup } from '../src/parts/RenderEmptyEditorGroup/Rend
 test('renderEmptyEditorGroup should return empty group and close button', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: true,
@@ -65,6 +66,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
 test('renderEmptyEditorGroup should expose the group id for CSS targeting', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 2,
     isEmpty: true,

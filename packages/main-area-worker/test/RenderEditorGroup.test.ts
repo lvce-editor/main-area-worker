@@ -7,6 +7,7 @@ import { renderEditorGroup } from '../src/parts/RenderEditorGroup/RenderEditorGr
 test('renderEditorGroup should return correct structure for group with active tab', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,
@@ -126,6 +127,7 @@ test('renderEditorGroup should return correct structure for group with active ta
 test('renderEditorGroup should handle group with no active tab', () => {
   const group: EditorGroup = {
     activeTabId: 999,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,
@@ -151,6 +153,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
 test('renderEditorGroup should handle group with custom editor', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: false,
@@ -176,6 +179,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
 test('renderEditorGroup should handle empty tabs array', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: true,
@@ -231,6 +235,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
 test('renderEditorGroup should expose the group id for CSS targeting', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: true,

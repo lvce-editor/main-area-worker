@@ -20,6 +20,7 @@ test('retryOpen should return state unchanged when active tab has no uri', async
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -54,6 +55,7 @@ test('retryOpen should keep tab layout unchanged when reopening active tab uri',
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -74,6 +76,7 @@ test('retryOpen should keep tab layout unchanged when reopening active tab uri',
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,

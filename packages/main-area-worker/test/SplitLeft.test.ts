@@ -24,6 +24,7 @@ test('splitLeft should return state unchanged when group does not exist', () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -48,6 +49,7 @@ test('splitLeft should split single editor group horizontally', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -79,6 +81,7 @@ test('splitLeft should preserve tabs in the original group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -105,6 +108,7 @@ test('splitLeft should use activeGroupId when groupId not provided', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -113,6 +117,7 @@ test('splitLeft should use activeGroupId when groupId not provided', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -154,6 +159,7 @@ test('splitLeft should set new group as focused', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

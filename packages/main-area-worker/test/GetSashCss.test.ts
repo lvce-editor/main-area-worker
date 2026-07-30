@@ -10,6 +10,7 @@ test('getSashCss should return no rules when layout has one group', () => {
     groups: [
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Horizontal,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -31,6 +32,7 @@ test('getSashCss should use left positions for horizontal layouts', () => {
     groups: [
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Horizontal,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -39,6 +41,7 @@ test('getSashCss should use left positions for horizontal layouts', () => {
       },
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Horizontal,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -47,6 +50,7 @@ test('getSashCss should use left positions for horizontal layouts', () => {
       },
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Horizontal,
         focused: false,
         id: 3,
         isEmpty: true,
@@ -75,6 +79,7 @@ test('getSashCss should use top positions for vertical layouts', () => {
     groups: [
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Vertical,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -83,6 +88,7 @@ test('getSashCss should use top positions for vertical layouts', () => {
       },
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Vertical,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -108,6 +114,7 @@ test('getSashCss should use pixel left positions for horizontal layouts with ove
     groups: [
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Horizontal,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -116,6 +123,7 @@ test('getSashCss should use pixel left positions for horizontal layouts with ove
       },
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Horizontal,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -124,6 +132,7 @@ test('getSashCss should use pixel left positions for horizontal layouts with ove
       },
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Horizontal,
         focused: false,
         id: 3,
         isEmpty: true,
@@ -152,6 +161,7 @@ test('getSashCss should use percentage offsets for nested segments and nested sa
     groups: [
       {
         activeTabId: undefined,
+        direction: LayoutDirection.Horizontal,
         focused: false,
         id: 1,
         isEmpty: true,

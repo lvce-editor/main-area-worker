@@ -5,6 +5,7 @@ import { isValidEditorGroup } from '../src/parts/IsValidEditorGroup/IsValidEdito
 test('isValidEditorGroup should return true for valid group', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -27,6 +28,7 @@ test('isValidEditorGroup should return true for valid group', () => {
 test('isValidEditorGroup should return true for group with undefined activeTabId', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: true,
@@ -39,6 +41,7 @@ test('isValidEditorGroup should return true for group with undefined activeTabId
 test('isValidEditorGroup should return true for group with segmentId', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: true,
@@ -57,6 +60,18 @@ test('isValidEditorGroup should return false for undefined', () => {
   expect(isValidEditorGroup(undefined)).toBeFalsy()
 })
 
+test('isValidEditorGroup should return false for missing direction', () => {
+  const group = {
+    activeTabId: undefined,
+    focused: true,
+    id: 1,
+    isEmpty: true,
+    size: 50,
+    tabs: [],
+  }
+  expect(isValidEditorGroup(group)).toBe(false)
+})
+
 test('isValidEditorGroup should return false for missing id', () => {
   const group = {
     activeTabId: undefined,
@@ -71,6 +86,7 @@ test('isValidEditorGroup should return false for missing id', () => {
 test('isValidEditorGroup should return false for invalid id type', () => {
   const group = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: '1',
     isEmpty: true,
@@ -104,6 +120,7 @@ test('isValidEditorGroup should return false for invalid tabs type', () => {
 test('isValidEditorGroup should return false for tabs with invalid tab', () => {
   const group = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -126,6 +143,7 @@ test('isValidEditorGroup should return false for tabs with invalid tab', () => {
 test('isValidEditorGroup should return false for invalid activeTabId type', () => {
   const group = {
     activeTabId: '1',
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,
@@ -149,6 +167,7 @@ test('isValidEditorGroup should return false for missing focused', () => {
 test('isValidEditorGroup should return false for invalid focused type', () => {
   const group = {
     activeTabId: undefined,
+    direction: 1,
     focused: 'true',
     id: 1,
     isEmpty: true,
@@ -161,6 +180,7 @@ test('isValidEditorGroup should return false for invalid focused type', () => {
 test('isValidEditorGroup should return false for invalid segmentId type', () => {
   const group = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,
@@ -185,6 +205,7 @@ test('isValidEditorGroup should return false for missing size', () => {
 test('isValidEditorGroup should return false for invalid size type', () => {
   const group = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,
@@ -197,6 +218,7 @@ test('isValidEditorGroup should return false for invalid size type', () => {
 test('isValidEditorGroup should return false for size zero', () => {
   const group = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,
@@ -209,6 +231,7 @@ test('isValidEditorGroup should return false for size zero', () => {
 test('isValidEditorGroup should return false for negative size', () => {
   const group = {
     activeTabId: undefined,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: true,

@@ -38,6 +38,22 @@ test('handleClickAction should return state unchanged when action is empty', asy
   expect(result).toBe(state)
 })
 
+test('handleClickAction should restore the last closed tab before resolving an active group', async () => {
+  const state = createDefaultState()
+
+  const result = await handleClickAction(state, 'restore-closed-tab')
+
+  expect(result).toBe(state)
+})
+
+test('handleClickAction should return state unchanged when there is no active group id', async () => {
+  const state = createDefaultState()
+
+  const result = await handleClickAction(state, 'retry-open')
+
+  expect(result).toBe(state)
+})
+
 test('handleClickAction should return state unchanged when activeGroupId does not exist', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -266,6 +282,40 @@ test('handleClickAction should split editor group right when action is "split-ri
   expect(result.layout.groups[0].size).toBe(50)
   expect(result.layout.groups[1].size).toBe(50)
   expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
+})
+
+test('handleClickAction should route retry-open to the active tab', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'Untitled',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await handleClickAction(state, 'retry-open')
+
+  expect(result).toBe(state)
 })
 
 test('handleClickAction should return state unchanged when action is unknown', async () => {

@@ -52,3 +52,13 @@ test('handleContextMenu should show main menu for empty main area', async () => 
   expect(result).toBe(state)
   expect(mockRpc.invocations).toEqual([['ContextMenu.show2', 789, MenuEntryId.Main, 30, 40, { groupId: -1, menuId: MenuEntryId.Main }]])
 })
+
+test('handleContextMenu should ignore a non-numeric group id', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+  const state = createDefaultState()
+
+  const result = await handleContextMenu(state, 'invalid', 10, 20)
+
+  expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([])
+})

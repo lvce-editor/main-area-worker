@@ -26,6 +26,29 @@ test('getMissingIconRequestsForTabs should request file icons by basename', () =
   ])
 })
 
+test('getMissingIconRequestsForTabs should use a slashless uri as the basename', () => {
+  const tabs: readonly Tab[] = [
+    {
+      editorType: 'text',
+      editorUid: -1,
+      icon: '',
+      id: 1,
+      isDirty: false,
+      isPreview: false,
+      title: 'README',
+      uri: 'README',
+    },
+  ]
+
+  expect(getMissingIconRequestsForTabs(tabs, {})).toEqual([
+    {
+      name: 'README',
+      path: 'README',
+      type: DirentType.File,
+    },
+  ])
+})
+
 test('getMissingIconRequestsForTabs should skip extension detail icons', () => {
   const tabs: readonly Tab[] = [
     {

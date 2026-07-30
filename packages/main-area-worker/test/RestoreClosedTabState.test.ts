@@ -223,3 +223,130 @@ test('restoreClosedTabState should focus an existing tab instead of restoring a 
   expect(result?.tabIndex).toBe(0)
   expect(result?.newState.closedTabs).toHaveLength(0)
 })
+
+test('restoreClosedTabState should focus a duplicate tab and unfocus other groups', () => {
+  const duplicateTab = createTab(2, 'shared.ts', '/tmp/shared.ts')
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    closedTabs: [
+      {
+        group: {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [createTab(1, 'shared.ts', '/tmp/shared.ts')],
+        },
+        groupIndex: 0,
+        tab: createTab(1, 'shared.ts', '/tmp/shared.ts'),
+        tabIndex: 0,
+      },
+    ],
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 3,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [createTab(3, 'other.ts', '/tmp/other.ts')],
+        },
+        {
+          activeTabId: 2,
+          focused: false,
+          id: 2,
+          isEmpty: false,
+          size: 50,
+          tabs: [duplicateTab],
+        },
+      ],
+    },
+  }
+
+  const result = restoreClosedTabState(state)
+
+  expect(result?.newState.layout.activeGroupId).toBe(2)
+  expect(result?.newState.layout.groups.map((group) => group.focused)).toEqual([false, true])
+})
+
+test('restoreClosedTabState should restore a tab without a uri into its existing group', () => {
+  const tab = createTab(2, 'Untitled', '')
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    closedTabs: [
+      {
+        group: {
+          activeTabId: 2,
+          focused: true,
+          id: 2,
+          isEmpty: false,
+          size: 50,
+          tabs: [tab],
+        },
+        groupIndex: 1,
+        tab,
+        tabIndex: 0,
+      },
+    ],
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [createTab(1, 'file.ts', '/tmp/file.ts')],
+        },
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 2,
+          isEmpty: true,
+          size: 50,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = restoreClosedTabState(state)
+
+  expect(result?.newState.layout.groups[0].focused).toBe(false)
+  expect(result?.newState.layout.groups[1].tabs).toHaveLength(1)
+  expect(result?.newState.layout.groups[1].focused).toBe(true)
+})
+
+test('restoreClosedTabState should recreate the only group', () => {
+  const tab = createTab(1, 'file.ts', '/tmp/file.ts')
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    closedTabs: [
+      {
+        group: {
+          activeTabId: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [tab],
+        },
+        groupIndex: 0,
+        tab,
+        tabIndex: 0,
+      },
+    ],
+  }
+
+  const result = restoreClosedTabState(state)
+
+  expect(result?.newState.layout.groups).toHaveLength(1)
+  expect(result?.newState.layout.activeGroupId).toBe(1)
+  expect(result?.newState.layout.groups[0].tabs[0].editorUid).toBe(-1)
+})

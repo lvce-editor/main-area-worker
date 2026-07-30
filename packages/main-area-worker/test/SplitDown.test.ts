@@ -3,6 +3,57 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { splitDown } from '../src/parts/SplitDown/SplitDown.ts'
 
+test('splitDown should create and split an initial group', () => {
+  const result = splitDown(createDefaultState())
+
+  expect(result.layout.groups).toHaveLength(2)
+  expect(result.layout.direction).toBe(2)
+})
+
+test('splitDown should use the active group when no group id is provided', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  expect(splitDown(state).layout.groups).toHaveLength(2)
+})
+
+test('splitDown should return unchanged state when neither group id is available', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: undefined,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  expect(splitDown(state)).toBe(state)
+})
+
 test('splitDown should return state unchanged when group does not exist', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

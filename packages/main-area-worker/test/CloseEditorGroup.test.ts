@@ -3,6 +3,12 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeEditorGroup } from '../src/parts/CloseEditorGroup/CloseEditorGroup.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
+test('closeEditorGroup should return state unchanged for an invalid group id', () => {
+  const state = createDefaultState()
+
+  expect(closeEditorGroup(state, NaN)).toBe(state)
+})
+
 test('closeEditorGroup should return state unchanged when group does not exist', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

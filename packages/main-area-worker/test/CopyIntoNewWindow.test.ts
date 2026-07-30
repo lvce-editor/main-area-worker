@@ -81,3 +81,39 @@ test('copyIntoNewWindow should do nothing when active tab has no uri', async () 
   expect(mockRpc.invocations).toEqual([])
   expect(result).toBe(state)
 })
+
+test('copyIntoNewWindow should do nothing without an active group', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+  const state = createDefaultState()
+
+  const result = await copyIntoNewWindow(state)
+
+  expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([])
+})
+
+test('copyIntoNewWindow should do nothing without an active tab', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: LayoutDirection.Horizontal,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = await copyIntoNewWindow(state)
+
+  expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([])
+})

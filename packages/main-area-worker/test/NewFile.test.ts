@@ -231,6 +231,7 @@ test('newFile should create a group when existing groups are inactive', async ()
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,

@@ -11,6 +11,7 @@ test('openTab assigns default preview state and an id', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1 as const,
           focused: true,
           id: 1,
           isEmpty: true,

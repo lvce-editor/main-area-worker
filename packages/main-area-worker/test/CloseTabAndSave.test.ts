@@ -417,6 +417,7 @@ test('closeTabAndSave should propagate unexpected dialog errors', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -456,6 +457,7 @@ test('closeTabAndSave should save and close a dirty tab without a uri', async ()
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

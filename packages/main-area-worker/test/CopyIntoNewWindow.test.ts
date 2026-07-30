@@ -104,6 +104,7 @@ test('copyIntoNewWindow should do nothing without an active tab', async () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: LayoutDirection.Horizontal,
           focused: true,
           id: 1,
           isEmpty: true,

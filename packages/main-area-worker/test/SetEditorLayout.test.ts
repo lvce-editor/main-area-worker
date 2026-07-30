@@ -215,12 +215,12 @@ test('setEditorLayout supports an empty slot list', () => {
   expect(result.layout.activeGroupId).toBeUndefined()
 })
 
-test('flipLayout preserves groups without a nested direction', () => {
+test('flipLayout flips root group directions', () => {
   const state = createState([createGroup(1, 100)])
 
   const result = flipLayout(state)
 
-  expect(result.layout.groups[0].direction).toBeUndefined()
+  expect(result.layout.groups[0].direction).toBe(LayoutDirection.Vertical)
 })
 
 test('layout presets create the requested row and column counts', () => {

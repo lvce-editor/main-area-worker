@@ -5,13 +5,13 @@ import * as GroupDirection from '../src/parts/GroupDirection/GroupDirection.ts'
 import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 import { splitEditorGroup } from '../src/parts/SplitEditorGroup/SplitEditorGroup.ts'
 
-const createGroup = (id: number, size: number, direction?: LayoutDirection.LayoutDirection) => ({
+const createGroup = (id: number, size: number, direction: LayoutDirection.LayoutDirection) => ({
   activeTabId: id,
   direction,
   focused: id === 1,
   id,
   isEmpty: false,
-  segmentId: direction === undefined ? undefined : 10,
+  segmentId: 10,
   size,
   tabs: [
     {

@@ -19,6 +19,7 @@ test('splitDown should use the active group when no group id is provided', () =>
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -41,6 +42,7 @@ test('splitDown should return unchanged state when neither group id is available
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,

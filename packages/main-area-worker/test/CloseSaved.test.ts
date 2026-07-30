@@ -12,6 +12,7 @@ test('closeSaved preserves a missing active tab id', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

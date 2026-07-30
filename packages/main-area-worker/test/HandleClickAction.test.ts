@@ -302,6 +302,7 @@ test('handleClickAction should route retry-open to the active tab', async () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

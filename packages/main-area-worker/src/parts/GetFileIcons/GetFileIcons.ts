@@ -6,11 +6,15 @@ import * as GetMissingIconRequests from '../GetMissingIconRequests/GetMissingIco
 import * as RequestFileIcons from '../RequestFileIcons/RequestFileIcons.ts'
 import * as UpdateIconCache from '../UpdateIconCache/UpdateIconCache.ts'
 
+const getUri = (tab: Tab): string => {
+  return tab.uri || ''
+}
+
 export const getFileIconsForTabs = async (tabs: readonly Tab[], fileIconCache: FileIconCache): Promise<FileIconsResult> => {
   const missingRequests = GetMissingIconRequests.getMissingIconRequestsForTabs(tabs, fileIconCache)
   const newIcons = await RequestFileIcons.requestFileIcons(missingRequests)
   const newFileIconCache = UpdateIconCache.updateIconCache(fileIconCache, missingRequests, newIcons)
-  const tabUris = tabs.map((tab) => tab.uri || '')
+  const tabUris = tabs.map(getUri)
   const icons = GetFileIconsCached.getIconsCached(tabUris, newFileIconCache)
   return {
     icons,

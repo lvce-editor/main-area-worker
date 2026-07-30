@@ -6,7 +6,11 @@ import { flipLayout, setEditorLayout } from '../src/parts/SetEditorLayout/SetEdi
 import {
   setEditorLayoutGrid,
   setEditorLayoutSingle,
+  setEditorLayoutThreeColumns,
+  setEditorLayoutThreeRows,
+  setEditorLayoutTwoColumns,
   setEditorLayoutTwoColumnsBottom,
+  setEditorLayoutTwoRows,
   setEditorLayoutTwoRowsRight,
 } from '../src/parts/SetEditorLayout/SetEditorLayout.ts'
 
@@ -124,4 +128,86 @@ test('flipLayout flips root and nested directions', () => {
 
   expect(result.layout.direction).toBe(LayoutDirection.Vertical)
   expect(result.layout.groups.map((group) => group.direction)).toEqual([LayoutDirection.Horizontal, LayoutDirection.Horizontal])
+})
+
+test('setEditorLayout uses the focused group when the active group id is stale', () => {
+  const state = createState([createGroup(1, 50), createGroup(2, 50, true)], 999)
+
+  const result = setEditorLayoutTwoColumns(state)
+
+  expect(result.layout.activeGroupId).toBe(2)
+  expect(result.layout.groups.map((group) => group.focused)).toEqual([false, true])
+})
+
+test('setEditorLayout preserves groups when the slot count already matches', () => {
+  const firstGroup = createGroup(1, 50, true)
+  const secondGroup = createGroup(2, 50)
+  const state = createState([firstGroup, secondGroup], 1)
+
+  const result = setEditorLayoutTwoRows(state)
+
+  expect(result.layout.groups[0]).toMatchObject({ id: 1, size: 50 })
+  expect(result.layout.groups[1]).toMatchObject({ id: 2, size: 50 })
+  expect(result.layout.direction).toBe(LayoutDirection.Vertical)
+})
+
+test('setEditorLayoutSingle creates an empty group when the layout has no groups', () => {
+  const state = createState([])
+
+  const result = setEditorLayoutSingle(state)
+
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0]).toMatchObject({
+    activeTabId: undefined,
+    focused: true,
+    isEmpty: true,
+    size: 100,
+    tabs: [],
+  })
+})
+
+test('setEditorLayoutSingle falls back to the last group with an active tab', () => {
+  const firstGroup = { ...createGroup(1, 50), activeTabId: undefined }
+  const secondGroup = createGroup(2, 50)
+  const state = createState([firstGroup, secondGroup], 999)
+
+  const result = setEditorLayoutSingle(state)
+
+  expect(result.layout.groups[0].activeTabId).toBe(2)
+})
+
+test('setEditorLayoutSingle falls back to the first merged tab', () => {
+  const firstGroup = { ...createGroup(1, 50), activeTabId: undefined }
+  const secondGroup = { ...createGroup(2, 50), activeTabId: undefined }
+  const state = createState([firstGroup, secondGroup], 999)
+
+  const result = setEditorLayoutSingle(state)
+
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('setEditorLayout supports an empty slot list', () => {
+  const state = createState([createGroup(1, 100)])
+
+  const result = setEditorLayout(state, LayoutDirection.Horizontal, [])
+
+  expect(result.layout.groups).toEqual([])
+  expect(result.layout.activeGroupId).toBeUndefined()
+})
+
+test('flipLayout preserves groups without a nested direction', () => {
+  const state = createState([createGroup(1, 100)])
+
+  const result = flipLayout(state)
+
+  expect(result.layout.groups[0].direction).toBeUndefined()
+})
+
+test('layout presets create the requested row and column counts', () => {
+  const state = createState([createGroup(1, 100)])
+
+  expect(setEditorLayoutThreeColumns(state).layout.groups).toHaveLength(3)
+  expect(setEditorLayoutThreeRows(state).layout.groups).toHaveLength(3)
+  expect(setEditorLayoutTwoColumns(state).layout.groups).toHaveLength(2)
+  expect(setEditorLayoutTwoRows(state).layout.groups).toHaveLength(2)
 })

@@ -2,7 +2,29 @@ import { expect, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as GroupDirection from '../src/parts/GroupDirection/GroupDirection.ts'
+import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 import { splitEditorGroup } from '../src/parts/SplitEditorGroup/SplitEditorGroup.ts'
+
+const createGroup = (id: number, size: number, direction?: LayoutDirection.LayoutDirection) => ({
+  activeTabId: id,
+  direction,
+  focused: id === 1,
+  id,
+  isEmpty: false,
+  segmentId: direction === undefined ? undefined : 10,
+  size,
+  tabs: [
+    {
+      editorType: 'text' as const,
+      editorUid: id,
+      icon: '',
+      id,
+      isDirty: false,
+      isPreview: false,
+      title: `File ${id}`,
+    },
+  ],
+})
 
 test('splitEditorGroup should split editor group to the right', () => {
   const state: MainAreaState = {
@@ -625,6 +647,63 @@ test('splitEditorGroup should handle horizontal direction string correctly for u
 
   // Up is vertical, so direction should change to vertical
   expect(result.layout.direction).toBe(2)
+})
+
+test('splitEditorGroup should insert a trailing group within a matching nested segment', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: LayoutDirection.Horizontal,
+      groups: [createGroup(1, 50, LayoutDirection.Vertical), createGroup(2, 50, LayoutDirection.Vertical)],
+    },
+  }
+
+  const result = splitEditorGroup(state, 1, 'down')
+
+  expect(result.layout.groups).toHaveLength(3)
+  expect(result.layout.groups[0].id).toBe(1)
+  expect(result.layout.groups[0].size).toBe(25)
+  expect(result.layout.groups[1].focused).toBe(true)
+  expect(result.layout.groups[1].direction).toBe(LayoutDirection.Vertical)
+  expect(result.layout.groups[1].segmentId).toBe(10)
+  expect(result.layout.groups[2].id).toBe(2)
+})
+
+test('splitEditorGroup should insert a leading group within a matching nested segment', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 2,
+      direction: LayoutDirection.Horizontal,
+      groups: [createGroup(1, 50, LayoutDirection.Vertical), createGroup(2, 50, LayoutDirection.Vertical)],
+    },
+  }
+
+  const result = splitEditorGroup(state, 2, 'up')
+
+  expect(result.layout.groups).toHaveLength(3)
+  expect(result.layout.groups[0].id).toBe(1)
+  expect(result.layout.groups[1].focused).toBe(true)
+  expect(result.layout.groups[2].id).toBe(2)
+  expect(result.layout.groups[2].size).toBe(25)
+})
+
+test('splitEditorGroup should leave a nested layout unchanged when a root split is ambiguous', () => {
+  const groups = [createGroup(1, 50, LayoutDirection.Vertical), createGroup(2, 50, LayoutDirection.Vertical)]
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: LayoutDirection.Horizontal,
+      groups,
+    },
+  }
+
+  const result = splitEditorGroup(state, 1, GroupDirection.Right)
+
+  expect(result.layout.groups).toBe(groups)
+  expect(result.layout.activeGroupId).not.toBe(1)
 })
 
 test('splitEditorGroup should not mutate original state', () => {

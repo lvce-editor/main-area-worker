@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals'
 import { ViewletCommand } from '@lvce-editor/constants'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import * as ApplyRender from '../src/parts/ApplyRender/ApplyRender.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -64,4 +65,23 @@ test('applyRender should handle mixed valid and invalid diffTypes', () => {
   expect(() => {
     ApplyRender.applyRender(oldState, newState, [DiffType.RenderItems, 999])
   }).toThrow('unknown renderer')
+})
+
+test('applyRender should omit renderers that produce no commands', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.dispose': async () => {},
+  })
+  const oldState = createDefaultState()
+  const newState = {
+    ...createDefaultState(),
+    pendingViewletUpdate: {
+      disposal: 1,
+    },
+  }
+
+  expect(ApplyRender.applyRender(oldState, newState, [DiffType.RenderPendingViewletUpdate])).toEqual([])
+  await new Promise((resolve) => {
+    setTimeout(resolve, 75)
+  })
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 1]])
 })

@@ -214,3 +214,33 @@ test('newFile should set active group to the group where tab was created', async
   expect(result.layout.activeGroupId).toBe(1)
   expect(mockRpc.invocations.length).toBeGreaterThan(0)
 })
+
+test('newFile should create a group when existing groups are inactive', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 999,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: undefined,
+          focused: false,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = await newFile(state)
+
+  expect(result.layout.groups).toHaveLength(2)
+  expect(result.layout.groups[0].tabs).toEqual([])
+  expect(result.layout.groups[1].tabs[0].title).toBe('Untitled')
+  expect(mockRpc.invocations.length).toBeGreaterThan(0)
+})

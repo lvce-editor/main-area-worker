@@ -62,3 +62,81 @@ test('getNormalizedOpenEditorInput returns running extensions input for running 
     type: 'running-extensions',
   })
 })
+
+test('getNormalizedOpenEditorInput ignores query and hash suffixes when detecting media', () => {
+  expect(getNormalizedOpenEditorInput('/test/image.png?size=large')).toEqual({
+    type: 'image',
+    uri: '/test/image.png?size=large',
+  })
+  expect(getNormalizedOpenEditorInput('/test/video.mp4#preview')).toEqual({
+    type: 'video',
+    uri: '/test/video.mp4#preview',
+  })
+  expect(getNormalizedOpenEditorInput('/test/image.svg#preview?size=large')).toEqual({
+    type: 'image',
+    uri: '/test/image.svg#preview?size=large',
+  })
+})
+
+test('getNormalizedOpenEditorInput keeps extensionless paths and dotted directories as editor inputs', () => {
+  expect(getNormalizedOpenEditorInput('/test/README')).toEqual({
+    type: 'editor',
+    uri: '/test/README',
+  })
+  expect(getNormalizedOpenEditorInput('/test.with.dot/README')).toEqual({
+    type: 'editor',
+    uri: '/test.with.dot/README',
+  })
+})
+
+test('getNormalizedOpenEditorInput returns a diff editor input for a complete diff URI', () => {
+  expect(getNormalizedOpenEditorInput('diff://?left=file%3A%2F%2F%2Fleft.ts&right=file%3A%2F%2F%2Fright.ts')).toEqual({
+    type: 'diff-editor',
+    uriLeft: 'file:///left.ts',
+    uriRight: 'file:///right.ts',
+  })
+})
+
+test('getNormalizedOpenEditorInput falls back to text for incomplete diff URIs', () => {
+  expect(getNormalizedOpenEditorInput('diff://?left=file%3A%2F%2F%2Fleft.ts')).toEqual({
+    type: 'editor',
+    uri: 'diff://?left=file%3A%2F%2F%2Fleft.ts',
+  })
+})
+
+test('getNormalizedOpenEditorInput returns extension detail inputs only when an id is present', () => {
+  expect(getNormalizedOpenEditorInput('extension-detail://publisher.extension/readme')).toEqual({
+    extensionId: 'publisher.extension',
+    type: 'extension-detail-view',
+  })
+  expect(getNormalizedOpenEditorInput('extension-detail://')).toEqual({
+    type: 'editor',
+    uri: 'extension-detail://',
+  })
+})
+
+test('normalizeTabEditorInput handles missing tabs and editor inputs', () => {
+  expect(normalizeTabEditorInput(undefined)).toBeUndefined()
+  const tab = {
+    title: 'missing input',
+  }
+  expect(normalizeTabEditorInput(tab)).toBe(tab)
+})
+
+test('normalizeTabEditorInput infers media from an editor input uri', () => {
+  expect(
+    normalizeTabEditorInput({
+      editorInput: {
+        type: 'editor',
+        uri: '/test/image.png',
+      },
+    }),
+  ).toMatchObject({
+    editorInput: {
+      type: 'image',
+      uri: '/test/image.png',
+    },
+    editorType: 'custom',
+    uri: '/test/image.png',
+  })
+})

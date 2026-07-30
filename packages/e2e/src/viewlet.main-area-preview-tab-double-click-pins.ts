@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-preview-tab-double-click-pins'
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const firstFile = `${tmpDir}/double-click-first.ts`
   const secondFile = `${tmpDir}/double-click-second.ts`
@@ -20,8 +20,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
     preview: true,
   })
 
-  const firstTab = Locator('.MainTab[title$="double-click-first.ts"]')
-  await firstTab.dispatchEvent('dblclick', { bubbles: true } as any)
+  await Command.execute('Main.handleDoubleClick', '0', '0')
   const pinnedFirstTab = Locator('.MainTab:not(.MainTabPreview)[title$="double-click-first.ts"]')
   await expect(pinnedFirstTab).toBeVisible()
 

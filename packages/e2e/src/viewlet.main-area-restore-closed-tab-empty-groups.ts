@@ -12,6 +12,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 
+  await Command.execute('Main.setEditorLayoutSingle')
   await Main.splitRight()
   await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 

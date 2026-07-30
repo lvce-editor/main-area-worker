@@ -3,9 +3,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'viewlet.main-area-editor-layout-menu-three-columns'
 export const skip = ['webkit'] as const
 
-const clickEventInit = { bubbles: true } as unknown as string
-
-export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
   await Main.closeAllEditors()
   const tmpDir = await FileSystem.getTmpDir()
   const file = `${tmpDir}/three-columns.txt`
@@ -19,10 +17,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMe
   await TitleBarMenuBar.handleKeyArrowDown()
   const editorLayoutMenuItem = Locator('#Menu-0 .MenuItem', { hasText: 'Editor Layout' })
   await expect(editorLayoutMenuItem).toBeVisible()
-  await editorLayoutMenuItem.dispatchEvent('click', clickEventInit)
+  await Command.execute('TitleBar.handleMenuClick', 0, 4)
   const menuItem = Locator('#Menu-1 .MenuItem', { hasText: 'Three Columns' })
   await expect(menuItem).toBeVisible()
-  await menuItem.dispatchEvent('click', clickEventInit)
+  await Command.execute('TitleBar.handleMenuClick', 1, 10)
 
   const groups = Locator('.EditorGroup')
   const firstGroup = groups.nth(0)

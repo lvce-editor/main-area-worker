@@ -22,7 +22,7 @@ export const test: Test = async ({ Dialog, expect, Explorer, FileSystem, Locator
   await expect(deletedExplorerItem).toBeVisible()
   await expect(remainingExplorerItem).toBeVisible()
 
-  await Explorer.handleClick(0)
+  await Main.openUri(deletedFile)
   await Main.openUri(remainingFile)
   await Dialog.mockConfirm(() => true)
 

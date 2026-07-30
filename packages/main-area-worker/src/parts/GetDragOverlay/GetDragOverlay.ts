@@ -38,7 +38,8 @@ const getOverlay = (x: number, y: number, width: number, height: number, splitDi
 
 export const getDragOverlay = (state: MainAreaState, eventX: number, eventY: number): DragOverlay => {
   const { height, layout, tabHeight, width, x, y } = state
-  const hasOpenEditor = layout.groups.some((group) => !group.isEmpty)
+  const { groups } = layout
+  const hasOpenEditor = groups.some((group) => !group.isEmpty)
   const contentY = hasOpenEditor ? tabHeight : 0
   const contentHeight = Math.max(0, height - contentY)
   const relativeX = eventX - x

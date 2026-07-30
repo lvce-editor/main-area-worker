@@ -4,8 +4,9 @@ import { getFilteredGroups } from '../GetFilteredGroups/GetFilteredGroups.ts'
 
 export const saveState = (state: MainAreaState): SavedState => {
   const { layout } = state
+  const { groups } = layout
 
-  const filteredGroups = getFilteredGroups(layout.groups)
+  const filteredGroups = getFilteredGroups(groups)
 
   // Update activeGroupId if it points to a removed group
   const { activeGroupId: originalActiveGroupId } = layout

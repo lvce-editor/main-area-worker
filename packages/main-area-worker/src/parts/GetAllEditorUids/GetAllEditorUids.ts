@@ -6,9 +6,10 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
  */
 export const getAllEditorUids = (state: MainAreaState): number[] => {
   const { layout } = state
+  const { groups } = layout
   const editorUids: number[] = []
 
-  for (const group of layout.groups) {
+  for (const group of groups) {
     for (const tab of group.tabs) {
       if (tab.editorUid !== -1) {
         editorUids.push(tab.editorUid)

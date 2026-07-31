@@ -81,3 +81,33 @@ test('getDragOverlay should exclude the tab bar when an editor is open', () => {
     y: 35,
   })
 })
+
+const fullOverlay = {
+  height: 600,
+  width: 800,
+  x: 0,
+  y: 0,
+}
+
+test.each([
+  ['at the left boundary', 100, 350, { height: 600, width: 400, x: 0, y: 0 }],
+  ['just before the left threshold', 299, 350, { height: 600, width: 400, x: 0, y: 0 }],
+  ['at the left threshold', 300, 350, fullOverlay],
+  ['just after the left threshold', 301, 350, fullOverlay],
+  ['just before the right threshold', 699, 350, fullOverlay],
+  ['at the right threshold', 700, 350, fullOverlay],
+  ['just after the right threshold', 701, 350, { height: 600, width: 400, x: 400, y: 0 }],
+  ['at the right boundary', 900, 350, { height: 600, width: 400, x: 400, y: 0 }],
+  ['at the top boundary', 500, 50, { height: 300, width: 800, x: 0, y: 0 }],
+  ['just before the top threshold', 500, 199, { height: 300, width: 800, x: 0, y: 0 }],
+  ['at the top threshold', 500, 200, fullOverlay],
+  ['just after the top threshold', 500, 201, fullOverlay],
+  ['just before the bottom threshold', 500, 499, fullOverlay],
+  ['at the bottom threshold', 500, 500, fullOverlay],
+  ['just after the bottom threshold', 500, 501, { height: 300, width: 800, x: 0, y: 300 }],
+  ['at the bottom boundary', 500, 650, { height: 300, width: 800, x: 0, y: 300 }],
+  ['at the top-left corner', 100, 50, { height: 600, width: 400, x: 0, y: 0 }],
+  ['at the bottom-right corner', 900, 650, { height: 600, width: 400, x: 400, y: 0 }],
+])('getDragOverlay should position the overlay %s', (_name, eventX, eventY, expected) => {
+  expect(getDragOverlay(state, eventX, eventY)).toEqual(expected)
+})

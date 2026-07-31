@@ -22,3 +22,39 @@ test('handleDragLeave should hide the overlay', () => {
     dragOverlay: undefined,
   })
 })
+
+test('handleDragLeave should preserve unrelated main area state when cancelling a drag', () => {
+  const state = {
+    ...createDefaultState(),
+    dragOverlay: {
+      height: 150,
+      width: 200,
+      x: 200,
+      y: 150,
+    },
+    height: 300,
+    uid: 42,
+    width: 400,
+  }
+
+  expect(handleDragLeave(state)).toEqual({
+    ...state,
+    dragOverlay: undefined,
+  })
+})
+
+test('handleDragLeave should make a second drag cancellation a no-op', () => {
+  const state = {
+    ...createDefaultState(),
+    dragOverlay: {
+      height: 150,
+      width: 200,
+      x: 0,
+      y: 0,
+    },
+  }
+
+  const cancelledState = handleDragLeave(state)
+
+  expect(handleDragLeave(cancelledState)).toBe(cancelledState)
+})

@@ -15,8 +15,28 @@ interface DragInfo {
   readonly items: readonly DragInfoItem[]
 }
 
+interface DroppedFileHandle {
+  readonly kind: 'file'
+  readonly name: string
+}
+
+interface DroppedFileItem {
+  readonly kind: 'file'
+  readonly type: string
+  readonly value: DroppedFileHandle
+}
+
 const lineSeparatorRegex = /\r?\n/
 const chromiumDragIdRegex = /^[A-F\d]{32}$/i
+
+const isDroppedFile = (item: unknown): item is DroppedFileItem => {
+  if (!item || typeof item !== 'object') {
+    return false
+  }
+  const candidate = item as Partial<DroppedFileItem>
+  const handle = candidate.value
+  return candidate.kind === 'file' && Boolean(handle) && typeof handle === 'object' && handle.kind === 'file' && typeof handle.name === 'string'
+}
 
 const isUriList = (item: unknown): item is DroppedStringItem => {
   if (!item || typeof item !== 'object') {
@@ -61,12 +81,25 @@ const getUrisFromDragInfo = (dragInfo: unknown): readonly string[] => {
   return (dragInfo as DragInfo).items.filter(isDragInfoItem).flatMap((item) => parseUriList(item.data))
 }
 
+const getDroppedItemUris = async (item: unknown): Promise<readonly string[]> => {
+  if (isUriList(item)) {
+    return parseUriList(item.value)
+  }
+  if (isDroppedFile(item)) {
+    const uri = `html:///dropped-files/${item.value.name}`
+    await RendererWorker.invoke('PersistentFileHandle.addHandle', uri, item.value)
+    return [uri]
+  }
+  return []
+}
+
 export const getDroppedUris = async (itemIds: readonly number[]): Promise<readonly string[]> => {
   if (itemIds.length === 0) {
     return []
   }
   const items = (await RendererWorker.getFileHandles(itemIds)) as readonly unknown[]
-  const uris = items.filter(isUriList).flatMap((item) => parseUriList(item.value))
+  const uriGroups = await Promise.all(items.map(getDroppedItemUris))
+  const uris = uriGroups.flat()
   if (uris.length > 0 || !items.some(isChromiumDragId)) {
     return uris
   }

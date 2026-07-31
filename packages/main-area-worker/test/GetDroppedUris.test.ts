@@ -28,7 +28,61 @@ test('returns uris from a uri list', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystemHandle.getFileHandles', [1, 2]]])
 })
 
-test('ignores file and unsupported string items', async () => {
+test('persists a dropped native file handle and returns its html uri', async () => {
+  const fileHandle = {
+    kind: 'file',
+    name: 'amp.png',
+  }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [
+        {
+          kind: 'file',
+          type: '',
+          value: fileHandle,
+        },
+      ] as any
+    },
+    'PersistentFileHandle.addHandle'() {},
+  })
+
+  expect(await getDroppedUris([1])).toEqual(['html:///dropped-files/amp.png'])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [1]],
+    ['PersistentFileHandle.addHandle', 'html:///dropped-files/amp.png', fileHandle],
+  ])
+})
+
+test('preserves the order of uri lists and native files', async () => {
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [
+        {
+          kind: 'string',
+          type: 'text/uri-list',
+          value: 'file:///workspace/one.txt\r\nfile:///workspace/two.txt',
+        },
+        {
+          kind: 'file',
+          type: '',
+          value: {
+            kind: 'file',
+            name: 'three.txt',
+          },
+        },
+      ] as any
+    },
+    'PersistentFileHandle.addHandle'() {},
+  })
+
+  expect(await getDroppedUris([1, 2])).toEqual([
+    'file:///workspace/one.txt',
+    'file:///workspace/two.txt',
+    'html:///dropped-files/three.txt',
+  ])
+})
+
+test('ignores invalid file handles and unsupported string items', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
     'FileSystemHandle.getFileHandles'() {
       return [
@@ -36,7 +90,10 @@ test('ignores file and unsupported string items', async () => {
         {
           kind: 'file',
           type: '',
-          value: {},
+          value: {
+            kind: 'directory',
+            name: 'folder',
+          },
         },
         {
           kind: 'string',

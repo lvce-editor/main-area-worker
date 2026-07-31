@@ -1,9 +1,10 @@
 import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import { getDroppedUris } from '../src/parts/GetDroppedUris/GetDroppedUris.ts'
+import { getDroppedItems, getDroppedUris } from '../src/parts/GetDroppedUris/GetDroppedUris.ts'
 
 const ampDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/amp\.png$/
 const directDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/direct\.txt$/
+const droppedFolderUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/folder$/
 const firstDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/first\.txt$/
 const firstIndexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/index\.js$/
 const meetingNotesDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/meeting notes\.txt$/
@@ -130,6 +131,33 @@ test('preserves the order of uri lists and native files', async () => {
   expect(uris[2]).toMatch(threeDroppedFileUriRegex)
 })
 
+test('persists a dropped native directory handle', async () => {
+  const directoryHandle = {
+    kind: 'directory',
+    name: 'folder',
+  }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [
+        {
+          kind: 'file',
+          type: '',
+          value: directoryHandle,
+        },
+      ] as any
+    },
+    'PersistentFileHandle.addHandle'() {},
+  })
+
+  const items = await getDroppedItems([2])
+  expect(items).toHaveLength(1)
+  expect(items[0]).toEqual({ kind: 'directory', uri: expect.stringMatching(droppedFolderUriRegex) })
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [2]],
+    ['PersistentFileHandle.addHandle', items[0].uri, directoryHandle],
+  ])
+})
+
 test('ignores invalid file handles and unsupported string items', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
     'FileSystemHandle.getFileHandles'() {
@@ -139,7 +167,7 @@ test('ignores invalid file handles and unsupported string items', async () => {
           kind: 'file',
           type: '',
           value: {
-            kind: 'directory',
+            kind: 'unsupported',
             name: 'folder',
           },
         },
@@ -152,7 +180,7 @@ test('ignores invalid file handles and unsupported string items', async () => {
     },
   })
 
-  expect(await getDroppedUris([1, 2])).toEqual([])
+  expect(await getDroppedUris([1, 2, 3])).toEqual([])
 })
 
 test('returns explorer uris for an opaque Chromium drag id', async () => {

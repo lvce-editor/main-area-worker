@@ -20,7 +20,7 @@ export const getDroppedUris = async (itemIds: readonly number[]): Promise<readon
   const items = (await RendererWorker.getFileHandles(itemIds)) as readonly unknown[]
   let hasChromiumDragId = false
   const uris: string[] = []
-  for (const item of items) {
+  for (const [index, item] of items.entries()) {
     if (isUriList(item)) {
       uris.push(...parseUriList(item.value))
       continue
@@ -33,7 +33,7 @@ export const getDroppedUris = async (itemIds: readonly number[]): Promise<readon
       continue
     }
     const handle = item.value
-    const uri = `html:///dropped-files/${handle.name}`
+    const uri = `html:///dropped-files/${Date.now()}/${itemIds[index]}/${handle.name}`
     await RendererWorker.invoke('PersistentFileHandle.addHandle', uri, handle)
     uris.push(uri)
   }

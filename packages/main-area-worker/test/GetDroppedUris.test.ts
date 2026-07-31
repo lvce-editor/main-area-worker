@@ -49,3 +49,55 @@ test('ignores file and unsupported string items', async () => {
 
   expect(await getDroppedUris([1, 2])).toEqual([])
 })
+
+test('returns explorer uris for an opaque Chromium drag id', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [
+        {
+          kind: 'string',
+          type: '',
+          value: '8B1BC632EA890FDD4BDB7705EF0231B0',
+        },
+      ] as any
+    },
+    'Viewlet.getDragData'() {
+      return {
+        items: [
+          {
+            data: 'file:///workspace/one.txt\nfile:///workspace/two.txt',
+            type: 'text/uri-list',
+          },
+          {
+            data: 'file:///workspace/one.txt',
+            type: 'text/plain',
+          },
+        ],
+        label: '2',
+      }
+    },
+  })
+
+  expect(await getDroppedUris([1])).toEqual(['file:///workspace/one.txt', 'file:///workspace/two.txt'])
+  expect(mockRpc.invocations).toEqual([['FileSystemHandle.getFileHandles', [1]], ['Viewlet.getDragData']])
+})
+
+test('returns no uris when retained drag data is unavailable', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [
+        {
+          kind: 'string',
+          type: 'chromium/x-drag-id',
+          value: '8B1BC632EA890FDD4BDB7705EF0231B0',
+        },
+      ] as any
+    },
+    'Viewlet.getDragData'() {
+      return undefined
+    },
+  })
+
+  expect(await getDroppedUris([1])).toEqual([])
+  expect(mockRpc.invocations).toEqual([['FileSystemHandle.getFileHandles', [1]], ['Viewlet.getDragData']])
+})

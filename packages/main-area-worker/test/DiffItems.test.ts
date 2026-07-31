@@ -38,6 +38,7 @@ test('isEqual should return false when left arrays differ', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,
@@ -59,6 +60,7 @@ test('isEqual should return false when right arrays differ', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,
@@ -79,6 +81,7 @@ test('isEqual should return false when both arrays differ', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,
@@ -95,6 +98,7 @@ test('isEqual should return false when both arrays differ', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -116,6 +120,7 @@ test('isEqual should return false when left array length differs', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,
@@ -137,6 +142,7 @@ test('isEqual should return false when right array length differs', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,

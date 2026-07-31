@@ -12,6 +12,7 @@ test('getSelectedTabData should return selected tab data for valid indexes', () 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -58,6 +59,7 @@ test('getSelectedTabData should return undefined for invalid indexes', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

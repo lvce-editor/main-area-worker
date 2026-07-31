@@ -27,6 +27,8 @@ const rendererWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'r
 const diffViewWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'diff-view', 'dist', 'diffViewWorkerMain.js')
 const testWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'test-worker', 'dist', 'testWorkerMain.js')
 
+const missingDialogWorkerRelay = 'Command "SendMessagePortToExtensionHostWorker.sendMessagePortToDialogWorker" not found'
+
 const content = await readFile(rendererWorkerMainPath, 'utf-8')
 
 const workerPath = join(root, '.tmp/dist/dist/mainAreaWorkerMain.js')
@@ -40,6 +42,23 @@ const mainAreaWorkerUrl = \`${remoteUrl}\``
 
   const newContent = content.replace(occurrence, replacement)
   await writeFile(rendererWorkerMainPath, newContent)
+}
+
+const rendererWorkerContent = await readFile(rendererWorkerMainPath, 'utf-8')
+if (!rendererWorkerContent.includes(missingDialogWorkerRelay)) {
+  const occurrence = `const sendMessagePortToDialogWorker = async (port, initialCommand) => {
+  object(port);
+  string(initialCommand);
+  await invokeAndTransfer$j(initialCommand, port);
+};`
+  if (!rendererWorkerContent.includes(occurrence)) {
+    throw new Error('renderer dialog worker relay occurrence not found')
+  }
+  const replacement = `const sendMessagePortToDialogWorker = async () => {
+  throw new Error('${missingDialogWorkerRelay}');
+};`
+  const newRendererWorkerContent = rendererWorkerContent.replace(occurrence, replacement)
+  await writeFile(rendererWorkerMainPath, newRendererWorkerContent)
 }
 
 const diffViewContent = await readFile(diffViewWorkerMainPath, 'utf-8')

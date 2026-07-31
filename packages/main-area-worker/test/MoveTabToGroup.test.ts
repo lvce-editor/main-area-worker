@@ -24,6 +24,7 @@ test('moveTabToGroup should return state unchanged when source group does not ex
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -48,6 +49,7 @@ test('moveTabToGroup should return state unchanged when target group does not ex
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -72,6 +74,7 @@ test('moveTabToGroup should return state unchanged when source and target are th
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -96,6 +99,7 @@ test('moveTabToGroup should return state unchanged when tab does not exist in so
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -104,6 +108,7 @@ test('moveTabToGroup should return state unchanged when tab does not exist in so
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -128,6 +133,7 @@ test('moveTabToGroup should move tab to target group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -136,6 +142,7 @@ test('moveTabToGroup should move tab to target group', () => {
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -164,6 +171,7 @@ test('moveTabToGroup should update active tab when moving the active tab', () =>
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -172,6 +180,7 @@ test('moveTabToGroup should update active tab when moving the active tab', () =>
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -197,6 +206,7 @@ test('moveTabToGroup should set source group to empty when last tab is moved', (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -205,6 +215,7 @@ test('moveTabToGroup should set source group to empty when last tab is moved', (
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -230,6 +241,7 @@ test('moveTabToGroup should insert tab at specific index when targetIndex is pro
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -238,6 +250,7 @@ test('moveTabToGroup should insert tab at specific index when targetIndex is pro
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -264,6 +277,7 @@ test('moveTabToGroup should set active tab in target group to moved tab', () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -272,6 +286,7 @@ test('moveTabToGroup should set active tab in target group to moved tab', () => 
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,

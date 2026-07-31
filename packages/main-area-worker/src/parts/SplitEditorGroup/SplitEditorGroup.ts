@@ -30,11 +30,12 @@ const getSplitLayoutDirection = (direction: SplitDirection): LayoutDirection.Lay
 
 const createNextState = (state: MainAreaState, activeGroupId: number, groups: readonly EditorGroup[]): MainAreaState => {
   const { layout } = state
+  const { direction } = layout
   return {
     ...state,
     layout: {
       activeGroupId,
-      direction: layout.direction,
+      direction,
       groups,
     },
   }
@@ -53,7 +54,7 @@ const splitOnlyGroup = (
     if (group.id === groupId) {
       return {
         ...group,
-        direction: undefined,
+        direction: splitLayoutDirection,
         focused: false,
         size: 50,
       }
@@ -62,7 +63,7 @@ const splitOnlyGroup = (
   })
   const newGroup = {
     ...baseNewGroup,
-    direction: undefined,
+    direction: splitLayoutDirection,
     size: 50,
   }
   const reorderedGroups = isTrailingSplit(direction) ? [...updatedGroups, newGroup] : [newGroup, ...updatedGroups]
@@ -151,7 +152,7 @@ const splitAtRootLevel = (
     if (group.id === groupId) {
       return {
         ...group,
-        direction: undefined,
+        direction: state.layout.direction,
         focused: false,
         size: 50,
       }
@@ -160,7 +161,7 @@ const splitAtRootLevel = (
   })
   const newGroup = {
     ...baseNewGroup,
-    direction: undefined,
+    direction: state.layout.direction,
     size: 50,
   }
 
@@ -176,7 +177,7 @@ const splitAtRootLevel = (
 
 export const splitEditorGroup = (state: MainAreaState, groupId: number, direction: SplitDirection): MainAreaState => {
   const { layout } = state
-  const { groups } = layout
+  const { direction: layoutDirection, groups } = layout
   const sourceGroup = groups.find((group) => group.id === groupId)
   if (!sourceGroup) {
     return state
@@ -188,6 +189,7 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
 
   const baseNewGroup: EditorGroup = {
     activeTabId: undefined,
+    direction: sourceGroup.direction,
     focused: true,
     id: newGroupId,
     isEmpty: true,
@@ -199,17 +201,17 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
     return splitOnlyGroup(state, groups, groupId, newGroupId, direction, splitLayoutDirection, baseNewGroup)
   }
 
-  if (sourceGroup.direction === splitLayoutDirection) {
+  if (sourceGroup.direction !== layoutDirection && sourceGroup.direction === splitLayoutDirection) {
     return splitWithinMatchingNestedDirection(state, groups, sourceGroup, groupId, newGroupId, direction, splitLayoutDirection, baseNewGroup)
   }
 
-  if (splitLayoutDirection !== layout.direction && sourceGroup.direction === undefined) {
+  if (splitLayoutDirection !== layoutDirection && sourceGroup.direction === layoutDirection) {
     return splitStandaloneSourceIntoNestedDirection(state, groups, sourceGroup, groupId, newGroupId, direction, splitLayoutDirection, baseNewGroup)
   }
 
-  const segments = getGroupSegments(groups, layout.direction)
+  const segments = getGroupSegments(groups, layoutDirection)
   const hasNestedSegments = segments.some((segment) => segment.direction !== undefined)
-  if (splitLayoutDirection === layout.direction && !hasNestedSegments) {
+  if (splitLayoutDirection === layoutDirection && !hasNestedSegments) {
     return splitAtRootLevel(state, groups, groupId, newGroupId, direction, baseNewGroup)
   }
 

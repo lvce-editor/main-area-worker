@@ -13,6 +13,7 @@ test('splitRight should return state unchanged when group does not exist', () =>
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -37,6 +38,7 @@ test('splitRight should split single group into two horizontal groups', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -68,6 +70,7 @@ test('splitRight should set new group as active', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -93,6 +96,7 @@ test('splitRight should place new group to the right', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -119,6 +123,7 @@ test('splitRight should split with multiple existing groups', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -127,6 +132,7 @@ test('splitRight should split with multiple existing groups', () => {
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -156,6 +162,7 @@ test('splitRight should split middle group correctly', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,
@@ -164,6 +171,7 @@ test('splitRight should split middle group correctly', () => {
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: true,
@@ -172,6 +180,7 @@ test('splitRight should split middle group correctly', () => {
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: true,
@@ -202,6 +211,7 @@ test('splitRight should create new group with empty tabs', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -249,6 +259,7 @@ test('splitRight should preserve original group tabs', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -285,6 +296,7 @@ test('splitRight should maintain activeTabId in original group', () => {
       groups: [
         {
           activeTabId: 5,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -436,6 +448,7 @@ test('splitRight should use provided groupId when groups is not empty', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -460,6 +473,7 @@ test('splitRight should use activeGroupId as fallback when groupId not provided 
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -484,6 +498,7 @@ test('splitRight should use first group when activeGroupId is undefined and grou
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,

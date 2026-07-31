@@ -15,6 +15,7 @@ test('closeTab should close a non-active tab', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -70,6 +71,7 @@ test('closeTab should close the active tab and select next tab', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -125,6 +127,7 @@ test('closeTab should close the last tab and remove the group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -161,6 +164,7 @@ test('closeTab should close active tab in middle and select tab at same index', 
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -216,6 +220,7 @@ test('closeTab should close last tab when active and select previous tab', () =>
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -271,6 +276,7 @@ test('closeTab should return state unchanged when group does not exist', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -308,6 +314,7 @@ test('closeTab should return state unchanged when tab does not exist', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -344,6 +351,7 @@ test('closeTab should preserve other groups when closing tab', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -371,6 +379,7 @@ test('closeTab should preserve other groups when closing tab', () => {
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -409,6 +418,7 @@ test('closeTab should handle closing tab from different group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -427,6 +437,7 @@ test('closeTab should handle closing tab from different group', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -475,6 +486,7 @@ test('closeTab should preserve other state properties', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -524,6 +536,7 @@ test('closeTab should handle closing tab when group has no active tab', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -569,6 +582,7 @@ test('closeTab should handle closing first tab when active', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -623,6 +637,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -650,6 +665,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -677,6 +693,7 @@ test('closeTab should handle multiple groups with multiple tabs', () => {
         },
         {
           activeTabId: 5,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: false,
@@ -718,6 +735,7 @@ test('closeTab should handle tabs with custom editor type', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -773,6 +791,7 @@ test('closeTab should handle tabs with paths and languages', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -834,6 +853,7 @@ test('closeTab should handle closing dirty tabs', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -889,6 +909,7 @@ test('closeTab should handle closing active dirty tab', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -944,6 +965,7 @@ test('closeTab should handle empty tabs array', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -969,6 +991,7 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1014,6 +1037,7 @@ test('closeTab should handle closing second tab when first is active', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1060,6 +1084,7 @@ test('closeTab should remove group when closing last tab from single group', () 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1096,6 +1121,7 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1123,6 +1149,7 @@ test('closeTab should handle closing tab from multiple groups preserving layout'
         },
         {
           activeTabId: 3,
+          direction: 2,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -1172,6 +1199,7 @@ test('closeTab should handle closing tab when tab index is at boundary', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1217,6 +1245,7 @@ test('closeTab should handle closing tab with same ID as group ID', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1263,6 +1292,7 @@ test('closeTab should handle closing tab from group with many tabs', () => {
       groups: [
         {
           activeTabId: 5,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1345,6 +1375,7 @@ test('closeTab should handle closing middle tab from many tabs', () => {
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1418,6 +1449,7 @@ test('closeTab should handle closing non-active tab from many tabs', () => {
       groups: [
         {
           activeTabId: 3,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1482,6 +1514,7 @@ test('closeTab should remove editor group when closing last tab and multiple gro
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1500,6 +1533,7 @@ test('closeTab should remove editor group when closing last tab and multiple gro
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -1539,6 +1573,7 @@ test('closeTab should remove editor group when closing last tab and update activ
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -1557,6 +1592,7 @@ test('closeTab should remove editor group when closing last tab and update activ
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -1575,6 +1611,7 @@ test('closeTab should remove editor group when closing last tab and update activ
         },
         {
           activeTabId: 3,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: false,
@@ -1614,6 +1651,7 @@ test('closeTab should remove editor group when closing last tab even if it is th
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1650,6 +1688,7 @@ test('closeTab should redistribute sizes when removing group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -1668,6 +1707,7 @@ test('closeTab should redistribute sizes when removing group', () => {
         },
         {
           activeTabId: 2,
+          direction: 2,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -1686,6 +1726,7 @@ test('closeTab should redistribute sizes when removing group', () => {
         },
         {
           activeTabId: 3,
+          direction: 2,
           focused: false,
           id: 3,
           isEmpty: false,
@@ -1736,6 +1777,7 @@ test('findTabInState should find a tab in the specified group', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1781,6 +1823,7 @@ test('findTabInState should return undefined when tab does not exist', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1815,6 +1858,7 @@ test('findTabInState should return undefined when group does not exist', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1849,6 +1893,7 @@ test('findTabInState should find tab in different groups', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1867,6 +1912,7 @@ test('findTabInState should find tab in different groups', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -1916,6 +1962,7 @@ test('closeTabWithViewlet should close tab without viewlet', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -1969,6 +2016,7 @@ test('closeTabWithViewlet should close active tab and switch viewlet to new acti
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -2023,6 +2071,7 @@ test('closeTabWithViewlet should dispose viewlet when closing tab with editorUid
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -2076,6 +2125,7 @@ test('closeTabWithViewlet should remove group when closing the last tab', async 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -2120,6 +2170,7 @@ test('closeTabWithViewlet should handle closing tab when tab not found', async (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -2164,6 +2215,7 @@ test('closeTabWithViewlet should handle closing non-active tab with viewlet', as
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -2227,6 +2279,7 @@ test('closeTabWithViewlet should close active middle tab and switch to next tab'
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

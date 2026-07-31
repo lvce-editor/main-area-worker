@@ -18,5 +18,6 @@ export const renderSingleEditorGroup = (
   splitButtonEnabled: boolean,
   sizeProperty: 'width' | 'height' = 'width',
 ): readonly VirtualDomNode[] => {
-  return [mainNode, ...renderEditorGroup(layout.groups[0], 0, splitButtonEnabled, sizeProperty, false)]
+  const { groups } = layout
+  return [mainNode, ...renderEditorGroup(groups[0], 0, splitButtonEnabled, sizeProperty, false)]
 }

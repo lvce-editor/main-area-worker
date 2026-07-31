@@ -12,6 +12,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: false,
@@ -44,7 +45,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     },
     {
       childCount: 2,
-      className: 'EditorGroup',
+      className: 'EditorGroup EditorGroup-1',
       'data-groupId': '1',
       style: 'width:100%;',
       type: VirtualDomElements.Div,
@@ -145,6 +146,7 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: true,
@@ -167,7 +169,7 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
     },
     {
       childCount: 1,
-      className: 'EditorGroup EditorGroupEmpty',
+      className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style: 'width:100%;',
@@ -196,6 +198,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: false,
@@ -215,6 +218,7 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
       },
       {
         activeTabId: 2,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: false,
@@ -255,6 +259,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
     groups: [
       {
         activeTabId: undefined,
+        direction: 2,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -263,6 +268,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
       },
       {
         activeTabId: undefined,
+        direction: 2,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -275,7 +281,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
 
   const editorGroupsContainer = result.find((node) => node.className === `${ClassNames.EDITOR_GROUPS_CONTAINER} EditorGroupsHorizontal`)
   expect(editorGroupsContainer).toBeDefined()
-  const editorGroupNodes = result.filter((node) => node.className === ClassNames.EditorGroupEmpty)
+  const editorGroupNodes = result.filter((node) => node.className?.startsWith(ClassNames.EditorGroupEmpty))
   expect(editorGroupNodes).toHaveLength(2)
   expect(editorGroupNodes[0]['data-groupId']).toBe('1')
   expect(editorGroupNodes[1]['data-groupId']).toBe('2')
@@ -290,6 +296,7 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: false,
@@ -431,8 +438,8 @@ test('getMainAreaVirtualDom should render a drag overlay', () => {
     y: 0,
   })
 
-  expect(result[0].childCount).toBe(1)
-  expect(result[1].childCount).toBe(1)
+  expect(result[0].childCount).toBe(2)
+  expect(result[1].childCount).toBe(0)
   expect(result.at(-1)).toEqual({
     childCount: 0,
     className: 'DragOverlay',
@@ -447,6 +454,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -455,6 +463,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -463,6 +472,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 3,
         isEmpty: true,
@@ -487,6 +497,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
     groups: [
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: true,
@@ -495,6 +506,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: true,
@@ -503,6 +515,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
       },
       {
         activeTabId: undefined,
+        direction: 1,
         focused: false,
         id: 3,
         isEmpty: true,

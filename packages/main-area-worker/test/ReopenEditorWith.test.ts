@@ -14,6 +14,7 @@ const createState = (): MainAreaState => ({
     groups: [
       {
         activeTabId: 7,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -99,6 +100,31 @@ test('getViewProviderEntries falls back to text editor when provider lookup fail
       type: 'editor',
     },
   ])
+})
+
+test('getViewProviderEntries falls back through provider title metadata', async () => {
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'WebView.getWebViews': async () => [
+      {
+        id: 'title-provider',
+        selector: ['.png'],
+        title: 'Provider Title',
+      },
+      {
+        elements: [{ type: 'title', value: 'Element Title' }],
+        id: 'element-provider',
+        selector: ['.png'],
+      },
+      {
+        id: 'id-provider',
+        selector: ['.png'],
+      },
+    ],
+  })
+
+  const entries = await getViewProviderEntries('file:///workspace/image.png')
+
+  expect(entries.map((entry) => entry.label)).toEqual(['Text Editor', 'Provider Title', 'Element Title', 'id-provider'])
 })
 
 test('reopenEditorWith reopens an image preview as a text editor in the same tab', async () => {
@@ -222,4 +248,75 @@ test('reopenEditorWith does nothing when there is no active tab', async () => {
 
   expect(getState()).toBe(initialState)
   expect(mockRpc.invocations).toEqual([])
+})
+
+test('reopenEditorWith keeps the current editor when a provider has no module', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'ExtensionHostQuickPick.showQuickPick': async ({ items }: any) => items[1].value,
+    'Layout.getModuleId': async () => undefined,
+    'WebView.getWebViews': async () => [
+      {
+        id: 'missing-provider',
+        name: 'Missing Provider',
+        selector: ['.png'],
+      },
+    ],
+  })
+  const initialState = createState()
+  const { context, getState } = createContext(initialState)
+
+  await reopenEditorWith(context)
+
+  expect(getState()).toBe(initialState)
+  expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///workspace/image.png', 'missing-provider'])
+})
+
+test('reopenEditorWith stops when the selected tab closes during provider resolution', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'ExtensionHostQuickPick.showQuickPick': async ({ items }: any) => items[0].value,
+    'WebView.getWebViews': async () => [],
+  })
+  const initialState = createState()
+  const closedState = createDefaultState()
+  let getStateCount = 0
+  const context: AsyncCommandContext<MainAreaState> = {
+    getState: () => {
+      getStateCount++
+      return getStateCount === 1 ? initialState : closedState
+    },
+    updateState: () => Promise.resolve(closedState),
+  }
+
+  await reopenEditorWith(context)
+
+  expect(mockRpc.invocations).toHaveLength(2)
+})
+
+test('reopenEditorWith does not dispose an editor that has no viewlet', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'ExtensionHostQuickPick.showQuickPick': async ({ items }: any) => items[0].value,
+    'Layout.createViewlet': async () => {},
+    'Viewlet.getTitle': async () => undefined,
+    'WebView.getWebViews': async () => [],
+  })
+  const initialState = createState()
+  const stateWithoutViewlet: MainAreaState = {
+    ...initialState,
+    layout: {
+      ...initialState.layout,
+      groups: initialState.layout.groups.map((group) => ({
+        ...group,
+        tabs: group.tabs.map((tab) => ({
+          ...tab,
+          editorUid: -1,
+        })),
+      })),
+    },
+  }
+  const { context, getState } = createContext(stateWithoutViewlet)
+
+  await reopenEditorWith(context)
+
+  expect(getState().layout.groups[0].tabs[0].loadingState).toBe('loaded')
+  expect(mockRpc.invocations.some(([command]) => command === 'Viewlet.dispose')).toBe(false)
 })

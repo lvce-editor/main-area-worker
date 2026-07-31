@@ -17,6 +17,7 @@ test('hasActiveTextEditor - active text editor', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -52,6 +53,7 @@ test('hasActiveTextEditor - active non-text editor', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

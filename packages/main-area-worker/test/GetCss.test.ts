@@ -3,28 +3,10 @@ import type { MainAreaLayout } from '../src/parts/MainAreaLayout/MainAreaLayout.
 import { getCss } from '../src/parts/GetCss/GetCss.ts'
 import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 
-test('getCss should include sash border orientation rules', () => {
+test('getCss should return no css when there is no layout', () => {
   const result = getCss()
 
-  expect(result).toContain(`.SashBorder {
-  background: var(--SashBorder, gray);
-}`)
-  expect(result).toContain(`.SashBorderHorizontal {
-  width: 100%;
-  height: 1px;
-}`)
-  expect(result).toContain(`.SashBorderVertical {
-  width: 1px;
-  height: 100%;
-}`)
-  expect(result).toContain(`.SashCorner {
-  position: absolute;`)
-  expect(result).toContain('cursor: all-scroll;')
-  expect(result).toContain(`.Main {
-  position: relative;
-}`)
-  expect(result).toContain(`.DragOverlay {
-  position: absolute;`)
+  expect(result).toBe('')
 })
 
 test('getCss should position the sash corner at the grid intersection', () => {
@@ -97,9 +79,9 @@ test('getCss should position the drag overlay', () => {
   })
 
   expect(result).toContain(`.DragOverlay {
-  left: 0px;
-  top: 35px;
-  width: 400px;
-  height: 300px;
+  --DragOverlayLeft: 0px;
+  --DragOverlayTop: 35px;
+  --DragOverlayWidth: 400px;
+  --DragOverlayHeight: 300px;
 }`)
 })

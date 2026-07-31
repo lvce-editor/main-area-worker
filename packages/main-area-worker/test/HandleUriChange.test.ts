@@ -39,6 +39,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -141,6 +142,7 @@ test('handleUriChange should work with multiple editor groups', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -160,6 +162,7 @@ test('handleUriChange should work with multiple editor groups', async () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -246,6 +249,7 @@ test('handleUriChange should handle empty groups', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -271,6 +275,7 @@ test('handleUriChange should handle tabs without URI property', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -326,6 +331,7 @@ test('handleUriChange should preserve group properties', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,

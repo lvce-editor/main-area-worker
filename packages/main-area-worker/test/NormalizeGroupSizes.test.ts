@@ -6,6 +6,7 @@ test('normalizeGroupSizes should normalize sizes to percentages', () => {
   const groups: readonly EditorGroup[] = [
     {
       activeTabId: undefined,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: true,
@@ -14,6 +15,7 @@ test('normalizeGroupSizes should normalize sizes to percentages', () => {
     },
     {
       activeTabId: undefined,
+      direction: 1,
       focused: false,
       id: 2,
       isEmpty: true,
@@ -30,6 +32,7 @@ test('normalizeGroupSizes should normalize when total is not 100', () => {
   const groups: readonly EditorGroup[] = [
     {
       activeTabId: undefined,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: true,
@@ -38,6 +41,7 @@ test('normalizeGroupSizes should normalize when total is not 100', () => {
     },
     {
       activeTabId: undefined,
+      direction: 1,
       focused: false,
       id: 2,
       isEmpty: true,
@@ -54,6 +58,7 @@ test('normalizeGroupSizes should handle zero total by distributing equally', () 
   const groups: readonly EditorGroup[] = [
     {
       activeTabId: undefined,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: true,
@@ -62,6 +67,7 @@ test('normalizeGroupSizes should handle zero total by distributing equally', () 
     },
     {
       activeTabId: undefined,
+      direction: 1,
       focused: false,
       id: 2,
       isEmpty: true,
@@ -70,6 +76,7 @@ test('normalizeGroupSizes should handle zero total by distributing equally', () 
     },
     {
       activeTabId: undefined,
+      direction: 1,
       focused: false,
       id: 3,
       isEmpty: true,
@@ -90,6 +97,7 @@ test('normalizeGroupSizes should preserve other group properties', () => {
   const groups: readonly EditorGroup[] = [
     {
       activeTabId: 1,
+      direction: 1,
       focused: true,
       id: 1,
       isEmpty: false,
@@ -108,6 +116,7 @@ test('normalizeGroupSizes should preserve other group properties', () => {
     },
     {
       activeTabId: undefined,
+      direction: 1,
       focused: false,
       id: 2,
       isEmpty: true,

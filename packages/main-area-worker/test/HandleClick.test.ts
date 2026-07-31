@@ -36,6 +36,7 @@ test('handleClick should return the same state object', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

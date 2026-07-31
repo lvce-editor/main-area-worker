@@ -3,7 +3,8 @@ import { closeTab } from '../CloseTab/CloseTab.ts'
 
 const closeFirstTabByUri = (state: MainAreaState, uri: string): MainAreaState | undefined => {
   const { layout } = state
-  const matchingGroup = layout.groups.find((group) => {
+  const { groups } = layout
+  const matchingGroup = groups.find((group) => {
     return group.tabs.some((tab) => tab.uri === uri)
   })
   const matchingTab = matchingGroup?.tabs.find((tab) => tab.uri === uri)

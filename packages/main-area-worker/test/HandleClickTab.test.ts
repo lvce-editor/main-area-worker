@@ -15,6 +15,7 @@ test('handleClickTab should return state unchanged when groupIndexRaw is empty',
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -52,6 +53,7 @@ test('handleClickTab should return state unchanged when indexRaw is empty', asyn
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -89,6 +91,7 @@ test('handleClickTab should return state unchanged when both groupIndexRaw and i
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -126,6 +129,7 @@ test('handleClickTab should select tab when valid groupIndex and index are provi
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -182,6 +186,7 @@ test('handleClickTab should select tab from second group', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -200,6 +205,7 @@ test('handleClickTab should select tab from second group', async () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -248,6 +254,7 @@ test('handleClickTab should return state unchanged when groupIndex is out of bou
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -285,6 +292,7 @@ test('handleClickTab should return state unchanged when tab index is out of boun
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -322,6 +330,7 @@ test('handleClickTab should return state unchanged when groupIndex is negative',
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -359,6 +368,7 @@ test('handleClickTab should return state unchanged when tab index is negative', 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -396,6 +406,7 @@ test('handleClickTab should parse string indexes correctly', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -442,6 +453,7 @@ test('handleClickTab should return state unchanged for secondary button clicks',
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

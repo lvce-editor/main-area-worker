@@ -15,7 +15,7 @@ export const createEmptyGroup = (
   editorInput?: EditorInput,
 ): MainAreaState => {
   const { homeDirUri, layout } = state
-  const { groups } = layout
+  const { direction, groups } = layout
 
   const groupId = Id.create()
   const tabId = Id.create()
@@ -37,6 +37,7 @@ export const createEmptyGroup = (
   }
   const newGroup: EditorGroup = {
     activeTabId: newTab.id,
+    direction,
     focused: true,
     id: groupId,
     isEmpty: false,

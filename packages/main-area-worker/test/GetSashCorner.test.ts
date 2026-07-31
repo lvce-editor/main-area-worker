@@ -65,10 +65,11 @@ test('getSashCorner should describe the intersection in a grid layout', () => {
 
 test('getSashCorner should describe a vertically oriented grid layout', () => {
   const layout = createGridLayout()
+  const { groups } = layout
   const result = getSashCorner({
     ...layout,
     direction: LayoutDirection.Vertical,
-    groups: layout.groups.map((group) => ({
+    groups: groups.map((group) => ({
       ...group,
       direction: LayoutDirection.Horizontal,
     })),
@@ -86,11 +87,12 @@ test('getSashCorner should describe a vertically oriented grid layout', () => {
 
 test('getSashCorner should return undefined for a non-grid layout', () => {
   const layout = createGridLayout()
+  const { groups } = layout
   const result = getSashCorner({
     ...layout,
-    groups: layout.groups.slice(0, 2).map((group) => ({
+    groups: groups.slice(0, 2).map((group) => ({
       ...group,
-      direction: undefined,
+      direction: LayoutDirection.Horizontal,
       segmentId: undefined,
       size: 50,
     })),
@@ -101,9 +103,10 @@ test('getSashCorner should return undefined for a non-grid layout', () => {
 
 test('getSashCorner should return undefined when nested sashes do not align', () => {
   const layout = createGridLayout()
+  const { groups } = layout
   const result = getSashCorner({
     ...layout,
-    groups: layout.groups.map((group, index) => {
+    groups: groups.map((group, index) => {
       const size = [25, 25, 20, 30][index]
       return {
         ...group,

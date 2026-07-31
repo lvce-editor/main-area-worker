@@ -14,6 +14,13 @@ const normalizeRestoredTab = (tab: any): any => {
   }
 }
 
+const normalizeGroupDirection = (group: any, layoutDirection: MainAreaLayout['direction']): MainAreaLayout['direction'] | undefined => {
+  if (!group || typeof group !== 'object' || !Object.hasOwn(group, 'direction')) {
+    return layoutDirection
+  }
+  return normalizeLayoutDirection(group.direction)
+}
+
 export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefined => {
   if (savedState === undefined || savedState === null) {
     return undefined
@@ -45,10 +52,10 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
     ...rawLayout,
     direction: layoutDirection,
     groups: rawLayout.groups.map((group: any) => {
-      const groupDirection = normalizeLayoutDirection(group?.direction)
+      const groupDirection = normalizeGroupDirection(group, layoutDirection)
       return {
         ...group,
-        ...(groupDirection !== undefined && { direction: groupDirection }),
+        direction: groupDirection,
         tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : [],
       }
     }),

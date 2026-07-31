@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { PatchType } from '@lvce-editor/constants'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { renderIncremental } from '../src/parts/RenderIncremental/RenderIncremental.ts'
 
@@ -19,12 +20,13 @@ const stateWithOverlay = {
   },
 }
 
-test('renderIncremental should navigate into the main content before adding the drag overlay', () => {
+test('renderIncremental should add the drag overlay to the main area', () => {
   expect(renderIncremental(state, stateWithOverlay)).toEqual([
     'Viewlet.setPatches',
     2,
     [
-      { index: 0, type: 7 },
+      { index: 0, type: PatchType.NavigateChild },
+      { type: PatchType.NavigateParent },
       {
         nodes: [
           {
@@ -39,13 +41,6 @@ test('renderIncremental should navigate into the main content before adding the 
   ])
 })
 
-test('renderIncremental should navigate into the main content before removing the drag overlay', () => {
-  expect(renderIncremental(stateWithOverlay, state)).toEqual([
-    'Viewlet.setPatches',
-    2,
-    [
-      { index: 0, type: 7 },
-      { index: 0, type: 9 },
-    ],
-  ])
+test('renderIncremental should remove the drag overlay from the main area', () => {
+  expect(renderIncremental(stateWithOverlay, state)).toEqual(['Viewlet.setPatches', 2, [{ index: 1, type: 9 }]])
 })

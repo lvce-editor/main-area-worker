@@ -5,6 +5,7 @@ import { getTabIndex } from '../src/parts/GetTabIndex/GetTabIndex.ts'
 test('getTabIndex should return correct index when tab exists', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,
@@ -47,6 +48,7 @@ test('getTabIndex should return correct index when tab exists', () => {
 test('getTabIndex should return -1 when tab does not exist', () => {
   const group: EditorGroup = {
     activeTabId: 1,
+    direction: 1,
     focused: true,
     id: 1,
     isEmpty: false,

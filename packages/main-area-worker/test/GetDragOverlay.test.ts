@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { getDragOverlay } from '../src/parts/GetDragOverlay/GetDragOverlay.ts'
 
@@ -56,13 +57,14 @@ test('getDragOverlay should cover the bottom half when dragging over the bottom 
 })
 
 test('getDragOverlay should exclude the tab bar when an editor is open', () => {
-  const stateWithEditor = {
+  const stateWithEditor: MainAreaState = {
     ...state,
     layout: {
       ...state.layout,
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

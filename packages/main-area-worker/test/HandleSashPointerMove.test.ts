@@ -13,6 +13,7 @@ const createBaseState = (): MainAreaState => {
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -21,6 +22,7 @@ const createBaseState = (): MainAreaState => {
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -29,6 +31,7 @@ const createBaseState = (): MainAreaState => {
         },
         {
           activeTabId: undefined,
+          direction: 1,
           focused: false,
           id: 3,
           isEmpty: true,

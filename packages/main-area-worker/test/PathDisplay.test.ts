@@ -26,6 +26,10 @@ test('getTitle should replace homeDir uri with ~ when file uri starts with homeD
   expect(result).toBe('~/documents/file.txt')
 })
 
+test('getTitle should normalize a trailing slash in the home directory', () => {
+  expect(PathDisplay.getTitle('file:///home/user/documents/file.txt', 'file:///home/user/')).toBe('~/documents/file.txt')
+})
+
 test('getTitle should handle exact match with homeDir', () => {
   const homeDir: string = 'file:///home/user'
   const uri: string = 'file:///home/user'
@@ -190,4 +194,13 @@ test('getFileIcon should return empty string for simple-browser:// uri', () => {
   const uri: string = 'simple-browser://example.com'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
   expect(result).toBe('')
+})
+
+test('getLabel should return labels for chat debug and language models uris', () => {
+  expect(PathDisplay.getLabel('chat-debug://session')).toBe('Chat Debug')
+  expect(PathDisplay.getLabel('language-models://installed')).toBe('Language Models')
+})
+
+test('getLabel should format inline diffs without an explicit base uri', () => {
+  expect(PathDisplay.getLabel('inline-diff://file:///workspace/file.ts')).toBe('file.ts (Working Tree)')
 })

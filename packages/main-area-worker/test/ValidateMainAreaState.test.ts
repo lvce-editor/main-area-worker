@@ -19,6 +19,7 @@ test('validateMainAreaState should return true for state with activeGroupId', ()
       groups: [
         {
           activeTabId: undefined,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,

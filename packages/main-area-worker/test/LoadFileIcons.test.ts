@@ -14,6 +14,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -57,6 +58,7 @@ test('loadFileIcons should load icons for all tabs', async () => {
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -141,6 +143,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -160,6 +163,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -193,6 +197,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -212,6 +217,7 @@ test('loadFileIcons should update only relevant tabs', async () => {
       },
       {
         activeTabId: 2,
+        direction: 1,
         focused: false,
         id: 2,
         isEmpty: false,
@@ -254,6 +260,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -286,6 +293,7 @@ test('loadFileIcons should preserve other tab properties', async () => {
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -320,6 +328,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -353,6 +362,7 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -387,6 +397,7 @@ test('loadFileIcons should handle error and return original state', async () => 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -431,6 +442,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -460,6 +472,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
         },
         {
           activeTabId: 3,
+          direction: 2,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -479,6 +492,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
         },
         {
           activeTabId: 4,
+          direction: 2,
           focused: false,
           id: 3,
           isEmpty: false,
@@ -522,6 +536,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
     groups: [
       {
         activeTabId: 1,
+        direction: 2,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -551,6 +566,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
       },
       {
         activeTabId: 3,
+        direction: 2,
         focused: false,
         id: 2,
         isEmpty: false,
@@ -570,6 +586,7 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
       },
       {
         activeTabId: 4,
+        direction: 2,
         focused: false,
         id: 3,
         isEmpty: false,
@@ -625,6 +642,7 @@ test('loadFileIcons should preserve group structure', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -644,6 +662,7 @@ test('loadFileIcons should preserve group structure', async () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,
@@ -677,6 +696,7 @@ test('loadFileIcons should preserve group structure', async () => {
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: false,
         id: 1,
         isEmpty: false,
@@ -696,6 +716,7 @@ test('loadFileIcons should preserve group structure', async () => {
       },
       {
         activeTabId: 2,
+        direction: 1,
         focused: true,
         id: 2,
         isEmpty: false,
@@ -738,6 +759,7 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -770,6 +792,7 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
     groups: [
       {
         activeTabId: 1,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,

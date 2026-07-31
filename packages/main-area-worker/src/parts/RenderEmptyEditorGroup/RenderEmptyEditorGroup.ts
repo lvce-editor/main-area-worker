@@ -1,7 +1,8 @@
-import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, mergeClassNames, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
+import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
 import { renderEmptyGroupCloseButton } from '../RenderEmptyGroupCloseButton/RenderEmptyGroupCloseButton.ts'
 import { renderWaterMark } from '../RenderWaterMark/RenderWaterMark.ts'
 import * as TabIndex from '../TabIndex/TabIndex.ts'
@@ -16,7 +17,7 @@ export const renderEmptyEditorGroup = (
   return [
     {
       childCount: closeButtonEnabled ? 2 : 1,
-      className: ClassNames.EditorGroupEmpty,
+      className: mergeClassNames(ClassNames.EditorGroupEmpty, getEditorGroupClassName(group.id)),
       'data-groupId': String(group.id),
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
       style,

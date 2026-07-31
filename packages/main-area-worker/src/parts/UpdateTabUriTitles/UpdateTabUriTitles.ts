@@ -22,12 +22,13 @@ const updateTabUriTitle = (tab: Tab, homeDirUri: string): Tab => {
 
 export const updateTabUriTitles = (state: MainAreaState): MainAreaState => {
   const { homeDirUri: rawHomeDirUri, layout } = state
+  const { groups } = layout
   const homeDirUri = rawHomeDirUri || ''
   return {
     ...state,
     layout: {
       ...layout,
-      groups: layout.groups.map((group) => ({
+      groups: groups.map((group) => ({
         ...group,
         tabs: group.tabs.map((tab) => updateTabUriTitle(tab, homeDirUri)),
       })),

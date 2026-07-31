@@ -12,6 +12,7 @@ test('ensureActiveGroup should add tab to existing active group', () => {
       groups: [
         {
           activeTabId: -1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -56,6 +57,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
     groups: [
       {
         activeTabId: tabId,
+        direction: 1,
         focused: true,
         id: groupId,
         isEmpty: false,
@@ -90,6 +92,7 @@ test('ensureActiveGroup should use focused group when activeGroupId is undefined
       groups: [
         {
           activeTabId: -1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: true,
@@ -98,6 +101,7 @@ test('ensureActiveGroup should use focused group when activeGroupId is undefined
         },
         {
           activeTabId: -1,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: true,
@@ -128,6 +132,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -162,6 +167,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
     groups: [
       {
         activeTabId: tabId,
+        direction: 1,
         focused: true,
         id: 1,
         isEmpty: false,
@@ -209,6 +215,7 @@ test('ensureActiveGroup should replace the active preview tab', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -254,6 +261,7 @@ test('ensureActiveGroup should keep pinned tabs when opening a preview', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

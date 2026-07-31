@@ -38,6 +38,7 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -114,6 +115,7 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -133,6 +135,7 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: false,
           id: 2,
           isEmpty: false,
@@ -220,6 +223,7 @@ test('handleModifiedStatusChange should handle empty groups', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -245,6 +249,7 @@ test('handleModifiedStatusChange should preserve group properties', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 2,
           focused: true,
           id: 1,
           isEmpty: false,

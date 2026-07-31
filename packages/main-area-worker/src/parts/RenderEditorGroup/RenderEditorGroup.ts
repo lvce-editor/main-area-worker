@@ -1,6 +1,7 @@
-import { type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { type VirtualDomNode, mergeClassNames, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
+import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderEditorGroupHeader } from '../RenderEditorGroupHeader/RenderEditorGroupHeader.ts'
 import { renderEmptyEditorGroup } from '../RenderEmptyEditorGroup/RenderEmptyEditorGroup.ts'
@@ -30,7 +31,7 @@ export const renderEditorGroup = (
   return [
     {
       childCount: 2,
-      className: ClassNames.EditorGroup,
+      className: mergeClassNames(ClassNames.EditorGroup, getEditorGroupClassName(group.id)),
       'data-groupId': String(group.id),
       style,
       type: VirtualDomElements.Div,

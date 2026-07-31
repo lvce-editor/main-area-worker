@@ -3,6 +3,41 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeSaved } from '../src/parts/CloseSaved/CloseSaved.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
+test('closeSaved preserves a missing active tab id', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: undefined,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'saved.txt',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeSaved(state)
+
+  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+})
+
 test('closeSaved should close all non-dirty tabs', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -12,6 +47,7 @@ test('closeSaved should close all non-dirty tabs', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -67,6 +103,7 @@ test('closeSaved should update activeTabId when active tab is closed', () => {
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -122,6 +159,7 @@ test('closeSaved should mark group empty when no dirty tabs remain', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -158,6 +196,7 @@ test('closeSaved should preserve groups with only dirty tabs', () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: false,
           id: 1,
           isEmpty: false,
@@ -176,6 +215,7 @@ test('closeSaved should preserve groups with only dirty tabs', () => {
         },
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 2,
           isEmpty: false,

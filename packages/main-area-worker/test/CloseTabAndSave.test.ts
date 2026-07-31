@@ -31,6 +31,7 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -95,6 +96,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -149,6 +151,7 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -202,6 +205,7 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -252,6 +256,7 @@ test('closeTabAndSave should keep a dirty tab open when closing is canceled', as
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -310,6 +315,7 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -363,6 +369,7 @@ test('closeTabAndSave should skip saving tabs without editor instances', async (
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -390,6 +397,94 @@ test('closeTabAndSave should skip saving tabs without editor instances', async (
   expect(result.layout.groups).toHaveLength(0)
 })
 
+test('closeTabAndSave should return unchanged state when the tab does not exist', async () => {
+  const state = createDefaultState()
+
+  await expect(closeTabAndSave(state, 1, 1)).resolves.toBe(state)
+})
+
+test('closeTabAndSave should propagate unexpected dialog errors', async () => {
+  using mockRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => {
+      throw new Error('dialog unavailable')
+    },
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 1,
+              icon: '',
+              id: 1,
+              isDirty: true,
+              isPreview: false,
+              title: 'file.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  await expect(closeTabAndSave(state, 1, 1)).rejects.toThrow('dialog unavailable')
+  expect(mockRpc.invocations).toHaveLength(1)
+})
+
+test('closeTabAndSave should save and close a dirty tab without a uri', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'Editor.save': async () => ({ modified: false }),
+  })
+  using dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 1,
+              icon: '',
+              id: 1,
+              isDirty: true,
+              isPreview: false,
+              title: 'Untitled',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeTabAndSave(state, 1, 1)
+
+  expect(result.layout.groups).toHaveLength(0)
+  expect(rendererRpc.invocations).toEqual([['Editor.save', 1]])
+  expect(dialogRpc.invocations).toHaveLength(1)
+})
+
 test('closeTabAndSave should dispose a Settings editor after switching to the replacement editor', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.dispose': async () => undefined,
@@ -403,6 +498,7 @@ test('closeTabAndSave should dispose a Settings editor after switching to the re
       groups: [
         {
           activeTabId: 2,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

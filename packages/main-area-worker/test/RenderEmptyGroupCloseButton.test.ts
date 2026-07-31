@@ -9,6 +9,7 @@ import { renderEmptyGroupCloseButton } from '../src/parts/RenderEmptyGroupCloseB
 test('renderEmptyGroupCloseButton should return close button for empty group', () => {
   const group: EditorGroup = {
     activeTabId: undefined,
+    direction: 1,
     focused: false,
     id: 1,
     isEmpty: true,

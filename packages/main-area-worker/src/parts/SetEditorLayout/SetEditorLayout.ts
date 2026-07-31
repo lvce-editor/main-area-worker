@@ -5,7 +5,7 @@ import * as Id from '../Id/Id.ts'
 import * as LayoutDirectionType from '../LayoutDirection/LayoutDirection.ts'
 
 export interface LayoutSlot {
-  readonly direction?: LayoutDirection
+  readonly direction: LayoutDirection
   readonly segmentId?: number
   readonly size: number
 }
@@ -14,9 +14,10 @@ const flipDirection = (direction: LayoutDirection): LayoutDirection => {
   return direction === LayoutDirectionType.Horizontal ? LayoutDirectionType.Vertical : LayoutDirectionType.Horizontal
 }
 
-const createEmptyGroup = (): EditorGroup => {
+const createEmptyGroup = (direction: LayoutDirection): EditorGroup => {
   return {
     activeTabId: undefined,
+    direction,
     focused: false,
     id: Id.create(),
     isEmpty: true,
@@ -50,16 +51,21 @@ const mergeGroups = (target: EditorGroup, groups: readonly EditorGroup[], active
   }
 }
 
-const getGroupsForSlotCount = (groups: readonly EditorGroup[], slotCount: number, activeGroupId: number | undefined): readonly EditorGroup[] => {
+const getGroupsForSlotCount = (
+  groups: readonly EditorGroup[],
+  slotCount: number,
+  activeGroupId: number | undefined,
+  direction: LayoutDirection,
+): readonly EditorGroup[] => {
   if (slotCount === 1) {
-    const firstGroup = groups[0] ?? createEmptyGroup()
+    const firstGroup = groups[0] ?? createEmptyGroup(direction)
     return [mergeGroups(firstGroup, groups.slice(1), activeGroupId)]
   }
   if (groups.length === slotCount) {
     return groups
   }
   if (groups.length < slotCount) {
-    const missingGroups = Array.from({ length: slotCount - groups.length }, createEmptyGroup)
+    const missingGroups = Array.from({ length: slotCount - groups.length }, () => createEmptyGroup(direction))
     return [...groups, ...missingGroups]
   }
   const retainedGroups = groups.slice(0, slotCount)
@@ -73,9 +79,10 @@ const getGroupsForSlotCount = (groups: readonly EditorGroup[], slotCount: number
 
 export const setEditorLayout = (state: MainAreaState, direction: LayoutDirection, slots: readonly LayoutSlot[]): MainAreaState => {
   const { layout } = state
-  const groups = getGroupsForSlotCount(layout.groups, slots.length, layout.activeGroupId)
-  const originalActiveIndex = layout.groups.findIndex((group) => group.id === layout.activeGroupId)
-  const activeIndex = originalActiveIndex >= slots.length ? slots.length - 1 : getActiveGroupIndex(groups, layout.activeGroupId)
+  const { activeGroupId, groups: currentGroups } = layout
+  const groups = getGroupsForSlotCount(currentGroups, slots.length, activeGroupId, direction)
+  const originalActiveIndex = currentGroups.findIndex((group) => group.id === activeGroupId)
+  const activeIndex = originalActiveIndex >= slots.length ? slots.length - 1 : getActiveGroupIndex(groups, activeGroupId)
   const nextGroups = groups.map((group, index) => {
     const slot = slots[index]
     const focused = index === activeIndex
@@ -99,37 +106,52 @@ export const setEditorLayout = (state: MainAreaState, direction: LayoutDirection
 
 export const flipLayout = (state: MainAreaState): MainAreaState => {
   const { layout } = state
+  const { direction, groups } = layout
   return {
     ...state,
     layout: {
       ...layout,
-      direction: flipDirection(layout.direction),
-      groups: layout.groups.map((group) => ({
+      direction: flipDirection(direction),
+      groups: groups.map((group) => ({
         ...group,
-        direction: group.direction === undefined ? undefined : flipDirection(group.direction),
+        direction: flipDirection(group.direction),
       })),
     },
   }
 }
 
 export const setEditorLayoutSingle = (state: MainAreaState): MainAreaState => {
-  return setEditorLayout(state, LayoutDirectionType.Horizontal, [{ size: 100 }])
+  return setEditorLayout(state, LayoutDirectionType.Horizontal, [{ direction: LayoutDirectionType.Horizontal, size: 100 }])
 }
 
 export const setEditorLayoutTwoColumns = (state: MainAreaState): MainAreaState => {
-  return setEditorLayout(state, LayoutDirectionType.Horizontal, [{ size: 50 }, { size: 50 }])
+  return setEditorLayout(state, LayoutDirectionType.Horizontal, [
+    { direction: LayoutDirectionType.Horizontal, size: 50 },
+    { direction: LayoutDirectionType.Horizontal, size: 50 },
+  ])
 }
 
 export const setEditorLayoutThreeColumns = (state: MainAreaState): MainAreaState => {
-  return setEditorLayout(state, LayoutDirectionType.Horizontal, [{ size: 33.333333 }, { size: 33.333333 }, { size: 33.333334 }])
+  return setEditorLayout(state, LayoutDirectionType.Horizontal, [
+    { direction: LayoutDirectionType.Horizontal, size: 33.333333 },
+    { direction: LayoutDirectionType.Horizontal, size: 33.333333 },
+    { direction: LayoutDirectionType.Horizontal, size: 33.333334 },
+  ])
 }
 
 export const setEditorLayoutTwoRows = (state: MainAreaState): MainAreaState => {
-  return setEditorLayout(state, LayoutDirectionType.Vertical, [{ size: 50 }, { size: 50 }])
+  return setEditorLayout(state, LayoutDirectionType.Vertical, [
+    { direction: LayoutDirectionType.Vertical, size: 50 },
+    { direction: LayoutDirectionType.Vertical, size: 50 },
+  ])
 }
 
 export const setEditorLayoutThreeRows = (state: MainAreaState): MainAreaState => {
-  return setEditorLayout(state, LayoutDirectionType.Vertical, [{ size: 33.333333 }, { size: 33.333333 }, { size: 33.333334 }])
+  return setEditorLayout(state, LayoutDirectionType.Vertical, [
+    { direction: LayoutDirectionType.Vertical, size: 33.333333 },
+    { direction: LayoutDirectionType.Vertical, size: 33.333333 },
+    { direction: LayoutDirectionType.Vertical, size: 33.333334 },
+  ])
 }
 
 export const setEditorLayoutGrid = (state: MainAreaState): MainAreaState => {
@@ -146,7 +168,7 @@ export const setEditorLayoutGrid = (state: MainAreaState): MainAreaState => {
 export const setEditorLayoutTwoRowsRight = (state: MainAreaState): MainAreaState => {
   const segmentId = Id.create()
   return setEditorLayout(state, LayoutDirectionType.Horizontal, [
-    { size: 50 },
+    { direction: LayoutDirectionType.Horizontal, size: 50 },
     { direction: LayoutDirectionType.Vertical, segmentId, size: 25 },
     { direction: LayoutDirectionType.Vertical, segmentId, size: 25 },
   ])
@@ -155,7 +177,7 @@ export const setEditorLayoutTwoRowsRight = (state: MainAreaState): MainAreaState
 export const setEditorLayoutTwoColumnsBottom = (state: MainAreaState): MainAreaState => {
   const segmentId = Id.create()
   return setEditorLayout(state, LayoutDirectionType.Vertical, [
-    { size: 50 },
+    { direction: LayoutDirectionType.Vertical, size: 50 },
     { direction: LayoutDirectionType.Horizontal, segmentId, size: 25 },
     { direction: LayoutDirectionType.Horizontal, segmentId, size: 25 },
   ])

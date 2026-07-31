@@ -72,6 +72,7 @@ test('handleResize should resize all editors', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,
@@ -179,6 +180,7 @@ test('handleResize should skip editors with editorUid -1', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

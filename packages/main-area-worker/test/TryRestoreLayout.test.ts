@@ -117,6 +117,28 @@ test('tryRestoreLayout should handle multiple groups', () => {
 
   expect(result).toBeDefined()
   expect(result?.groups).toHaveLength(2)
+  expect(result?.groups.map((group) => group.direction)).toEqual([1, 1])
+})
+
+test('tryRestoreLayout should reject an invalid explicit group direction', () => {
+  const result = TryRestoreLayout.tryRestoreLayout({
+    layout: {
+      direction: 1,
+      groups: [
+        {
+          activeTabId: undefined,
+          direction: 999,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  })
+
+  expect(result).toBeUndefined()
 })
 
 test('tryRestoreLayout should normalize group directions', () => {

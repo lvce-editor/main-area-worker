@@ -11,8 +11,7 @@ const assert = (condition: boolean, message: string): void => {
 }
 
 export const test: Test = async ({ Command, FileSystem, Workspace }) => {
-  const root = await FileSystem.getOpfsRoot()
-  const directoryHandle = await root.getDirectoryHandle('native-folder', { create: true })
+  const directoryHandle = { kind: 'directory', name: 'native-folder' }
 
   await Workspace.setPath('')
   const itemId = await FileSystem.registerFileHandle({ kind: 'file', type: '', value: directoryHandle } as any)

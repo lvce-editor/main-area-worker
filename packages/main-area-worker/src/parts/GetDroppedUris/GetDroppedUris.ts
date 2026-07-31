@@ -28,17 +28,6 @@ interface DroppedFileItem {
 
 const lineSeparatorRegex = /\r?\n/
 const chromiumDragIdRegex = /^[A-F\d]{32}$/i
-const getDroppedFileTimestamp = (() => {
-  let lastTimestamp = 0
-  return (): number => {
-    lastTimestamp = Math.max(Date.now(), lastTimestamp + 1)
-    return lastTimestamp
-  }
-})()
-
-const getDroppedFileUri = (name: string): string => {
-  return `html:///dropped-files/${getDroppedFileTimestamp()}/${name}`
-}
 
 const isUriList = (item: unknown): item is DroppedStringItem => {
   if (!item || typeof item !== 'object') {
@@ -84,7 +73,7 @@ export const getDroppedUris = async (itemIds: readonly number[]): Promise<readon
   const items = (await RendererWorker.getFileHandles(itemIds)) as readonly unknown[]
   let hasChromiumDragId = false
   const uris: string[] = []
-  for (const item of items) {
+  for (const [index, item] of items.entries()) {
     if (isUriList(item)) {
       uris.push(...parseUriList(item.value))
       continue
@@ -97,7 +86,7 @@ export const getDroppedUris = async (itemIds: readonly number[]): Promise<readon
       continue
     }
     const handle = item.value
-    const uri = getDroppedFileUri(handle.name)
+    const uri = `html:///dropped-files/${Date.now()}/${itemIds[index]}/${handle.name}`
     await RendererWorker.invoke('PersistentFileHandle.addHandle', uri, handle)
     uris.push(uri)
   }

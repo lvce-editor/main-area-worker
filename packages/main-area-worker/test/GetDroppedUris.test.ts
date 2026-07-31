@@ -2,9 +2,10 @@ import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import { getDroppedUris } from '../src/parts/GetDroppedUris/GetDroppedUris.ts'
 
-const ampDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/amp\.png$/
-const indexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/index\.js$/
-const threeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/three\.txt$/
+const ampDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/amp\.png$/
+const firstIndexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/index\.js$/
+const secondIndexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/index\.js$/
+const threeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/three\.txt$/
 
 test('returns no uris when there are no data transfer items', async () => {
   expect(await getDroppedUris([])).toEqual([])
@@ -88,8 +89,8 @@ test('uses distinct uris for dropped native files with the same name', async () 
 
   const uris = await getDroppedUris([1, 2])
   expect(uris).toHaveLength(2)
-  expect(uris[0]).toMatch(indexDroppedFileUriRegex)
-  expect(uris[1]).toMatch(indexDroppedFileUriRegex)
+  expect(uris[0]).toMatch(firstIndexDroppedFileUriRegex)
+  expect(uris[1]).toMatch(secondIndexDroppedFileUriRegex)
   expect(uris[0]).not.toBe(uris[1])
   expect(mockRpc.invocations).toEqual([
     ['FileSystemHandle.getFileHandles', [1, 2]],

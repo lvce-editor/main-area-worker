@@ -10,7 +10,8 @@
     },
     "packages/e2e": {
       "entry": ["src/**/*.ts"],
-      "project": ["src/**/*.ts"]
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": ["playwright-core"]
     },
     "packages/main-area-worker": {
       "entry": ["src/mainAreaWorkerMain.ts", "test/**/*.test.ts"],

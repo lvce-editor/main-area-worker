@@ -2,6 +2,10 @@ import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import { getDroppedUris } from '../src/parts/GetDroppedUris/GetDroppedUris.ts'
 
+const ampDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/amp\.png$/
+const indexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/index\.js$/
+const threeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/three\.txt$/
+
 test('returns no uris when there are no data transfer items', async () => {
   expect(await getDroppedUris([])).toEqual([])
 })
@@ -46,10 +50,51 @@ test('persists a dropped native file handle and returns its html uri', async () 
     'PersistentFileHandle.addHandle'() {},
   })
 
-  expect(await getDroppedUris([1])).toEqual(['html:///dropped-files/amp.png'])
+  const uris = await getDroppedUris([1])
+  expect(uris).toHaveLength(1)
+  expect(uris[0]).toMatch(ampDroppedFileUriRegex)
   expect(mockRpc.invocations).toEqual([
     ['FileSystemHandle.getFileHandles', [1]],
-    ['PersistentFileHandle.addHandle', 'html:///dropped-files/amp.png', fileHandle],
+    ['PersistentFileHandle.addHandle', uris[0], fileHandle],
+  ])
+})
+
+test('uses distinct uris for dropped native files with the same name', async () => {
+  const firstFileHandle = {
+    kind: 'file',
+    name: 'index.js',
+  }
+  const secondFileHandle = {
+    kind: 'file',
+    name: 'index.js',
+  }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [
+        {
+          kind: 'file',
+          type: '',
+          value: firstFileHandle,
+        },
+        {
+          kind: 'file',
+          type: '',
+          value: secondFileHandle,
+        },
+      ] as any
+    },
+    'PersistentFileHandle.addHandle'() {},
+  })
+
+  const uris = await getDroppedUris([1, 2])
+  expect(uris).toHaveLength(2)
+  expect(uris[0]).toMatch(indexDroppedFileUriRegex)
+  expect(uris[1]).toMatch(indexDroppedFileUriRegex)
+  expect(uris[0]).not.toBe(uris[1])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [1, 2]],
+    ['PersistentFileHandle.addHandle', uris[0], firstFileHandle],
+    ['PersistentFileHandle.addHandle', uris[1], secondFileHandle],
   ])
 })
 
@@ -75,7 +120,9 @@ test('preserves the order of uri lists and native files', async () => {
     'PersistentFileHandle.addHandle'() {},
   })
 
-  expect(await getDroppedUris([1, 2])).toEqual(['file:///workspace/one.txt', 'file:///workspace/two.txt', 'html:///dropped-files/three.txt'])
+  const uris = await getDroppedUris([1, 2])
+  expect(uris.slice(0, 2)).toEqual(['file:///workspace/one.txt', 'file:///workspace/two.txt'])
+  expect(uris[2]).toMatch(threeDroppedFileUriRegex)
 })
 
 test('ignores invalid file handles and unsupported string items', async () => {

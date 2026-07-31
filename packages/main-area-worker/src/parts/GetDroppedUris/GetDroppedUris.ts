@@ -1,6 +1,6 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import { isChromiumDragId } from '../IsChromiumDragId/IsChromiumDragId.ts'
-import { isDroppedFile } from '../IsDroppedFile/IsDroppedFile.ts'
+import { isDroppedFileSystemHandle } from '../IsDroppedFileSystemHandle/IsDroppedFileSystemHandle.ts'
 import { isUriList } from '../IsUriList/IsUriList.ts'
 import { parseUriList } from '../ParseUriList/ParseUriList.ts'
 
@@ -12,6 +12,8 @@ interface DragInfoItem {
 interface DragInfo {
   readonly items: readonly DragInfoItem[]
 }
+
+const suffixByHandleKind = { directory: '/', file: '' } as const
 
 export const getDroppedUris = async (itemIds: readonly number[]): Promise<readonly string[]> => {
   if (itemIds.length === 0) {
@@ -29,11 +31,12 @@ export const getDroppedUris = async (itemIds: readonly number[]): Promise<readon
       hasChromiumDragId = true
       continue
     }
-    if (!isDroppedFile(item)) {
+    if (!isDroppedFileSystemHandle(item)) {
       continue
     }
     const handle = item.value
-    const uri = `html:///dropped-files/${Date.now()}/${itemIds[index]}/${handle.name}`
+    const suffix = suffixByHandleKind[handle.kind]
+    const uri = `html:///dropped-files/${Date.now()}/${itemIds[index]}/${handle.name}${suffix}`
     await RendererWorker.invoke('PersistentFileHandle.addHandle', uri, handle)
     uris.push(uri)
   }
@@ -42,7 +45,7 @@ export const getDroppedUris = async (itemIds: readonly number[]): Promise<readon
   }
   const dragInfo = await RendererWorker.invoke('Viewlet.getDragData')
   if (!dragInfo || typeof dragInfo !== 'object' || !Array.isArray((dragInfo as Partial<DragInfo>).items)) {
-    return []
+    return uris
   }
   for (const item of (dragInfo as DragInfo).items) {
     const candidate = item as Partial<DragInfoItem>

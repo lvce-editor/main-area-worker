@@ -3,9 +3,11 @@ import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as DirentType from '../src/parts/DirentType/DirentType.ts'
 import { handleDrop } from '../src/parts/HandleDrop/HandleDrop.ts'
 
 const nativeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native\.txt$/
+const nativeDroppedFolderUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native-folder\/$/
 
 const createContext = (initialState: MainAreaState) => {
   let state = initialState
@@ -142,6 +144,60 @@ test('opens a dropped native file using its persisted html uri', async () => {
     ['FileSystemHandle.getFileHandles', [1]],
     ['PersistentFileHandle.addHandle', uri, fileHandle],
     ['Layout.getModuleId', uri],
+  ])
+})
+
+test('sets a dropped native folder as the workspace folder', async () => {
+  const directoryHandle = { kind: 'directory', name: 'native-folder' }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [{ kind: 'file', type: '', value: directoryHandle }] as any
+    },
+    'PersistentFileHandle.addHandle'() {},
+    async 'Workspace.setPath'() {},
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups).toEqual([])
+  const workspaceUri = mockRpc.invocations[2][1]
+  expect(workspaceUri).toMatch(nativeDroppedFolderUriRegex)
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [1]],
+    ['PersistentFileHandle.addHandle', workspaceUri, directoryHandle],
+    ['Workspace.setPath', workspaceUri],
+  ])
+})
+
+test('sets a dropped explorer folder as the workspace folder', async () => {
+  const folderUri = 'file:///workspace/folder'
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.stat'() {
+      return DirentType.Directory
+    },
+    'FileSystemHandle.getFileHandles'() {
+      return [{ kind: 'string', type: 'text/uri-list', value: folderUri }] as any
+    },
+    async 'Workspace.setUri'() {},
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups).toEqual([])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [1]],
+    ['FileSystem.stat', folderUri],
+    ['Workspace.setUri', folderUri],
   ])
 })
 

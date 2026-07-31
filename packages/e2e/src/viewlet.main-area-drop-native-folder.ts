@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-drop-native-folder'
 
-const nativeFolderWorkspaceRegex = /^html:\/\/\/dropped-files\/\d+\/\d+\/native-folder$/
+const nativeFolderWorkspaceRegex = /^html:\/\/\/dropped-files\/\d+\/\d+\/native-folder\/$/
 
 const assert = (condition: boolean, message: string): void => {
   if (!condition) {

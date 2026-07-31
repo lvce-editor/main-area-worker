@@ -7,7 +7,7 @@ import * as DirentType from '../src/parts/DirentType/DirentType.ts'
 import { handleDrop } from '../src/parts/HandleDrop/HandleDrop.ts'
 
 const nativeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native\.txt$/
-const nativeDroppedFolderUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native-folder$/
+const nativeDroppedFolderUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native-folder\/$/
 
 const createContext = (initialState: MainAreaState) => {
   let state = initialState
@@ -154,7 +154,7 @@ test('sets a dropped native folder as the workspace folder', async () => {
       return [{ kind: 'file', type: '', value: directoryHandle }] as any
     },
     'PersistentFileHandle.addHandle'() {},
-    'Workspace.setPath'() {},
+    async 'Workspace.setPath'() {},
   })
   const { context, getState } = createContext({
     ...createDefaultState(),
@@ -183,7 +183,7 @@ test('sets a dropped explorer folder as the workspace folder', async () => {
     'FileSystemHandle.getFileHandles'() {
       return [{ kind: 'string', type: 'text/uri-list', value: folderUri }] as any
     },
-    'Workspace.setUri'() {},
+    async 'Workspace.setUri'() {},
   })
   const { context, getState } = createContext({
     ...createDefaultState(),
@@ -230,9 +230,6 @@ test('opens multiple dropped explorer uris in their source order', async () => {
 
 test('opens an explorer file recovered from retained Chromium drag data', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'FileSystem.stat'() {
-      return DirentType.File
-    },
     'FileSystemHandle.getFileHandles'() {
       return [{ kind: 'string', type: '', value: '8B1BC632EA890FDD4BDB7705EF0231B0' }] as any
     },
@@ -254,7 +251,6 @@ test('opens an explorer file recovered from retained Chromium drag data', async 
   expect(mockRpc.invocations).toEqual([
     ['FileSystemHandle.getFileHandles', [7]],
     ['Viewlet.getDragData'],
-    ['FileSystem.stat', 'file:///workspace/retained.ts'],
     ['Layout.getModuleId', 'file:///workspace/retained.ts'],
   ])
 })

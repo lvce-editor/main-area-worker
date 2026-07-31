@@ -119,7 +119,6 @@ export const commandMap = {
   'Main.focusNextTab': wrapSerialCommand(focusNextTab),
   'Main.focusPrevious': wrapSerialCommand(focusPreviousTab),
   'Main.focusPreviousTab': wrapSerialCommand(focusPreviousTab),
-  'Main.handleDrop': wrapSerialAsyncCommand(handleDrop),
   'Main.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
   'Main.handleTabContextMenu': wrapSerialCommand(handleTabContextMenu),
   'Main.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),

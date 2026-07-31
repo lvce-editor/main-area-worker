@@ -4,11 +4,6 @@ import { isDroppedFileSystemHandle } from '../IsDroppedFileSystemHandle/IsDroppe
 import { isUriList } from '../IsUriList/IsUriList.ts'
 import { parseUriList } from '../ParseUriList/ParseUriList.ts'
 
-export interface DroppedItem {
-  readonly kind: 'directory' | 'file' | 'unknown'
-  readonly uri: string
-}
-
 interface DragInfoItem {
   readonly data: string
   readonly type: string
@@ -18,22 +13,18 @@ interface DragInfo {
   readonly items: readonly DragInfoItem[]
 }
 
-const addUris = (items: DroppedItem[], value: string): void => {
-  for (const uri of parseUriList(value)) {
-    items.push({ kind: 'unknown', uri })
-  }
-}
+const suffixByHandleKind = { directory: '/', file: '' } as const
 
-export const getDroppedItems = async (itemIds: readonly number[]): Promise<readonly DroppedItem[]> => {
+export const getDroppedUris = async (itemIds: readonly number[]): Promise<readonly string[]> => {
   if (itemIds.length === 0) {
     return []
   }
   const items = (await RendererWorker.getFileHandles(itemIds)) as readonly unknown[]
   let hasChromiumDragId = false
-  const droppedItems: DroppedItem[] = []
+  const uris: string[] = []
   for (const [index, item] of items.entries()) {
     if (isUriList(item)) {
-      addUris(droppedItems, item.value)
+      uris.push(...parseUriList(item.value))
       continue
     }
     if (isChromiumDragId(item)) {
@@ -44,27 +35,23 @@ export const getDroppedItems = async (itemIds: readonly number[]): Promise<reado
       continue
     }
     const handle = item.value
-    const uri = `html:///dropped-files/${Date.now()}/${itemIds[index]}/${handle.name}`
+    const suffix = suffixByHandleKind[handle.kind]
+    const uri = `html:///dropped-files/${Date.now()}/${itemIds[index]}/${handle.name}${suffix}`
     await RendererWorker.invoke('PersistentFileHandle.addHandle', uri, handle)
-    droppedItems.push({ kind: handle.kind, uri })
+    uris.push(uri)
   }
-  if (droppedItems.length > 0 || !hasChromiumDragId) {
-    return droppedItems
+  if (uris.length > 0 || !hasChromiumDragId) {
+    return uris
   }
   const dragInfo = await RendererWorker.invoke('Viewlet.getDragData')
   if (!dragInfo || typeof dragInfo !== 'object' || !Array.isArray((dragInfo as Partial<DragInfo>).items)) {
-    return []
+    return uris
   }
   for (const item of (dragInfo as DragInfo).items) {
     const candidate = item as Partial<DragInfoItem>
     if (candidate.type === 'text/uri-list' && typeof candidate.data === 'string') {
-      addUris(droppedItems, candidate.data)
+      uris.push(...parseUriList(candidate.data))
     }
   }
-  return droppedItems
-}
-
-export const getDroppedUris = async (itemIds: readonly number[]): Promise<readonly string[]> => {
-  const items = await getDroppedItems(itemIds)
-  return items.map((item) => item.uri)
+  return uris
 }

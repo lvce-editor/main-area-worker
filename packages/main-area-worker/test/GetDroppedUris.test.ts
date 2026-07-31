@@ -3,7 +3,11 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import { getDroppedUris } from '../src/parts/GetDroppedUris/GetDroppedUris.ts'
 
 const ampDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/amp\.png$/
+const directDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/direct\.txt$/
+const firstDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/first\.txt$/
 const firstIndexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/index\.js$/
+const meetingNotesDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/meeting notes\.txt$/
+const secondDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/second\.txt$/
 const secondIndexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/index\.js$/
 const threeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/three\.txt$/
 
@@ -226,10 +230,12 @@ test('preserves spaces in a dropped native file name', async () => {
     'PersistentFileHandle.addHandle'() {},
   })
 
-  expect(await getDroppedUris([1])).toEqual(['html:///dropped-files/meeting notes.txt'])
+  const uris = await getDroppedUris([1])
+  expect(uris).toHaveLength(1)
+  expect(uris[0]).toMatch(meetingNotesDroppedFileUriRegex)
   expect(mockRpc.invocations).toEqual([
     ['FileSystemHandle.getFileHandles', [1]],
-    ['PersistentFileHandle.addHandle', 'html:///dropped-files/meeting notes.txt', fileHandle],
+    ['PersistentFileHandle.addHandle', uris[0], fileHandle],
   ])
 })
 
@@ -246,11 +252,14 @@ test('persists multiple native files in drop order', async () => {
     'PersistentFileHandle.addHandle'() {},
   })
 
-  expect(await getDroppedUris([1, 2])).toEqual(['html:///dropped-files/first.txt', 'html:///dropped-files/second.txt'])
+  const uris = await getDroppedUris([1, 2])
+  expect(uris).toHaveLength(2)
+  expect(uris[0]).toMatch(firstDroppedFileUriRegex)
+  expect(uris[1]).toMatch(secondDroppedFileUriRegex)
   expect(mockRpc.invocations).toEqual([
     ['FileSystemHandle.getFileHandles', [1, 2]],
-    ['PersistentFileHandle.addHandle', 'html:///dropped-files/first.txt', firstHandle],
-    ['PersistentFileHandle.addHandle', 'html:///dropped-files/second.txt', secondHandle],
+    ['PersistentFileHandle.addHandle', uris[0], firstHandle],
+    ['PersistentFileHandle.addHandle', uris[1], secondHandle],
   ])
 })
 
@@ -306,10 +315,12 @@ test('does not request retained explorer data when a native file is available', 
     'PersistentFileHandle.addHandle'() {},
   })
 
-  expect(await getDroppedUris([1, 2])).toEqual(['html:///dropped-files/direct.txt'])
+  const uris = await getDroppedUris([1, 2])
+  expect(uris).toHaveLength(1)
+  expect(uris[0]).toMatch(directDroppedFileUriRegex)
   expect(mockRpc.invocations).toEqual([
     ['FileSystemHandle.getFileHandles', [1, 2]],
-    ['PersistentFileHandle.addHandle', 'html:///dropped-files/direct.txt', fileHandle],
+    ['PersistentFileHandle.addHandle', uris[0], fileHandle],
   ])
 })
 

@@ -5,6 +5,8 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleDrop } from '../src/parts/HandleDrop/HandleDrop.ts'
 
+const nativeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native\.txt$/
+
 const createContext = (initialState: MainAreaState) => {
   let state = initialState
   const context: AsyncCommandContext<MainAreaState> = {
@@ -134,11 +136,12 @@ test('opens a dropped native file using its persisted html uri', async () => {
   await handleDrop(context, [1])
 
   expect(getState().dragOverlay).toBeUndefined()
-  expect(getState().layout.groups[0].tabs[0].uri).toBe('html:///dropped-files/native.txt')
+  const [{ uri }] = getState().layout.groups[0].tabs
+  expect(uri).toMatch(nativeDroppedFileUriRegex)
   expect(mockRpc.invocations).toEqual([
     ['FileSystemHandle.getFileHandles', [1]],
-    ['PersistentFileHandle.addHandle', 'html:///dropped-files/native.txt', fileHandle],
-    ['Layout.getModuleId', 'html:///dropped-files/native.txt'],
+    ['PersistentFileHandle.addHandle', uri, fileHandle],
+    ['Layout.getModuleId', uri],
   ])
 })
 

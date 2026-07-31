@@ -75,11 +75,7 @@ test('preserves the order of uri lists and native files', async () => {
     'PersistentFileHandle.addHandle'() {},
   })
 
-  expect(await getDroppedUris([1, 2])).toEqual([
-    'file:///workspace/one.txt',
-    'file:///workspace/two.txt',
-    'html:///dropped-files/three.txt',
-  ])
+  expect(await getDroppedUris([1, 2])).toEqual(['file:///workspace/one.txt', 'file:///workspace/two.txt', 'html:///dropped-files/three.txt'])
 })
 
 test('ignores invalid file handles and unsupported string items', async () => {

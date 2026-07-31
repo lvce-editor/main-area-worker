@@ -15,6 +15,17 @@ interface DragInfo {
   readonly items: readonly DragInfoItem[]
 }
 
+interface DroppedFileHandle {
+  readonly kind: 'file'
+  readonly name: string
+}
+
+interface DroppedFileItem {
+  readonly kind: 'file'
+  readonly type: string
+  readonly value: DroppedFileHandle
+}
+
 const lineSeparatorRegex = /\r?\n/
 const chromiumDragIdRegex = /^[A-F\d]{32}$/i
 
@@ -46,19 +57,13 @@ const isChromiumDragId = (item: unknown): item is DroppedStringItem => {
   )
 }
 
-const isDragInfoItem = (item: unknown): item is DragInfoItem => {
+const isDroppedFile = (item: unknown): item is DroppedFileItem => {
   if (!item || typeof item !== 'object') {
     return false
   }
-  const candidate = item as Partial<DragInfoItem>
-  return candidate.type === 'text/uri-list' && typeof candidate.data === 'string'
-}
-
-const getUrisFromDragInfo = (dragInfo: unknown): readonly string[] => {
-  if (!dragInfo || typeof dragInfo !== 'object' || !Array.isArray((dragInfo as Partial<DragInfo>).items)) {
-    return []
-  }
-  return (dragInfo as DragInfo).items.filter(isDragInfoItem).flatMap((item) => parseUriList(item.data))
+  const candidate = item as Partial<DroppedFileItem>
+  const handle = candidate.value
+  return candidate.kind === 'file' && Boolean(handle) && typeof handle === 'object' && handle.kind === 'file' && typeof handle.name === 'string'
 }
 
 export const getDroppedUris = async (itemIds: readonly number[]): Promise<readonly string[]> => {
@@ -66,10 +71,37 @@ export const getDroppedUris = async (itemIds: readonly number[]): Promise<readon
     return []
   }
   const items = (await RendererWorker.getFileHandles(itemIds)) as readonly unknown[]
-  const uris = items.filter(isUriList).flatMap((item) => parseUriList(item.value))
-  if (uris.length > 0 || !items.some(isChromiumDragId)) {
+  let hasChromiumDragId = false
+  const uris: string[] = []
+  for (const item of items) {
+    if (isUriList(item)) {
+      uris.push(...parseUriList(item.value))
+      continue
+    }
+    if (isChromiumDragId(item)) {
+      hasChromiumDragId = true
+      continue
+    }
+    if (!isDroppedFile(item)) {
+      continue
+    }
+    const handle = item.value
+    const uri = `html:///dropped-files/${handle.name}`
+    await RendererWorker.invoke('PersistentFileHandle.addHandle', uri, handle)
+    uris.push(uri)
+  }
+  if (uris.length > 0 || !hasChromiumDragId) {
     return uris
   }
   const dragInfo = await RendererWorker.invoke('Viewlet.getDragData')
-  return getUrisFromDragInfo(dragInfo)
+  if (!dragInfo || typeof dragInfo !== 'object' || !Array.isArray((dragInfo as Partial<DragInfo>).items)) {
+    return []
+  }
+  for (const item of (dragInfo as DragInfo).items) {
+    const candidate = item as Partial<DragInfoItem>
+    if (candidate.type === 'text/uri-list' && typeof candidate.data === 'string') {
+      uris.push(...parseUriList(candidate.data))
+    }
+  }
+  return uris
 }

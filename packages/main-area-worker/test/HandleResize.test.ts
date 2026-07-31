@@ -125,6 +125,7 @@ test('handleResize should resize editors in parallel', async () => {
       groups: [
         {
           activeTabId: 1,
+          direction: 1,
           focused: true,
           id: 1,
           isEmpty: false,

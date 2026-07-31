@@ -5,6 +5,25 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleDrop } from '../src/parts/HandleDrop/HandleDrop.ts'
 
+const createContext = (initialState: MainAreaState) => {
+  let state = initialState
+  const context: AsyncCommandContext<MainAreaState> = {
+    getState() {
+      return state
+    },
+    async updateState(updater) {
+      state = updater(state)
+      return state
+    },
+  }
+  return {
+    context,
+    getState() {
+      return state
+    },
+  }
+}
+
 test('clears the drag overlay when no uri is dropped', async () => {
   let state: MainAreaState = {
     ...createDefaultState(),
@@ -97,4 +116,120 @@ test('opens a dropped explorer uri', async () => {
   expect(state.layout.activeGroupId).toBe(1)
   expect(state.layout.groups[0].activeTabId).toBe(2)
   expect(state.layout.groups[0].focused).toBe(true)
+})
+
+test('opens a dropped native file using its persisted html uri', async () => {
+  const fileHandle = { kind: 'file', name: 'native.txt' }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [{ kind: 'file', type: 'text/plain', value: fileHandle }] as any
+    },
+    'PersistentFileHandle.addHandle'() {},
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups[0].tabs[0].uri).toBe('html:///dropped-files/native.txt')
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [1]],
+    ['PersistentFileHandle.addHandle', 'html:///dropped-files/native.txt', fileHandle],
+    ['Layout.getModuleId', 'html:///dropped-files/native.txt'],
+  ])
+})
+
+test('opens multiple dropped explorer uris in their source order', async () => {
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [
+        {
+          kind: 'string',
+          type: 'text/uri-list',
+          value: 'file:///workspace/first.ts\nfile:///workspace/second.ts\nfile:///workspace/third.ts',
+        },
+      ] as any
+    },
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await handleDrop(context, [1])
+
+  expect(getState().layout.groups[0].tabs.map((tab) => tab.uri)).toEqual([
+    'file:///workspace/first.ts',
+    'file:///workspace/second.ts',
+    'file:///workspace/third.ts',
+  ])
+  expect(getState().layout.groups[0].activeTabId).toBe(getState().layout.groups[0].tabs[2].id)
+})
+
+test('opens an explorer file recovered from retained Chromium drag data', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [{ kind: 'string', type: '', value: '8B1BC632EA890FDD4BDB7705EF0231B0' }] as any
+    },
+    'Viewlet.getDragData'() {
+      return {
+        items: [{ data: 'file:///workspace/retained.ts', type: 'text/uri-list' }],
+      }
+    },
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await handleDrop(context, [7])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups[0].tabs[0].uri).toBe('file:///workspace/retained.ts')
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [7]],
+    ['Viewlet.getDragData'],
+    ['Layout.getModuleId', 'file:///workspace/retained.ts'],
+  ])
+})
+
+test('clears the drag overlay before a native drop lookup fails', async () => {
+  const error = new Error('Failed to read native drop')
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      throw error
+    },
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await expect(handleDrop(context, [1])).rejects.toThrow(error)
+
+  expect(getState().dragOverlay).toBeUndefined()
+})
+
+test('keeps the cancelled state when dropped data is unsupported', async () => {
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [{ kind: 'string', type: 'text/plain', value: 'not a uri list' }] as any
+    },
+  })
+  const initialState = {
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+    uid: 23,
+  }
+  const { context, getState } = createContext(initialState)
+
+  await handleDrop(context, [1])
+
+  expect(getState()).toEqual({
+    ...initialState,
+    dragOverlay: undefined,
+  })
 })

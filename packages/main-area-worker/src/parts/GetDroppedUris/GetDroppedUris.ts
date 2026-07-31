@@ -1,10 +1,8 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-
-interface DroppedStringItem {
-  readonly kind: 'string'
-  readonly type: string
-  readonly value: string
-}
+import { isChromiumDragId } from '../IsChromiumDragId/IsChromiumDragId.ts'
+import { isDroppedFile } from '../IsDroppedFile/IsDroppedFile.ts'
+import { isUriList } from '../IsUriList/IsUriList.ts'
+import { parseUriList } from '../ParseUriList/ParseUriList.ts'
 
 interface DragInfoItem {
   readonly data: string
@@ -13,57 +11,6 @@ interface DragInfoItem {
 
 interface DragInfo {
   readonly items: readonly DragInfoItem[]
-}
-
-interface DroppedFileHandle {
-  readonly kind: 'file'
-  readonly name: string
-}
-
-interface DroppedFileItem {
-  readonly kind: 'file'
-  readonly type: string
-  readonly value: DroppedFileHandle
-}
-
-const lineSeparatorRegex = /\r?\n/
-const chromiumDragIdRegex = /^[A-F\d]{32}$/i
-
-const isUriList = (item: unknown): item is DroppedStringItem => {
-  if (!item || typeof item !== 'object') {
-    return false
-  }
-  const candidate = item as Partial<DroppedStringItem>
-  return candidate.kind === 'string' && candidate.type === 'text/uri-list' && typeof candidate.value === 'string'
-}
-
-const parseUriList = (value: string): readonly string[] => {
-  return value
-    .split(lineSeparatorRegex)
-    .map((uri) => uri.trim())
-    .filter((uri) => uri && !uri.startsWith('#'))
-}
-
-const isChromiumDragId = (item: unknown): item is DroppedStringItem => {
-  if (!item || typeof item !== 'object') {
-    return false
-  }
-  const candidate = item as Partial<DroppedStringItem>
-  return (
-    candidate.kind === 'string' &&
-    (candidate.type === '' || candidate.type === 'chromium/x-drag-id') &&
-    typeof candidate.value === 'string' &&
-    chromiumDragIdRegex.test(candidate.value)
-  )
-}
-
-const isDroppedFile = (item: unknown): item is DroppedFileItem => {
-  if (!item || typeof item !== 'object') {
-    return false
-  }
-  const candidate = item as Partial<DroppedFileItem>
-  const handle = candidate.value
-  return candidate.kind === 'file' && Boolean(handle) && typeof handle === 'object' && handle.kind === 'file' && typeof handle.name === 'string'
 }
 
 export const getDroppedUris = async (itemIds: readonly number[]): Promise<readonly string[]> => {

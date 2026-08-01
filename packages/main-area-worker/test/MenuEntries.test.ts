@@ -66,11 +66,17 @@ test('getMenuEntries returns main menu entries when menuId is Main', async () =>
   })
   expect(result.find((entry) => entry.id === 'splitRight')).toEqual({
     args: [7],
-    command: 'MainArea.splitRight',
+    command: 'Main.splitRight',
     flags: 0,
     id: 'splitRight',
     label: 'Split Right',
   })
+  expect(result.filter((entry) => entry.id.startsWith('split')).map((entry) => entry.command)).toEqual([
+    'Main.splitUp',
+    'Main.splitDown',
+    'Main.splitLeft',
+    'Main.splitRight',
+  ])
   expect(result.find((entry) => entry.id === 'closeGroup')).toEqual({
     args: [7],
     command: 'MainArea.closeEditorGroup',
@@ -99,11 +105,17 @@ test('getMenuEntries omits group-specific entries for empty main area sentinel',
   })
   expect(result.find((entry) => entry.id === 'splitRight')).toEqual({
     args: undefined,
-    command: 'MainArea.splitRight',
+    command: 'Main.splitRight',
     flags: 0,
     id: 'splitRight',
     label: 'Split Right',
   })
+  expect(result.filter((entry) => entry.id.startsWith('split')).map((entry) => entry.command)).toEqual([
+    'Main.splitUp',
+    'Main.splitDown',
+    'Main.splitLeft',
+    'Main.splitRight',
+  ])
   expect(result.find((entry) => entry.id === 'closeGroup')).toBeUndefined()
   expect(result.find((entry) => entry.id === 'newWindow')).toBeUndefined()
 })

@@ -1,5 +1,6 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import { expect, test } from '@jest/globals'
+import { PlatformType } from '@lvce-editor/constants'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -144,6 +145,33 @@ test('opens a dropped native file using its persisted html uri', async () => {
     ['FileSystemHandle.getFileHandles', [1]],
     ['PersistentFileHandle.addHandle', uri, fileHandle],
     ['Layout.getModuleId', uri],
+  ])
+})
+
+test('opens a dropped native electron file using its file uri', async () => {
+  const file = { name: 'native file.txt' } as File
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return []
+    },
+    'FileSystemHandle.getFilePathElectron'() {
+      return '/workspace/native file.txt'
+    },
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+    platform: PlatformType.Electron,
+  })
+
+  await handleDrop(context, [1], [file])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups[0].tabs[0].uri).toBe('file:///workspace/native%20file.txt')
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [1]],
+    ['FileSystemHandle.getFilePathElectron', file],
+    ['Layout.getModuleId', 'file:///workspace/native%20file.txt'],
   ])
 })
 

@@ -1,8 +1,10 @@
+import { PlatformType } from '@lvce-editor/constants'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import { isChromiumDragId } from '../IsChromiumDragId/IsChromiumDragId.ts'
 import { isDroppedFileSystemHandle } from '../IsDroppedFileSystemHandle/IsDroppedFileSystemHandle.ts'
 import { isUriList } from '../IsUriList/IsUriList.ts'
 import { parseUriList } from '../ParseUriList/ParseUriList.ts'
+import { toFileUri } from '../ToFileUri/ToFileUri.ts'
 
 interface DragInfoItem {
   readonly data: string
@@ -15,7 +17,19 @@ interface DragInfo {
 
 const suffixByHandleKind = { directory: '/', file: '' } as const
 
-export const getDroppedUris = async (itemIds: readonly number[]): Promise<readonly string[]> => {
+const getDroppedElectronUris = async (itemIds: readonly number[], files: FileList | readonly File[]): Promise<readonly string[]> => {
+  if (itemIds.length > 0) {
+    await RendererWorker.getFileHandles(itemIds)
+  }
+  const uris: string[] = []
+  for (const file of files) {
+    const path = await RendererWorker.invoke('FileSystemHandle.getFilePathElectron', file)
+    uris.push(toFileUri(path))
+  }
+  return uris
+}
+
+const getDroppedBrowserUris = async (itemIds: readonly number[]): Promise<readonly string[]> => {
   if (itemIds.length === 0) {
     return []
   }
@@ -54,4 +68,15 @@ export const getDroppedUris = async (itemIds: readonly number[]): Promise<readon
     }
   }
   return uris
+}
+
+export const getDroppedUris = async (
+  itemIds: readonly number[],
+  files: FileList | readonly File[] = [],
+  platform: number = PlatformType.Web,
+): Promise<readonly string[]> => {
+  if (platform === PlatformType.Electron && files.length > 0) {
+    return getDroppedElectronUris(itemIds, files)
+  }
+  return getDroppedBrowserUris(itemIds)
 }

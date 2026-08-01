@@ -1,48 +1,22 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-interface SavedGroup {
-  readonly id: number
-}
-
-interface SavedLayout {
-  readonly activeGroupId?: number
-  readonly direction?: number
-  readonly groups: readonly SavedGroup[]
-}
-
-const assert = (condition: boolean, message: string): void => {
-  if (!condition) {
-    throw new Error(message)
-  }
-}
-
-const getLayout = (savedState: unknown, label: string): SavedLayout => {
-  assert(!!savedState && typeof savedState === 'object', `${label} must be an object`)
-  const { layout } = savedState as { readonly layout?: unknown }
-  assert(!!layout && typeof layout === 'object', `${label}.layout must be an object`)
-  const { groups } = layout as { readonly groups?: unknown }
-  assert(Array.isArray(groups), `${label}.layout.groups must be an array`)
-  return layout as SavedLayout
-}
-
 export const name = 'viewlet.main-area-empty-group-context-menu-split-down'
-export const skip = true
 
-export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
+export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 
-  const beforeState = await Main.saveState(2)
-  const beforeLayout = getLayout(beforeState, 'beforeState')
-  assert(beforeLayout.groups.length === 0, `Expected no groups, got ${beforeLayout.groups.length}`)
+  const groups = Locator('.EditorGroup')
+  await expect(groups).toHaveCount(0)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
-  await Command.execute('MainArea.splitDown')
+  const menuItem = Locator('.MenuItem', { hasText: 'Split Down' })
+  await expect(menuItem).toBeVisible()
+  await ContextMenu.selectItem('Split Down')
 
-  const afterState = await Main.saveState(2)
-  const afterLayout = getLayout(afterState, 'afterState')
-  assert(afterLayout.direction === 2, `Expected vertical layout, got ${afterLayout.direction}`)
-  assert(afterLayout.groups.length === 2, `Expected 2 groups, got ${afterLayout.groups.length}`)
-  assert(afterLayout.groups[0].id !== afterLayout.groups[1].id, 'Expected distinct groups after split down')
-  assert(afterLayout.activeGroupId === afterLayout.groups[1].id, 'Expected new lower group to become active')
+  const groupsContainer = Locator('.editor-groups-container.EditorGroupsHorizontal')
+  const sash = Locator('.Main .SashHorizontal')
+  await expect(groups).toHaveCount(2)
+  await expect(groupsContainer).toHaveCount(1)
+  await expect(sash).toHaveCount(1)
 }

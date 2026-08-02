@@ -955,6 +955,8 @@ test('selectTab should recreate restored process explorer tabs without loading t
 
 test('selectTab should handle tabs with paths and languages', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.readFile': async () => 'file content',
+    'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'Editor',
   })
 
@@ -1004,6 +1006,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
 
   expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     ['Layout.getModuleId', '/path/to/index.html'],
+    ['Layout.createViewlet', 'Editor', expect.any(Number), 2, expect.any(Object), '/path/to/index.html'],
     ['FileSystem.readFile', '/path/to/index.html'],
   ])
 
@@ -1032,14 +1035,14 @@ test('selectTab should handle tabs with paths and languages', async () => {
           },
           {
             editorType: 'text',
-            editorUid: -1,
-            errorMessage: expect.any(String),
+            editorUid: expect.any(Number),
+            errorMessage: '',
             icon: '',
             id: 2,
             isDirty: false,
             isPreview: false,
             language: 'html',
-            loadingState: 'error',
+            loadingState: 'loaded',
             title: 'index.html',
             uri: '/path/to/index.html',
           },
@@ -1310,6 +1313,7 @@ test('selectTab should recover already active restored tab when editorUid is mis
 
   expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     ['Layout.getModuleId', '/path/to/file-1.ts'],
+    ['Layout.createViewlet', 'Editor', expect.any(Number), 1, expect.any(Object), '/path/to/file-1.ts'],
     ['FileSystem.readFile', '/path/to/file-1.ts'],
   ])
   expect(result).not.toBe(state)
@@ -1618,6 +1622,7 @@ test('selectTab should return same state when activeGroupId is undefined', async
 
 test('selectTab should not trigger loading when tab is already loading', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'Editor',
   })
 
@@ -1663,9 +1668,12 @@ test('selectTab should not trigger loading when tab is already loading', async (
 
   const result = await selectTab(state, 0, 1)
 
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([['Layout.getModuleId', '/path/to/file.ts']])
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
+    ['Layout.getModuleId', '/path/to/file.ts'],
+    ['Layout.createViewlet', 'Editor', expect.any(Number), 2, expect.any(Object), '/path/to/file.ts'],
+  ])
   expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(result.layout.groups[0].tabs[1].loadingState).toBe('loading')
+  expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
 })
 
 test('selectTab should not trigger loading when tab is already loaded with content', async () => {
@@ -1768,6 +1776,7 @@ test('selectTab should recover restored tab when loadingState is loaded but edit
 
   expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
     ['Layout.getModuleId', '/path/to/file-2.ts'],
+    ['Layout.createViewlet', 'Editor', expect.any(Number), 2, expect.any(Object), '/path/to/file-2.ts'],
     ['FileSystem.readFile', '/path/to/file-2.ts'],
   ])
   expect(result.layout.groups[0].activeTabId).toBe(2)

@@ -13,8 +13,9 @@ export const createViewletForTab = (state: MainAreaState, tabId: number, viewlet
     return state
   }
 
-  // If tab already has an editorUid or is loading/loaded, don't recreate
-  if (tab.editorUid !== -1 || tab.loadingState === 'loading' || tab.loadingState === 'loaded') {
+  // The editor instance is identified by editorUid. Restored tabs can be marked
+  // as loading or loaded before their renderer instance has been recreated.
+  if (tab.editorUid !== -1) {
     return state
   }
 

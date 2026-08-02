@@ -50,22 +50,24 @@ test('createViewletForTab creates viewlet command for idle tab', () => {
   expect(result.layout.groups[0].tabs[0].editorUid).toBeDefined()
 })
 
-test('createViewletForTab returns empty commands for tab already creating', () => {
+test('createViewletForTab creates a missing viewlet for a loading tab', () => {
   const state = createStateWithTab({ loadingState: 'loading' })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
 
-  expect(result).toBe(state)
+  expect(result).not.toBe(state)
+  expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
 })
 
-test('createViewletForTab returns empty commands for tab already ready', () => {
+test('createViewletForTab creates a missing viewlet for a loaded restored tab', () => {
   const state = createStateWithTab({ loadingState: 'loaded' })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
 
-  expect(result).toBe(state)
+  expect(result).not.toBe(state)
+  expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
 })
 
 test('createViewletForTab returns empty commands for non-existent tab', () => {

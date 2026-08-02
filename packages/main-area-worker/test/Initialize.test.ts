@@ -1,21 +1,11 @@
 import { expect, test } from '@jest/globals'
-import { ExtensionHost, RendererWorker } from '@lvce-editor/rpc-registry'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import * as Initialize from '../src/parts/Initialize/Initialize.ts'
 
-test('initialize should create extension host rpc and set it', async () => {
-  using mockRendererRpc = RendererWorker.registerMockRpc({
-    'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker': async () => {},
-  })
+test('initialize should not transfer a message port', async () => {
+  using mockRendererRpc = RendererWorker.registerMockRpc({})
 
   await Initialize.initialize()
 
-  expect(mockRendererRpc.invocations).toEqual([
-    [
-      'SendMessagePortToExtensionHostWorker.sendMessagePortToExtensionHostWorker',
-      expect.any(MessagePort),
-      'HandleMessagePort.handleMessagePort2',
-      7201,
-    ],
-  ])
-  await ExtensionHost.dispose()
+  expect(mockRendererRpc.invocations).toEqual([])
 })

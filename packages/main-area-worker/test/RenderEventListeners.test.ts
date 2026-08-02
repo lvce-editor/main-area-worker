@@ -45,7 +45,7 @@ test('renderEventListeners should register drag event listeners', () => {
   })
   expect(drop).toEqual({
     name: DomEventListenerFunctions.HandleDrop,
-    params: ['handleDrop', EventExpression.DataTransferFiles2],
+    params: ['handleDrop', EventExpression.DataTransferFiles2, EventExpression.DataTransferFiles],
     preventDefault: true,
   })
 })

@@ -146,6 +146,7 @@ export const commandMap = {
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
   'MainArea.flipEditorLayout': wrapSerialCommand(flipLayout),
+  'MainArea.focus': wrapSerialCommand(focus),
   'MainArea.focusNext': wrapSerialCommand(focusNextTab),
   'MainArea.focusNextTab': wrapSerialCommand(focusNextTab),
   'MainArea.focusPrevious': wrapSerialCommand(focusPreviousTab),

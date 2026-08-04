@@ -1,8 +1,8 @@
+import type { DragOverlay, MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 import { getDragOverlayCss } from '../GetDragOverlayCss/GetDragOverlayCss.ts'
 import { getEditorGroupCss } from '../GetEditorGroupCss/GetEditorGroupCss.ts'
 import { getSashCorner } from '../GetSashCorner/GetSashCorner.ts'
 import { getSashCss } from '../GetSashCss/GetSashCss.ts'
-import type { DragOverlay, MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
 
 const getSashCornerCss = (left: number, top: number) => {
   return `.SashCorner {

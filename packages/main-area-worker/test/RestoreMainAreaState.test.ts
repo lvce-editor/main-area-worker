@@ -641,7 +641,7 @@ test('restoreMainAreaState should handle layout with invalid activeGroupId type'
 
   const result = restoreMainAreaState(savedState, currentState)
 
-  expect(result.layout.activeGroupId).toBe('invalid')
+  expect((result.layout as { activeGroupId: unknown }).activeGroupId).toBe('invalid')
 })
 
 test('restoreMainAreaState should handle layout with groups as non-array', () => {

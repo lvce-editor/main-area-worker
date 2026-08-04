@@ -104,6 +104,35 @@ test('openUri should create a preview tab when requested', async () => {
   expect(result.layout.groups[0].tabs[0].isPreview).toBe(true)
 })
 
+test('openUri should pass editor context to the created viewlet', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+  })
+  const editorContext = {
+    endColumnIndex: 17,
+    endRowIndex: 42,
+    startColumnIndex: 12,
+    startRowIndex: 42,
+  }
+
+  await openUri(createDefaultState(), {
+    focus: true,
+    uri: 'file:///path/to/definition.ts',
+    ...editorContext,
+  })
+
+  expect(mockRpc.invocations).toContainEqual([
+    'Layout.createViewlet',
+    'editor.text',
+    expect.any(Number),
+    expect.any(Number),
+    { height: -35, width: 0, x: 0, y: 35 },
+    'file:///path/to/definition.ts',
+    [editorContext],
+  ])
+})
+
 test('openUri should replace active preview tab instead of adding a new tab', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),

@@ -15,7 +15,12 @@ export const createViewlet = async (
   tabId: number,
   bounds: any,
   uri: string,
+  args?: readonly unknown[],
 ): Promise<string | undefined> => {
-  await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
+  if (args === undefined) {
+    await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
+  } else {
+    await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri, args)
+  }
   return getTitle(editorUid)
 }

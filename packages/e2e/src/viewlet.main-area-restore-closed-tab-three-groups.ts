@@ -26,9 +26,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 
   const editorGroups = Locator('.EditorGroup')
-  await expect(editorGroups).toHaveCount(2)
+  await expect(editorGroups).toHaveCount(3)
   const tab1 = Locator('.MainTab[title$="restore-groups-1.ts"]')
   await expect(tab1).toBeVisible()
+  const tab2 = Locator('.MainTab[title$="restore-groups-2.ts"]')
+  await expect(tab2).toBeVisible()
   const tab3 = Locator('.MainTab[title$="restore-groups-3.ts"]')
   await expect(tab3).toBeVisible()
 }

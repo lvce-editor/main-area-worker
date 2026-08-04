@@ -19,7 +19,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 
   const mainTabs = Locator('.MainTab')
-  await expect(mainTabs).toHaveCount(1)
-  const selectedTab = Locator('.MainTabSelected[title$="restore-two-tabs-1.ts"]')
+  await expect(mainTabs).toHaveCount(2)
+  const selectedTab = Locator('.MainTabSelected[title$="restore-two-tabs-2.ts"]')
   await expect(selectedTab).toBeVisible()
 }

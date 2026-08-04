@@ -12,7 +12,7 @@ export const getKeyBindings = (): readonly any[] => {
     },
     {
       command: 'Main.restoreClosedTab',
-      key: KeyModifier.CtrlCmd | KeyModifier.Shift | KeyCode.KeyW,
+      key: KeyModifier.CtrlCmd | KeyModifier.Shift | KeyCode.KeyT,
     },
     {
       command: 'Main.focusPrevious',

@@ -19,11 +19,14 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Main.openUri(later)
 
   const tabs = Locator('.MainTab')
+  const firstTab = tabs.nth(0)
+  const restoredTab = tabs.nth(1)
+  const lastTab = tabs.nth(2)
   await Command.execute('Main.restoreClosedTab')
 
   await expect(tabs).toHaveCount(3)
-  await expect(tabs.nth(0).locator('.TabTitle')).toHaveText('before.ts')
-  await expect(tabs.nth(1).locator('.TabTitle')).toHaveText('closed.ts')
-  await expect(tabs.nth(2).locator('.TabTitle')).toHaveText('later.ts')
-  await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true')
+  await expect(firstTab.locator('.TabTitle')).toHaveText('before.ts')
+  await expect(restoredTab.locator('.TabTitle')).toHaveText('closed.ts')
+  await expect(lastTab.locator('.TabTitle')).toHaveText('later.ts')
+  await expect(restoredTab).toHaveAttribute('aria-selected', 'true')
 }

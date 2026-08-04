@@ -16,15 +16,16 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   }
 
   const tabs = Locator('.MainTab')
+  const selectedTabTitle = Locator('.MainTabSelected .TabTitle')
   await Main.closeActiveEditor()
   await Main.closeActiveEditor()
   await expect(tabs).toHaveCount(1)
 
   await Command.execute('Main.restoreClosedTab')
   await expect(tabs).toHaveCount(2)
-  await expect(Locator('.MainTabSelected .TabTitle')).toHaveText('lifo-2.ts')
+  await expect(selectedTabTitle).toHaveText('lifo-2.ts')
 
   await Command.execute('Main.restoreClosedTab')
   await expect(tabs).toHaveCount(3)
-  await expect(Locator('.MainTabSelected .TabTitle')).toHaveText('lifo-3.ts')
+  await expect(selectedTabTitle).toHaveText('lifo-3.ts')
 }

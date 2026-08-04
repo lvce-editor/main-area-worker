@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
-import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { restoreClosedTab } from '../src/parts/RestoreClosedTab/RestoreClosedTab.ts'
 
 const tab: Tab = {

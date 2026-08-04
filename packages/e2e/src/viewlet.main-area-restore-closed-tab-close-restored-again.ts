@@ -10,6 +10,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Main.openUri(file)
 
   const tabs = Locator('.MainTab')
+  const restoredTab = tabs.nth(0)
   await Main.closeActiveEditor()
   await Command.execute('Main.restoreClosedTab')
   await expect(tabs).toHaveCount(1)
@@ -18,5 +19,5 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await expect(tabs).toHaveCount(0)
   await Command.execute('Main.restoreClosedTab')
   await expect(tabs).toHaveCount(1)
-  await expect(tabs.nth(0).locator('.TabTitle')).toHaveText('restore-again.ts')
+  await expect(restoredTab.locator('.TabTitle')).toHaveText('restore-again.ts')
 }

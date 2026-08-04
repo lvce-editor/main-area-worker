@@ -1,10 +1,13 @@
+import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import { afterEach, expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DirentType from '../src/parts/DirentType/DirentType.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
-import { openInput } from '../src/parts/OpenInput/OpenInput.ts'
+import { openInput, openInputWithContext } from '../src/parts/OpenInput/OpenInput.ts'
+
+const isSetupInvocation = ([command]: readonly unknown[]): boolean => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending'
 
 afterEach(() => {
   MainAreaStates.clear()
@@ -38,10 +41,65 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   })
   expect(tab.uri).toBe('file:///path/to/file.ts')
   expect(tab.title).toBe('file.ts')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
     ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
   ])
+})
+
+test('openInput renders loaded editor content before the title request finishes', async () => {
+  const title = Promise.withResolvers<string>()
+  const titleRequested = Promise.withResolvers<void>()
+  const rendered = Promise.withResolvers<void>()
+  let state = createDefaultState()
+  const context: AsyncCommandContext<MainAreaState> = {
+    getState: () => state,
+    updateState: (updater) => {
+      state = updater(state)
+      return Promise.resolve(state)
+    },
+  }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+    'Layout.renderMainAreaPending': async () => {
+      const tab = state.layout.groups[0].tabs[0]
+      expect(tab.loadingState).toBe('loaded')
+      rendered.resolve()
+    },
+    'Viewlet.getTitle': async () => {
+      titleRequested.resolve()
+      return title.promise
+    },
+  })
+
+  let settled = false
+  const opening = (async (): Promise<void> => {
+    await openInputWithContext(context, {
+      editorInput: {
+        type: 'editor',
+        uri: 'file:///path/to/file.ts',
+      },
+      focus: false,
+      preview: false,
+    })
+    settled = true
+  })()
+
+  await rendered.promise
+  await titleRequested.promise
+  expect(settled).toBe(false)
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.getModuleId', 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'Editor', expect.any(Number), expect.any(Number), { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    ['Layout.renderMainAreaPending', state.uid],
+    ['Viewlet.getTitle', expect.any(Number)],
+  ])
+
+  title.resolve('Rendered title')
+  await opening
+
+  expect(state.layout.groups[0].tabs[0].title).toBe('Rendered title')
 })
 
 test('openInput should add pretty uri title for file under home dir', async () => {
@@ -68,7 +126,7 @@ test('openInput should add pretty uri title for file under home dir', async () =
 
   expect(tab.title).toBe('file.md')
   expect(tab.uriTitle).toBe('~/Documents/file.md')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///home/user/Documents/file.md'],
     ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///home/user/Documents/file.md'],
   ])
@@ -100,7 +158,7 @@ test('openInput should open diff editor input without Layout.getModuleId', async
   })
   expect(tab.uri).toBe('diff://?left=file%3A%2F%2F%2Fpath%2Fto%2Fleft.ts&right=file%3A%2F%2F%2Fpath%2Fto%2Fright.ts')
   expect(tab.title).toBe('left.ts - right.ts')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     [
       'Layout.createViewlet',
       'DiffEditor',
@@ -136,7 +194,7 @@ test('openInput should open extension detail view input without Layout.getModule
   })
   expect(tab.uri).toBe('extension-detail://abc')
   expect(tab.title).toBe('abc')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail://abc'],
   ])
 })
@@ -214,7 +272,7 @@ test('openInput should show an error when opening a folder path', async () => {
 
   expect(tab.loadingState).toBe('error')
   expect(tab.errorMessage).toBe('Expected a file but received a folder')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([['FileSystem.stat', '/tmp/folder-to-open']])
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([['FileSystem.stat', '/tmp/folder-to-open']])
 })
 
 test('openInput should activate an existing stored tab when the call-site state is stale', async () => {
@@ -272,7 +330,7 @@ test('openInput should activate an existing stored tab when the call-site state 
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([])
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([])
 })
 
 test('openInput should use default options and initialize missing stored state', async () => {
@@ -298,7 +356,7 @@ test('openInput should use default options and initialize missing stored state',
     loadingState: 'loaded',
     uri: 'file:///new.ts',
   })
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toHaveLength(2)
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toHaveLength(2)
 })
 
 test('openInput should expose an Error message when resolving the viewlet fails', async () => {
@@ -326,7 +384,7 @@ test('openInput should expose an Error message when resolving the viewlet fails'
     errorMessage: 'module lookup failed',
     loadingState: 'error',
   })
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///failed.ts'],
     ['Layout.createViewlet', 'Editor', expect.any(Number), expect.any(Number), { height: -35, width: 0, x: 0, y: 35 }, 'file:///failed.ts'],
   ])

@@ -1,8 +1,9 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
 import * as Assert from '../Assert/Assert.ts'
-import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
+import { createViewletContent, getViewletTitle } from '../CreateViewlet/CreateViewlet.ts'
 import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
@@ -20,6 +21,14 @@ import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import { updateTabIcon } from '../UpdateTabIcon/UpdateTabIcon.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
+
+const renderMainAreaPending = async (uid: number): Promise<void> => {
+  try {
+    await RendererWorker.invoke('Layout.renderMainAreaPending', uid)
+  } catch {
+    // Older renderer workers render the final state when openInput completes.
+  }
+}
 
 const getExistingTabState = (state: MainAreaState, existingTab: NonNullable<ReturnType<typeof findTabByUri>>, preview: boolean): MainAreaState => {
   const focusedState = focusEditorGroup(state, existingTab.groupId)
@@ -109,12 +118,19 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       throw new Error('invalid editorUid')
     }
 
-    const renderedTitle = await createViewlet(viewletModuleId, editorUid, tabId, bounds, uri, options.args)
+    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, options.args)
 
     const latestState = context.getState()
-    const readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid, renderedTitle)
+    let readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
 
     await context.updateState(() => readyState)
+    await renderMainAreaPending(state.uid)
+
+    const renderedTitle = await getViewletTitle(editorUid)
+    if (renderedTitle) {
+      readyState = ViewletLifecycle.handleViewletReady(context.getState(), editorUid, renderedTitle)
+      await context.updateState(() => readyState)
+    }
 
     const stateWithIcon = await updateTabIcon(context, readyState, tabId)
     if (stateWithIcon) {

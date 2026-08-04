@@ -1,7 +1,3 @@
-import { ExtensionHost } from '@lvce-editor/rpc-registry'
-import { createExtensionHostRpc } from '../CreateExtensionHostRpc/CreateExtensionHostRpc.ts'
-
 export const initialize = async (): Promise<void> => {
-  const rpc = await createExtensionHostRpc()
-  ExtensionHost.set(rpc)
+  // Kept as a compatibility command for existing renderer startup code.
 }

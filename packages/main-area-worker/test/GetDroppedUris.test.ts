@@ -1,18 +1,74 @@
 import { expect, test } from '@jest/globals'
+import { PlatformType } from '@lvce-editor/constants'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import { getDroppedUris } from '../src/parts/GetDroppedUris/GetDroppedUris.ts'
 
 const ampDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/amp\.png$/
 const directDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/direct\.txt$/
+const droppedFolderUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/folder\/$/
 const firstDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/first\.txt$/
 const firstIndexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/index\.js$/
 const meetingNotesDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/meeting notes\.txt$/
+const nativeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native\.txt$/
 const secondDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/second\.txt$/
 const secondIndexDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/index\.js$/
 const threeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/2\/three\.txt$/
 
 test('returns no uris when there are no data transfer items', async () => {
   expect(await getDroppedUris([])).toEqual([])
+})
+
+test('returns file uris for native files dropped in electron', async () => {
+  const firstFile = { name: 'first file.txt' } as File
+  const secondFile = { name: 'second.txt' } as File
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return []
+    },
+    'FileSystemHandle.getFilePathElectron'(file: File) {
+      return file === firstFile ? '/workspace/first file.txt' : '/workspace/second.txt'
+    },
+  })
+
+  expect(await getDroppedUris([1, 2], [firstFile, secondFile], PlatformType.Electron)).toEqual([
+    'file:///workspace/first%20file.txt',
+    'file:///workspace/second.txt',
+  ])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [1, 2]],
+    ['FileSystemHandle.getFilePathElectron', firstFile],
+    ['FileSystemHandle.getFilePathElectron', secondFile],
+  ])
+})
+
+test('uses file system handles for native files dropped in the browser', async () => {
+  const file = { name: 'native.txt' } as File
+  const fileHandle = { kind: 'file', name: 'native.txt' }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [{ kind: 'file', type: 'text/plain', value: fileHandle }] as any
+    },
+    'PersistentFileHandle.addHandle'() {},
+  })
+
+  const uris = await getDroppedUris([1], [file], PlatformType.Web)
+  expect(uris).toHaveLength(1)
+  expect(uris[0]).toMatch(nativeDroppedFileUriRegex)
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [1]],
+    ['PersistentFileHandle.addHandle', uris[0], fileHandle],
+  ])
+})
+
+test('uses retained drag data for explorer items dropped in electron', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [{ kind: 'string', type: 'text/uri-list', value: 'file:///workspace/explorer.txt' }] as any
+    },
+  })
+
+  expect(await getDroppedUris([1], [], PlatformType.Electron)).toEqual(['file:///workspace/explorer.txt'])
+  expect(mockRpc.invocations).toEqual([['FileSystemHandle.getFileHandles', [1]]])
 })
 
 test('returns uris from a uri list', async () => {
@@ -130,6 +186,33 @@ test('preserves the order of uri lists and native files', async () => {
   expect(uris[2]).toMatch(threeDroppedFileUriRegex)
 })
 
+test('persists a dropped native directory handle', async () => {
+  const directoryHandle = {
+    kind: 'directory',
+    name: 'folder',
+  }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystemHandle.getFileHandles'() {
+      return [
+        {
+          kind: 'file',
+          type: '',
+          value: directoryHandle,
+        },
+      ] as any
+    },
+    'PersistentFileHandle.addHandle'() {},
+  })
+
+  const uris = await getDroppedUris([2])
+  expect(uris).toHaveLength(1)
+  expect(uris[0]).toEqual(expect.stringMatching(droppedFolderUriRegex))
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystemHandle.getFileHandles', [2]],
+    ['PersistentFileHandle.addHandle', uris[0], directoryHandle],
+  ])
+})
+
 test('ignores invalid file handles and unsupported string items', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
     'FileSystemHandle.getFileHandles'() {
@@ -139,7 +222,7 @@ test('ignores invalid file handles and unsupported string items', async () => {
           kind: 'file',
           type: '',
           value: {
-            kind: 'directory',
+            kind: 'unsupported',
             name: 'folder',
           },
         },
@@ -152,7 +235,7 @@ test('ignores invalid file handles and unsupported string items', async () => {
     },
   })
 
-  expect(await getDroppedUris([1, 2])).toEqual([])
+  expect(await getDroppedUris([1, 2, 3])).toEqual([])
 })
 
 test('returns explorer uris for an opaque Chromium drag id', async () => {

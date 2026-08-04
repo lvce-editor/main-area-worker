@@ -12,6 +12,7 @@ import { copyPath } from '../CopyPath/CopyPath.ts'
 import { copyRelativePath } from '../CopyRelativePath/CopyRelativePath.ts'
 import * as MainArea from '../Create/Create.ts'
 import { diff2 } from '../Diff2/Diff2.ts'
+import { focus } from '../Focus/Focus.ts'
 import { focusNextTab } from '../FocusNextTab/FocusNextTab.ts'
 import { focusPreviousTab } from '../FocusPreviousTab/FocusPreviousTab.ts'
 import { getMenuIds } from '../GetMenuIds/GetMenuIds.ts'
@@ -115,6 +116,7 @@ export const commandMap = {
   'Main.closeTabsRight': wrapSerialCommand(closeTabsRight),
   'Main.copyPath': wrapSerialCommand(copyPath),
   'Main.copyRelativePath': wrapSerialCommand(copyRelativePath),
+  'Main.focus': wrapSerialCommand(focus),
   'Main.focusNext': wrapSerialCommand(focusNextTab),
   'Main.focusNextTab': wrapSerialCommand(focusNextTab),
   'Main.focusPrevious': wrapSerialCommand(focusPreviousTab),
@@ -144,6 +146,7 @@ export const commandMap = {
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
   'MainArea.flipEditorLayout': wrapSerialCommand(flipLayout),
+  'MainArea.focus': wrapSerialCommand(focus),
   'MainArea.focusNext': wrapSerialCommand(focusNextTab),
   'MainArea.focusNextTab': wrapSerialCommand(focusNextTab),
   'MainArea.focusPrevious': wrapSerialCommand(focusPreviousTab),

@@ -7,6 +7,6 @@ test('getKeyBindings should include restore closed tab shortcut', () => {
 
   expect(keyBindings).toContainEqual({
     command: 'Main.restoreClosedTab',
-    key: KeyModifier.CtrlCmd | KeyModifier.Shift | KeyCode.KeyW,
+    key: KeyModifier.CtrlCmd | KeyModifier.Shift | KeyCode.KeyT,
   })
 })

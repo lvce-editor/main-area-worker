@@ -1,6 +1,7 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { restoreClosedTab } from '../src/parts/RestoreClosedTab/RestoreClosedTab.ts'
 
 const tab: Tab = {
@@ -53,4 +54,38 @@ test('restoreClosedTab focuses an already open tab from the restore stack', asyn
   expect(result.closedTabs).toEqual([])
   expect(result.layout.activeGroupId).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('restoreClosedTab preserves the rendered state for the next diff', async () => {
+  const closedTab = {
+    ...tab,
+    editorUid: -1,
+    uri: '',
+  }
+  const group = {
+    activeTabId: 1,
+    direction: 1 as const,
+    focused: true,
+    id: 1,
+    isEmpty: false,
+    size: 100,
+    tabs: [closedTab],
+  }
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    closedTabs: [
+      {
+        group,
+        groupIndex: 0,
+        tab: closedTab,
+        tabIndex: 0,
+      },
+    ],
+  }
+  MainAreaStates.set(state.uid, state, state)
+
+  const result = await restoreClosedTab(state)
+
+  expect(MainAreaStates.get(state.uid).oldState).toBe(state)
+  expect(MainAreaStates.get(state.uid).newState).toBe(result)
 })

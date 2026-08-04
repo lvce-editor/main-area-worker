@@ -5,7 +5,7 @@ import { normalizeGroupSizes } from '../src/parts/NormalizeGroupSizes/NormalizeG
 test('normalizeGroupSizes should normalize sizes to percentages', () => {
   const groups: readonly EditorGroup[] = [
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: true,
       id: 1,
@@ -14,7 +14,7 @@ test('normalizeGroupSizes should normalize sizes to percentages', () => {
       tabs: [],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: false,
       id: 2,
@@ -31,7 +31,7 @@ test('normalizeGroupSizes should normalize sizes to percentages', () => {
 test('normalizeGroupSizes should normalize when total is not 100', () => {
   const groups: readonly EditorGroup[] = [
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: true,
       id: 1,
@@ -40,7 +40,7 @@ test('normalizeGroupSizes should normalize when total is not 100', () => {
       tabs: [],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: false,
       id: 2,
@@ -57,7 +57,7 @@ test('normalizeGroupSizes should normalize when total is not 100', () => {
 test('normalizeGroupSizes should handle zero total by distributing equally', () => {
   const groups: readonly EditorGroup[] = [
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: true,
       id: 1,
@@ -66,7 +66,7 @@ test('normalizeGroupSizes should handle zero total by distributing equally', () 
       tabs: [],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: false,
       id: 2,
@@ -75,7 +75,7 @@ test('normalizeGroupSizes should handle zero total by distributing equally', () 
       tabs: [],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: false,
       id: 3,
@@ -115,7 +115,7 @@ test('normalizeGroupSizes should preserve other group properties', () => {
       ],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: false,
       id: 2,

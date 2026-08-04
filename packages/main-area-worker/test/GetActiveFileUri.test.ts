@@ -3,7 +3,7 @@ import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaStat
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { getActiveFileUri } from '../src/parts/GetActiveFileUri/GetActiveFileUri.ts'
 
-const createState = (tabs: readonly Tab[], activeTabId: number | undefined = tabs[0]?.id): MainAreaState => ({
+const createState = (tabs: readonly Tab[], activeTabId: number = tabs[0]?.id ?? -1): MainAreaState => ({
   ...createDefaultState(),
   layout: {
     activeGroupId: 1,
@@ -51,7 +51,7 @@ test('returns empty string for an active non-file editor', () => {
 
 test('returns empty string when no tab is active', () => {
   const state = createState([createTab()])
-  const groups = [{ ...state.layout.groups[0], activeTabId: undefined }]
+  const groups = [{ ...state.layout.groups[0], activeTabId: -1 }]
   expect(getActiveFileUri({ ...state, layout: { ...state.layout, groups } })).toBe('')
 })
 

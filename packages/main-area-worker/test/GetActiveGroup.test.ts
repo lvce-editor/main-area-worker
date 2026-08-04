@@ -134,7 +134,7 @@ test('GetActiveGroup should return undefined for empty groups array', () => {
 test('GetActiveGroup should return group with zero ID', () => {
   const groups: EditorGroup[] = [
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: true,
       id: 0,

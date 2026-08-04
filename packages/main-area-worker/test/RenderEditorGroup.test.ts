@@ -178,7 +178,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
 
 test('renderEditorGroup should handle empty tabs array', () => {
   const group: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 1,
@@ -234,7 +234,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
 
 test('renderEditorGroup should expose a unique group class for CSS targeting', () => {
   const group: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 1,

@@ -6,7 +6,7 @@ export const closeOtherTabs = (state: MainAreaState, groupId?: number): MainArea
   const { activeGroupId, groups } = layout
 
   const targetGroupId = groupId ?? activeGroupId
-  if (targetGroupId === undefined) {
+  if (targetGroupId === -1) {
     return state
   }
 
@@ -16,7 +16,7 @@ export const closeOtherTabs = (state: MainAreaState, groupId?: number): MainArea
   }
 
   const { activeTabId } = group
-  if (activeTabId === undefined) {
+  if (activeTabId === -1) {
     return state
   }
 

@@ -18,7 +18,7 @@ test('validateMainAreaState should return true for state with activeGroupId', ()
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -32,16 +32,27 @@ test('validateMainAreaState should return true for state with activeGroupId', ()
   expect(validateMainAreaState(state)).toBe(true)
 })
 
-test('validateMainAreaState should return true for state with undefined activeGroupId', () => {
+test('validateMainAreaState should return true for state with activeGroupId -1', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
   }
   expect(validateMainAreaState(state)).toBe(true)
+})
+
+test('validateMainAreaState should return false for state with missing activeGroupId', () => {
+  const state = {
+    ...createDefaultState(),
+    layout: {
+      direction: 1,
+      groups: [],
+    },
+  }
+  expect(validateMainAreaState(state)).toBe(false)
 })
 
 test('validateMainAreaState should return false for null', () => {
@@ -150,7 +161,7 @@ test('validateMainAreaState should return false for groups with invalid group', 
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           focused: true,
           id: '1',
           size: 100,

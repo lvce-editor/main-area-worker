@@ -13,7 +13,7 @@ export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaS
   }
 
   const { activeTabId, tabs } = group
-  if (activeTabId === undefined) {
+  if (activeTabId === -1) {
     return state
   }
 

@@ -342,7 +342,7 @@ test('splitEditorGroup should set new group as focused', () => {
   expect(result.layout.activeGroupId).toBe(result.layout.groups[1].id)
 })
 
-test('splitEditorGroup should set new group activeTabId to undefined', () => {
+test('splitEditorGroup should set new group activeTabId to -1', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -374,7 +374,7 @@ test('splitEditorGroup should set new group activeTabId to undefined', () => {
 
   const result = splitEditorGroup(state, 1, GroupDirection.Right)
 
-  expect(result.layout.groups[1].activeTabId).toBeUndefined()
+  expect(result.layout.groups[1].activeTabId).toBe(-1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })
 
@@ -530,7 +530,7 @@ test('splitEditorGroup should preserve parent layout direction when splitting ac
           ],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 2,

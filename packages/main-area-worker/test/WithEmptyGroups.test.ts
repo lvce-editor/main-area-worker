@@ -28,7 +28,7 @@ test('withEmptyGroups should remove all groups', () => {
   expect(result.layout.groups).toHaveLength(0)
 })
 
-test('withEmptyGroups should set activeGroupId to undefined', () => {
+test('withEmptyGroups should set activeGroupId to -1', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -50,7 +50,7 @@ test('withEmptyGroups should set activeGroupId to undefined', () => {
 
   const result = WithEmptyGroups.withEmptyGroups(state)
 
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('withEmptyGroups should clear multiple groups', () => {
@@ -125,5 +125,5 @@ test('withEmptyGroups on already empty state', () => {
   const result = WithEmptyGroups.withEmptyGroups(state)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })

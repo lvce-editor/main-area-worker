@@ -283,7 +283,7 @@ test('renderEditorGroupActions should not render toggle preview button when no a
 
 test('renderEditorGroupActions should handle empty tabs array', () => {
   const group: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,

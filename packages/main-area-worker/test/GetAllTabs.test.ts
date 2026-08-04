@@ -75,7 +75,7 @@ test('getAllTabs should return empty array when no tabs exist', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,

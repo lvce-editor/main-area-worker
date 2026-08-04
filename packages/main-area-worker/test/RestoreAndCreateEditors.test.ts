@@ -48,7 +48,7 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
 test('restoreAndCreateEditors should handle empty groups', async () => {
   const initialState = createDefaultState()
   const restoredLayout = {
-    activeGroupId: undefined,
+    activeGroupId: -1,
     direction: 1,
     groups: [],
   }

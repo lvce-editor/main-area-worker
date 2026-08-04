@@ -11,7 +11,7 @@ const createState = (uri: string): MainAreaState => ({
     direction: 1,
     groups: [
       {
-        activeTabId: uri ? 1 : undefined,
+        activeTabId: uri ? 1 : -1,
         direction: 1,
         focused: true,
         id: 1,

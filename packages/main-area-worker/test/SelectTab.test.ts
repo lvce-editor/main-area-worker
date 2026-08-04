@@ -564,7 +564,7 @@ test('selectTab should handle empty groups array', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
@@ -583,7 +583,7 @@ test('selectTab should handle group with empty tabs array', async () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -1558,15 +1558,15 @@ test('selectTab should return new state when clicking same tab index in differen
   expect(result).not.toBe(state) // Should return new state object
 })
 
-test('selectTab should return same state when activeGroupId is undefined', async () => {
+test('selectTab should return same state when activeGroupId is -1', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,

@@ -470,7 +470,7 @@ test('handleClickCloseTab should remove group when closing only tab in group', a
   const result = await handleClickCloseTab(state, '0', '0')
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result).not.toBe(state)
 })
 

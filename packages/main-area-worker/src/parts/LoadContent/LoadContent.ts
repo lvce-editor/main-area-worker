@@ -34,7 +34,7 @@ export const loadContent = async (state: MainAreaState, savedState: unknown): Pr
     ...stateWithHomeDir,
     initial: false,
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: LayoutDirection.Horizontal,
       groups: [],
     },

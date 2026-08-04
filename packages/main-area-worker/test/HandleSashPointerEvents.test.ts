@@ -13,7 +13,7 @@ test('handleSashPointerDown should start sash drag', async () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -22,7 +22,7 @@ test('handleSashPointerDown should start sash drag', async () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,
@@ -56,7 +56,7 @@ test('handleSashPointerMove should resize neighboring groups', async () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -65,7 +65,7 @@ test('handleSashPointerMove should resize neighboring groups', async () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,

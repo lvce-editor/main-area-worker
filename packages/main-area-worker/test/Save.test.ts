@@ -62,7 +62,7 @@ test('save should return state when no active tab', async () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,

@@ -31,7 +31,7 @@ export const moveTabToGroup = (
           const removedIndex = group.tabs.findIndex((tab) => tab.id === tabId)
           newActiveTabId = newTabs[Math.min(removedIndex, newTabs.length - 1)].id
         } else {
-          newActiveTabId = undefined
+          newActiveTabId = -1
         }
       }
 

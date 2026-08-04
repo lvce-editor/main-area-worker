@@ -145,7 +145,7 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: true,
         id: 1,
@@ -258,7 +258,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
     direction: 2,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 1,
@@ -267,7 +267,7 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 2,
@@ -315,7 +315,7 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
         ],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 2,
@@ -324,7 +324,7 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: true,
         id: 3,
@@ -350,7 +350,7 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: true,
         id: 1,
@@ -360,7 +360,7 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 2,
@@ -370,7 +370,7 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 3,
@@ -380,7 +380,7 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 4,
@@ -407,7 +407,7 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
 
 test('getMainAreaVirtualDom should handle empty groups array', () => {
   const layout: MainAreaLayout = {
-    activeGroupId: undefined,
+    activeGroupId: -1,
     direction: 1,
     groups: [],
   }
@@ -426,7 +426,7 @@ test('getMainAreaVirtualDom should handle empty groups array', () => {
 
 test('getMainAreaVirtualDom should render a drag overlay', () => {
   const layout: MainAreaLayout = {
-    activeGroupId: undefined,
+    activeGroupId: -1,
     direction: 1,
     groups: [],
   }
@@ -453,7 +453,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 1,
@@ -462,7 +462,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 2,
@@ -471,7 +471,7 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 3,
@@ -496,7 +496,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 1,
@@ -505,7 +505,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 2,
@@ -514,7 +514,7 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 3,

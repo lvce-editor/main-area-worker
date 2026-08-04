@@ -48,7 +48,7 @@ test('splitUp should split single editor group vertically', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -128,15 +128,15 @@ test('splitUp should use activeGroupId when groupId not provided', () => {
   expect(result.layout.groups).toHaveLength(3)
 })
 
-test('splitUp should return unchanged state when activeGroupId is undefined and groupId not provided and groups exist', () => {
+test('splitUp should return unchanged state when activeGroupId is -1 and groupId not provided and groups exist', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -157,7 +157,7 @@ test('splitUp with empty groups should create initial group', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },

@@ -54,7 +54,7 @@ test('tryRestoreLayout should return undefined when direction is invalid', () =>
   expect(result).toBeUndefined()
 })
 
-test('tryRestoreLayout should return undefined when layout with empty groups', () => {
+test('tryRestoreLayout should restore a legacy layout with empty groups', () => {
   const result = TryRestoreLayout.tryRestoreLayout({
     layout: {
       direction: 1,
@@ -63,6 +63,7 @@ test('tryRestoreLayout should return undefined when layout with empty groups', (
   })
 
   expect(result).toBeDefined()
+  expect(result?.activeGroupId).toBe(-1)
   expect(result?.groups).toHaveLength(0)
 })
 
@@ -96,7 +97,6 @@ test('tryRestoreLayout should handle multiple groups', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
           focused: true,
           id: 1,
           isEmpty: true,
@@ -104,7 +104,7 @@ test('tryRestoreLayout should handle multiple groups', () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           focused: false,
           id: 2,
           isEmpty: true,
@@ -117,6 +117,7 @@ test('tryRestoreLayout should handle multiple groups', () => {
 
   expect(result).toBeDefined()
   expect(result?.groups).toHaveLength(2)
+  expect(result?.groups[0].activeTabId).toBe(-1)
   expect(result?.groups.map((group) => group.direction)).toEqual([1, 1])
 })
 
@@ -126,7 +127,7 @@ test('tryRestoreLayout should reject an invalid explicit group direction', () =>
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 999,
           focused: true,
           id: 1,
@@ -147,7 +148,7 @@ test('tryRestoreLayout should normalize group directions', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 2,
           focused: true,
           id: 1,

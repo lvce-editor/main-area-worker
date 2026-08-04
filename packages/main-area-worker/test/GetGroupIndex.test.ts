@@ -11,7 +11,7 @@ test('getGroupIndex should return correct index when group exists', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -20,7 +20,7 @@ test('getGroupIndex should return correct index when group exists', () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,
@@ -29,7 +29,7 @@ test('getGroupIndex should return correct index when group exists', () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 3,
@@ -53,7 +53,7 @@ test('getGroupIndex should return -1 when group does not exist', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,

@@ -8,7 +8,7 @@ test('saveState should save layout from default state', () => {
   const state: MainAreaState = createDefaultState()
   const result: SavedState = saveState(state)
   expect(result.layout).toEqual(state.layout)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result.layout.direction).toBe(1)
   expect(result.layout.groups).toEqual([])
 })
@@ -326,17 +326,17 @@ test('saveState should normalize extension detail tabs based on URI', () => {
   })
 })
 
-test('saveState should save layout with undefined activeGroupId', () => {
+test('saveState should save layout with activeGroupId -1', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result.layout.groups).toHaveLength(0)
 })
 
@@ -348,7 +348,7 @@ test('saveState should save layout with empty groups', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -362,7 +362,7 @@ test('saveState should save layout with empty groups', () => {
   const result: SavedState = saveState(state)
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0]).toEqual({
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 1,
@@ -529,7 +529,7 @@ test('saveState should preserve groups that become empty after filtering untitle
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].tabs[0].title).toBe('File 1')
   expect(result.layout.groups[1]).toEqual({
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 2,
@@ -572,7 +572,7 @@ test('saveState should preserve activeGroupId when active group becomes empty af
   const result: SavedState = saveState(state)
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0]).toEqual({
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,
@@ -753,7 +753,7 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
   const result: SavedState = saveState(state)
   expect(result.layout.groups).toHaveLength(3)
   expect(result.layout.groups[0]).toEqual({
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 2,
     focused: false,
     id: 1,

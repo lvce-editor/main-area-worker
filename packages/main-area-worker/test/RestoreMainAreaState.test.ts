@@ -402,7 +402,7 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
   expect(result.layout.groups[0].tabs[0].language).toBe('javascript')
 })
 
-test('restoreMainAreaState should handle layout with undefined activeGroupId', () => {
+test('restoreMainAreaState should normalize a missing activeGroupId to -1', () => {
   const currentState: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/test/path',
@@ -411,7 +411,6 @@ test('restoreMainAreaState should handle layout with undefined activeGroupId', (
   }
 
   const savedLayout = {
-    activeGroupId: undefined,
     direction: 1,
     groups: [],
   }
@@ -423,11 +422,11 @@ test('restoreMainAreaState should handle layout with undefined activeGroupId', (
 
   const result = restoreMainAreaState(savedState, currentState)
 
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result.layout.groups).toHaveLength(0)
 })
 
-test('restoreMainAreaState should handle layout with empty groups', () => {
+test('restoreMainAreaState should normalize a missing activeTabId to -1', () => {
   const currentState: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/test/path',
@@ -440,7 +439,6 @@ test('restoreMainAreaState should handle layout with empty groups', () => {
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
         direction: 1,
         focused: false,
         id: 1,
@@ -460,7 +458,7 @@ test('restoreMainAreaState should handle layout with empty groups', () => {
 
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].tabs).toHaveLength(0)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(-1)
 })
 
 test('restoreMainAreaState should return new state object, not mutate current state', () => {
@@ -711,7 +709,7 @@ test('restoreMainAreaState should handle layout with group having invalid size',
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 1,
@@ -745,7 +743,7 @@ test('restoreMainAreaState should handle layout with group having invalid focuse
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: 'invalid' as any,
         id: 1,
@@ -779,7 +777,7 @@ test('restoreMainAreaState should handle layout with group having invalid tabs',
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         focused: false,
         id: 1,
         size: 100,
@@ -811,7 +809,7 @@ test('restoreMainAreaState should handle layout with group having invalid tab st
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 1,
@@ -1014,16 +1012,15 @@ test('restoreMainState should throw error for invalid layout - invalid activeGro
   }).toThrow('Invalid layout: value does not match MainAreaLayout type')
 })
 
-test('restoreMainState should accept layout with undefined activeGroupId', () => {
+test('restoreMainState should normalize a missing activeGroupId to -1', () => {
   const validLayout = {
-    activeGroupId: undefined,
     direction: 1,
     groups: [],
   }
 
   const result = restoreMainState(validLayout)
 
-  expect(result).toEqual(validLayout)
+  expect(result).toEqual({ ...validLayout, activeGroupId: -1 })
 })
 
 test('restoreMainState should throw error for invalid layout - invalid group', () => {
@@ -1060,7 +1057,7 @@ test('restoreMainState should add the root direction to legacy groups', () => {
     direction: 2,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         focused: true,
         id: 1,
         isEmpty: true,

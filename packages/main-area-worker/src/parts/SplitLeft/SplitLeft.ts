@@ -11,7 +11,7 @@ export const splitLeft = (state: MainAreaState, groupId?: number): MainAreaState
   if (groups.length === 0) {
     const initialGroupId = Id.create()
     const initialGroup: EditorGroup = {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction,
       focused: true,
       id: initialGroupId,
@@ -30,6 +30,6 @@ export const splitLeft = (state: MainAreaState, groupId?: number): MainAreaState
     return SplitEditorGroup.splitEditorGroup(stateWithInitialGroup, initialGroupId, GroupDirection.Left)
   }
 
-  const targetGroupId = groupId ?? activeGroupId ?? groups[0]?.id ?? 0
+  const targetGroupId = groupId ?? (activeGroupId === -1 ? groups[0]?.id : activeGroupId) ?? 0
   return SplitEditorGroup.splitEditorGroup(state, targetGroupId, GroupDirection.Left)
 }

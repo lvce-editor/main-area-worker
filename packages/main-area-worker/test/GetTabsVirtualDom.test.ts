@@ -5,7 +5,7 @@ import { getTabsVirtualDom } from '../src/parts/GetTabsVirtualDom/GetTabsVirtual
 
 test('getTabsVirtualDom should return correct structure with empty tabs', () => {
   const group: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 1,
@@ -165,7 +165,7 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
   expect(secondTabContainer).toHaveProperty('aria-selected', true)
 })
 
-test('getTabsVirtualDom should handle undefined activeTabId', () => {
+test('getTabsVirtualDom should handle activeTabId -1', () => {
   const tabs: Tab[] = [
     {
       editorType: 'text',
@@ -180,7 +180,7 @@ test('getTabsVirtualDom should handle undefined activeTabId', () => {
   ]
 
   const group: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 1,

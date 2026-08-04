@@ -8,7 +8,7 @@ test('loadContent should return empty layout when savedState is undefined', asyn
   const result = await LoadContent.loadContent(state, undefined)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result.layout.direction).toBe(1)
 })
 
@@ -17,7 +17,7 @@ test('loadContent should return empty layout when savedState is null', async () 
   const result = await LoadContent.loadContent(state, null)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should return empty layout when savedState is invalid object', async () => {
@@ -25,7 +25,7 @@ test('loadContent should return empty layout when savedState is invalid object',
   const result = await LoadContent.loadContent(state, { invalid: 'data' })
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should return empty layout when savedState.layout is invalid', async () => {
@@ -33,7 +33,7 @@ test('loadContent should return empty layout when savedState.layout is invalid',
   const result = await LoadContent.loadContent(state, { layout: 'not an object' })
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should return empty layout when restore is disabled', async () => {
@@ -70,7 +70,7 @@ test('loadContent should return empty layout when restore is disabled', async ()
   const result = await LoadContent.loadContent(state, savedState)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should restore valid saved state', async () => {
@@ -328,7 +328,7 @@ test('loadContent should return empty layout when savedState is a string', async
   const result = await LoadContent.loadContent(state, 'invalid string')
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should return empty layout when savedState is a number', async () => {
@@ -336,7 +336,7 @@ test('loadContent should return empty layout when savedState is a number', async
   const result = await LoadContent.loadContent(state, 123)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should return empty layout when layout has invalid direction', async () => {
@@ -351,7 +351,7 @@ test('loadContent should return empty layout when layout has invalid direction',
   const result = await LoadContent.loadContent(state, savedState)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should return empty layout when layout has groups as non-array', async () => {
@@ -366,7 +366,7 @@ test('loadContent should return empty layout when layout has groups as non-array
   const result = await LoadContent.loadContent(state, savedState)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should return empty layout when group has invalid structure', async () => {
@@ -381,14 +381,14 @@ test('loadContent should return empty layout when group has invalid structure', 
   const result = await LoadContent.loadContent(state, savedState)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('loadContent should restore layout with empty groups array', async () => {
   const state = createDefaultState()
   const savedState = {
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
@@ -397,7 +397,7 @@ test('loadContent should restore layout with empty groups array', async () => {
   const result = await LoadContent.loadContent(state, savedState)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result.layout.direction).toBe(1)
 })
 

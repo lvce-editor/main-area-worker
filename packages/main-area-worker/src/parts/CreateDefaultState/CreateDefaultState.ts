@@ -11,7 +11,7 @@ export const createDefaultState = (): MainAreaState => {
     iframes: [],
     initial: false,
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: LayoutDirection.Horizontal,
       groups: [],
     },

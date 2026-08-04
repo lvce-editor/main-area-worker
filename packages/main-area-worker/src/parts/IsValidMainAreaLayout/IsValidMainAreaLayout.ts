@@ -9,7 +9,7 @@ export const isValidMainAreaLayout = (layout: unknown): layout is MainAreaLayout
 
   const layoutObj = layout as Record<string, unknown>
 
-  if (layoutObj.activeGroupId !== undefined && typeof layoutObj.activeGroupId !== 'number') {
+  if (typeof layoutObj.activeGroupId !== 'number') {
     return false
   }
 

@@ -35,7 +35,7 @@ test('handleWorkspaceChange should clear activeGroupId and groups', async () => 
 
   const result = await handleWorkspaceChange(initialState)
 
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result.layout.groups).toEqual([])
   expect(result.layout.direction).toBe(1)
 })
@@ -76,7 +76,7 @@ test('handleWorkspaceChange should handle empty groups', async () => {
   const initialState: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
@@ -84,7 +84,7 @@ test('handleWorkspaceChange should handle empty groups', async () => {
 
   const result = await handleWorkspaceChange(initialState)
 
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result.layout.groups).toEqual([])
 })
 
@@ -96,7 +96,7 @@ test('handleWorkspaceChange should restore saved editor groups', async () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,

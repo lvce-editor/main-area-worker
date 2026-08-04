@@ -7,7 +7,7 @@ test('withGroupsAndActiveGroup should replace groups and activeGroupId', () => {
   const state: MainAreaState = createDefaultState()
 
   const newGroup: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 5,
@@ -23,11 +23,11 @@ test('withGroupsAndActiveGroup should replace groups and activeGroupId', () => {
   expect(result.layout.activeGroupId).toBe(5)
 })
 
-test('withGroupsAndActiveGroup should set activeGroupId to undefined', () => {
+test('withGroupsAndActiveGroup should set activeGroupId to -1', () => {
   const state: MainAreaState = createDefaultState()
 
   const newGroup: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,
@@ -36,16 +36,16 @@ test('withGroupsAndActiveGroup should set activeGroupId to undefined', () => {
     tabs: [],
   }
 
-  const result = WithGroupsAndActiveGroup.withGroupsAndActiveGroup(state, [newGroup], undefined)
+  const result = WithGroupsAndActiveGroup.withGroupsAndActiveGroup(state, [newGroup], -1)
 
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('withGroupsAndActiveGroup should replace multiple groups', () => {
   const state: MainAreaState = createDefaultState()
 
   const group1: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,
@@ -55,7 +55,7 @@ test('withGroupsAndActiveGroup should replace multiple groups', () => {
   }
 
   const group2: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 2,
@@ -82,7 +82,7 @@ test('withGroupsAndActiveGroup should preserve other state properties', () => {
   }
 
   const newGroup: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,
@@ -110,7 +110,7 @@ test('withGroupsAndActiveGroup should replace direction', () => {
   }
 
   const newGroup: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,
@@ -144,8 +144,8 @@ test('withGroupsAndActiveGroup should handle empty groups array', () => {
     },
   }
 
-  const result = WithGroupsAndActiveGroup.withGroupsAndActiveGroup(state, [], undefined)
+  const result = WithGroupsAndActiveGroup.withGroupsAndActiveGroup(state, [], -1)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })

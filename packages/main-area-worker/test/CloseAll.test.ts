@@ -65,7 +65,7 @@ test('closeAll should close all tabs and groups', async () => {
   const result = await closeAll(state)
 
   expect(result.layout.groups).toEqual([])
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result).not.toBe(state)
 })
 
@@ -103,7 +103,7 @@ test('closeAll should preserve layout direction', async () => {
 
   expect(result.layout.direction).toBe(2)
   expect(result.layout.groups).toEqual([])
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('closeAll should preserve other state properties', async () => {
@@ -150,7 +150,7 @@ test('closeAll should handle empty state', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
@@ -159,7 +159,7 @@ test('closeAll should handle empty state', async () => {
   const result = await closeAll(state)
 
   expect(result.layout.groups).toEqual([])
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('closeAll should handle multiple groups with many tabs', async () => {
@@ -251,7 +251,7 @@ test('closeAll should handle multiple groups with many tabs', async () => {
   const result = await closeAll(state)
 
   expect(result.layout.groups).toEqual([])
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('closeAll should dispose editor viewlets', async () => {

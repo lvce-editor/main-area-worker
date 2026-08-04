@@ -117,7 +117,7 @@ test('closeFocusedTab should return same state when no active tab in focused gro
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -148,7 +148,7 @@ test('closeFocusedTab should return same state when no groups', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
@@ -192,7 +192,7 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
   const result = await closeFocusedTab(state)
 
   const expectedLayout = {
-    activeGroupId: undefined,
+    activeGroupId: -1,
     direction: 1,
     groups: [],
   }

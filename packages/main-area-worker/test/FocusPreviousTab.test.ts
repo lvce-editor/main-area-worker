@@ -120,7 +120,7 @@ test('focusPreviousTab should return state if there is no active group', async (
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [
         {
@@ -168,7 +168,7 @@ test('focusPreviousTab should return state if active group is empty', async () =
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,

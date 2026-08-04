@@ -203,7 +203,7 @@ test('loadTabContentAsync discards result when tab no longer exists', async () =
   const stateWithoutTab: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },

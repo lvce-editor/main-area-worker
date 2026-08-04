@@ -20,7 +20,7 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
     return restoreClosedTab(state)
   }
 
-  if (activeGroupId === undefined) {
+  if (activeGroupId === -1) {
     return state
   }
 

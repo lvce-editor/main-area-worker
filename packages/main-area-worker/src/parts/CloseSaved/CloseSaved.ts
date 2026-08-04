@@ -2,16 +2,16 @@ import type { EditorGroup, MainAreaState, Tab } from '../MainAreaState/MainAreaS
 import { addClosedTabs } from '../AddClosedTabs/AddClosedTabs.ts'
 import { withGroups } from '../WithGroups/WithGroups.ts'
 
-const getNextActiveTabId = (tabs: readonly Tab[], newTabs: readonly Tab[], activeTabId: number | undefined): number | undefined => {
-  if (activeTabId === undefined) {
-    return undefined
+const getNextActiveTabId = (tabs: readonly Tab[], newTabs: readonly Tab[], activeTabId: number): number => {
+  if (activeTabId === -1) {
+    return -1
   }
   if (newTabs.some((tab) => tab.id === activeTabId)) {
     return activeTabId
   }
   const activeTabIndex = tabs.findIndex((tab) => tab.id === activeTabId)
   if (activeTabIndex === -1 || newTabs.length === 0) {
-    return undefined
+    return -1
   }
   return newTabs[Math.min(activeTabIndex, newTabs.length - 1)].id
 }

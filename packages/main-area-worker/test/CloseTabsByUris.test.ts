@@ -86,5 +86,5 @@ test('closeTabsByUris should remove empty groups after closing the last tab', ()
   const result = closeTabsByUris(state, ['/workspace/delete-me.ts'])
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })

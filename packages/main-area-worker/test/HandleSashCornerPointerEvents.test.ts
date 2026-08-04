@@ -14,7 +14,7 @@ const createGridState = (): MainAreaState => ({
     direction: LayoutDirection.Horizontal,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: true,
         id: 1,
@@ -24,7 +24,7 @@ const createGridState = (): MainAreaState => ({
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: false,
         id: 2,
@@ -34,7 +34,7 @@ const createGridState = (): MainAreaState => ({
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: false,
         id: 3,
@@ -44,7 +44,7 @@ const createGridState = (): MainAreaState => ({
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: false,
         id: 4,

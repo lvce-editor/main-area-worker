@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleWorkspaceChange } from '../src/parts/HandleWorkspaceChange/HandleWorkspaceChange.ts'
 
@@ -116,7 +116,7 @@ test('handleWorkspaceChange should restore saved editor groups', async () => {
 })
 
 test('handleWorkspaceChange should clear closed tab history', async () => {
-  const tab = {
+  const tab: Tab = {
     editorType: 'text',
     editorUid: -1,
     icon: '',

@@ -1,15 +1,17 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { ClipBoardWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { copyRelativePath } from '../src/parts/CopyRelativePath/CopyRelativePath.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
 test('copyRelativePath should copy the relative path to clipboard', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using clipboardRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
+  })
+  using rendererRpc = RendererWorker.registerMockRpc({
     'Workspace.pathBaseName': async (path: string) => {
       return 'src/test.ts'
     },
@@ -24,17 +26,18 @@ test('copyRelativePath should copy the relative path to clipboard', async () => 
   const result = await copyRelativePath(state, path)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations).toHaveLength(2)
-  expect(mockRpc.invocations[0]).toEqual(['Workspace.pathBaseName', path])
-  expect(mockRpc.invocations[1]).toEqual(['ClipBoard.writeText', 'src/test.ts'])
+  expect(rendererRpc.invocations).toEqual([['Workspace.pathBaseName', path]])
+  expect(clipboardRpc.invocations).toEqual([['ClipBoard.writeText', 'src/test.ts']])
 })
 
 test('copyRelativePath should handle nested paths', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using clipboardRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
+  })
+  using rendererRpc = RendererWorker.registerMockRpc({
     'Workspace.pathBaseName': async (path: string) => {
       return 'src/components/Button/Button.tsx'
     },
@@ -45,16 +48,18 @@ test('copyRelativePath should handle nested paths', async () => {
 
   await copyRelativePath(state, path)
 
-  expect(mockRpc.invocations).toHaveLength(2)
-  expect(mockRpc.invocations[1][1]).toBe('src/components/Button/Button.tsx')
+  expect(rendererRpc.invocations).toEqual([['Workspace.pathBaseName', path]])
+  expect(clipboardRpc.invocations).toEqual([['ClipBoard.writeText', 'src/components/Button/Button.tsx']])
 })
 
 test('copyRelativePath should handle root level files', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using clipboardRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
+  })
+  using rendererRpc = RendererWorker.registerMockRpc({
     'Workspace.pathBaseName': async (path: string) => {
       return 'README.md'
     },
@@ -65,16 +70,18 @@ test('copyRelativePath should handle root level files', async () => {
 
   await copyRelativePath(state, path)
 
-  expect(mockRpc.invocations).toHaveLength(2)
-  expect(mockRpc.invocations[1][1]).toBe('README.md')
+  expect(rendererRpc.invocations).toEqual([['Workspace.pathBaseName', path]])
+  expect(clipboardRpc.invocations).toEqual([['ClipBoard.writeText', 'README.md']])
 })
 
 test('copyRelativePath should return the same state', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using clipboardRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
+  })
+  using rendererRpc = RendererWorker.registerMockRpc({
     'Workspace.pathBaseName': async (path: string) => {
       return 'file.ts'
     },
@@ -106,18 +113,18 @@ test('copyRelativePath should return the same state', async () => {
   expect(result).toBe(state)
   expect(result.uid).toBe(456)
   expect(result.layout.activeGroupId).toBe(2)
-  expect(mockRpc.invocations).toEqual([
-    ['Workspace.pathBaseName', path],
-    ['ClipBoard.writeText', 'file.ts'],
-  ])
+  expect(rendererRpc.invocations).toEqual([['Workspace.pathBaseName', path]])
+  expect(clipboardRpc.invocations).toEqual([['ClipBoard.writeText', 'file.ts']])
 })
 
 test('copyRelativePath should handle file URIs', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using clipboardRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
+  })
+  using rendererRpc = RendererWorker.registerMockRpc({
     'Workspace.pathBaseName': async (path: string) => {
       return 'docs/guide.md'
     },
@@ -128,17 +135,18 @@ test('copyRelativePath should handle file URIs', async () => {
 
   await copyRelativePath(state, path)
 
-  expect(mockRpc.invocations).toHaveLength(2)
-  expect(mockRpc.invocations[0][1]).toBe(path)
-  expect(mockRpc.invocations[1][1]).toBe('docs/guide.md')
+  expect(rendererRpc.invocations).toEqual([['Workspace.pathBaseName', path]])
+  expect(clipboardRpc.invocations).toEqual([['ClipBoard.writeText', 'docs/guide.md']])
 })
 
 test('copyRelativePath should handle Windows paths', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using clipboardRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
+  })
+  using rendererRpc = RendererWorker.registerMockRpc({
     'Workspace.pathBaseName': async (path: string) => {
       return 'src\\main.ts'
     },
@@ -149,6 +157,6 @@ test('copyRelativePath should handle Windows paths', async () => {
 
   await copyRelativePath(state, path)
 
-  expect(mockRpc.invocations).toHaveLength(2)
-  expect(mockRpc.invocations[1][1]).toBe('src\\main.ts')
+  expect(rendererRpc.invocations).toEqual([['Workspace.pathBaseName', path]])
+  expect(clipboardRpc.invocations).toEqual([['ClipBoard.writeText', 'src\\main.ts']])
 })

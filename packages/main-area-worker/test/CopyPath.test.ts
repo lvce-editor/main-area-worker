@@ -1,11 +1,11 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { ClipBoardWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { copyPath } from '../src/parts/CopyPath/CopyPath.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
 test('copyPath should copy the file path to clipboard', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
@@ -26,7 +26,7 @@ test('copyPath should copy the file path to clipboard', async () => {
 
 test('copyPath should handle absolute paths', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
@@ -43,7 +43,7 @@ test('copyPath should handle absolute paths', async () => {
 
 test('copyPath should handle Windows paths', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
@@ -60,7 +60,7 @@ test('copyPath should handle Windows paths', async () => {
 
 test('copyPath should handle file URIs', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
@@ -77,7 +77,7 @@ test('copyPath should handle file URIs', async () => {
 
 test('copyPath should return the same state', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },
@@ -114,7 +114,7 @@ test('copyPath should return the same state', async () => {
 
 test('copyPath should handle empty string path', async () => {
   // @ts-ignore
-  using mockRpc = RendererWorker.registerMockRpc({
+  using mockRpc = ClipBoardWorker.registerMockRpc({
     'ClipBoard.writeText': async (text: string) => {
       return undefined
     },

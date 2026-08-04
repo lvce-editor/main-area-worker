@@ -11,7 +11,7 @@ test('closeSaved preserves a missing active tab id', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -35,7 +35,7 @@ test('closeSaved preserves a missing active tab id', () => {
 
   const result = closeSaved(state)
 
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(-1)
 })
 
 test('closeSaved should close all non-dirty tabs', () => {
@@ -183,7 +183,7 @@ test('closeSaved should mark group empty when no dirty tabs remain', () => {
   const result = closeSaved(state)
 
   expect(result.layout.groups[0].tabs).toEqual([])
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(-1)
   expect(result.layout.groups[0].isEmpty).toBe(true)
 })
 

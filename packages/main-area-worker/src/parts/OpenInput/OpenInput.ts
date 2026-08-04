@@ -30,7 +30,7 @@ const getExistingTabState = (state: MainAreaState, existingTab: NonNullable<Retu
 const getActivePreviewEditorUid = (state: MainAreaState): number => {
   const { layout } = state
   const { activeGroupId, groups } = layout
-  const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
   const activeTab = activeGroup?.tabs.find((tab) => tab.id === activeGroup.activeTabId)
   return activeTab?.isPreview ? activeTab.editorUid : -1
 }

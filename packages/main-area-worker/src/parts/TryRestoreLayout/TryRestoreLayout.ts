@@ -50,11 +50,13 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
   // Mark all restored tabs as not dirty
   const normalizedLayout = {
     ...rawLayout,
+    activeGroupId: rawLayout.activeGroupId === undefined ? -1 : rawLayout.activeGroupId,
     direction: layoutDirection,
     groups: rawLayout.groups.map((group: any) => {
       const groupDirection = normalizeGroupDirection(group, layoutDirection)
       return {
         ...group,
+        activeTabId: group?.activeTabId === undefined ? -1 : group.activeTabId,
         direction: groupDirection,
         tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : [],
       }

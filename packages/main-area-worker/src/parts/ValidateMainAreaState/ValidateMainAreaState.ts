@@ -14,7 +14,7 @@ export const validateMainAreaState = (state: any): state is MainAreaState => {
   return (
     Array.isArray(groups) &&
     groups.every(isValidEditorGroup) &&
-    (activeGroupId === undefined || typeof activeGroupId === 'number') &&
+    typeof activeGroupId === 'number' &&
     isLayoutDirection(direction) &&
     typeof uid === 'number'
   )

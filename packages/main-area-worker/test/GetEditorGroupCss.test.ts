@@ -9,7 +9,7 @@ test('getEditorGroupCss should use width variable for horizontal layouts', () =>
     direction: LayoutDirection.Horizontal,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Horizontal,
         focused: false,
         id: 1,
@@ -18,7 +18,7 @@ test('getEditorGroupCss should use width variable for horizontal layouts', () =>
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Horizontal,
         focused: false,
         id: 2,
@@ -47,7 +47,7 @@ test('getEditorGroupCss should use height variable for vertical layouts', () => 
     direction: LayoutDirection.Vertical,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: false,
         id: 1,

@@ -42,7 +42,7 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
         if (newTabs.length > 0) {
           newActiveTabId = newTabs[Math.min(tabIndex, newTabs.length - 1)].id
         } else {
-          newActiveTabId = undefined
+          newActiveTabId = -1
         }
       }
 
@@ -65,7 +65,7 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
     if (remainingGroups.length > 0) {
       const redistributedGroups = redistributeSizesWithRounding(remainingGroups)
 
-      const newActiveGroupId = activeGroupId === groupId ? remainingGroups[0]?.id : activeGroupId
+      const newActiveGroupId = activeGroupId === groupId ? (remainingGroups[0]?.id ?? -1) : activeGroupId
 
       return withGroupsAndActiveGroup(stateWithClosedTab, redistributedGroups, newActiveGroupId)
     }

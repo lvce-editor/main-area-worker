@@ -2,7 +2,7 @@ import type { LayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 import type { Tab } from '../Tab/Tab.ts'
 
 export interface EditorGroup {
-  readonly activeTabId: number | undefined
+  readonly activeTabId: number
   readonly direction: LayoutDirection
   readonly focused: boolean
   readonly id: number

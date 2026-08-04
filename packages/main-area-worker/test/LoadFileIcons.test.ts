@@ -110,7 +110,7 @@ test('loadFileIcons should handle empty tabs', async () => {
     ...createDefaultState(),
     fileIconCache: {},
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
@@ -123,7 +123,7 @@ test('loadFileIcons should handle empty tabs', async () => {
   const { fileIconCache, updatedLayout } = await loadFileIcons(state)
 
   const expectedLayout = {
-    activeGroupId: undefined,
+    activeGroupId: -1,
     direction: 1,
     groups: [],
   }

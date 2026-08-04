@@ -75,11 +75,11 @@ test('opens a dropped explorer uri', async () => {
       y: 0,
     },
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,

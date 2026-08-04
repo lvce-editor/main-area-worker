@@ -40,7 +40,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
@@ -83,11 +83,11 @@ test('ensureActiveGroup should create new group when no active group exists', ()
   expect(editorUid).toBeGreaterThan(0)
 })
 
-test('ensureActiveGroup should use focused group when activeGroupId is undefined', () => {
+test('ensureActiveGroup should use focused group when activeGroupId is -1', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [
         {

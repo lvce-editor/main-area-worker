@@ -188,7 +188,7 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
   const splitLayoutDirection = getSplitLayoutDirection(direction)
 
   const baseNewGroup: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: sourceGroup.direction,
     focused: true,
     id: newGroupId,

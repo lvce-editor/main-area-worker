@@ -116,7 +116,7 @@ test('renderTabBar should handle multiple tabs', () => {
 
 test('renderTabBar should handle empty tabs array', () => {
   const group: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 1,

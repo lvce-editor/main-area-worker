@@ -19,7 +19,7 @@ test('diff should return RenderItems when left items differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -42,7 +42,7 @@ test('diff should return RenderItems when right items differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -64,7 +64,7 @@ test('diff should return RenderItems when both left and right items differ', () 
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -81,7 +81,7 @@ test('diff should return RenderItems when both left and right items differ', () 
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,
@@ -104,7 +104,7 @@ test('diff should return RenderItems when left array length differs', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -127,7 +127,7 @@ test('diff should return RenderItems when right array length differs', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,

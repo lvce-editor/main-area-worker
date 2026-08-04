@@ -6,12 +6,12 @@ import { findGroupById } from '../FindGroupById/FindGroupById.ts'
 export const moveIntoNewWindow = async (state: MainAreaState): Promise<MainAreaState> => {
   const { layout } = state
   const { activeGroupId } = layout
-  const group = findGroupById(state, activeGroupId ?? 0)
+  const group = findGroupById(state, activeGroupId)
   if (!group) {
     return state
   }
   const { activeTabId } = group
-  if (activeTabId === undefined) {
+  if (activeTabId === -1) {
     return state
   }
   const tab = group.tabs.find((tab) => tab.id === activeTabId)

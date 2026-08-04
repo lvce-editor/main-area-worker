@@ -8,7 +8,7 @@ const createGridLayout = (): MainAreaLayout => ({
   direction: LayoutDirection.Horizontal,
   groups: [
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: LayoutDirection.Vertical,
       focused: true,
       id: 1,
@@ -18,7 +18,7 @@ const createGridLayout = (): MainAreaLayout => ({
       tabs: [],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: LayoutDirection.Vertical,
       focused: false,
       id: 2,
@@ -28,7 +28,7 @@ const createGridLayout = (): MainAreaLayout => ({
       tabs: [],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: LayoutDirection.Vertical,
       focused: false,
       id: 3,
@@ -38,7 +38,7 @@ const createGridLayout = (): MainAreaLayout => ({
       tabs: [],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: LayoutDirection.Vertical,
       focused: false,
       id: 4,

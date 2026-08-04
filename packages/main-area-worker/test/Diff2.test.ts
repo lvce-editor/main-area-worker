@@ -22,7 +22,7 @@ test('diff2 - should return RenderItems when groups differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -46,7 +46,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -77,7 +77,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -195,7 +195,7 @@ test('diff2 - should return RenderItems when group focus changes', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -231,7 +231,7 @@ test('diff2 - should return RenderItems when group sizes change', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -240,7 +240,7 @@ test('diff2 - should return RenderItems when group sizes change', () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,
@@ -280,7 +280,7 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -297,7 +297,7 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
       ...oldState.layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -306,7 +306,7 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,

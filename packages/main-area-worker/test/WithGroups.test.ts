@@ -7,7 +7,7 @@ test('withGroups should replace groups', () => {
   const state: MainAreaState = createDefaultState()
 
   const newGroup: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,
@@ -26,7 +26,7 @@ test('withGroups should replace multiple groups', () => {
   const state: MainAreaState = createDefaultState()
 
   const group1: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,
@@ -36,7 +36,7 @@ test('withGroups should replace multiple groups', () => {
   }
 
   const group2: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: false,
     id: 2,
@@ -61,7 +61,7 @@ test('withGroups should preserve other state properties', () => {
   }
 
   const newGroup: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,
@@ -113,7 +113,7 @@ test('withGroups should preserve activeGroupId', () => {
   }
 
   const newGroup: EditorGroup = {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction: 1,
     focused: true,
     id: 1,

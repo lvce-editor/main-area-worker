@@ -8,7 +8,7 @@ test('getSashOffset should return percentage offset for vertical layouts', () =>
     direction: 2,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 1,
@@ -17,7 +17,7 @@ test('getSashOffset should return percentage offset for vertical layouts', () =>
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 2,
@@ -37,7 +37,7 @@ test('getSashOffset should return percentage offset for horizontal layouts witho
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 1,
@@ -46,7 +46,7 @@ test('getSashOffset should return percentage offset for horizontal layouts witho
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 2,
@@ -55,7 +55,7 @@ test('getSashOffset should return percentage offset for horizontal layouts witho
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 3,
@@ -75,7 +75,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
     direction: 1,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 1,
@@ -84,7 +84,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 2,
@@ -93,7 +93,7 @@ test('getSashOffset should return pixel offset for horizontal layouts with overf
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 1,
         focused: false,
         id: 3,

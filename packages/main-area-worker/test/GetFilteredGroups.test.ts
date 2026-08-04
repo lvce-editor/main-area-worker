@@ -80,7 +80,7 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
       ],
     },
     {
-      activeTabId: undefined,
+      activeTabId: -1,
       direction: 1,
       focused: false,
       id: 2,

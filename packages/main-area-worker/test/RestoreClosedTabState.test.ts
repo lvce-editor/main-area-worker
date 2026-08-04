@@ -319,7 +319,7 @@ test('restoreClosedTabState should restore a tab without a uri into its existing
           tabs: [createTab(1, 'file.ts', '/tmp/file.ts')],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,

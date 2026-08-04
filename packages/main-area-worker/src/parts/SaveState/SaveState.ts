@@ -10,8 +10,7 @@ export const saveState = (state: MainAreaState): SavedState => {
 
   // Update activeGroupId if it points to a removed group
   const { activeGroupId: originalActiveGroupId } = layout
-  const activeGroupId =
-    originalActiveGroupId !== undefined && filteredGroups.every((g) => g.id !== originalActiveGroupId) ? undefined : originalActiveGroupId
+  const activeGroupId = originalActiveGroupId !== -1 && filteredGroups.every((g) => g.id !== originalActiveGroupId) ? -1 : originalActiveGroupId
 
   return {
     layout: {

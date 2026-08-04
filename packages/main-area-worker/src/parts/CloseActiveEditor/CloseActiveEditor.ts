@@ -9,7 +9,7 @@ export const closeActiveEditor = async (state: MainAreaState): Promise<MainAreaS
   }
 
   const { activeTabId } = focusedGroup
-  if (activeTabId === undefined) {
+  if (activeTabId === -1) {
     return state
   }
 

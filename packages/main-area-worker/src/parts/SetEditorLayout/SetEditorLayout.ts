@@ -16,7 +16,7 @@ const flipDirection = (direction: LayoutDirection): LayoutDirection => {
 
 const createEmptyGroup = (direction: LayoutDirection): EditorGroup => {
   return {
-    activeTabId: undefined,
+    activeTabId: -1,
     direction,
     focused: false,
     id: Id.create(),
@@ -26,7 +26,7 @@ const createEmptyGroup = (direction: LayoutDirection): EditorGroup => {
   }
 }
 
-const getActiveGroupIndex = (groups: readonly EditorGroup[], activeGroupId: number | undefined): number => {
+const getActiveGroupIndex = (groups: readonly EditorGroup[], activeGroupId: number): number => {
   const activeIndex = groups.findIndex((group) => group.id === activeGroupId)
   if (activeIndex !== -1) {
     return activeIndex
@@ -38,11 +38,11 @@ const getActiveGroupIndex = (groups: readonly EditorGroup[], activeGroupId: numb
   return 0
 }
 
-const mergeGroups = (target: EditorGroup, groups: readonly EditorGroup[], activeGroupId: number | undefined): EditorGroup => {
+const mergeGroups = (target: EditorGroup, groups: readonly EditorGroup[], activeGroupId: number): EditorGroup => {
   const allGroups = [target, ...groups]
   const tabs = allGroups.flatMap((group) => group.tabs)
-  const activeGroup = allGroups.find((group) => group.id === activeGroupId) ?? groups.findLast((group) => group.activeTabId !== undefined) ?? target
-  const activeTabId = activeGroup.activeTabId ?? tabs[0]?.id
+  const activeGroup = allGroups.find((group) => group.id === activeGroupId) ?? groups.findLast((group) => group.activeTabId !== -1) ?? target
+  const activeTabId = activeGroup.activeTabId === -1 ? (tabs[0]?.id ?? -1) : activeGroup.activeTabId
   return {
     ...target,
     activeTabId,
@@ -54,7 +54,7 @@ const mergeGroups = (target: EditorGroup, groups: readonly EditorGroup[], active
 const getGroupsForSlotCount = (
   groups: readonly EditorGroup[],
   slotCount: number,
-  activeGroupId: number | undefined,
+  activeGroupId: number,
   direction: LayoutDirection,
 ): readonly EditorGroup[] => {
   if (slotCount === 1) {
@@ -97,7 +97,7 @@ export const setEditorLayout = (state: MainAreaState, direction: LayoutDirection
   return {
     ...state,
     layout: {
-      activeGroupId: nextGroups[activeIndex]?.id,
+      activeGroupId: nextGroups[activeIndex]?.id ?? -1,
       direction,
       groups: nextGroups,
     },

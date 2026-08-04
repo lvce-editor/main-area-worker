@@ -15,7 +15,7 @@ test('getCss should position the sash corner at the grid intersection', () => {
     direction: LayoutDirection.Horizontal,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: true,
         id: 1,
@@ -25,7 +25,7 @@ test('getCss should position the sash corner at the grid intersection', () => {
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: false,
         id: 2,
@@ -35,7 +35,7 @@ test('getCss should position the sash corner at the grid intersection', () => {
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: false,
         id: 3,
@@ -45,7 +45,7 @@ test('getCss should position the sash corner at the grid intersection', () => {
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: LayoutDirection.Vertical,
         focused: false,
         id: 4,
@@ -67,7 +67,7 @@ test('getCss should position the sash corner at the grid intersection', () => {
 
 test('getCss should position the drag overlay', () => {
   const layout: MainAreaLayout = {
-    activeGroupId: undefined,
+    activeGroupId: -1,
     direction: LayoutDirection.Horizontal,
     groups: [],
   }

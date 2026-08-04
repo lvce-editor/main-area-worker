@@ -8,7 +8,7 @@ export const isValidEditorGroup = (group: any): group is EditorGroup => {
     typeof group.id === 'number' &&
     Array.isArray(group.tabs) &&
     group.tabs.every(isValidTab) &&
-    (group.activeTabId === undefined || typeof group.activeTabId === 'number') &&
+    typeof group.activeTabId === 'number' &&
     isLayoutDirection(group.direction) &&
     typeof group.focused === 'boolean' &&
     (group.segmentId === undefined || typeof group.segmentId === 'number') &&

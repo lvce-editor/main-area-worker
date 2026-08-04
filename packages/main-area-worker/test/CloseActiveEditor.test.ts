@@ -116,7 +116,7 @@ test('closeActiveEditor should return same state when no active tab in focused g
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -137,7 +137,7 @@ test('closeActiveEditor should return same state when no groups', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [],
     },
@@ -181,7 +181,7 @@ test('closeActiveEditor should remove group when closing the last tab in focused
   const result = await closeActiveEditor(state)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('closeActiveEditor should close active tab in focused group when multiple groups exist', async () => {

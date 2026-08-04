@@ -151,7 +151,7 @@ test('closeTab should close the last tab and remove the group', () => {
   const result = closeTab(state, 1, 1)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result).not.toBe(state)
 })
 
@@ -535,7 +535,7 @@ test('closeTab should handle closing tab when group has no active tab', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -569,7 +569,7 @@ test('closeTab should handle closing tab when group has no active tab', () => {
   const result = closeTab(state, 1, 1)
 
   expect(result.layout.groups[0].tabs).toHaveLength(1)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(-1)
   expect(result).not.toBe(state)
 })
 
@@ -964,7 +964,7 @@ test('closeTab should handle empty tabs array', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -982,7 +982,7 @@ test('closeTab should handle empty tabs array', () => {
   expect(result).toBe(state)
 })
 
-test('closeTab should handle closing tab when activeTabId is undefined', () => {
+test('closeTab should handle closing tab when activeTabId is -1', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -990,7 +990,7 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -1024,7 +1024,7 @@ test('closeTab should handle closing tab when activeTabId is undefined', () => {
   const result = closeTab(state, 1, 1)
 
   expect(result.layout.groups[0].tabs).toHaveLength(1)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(-1)
   expect(result).not.toBe(state)
 })
 
@@ -1108,7 +1108,7 @@ test('closeTab should remove group when closing last tab from single group', () 
   const result = closeTab(state, 1, 1)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result).not.toBe(state)
 })
 
@@ -1675,7 +1675,7 @@ test('closeTab should remove editor group when closing last tab even if it is th
   const result = closeTab(state, 1, 1)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result).not.toBe(state)
 })
 
@@ -2149,7 +2149,7 @@ test('closeTabWithViewlet should remove group when closing the last tab', async 
   const result = await closeTabWithViewlet(state, 1, 1)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
   expect(result.pendingViewletUpdate).toEqual({ disposal: 100 })
   expect(mockRpc.invocations).toEqual([])
 })

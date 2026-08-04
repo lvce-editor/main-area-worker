@@ -37,7 +37,7 @@ test('isEqual should return false when left arrays differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -59,7 +59,7 @@ test('isEqual should return false when right arrays differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -80,7 +80,7 @@ test('isEqual should return false when both arrays differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -97,7 +97,7 @@ test('isEqual should return false when both arrays differ', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,
@@ -119,7 +119,7 @@ test('isEqual should return false when left array length differs', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -141,7 +141,7 @@ test('isEqual should return false when right array length differs', () => {
       ...createDefaultState().layout,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,

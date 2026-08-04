@@ -15,7 +15,7 @@ export const closeFocusedTab = async (state: MainAreaState): Promise<MainAreaSta
   }
 
   const { activeTabId } = focusedGroup
-  if (activeTabId === undefined) {
+  if (activeTabId === -1) {
     return state
   }
 

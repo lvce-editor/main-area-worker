@@ -178,7 +178,7 @@ test('setEditorLayoutSingle creates an empty group when the layout has no groups
 
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0]).toMatchObject({
-    activeTabId: undefined,
+    activeTabId: -1,
     focused: true,
     isEmpty: true,
     size: 100,
@@ -187,7 +187,7 @@ test('setEditorLayoutSingle creates an empty group when the layout has no groups
 })
 
 test('setEditorLayoutSingle falls back to the last group with an active tab', () => {
-  const firstGroup = { ...createGroup(1, 50), activeTabId: undefined }
+  const firstGroup = { ...createGroup(1, 50), activeTabId: -1 }
   const secondGroup = createGroup(2, 50)
   const state = createState([firstGroup, secondGroup], 999)
 
@@ -197,8 +197,8 @@ test('setEditorLayoutSingle falls back to the last group with an active tab', ()
 })
 
 test('setEditorLayoutSingle falls back to the first merged tab', () => {
-  const firstGroup = { ...createGroup(1, 50), activeTabId: undefined }
-  const secondGroup = { ...createGroup(2, 50), activeTabId: undefined }
+  const firstGroup = { ...createGroup(1, 50), activeTabId: -1 }
+  const secondGroup = { ...createGroup(2, 50), activeTabId: -1 }
   const state = createState([firstGroup, secondGroup], 999)
 
   const result = setEditorLayoutSingle(state)
@@ -212,7 +212,7 @@ test('setEditorLayout supports an empty slot list', () => {
   const result = setEditorLayout(state, LayoutDirection.Horizontal, [])
 
   expect(result.layout.groups).toEqual([])
-  expect(result.layout.activeGroupId).toBeUndefined()
+  expect(result.layout.activeGroupId).toBe(-1)
 })
 
 test('flipLayout flips root group directions', () => {

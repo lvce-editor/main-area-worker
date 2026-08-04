@@ -19,7 +19,7 @@ export const ensureActiveGroup = (
   // Find the active group (by activeGroupId or focused flag)
   const { homeDirUri, layout } = state
   const { activeGroupId, groups } = layout
-  const activeGroup = activeGroupId === undefined ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
 
   // Generate a request ID for content loading
   const requestId = GetNextRequestId.getNextRequestId()

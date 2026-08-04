@@ -22,7 +22,7 @@ export const create = (
     iframes: [],
     initial: true,
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: LayoutDirection.Horizontal,
       groups: [],
     },

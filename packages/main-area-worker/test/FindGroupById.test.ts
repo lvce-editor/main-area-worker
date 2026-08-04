@@ -11,7 +11,7 @@ test('findGroupById should return group when found', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -20,7 +20,7 @@ test('findGroupById should return group when found', () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,
@@ -44,7 +44,7 @@ test('findGroupById should return undefined when not found', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,

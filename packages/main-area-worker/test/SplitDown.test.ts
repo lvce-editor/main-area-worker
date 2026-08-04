@@ -18,7 +18,7 @@ test('splitDown should use the active group when no group id is provided', () =>
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -37,11 +37,11 @@ test('splitDown should return unchanged state when neither group id is available
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: undefined,
+      activeGroupId: -1,
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 1,
@@ -64,7 +64,7 @@ test('splitDown should return state unchanged when group does not exist', () => 
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -89,7 +89,7 @@ test('splitDown should split a single editor group vertically', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -109,7 +109,7 @@ test('splitDown should split a single editor group vertically', () => {
     direction: 2,
     groups: [
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: false,
         id: 1,
@@ -118,7 +118,7 @@ test('splitDown should split a single editor group vertically', () => {
         tabs: [],
       },
       {
-        activeTabId: undefined,
+        activeTabId: -1,
         direction: 2,
         focused: true,
         id: newGroupId,
@@ -186,7 +186,7 @@ test('splitDown should split down with existing horizontal layout', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -195,7 +195,7 @@ test('splitDown should split down with existing horizontal layout', () => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,
@@ -230,7 +230,7 @@ test('splitDown should change layout direction from horizontal to vertical', () 
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -281,7 +281,7 @@ test('splitDown should create a new group with empty tabs', () => {
 
   const newGroup = result.layout.groups[1]
   expect(newGroup.tabs).toHaveLength(0)
-  expect(newGroup.activeTabId).toBeUndefined()
+  expect(newGroup.activeTabId).toBe(-1)
 })
 
 test('splitDown should focus the new group', () => {
@@ -292,7 +292,7 @@ test('splitDown should focus the new group', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -320,7 +320,7 @@ test('splitDown should redistribute group sizes correctly', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -348,7 +348,7 @@ test('splitDown should not mutate original state', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -376,7 +376,7 @@ test('splitDown should preserve other state properties', () => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,

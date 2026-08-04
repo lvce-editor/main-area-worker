@@ -12,7 +12,7 @@ const createBaseState = (): MainAreaState => {
       direction: 1,
       groups: [
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: true,
           id: 1,
@@ -21,7 +21,7 @@ const createBaseState = (): MainAreaState => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 2,
@@ -30,7 +30,7 @@ const createBaseState = (): MainAreaState => {
           tabs: [],
         },
         {
-          activeTabId: undefined,
+          activeTabId: -1,
           direction: 1,
           focused: false,
           id: 3,

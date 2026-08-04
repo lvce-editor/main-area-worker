@@ -229,7 +229,7 @@ test('moveTabToGroup should set source group to empty when last tab is moved', (
   const result = MoveTabToGroup.moveTabToGroup(state, 1, 2, 1)
 
   expect(result.layout.groups[0].isEmpty).toBe(true)
-  expect(result.layout.groups[0].activeTabId).toBeUndefined()
+  expect(result.layout.groups[0].activeTabId).toBe(-1)
 })
 
 test('moveTabToGroup should insert tab at specific index when targetIndex is provided', () => {

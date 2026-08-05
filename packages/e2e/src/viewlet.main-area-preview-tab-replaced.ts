@@ -7,7 +7,8 @@ export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) 
   const indexFile = `${tmpDir}/index.html`
   const packageFile = `${tmpDir}/package.json`
   const viteFile = `${tmpDir}/vite.config.js`
-  const viteContent = "import { defineConfig } from 'vite'\nimport elmPlugin from 'vite-plugin-elm'\nexport default defineConfig({ plugins: [elmPlugin()] })"
+  const viteContent =
+    "import { defineConfig } from 'vite'\nimport elmPlugin from 'vite-plugin-elm'\nexport default defineConfig({ plugins: [elmPlugin()] })"
   await FileSystem.setFiles([
     { content: '<main>Elm app</main>', uri: indexFile },
     { content: '{ "scripts": { "dev": "vite" } }', uri: packageFile },

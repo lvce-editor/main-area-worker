@@ -48,10 +48,10 @@ const applyDropAction = async (context: AsyncCommandContext<MainAreaState>, acti
       await openUrisWithContext(context, action.uris)
       break
     case 'setPath':
-      await RendererWorker.invoke('Workspace.setPath', action.value)
+      void RendererWorker.invoke('Workspace.setPath', action.value).catch(() => {})
       break
     case 'setUri':
-      await RendererWorker.invoke('Workspace.setUri', action.value)
+      void RendererWorker.invoke('Workspace.setUri', action.value).catch(() => {})
       break
     default:
       break

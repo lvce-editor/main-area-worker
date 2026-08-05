@@ -5,6 +5,7 @@ import { DragAndDropWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DirentType from '../src/parts/DirentType/DirentType.ts'
+import { handleDragOver } from '../src/parts/HandleDragOver/HandleDragOver.ts'
 import { handleDrop } from '../src/parts/HandleDrop/HandleDrop.ts'
 
 const registerDroppedUris = (uris: readonly string[]) => {
@@ -31,6 +32,45 @@ const createContext = (initialState: MainAreaState) => {
     getState() {
       return state
     },
+  }
+}
+
+const createStateWithOpenFile = (uri: string = 'file:///workspace/original.txt'): MainAreaState => {
+  const title = uri.slice(uri.lastIndexOf('/') + 1)
+  return {
+    ...createDefaultState(),
+    height: 600,
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri,
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title,
+              uri,
+            },
+          ],
+        },
+      ],
+    },
+    width: 800,
   }
 }
 
@@ -120,6 +160,65 @@ test('opens a dropped explorer uri', async () => {
   expect(state.layout.groups[0].focused).toBe(true)
 })
 
+test.each([
+  ['left', 100, 300, 1, [['file:///workspace/dropped.txt'], ['file:///workspace/original.txt']], 0],
+  ['right', 700, 300, 1, [['file:///workspace/original.txt'], ['file:///workspace/dropped.txt']], 1],
+  ['up', 400, 100, 2, [['file:///workspace/dropped.txt'], ['file:///workspace/original.txt']], 0],
+  ['down', 400, 550, 2, [['file:///workspace/original.txt'], ['file:///workspace/dropped.txt']], 1],
+])(
+  'opens a dropped explorer uri in a new group when the drag overlay indicates a %s split',
+  async (_name, eventX, eventY, expectedDirection, expectedUris, expectedActiveGroupIndex) => {
+    using _dragRpc = registerDroppedUris(['file:///workspace/dropped.txt'])
+    using _mockRpc = RendererWorker.registerMockRpc({})
+    const { context, getState } = createContext(handleDragOver(createStateWithOpenFile(), eventX, eventY))
+
+    await handleDrop(context, [1])
+
+    expect(getState().dragOverlay).toBeUndefined()
+    expect(getState().layout.direction).toBe(expectedDirection)
+    expect(getState().layout.groups).toHaveLength(2)
+    expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual(expectedUris)
+    expect(getState().layout.activeGroupId).toBe(getState().layout.groups[expectedActiveGroupIndex].id)
+  },
+)
+
+test('opens a center-dropped explorer uri in the existing group', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/dropped.txt'])
+  using _mockRpc = RendererWorker.registerMockRpc({})
+  const { context, getState } = createContext(handleDragOver(createStateWithOpenFile(), 400, 300))
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups).toHaveLength(1)
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([
+    ['file:///workspace/original.txt', 'file:///workspace/dropped.txt'],
+  ])
+})
+
+test('opens an already-open explorer uri in the new split group', async () => {
+  const uri = 'file:///workspace/original.txt'
+  using _dragRpc = registerDroppedUris([uri])
+  using _mockRpc = RendererWorker.registerMockRpc({})
+  const { context, getState } = createContext(handleDragOver(createStateWithOpenFile(uri), 700, 300))
+
+  await handleDrop(context, [1])
+
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([[uri], [uri]])
+  expect(getState().layout.activeGroupId).toBe(getState().layout.groups[1].id)
+})
+
+test('opens multiple dropped explorer uris in the new split group in source order', async () => {
+  const uris = ['file:///workspace/first.ts', 'file:///workspace/second.ts', 'file:///workspace/third.ts']
+  using _dragRpc = registerDroppedUris(uris)
+  using _mockRpc = RendererWorker.registerMockRpc({})
+  const { context, getState } = createContext(handleDragOver(createStateWithOpenFile(), 700, 300))
+
+  await handleDrop(context, [1])
+
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([['file:///workspace/original.txt'], uris])
+})
+
 test('opens a dropped native file using its persisted html uri', async () => {
   const uri = 'html:///dropped-files/1/1/native.txt'
   using dragRpc = registerDroppedUris([uri])
@@ -160,10 +259,7 @@ test('sets a dropped native folder as the workspace folder', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     async 'Workspace.setPath'() {},
   })
-  const { context, getState } = createContext({
-    ...createDefaultState(),
-    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
-  })
+  const { context, getState } = createContext(handleDragOver({ ...createDefaultState(), height: 600, width: 800 }, 0, 300))
 
   await handleDrop(context, [1])
 

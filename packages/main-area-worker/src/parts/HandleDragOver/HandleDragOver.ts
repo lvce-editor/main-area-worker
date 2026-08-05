@@ -6,7 +6,8 @@ const isEqual = (oldOverlay: MainAreaState['dragOverlay'], newOverlay: MainAreaS
     oldOverlay?.x === newOverlay?.x &&
     oldOverlay?.y === newOverlay?.y &&
     oldOverlay?.width === newOverlay?.width &&
-    oldOverlay?.height === newOverlay?.height
+    oldOverlay?.height === newOverlay?.height &&
+    oldOverlay?.splitDirection === newOverlay?.splitDirection
   )
 }
 

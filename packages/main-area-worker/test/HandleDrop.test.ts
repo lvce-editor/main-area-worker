@@ -1,14 +1,19 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import { expect, test } from '@jest/globals'
 import { PlatformType } from '@lvce-editor/constants'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { DragAndDropWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DirentType from '../src/parts/DirentType/DirentType.ts'
 import { handleDrop } from '../src/parts/HandleDrop/HandleDrop.ts'
 
-const nativeDroppedFileUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native\.txt$/
-const nativeDroppedFolderUriRegex = /^html:\/\/\/dropped-files\/\d+\/1\/native-folder\/$/
+const registerDroppedUris = (uris: readonly string[]) => {
+  return DragAndDropWorker.registerMockRpc({
+    'DragAndDrop.getDroppedItems'() {
+      return { files: [], strings: [], uris }
+    },
+  })
+}
 
 const createContext = (initialState: MainAreaState) => {
   let state = initialState
@@ -30,6 +35,7 @@ const createContext = (initialState: MainAreaState) => {
 }
 
 test('clears the drag overlay when no uri is dropped', async () => {
+  using _dragRpc = registerDroppedUris([])
   let state: MainAreaState = {
     ...createDefaultState(),
     dragOverlay: {
@@ -55,17 +61,8 @@ test('clears the drag overlay when no uri is dropped', async () => {
 })
 
 test('opens a dropped explorer uri', async () => {
-  using _mockRpc = RendererWorker.registerMockRpc({
-    'FileSystemHandle.getFileHandles'() {
-      return [
-        {
-          kind: 'string',
-          type: 'text/uri-list',
-          value: 'file:///workspace/file.txt',
-        },
-      ] as any
-    },
-  })
+  using _dragRpc = registerDroppedUris(['file:///workspace/file.txt'])
+  using _mockRpc = RendererWorker.registerMockRpc({})
   let state: MainAreaState = {
     ...createDefaultState(),
     dragOverlay: {
@@ -124,13 +121,9 @@ test('opens a dropped explorer uri', async () => {
 })
 
 test('opens a dropped native file using its persisted html uri', async () => {
-  const fileHandle = { kind: 'file', name: 'native.txt' }
-  using mockRpc = RendererWorker.registerMockRpc({
-    'FileSystemHandle.getFileHandles'() {
-      return [{ kind: 'file', type: 'text/plain', value: fileHandle }] as any
-    },
-    'PersistentFileHandle.addHandle'() {},
-  })
+  const uri = 'html:///dropped-files/1/1/native.txt'
+  using dragRpc = registerDroppedUris([uri])
+  using mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext({
     ...createDefaultState(),
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
@@ -139,49 +132,32 @@ test('opens a dropped native file using its persisted html uri', async () => {
   await handleDrop(context, [1])
 
   expect(getState().dragOverlay).toBeUndefined()
-  const [{ uri }] = getState().layout.groups[0].tabs
-  expect(uri).toMatch(nativeDroppedFileUriRegex)
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystemHandle.getFileHandles', [1]],
-    ['PersistentFileHandle.addHandle', uri, fileHandle],
-    ['Layout.getModuleId', uri],
-  ])
+  expect(getState().layout.groups[0].tabs[0].uri).toBe(uri)
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', uri]])
 })
 
 test('opens a dropped native electron file using its file uri', async () => {
-  const file = { name: 'native file.txt' } as File
-  using mockRpc = RendererWorker.registerMockRpc({
-    'FileSystemHandle.getFileHandles'() {
-      return []
-    },
-    'FileSystemHandle.getFilePathElectron'() {
-      return '/workspace/native file.txt'
-    },
-  })
+  using dragRpc = registerDroppedUris(['file:///workspace/native%20file.txt'])
+  using mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext({
     ...createDefaultState(),
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
     platform: PlatformType.Electron,
   })
 
-  await handleDrop(context, [1], [file])
+  await handleDrop(context, [1])
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups[0].tabs[0].uri).toBe('file:///workspace/native%20file.txt')
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystemHandle.getFileHandles', [1]],
-    ['FileSystemHandle.getFilePathElectron', file],
-    ['Layout.getModuleId', 'file:///workspace/native%20file.txt'],
-  ])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], true]])
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///workspace/native%20file.txt']])
 })
 
 test('sets a dropped native folder as the workspace folder', async () => {
-  const directoryHandle = { kind: 'directory', name: 'native-folder' }
+  const workspaceUri = 'html:///dropped-files/1/1/native-folder/'
+  using dragRpc = registerDroppedUris([workspaceUri])
   using mockRpc = RendererWorker.registerMockRpc({
-    'FileSystemHandle.getFileHandles'() {
-      return [{ kind: 'file', type: '', value: directoryHandle }] as any
-    },
-    'PersistentFileHandle.addHandle'() {},
     async 'Workspace.setPath'() {},
   })
   const { context, getState } = createContext({
@@ -193,23 +169,16 @@ test('sets a dropped native folder as the workspace folder', async () => {
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
-  const workspaceUri = mockRpc.invocations[2][1]
-  expect(workspaceUri).toMatch(nativeDroppedFolderUriRegex)
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystemHandle.getFileHandles', [1]],
-    ['PersistentFileHandle.addHandle', workspaceUri, directoryHandle],
-    ['Workspace.setPath', workspaceUri],
-  ])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(mockRpc.invocations).toEqual([['Workspace.setPath', workspaceUri]])
 })
 
 test('sets a dropped explorer folder as the workspace folder', async () => {
   const folderUri = 'file:///workspace/folder'
+  using dragRpc = registerDroppedUris([folderUri])
   using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.stat'() {
       return DirentType.Directory
-    },
-    'FileSystemHandle.getFileHandles'() {
-      return [{ kind: 'string', type: 'text/uri-list', value: folderUri }] as any
     },
     async 'Workspace.setUri'() {},
   })
@@ -222,25 +191,16 @@ test('sets a dropped explorer folder as the workspace folder', async () => {
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
   expect(mockRpc.invocations).toEqual([
-    ['FileSystemHandle.getFileHandles', [1]],
     ['FileSystem.stat', folderUri],
     ['Workspace.setUri', folderUri],
   ])
 })
 
 test('opens multiple dropped explorer uris in their source order', async () => {
-  using _mockRpc = RendererWorker.registerMockRpc({
-    'FileSystemHandle.getFileHandles'() {
-      return [
-        {
-          kind: 'string',
-          type: 'text/uri-list',
-          value: 'file:///workspace/first.ts\nfile:///workspace/second.ts\nfile:///workspace/third.ts',
-        },
-      ] as any
-    },
-  })
+  using _dragRpc = registerDroppedUris(['file:///workspace/first.ts', 'file:///workspace/second.ts', 'file:///workspace/third.ts'])
+  using _mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext({
     ...createDefaultState(),
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
@@ -257,16 +217,8 @@ test('opens multiple dropped explorer uris in their source order', async () => {
 })
 
 test('opens an explorer file recovered from retained Chromium drag data', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
-    'FileSystemHandle.getFileHandles'() {
-      return [{ kind: 'string', type: '', value: '8B1BC632EA890FDD4BDB7705EF0231B0' }] as any
-    },
-    'Viewlet.getDragData'() {
-      return {
-        items: [{ data: 'file:///workspace/retained.ts', type: 'text/uri-list' }],
-      }
-    },
-  })
+  using dragRpc = registerDroppedUris(['file:///workspace/retained.ts'])
+  using mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext({
     ...createDefaultState(),
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
@@ -276,17 +228,14 @@ test('opens an explorer file recovered from retained Chromium drag data', async 
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups[0].tabs[0].uri).toBe('file:///workspace/retained.ts')
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystemHandle.getFileHandles', [7]],
-    ['Viewlet.getDragData'],
-    ['Layout.getModuleId', 'file:///workspace/retained.ts'],
-  ])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [7], false]])
+  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///workspace/retained.ts']])
 })
 
 test('clears the drag overlay before a native drop lookup fails', async () => {
   const error = new Error('Failed to read native drop')
-  using _mockRpc = RendererWorker.registerMockRpc({
-    'FileSystemHandle.getFileHandles'() {
+  using _dragRpc = DragAndDropWorker.registerMockRpc({
+    'DragAndDrop.getDroppedItems'() {
       throw error
     },
   })
@@ -301,11 +250,7 @@ test('clears the drag overlay before a native drop lookup fails', async () => {
 })
 
 test('keeps the cancelled state when dropped data is unsupported', async () => {
-  using _mockRpc = RendererWorker.registerMockRpc({
-    'FileSystemHandle.getFileHandles'() {
-      return [{ kind: 'string', type: 'text/plain', value: 'not a uri list' }] as any
-    },
-  })
+  using _dragRpc = registerDroppedUris([])
   const initialState = {
     ...createDefaultState(),
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },

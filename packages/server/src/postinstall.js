@@ -13,6 +13,7 @@ export const getRemoteUrl = (path) => {
 
 const staticServerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/static-server/package.json'))
 const serverPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/server/package.json'))
+const dragAndDropWorkerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/drag-and-drop-worker/package.json'))
 const serverStaticPath = join(dirname(staticServerPackagePath), 'static')
 const serverPath = join(dirname(serverPackagePath), 'src', 'server.js')
 
@@ -26,8 +27,8 @@ const commitHash = dirents.find(isCommitHash) || ''
 const rendererWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'renderer-worker', 'dist', 'rendererWorkerMain.js')
 const diffViewWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'diff-view', 'dist', 'diffViewWorkerMain.js')
 const testWorkerMainPath = join(serverStaticPath, commitHash, 'packages', 'test-worker', 'dist', 'testWorkerMain.js')
-
-const missingDialogWorkerRelay = 'Command "SendMessagePortToExtensionHostWorker.sendMessagePortToDialogWorker" not found'
+const dragAndDropWorkerMainPath = join(dirname(dragAndDropWorkerPackagePath), 'dist', 'dragAndDropWorkerMain.js')
+const dragAndDropWorkerRemoteUrl = getRemoteUrl(dragAndDropWorkerMainPath)
 
 const content = await readFile(rendererWorkerMainPath, 'utf-8')
 
@@ -44,22 +45,71 @@ const mainAreaWorkerUrl = \`${remoteUrl}\``
   await writeFile(rendererWorkerMainPath, newContent)
 }
 
-const rendererWorkerContent = await readFile(rendererWorkerMainPath, 'utf-8')
-if (!rendererWorkerContent.includes(missingDialogWorkerRelay)) {
-  const occurrence = `const sendMessagePortToDialogWorker = async (port, initialCommand) => {
+const dragAndDropCommand = 'SendMessagePortToExtensionHostWorker.sendMessagePortToDragAndDropWorker'
+let rendererWorkerContent = await readFile(rendererWorkerMainPath, 'utf-8')
+if (!rendererWorkerContent.includes(dragAndDropCommand)) {
+  const commandOccurrence = `  'SendMessagePortToExtensionHostWorker.sendMessagePortToEditorWorker': lazy('SendMessagePortToExtensionHostWorker.sendMessagePortToEditorWorker'),`
+  const commandReplacement = `  '${dragAndDropCommand}': lazy('${dragAndDropCommand}'),
+${commandOccurrence}`
+  const launcherOccurrence = `const {
+  invokeAndTransfer: invokeAndTransfer$d
+} = getOrCreateWorker(launchDiffWorker);`
+  const launcherReplacement = `${launcherOccurrence}
+
+const dragAndDropWorkerUrl = '${dragAndDropWorkerRemoteUrl}';
+
+const launchDragAndDropWorker = async () => {
+  const name = 'Drag And Drop Worker';
+  const ipc = await create$19({
+    method: ModuleWorkerAndWorkaroundForChromeDevtoolsBug,
+    name,
+    url: getConfiguredWorkerUrl$1('develop.dragAndDropWorkerPath', dragAndDropWorkerUrl)
+  });
+  handleIpc(ipc);
+  return ipc;
+};
+
+const {
+  invokeAndTransfer: invokeAndTransferDragAndDropWorker
+} = getOrCreateWorker(launchDragAndDropWorker);`
+  const sendOccurrence = `const sendMessagePortToDiffWorker = async (port, initialCommand, rpcId) => {
   object(port);
   string(initialCommand);
-  await invokeAndTransfer$j(initialCommand, port);
+  await invokeAndTransfer$d(initialCommand, port, rpcId);
 };`
-  if (!rendererWorkerContent.includes(occurrence)) {
+  const sendReplacement = `${sendOccurrence}
+const sendMessagePortToDragAndDropWorker = async (port) => {
+  object(port);
+  await invokeAndTransferDragAndDropWorker('DragAndDrop.handleMessagePort', port);
+};`
+  const exportOccurrence = `  sendMessagePortToDiffWorker: sendMessagePortToDiffWorker,`
+  const exportReplacement = `${exportOccurrence}
+  sendMessagePortToDragAndDropWorker: sendMessagePortToDragAndDropWorker,`
+  for (const occurrence of [commandOccurrence, launcherOccurrence, sendOccurrence, exportOccurrence]) {
+    if (!rendererWorkerContent.includes(occurrence)) {
+      throw new Error(`renderer drag and drop worker occurrence not found: ${occurrence}`)
+    }
+  }
+  rendererWorkerContent = rendererWorkerContent
+    .replace(commandOccurrence, commandReplacement)
+    .replace(launcherOccurrence, launcherReplacement)
+    .replace(sendOccurrence, sendReplacement)
+    .replace(exportOccurrence, exportReplacement)
+}
+
+const missingDialogWorkerRelay = 'Command "SendMessagePortToExtensionHostWorker.sendMessagePortToDialogWorker" not found'
+if (!rendererWorkerContent.includes(missingDialogWorkerRelay)) {
+  const occurrence =
+    /const sendMessagePortToDialogWorker = async \(port, initialCommand\) => \{\n  object\(port\);\n  string\(initialCommand\);\n  await invokeAndTransfer[^\n(]*\(initialCommand, port\);\n\};/
+  if (!occurrence.test(rendererWorkerContent)) {
     throw new Error('renderer dialog worker relay occurrence not found')
   }
   const replacement = `const sendMessagePortToDialogWorker = async () => {
   throw new Error('${missingDialogWorkerRelay}');
 };`
-  const newRendererWorkerContent = rendererWorkerContent.replace(occurrence, replacement)
-  await writeFile(rendererWorkerMainPath, newRendererWorkerContent)
+  rendererWorkerContent = rendererWorkerContent.replace(occurrence, replacement)
 }
+await writeFile(rendererWorkerMainPath, rendererWorkerContent)
 
 const diffViewContent = await readFile(diffViewWorkerMainPath, 'utf-8')
 if (!diffViewContent.includes("'DiffView.getKeyBindings'")) {

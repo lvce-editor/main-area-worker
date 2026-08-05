@@ -18,3 +18,7 @@ test('commandMap - includes sash corner pointer commands', () => {
   expect(commandMap['MainArea.handleSashCornerPointerMove']).toBeDefined()
   expect(commandMap['MainArea.handleSashCornerPointerUp']).toBeDefined()
 })
+
+test('commandMap - resize returns no commands for an unknown instance', async () => {
+  expect(await commandMap['MainArea.resize'](999, {})).toEqual([])
+})

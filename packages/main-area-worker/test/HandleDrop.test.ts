@@ -196,6 +196,30 @@ test('opens a center-dropped explorer uri in the existing group', async () => {
   ])
 })
 
+test('opens a dropped explorer uri without splitting for an unknown overlay direction', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/dropped.txt'])
+  using _mockRpc = RendererWorker.registerMockRpc({})
+  const { context, getState } = createContext({
+    ...createStateWithOpenFile(),
+    dragOverlay: {
+      height: 600,
+      splitDirection: 99,
+      width: 800,
+      x: 0,
+      y: 0,
+    },
+  })
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups).toHaveLength(1)
+  expect(getState().layout.groups[0].tabs.map((tab) => tab.uri)).toEqual([
+    'file:///workspace/original.txt',
+    'file:///workspace/dropped.txt',
+  ])
+})
+
 test('opens an already-open explorer uri in the new split group', async () => {
   const uri = 'file:///workspace/original.txt'
   using _dragRpc = registerDroppedUris([uri])

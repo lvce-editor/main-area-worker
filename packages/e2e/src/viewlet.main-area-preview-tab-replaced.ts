@@ -36,9 +36,9 @@ const getLayout = (savedState: unknown, label: string): SavedLayout => {
 }
 
 const getActiveTab = (savedState: unknown, label: string): SavedTab => {
-  const layout = getLayout(savedState, label)
-  assert(layout.groups.length === 1, `Expected ${label} to contain one editor group`)
-  const group = layout.groups[0]
+  const { groups } = getLayout(savedState, label)
+  assert(groups.length === 1, `Expected ${label} to contain one editor group`)
+  const group = groups[0]
   const activeTab = group.tabs.find((tab) => tab.id === group.activeTabId)
   assert(activeTab !== undefined, `Expected ${label} to contain its active tab`)
   return activeTab

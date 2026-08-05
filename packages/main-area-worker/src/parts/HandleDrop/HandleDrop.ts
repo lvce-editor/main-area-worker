@@ -14,7 +14,7 @@ export const handleDrop = async (context: AsyncCommandContext<MainAreaState>, it
   for (const uri of uris) {
     if (uri.endsWith('/') || (await isDirectoryEditorInput({ type: 'editor', uri }))) {
       const command = uri.startsWith('file://') ? 'Workspace.setUri' : 'Workspace.setPath'
-      void RendererWorker.invoke(command, uri).catch(() => {})
+      await RendererWorker.invoke(command, uri)
       return
     }
   }

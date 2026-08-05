@@ -55,7 +55,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const title = getEditorInputTitle(editorInput)
   const editorType = getEditorInputEditorType(editorInput)
   const currentState = state
-  const existingTab = findTabByUri(currentState, uri)
+  const existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
   const shouldRetryExistingTab = !!existingTab && existingTab.tab.loadingState === 'error'
   if (existingTab && !shouldRetryExistingTab) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)

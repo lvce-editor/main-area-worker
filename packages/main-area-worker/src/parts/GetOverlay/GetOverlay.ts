@@ -6,14 +6,14 @@ export const getOverlay = (x: number, y: number, width: number, height: number, 
   const halfWidth = width / 2
   switch (splitDirection) {
     case EditorSplitDirection.Down:
-      return { height: halfHeight, width, x, y: y + halfHeight }
+      return { height: halfHeight, splitDirection, width, x, y: y + halfHeight }
     case EditorSplitDirection.Left:
-      return { height, width: halfWidth, x, y }
+      return { height, splitDirection, width: halfWidth, x, y }
     case EditorSplitDirection.Right:
-      return { height, width: halfWidth, x: x + halfWidth, y }
+      return { height, splitDirection, width: halfWidth, x: x + halfWidth, y }
     case EditorSplitDirection.Up:
-      return { height: halfHeight, width, x, y }
+      return { height: halfHeight, splitDirection, width, x, y }
     default:
-      return { height, width, x, y }
+      return { height, splitDirection, width, x, y }
   }
 }

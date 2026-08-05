@@ -10,8 +10,12 @@ export const openUris = async (state: MainAreaState, uris: readonly string[]): P
   return currentState
 }
 
-export const openUrisWithContext = async (context: AsyncCommandContext<MainAreaState>, uris: readonly string[]): Promise<void> => {
+export const openUrisWithContext = async (
+  context: AsyncCommandContext<MainAreaState>,
+  uris: readonly string[],
+  reuseExisting: boolean = true,
+): Promise<void> => {
   for (const uri of uris) {
-    await openUriWithContext(context, uri)
+    await openUriWithContext(context, { focus: true, reuseExisting, uri })
   }
 }

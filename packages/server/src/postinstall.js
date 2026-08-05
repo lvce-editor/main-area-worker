@@ -46,12 +46,9 @@ const mainAreaWorkerUrl = \`${remoteUrl}\``
 
 const rendererWorkerContent = await readFile(rendererWorkerMainPath, 'utf-8')
 if (!rendererWorkerContent.includes(missingDialogWorkerRelay)) {
-  const occurrence = `const sendMessagePortToDialogWorker = async (port, initialCommand) => {
-  object(port);
-  string(initialCommand);
-  await invokeAndTransfer$j(initialCommand, port);
-};`
-  if (!rendererWorkerContent.includes(occurrence)) {
+  const occurrence =
+    /const sendMessagePortToDialogWorker = async \(port, initialCommand\) => \{\n  object\(port\);\n  string\(initialCommand\);\n  await invokeAndTransfer[^\n(]*\(initialCommand, port\);\n\};/
+  if (!occurrence.test(rendererWorkerContent)) {
     throw new Error('renderer dialog worker relay occurrence not found')
   }
   const replacement = `const sendMessagePortToDialogWorker = async () => {

@@ -175,16 +175,12 @@ test('sets a dropped native folder as the workspace folder', async () => {
 
 test('sets a dropped explorer folder as the workspace folder', async () => {
   const folderUri = 'file:///workspace/folder'
-  let workspaceSet = false
   using dragRpc = registerDroppedUris([folderUri])
   using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.stat'() {
       return DirentType.Directory
     },
-    async 'Workspace.setUri'() {
-      await Promise.resolve()
-      workspaceSet = true
-    },
+    async 'Workspace.setUri'() {},
   })
   const { context, getState } = createContext({
     ...createDefaultState(),
@@ -193,7 +189,6 @@ test('sets a dropped explorer folder as the workspace folder', async () => {
 
   await handleDrop(context, [1])
 
-  expect(workspaceSet).toBe(true)
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
   expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])

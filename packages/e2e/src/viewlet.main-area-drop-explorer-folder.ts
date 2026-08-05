@@ -19,6 +19,10 @@ export const test: Test = async ({ Command, FileSystem, Workspace }) => {
 
   await Command.execute('Main.handleDrop', [itemId])
 
-  const workspacePath = await Command.execute('Workspace.getPath')
+  let workspacePath = await Command.execute('Workspace.getPath')
+  for (let attempt = 0; workspacePath !== expectedWorkspacePath && attempt < 50; attempt++) {
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    workspacePath = await Command.execute('Workspace.getPath')
+  }
   assert(workspacePath === expectedWorkspacePath, `Expected workspace path ${expectedWorkspacePath}, got ${workspacePath}`)
 }

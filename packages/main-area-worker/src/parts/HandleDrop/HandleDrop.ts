@@ -53,7 +53,6 @@ const applyDropAction = async (context: AsyncCommandContext<MainAreaState>, acti
     case 'openFiles':
       await openUrisWithContext(context, action.uris)
       break
-
     default:
       break
   }

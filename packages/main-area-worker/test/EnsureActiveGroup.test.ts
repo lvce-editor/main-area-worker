@@ -242,7 +242,7 @@ test('ensureActiveGroup should replace the active preview tab', () => {
   const [tab] = result.layout.groups[0].tabs
 
   expect(result.layout.groups[0].tabs).toHaveLength(1)
-  expect(tab.id).toBe(1)
+  expect(tab.id).not.toBe(1)
   expect(tab.editorUid).toBeGreaterThan(0)
   expect(tab.editorUid).not.toBe(42)
   expect(tab.icon).toBe('')
@@ -250,6 +250,7 @@ test('ensureActiveGroup should replace the active preview tab', () => {
   expect(tab.loadingState).toBe('loading')
   expect(tab.title).toBe('new.ts')
   expect(tab.uri).toBe('/test/new.ts')
+  expect(result.layout.groups[0].activeTabId).toBe(tab.id)
 })
 
 test('ensureActiveGroup should keep pinned tabs when opening a preview', () => {

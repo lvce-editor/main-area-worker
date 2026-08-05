@@ -269,6 +269,37 @@ test('sets a dropped native folder as the workspace folder', async () => {
   expect(mockRpc.invocations).toEqual([['Workspace.setPath', workspaceUri]])
 })
 
+test('does not wait for a workspace reload after dropping a folder', async () => {
+  const workspaceUri = 'html:///dropped-files/1/1/native-folder/'
+  const workspaceReload = Promise.withResolvers<void>()
+  const workspaceReloadStarted = Promise.withResolvers<void>()
+  using _dragRpc = registerDroppedUris([workspaceUri])
+  using _mockRpc = RendererWorker.registerMockRpc({
+    async 'Workspace.setPath'() {
+      workspaceReloadStarted.resolve()
+      await workspaceReload.promise
+    },
+  })
+  const { context } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+  let dropCompleted = false
+
+  const runDrop = async (): Promise<void> => {
+    await handleDrop(context, [1])
+    dropCompleted = true
+  }
+  const drop = runDrop()
+  await workspaceReloadStarted.promise
+  await new Promise<void>((resolve) => setTimeout(resolve, 0))
+  const completedBeforeReload = dropCompleted
+  workspaceReload.resolve()
+  await drop
+
+  expect(completedBeforeReload).toBe(true)
+})
+
 test('sets a dropped explorer folder as the workspace folder', async () => {
   const folderUri = 'file:///workspace/folder'
   using dragRpc = registerDroppedUris([folderUri])

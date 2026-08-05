@@ -6,17 +6,64 @@ import { handleDragLeave } from '../HandleDragLeave/HandleDragLeave.ts'
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
 import { openUrisWithContext } from '../OpenUris/OpenUris.ts'
 
+interface DropActioSetUri {
+  readonly command: 'setUri'
+  readonly value: string
+}
+interface DropActioSetPath {
+  readonly command: 'setPath'
+  readonly value: string
+}
+interface DropActioOpenFiles {
+  readonly command: 'openFiles'
+  readonly uris: readonly string[]
+}
+
+type DropAction = DropActioSetUri | DropActioSetPath | DropActioOpenFiles
+
+const getDropAction = async (uris: readonly string[]): Promise<DropAction> => {
+  for (const uri of uris) {
+    if (uri.endsWith('/') || (await isDirectoryEditorInput({ type: 'editor', uri }))) {
+      if (uri.startsWith('file://')) {
+        return {
+          command: 'setUri',
+          value: uri,
+        }
+      }
+      return {
+        command: 'setPath',
+        value: uri,
+      }
+    }
+  }
+  return {
+    command: 'openFiles',
+    uris,
+  }
+}
+
+const applyDropAction = async (context: AsyncCommandContext<MainAreaState>, action: DropAction) => {
+  switch (action.command) {
+    case 'setUri':
+      await RendererWorker.invoke('Workspace.setUri', action.value)
+      break
+    case 'setPath':
+      await RendererWorker.invoke('Workspace.setPath', action.value)
+      break
+    case 'openFiles':
+      await openUrisWithContext(context, action.uris)
+      break
+
+    default:
+      break
+  }
+}
+
 export const handleDrop = async (context: AsyncCommandContext<MainAreaState>, itemIds: readonly number[]): Promise<void> => {
   await context.updateState(handleDragLeave)
   const { platform } = context.getState()
   const isElectron = platform === PlatformType.Electron
   const { uris } = await DragAndDropWorker.getDroppedItems(itemIds, isElectron)
-  for (const uri of uris) {
-    if (uri.endsWith('/') || (await isDirectoryEditorInput({ type: 'editor', uri }))) {
-      const command = uri.startsWith('file://') ? 'Workspace.setUri' : 'Workspace.setPath'
-      void RendererWorker.invoke(command, uri).catch(() => {})
-      return
-    }
-  }
-  await openUrisWithContext(context, uris)
+  const actions = await getDropAction(uris)
+  await applyDropAction(context, actions)
 }

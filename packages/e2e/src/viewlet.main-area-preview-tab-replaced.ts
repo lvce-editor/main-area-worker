@@ -2,19 +2,30 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-preview-tab-replaced'
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  const firstFile = `${tmpDir}/preview-first.ts`
-  const secondFile = `${tmpDir}/preview-second.ts`
+  const indexFile = `${tmpDir}/index.html`
+  const packageFile = `${tmpDir}/package.json`
+  const viteFile = `${tmpDir}/vite.config.js`
+  const viteContent = "import { defineConfig } from 'vite'\nimport elmPlugin from 'vite-plugin-elm'\nexport default defineConfig({ plugins: [elmPlugin()] })"
   await FileSystem.setFiles([
-    { content: 'export const first = true', uri: firstFile },
-    { content: 'export const second = true', uri: secondFile },
+    { content: '<main>Elm app</main>', uri: indexFile },
+    { content: '{ "scripts": { "dev": "vite" } }', uri: packageFile },
+    { content: viteContent, uri: viteFile },
   ])
 
   await Main.openInput({
     editorInput: {
       type: 'editor',
-      uri: firstFile,
+      uri: indexFile,
+    },
+    focu: true,
+    preview: false,
+  })
+  await Main.openInput({
+    editorInput: {
+      type: 'editor',
+      uri: packageFile,
     },
     focu: true,
     preview: true,
@@ -22,16 +33,19 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.openInput({
     editorInput: {
       type: 'editor',
-      uri: secondFile,
+      uri: viteFile,
     },
     focu: true,
     preview: true,
   })
 
-  const firstTab = Locator('.MainTab[title$="preview-first.ts"]')
-  const secondTab = Locator('.MainTabPreview[title$="preview-second.ts"]')
+  const indexTab = Locator('.MainTab:not(.MainTabPreview)[title$="index.html"]')
+  const packageTab = Locator('.MainTab[title$="package.json"]')
+  const viteTab = Locator('.MainTabPreview[title$="vite.config.js"]')
   const tabs = Locator('.MainTab')
-  await expect(firstTab).toBeHidden()
-  await expect(secondTab).toBeVisible()
-  await expect(tabs).toHaveCount(1)
+  await expect(indexTab).toBeVisible()
+  await expect(packageTab).toBeHidden()
+  await expect(viteTab).toBeVisible()
+  await expect(tabs).toHaveCount(2)
+  await Editor.shouldHaveText(viteContent)
 }

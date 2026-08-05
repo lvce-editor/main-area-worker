@@ -29,6 +29,7 @@ export const ensureActiveGroup = (
   if (activeGroup) {
     const activeTab = activeGroup.tabs.find((tab) => tab.id === activeGroup.activeTabId)
     if (activeTab?.isPreview) {
+      const tabId = Id.create()
       const updatedGroups = groups.map((group) => {
         if (group.id !== activeGroup.id) {
           return group
@@ -44,6 +45,7 @@ export const ensureActiveGroup = (
             editorUid: Id.create(),
             errorMessage: '',
             icon: '',
+            id: tabId,
             isDirty: false,
             isPreview: preview,
             language: '',
@@ -55,6 +57,7 @@ export const ensureActiveGroup = (
         })
         return {
           ...group,
+          activeTabId: tabId,
           tabs: updatedTabs,
         }
       })

@@ -175,10 +175,88 @@ test('openUri should replace active preview tab instead of adding a new tab', as
   const result = await openUri(state, options)
 
   expect(result.layout.groups[0].tabs).toHaveLength(1)
-  expect(result.layout.groups[0].tabs[0].id).toBe(1)
+  expect(result.layout.groups[0].tabs[0].id).not.toBe(1)
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/replacement.ts')
   expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
-  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
+})
+
+test('openUri should replace a preview with a new tab identity and matching editor input', async () => {
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.dispose': async () => {},
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'file:///workspace/index.html',
+              },
+              editorType: 'text',
+              editorUid: 41,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'index.html',
+              uri: 'file:///workspace/index.html',
+            },
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'file:///workspace/package.json',
+              },
+              editorType: 'text',
+              editorUid: 42,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: true,
+              loadingState: 'loaded',
+              title: 'package.json',
+              uri: 'file:///workspace/package.json',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await openUri(state, {
+    focus: true,
+    preview: true,
+    uri: 'file:///workspace/vite.config.js',
+  })
+
+  const [indexTab, viteTab] = result.layout.groups[0].tabs
+  expect(indexTab).toBe(state.layout.groups[0].tabs[0])
+  expect(viteTab).toMatchObject({
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///workspace/vite.config.js',
+    },
+    isPreview: true,
+    title: 'vite.config.js',
+    uri: 'file:///workspace/vite.config.js',
+  })
+  expect(viteTab.id).not.toBe(2)
+  expect(viteTab.editorUid).not.toBe(42)
+  expect(result.layout.groups[0].activeTabId).toBe(viteTab.id)
 })
 
 test('openUri should dispose the replaced preview editor and create a new one', async () => {

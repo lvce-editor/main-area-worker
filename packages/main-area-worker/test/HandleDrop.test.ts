@@ -214,10 +214,7 @@ test('opens a dropped explorer uri without splitting for an unknown overlay dire
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toHaveLength(1)
-  expect(getState().layout.groups[0].tabs.map((tab) => tab.uri)).toEqual([
-    'file:///workspace/original.txt',
-    'file:///workspace/dropped.txt',
-  ])
+  expect(getState().layout.groups[0].tabs.map((tab) => tab.uri)).toEqual(['file:///workspace/original.txt', 'file:///workspace/dropped.txt'])
 })
 
 test('opens an already-open explorer uri in the new split group', async () => {

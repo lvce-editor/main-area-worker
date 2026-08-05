@@ -39,7 +39,7 @@ export const getViewProviderEntries = async (uri: string): Promise<readonly Quic
     type: 'editor',
   }
   try {
-    const providers = (await RendererWorker.invoke('WebView.getWebViews')) as readonly ViewProvider[]
+    const providers = (await RendererWorker.invoke('WebView.getEditorProviders')) as readonly ViewProvider[]
     const matchingProviders = providers.filter((provider) => provider?.id && provider.selector?.some((selector) => uri.endsWith(selector)))
     return [
       textEditorEntry,

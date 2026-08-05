@@ -6,20 +6,20 @@ import { handleDragLeave } from '../HandleDragLeave/HandleDragLeave.ts'
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
 import { openUrisWithContext } from '../OpenUris/OpenUris.ts'
 
-interface DropActioSetUri {
-  readonly command: 'setUri'
-  readonly value: string
-}
-interface DropActioSetPath {
-  readonly command: 'setPath'
-  readonly value: string
-}
-interface DropActioOpenFiles {
+interface DropActionOpenFiles {
   readonly command: 'openFiles'
   readonly uris: readonly string[]
 }
+interface DropActionSetPath {
+  readonly command: 'setPath'
+  readonly value: string
+}
+interface DropActionSetUri {
+  readonly command: 'setUri'
+  readonly value: string
+}
 
-type DropAction = DropActioSetUri | DropActioSetPath | DropActioOpenFiles
+type DropAction = DropActionOpenFiles | DropActionSetPath | DropActionSetUri
 
 const getDropAction = async (uris: readonly string[]): Promise<DropAction> => {
   for (const uri of uris) {
@@ -44,14 +44,14 @@ const getDropAction = async (uris: readonly string[]): Promise<DropAction> => {
 
 const applyDropAction = async (context: AsyncCommandContext<MainAreaState>, action: DropAction) => {
   switch (action.command) {
-    case 'setUri':
-      await RendererWorker.invoke('Workspace.setUri', action.value)
+    case 'openFiles':
+      await openUrisWithContext(context, action.uris)
       break
     case 'setPath':
       await RendererWorker.invoke('Workspace.setPath', action.value)
       break
-    case 'openFiles':
-      await openUrisWithContext(context, action.uris)
+    case 'setUri':
+      await RendererWorker.invoke('Workspace.setUri', action.value)
       break
     default:
       break

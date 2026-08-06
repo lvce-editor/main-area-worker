@@ -30,8 +30,8 @@ const getTests = async (excludedTests) => {
   return entries.filter((entry) => entry.isFile() && !excludedTests.has(entry.name)).toSorted((a, b) => a.name.localeCompare(b.name))
 }
 
-const run = async (browser, testPath, forwardedArgs) => {
-  const args = [testWithPlaywrightPath, '--only-extension=extension', `--test-path=${testPath}`, `--browser=${browser}`, ...forwardedArgs]
+const run = async (browser, testPath, forwardedArgs, onlyExtension) => {
+  const args = [testWithPlaywrightPath, `--only-extension=${onlyExtension}`, `--test-path=${testPath}`, `--browser=${browser}`, ...forwardedArgs]
 
   const child = spawn(process.execPath, args, {
     cwd,
@@ -52,9 +52,10 @@ export const runBatchedE2E = async ({ browser, excludedTests = new Set(), forwar
     for (let index = 0; index < tests.length; index += testBatchSize) {
       const batch = tests.slice(index, index + testBatchSize)
       const testPath = await copyTests(batch, browser, index / testBatchSize)
+      const onlyExtension = batch.some((entry) => entry.name === 'viewlet.main-area-reopen-image-with-text-editor.ts') ? 'extension' : '.'
       let code = 1
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        code = await run(browser, testPath, forwardedArgs)
+        code = await run(browser, testPath, forwardedArgs, onlyExtension)
         if (code === 0) {
           break
         }

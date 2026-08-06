@@ -97,6 +97,13 @@ const sendMessagePortToDragAndDropWorker = async (port) => {
     .replace(exportOccurrence, exportReplacement)
 }
 
+const bundledDragAndDropWorkerUrl = 'const dragAndDropWorkerUrl = `${assetDir}/packages/drag-and-drop-worker/dist/dragAndDropWorkerMain.js`;'
+const remoteDragAndDropWorkerUrl = `const dragAndDropWorkerUrl = '${dragAndDropWorkerRemoteUrl}';`
+if (!rendererWorkerContent.includes(bundledDragAndDropWorkerUrl) && !rendererWorkerContent.includes(remoteDragAndDropWorkerUrl)) {
+  throw new Error('renderer drag and drop worker url occurrence not found')
+}
+rendererWorkerContent = rendererWorkerContent.replace(bundledDragAndDropWorkerUrl, remoteDragAndDropWorkerUrl)
+
 const missingDialogWorkerRelay = 'Command "SendMessagePortToExtensionHostWorker.sendMessagePortToDialogWorker" not found'
 if (!rendererWorkerContent.includes(missingDialogWorkerRelay)) {
   const occurrence =

@@ -20,6 +20,8 @@ export const createDefaultState = (): MainAreaState => {
     minGroupHeightPx: 80,
     minGroupWidthPx: 250,
     platform: 0,
+    pointerDownGroupIndex: -1,
+    pointerDownTabIndex: -1,
     splitButtonEnabled: false,
     tabHeight: 35,
     uid: 0,

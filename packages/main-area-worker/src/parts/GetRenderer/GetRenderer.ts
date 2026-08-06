@@ -1,6 +1,7 @@
 import type { Renderer } from '../Renderer/Renderer.ts'
 import * as DiffType from '../DiffType/DiffType.ts'
 import { renderCss } from '../RenderCss/RenderCss.ts'
+import { renderDragData } from '../RenderDragData/RenderDragData.ts'
 import { renderIncremental } from '../RenderIncremental/RenderIncremental.ts'
 import * as RenderItems from '../RenderItems/RenderItems.ts'
 import { renderPendingViewletUpdate } from '../RenderPendingViewletUpdate/RenderPendingViewletUpdate.ts'
@@ -9,6 +10,8 @@ export const getRenderer = (diffType: number): Renderer => {
   switch (diffType) {
     case DiffType.RenderCss:
       return renderCss
+    case DiffType.RenderDragData:
+      return renderDragData
     case DiffType.RenderIncremental:
       return renderIncremental
     case DiffType.RenderItems:

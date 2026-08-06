@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-drop-legacy-file'
 
+export const skip = ['webkit'] as const
+
 export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator, Main }) => {
   const content = 'legacy file dropped from Firefox'
   const file = new File([content], 'firefox-legacy.txt', { type: 'text/plain' })

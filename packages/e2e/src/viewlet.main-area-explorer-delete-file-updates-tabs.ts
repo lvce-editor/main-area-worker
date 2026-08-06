@@ -31,7 +31,8 @@ export const test: Test = async ({ Dialog, expect, Explorer, FileSystem, Locator
   await expect(tabs).toHaveCount(2)
 
   // act
-  await deletedExplorerItem.click()
+  await Explorer.focusIndex(0)
+  await Explorer.clickCurrent()
   await Explorer.removeDirent()
 
   // assert

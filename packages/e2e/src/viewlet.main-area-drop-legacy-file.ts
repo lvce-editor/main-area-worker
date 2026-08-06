@@ -12,5 +12,7 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
 
   const tab = Locator('.MainTab[title$="firefox-legacy.txt"]')
   await expect(tab).toBeVisible()
+  const editor = Locator('.Editor')
+  await expect(editor).toBeVisible()
   await Editor.shouldHaveText(content)
 }

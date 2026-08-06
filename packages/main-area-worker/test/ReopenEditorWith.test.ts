@@ -58,7 +58,7 @@ const createContext = (initialState: MainAreaState): { context: AsyncCommandCont
 
 test('getViewProviderEntries returns text editor and matching registered providers', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
-    'WebView.getWebViews': async () => [
+    'WebView.getEditorProviders': async () => [
       {
         id: 'builtin.csv-viewer',
         name: 'CSV Viewer',
@@ -88,7 +88,7 @@ test('getViewProviderEntries returns text editor and matching registered provide
 
 test('getViewProviderEntries falls back to text editor when provider lookup fails', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
-    'WebView.getWebViews': async () => {
+    'WebView.getEditorProviders': async () => {
       throw new Error('provider lookup failed')
     },
   })
@@ -104,7 +104,7 @@ test('getViewProviderEntries falls back to text editor when provider lookup fail
 
 test('getViewProviderEntries falls back through provider title metadata', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
-    'WebView.getWebViews': async () => [
+    'WebView.getEditorProviders': async () => [
       {
         id: 'title-provider',
         selector: ['.png'],
@@ -133,7 +133,7 @@ test('reopenEditorWith reopens an image preview as a text editor in the same tab
     'Layout.createViewlet': async () => {},
     'Viewlet.dispose': async () => {},
     'Viewlet.getTitle': async () => undefined,
-    'WebView.getWebViews': async () => [],
+    'WebView.getEditorProviders': async () => [],
   })
   const { context, getState } = createContext(createState())
 
@@ -156,7 +156,7 @@ test('reopenEditorWith reopens an image preview as a text editor in the same tab
   })
   expect(tab.editorUid).not.toBe(42)
   expect(mockRpc.invocations).toEqual([
-    ['WebView.getWebViews'],
+    ['WebView.getEditorProviders'],
     [
       'ExtensionHostQuickPick.showQuickPick',
       {
@@ -187,7 +187,7 @@ test('reopenEditorWith opens a selected registered provider', async () => {
     'Layout.getModuleId': async () => 'WebView',
     'Viewlet.dispose': async () => {},
     'Viewlet.getTitle': async () => undefined,
-    'WebView.getWebViews': async () => [
+    'WebView.getEditorProviders': async () => [
       {
         id: 'builtin.image-viewer',
         name: 'Image Viewer',
@@ -220,7 +220,7 @@ test('reopenEditorWith opens a selected registered provider', async () => {
 test('reopenEditorWith keeps the current editor when the quick pick is cancelled', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'ExtensionHostQuickPick.showQuickPick': async () => undefined,
-    'WebView.getWebViews': async () => [],
+    'WebView.getEditorProviders': async () => [],
   })
   const initialState = createState()
   const { context, getState } = createContext(initialState)
@@ -229,7 +229,7 @@ test('reopenEditorWith keeps the current editor when the quick pick is cancelled
 
   expect(getState()).toBe(initialState)
   expect(mockRpc.invocations).toEqual([
-    ['WebView.getWebViews'],
+    ['WebView.getEditorProviders'],
     [
       'ExtensionHostQuickPick.showQuickPick',
       expect.objectContaining({
@@ -254,7 +254,7 @@ test('reopenEditorWith keeps the current editor when a provider has no module', 
   using mockRpc = RendererWorker.registerMockRpc({
     'ExtensionHostQuickPick.showQuickPick': async ({ items }: any) => items[1].value,
     'Layout.getModuleId': async () => undefined,
-    'WebView.getWebViews': async () => [
+    'WebView.getEditorProviders': async () => [
       {
         id: 'missing-provider',
         name: 'Missing Provider',
@@ -274,7 +274,7 @@ test('reopenEditorWith keeps the current editor when a provider has no module', 
 test('reopenEditorWith stops when the selected tab closes during provider resolution', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'ExtensionHostQuickPick.showQuickPick': async ({ items }: any) => items[0].value,
-    'WebView.getWebViews': async () => [],
+    'WebView.getEditorProviders': async () => [],
   })
   const initialState = createState()
   const closedState = createDefaultState()
@@ -297,7 +297,7 @@ test('reopenEditorWith does not dispose an editor that has no viewlet', async ()
     'ExtensionHostQuickPick.showQuickPick': async ({ items }: any) => items[0].value,
     'Layout.createViewlet': async () => {},
     'Viewlet.getTitle': async () => undefined,
-    'WebView.getWebViews': async () => [],
+    'WebView.getEditorProviders': async () => [],
   })
   const initialState = createState()
   const stateWithoutViewlet: MainAreaState = {

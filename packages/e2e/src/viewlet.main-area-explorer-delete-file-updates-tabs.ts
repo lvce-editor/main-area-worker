@@ -32,6 +32,7 @@ export const test: Test = async ({ Dialog, expect, Explorer, FileSystem, Locator
 
   // act
   await Explorer.focusIndex(0)
+  await Explorer.clickCurrent()
   await Explorer.removeDirent()
 
   // assert

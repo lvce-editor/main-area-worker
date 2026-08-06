@@ -1,0 +1,16 @@
+{
+  "id": "test.media-preview",
+  "name": "Media Preview",
+  "isolated": true,
+  "views": [
+    {
+      "id": "test.media-preview",
+      "title": "Media Preview",
+      "type": "preview",
+      "selector": [".svg"],
+      "iframe": {
+        "path": "media-preview.html"
+      }
+    }
+  ]
+}

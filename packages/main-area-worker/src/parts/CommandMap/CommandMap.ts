@@ -25,6 +25,7 @@ import { handleContextMenu } from '../HandleContextMenu/HandleContextMenu.ts'
 import { handleDoubleClick } from '../HandleDoubleClick/HandleDoubleClick.ts'
 import { handleDragLeave } from '../HandleDragLeave/HandleDragLeave.ts'
 import { handleDragOver } from '../HandleDragOver/HandleDragOver.ts'
+import { handleDragStart } from '../HandleDragStart/HandleDragStart.ts'
 import { handleDrop } from '../HandleDrop/HandleDrop.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleIconThemeChange } from '../HandleIconThemeChange/HandleIconThemeChange.ts'
@@ -55,6 +56,7 @@ import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
 import { reopenEditorWith } from '../ReopenEditorWith/ReopenEditorWith.ts'
+import { resetPointerDown } from '../ResetPointerDown/ResetPointerDown.ts'
 import * as Resize from '../Resize/Resize.ts'
 import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { save } from '../Save/Save.ts'
@@ -161,8 +163,10 @@ export const commandMap = {
   'MainArea.handleClickTogglePreview': wrapSerialCommand(handleClickTogglePreview),
   'MainArea.handleContextMenu': wrapSerialCommand(handleContextMenu),
   'MainArea.handleDoubleClick': wrapSerialCommand(handleDoubleClick),
+  'MainArea.handleDragEnd': wrapSerialCommand(resetPointerDown),
   'MainArea.handleDragLeave': wrapSerialCommand(handleDragLeave),
   'MainArea.handleDragOver': wrapSerialCommand(handleDragOver),
+  'MainArea.handleDragStart': wrapSerialCommand(handleDragStart),
   'MainArea.handleDrop': wrapSerialAsyncCommand(handleDrop),
   'MainArea.handleHeaderDoubleClick': wrapSerialCommand(handleHeaderDoubleClick),
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
@@ -175,6 +179,7 @@ export const commandMap = {
   'MainArea.handleSashPointerMove': wrapSerialCommand(handleSashPointerMove),
   'MainArea.handleSashPointerUp': wrapSerialCommand(handleSashPointerUp),
   'MainArea.handleTabContextMenu': wrapSerialCommand(handleTabContextMenu),
+  'MainArea.handleTabMouseUp': wrapSerialCommand(resetPointerDown),
   'MainArea.handleUriChange': wrapSerialCommand(handleUriChange),
   'MainArea.handleWorkspaceChange': wrapSerialCommand(handleWorkspaceChange),
   'MainArea.handleWorkspaceRefresh': wrapAsyncCommand(handleWorkspaceRefreshWithContext),

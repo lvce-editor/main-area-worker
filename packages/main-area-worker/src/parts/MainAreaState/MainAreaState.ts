@@ -67,6 +67,8 @@ export interface MainAreaState {
     readonly focus?: number
   }
   readonly platform: number
+  readonly pointerDownGroupIndex: number
+  readonly pointerDownTabIndex: number
   readonly sashCornerDrag?: SashCornerDragState
   readonly sashDrag?: SashDragState
   readonly splitButtonEnabled: boolean

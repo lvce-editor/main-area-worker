@@ -33,6 +33,9 @@ test('renderEventListeners should register drag event listeners', () => {
   const dragOver = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragOver)
   const dragLeave = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragLeave)
   const drop = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDrop)
+  const dragStart = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragStart)
+  const dragEnd = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragEnd)
+  const mouseUp = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabMouseUp)
 
   expect(dragOver).toEqual({
     name: DomEventListenerFunctions.HandleDragOver,
@@ -47,5 +50,18 @@ test('renderEventListeners should register drag event listeners', () => {
     name: DomEventListenerFunctions.HandleDrop,
     params: ['handleDrop', EventExpression.DataTransferFiles2],
     preventDefault: true,
+  })
+  expect(dragStart).toEqual({
+    dragEffect: 'copyMove',
+    name: DomEventListenerFunctions.HandleDragStart,
+    params: ['handleDragStart'],
+  })
+  expect(dragEnd).toEqual({
+    name: DomEventListenerFunctions.HandleDragEnd,
+    params: ['handleDragEnd'],
+  })
+  expect(mouseUp).toEqual({
+    name: DomEventListenerFunctions.HandleTabMouseUp,
+    params: ['handleTabMouseUp'],
   })
 })

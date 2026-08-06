@@ -15,3 +15,6 @@ export const HandleSashCornerPointerUp = 22
 export const HandleDragOver = 23
 export const HandleDragLeave = 24
 export const HandleDrop = 25
+export const HandleDragStart = 26
+export const HandleDragEnd = 27
+export const HandleTabMouseUp = 28

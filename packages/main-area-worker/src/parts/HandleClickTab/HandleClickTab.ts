@@ -10,5 +10,14 @@ export const handleClickTab = async (state: MainAreaState, groupIndexRaw: string
   }
   const groupIndex = Number.parseInt(groupIndexRaw)
   const index = Number.parseInt(indexRaw)
-  return selectTab(state, groupIndex, index)
+  const group = state.layout.groups[groupIndex]
+  if (!group || index < 0 || index >= group.tabs.length) {
+    return state
+  }
+  const newState = await selectTab(state, groupIndex, index)
+  return {
+    ...newState,
+    pointerDownGroupIndex: groupIndex,
+    pointerDownTabIndex: index,
+  }
 }

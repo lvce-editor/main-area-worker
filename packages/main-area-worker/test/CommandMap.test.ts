@@ -19,6 +19,12 @@ test('commandMap - includes sash corner pointer commands', () => {
   expect(commandMap['MainArea.handleSashCornerPointerUp']).toBeDefined()
 })
 
+test('commandMap - includes tab drag lifecycle commands', () => {
+  expect(commandMap['MainArea.handleDragStart']).toBeDefined()
+  expect(commandMap['MainArea.handleDragEnd']).toBeDefined()
+  expect(commandMap['MainArea.handleTabMouseUp']).toBeDefined()
+})
+
 test('commandMap - resize returns no commands for an unknown instance', async () => {
   expect(await commandMap['MainArea.resize'](999, {})).toEqual([])
 })

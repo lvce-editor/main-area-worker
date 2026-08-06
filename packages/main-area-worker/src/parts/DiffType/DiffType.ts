@@ -7,3 +7,4 @@ export const RenderSelection = 9
 export const RenderCss = 10
 export const RenderIncremental = 11
 export const RenderPendingViewletUpdate = 12
+export const RenderDragData = 13

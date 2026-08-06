@@ -80,5 +80,18 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       params: ['handleDrop', EventExpression.DataTransferFiles2],
       preventDefault: true,
     },
+    {
+      dragEffect: 'copyMove',
+      name: DomEventListenersFunctions.HandleDragStart,
+      params: ['handleDragStart'],
+    },
+    {
+      name: DomEventListenersFunctions.HandleDragEnd,
+      params: ['handleDragEnd'],
+    },
+    {
+      name: DomEventListenersFunctions.HandleTabMouseUp,
+      params: ['handleTabMouseUp'],
+    },
   ]
 }

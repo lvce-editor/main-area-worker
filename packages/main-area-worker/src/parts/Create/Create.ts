@@ -31,6 +31,8 @@ export const create = (
     minGroupHeightPx: 80,
     minGroupWidthPx: 250,
     platform,
+    pointerDownGroupIndex: -1,
+    pointerDownTabIndex: -1,
     splitButtonEnabled: false,
     tabHeight,
     uid,

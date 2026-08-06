@@ -171,6 +171,8 @@ test('handleClickTab should select tab when valid groupIndex and index are provi
   const result = await handleClickTab(state, '0', '2')
 
   expect(result.layout.groups[0].activeTabId).toBe(3)
+  expect(result.pointerDownGroupIndex).toBe(0)
+  expect(result.pointerDownTabIndex).toBe(2)
   expect(result).not.toBe(state)
   expect(mockRpc.invocations).toEqual([])
 })
@@ -239,6 +241,8 @@ test('handleClickTab should select tab from second group', async () => {
 
   expect(result.layout.groups[1].activeTabId).toBe(3)
   expect(result.layout.activeGroupId).toBe(2)
+  expect(result.pointerDownGroupIndex).toBe(1)
+  expect(result.pointerDownTabIndex).toBe(1)
   expect(result).not.toBe(state)
   expect(mockRpc.invocations).toEqual([])
 })

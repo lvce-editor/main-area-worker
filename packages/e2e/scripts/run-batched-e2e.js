@@ -31,7 +31,7 @@ const getTests = async (excludedTests) => {
 }
 
 const run = async (browser, testPath, forwardedArgs) => {
-  const args = [testWithPlaywrightPath, '--only-extension=.', `--test-path=${testPath}`, `--browser=${browser}`, ...forwardedArgs]
+  const args = [testWithPlaywrightPath, '--only-extension=extension', `--test-path=${testPath}`, `--browser=${browser}`, ...forwardedArgs]
 
   const child = spawn(process.execPath, args, {
     cwd,

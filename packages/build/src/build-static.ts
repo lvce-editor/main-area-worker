@@ -9,7 +9,7 @@ const sharedProcess = await import(sharedProcessUrl)
 process.env.PATH_PREFIX = '/main-area-worker'
 const { commitHash } = await sharedProcess.exportStatic({
   root,
-  extensionPath: 'packages/e2e/extension',
+  extensionPath: '',
   testPath: 'packages/e2e',
 })
 

@@ -11,7 +11,7 @@ export const getMenuEntries = (state: MainAreaState, groupId?: number): readonly
   const groupArgs = GetMenuEntryArgs.getMenuEntryArgs(groupId)
   const entries = [
     {
-      command: 'MainArea.newFile',
+      command: 'Main.newFile',
       flags: MenuItemFlags.None,
       id: 'newTextFile',
       label: ViewletMainStrings.newTextFile(),

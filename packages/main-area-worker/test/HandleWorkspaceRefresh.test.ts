@@ -1,8 +1,22 @@
 import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
+import type { EditorInput } from '../src/parts/EditorInput/EditorInput.ts'
+import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleWorkspaceRefresh } from '../src/parts/HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
+
+const createTab = (id: number, editorInput: EditorInput, uri: string, editorUid = id): Tab => ({
+  editorInput,
+  editorType: editorInput.type === 'editor' ? 'text' : 'custom',
+  editorUid,
+  icon: '',
+  id,
+  isDirty: false,
+  isPreview: false,
+  loadingState: 'loaded',
+  title: uri,
+  uri,
+})
 
 test('closes missing text file tabs and preserves existing tabs', async () => {
   const state: MainAreaState = {
@@ -243,4 +257,78 @@ test('retargets open files below a renamed folder', async () => {
   })
   expect(result.layout.groups[0].tabs[1].uri).toBe('/workspace/old-sibling/file.ts')
   expect(mockRpc.invocations).toEqual([['Editor.handleUriChange', 42, '/workspace/new/src/file.ts']])
+})
+
+test('reloads matching text, diff, image, video, and webview editors', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.reload'() {},
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            createTab(1, { type: 'editor', uri: '/workspace/file.ts' }, '/workspace/file.ts'),
+            createTab(2, { type: 'diff-editor', uriLeft: '/workspace/left.ts', uriRight: '/workspace/right.ts' }, 'diff://left-and-right'),
+            createTab(3, { type: 'image', uri: '/workspace/image.png' }, '/workspace/image.png'),
+            createTab(4, { type: 'video', uri: '/workspace/video.mp4' }, '/workspace/video.mp4'),
+            createTab(5, { providerId: 'preview', type: 'webview', uri: '/workspace/document.md' }, '/workspace/document.md'),
+            createTab(6, { type: 'editor', uri: '/workspace/unchanged.ts' }, '/workspace/unchanged.ts'),
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await handleWorkspaceRefresh(state, {
+    changed: ['/workspace/file.ts', '/workspace/right.ts', '/workspace/image.png', '/workspace/video.mp4', '/workspace/document.md'],
+  })
+
+  expect(result).toBe(state)
+  expect(mockRpc.invocations).toEqual([
+    ['Viewlet.reload', 1],
+    ['Viewlet.reload', 2],
+    ['Viewlet.reload', 3],
+    ['Viewlet.reload', 4],
+    ['Viewlet.reload', 5],
+  ])
+})
+
+test('does not reload an editor that has no renderer instance', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.reload'() {},
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [createTab(1, { type: 'editor', uri: '/workspace/file.ts' }, '/workspace/file.ts', -1)],
+        },
+      ],
+    },
+  }
+
+  await handleWorkspaceRefresh(state, {
+    changed: ['/workspace/file.ts'],
+  })
+
+  expect(mockRpc.invocations).toEqual([])
 })

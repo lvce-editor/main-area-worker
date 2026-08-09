@@ -180,6 +180,30 @@ test('reopenEditorWith reopens an image preview as a text editor in the same tab
   ])
 })
 
+test('reopenEditorWith directly reopens an image preview as text when requested', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Viewlet.dispose': async () => {},
+    'Viewlet.getTitle': async () => undefined,
+  })
+  const { context, getState } = createContext(createState())
+
+  await reopenEditorWith(context, 'editor')
+
+  const tab = getState().layout.groups[0].tabs[0]
+  expect(tab.editorInput).toEqual({
+    forceText: true,
+    type: 'editor',
+    uri: 'file:///workspace/image.png',
+  })
+  expect(tab.editorType).toBe('text')
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.createViewlet', 'Editor', tab.editorUid, 7, { height: 565, width: 800, x: 0, y: 35 }, 'file:///workspace/image.png'],
+    ['Viewlet.getTitle', tab.editorUid],
+    ['Viewlet.dispose', 42],
+  ])
+})
+
 test('reopenEditorWith opens a selected registered provider', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'ExtensionHostQuickPick.showQuickPick': async ({ items }: any) => items[1].value,

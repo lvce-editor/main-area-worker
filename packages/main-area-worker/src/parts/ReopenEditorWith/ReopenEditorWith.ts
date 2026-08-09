@@ -32,12 +32,13 @@ interface QuickPickItem {
   readonly value: QuickPickEntry
 }
 
+const textEditorEntry: QuickPickEntry = {
+  id: 'editor',
+  label: 'Text Editor',
+  type: 'editor',
+}
+
 export const getViewProviderEntries = async (uri: string): Promise<readonly QuickPickEntry[]> => {
-  const textEditorEntry: QuickPickEntry = {
-    id: 'editor',
-    label: 'Text Editor',
-    type: 'editor',
-  }
   try {
     const providers = (await RendererWorker.invoke('WebView.getEditorProviders')) as readonly ViewProvider[]
     const matchingProviders = providers.filter((provider) => provider?.id && provider.selector?.some((selector) => uri.endsWith(selector)))
@@ -57,7 +58,7 @@ export const getViewProviderEntries = async (uri: string): Promise<readonly Quic
   }
 }
 
-export const reopenEditorWith = async (context: AsyncCommandContext<MainAreaState>): Promise<void> => {
+export const reopenEditorWith = async (context: AsyncCommandContext<MainAreaState>, preferredEditorId?: string): Promise<void> => {
   const initialState = context.getState()
   const { activeGroupId, groups } = initialState.layout
   const activeGroup = groups.find((group) => group.id === activeGroupId)
@@ -66,16 +67,21 @@ export const reopenEditorWith = async (context: AsyncCommandContext<MainAreaStat
     return
   }
 
-  const entries = await getViewProviderEntries(initialTab.uri)
-  const items: readonly QuickPickItem[] = entries.map((entry) => ({
-    description: '',
-    label: entry.label,
-    value: entry,
-  }))
-  const selected = (await RendererWorker.invoke('ExtensionHostQuickPick.showQuickPick', {
-    items,
-    placeholder: 'Select Editor',
-  })) as QuickPickEntry | undefined
+  let selected: QuickPickEntry | undefined
+  if (preferredEditorId === textEditorEntry.id) {
+    selected = textEditorEntry
+  } else {
+    const entries = await getViewProviderEntries(initialTab.uri)
+    const items: readonly QuickPickItem[] = entries.map((entry) => ({
+      description: '',
+      label: entry.label,
+      value: entry,
+    }))
+    selected = (await RendererWorker.invoke('ExtensionHostQuickPick.showQuickPick', {
+      items,
+      placeholder: 'Select Editor',
+    })) as QuickPickEntry | undefined
+  }
   if (!selected) {
     return
   }

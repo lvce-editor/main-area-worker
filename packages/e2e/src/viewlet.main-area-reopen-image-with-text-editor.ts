@@ -29,4 +29,7 @@ export const test: Test = async ({ Command, Editor, expect, Extension, FileSyste
   await expect(mediaPreviewChoice).toBeVisible()
   await mediaPreviewChoice.dispatchEvent('pointerdown', { bubbles: true, clientX: 200, clientY: 100, pointerId: 1 } as any)
   await reopenAsImagePromise
+
+  await Command.execute('Main.reopenEditorWith', 'editor')
+  await Editor.shouldHaveText(content)
 }

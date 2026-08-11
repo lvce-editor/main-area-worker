@@ -1,4 +1,5 @@
 export const CloseGroup = 'close-group'
+export const OpenInTextEditor = 'open-in-text-editor'
 export const RetryOpen = 'retry-open'
 export const RestoreClosedTab = 'restore-closed-tab'
 export const SplitRight = 'split-right'

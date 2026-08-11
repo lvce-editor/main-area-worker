@@ -56,7 +56,8 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const editorType = getEditorInputEditorType(editorInput)
   const currentState = state
   const existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
-  const shouldRetryExistingTab = !!existingTab && existingTab.tab.loadingState === 'error'
+  const shouldOpenBinaryAsText = editorInput.type === 'editor' && editorInput.forceText === true && existingTab?.tab.editorInput?.type === 'binary'
+  const shouldRetryExistingTab = !!existingTab && (existingTab.tab.loadingState === 'error' || shouldOpenBinaryAsText)
   if (existingTab && !shouldRetryExistingTab) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
@@ -78,6 +79,16 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       loadingState: 'error',
     })
     await context.updateState(() => errorState)
+    return
+  }
+
+  if (editorInput.type === 'binary') {
+    const latestState = context.getState()
+    const binaryState = updateTab(latestState, tabId, {
+      editorUid: -1,
+      loadingState: 'binary',
+    })
+    await context.updateState(() => binaryState)
     return
   }
 

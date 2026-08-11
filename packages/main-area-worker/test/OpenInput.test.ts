@@ -47,6 +47,33 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   ])
 })
 
+test('openInput should show a binary file placeholder without creating a viewlet', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+  const state = createDefaultState()
+
+  const result = await openInput(state, {
+    editorInput: {
+      type: 'binary',
+      uri: 'file:///path/to/archive.zip',
+    },
+    focus: false,
+    preview: false,
+  })
+
+  expect(result.layout.groups[0].tabs[0]).toMatchObject({
+    editorInput: {
+      type: 'binary',
+      uri: 'file:///path/to/archive.zip',
+    },
+    editorType: 'custom',
+    editorUid: -1,
+    loadingState: 'binary',
+    title: 'archive.zip',
+    uri: 'file:///path/to/archive.zip',
+  })
+  expect(mockRpc.invocations).toEqual([])
+})
+
 test('openInput renders loaded editor content before the title request finishes', async () => {
   const title = Promise.withResolvers<string>()
   const titleRequested = Promise.withResolvers<void>()

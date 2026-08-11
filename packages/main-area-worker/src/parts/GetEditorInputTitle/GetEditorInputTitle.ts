@@ -8,6 +8,7 @@ export const getEditorInputTitle = (editorInput: EditorInput): string => {
       const rightTitle = PathDisplay.getLabel(editorInput.uriRight)
       return `${leftTitle} - ${rightTitle}`
     }
+    case 'binary':
     case 'editor':
     case 'image':
     case 'video':

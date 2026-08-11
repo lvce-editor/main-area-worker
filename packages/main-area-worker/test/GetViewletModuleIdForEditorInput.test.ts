@@ -19,3 +19,7 @@ test('getViewletModuleIdForEditorInput resolves image and video modules', async 
 test('getViewletModuleIdForEditorInput resolves the running extensions module', async () => {
   await expect(getViewletModuleIdForEditorInput({ type: 'running-extensions' })).resolves.toBe(ViewletModuleId.RunningExtensions)
 })
+
+test('getViewletModuleIdForEditorInput does not resolve a module for binary files', async () => {
+  await expect(getViewletModuleIdForEditorInput({ type: 'binary', uri: 'file:///archive.zip' })).resolves.toBeUndefined()
+})

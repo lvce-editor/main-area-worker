@@ -4,6 +4,7 @@ export const getEditorInputUri = (editorInput: EditorInput): string => {
   switch (editorInput.type) {
     case 'diff-editor':
       return `diff://?left=${encodeURIComponent(editorInput.uriLeft)}&right=${encodeURIComponent(editorInput.uriRight)}`
+    case 'binary':
     case 'editor':
     case 'image':
     case 'video':

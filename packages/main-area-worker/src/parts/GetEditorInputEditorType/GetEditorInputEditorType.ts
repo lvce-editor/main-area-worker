@@ -3,6 +3,7 @@ import type { EditorType } from '../EditorType/EditorType.ts'
 
 export const getEditorInputEditorType = (editorInput: EditorInput): EditorType => {
   switch (editorInput.type) {
+    case 'binary':
     case 'diff-editor':
     case 'extension-detail-view':
     case 'image':

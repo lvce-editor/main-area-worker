@@ -22,6 +22,7 @@ export const getStateWithTab = (
     return {
       stateWithTab: updateTab(focusedState, existingTab.tab.id, {
         editorInput,
+        editorType,
         errorMessage: '',
         loadingState: 'loading',
         title,

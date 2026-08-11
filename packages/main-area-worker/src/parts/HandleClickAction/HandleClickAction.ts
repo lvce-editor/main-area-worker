@@ -4,6 +4,7 @@ import { getActiveGroup } from '../GetActiveGroup/GetActiveGroup.ts'
 import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
 import * as InputName from '../InputName/InputName.ts'
+import { openBinaryAsText } from '../OpenBinaryAsText/OpenBinaryAsText.ts'
 import { parseRawGroupId } from '../ParseRawGroupId/ParseRawGroupId.ts'
 import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { retryOpen } from '../RetryOpen/RetryOpen.ts'
@@ -37,6 +38,8 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
       }
       return closeEditorGroup(state, groupId)
     }
+    case InputName.OpenInTextEditor:
+      return openBinaryAsText(state)
     case InputName.RetryOpen:
       return retryOpen(state)
     case InputName.SplitRight:

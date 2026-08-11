@@ -137,6 +137,46 @@ test('renderEditor should show loading state', () => {
   ])
 })
 
+test('renderEditor should show a binary file placeholder', () => {
+  const tab: Tab = {
+    editorType: 'custom',
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    loadingState: 'binary',
+    title: 'archive.zip',
+  }
+
+  expect(renderEditor(tab)).toEqual([
+    {
+      childCount: 1,
+      className: 'TextEditor TextEditorError TextEditorBinary',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 2,
+      className: 'EditorContent EditorContentError EditorContentBinary',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 1,
+      type: VirtualDomElements.P,
+    },
+    text('The file is not displayed in the text editor because its contents are binary.'),
+    {
+      childCount: 1,
+      className: 'Button ButtonSecondary',
+      'data-action': 'open-in-text-editor',
+      name: 'open-in-text-editor',
+      onClick: DomEventListenerFunctions.HandleClickAction,
+      type: VirtualDomElements.Button,
+    },
+    text('Open in Text Editor'),
+  ])
+})
+
 test('renderEditor should show error state', () => {
   const tab: Tab = {
     editorType: 'text',

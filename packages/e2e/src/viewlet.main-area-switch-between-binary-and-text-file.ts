@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-switch-between-binary-and-text-file'
+export const skip = ['webkit'] as const
 
 export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()

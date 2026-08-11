@@ -95,6 +95,49 @@ test('restoreClosedTabState should restore the most recently closed tab at its o
   expect(result?.newState.layout.groups[0].tabs[1].editorUid).toBe(-1)
 })
 
+test('restoreClosedTabState should restore a binary tab as a binary placeholder', () => {
+  const binaryTab: Tab = {
+    ...createTab(1, 'hello.beam', '/tmp/hello.beam'),
+    editorInput: {
+      type: 'binary',
+      uri: '/tmp/hello.beam',
+    },
+    editorType: 'custom',
+    loadingState: 'binary',
+  }
+  const initialState: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [binaryTab],
+        },
+      ],
+    },
+  }
+  const closedState = closeTab(initialState, 1, 1)
+
+  const result = restoreClosedTabState(closedState)
+
+  expect(result?.newState.layout.groups[0].tabs[0]).toMatchObject({
+    editorInput: {
+      type: 'binary',
+      uri: '/tmp/hello.beam',
+    },
+    editorType: 'custom',
+    editorUid: -1,
+    loadingState: 'binary',
+  })
+})
+
 test('restoreClosedTabState should restore closed tabs in LIFO order across groups', () => {
   const initialState: MainAreaState = {
     ...createDefaultState(),

@@ -1,6 +1,7 @@
 import type { EditorGroup } from '../EditorGroup/EditorGroup.ts'
 import type { ClosedTabEntry, MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
+import { normalizeTabEditorInput } from '../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 import { redistributeSizesWithRounding } from '../RedistributeSizesWithRounding/RedistributeSizesWithRounding.ts'
 
 export interface RestoreClosedTabResult {
@@ -30,12 +31,12 @@ const clampIndex = (value: number, min: number, max: number): number => {
 }
 
 const getRestoredTab = (tab: Tab): Tab => {
-  return {
+  return normalizeTabEditorInput({
     ...tab,
     editorUid: -1,
     errorMessage: '',
     loadingState: undefined,
-  }
+  })
 }
 
 const getStateWithoutLastClosedTab = (state: MainAreaState): MainAreaState => {

@@ -6,6 +6,7 @@ const videoExtensions = new Set(['.avi', '.m4v', '.mkv', '.mov', '.mp4', '.mpeg'
 const binaryFileSuffixes = [
   '.7z',
   '.apk',
+  '.beam',
   '.br',
   '.bz2',
   '.deb',

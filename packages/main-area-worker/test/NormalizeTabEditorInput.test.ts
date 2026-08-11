@@ -30,7 +30,7 @@ test('getNormalizedOpenEditorInput keeps text files as editor input', () => {
   })
 })
 
-test.each(['archive.zip', 'archive.tar.gz', 'archive.tar.br', 'archive.tbr', 'document.pdf'])(
+test.each(['archive.zip', 'archive.tar.gz', 'archive.tar.br', 'archive.tbr', 'document.pdf', 'module.beam'])(
   'getNormalizedOpenEditorInput returns binary input for %s',
   (fileName) => {
     const uri = `file:///test/${fileName}`

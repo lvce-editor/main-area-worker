@@ -5,6 +5,7 @@ import { closeTab } from '../src/parts/CloseTab/CloseTab.ts'
 import { closeTabWithViewlet } from '../src/parts/CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { findTabInState } from '../src/parts/FindTabInState/FindTabInState.ts'
+import { getGroupSegments } from '../src/parts/GetGroupSegments/GetGroupSegments.ts'
 
 const createTab = (id: number): Tab => ({
   editorType: 'text',
@@ -486,7 +487,7 @@ test('closeTab should handle closing tab from different group', () => {
   expect(result).not.toBe(state)
 })
 
-test('closeTab should collapse a remaining nested group into the root layout', () => {
+test('closeTab should render a remaining nested group in the root layout', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -528,11 +529,8 @@ test('closeTab should collapse a remaining nested group into the root layout', (
 
   const result = closeTab(state, 3, 3)
 
-  expect(result.layout.groups.map(({ direction, size }) => ({ direction, size }))).toEqual([
-    { direction: 1, size: 50 },
-    { direction: 1, size: 50 },
-  ])
-  expect(Object.hasOwn(result.layout.groups[1], 'segmentId')).toBe(false)
+  expect(result.layout.groups.map(({ size }) => size)).toEqual([50, 50])
+  expect(getGroupSegments(result.layout.groups, result.layout.direction).map(({ direction }) => direction)).toEqual([undefined, undefined])
 })
 
 test('closeTab should preserve other state properties', () => {

@@ -1,6 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { addClosedTabs } from '../AddClosedTabs/AddClosedTabs.ts'
-import { collapseSingleGroupSegments } from '../CollapseSingleGroupSegments/CollapseSingleGroupSegments.ts'
 import { getGroupIndexById } from '../GetGroupIndexById/GetGroupIndexById.ts'
 import { redistributeSizesWithRounding } from '../RedistributeSizesWithRounding/RedistributeSizesWithRounding.ts'
 import { withEmptyGroups } from '../WithEmptyGroups/WithEmptyGroups.ts'
@@ -9,7 +8,7 @@ import { withGroupsAndActiveGroup } from '../WithGroupsAndActiveGroup/WithGroups
 
 export const closeTab = (state: MainAreaState, groupId: number, tabId: number): MainAreaState => {
   const { layout } = state
-  const { activeGroupId, direction, groups } = layout
+  const { activeGroupId, groups } = layout
 
   // Find the group to close the tab from
   const groupIndex = getGroupIndexById(state, groupId)
@@ -64,7 +63,7 @@ export const closeTab = (state: MainAreaState, groupId: number, tabId: number): 
 
     // If there are remaining groups, redistribute sizes
     if (remainingGroups.length > 0) {
-      const redistributedGroups = collapseSingleGroupSegments(redistributeSizesWithRounding(remainingGroups), direction)
+      const redistributedGroups = redistributeSizesWithRounding(remainingGroups)
 
       const newActiveGroupId = activeGroupId === groupId ? (remainingGroups[0]?.id ?? -1) : activeGroupId
 

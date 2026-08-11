@@ -26,7 +26,7 @@ export const getGroupSegments = (groups: readonly EditorGroup[], parentDirection
         index++
       }
       segments.push({
-        direction: group.direction,
+        direction: nestedGroups.length === 1 ? undefined : group.direction,
         groups: nestedGroups,
         startIndex,
       })

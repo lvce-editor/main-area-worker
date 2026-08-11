@@ -2,6 +2,7 @@ import { expect, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeEditorGroup } from '../src/parts/CloseEditorGroup/CloseEditorGroup.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import { getGroupSegments } from '../src/parts/GetGroupSegments/GetGroupSegments.ts'
 
 test('closeEditorGroup should return state unchanged for an invalid group id', () => {
   const state = createDefaultState()
@@ -378,7 +379,7 @@ test('closeEditorGroup should preserve other state properties', () => {
   expect(result.layout).toEqual(expectedLayout)
 })
 
-test('closeEditorGroup should collapse a remaining nested group into the root layout', () => {
+test('closeEditorGroup should render a remaining nested group in the root layout', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -420,11 +421,8 @@ test('closeEditorGroup should collapse a remaining nested group into the root la
 
   const result = closeEditorGroup(state, 3)
 
-  expect(result.layout.groups.map(({ direction, size }) => ({ direction, size }))).toEqual([
-    { direction: 1, size: 50 },
-    { direction: 1, size: 50 },
-  ])
-  expect(Object.hasOwn(result.layout.groups[1], 'segmentId')).toBe(false)
+  expect(result.layout.groups.map(({ size }) => size)).toEqual([50, 50])
+  expect(getGroupSegments(result.layout.groups, result.layout.direction).map(({ direction }) => direction)).toEqual([undefined, undefined])
 })
 
 test('closeEditorGroup should handle closing middle group in three groups', () => {

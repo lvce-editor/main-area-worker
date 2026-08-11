@@ -1,10 +1,21 @@
 import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
+import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeTab } from '../src/parts/CloseTab/CloseTab.ts'
 import { closeTabWithViewlet } from '../src/parts/CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { findTabInState } from '../src/parts/FindTabInState/FindTabInState.ts'
+import { getGroupSegments } from '../src/parts/GetGroupSegments/GetGroupSegments.ts'
+
+const createTab = (id: number): Tab => ({
+  editorType: 'text',
+  editorUid: -1,
+  icon: '',
+  id,
+  isDirty: false,
+  isPreview: false,
+  title: `File ${id}`,
+})
 
 test('closeTab should close a non-active tab', () => {
   const state: MainAreaState = {
@@ -474,6 +485,52 @@ test('closeTab should handle closing tab from different group', () => {
   expect(result.layout.groups[1].activeTabId).toBe(3)
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result).not.toBe(state)
+})
+
+test('closeTab should render a remaining nested group in the root layout', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 3,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: false,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [createTab(1)],
+        },
+        {
+          activeTabId: 2,
+          direction: 2,
+          focused: false,
+          id: 2,
+          isEmpty: false,
+          segmentId: 2,
+          size: 25,
+          tabs: [createTab(2)],
+        },
+        {
+          activeTabId: 3,
+          direction: 2,
+          focused: true,
+          id: 3,
+          isEmpty: false,
+          segmentId: 2,
+          size: 25,
+          tabs: [createTab(3)],
+        },
+      ],
+    },
+  }
+
+  const result = closeTab(state, 3, 3)
+
+  expect(result.layout.groups.map(({ size }) => size)).toEqual([50, 50])
+  expect(getGroupSegments(result.layout.groups, result.layout.direction).map(({ direction }) => direction)).toEqual([undefined, undefined])
 })
 
 test('closeTab should preserve other state properties', () => {

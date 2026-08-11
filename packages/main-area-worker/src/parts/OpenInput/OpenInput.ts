@@ -44,6 +44,16 @@ const getActivePreviewEditorUid = (state: MainAreaState): number => {
   return activeTab?.isPreview ? activeTab.editorUid : -1
 }
 
+const shouldRetryExistingTab = (existingTab: ReturnType<typeof findTabByUri>, editorInput: OpenInputOptions['editorInput']): boolean => {
+  if (!existingTab) {
+    return false
+  }
+  return (
+    existingTab.tab.loadingState === 'error' ||
+    (editorInput.type === 'editor' && editorInput.forceText === true && existingTab.tab.editorInput?.type === 'binary')
+  )
+}
+
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
   const state = context.getState()
   Assert.object(state)
@@ -56,16 +66,15 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const editorType = getEditorInputEditorType(editorInput)
   const currentState = state
   const existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
-  const shouldOpenBinaryAsText = editorInput.type === 'editor' && editorInput.forceText === true && existingTab?.tab.editorInput?.type === 'binary'
-  const shouldRetryExistingTab = !!existingTab && (existingTab.tab.loadingState === 'error' || shouldOpenBinaryAsText)
-  if (existingTab && !shouldRetryExistingTab) {
+  const shouldRetry = shouldRetryExistingTab(existingTab, editorInput)
+  if (existingTab && !shouldRetry) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
     return
   }
   const replacedEditorUid = getActivePreviewEditorUid(currentState)
   const previousTabId = getActiveTabId(currentState)
-  const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetryExistingTab, uri, preview, title, editorType)
+  const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetry, uri, preview, title, editorType)
 
   await context.updateState(() => stateWithTab)
   if (replacedEditorUid !== -1) {

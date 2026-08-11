@@ -3,6 +3,30 @@ import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
 
 const imageExtensions = new Set(['.avif', '.bmp', '.gif', '.ico', '.jpeg', '.jpg', '.png', '.svg', '.tif', '.tiff', '.webp'])
 const videoExtensions = new Set(['.avi', '.m4v', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogv', '.webm'])
+const binaryFileSuffixes = [
+  '.7z',
+  '.apk',
+  '.br',
+  '.bz2',
+  '.deb',
+  '.gz',
+  '.jar',
+  '.pdf',
+  '.rar',
+  '.rpm',
+  '.tar',
+  '.tar.br',
+  '.tar.bz2',
+  '.tar.gz',
+  '.tar.xz',
+  '.tar.zst',
+  '.tbr',
+  '.tgz',
+  '.war',
+  '.xz',
+  '.zip',
+  '.zst',
+]
 
 const getPathEndIndex = (pathName: string): number => {
   const queryIndex = pathName.indexOf('?')
@@ -37,6 +61,13 @@ const getLowerCaseExtension = (uri: string): string => {
     return ''
   }
   return cleanPath.slice(lastDotIndex).toLowerCase()
+}
+
+const hasBinaryFileSuffix = (uri: string): boolean => {
+  const pathName = getPathName(uri)
+  const endIndex = getPathEndIndex(pathName)
+  const cleanPath = pathName.slice(0, endIndex).toLowerCase()
+  return binaryFileSuffixes.some((suffix) => cleanPath.endsWith(suffix))
 }
 
 const getEditorInputFromUri = (uri: string): any => {
@@ -95,6 +126,13 @@ const getEditorInputFromUri = (uri: string): any => {
     }
   }
 
+  if (hasBinaryFileSuffix(uri)) {
+    return {
+      type: 'binary',
+      uri,
+    }
+  }
+
   return {
     type: 'editor',
     uri,
@@ -134,6 +172,10 @@ export const normalizeTabEditorInput = (tab: any): any => {
     ...tab,
     editorInput,
     editorType: getEditorInputEditorType(editorInput),
+    ...(editorInput.type === 'binary' && {
+      editorUid: -1,
+      loadingState: 'binary',
+    }),
     uri,
   }
 }

@@ -3,6 +3,8 @@ import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 
 export const getEditorInputTitle = (editorInput: EditorInput): string => {
   switch (editorInput.type) {
+    case 'binary':
+      return PathDisplay.getLabel(editorInput.uri)
     case 'diff-editor': {
       const leftTitle = PathDisplay.getLabel(editorInput.uriLeft)
       const rightTitle = PathDisplay.getLabel(editorInput.uriRight)

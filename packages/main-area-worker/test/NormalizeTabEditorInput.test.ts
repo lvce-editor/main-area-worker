@@ -30,6 +30,25 @@ test('getNormalizedOpenEditorInput keeps text files as editor input', () => {
   })
 })
 
+test.each(['archive.zip', 'archive.tar.gz', 'archive.tar.br', 'archive.tbr', 'document.pdf'])(
+  'getNormalizedOpenEditorInput returns binary input for %s',
+  (fileName) => {
+    const uri = `file:///test/${fileName}`
+    expect(getNormalizedOpenEditorInput(uri)).toEqual({
+      type: 'binary',
+      uri,
+    })
+  },
+)
+
+test('getNormalizedOpenEditorInput detects binary file suffixes case-insensitively before query and hash suffixes', () => {
+  const uri = 'file:///test/ARCHIVE.TAR.GZ?download=true#content'
+  expect(getNormalizedOpenEditorInput(uri)).toEqual({
+    type: 'binary',
+    uri,
+  })
+})
+
 test('normalizeTabEditorInput preserves an image explicitly reopened as text', () => {
   expect(
     normalizeTabEditorInput({
@@ -46,6 +65,27 @@ test('normalizeTabEditorInput preserves an image explicitly reopened as text', (
       forceText: true,
       type: 'editor',
       uri: 'file:///test/tiny.png',
+    },
+    editorType: 'text',
+  })
+})
+
+test('normalizeTabEditorInput preserves a binary file explicitly opened as text', () => {
+  expect(
+    normalizeTabEditorInput({
+      editorInput: {
+        forceText: true,
+        type: 'editor',
+        uri: 'file:///test/archive.zip',
+      },
+      editorType: 'text',
+      uri: 'file:///test/archive.zip',
+    }),
+  ).toMatchObject({
+    editorInput: {
+      forceText: true,
+      type: 'editor',
+      uri: 'file:///test/archive.zip',
     },
     editorType: 'text',
   })
@@ -138,5 +178,23 @@ test('normalizeTabEditorInput infers media from an editor input uri', () => {
     },
     editorType: 'custom',
     uri: '/test/image.png',
+  })
+})
+
+test('normalizeTabEditorInput restores the binary placeholder state', () => {
+  expect(
+    normalizeTabEditorInput({
+      editorType: 'text',
+      editorUid: 42,
+      uri: '/test/archive.zip',
+    }),
+  ).toMatchObject({
+    editorInput: {
+      type: 'binary',
+      uri: '/test/archive.zip',
+    },
+    editorType: 'custom',
+    editorUid: -1,
+    loadingState: 'binary',
   })
 })

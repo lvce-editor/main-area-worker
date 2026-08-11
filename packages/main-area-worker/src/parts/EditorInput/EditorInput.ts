@@ -2,6 +2,11 @@ interface BaseEditorInput {
   readonly type: string
 }
 
+interface BinaryEditorInput extends BaseEditorInput {
+  readonly type: 'binary'
+  readonly uri: string
+}
+
 interface EditorEditorInput extends BaseEditorInput {
   readonly forceText?: boolean
   readonly type: 'editor'
@@ -44,6 +49,7 @@ interface RunningExtensionsEditorInput extends BaseEditorInput {
 }
 
 export type EditorInput =
+  | BinaryEditorInput
   | EditorEditorInput
   | ImageEditorInput
   | VideoEditorInput

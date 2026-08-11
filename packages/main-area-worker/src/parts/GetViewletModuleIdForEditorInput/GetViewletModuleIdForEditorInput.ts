@@ -4,6 +4,8 @@ import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
 
 export const getViewletModuleIdForEditorInput = async (editorInput: EditorInput): Promise<string | undefined> => {
   switch (editorInput.type) {
+    case 'binary':
+      return undefined
     case 'diff-editor':
       return ViewletModuleId.DiffEditor
     case 'editor':

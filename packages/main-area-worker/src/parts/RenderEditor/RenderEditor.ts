@@ -1,5 +1,6 @@
 import type { VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
 import type { Tab } from '../MainAreaState/MainAreaState.ts'
+import { renderBinary } from './RenderBinary/RenderBinary.ts'
 import { renderContent } from './RenderContent/RenderContent.ts'
 import { renderError } from './RenderError/RenderError.ts'
 import { renderLoading } from './RenderLoading/RenderLoading.ts'
@@ -14,6 +15,10 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
   // Viewlet is being created in background - show loading
   if (tab.loadingState === 'loading') {
     return renderLoading()
+  }
+
+  if (tab.loadingState === 'binary') {
+    return renderBinary()
   }
 
   // Viewlet is ready - render a reference node

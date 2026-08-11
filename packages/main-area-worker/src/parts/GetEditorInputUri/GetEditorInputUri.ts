@@ -2,6 +2,8 @@ import type { EditorInput } from '../EditorInput/EditorInput.ts'
 
 export const getEditorInputUri = (editorInput: EditorInput): string => {
   switch (editorInput.type) {
+    case 'binary':
+      return editorInput.uri
     case 'diff-editor':
       return `diff://?left=${encodeURIComponent(editorInput.uriLeft)}&right=${encodeURIComponent(editorInput.uriRight)}`
     case 'editor':

@@ -378,6 +378,55 @@ test('closeEditorGroup should preserve other state properties', () => {
   expect(result.layout).toEqual(expectedLayout)
 })
 
+test('closeEditorGroup should collapse a remaining nested group into the root layout', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 3,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: -1,
+          direction: 1,
+          focused: false,
+          id: 1,
+          isEmpty: true,
+          size: 50,
+          tabs: [],
+        },
+        {
+          activeTabId: -1,
+          direction: 2,
+          focused: false,
+          id: 2,
+          isEmpty: true,
+          segmentId: 2,
+          size: 25,
+          tabs: [],
+        },
+        {
+          activeTabId: -1,
+          direction: 2,
+          focused: true,
+          id: 3,
+          isEmpty: true,
+          segmentId: 2,
+          size: 25,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = closeEditorGroup(state, 3)
+
+  expect(result.layout.groups.map(({ direction, size }) => ({ direction, size }))).toEqual([
+    { direction: 1, size: 50 },
+    { direction: 1, size: 50 },
+  ])
+  expect(Object.hasOwn(result.layout.groups[1], 'segmentId')).toBe(false)
+})
+
 test('closeEditorGroup should handle closing middle group in three groups', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

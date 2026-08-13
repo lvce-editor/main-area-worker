@@ -3,7 +3,7 @@ import { addClosedTabs } from '../AddClosedTabs/AddClosedTabs.ts'
 import { getGroupById } from '../GetGroupById/GetGroupById.ts'
 import { withGroups } from '../WithGroups/WithGroups.ts'
 
-export const closeTabsRight = (state: MainAreaState, groupId?: number): MainAreaState => {
+export const closeTabsRight = (state: MainAreaState, groupId?: number, tabId?: number): MainAreaState => {
   const { layout } = state
   const { activeGroupId, groups } = layout
 
@@ -18,33 +18,35 @@ export const closeTabsRight = (state: MainAreaState, groupId?: number): MainArea
   }
 
   const { activeTabId, tabs } = group
-  if (activeTabId === -1) {
+  const targetTabId = tabId ?? activeTabId
+  if (targetTabId === -1) {
     return state
   }
 
-  const activeTabIndex = tabs.findIndex((tab) => tab.id === activeTabId)
-  if (activeTabIndex === -1) {
+  const targetTabIndex = tabs.findIndex((tab) => tab.id === targetTabId)
+  if (targetTabIndex === -1) {
     return state
   }
 
-  const newTabs = tabs.slice(0, activeTabIndex + 1)
+  const newTabs = tabs.slice(0, targetTabIndex + 1)
 
   if (newTabs.length === tabs.length) {
     return state
   }
 
   const groupIndex = groups.findIndex((g) => g.id === targetGroupId)
-  const closedTabs = tabs.slice(activeTabIndex + 1).map((tab, index) => ({
+  const closedTabs = tabs.slice(targetTabIndex + 1).map((tab, index) => ({
     group,
     groupIndex,
     tab,
-    tabIndex: activeTabIndex + index + 1,
+    tabIndex: targetTabIndex + index + 1,
   }))
 
   const newGroups = groups.map((g) => {
     if (g.id === targetGroupId) {
       return {
         ...g,
+        activeTabId: newTabs.some((tab) => tab.id === activeTabId) ? activeTabId : targetTabId,
         isEmpty: newTabs.length === 0,
         tabs: newTabs,
       }

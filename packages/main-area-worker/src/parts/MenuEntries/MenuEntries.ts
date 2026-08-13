@@ -9,7 +9,7 @@ export const getMenuEntries = async (state: MainAreaState, props: ContextMenuPro
     case MenuEntryId.Main:
       return MenuEntriesMain.getMenuEntries(state, props.groupId)
     case MenuEntryId.Tab:
-      return MenuEntriesTab.getMenuEntries(state)
+      return MenuEntriesTab.getMenuEntries(state, props.groupId, props.tabId)
     default:
       return []
   }

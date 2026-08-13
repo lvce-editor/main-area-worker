@@ -27,7 +27,14 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
     },
     {
       name: DomEventListenersFunctions.HandleTabContextMenu,
-      params: ['handleTabContextMenu', EventExpression.Button, EventExpression.ClientX, EventExpression.ClientY],
+      params: [
+        'handleTabContextMenu',
+        EventExpression.Button,
+        EventExpression.ClientX,
+        EventExpression.ClientY,
+        'event.target.dataset.groupIndex',
+        'event.target.dataset.index',
+      ],
       preventDefault: true,
     },
     {

@@ -117,3 +117,52 @@ test('handleTabContextMenu should use uid from state', async () => {
   expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0][1]).toBe(42)
 })
+
+test('handleTabContextMenu should include the context menu tab target', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'ContextMenu.show2': async () => undefined,
+  })
+
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 7,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 12,
+          direction: 1,
+          focused: true,
+          id: 7,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 11,
+              isDirty: false,
+              isPreview: false,
+              title: 'Target',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 12,
+              isDirty: false,
+              isPreview: false,
+              title: 'Active',
+            },
+          ],
+        },
+      ],
+    },
+    uid: 123,
+  }
+
+  await handleTabContextMenu(state, 2, 100, 200, '0', '0')
+
+  expect(mockRpc.invocations[0]).toEqual(['ContextMenu.show2', 123, MenuEntryId.Tab, 100, 200, { groupId: 7, menuId: MenuEntryId.Tab, tabId: 11 }])
+})

@@ -28,6 +28,20 @@ test('renderEventListeners should pass tab indices to the double click handler',
   expect(listener?.params).toEqual(['handleDoubleClick', 'event.target.dataset.groupIndex', 'event.target.dataset.index'])
 })
 
+test('renderEventListeners should pass tab indices to the context menu handler', () => {
+  const result = RenderEventListeners.renderEventListeners()
+  const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabContextMenu)
+
+  expect(listener?.params).toEqual([
+    'handleTabContextMenu',
+    EventExpression.Button,
+    EventExpression.ClientX,
+    EventExpression.ClientY,
+    'event.target.dataset.groupIndex',
+    'event.target.dataset.index',
+  ])
+})
+
 test('renderEventListeners should register drag event listeners', () => {
   const result = RenderEventListeners.renderEventListeners()
   const dragOver = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragOver)

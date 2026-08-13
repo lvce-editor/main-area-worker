@@ -5,7 +5,9 @@ interface ContextMenuPropsBase {
 }
 
 interface ContextMenuPropsTab extends ContextMenuPropsBase {
+  readonly groupId?: number
   readonly menuId: typeof MenuEntryId.Tab
+  readonly tabId?: number
 }
 
 interface ContextMenuPropsMain extends ContextMenuPropsBase {

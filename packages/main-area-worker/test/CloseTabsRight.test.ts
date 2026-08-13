@@ -135,6 +135,75 @@ test('closeTabsRight should use active group when groupId is not provided', () =
   expect(result).not.toBe(state)
 })
 
+test('closeTabsRight should close tabs after an inactive context menu tab', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 4,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [1, 2, 3, 4].map((id) => ({
+            editorType: 'text',
+            editorUid: -1,
+            icon: '',
+            id,
+            isDirty: false,
+            isPreview: false,
+            title: `File ${id}`,
+          })),
+        },
+      ],
+    },
+  }
+
+  const result = closeTabsRight(state, 1, 2)
+
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([1, 2])
+  expect(result.layout.groups[0].activeTabId).toBe(2)
+  expect(result.closedTabs.map((entry) => entry.tab.id)).toEqual([3, 4])
+})
+
+test('closeTabsRight should preserve the active tab when it is left of the context menu tab', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [1, 2, 3].map((id) => ({
+            editorType: 'text',
+            editorUid: -1,
+            icon: '',
+            id,
+            isDirty: false,
+            isPreview: false,
+            title: `File ${id}`,
+          })),
+        },
+      ],
+    },
+  }
+
+  const result = closeTabsRight(state, 1, 2)
+
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([1, 2])
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
 test('closeTabsRight should return state unchanged when activeGroupId is -1 and groupId is not provided', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

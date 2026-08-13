@@ -251,3 +251,50 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
   expect(getEntryById(result, 'copyRelativePath').args).toEqual(['/group2/file.txt'])
   expect(getEntryById(result, 'findFileReferences').args).toEqual(['References', true, '/group2/file.txt'])
 })
+
+test('getMenuEntries targets the tab that opened the context menu', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'target.txt',
+              uri: '/target.txt',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'active.txt',
+              uri: '/active.txt',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = MenuEntriesTab.getMenuEntries(state, 1, 1)
+
+  expect(getEntryById(result, 'tabCloseToTheRight').args).toEqual([1, 1])
+  expect(getEntryById(result, 'copyPath').args).toEqual(['/target.txt'])
+})

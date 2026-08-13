@@ -4,16 +4,15 @@ import { findGroupById } from '../FindGroupById/FindGroupById.ts'
 import * as ViewletMainStrings from '../MainStrings/MainStrings.ts'
 import * as MenuEntrySeparator from '../MenuEntrySeparator/MenuEntrySeparator.ts'
 
-// TODO should pass tab uri as argument or tab index
-export const getMenuEntries = (state: MainAreaState): readonly any[] => {
+export const getMenuEntries = (state: MainAreaState, groupId?: number, tabId?: number): readonly any[] => {
   const { layout } = state
   const { activeGroupId } = layout
-  const group = findGroupById(state, activeGroupId || 0)
+  const group = findGroupById(state, groupId ?? activeGroupId)
   if (!group) {
     return []
   }
   const { activeTabId, tabs } = group
-  const tab = tabs.find((t) => t.id === activeTabId)
+  const tab = tabs.find((t) => t.id === (tabId ?? activeTabId))
   if (!tab) {
     return []
   }
@@ -32,6 +31,7 @@ export const getMenuEntries = (state: MainAreaState): readonly any[] => {
       label: ViewletMainStrings.closeOthers(),
     },
     {
+      args: [group.id, tab.id],
       command: 'Main.closeTabsRight',
       flags: MenuItemFlags.None,
       id: 'tabCloseToTheRight',

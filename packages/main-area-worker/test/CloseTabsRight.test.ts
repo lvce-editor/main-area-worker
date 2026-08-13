@@ -60,6 +60,96 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
   expect(result).not.toBe(state)
 })
 
+test('closeTabsRight should use active group when groupId is not provided', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 2,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: false,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 1',
+            },
+          ],
+        },
+        {
+          activeTabId: 3,
+          direction: 1,
+          focused: true,
+          id: 2,
+          isEmpty: false,
+          size: 50,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 2',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 3',
+            },
+            {
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 4,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 4',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = closeTabsRight(state)
+
+  expect(result.layout.groups[0]).toBe(state.layout.groups[0])
+  expect(result.layout.groups[1].tabs.map((tab) => tab.id)).toEqual([2, 3])
+  expect(result.layout.groups[1].activeTabId).toBe(3)
+  expect(result).not.toBe(state)
+})
+
+test('closeTabsRight should return state unchanged when activeGroupId is -1 and groupId is not provided', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: -1,
+      direction: 1,
+      groups: [],
+    },
+  }
+
+  const result = closeTabsRight(state)
+
+  expect(result).toBe(state)
+})
+
 test('closeTabsRight should return state unchanged when group does not exist', () => {
   const state: MainAreaState = {
     ...createDefaultState(),

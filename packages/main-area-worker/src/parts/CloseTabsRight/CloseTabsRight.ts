@@ -3,11 +3,16 @@ import { addClosedTabs } from '../AddClosedTabs/AddClosedTabs.ts'
 import { getGroupById } from '../GetGroupById/GetGroupById.ts'
 import { withGroups } from '../WithGroups/WithGroups.ts'
 
-export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaState => {
+export const closeTabsRight = (state: MainAreaState, groupId?: number): MainAreaState => {
   const { layout } = state
-  const { groups } = layout
+  const { activeGroupId, groups } = layout
 
-  const group = getGroupById(state, groupId)
+  const targetGroupId = groupId ?? activeGroupId
+  if (targetGroupId === -1) {
+    return state
+  }
+
+  const group = getGroupById(state, targetGroupId)
   if (!group) {
     return state
   }
@@ -28,7 +33,7 @@ export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaS
     return state
   }
 
-  const groupIndex = groups.findIndex((g) => g.id === groupId)
+  const groupIndex = groups.findIndex((g) => g.id === targetGroupId)
   const closedTabs = tabs.slice(activeTabIndex + 1).map((tab, index) => ({
     group,
     groupIndex,
@@ -37,7 +42,7 @@ export const closeTabsRight = (state: MainAreaState, groupId: number): MainAreaS
   }))
 
   const newGroups = groups.map((g) => {
-    if (g.id === groupId) {
+    if (g.id === targetGroupId) {
       return {
         ...g,
         isEmpty: newTabs.length === 0,

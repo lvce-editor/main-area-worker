@@ -4,7 +4,7 @@ import { isDirectoryEditorInput } from '../../IsDirectoryEditorInput/IsDirectory
 export const getDropAction = async (uris: readonly string[]): Promise<DropAction> => {
   for (const uri of uris) {
     if (uri.endsWith('/') || (await isDirectoryEditorInput({ type: 'editor', uri }))) {
-      if (uri.startsWith('file://')) {
+      if (uri.includes('://')) {
         return {
           command: 'setUri',
           value: uri,

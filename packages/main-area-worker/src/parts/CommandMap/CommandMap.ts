@@ -29,6 +29,7 @@ import { handleDragStart } from '../HandleDragStart/HandleDragStart.ts'
 import { handleDrop } from '../HandleDrop/HandleDrop.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleIconThemeChange } from '../HandleIconThemeChange/HandleIconThemeChange.ts'
+import * as HandleMessagePort from '../HandleMessagePort/HandleMessagePort.ts'
 import { handleModifiedStatusChangeWithContext } from '../HandleModifiedStatusChange/HandleModifiedStatusChange.ts'
 import { handleResize } from '../HandleResize/HandleResize.ts'
 import { handleSashCornerPointerDown } from '../HandleSashCornerPointerDown/HandleSashCornerPointerDown.ts'
@@ -170,6 +171,7 @@ export const commandMap = {
   'MainArea.handleDrop': wrapSerialAsyncCommand(handleDrop),
   'MainArea.handleHeaderDoubleClick': wrapSerialCommand(handleHeaderDoubleClick),
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
+  'MainArea.handleMessagePort': HandleMessagePort.handleMessagePort,
   'MainArea.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
   'MainArea.handleResize': resize,
   'MainArea.handleSashCornerPointerDown': wrapSerialCommand(handleSashCornerPointerDown),

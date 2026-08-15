@@ -278,7 +278,7 @@ test('sets a dropped native folder as the workspace folder', async () => {
   const workspaceUri = 'html:///dropped-files/1/1/native-folder/'
   using dragRpc = registerDroppedUris([workspaceUri])
   using mockRpc = RendererWorker.registerMockRpc({
-    async 'Workspace.setPath'() {},
+    async 'Workspace.setUri'() {},
   })
   const { context, getState } = createContext(handleDragOver({ ...createDefaultState(), height: 600, width: 800 }, 0, 300))
 
@@ -287,7 +287,32 @@ test('sets a dropped native folder as the workspace folder', async () => {
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
   expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
-  expect(mockRpc.invocations).toEqual([['Workspace.setPath', workspaceUri]])
+  expect(mockRpc.invocations).toEqual([['Workspace.setUri', workspaceUri]])
+})
+
+test('sets a dropped folder path as the workspace folder', async () => {
+  const workspacePath = '/home/test/about-view'
+  using dragRpc = registerDroppedUris([workspacePath])
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.stat'() {
+      return DirentType.Directory
+    },
+    async 'Workspace.setPath'() {},
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups).toEqual([])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.stat', workspacePath],
+    ['Workspace.setPath', workspacePath],
+  ])
 })
 
 test('does not wait for a workspace reload after dropping a folder', async () => {
@@ -296,7 +321,7 @@ test('does not wait for a workspace reload after dropping a folder', async () =>
   const workspaceReloadStarted = Promise.withResolvers<void>()
   using _dragRpc = registerDroppedUris([workspaceUri])
   using _mockRpc = RendererWorker.registerMockRpc({
-    async 'Workspace.setPath'() {
+    async 'Workspace.setUri'() {
       workspaceReloadStarted.resolve()
       await workspaceReload.promise
     },
@@ -344,6 +369,50 @@ test('sets a dropped explorer folder as the workspace folder', async () => {
     ['FileSystem.stat', folderUri],
     ['Workspace.setUri', folderUri],
   ])
+})
+
+test('sets a dropped remote explorer folder uri as the workspace folder', async () => {
+  const folderUri = 'remote-ssh://test-host/home/test/about-view'
+  using dragRpc = registerDroppedUris([folderUri])
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.stat'() {
+      return DirentType.Directory
+    },
+    async 'Workspace.setUri'() {},
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups).toEqual([])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.stat', folderUri],
+    ['Workspace.setUri', folderUri],
+  ])
+})
+
+test('preserves the uri scheme when a dropped remote explorer folder has a trailing slash', async () => {
+  const folderUri = 'remote-ssh://test-host/home/test/about-view/'
+  using dragRpc = registerDroppedUris([folderUri])
+  using mockRpc = RendererWorker.registerMockRpc({
+    async 'Workspace.setUri'() {},
+  })
+  const { context, getState } = createContext({
+    ...createDefaultState(),
+    dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
+  })
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups).toEqual([])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(mockRpc.invocations).toEqual([['Workspace.setUri', folderUri]])
 })
 
 test('opens multiple dropped explorer uris in their source order', async () => {

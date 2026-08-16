@@ -1,8 +1,10 @@
-import { expect, test } from '@jest/globals'
+import { expect, jest, test } from '@jest/globals'
+import { createMockRpc } from '@lvce-editor/rpc'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { focus } from '../src/parts/Focus/Focus.ts'
+import * as RendererProcess from '../src/parts/RendererProcess/RendererProcess.ts'
 
 const createState = (): MainAreaState => ({
   ...createDefaultState(),
@@ -37,7 +39,7 @@ const createState = (): MainAreaState => ({
   },
 })
 
-test('focus focuses the active text editor control', async () => {
+test('focus focuses via the renderer worker without a direct renderer connection', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.focusSelector'() {},
   })
@@ -45,6 +47,15 @@ test('focus focuses the active text editor control', async () => {
 
   await expect(focus(state)).resolves.toBe(state)
   expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
+})
+
+test('focus waits for rendering when a direct renderer is connected', async () => {
+  const focusSelectorAfterRender = jest.fn()
+  RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.focusSelectorAfterRender': focusSelectorAfterRender } }))
+  const state = createState()
+
+  await expect(focus(state)).resolves.toBe(state)
+  expect(focusSelectorAfterRender).toHaveBeenCalledWith(42, '[name="editor"]')
 })
 
 test('focus does nothing when there is no active tab', async () => {

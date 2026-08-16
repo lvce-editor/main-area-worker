@@ -108,6 +108,8 @@ const resize = async (uid: number, dimensions: any): Promise<readonly any[]> => 
   return handleResize(resizedState, dimensions)
 }
 
+const handleDirectMessagePort = (port: MessagePort): Promise<void> => HandleMessagePort.handleMessagePort(port, commandMap)
+
 export const commandMap = {
   'Main.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
   'Main.closeAll': wrapSerialCommand(closeAll),
@@ -171,7 +173,7 @@ export const commandMap = {
   'MainArea.handleDrop': wrapSerialAsyncCommand(handleDrop),
   'MainArea.handleHeaderDoubleClick': wrapSerialCommand(handleHeaderDoubleClick),
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
-  'MainArea.handleMessagePort': HandleMessagePort.handleMessagePort,
+  'MainArea.handleMessagePort': handleDirectMessagePort,
   'MainArea.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
   'MainArea.handleResize': resize,
   'MainArea.handleSashCornerPointerDown': wrapSerialCommand(handleSashCornerPointerDown),

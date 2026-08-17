@@ -1,5 +1,5 @@
-import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
 
 export const getActiveEditorUid = (state: MainAreaState): number => {
   const activeTab = getActiveTab(state)

@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
+import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { getActiveEditorUid } from '../src/parts/GetActiveEditorUid/GetActiveEditorUid.ts'
-import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 
 const createState = (editorUid: number, focused = true): MainAreaState => ({
   ...createDefaultState(),

@@ -13,7 +13,7 @@
   "dependencies": {
     "@lvce-editor/drag-and-drop-worker": "0.2.1",
     "@lvce-editor/server": "0.103.19",
-    "@lvce-editor/static-server": "0.99.13"
+    "@lvce-editor/static-server": "0.103.19"
   },
   "devDependencies": {
     "@types/node": "^26.1.1"

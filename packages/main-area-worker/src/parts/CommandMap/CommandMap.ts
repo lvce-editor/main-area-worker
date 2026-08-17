@@ -15,6 +15,7 @@ import { diff2 } from '../Diff2/Diff2.ts'
 import { focus } from '../Focus/Focus.ts'
 import { focusNextTab } from '../FocusNextTab/FocusNextTab.ts'
 import { focusPreviousTab } from '../FocusPreviousTab/FocusPreviousTab.ts'
+import { getActiveEditorUid } from '../GetActiveEditorUid/GetActiveEditorUid.ts'
 import { getMenuIds } from '../GetMenuIds/GetMenuIds.ts'
 import * as HandleClick from '../HandleClick/HandleClick.ts'
 import { handleClickAction } from '../HandleClickAction/HandleClickAction.ts'
@@ -108,7 +109,10 @@ const resize = async (uid: number, dimensions: any): Promise<readonly any[]> => 
   return handleResize(resizedState, dimensions)
 }
 
-const handleDirectMessagePort = (port: MessagePort): Promise<void> => HandleMessagePort.handleMessagePort(port, commandMap)
+const handleDirectMessagePort = (port: MessagePort, setAsRendererProcess = true): Promise<void> =>
+  HandleMessagePort.handleMessagePort(port, commandMap, setAsRendererProcess)
+
+const handleTestWorkerMessagePort = (port: MessagePort): Promise<void> => HandleMessagePort.handleMessagePort(port, commandMap, false)
 
 export const commandMap = {
   'Main.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
@@ -156,6 +160,7 @@ export const commandMap = {
   'MainArea.focusNextTab': wrapSerialCommand(focusNextTab),
   'MainArea.focusPrevious': wrapSerialCommand(focusPreviousTab),
   'MainArea.focusPreviousTab': wrapSerialCommand(focusPreviousTab),
+  'MainArea.getActiveEditorUid': wrapGetter(getActiveEditorUid),
   'MainArea.getCommandIds': getCommandIds,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
   'MainArea.getMenuIds': getMenuIds,
@@ -184,6 +189,7 @@ export const commandMap = {
   'MainArea.handleSashPointerUp': wrapSerialCommand(handleSashPointerUp),
   'MainArea.handleTabContextMenu': wrapSerialCommand(handleTabContextMenu),
   'MainArea.handleTabMouseUp': wrapSerialCommand(resetPointerDown),
+  'MainArea.handleTestWorkerMessagePort': handleTestWorkerMessagePort,
   'MainArea.handleUriChange': wrapSerialCommand(handleUriChange),
   'MainArea.handleWorkspaceChange': wrapSerialCommand(handleWorkspaceChange),
   'MainArea.handleWorkspaceRefresh': wrapAsyncCommand(handleWorkspaceRefreshWithContext),

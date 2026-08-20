@@ -155,6 +155,23 @@ const openUris = async uris => {
   await writeFile(testWorkerMainPath, newTestWorkerContent)
 }
 
+let compatibleTestWorkerContent = await readFile(testWorkerMainPath, 'utf-8')
+const workspaceReset = /    await invoke[^\n(]*\('FileSystem\.mkdir', 'memfs:\/\/\/workspace'\);\n    await invoke[^\n(]*\('Layout\.reset'\);/
+if (!workspaceReset.test(compatibleTestWorkerContent)) {
+  const occurrence = /    await (invoke[^\n(]*)\('Layout\.reset'\);/
+  if (!occurrence.test(compatibleTestWorkerContent)) {
+    throw new Error('test worker workspace reset occurrence not found')
+  }
+  const replacement = `    await $1('FileSystem.remove', 'memfs:///workspace');
+    await $1('FileSystem.mkdir', 'memfs:///workspace');
+    await $1('Layout.reset');`
+  compatibleTestWorkerContent = compatibleTestWorkerContent.replace(occurrence, replacement)
+}
+
+if (compatibleTestWorkerContent !== testWorkerContent) {
+  await writeFile(testWorkerMainPath, compatibleTestWorkerContent)
+}
+
 const serverContent = await readFile(serverPath, 'utf-8')
 let newServerContent = serverContent
 if (!newServerContent.includes('const { socket } = res') && !newServerContent.includes('if (res.socket && !hasErrorListener.has(res.socket))')) {

@@ -12,8 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "@lvce-editor/drag-and-drop-worker": "0.6.0",
-    "@lvce-editor/server": "0.105.5",
-    "@lvce-editor/static-server": "0.105.5"
+    "@lvce-editor/server": "0.105.8",
+    "@lvce-editor/static-server": "0.105.8"
   },
   "devDependencies": {
     "@types/node": "^26.1.1"

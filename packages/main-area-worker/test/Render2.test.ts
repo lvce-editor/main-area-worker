@@ -1,5 +1,6 @@
 import { expect, jest, test } from '@jest/globals'
 import { createMockRpc } from '@lvce-editor/rpc'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import * as ApplyRender from '../src/parts/ApplyRender/ApplyRender.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
@@ -30,4 +31,34 @@ test('render2 queues renderer commands and returns a lightweight commit marker',
 
   expect(queueCommands).toHaveBeenCalledWith(uid, expectedCommands)
   expect(result).toEqual([['Viewlet.commitPending', uid, 17]])
+})
+
+test('render2 keeps renderer worker commands out of the renderer process transaction', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.dispose': async () => undefined,
+  })
+  const queueCommands = jest.fn((_uid: number, _commands: readonly unknown[]) => 18)
+  RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.queueCommands': queueCommands } }))
+  const uid = 3
+  const oldState = createDefaultState()
+  const newState = {
+    ...oldState,
+    pendingViewletUpdate: {
+      disposal: 123,
+      focus: 122,
+    },
+    uid,
+  }
+  MainAreaStates.set(uid, oldState, newState)
+
+  const result = await Render2.render2(uid, [DiffType.RenderPendingViewletUpdate])
+
+  expect(queueCommands).toHaveBeenCalledWith(uid, [])
+  expect(result).toEqual([
+    ['Viewlet.commitPending', uid, 18],
+    ['Viewlet.setFocusContext', 122, 12, 0, 122, 'Editor'],
+  ])
+
+  await new Promise((resolve) => setTimeout(resolve, 60))
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 123]])
 })

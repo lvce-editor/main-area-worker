@@ -100,6 +100,19 @@ test('clears the drag overlay when no uri is dropped', async () => {
   expect(state.dragOverlay).toBeUndefined()
 })
 
+test('resolves an opt-in drop session by id', async () => {
+  using dragRpc = DragAndDropWorker.registerMockRpc({
+    'DragAndDrop.getDroppedUrisByDropId'() {
+      return []
+    },
+  })
+  const { context } = createContext(createDefaultState())
+
+  await handleDrop(context, 17)
+
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 17, false]])
+})
+
 test('opens a dropped explorer uri', async () => {
   using _dragRpc = registerDroppedUris(['file:///workspace/file.txt'])
   using _mockRpc = RendererWorker.registerMockRpc({})

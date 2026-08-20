@@ -25,7 +25,7 @@ export const test: Test = async ({ Command, Editor, expect, Extension, FileSyste
 
   const reopenAsImagePromise = Command.execute('Main.reopenEditorWith')
   await new Promise((resolve) => setTimeout(resolve, 500))
-  const mediaPreviewChoice = Locator('.QuickPickItem', { hasText: 'Media Preview' })
+  const mediaPreviewChoice = Locator('.QuickPickItem', { hasText: 'Media Preview' }).first()
   await expect(mediaPreviewChoice).toBeVisible()
   await mediaPreviewChoice.dispatchEvent('pointerdown', { bubbles: true, clientX: 200, clientY: 100, pointerId: 1 } as any)
   await reopenAsImagePromise

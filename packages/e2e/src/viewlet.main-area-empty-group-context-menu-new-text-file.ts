@@ -7,7 +7,7 @@ export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Loc
   await Workspace.setPath(tmpDir)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
-  await new Promise((resolve) => setTimeout(resolve, 50))
+  await new Promise((resolve) => setTimeout(resolve, 100))
 
   const newTextFileMenuItem = Locator('text=New Text File')
   await expect(newTextFileMenuItem).toBeVisible()

@@ -5,6 +5,7 @@ import * as ContextMenu from '../ContextMenu/ContextMenu.ts'
 import * as RendererProcess from '../RendererProcess/RendererProcess.ts'
 
 const NoGroupId = -1
+const RendererWorkerForwardDelay = 50
 
 export const handleContextMenu = async (state: MainAreaState, rawGroupId: string | undefined, x: number, y: number): Promise<MainAreaState> => {
   const { uid } = state
@@ -23,7 +24,7 @@ export const handleContextMenu = async (state: MainAreaState, rawGroupId: string
         groupId,
         menuId: MenuEntryId.Main,
       })
-    }, 0)
+    }, RendererWorkerForwardDelay)
     return state
   }
   await ContextMenu.show2(uid, MenuEntryId.Main, x, y, {

@@ -1,16 +1,11 @@
 import { PlainMessagePortRpc } from '@lvce-editor/rpc'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import * as RendererProcess from '../RendererProcess/RendererProcess.ts'
 
 const RendererWorkerCallbackDelay = 50
 
 const commandsWithDeferredRender = new Set(['handleContextMenu', 'handleTabContextMenu'])
 
-export const handleMessagePort = async (
-  port: MessagePort,
-  viewletCommandMap: Readonly<Record<string, unknown>>,
-  setAsRendererProcess = true,
-): Promise<void> => {
+export const handleMessagePort = async (port: MessagePort, viewletCommandMap: Readonly<Record<string, unknown>>): Promise<void> => {
   const executeViewletCommand = async (uid: number, command: string, ...args: readonly any[]): Promise<void> => {
     const fn = viewletCommandMap[`MainArea.${command}`]
     if (typeof fn !== 'function') {
@@ -26,13 +21,10 @@ export const handleMessagePort = async (
     await RendererWorker.invoke('Viewlet.requestRender', uid)
   }
 
-  const rpc = await PlainMessagePortRpc.create({
+  await PlainMessagePortRpc.create({
     commandMap: {
       'Viewlet.executeViewletCommand': executeViewletCommand,
     },
     messagePort: port,
   })
-  if (setAsRendererProcess) {
-    RendererProcess.set(rpc)
-  }
 }

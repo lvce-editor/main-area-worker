@@ -7,9 +7,9 @@ import { initializeIconThemeWorker } from '../InitializeIconThemeWorker/Initiali
 import { initializeRendererWorker } from '../InitializeRendererWorker/InitializeRendererWorker.ts'
 import { registerCommands } from '../MainAreaStates/MainAreaStates.ts'
 
-export const listen = async (): Promise<void> => {
+export const listen = async (port: MessagePort): Promise<void> => {
   registerCommands(CommandMap.commandMap)
-  await Promise.all([initializeRendererWorker(), initializeIconThemeWorker(), initializeClipBoardWorker(), initializeDragAndDropWorker()])
+  await Promise.all([initializeRendererWorker(port), initializeIconThemeWorker(), initializeClipBoardWorker(), initializeDragAndDropWorker()])
   const dialogRpc = await LazyTransferMessagePortRpcParent.create({
     commandMap: {},
     send: RendererWorker.sendMessagePortToDialogWorker,

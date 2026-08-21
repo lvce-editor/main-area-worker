@@ -2,6 +2,10 @@ import { PlainMessagePortRpc } from '@lvce-editor/rpc'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import * as RendererProcess from '../RendererProcess/RendererProcess.ts'
 
+const RendererWorkerCallbackDelay = 50
+
+const commandsWithDeferredRender = new Set(['handleContextMenu', 'handleTabContextMenu'])
+
 export const handleMessagePort = async (
   port: MessagePort,
   viewletCommandMap: Readonly<Record<string, unknown>>,
@@ -13,6 +17,12 @@ export const handleMessagePort = async (
       throw new TypeError(`Viewlet command not found: ${command}`)
     }
     await fn(uid, ...args)
+    if (commandsWithDeferredRender.has(command)) {
+      setTimeout(() => {
+        void RendererWorker.invoke('Viewlet.requestRender', uid)
+      }, RendererWorkerCallbackDelay)
+      return
+    }
     await RendererWorker.invoke('Viewlet.requestRender', uid)
   }
 

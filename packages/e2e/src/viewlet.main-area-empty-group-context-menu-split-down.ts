@@ -11,6 +11,7 @@ export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Loc
   await expect(groups).toHaveCount(0)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
+  await new Promise((resolve) => setTimeout(resolve, 500))
   const menuItem = Locator('.MenuItem', { hasText: 'Split Down' })
   await expect(menuItem).toBeVisible()
   await ContextMenu.selectItem('Split Down')

@@ -84,7 +84,7 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
     },
     {
       name: DomEventListenersFunctions.HandleDrop,
-      params: ['handleDrop', EventExpression.DataTransferFiles2],
+      params: ['handleDrop', EventExpression.DropId],
       preventDefault: true,
     },
     {

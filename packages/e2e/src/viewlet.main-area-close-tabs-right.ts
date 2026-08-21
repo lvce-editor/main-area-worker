@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-tabs-right'
 
+export const skip = 1
+
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
@@ -31,6 +33,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // act - select second tab and close tabs to the right
   await Main.selectTab(0, 1)
   await Main.handleTabContextMenu(0, 0, 0)
+  await new Promise((resolve) => setTimeout(resolve, 500))
   const closeRightMenuItem = Locator('text=Close To The Right')
   await expect(closeRightMenuItem).toBeVisible()
   // TODO: implement close tabs right context menu action

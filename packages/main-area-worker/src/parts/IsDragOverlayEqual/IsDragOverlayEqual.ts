@@ -6,6 +6,7 @@ export const isDragOverlayEqual = (oldOverlay: MainAreaState['dragOverlay'], new
     oldOverlay?.y === newOverlay?.y &&
     oldOverlay?.width === newOverlay?.width &&
     oldOverlay?.height === newOverlay?.height &&
-    oldOverlay?.splitDirection === newOverlay?.splitDirection
+    oldOverlay?.splitDirection === newOverlay?.splitDirection &&
+    oldOverlay?.targetGroupId === newOverlay?.targetGroupId
   )
 }

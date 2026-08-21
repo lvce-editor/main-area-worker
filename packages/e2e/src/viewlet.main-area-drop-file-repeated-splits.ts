@@ -30,7 +30,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const secondGroup = groups.nth(1)
   const thirdGroup = groups.nth(2)
   await expect(groups).toHaveCount(3)
-  await expect(firstGroup.locator('.MainTab[title$="drop-repeated-original.txt"]')).toBeVisible()
-  await expect(secondGroup.locator('.MainTab[title$="drop-repeated-second.txt"]')).toBeVisible()
+  await expect(firstGroup.locator('.MainTab[title$="drop-repeated-second.txt"]')).toBeVisible()
+  await expect(secondGroup.locator('.MainTab[title$="drop-repeated-original.txt"]')).toBeVisible()
   await expect(thirdGroup.locator('.MainTab[title$="drop-repeated-first.txt"]')).toBeVisible()
 }

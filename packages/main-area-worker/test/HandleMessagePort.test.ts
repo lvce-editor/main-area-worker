@@ -12,8 +12,13 @@ test('connects the view directly to the renderer process', async () => {
     messagePort: port1,
   })
   const handleEvent = jest.fn(async (_uid: number, _value: string) => {})
+  const { promise: contextMenuHandled, resolve: resolveContextMenuHandled } = Promise.withResolvers<void>()
+  const handleContextMenu = jest.fn(async (_uid: number, _groupId: string, _x: number, _y: number) => {
+    resolveContextMenuHandled()
+  })
 
   await handleMessagePort(port2, {
+    'MainArea.handleContextMenu': handleContextMenu,
     'MainArea.handleEvent': handleEvent,
   })
   expect(RendererProcess.isConnected()).toBe(true)
@@ -34,6 +39,12 @@ test('connects the view directly to the renderer process', async () => {
   await rendererProcessRpc.invoke('Viewlet.executeViewletCommand', 7, 'handleEvent', 'hello')
   expect(handleEvent).toHaveBeenCalledWith(7, 'hello')
   expect(requestRender).toHaveBeenCalledWith(7)
+
+  await rendererProcessRpc.invoke('Viewlet.executeViewletCommand', 7, 'handleContextMenu', '', 10, 20)
+  await contextMenuHandled
+  await new Promise<void>((resolve) => setTimeout(resolve, 0))
+  expect(handleContextMenu).toHaveBeenCalledWith(7, '', 10, 20)
+  expect(requestRender).toHaveBeenCalledTimes(2)
   await expect(rendererProcessRpc.invoke('Viewlet.executeViewletCommand', 7, 'missing')).rejects.toThrow('Viewlet command not found: missing')
 
   await RendererProcessRegistry.dispose()

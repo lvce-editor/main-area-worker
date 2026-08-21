@@ -10,17 +10,12 @@ afterEach(() => {
   MainAreaStates.set(0, defaultState, defaultState)
 })
 
-test('closeTabAndSave should save a dirty tab before closing it', async () => {
+test('closeTabAndSave should save a dirty tab before closing it using the renderer confirmation', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'ConfirmPrompt.prompt': async () => true,
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
     'Viewlet.dispose': async () => undefined,
-  })
-  using mockDialogRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => {
-      throw new Error('Command "SendMessagePortToExtensionHostWorker.sendMessagePortToDialogWorker" not found (renderer worker)')
-    },
   })
 
   const state: MainAreaState = {
@@ -58,13 +53,6 @@ test('closeTabAndSave should save a dirty tab before closing it', async () => {
 
   const result = await closeTabAndSave(state, 1, 1)
 
-  expect(mockDialogRpc.invocations).toEqual([
-    [
-      'ConfirmPrompt.prompt',
-      'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
-    ],
-  ])
   expect(mockRpc.invocations).toEqual([
     [
       'ConfirmPrompt.prompt',
@@ -128,6 +116,11 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
     ],
   ])
   expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])
@@ -185,7 +178,14 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
       { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
     ],
   ])
-  expect(mockRpc.invocations).toEqual([['Editor.save', 123]])
+  expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to Untitled?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
+    ['Editor.save', 123],
+  ])
   expect(result).toBe(state)
 })
 
@@ -239,11 +239,19 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
       { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
     ],
   ])
-  expect(mockRpc.invocations).toEqual([['Editor.save', 123]])
+  expect(mockRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
+    ['Editor.save', 123],
+  ])
   expect(result).toBe(state)
 })
 
 test('closeTabAndSave should keep a dirty tab open when closing is canceled', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({})
   using mockRpc = DialogWorker.registerMockRpc({
     'ConfirmPrompt.prompt': async () => false,
   })
@@ -280,6 +288,18 @@ test('closeTabAndSave should keep a dirty tab open when closing is canceled', as
 
   const result = await closeTabAndSave(state, 1, 1)
 
+  expect(rendererRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to test.ts?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
+    [
+      'ConfirmPrompt.prompt',
+      'Discard the changes you made to test.ts?',
+      { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
+    ],
+  ])
   expect(mockRpc.invocations).toEqual([
     [
       'ConfirmPrompt.prompt',
@@ -404,6 +424,7 @@ test('closeTabAndSave should return unchanged state when the tab does not exist'
 })
 
 test('closeTabAndSave should propagate unexpected dialog errors', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({})
   using mockRpc = DialogWorker.registerMockRpc({
     'ConfirmPrompt.prompt': async () => {
       throw new Error('dialog unavailable')
@@ -439,6 +460,7 @@ test('closeTabAndSave should propagate unexpected dialog errors', async () => {
   }
 
   await expect(closeTabAndSave(state, 1, 1)).rejects.toThrow('dialog unavailable')
+  expect(rendererRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations).toHaveLength(1)
 })
 
@@ -481,7 +503,14 @@ test('closeTabAndSave should save and close a dirty tab without a uri', async ()
   const result = await closeTabAndSave(state, 1, 1)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(rendererRpc.invocations).toEqual([['Editor.save', 1]])
+  expect(rendererRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt',
+      'Do you want to save the changes you made to Untitled?',
+      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+    ],
+    ['Editor.save', 1],
+  ])
   expect(dialogRpc.invocations).toHaveLength(1)
 })
 

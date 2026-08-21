@@ -23,6 +23,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
 
   // act
   await Main.handleTabContextMenu(0, 0, 0)
+  await new Promise((resolve) => setTimeout(resolve, 500))
   const closeMenuItem = Locator('text=Close').first()
   await expect(closeMenuItem).toBeVisible()
   await Command.execute('Main.closeFocusedTab')

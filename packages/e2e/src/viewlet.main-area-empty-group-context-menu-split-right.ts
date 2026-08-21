@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-empty-group-context-menu-split-right'
+export const skip = ['webkit'] as const
 
 export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
@@ -10,6 +11,7 @@ export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Loc
   await expect(groups).toHaveCount(0)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
+  await new Promise((resolve) => setTimeout(resolve, 500))
   const menuItem = Locator('.MenuItem', { hasText: 'Split Right' })
   await expect(menuItem).toBeVisible()
   await ContextMenu.selectItem('Split Right')

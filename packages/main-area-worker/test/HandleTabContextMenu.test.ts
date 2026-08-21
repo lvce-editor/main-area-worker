@@ -1,9 +1,11 @@
-import { expect, test } from '@jest/globals'
+import { expect, jest, test } from '@jest/globals'
 import { MenuEntryId } from '@lvce-editor/constants'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { createMockRpc } from '@lvce-editor/rpc'
+import { RendererProcess as RendererProcessRegistry, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleTabContextMenu } from '../src/parts/HandleTabContextMenu/HandleTabContextMenu.ts'
+import * as RendererProcess from '../src/parts/RendererProcess/RendererProcess.ts'
 
 test('handleTabContextMenu should show context menu with correct parameters', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
@@ -165,4 +167,25 @@ test('handleTabContextMenu should include the context menu tab target', async ()
   await handleTabContextMenu(state, 2, 100, 200, '0', '0')
 
   expect(mockRpc.invocations[0]).toEqual(['ContextMenu.show2', 123, MenuEntryId.Tab, 100, 200, { groupId: 7, menuId: MenuEntryId.Tab, tabId: 11 }])
+})
+
+test('handleTabContextMenu should defer the renderer worker command for a direct connection', async () => {
+  const { promise: shown, resolve } = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'ContextMenu.show2': async () => {
+      resolve()
+    },
+  })
+  RendererProcess.set(Object.assign(createMockRpc({ commandMap: {} }), { dispose: jest.fn() }))
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    uid: 321,
+  }
+
+  const result = await handleTabContextMenu(state, 2, 50, 60)
+
+  expect(result).toBe(state)
+  await shown
+  expect(mockRpc.invocations).toEqual([['ContextMenu.show2', 321, MenuEntryId.Tab, 50, 60, { menuId: MenuEntryId.Tab }]])
+  await RendererProcessRegistry.dispose()
 })

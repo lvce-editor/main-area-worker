@@ -7,12 +7,18 @@ import { handleDragLeave } from '../HandleDragLeave/HandleDragLeave.ts'
 import { applyDropAction } from './ApplyDropAction/ApplyDropAction.ts'
 import { getDropAction } from './GetDropAction/GetDropAction.ts'
 
-export const handleDrop = async (context: AsyncCommandContext<MainAreaState>, itemIds: readonly number[]): Promise<void> => {
+export const handleDrop = async (context: AsyncCommandContext<MainAreaState>, dropIdOrItemIds: number | readonly number[]): Promise<void> => {
   const splitDirection = context.getState().dragOverlay?.splitDirection ?? EditorSplitDirection.None
   await context.updateState(handleDragLeave)
   const { platform } = context.getState()
   const isElectron = platform === PlatformType.Electron
-  const { uris } = await DragAndDropWorker.getDroppedItems(itemIds, isElectron)
+  let uris: readonly string[]
+  if (typeof dropIdOrItemIds === 'number') {
+    uris = await DragAndDropWorker.getDroppedUrisByDropId(dropIdOrItemIds, isElectron)
+  } else {
+    const { uris: droppedUris } = await DragAndDropWorker.getDroppedItems(dropIdOrItemIds, isElectron)
+    uris = droppedUris
+  }
   const actions = await getDropAction(uris)
   await applyDropAction(context, actions, splitDirection)
 }

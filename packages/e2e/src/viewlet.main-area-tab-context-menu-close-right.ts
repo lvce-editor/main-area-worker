@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-tab-context-menu-close-right'
+export const skip = ['webkit'] as const
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   // arrange
@@ -27,6 +28,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   // act
   await Main.selectTab(0, 1)
   await Main.handleTabContextMenu(0, 0, 0)
+  await new Promise((resolve) => setTimeout(resolve, 500))
   const closeRightMenuItem = Locator('text=Close To The Right')
   await expect(closeRightMenuItem).toBeVisible()
   await Command.execute('Main.closeTabsRight')

@@ -32,9 +32,11 @@ test('renderTab should return correct structure for clean tab', () => {
       onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onDragEnd: DomEventListenerFunctions.HandleDragEnd,
       onDragStart: DomEventListenerFunctions.HandleDragStart,
+      onKeyDown: DomEventListenerFunctions.HandleTabKeyDown,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,
       onMouseUp: DomEventListenerFunctions.HandleTabMouseUp,
       role: 'tab',
+      tabIndex: -1,
       title: '/path/to/Test File',
       type: VirtualDomElements.Div,
     },
@@ -153,9 +155,11 @@ test('renderTab should show dirty indicator for dirty tab', () => {
       onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onDragEnd: DomEventListenerFunctions.HandleDragEnd,
       onDragStart: DomEventListenerFunctions.HandleDragStart,
+      onKeyDown: DomEventListenerFunctions.HandleTabKeyDown,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,
       onMouseUp: DomEventListenerFunctions.HandleTabMouseUp,
       role: 'tab',
+      tabIndex: -1,
       title: '/path/to/Test File',
       type: VirtualDomElements.Div,
     },
@@ -206,6 +210,22 @@ test('renderTab should handle empty title', () => {
   const result = renderTab(tab, false, 0, 0)
 
   expect(result[3].text).toBe('')
+})
+
+test('renderTab should put the active tab in the keyboard tab sequence', () => {
+  const tab: Tab = {
+    editorType: 'text',
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'Test File',
+  }
+
+  const result = renderTab(tab, true, 0, 0)
+
+  expect(result[0].tabIndex).toBe(0)
 })
 
 test('renderTab should handle dirty tab with empty title', () => {

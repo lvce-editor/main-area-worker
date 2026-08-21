@@ -17,7 +17,6 @@ export const test: Test = async ({ ClipBoard, expect, FileSystem, Locator, Main 
 
   // act - open tab context menu
   await Main.handleTabContextMenu(0, 0, 0)
-  await new Promise((resolve) => setTimeout(resolve, 500))
 
   // assert - verify Copy Path menu item is visible
   const copyPathMenuItem = Locator('text=Copy Path')

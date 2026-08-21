@@ -12,7 +12,12 @@ test('connects the view directly to the renderer process', async () => {
     messagePort: port1,
   })
   const handleEvent = jest.fn(async (_uid: number, _value: string) => {})
-  const handleContextMenu = jest.fn(async (_uid: number) => {})
+  const { promise: contextMenuStarted, resolve: resolveContextMenuStarted } = Promise.withResolvers<void>()
+  const { promise: finishContextMenu, resolve: resolveFinishContextMenu } = Promise.withResolvers<void>()
+  const handleContextMenu = jest.fn(async (_uid: number) => {
+    resolveContextMenuStarted()
+    await finishContextMenu
+  })
 
   await handleMessagePort(port2, {
     'MainArea.handleContextMenu': handleContextMenu,
@@ -37,15 +42,24 @@ test('connects the view directly to the renderer process', async () => {
   expect(handleEvent).toHaveBeenCalledWith(7, 'hello')
   expect(requestRender).toHaveBeenCalledWith(7)
 
-  const { promise: rendered, resolve } = Promise.withResolvers<void>()
+  const { promise: renderStarted, resolve: resolveRenderStarted } = Promise.withResolvers<void>()
+  const { promise: finishRender, resolve: resolveFinishRender } = Promise.withResolvers<void>()
   requestRender.mockImplementationOnce(async () => {
-    resolve()
+    resolveRenderStarted()
+    await finishRender
   })
-  await rendererProcessRpc.invoke('Viewlet.executeViewletCommand', 7, 'handleContextMenu')
+  const handling = rendererProcessRpc.invoke('Viewlet.executeViewletCommand', 7, 'handleContextMenu')
+  const pending = Symbol('pending')
+  await contextMenuStarted
+  await expect(Promise.race([handling, Promise.resolve(pending)])).resolves.toBe(pending)
   expect(handleContextMenu).toHaveBeenCalledWith(7)
   expect(requestRender).toHaveBeenCalledTimes(1)
-  await rendered
+  resolveFinishContextMenu()
+  await renderStarted
+  await expect(Promise.race([handling, Promise.resolve(pending)])).resolves.toBe(pending)
   expect(requestRender).toHaveBeenCalledTimes(2)
+  resolveFinishRender()
+  await handling
 
   await expect(rendererProcessRpc.invoke('Viewlet.executeViewletCommand', 7, 'missing')).rejects.toThrow('Viewlet command not found: missing')
 

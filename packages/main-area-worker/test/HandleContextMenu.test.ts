@@ -65,11 +65,13 @@ test('handleContextMenu should ignore a non-numeric group id', async () => {
   expect(mockRpc.invocations).toEqual([])
 })
 
-test('handleContextMenu should defer the renderer worker command for a direct connection', async () => {
-  const { promise: shown, resolve } = Promise.withResolvers<void>()
+test('handleContextMenu should wait for the renderer worker command for a direct connection', async () => {
+  const { promise: showStarted, resolve: resolveShowStarted } = Promise.withResolvers<void>()
+  const { promise: finishShow, resolve: resolveFinishShow } = Promise.withResolvers<void>()
   using mockRpc = RendererWorker.registerMockRpc({
     'ContextMenu.show2': async () => {
-      resolve()
+      resolveShowStarted()
+      await finishShow
     },
   })
   RendererProcess.set(Object.assign(createMockRpc({ commandMap: {} }), { dispose: jest.fn() }))
@@ -78,10 +80,13 @@ test('handleContextMenu should defer the renderer worker command for a direct co
     uid: 321,
   }
 
-  const result = await handleContextMenu(state, '', 50, 60)
+  const handling = handleContextMenu(state, '', 50, 60)
 
-  expect(result).toBe(state)
-  await shown
+  await showStarted
+  const pending = Symbol('pending')
+  await expect(Promise.race([handling, Promise.resolve(pending)])).resolves.toBe(pending)
   expect(mockRpc.invocations).toEqual([['ContextMenu.show2', 321, MenuEntryId.Main, 50, 60, { groupId: -1, menuId: MenuEntryId.Main }]])
+  resolveFinishShow()
+  await expect(handling).resolves.toBe(state)
   await RendererProcessRegistry.dispose()
 })

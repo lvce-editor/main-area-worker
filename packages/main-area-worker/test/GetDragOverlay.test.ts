@@ -83,6 +83,7 @@ test('getDragOverlay should exclude the tab bar when an editor is open', () => {
   expect(getDragOverlay(stateWithEditor, 500, 350)).toEqual({
     height: 565,
     splitDirection: EditorSplitDirection.None,
+    targetGroupId: 1,
     width: 800,
     x: 0,
     y: 35,

@@ -42,6 +42,7 @@ export interface ClosedTabEntry {
 export interface DragOverlay {
   readonly height: number
   readonly splitDirection?: number
+  readonly targetGroupId?: number
   readonly width: number
   readonly x: number
   readonly y: number

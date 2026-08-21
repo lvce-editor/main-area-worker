@@ -74,6 +74,68 @@ const createStateWithOpenFile = (uri: string = 'file:///workspace/original.txt')
   }
 }
 
+const createStateWithTwoOpenFiles = (): MainAreaState => {
+  return {
+    ...createDefaultState(),
+    height: 600,
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'file:///workspace/left.txt',
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'left.txt',
+              uri: 'file:///workspace/left.txt',
+            },
+          ],
+        },
+        {
+          activeTabId: 4,
+          direction: 1,
+          focused: false,
+          id: 3,
+          isEmpty: false,
+          size: 50,
+          tabs: [
+            {
+              editorInput: {
+                type: 'editor',
+                uri: 'file:///workspace/right.txt',
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 4,
+              isDirty: false,
+              isPreview: false,
+              title: 'right.txt',
+              uri: 'file:///workspace/right.txt',
+            },
+          ],
+        },
+      ],
+    },
+    width: 800,
+  }
+}
+
 test('clears the drag overlay when no uri is dropped', async () => {
   using _dragRpc = registerDroppedUris([])
   let state: MainAreaState = {
@@ -207,6 +269,35 @@ test('opens a center-dropped explorer uri in the existing group', async () => {
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([
     ['file:///workspace/original.txt', 'file:///workspace/dropped.txt'],
   ])
+})
+
+test('opens a center-dropped explorer uri in the editor group under the pointer', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/dropped.txt'])
+  using _mockRpc = RendererWorker.registerMockRpc({})
+  const { context, getState } = createContext(handleDragOver(createStateWithTwoOpenFiles(), 600, 300))
+
+  await handleDrop(context, [1])
+
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([
+    ['file:///workspace/left.txt'],
+    ['file:///workspace/right.txt', 'file:///workspace/dropped.txt'],
+  ])
+  expect(getState().layout.activeGroupId).toBe(3)
+})
+
+test('splits the editor group under the pointer when dropping on its right edge', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/dropped.txt'])
+  using _mockRpc = RendererWorker.registerMockRpc({})
+  const { context, getState } = createContext(handleDragOver(createStateWithTwoOpenFiles(), 790, 300))
+
+  await handleDrop(context, [1])
+
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([
+    ['file:///workspace/left.txt'],
+    ['file:///workspace/right.txt'],
+    ['file:///workspace/dropped.txt'],
+  ])
+  expect(getState().layout.activeGroupId).toBe(getState().layout.groups[2].id)
 })
 
 test('opens a dropped explorer uri without splitting for an unknown overlay direction', async () => {

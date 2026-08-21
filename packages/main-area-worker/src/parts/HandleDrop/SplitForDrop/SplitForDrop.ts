@@ -5,16 +5,16 @@ import { splitLeft } from '../../SplitLeft/SplitLeft.ts'
 import { splitRight } from '../../SplitRight/SplitRight.ts'
 import { splitUp } from '../../SplitUp/SplitUp.ts'
 
-export const splitForDrop = (state: MainAreaState, splitDirection: number): MainAreaState => {
+export const splitForDrop = (state: MainAreaState, splitDirection: number, targetGroupId?: number): MainAreaState => {
   switch (splitDirection) {
     case EditorSplitDirection.Down:
-      return splitDown(state)
+      return splitDown(state, targetGroupId)
     case EditorSplitDirection.Left:
-      return splitLeft(state)
+      return splitLeft(state, targetGroupId)
     case EditorSplitDirection.Right:
-      return splitRight(state)
+      return splitRight(state, targetGroupId)
     case EditorSplitDirection.Up:
-      return splitUp(state)
+      return splitUp(state, targetGroupId)
     default:
       return state
   }

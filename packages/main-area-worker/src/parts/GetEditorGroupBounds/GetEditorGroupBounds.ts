@@ -1,7 +1,7 @@
 import type { EditorGroup } from '../EditorGroup/EditorGroup.ts'
+import type { MainAreaLayout } from '../MainAreaLayout/MainAreaLayout.ts'
 import { getGroupSegments, getSegmentSize } from '../GetGroupSegments/GetGroupSegments.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
-import type { MainAreaLayout } from '../MainAreaLayout/MainAreaLayout.ts'
 
 export interface Bounds {
   readonly height: number
@@ -62,11 +62,7 @@ export const getEditorGroupBounds = (layout: MainAreaLayout, width: number, heig
   return getEditorGroupBoundsFromRoot(layout, { height, width, x: 0, y: 0 })
 }
 
-export const getEditorGroupContentBounds = (
-  layout: MainAreaLayout,
-  bounds: Bounds,
-  tabHeight: number,
-): readonly EditorGroupContentBounds[] => {
+export const getEditorGroupContentBounds = (layout: MainAreaLayout, bounds: Bounds, tabHeight: number): readonly EditorGroupContentBounds[] => {
   return getEditorGroupBoundsFromRoot(layout, bounds).map(({ group, ...groupBounds }) => ({
     ...groupBounds,
     groupId: group.id,

@@ -1,6 +1,6 @@
+import type { GroupSegment } from '../GetGroupSegments/GetGroupSegments.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { clamp } from '../Clamp/Clamp.ts'
-import type { GroupSegment } from '../GetGroupSegments/GetGroupSegments.ts'
 import { getGroupSegment, getGroupSegments, getSegmentSize } from '../GetGroupSegments/GetGroupSegments.ts'
 import { getMinGroupSizePercent } from '../GetMinGroupSizePercent/GetMinGroupSizePercent.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'

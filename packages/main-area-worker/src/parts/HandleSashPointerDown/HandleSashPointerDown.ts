@@ -8,7 +8,7 @@ export const handleSashPointerDown = async (state: MainAreaState, sashId: string
     return state
   }
   const { layout } = state
-  const { groups } = layout
+  const { direction, groups } = layout
   const beforeGroup = groups.find((group) => group.id === parsed.beforeGroupId)
   const afterGroup = groups.find((group) => group.id === parsed.afterGroupId)
   if (!beforeGroup || !afterGroup) {
@@ -17,7 +17,7 @@ export const handleSashPointerDown = async (state: MainAreaState, sashId: string
   if (!Number.isFinite(clientX) || !Number.isFinite(clientY)) {
     return state
   }
-  const segments = getGroupSegments(groups, layout.direction)
+  const segments = getGroupSegments(groups, direction)
   const beforeSegment = getGroupSegment(segments, parsed.beforeGroupId)
   const afterSegment = getGroupSegment(segments, parsed.afterGroupId)
   if (!beforeSegment || !afterSegment) {

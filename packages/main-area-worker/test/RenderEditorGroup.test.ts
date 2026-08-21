@@ -45,6 +45,8 @@ test('renderEditorGroup should return correct structure for group with active ta
     {
       childCount: 1,
       className: 'MainTabs',
+      'data-groupIndex': 0,
+      onWheel: DomEventListenerFunctions.HandleTabsWheel,
       role: 'tablist',
       type: VirtualDomElements.Div,
     },

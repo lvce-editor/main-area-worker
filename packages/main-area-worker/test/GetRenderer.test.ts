@@ -3,6 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 import * as GetRenderer from '../src/parts/GetRenderer/GetRenderer.ts'
+import { renderActiveTabVisibility } from '../src/parts/RenderActiveTabVisibility/RenderActiveTabVisibility.ts'
 import { renderCss } from '../src/parts/RenderCss/RenderCss.ts'
 import { renderIncremental } from '../src/parts/RenderIncremental/RenderIncremental.ts'
 import * as RenderItems from '../src/parts/RenderItems/RenderItems.ts'
@@ -70,6 +71,10 @@ test('getRenderer should return the css renderer', () => {
 
 test('getRenderer should return the incremental renderer', () => {
   expect(GetRenderer.getRenderer(DiffType.RenderIncremental)).toBe(renderIncremental)
+})
+
+test('getRenderer should return the active tab visibility renderer', () => {
+  expect(GetRenderer.getRenderer(DiffType.RenderActiveTabVisibility)).toBe(renderActiveTabVisibility)
 })
 
 test('getRenderer should return the pending viewlet update renderer', () => {

@@ -60,6 +60,8 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     {
       childCount: 1,
       className: 'MainTabs',
+      'data-groupIndex': 0,
+      onWheel: DomEventListenerFunctions.HandleTabsWheel,
       role: 'tablist',
       type: VirtualDomElements.Div,
     },

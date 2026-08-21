@@ -1,5 +1,6 @@
 import type { Renderer } from '../Renderer/Renderer.ts'
 import * as DiffType from '../DiffType/DiffType.ts'
+import { renderActiveTabVisibility } from '../RenderActiveTabVisibility/RenderActiveTabVisibility.ts'
 import { renderCss } from '../RenderCss/RenderCss.ts'
 import { renderDragData } from '../RenderDragData/RenderDragData.ts'
 import { renderIncremental } from '../RenderIncremental/RenderIncremental.ts'
@@ -8,6 +9,8 @@ import { renderPendingViewletUpdate } from '../RenderPendingViewletUpdate/Render
 
 export const getRenderer = (diffType: number): Renderer => {
   switch (diffType) {
+    case DiffType.RenderActiveTabVisibility:
+      return renderActiveTabVisibility
     case DiffType.RenderCss:
       return renderCss
     case DiffType.RenderDragData:

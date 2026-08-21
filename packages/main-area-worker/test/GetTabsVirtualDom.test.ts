@@ -1,6 +1,7 @@
 import { expect, test } from '@jest/globals'
 import { VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
+import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getTabsVirtualDom } from '../src/parts/GetTabsVirtualDom/GetTabsVirtualDom.ts'
 
 test('getTabsVirtualDom should return correct structure with empty tabs', () => {
@@ -20,6 +21,8 @@ test('getTabsVirtualDom should return correct structure with empty tabs', () => 
   expect(result[0]).toEqual({
     childCount: 0,
     className: 'MainTabs',
+    'data-groupIndex': 0,
+    onWheel: DomEventListenerFunctions.HandleTabsWheel,
     role: 'tablist',
     type: VirtualDomElements.Div,
   })
@@ -53,6 +56,8 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
   expect(result[0]).toEqual({
     childCount: 1,
     className: 'MainTabs',
+    'data-groupIndex': 0,
+    onWheel: DomEventListenerFunctions.HandleTabsWheel,
     role: 'tablist',
     type: VirtualDomElements.Div,
   })
@@ -108,6 +113,8 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
   expect(result[0]).toEqual({
     childCount: 3,
     className: 'MainTabs',
+    'data-groupIndex': 0,
+    onWheel: DomEventListenerFunctions.HandleTabsWheel,
     role: 'tablist',
     type: VirtualDomElements.Div,
   })

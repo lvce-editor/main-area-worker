@@ -46,6 +46,45 @@ test('applyRender should return multiple commands when diffResult contains multi
   expect(result[1][1]).toBe(2)
 })
 
+test('applyRender reveals the active tab after applying DOM and CSS changes', () => {
+  const oldState = createDefaultState()
+  const newState: MainAreaState = {
+    ...oldState,
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'text',
+              editorUid: 3,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              title: 'active.txt',
+              uri: 'file:///active.txt',
+            },
+          ],
+        },
+      ],
+    },
+    uid: 9,
+    width: 800,
+  }
+
+  const result = ApplyRender.applyRender(oldState, newState, [DiffType.RenderIncremental, DiffType.RenderCss, DiffType.RenderActiveTabVisibility])
+
+  expect(result.map((command) => command[0])).toEqual([ViewletCommand.SetPatches, ViewletCommand.SetCss, 'Viewlet.scrollSelectorIntoView'])
+})
+
 test('applyRender should throw error when diffResult contains unknown diffType', () => {
   const oldState: MainAreaState = createDefaultState()
   const newState: MainAreaState = createDefaultState()

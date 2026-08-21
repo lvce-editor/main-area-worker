@@ -19,3 +19,4 @@ export const HandleDragStart = 26
 export const HandleDragEnd = 27
 export const HandleTabMouseUp = 28
 export const HandleTabKeyDown = 29
+export const HandleTabsWheel = 30

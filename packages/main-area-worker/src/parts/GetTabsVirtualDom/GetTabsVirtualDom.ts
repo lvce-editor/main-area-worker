@@ -1,6 +1,7 @@
 import { AriaRoles, type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
+import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { renderTab } from '../RenderTab/RenderTab.ts'
 
 export const getTabsVirtualDom = (group: EditorGroup, groupIndex: number, tabsChildCount: number): readonly VirtualDomNode[] => {
@@ -8,6 +9,8 @@ export const getTabsVirtualDom = (group: EditorGroup, groupIndex: number, tabsCh
     {
       childCount: tabsChildCount,
       className: ClassNames.MainTabs,
+      'data-groupIndex': groupIndex,
+      onWheel: DomEventListenerFunctions.HandleTabsWheel,
       role: AriaRoles.TabList,
       type: VirtualDomElements.Div,
     },

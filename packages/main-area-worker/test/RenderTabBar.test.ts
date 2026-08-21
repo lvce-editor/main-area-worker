@@ -31,6 +31,8 @@ test('renderTabBar should return correct structure for single tab', () => {
     {
       childCount: 1,
       className: 'MainTabs',
+      'data-groupIndex': 0,
+      onWheel: DomEventListenerFunctions.HandleTabsWheel,
       role: 'tablist',
       type: VirtualDomElements.Div,
     },

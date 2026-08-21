@@ -7,6 +7,13 @@ const isNotEmpty = (group: EditorGroup): boolean => {
   return !group.isEmpty
 }
 
+const getContentOffsetY = (targetIsEmpty: boolean | undefined, hasOpenEditor: boolean, tabHeight: number): number => {
+  if (targetIsEmpty !== undefined) {
+    return targetIsEmpty ? 0 : tabHeight
+  }
+  return hasOpenEditor ? tabHeight : 0
+}
+
 export const getDragOverlay = (state: MainAreaState, eventX: number, eventY: number): DragOverlay => {
   const { height, layout, tabHeight, width, x, y } = state
   const { groups } = layout
@@ -26,7 +33,7 @@ export const getDragOverlay = (state: MainAreaState, eventX: number, eventY: num
   const targetY = target?.y ?? 0
   const targetWidth = target?.width ?? width
   const targetHeight = target?.height ?? height
-  const contentOffsetY = target ? (target.group.isEmpty ? 0 : tabHeight) : hasOpenEditor ? tabHeight : 0
+  const contentOffsetY = getContentOffsetY(target?.group.isEmpty, hasOpenEditor, tabHeight)
   const contentY = targetY + contentOffsetY
   const contentHeight = Math.max(0, targetHeight - contentOffsetY)
   const relativeX = relativeEventX - targetX

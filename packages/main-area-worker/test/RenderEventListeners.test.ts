@@ -26,6 +26,19 @@ test('renderEventListeners should pass the mouse button to the tab click handler
   ])
 })
 
+test('renderEventListeners should pass the current tab and key to the tab keydown handler', () => {
+  const result = RenderEventListeners.renderEventListeners()
+  const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabKeyDown)
+
+  expect(listener?.params).toEqual([
+    'handleTabKeyDown',
+    'event.currentTarget.dataset.groupIndex',
+    'event.currentTarget.dataset.index',
+    EventExpression.Key,
+  ])
+  expect(listener?.preventDefault).toBeUndefined()
+})
+
 test('renderEventListeners should pass tab indices to the double click handler', () => {
   const result = RenderEventListeners.renderEventListeners()
   const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDoubleClick)

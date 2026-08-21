@@ -17,6 +17,10 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       params: ['handleClickTab', 'event.currentTarget.dataset.groupIndex', 'event.currentTarget.dataset.index', EventExpression.Button],
     },
     {
+      name: DomEventListenersFunctions.HandleTabKeyDown,
+      params: ['handleTabKeyDown', 'event.currentTarget.dataset.groupIndex', 'event.currentTarget.dataset.index', EventExpression.Key],
+    },
+    {
       name: DomEventListenersFunctions.HandleDoubleClick,
       params: ['handleDoubleClick', 'event.target.dataset.groupIndex', 'event.target.dataset.index'],
     },

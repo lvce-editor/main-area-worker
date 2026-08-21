@@ -40,6 +40,7 @@ import { handleSashPointerDown } from '../HandleSashPointerDown/HandleSashPointe
 import { handleSashPointerMove } from '../HandleSashPointerMove/HandleSashPointerMove.ts'
 import { handleSashPointerUp } from '../HandleSashPointerUp/HandleSashPointerUp.ts'
 import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMenu.ts'
+import { handleTabKeyDown } from '../HandleTabKeyDown/HandleTabKeyDown.ts'
 import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceChange.ts'
 import { handleWorkspaceRefreshWithContext } from '../HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
@@ -188,6 +189,7 @@ export const commandMap = {
   'MainArea.handleSashPointerMove': wrapSerialCommand(handleSashPointerMove),
   'MainArea.handleSashPointerUp': wrapSerialCommand(handleSashPointerUp),
   'MainArea.handleTabContextMenu': wrapSerialCommand(handleTabContextMenu),
+  'MainArea.handleTabKeyDown': wrapSerialCommand(handleTabKeyDown),
   'MainArea.handleTabMouseUp': wrapSerialCommand(resetPointerDown),
   'MainArea.handleTestWorkerMessagePort': handleTestWorkerMessagePort,
   'MainArea.handleUriChange': wrapSerialCommand(handleUriChange),

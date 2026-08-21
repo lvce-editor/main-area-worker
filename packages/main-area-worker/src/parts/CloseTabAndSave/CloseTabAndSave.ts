@@ -4,16 +4,15 @@ import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
-const missingDialogWorkerRelay = 'Command "SendMessagePortToExtensionHostWorker.sendMessagePortToDialogWorker" not found'
-
 const confirm = async (message: string, options: Parameters<typeof RendererWorker.confirm>[1]): Promise<boolean> => {
   try {
-    return await DialogWorker.invoke('ConfirmPrompt.prompt', message, options)
+    return await RendererWorker.confirm(message, options)
   } catch (error) {
-    if (!String(error).includes(missingDialogWorkerRelay)) {
+    const errorMessage = String(error)
+    if (!errorMessage.includes('ConfirmPrompt.prompt') || !errorMessage.includes('not found')) {
       throw error
     }
-    return RendererWorker.confirm(message, options)
+    return DialogWorker.invoke('ConfirmPrompt.prompt', message, options)
   }
 }
 

@@ -33,19 +33,19 @@ test('render2 queues renderer commands and returns a lightweight commit marker',
   expect(result).toEqual([['Viewlet.commitPending', uid, 17]])
 })
 
-test('render2 keeps renderer worker commands out of the renderer process transaction', async () => {
+test('render2 returns focus commands to the renderer worker when rendering directly', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.dispose': async () => undefined,
   })
-  const queueCommands = jest.fn((_uid: number, _commands: readonly unknown[]) => 18)
+  const queueCommands = jest.fn((_uid: number, _commands: readonly unknown[]) => 17)
   RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.queueCommands': queueCommands } }))
   const uid = 3
   const oldState = createDefaultState()
   const newState = {
     ...oldState,
     pendingViewletUpdate: {
-      disposal: 123,
-      focus: 122,
+      disposal: 4,
+      focus: 5,
     },
     uid,
   }
@@ -55,10 +55,9 @@ test('render2 keeps renderer worker commands out of the renderer process transac
 
   expect(queueCommands).toHaveBeenCalledWith(uid, [])
   expect(result).toEqual([
-    ['Viewlet.commitPending', uid, 18],
-    ['Viewlet.setFocusContext', 122, 12, 0, 122, 'Editor'],
+    ['Viewlet.setFocusContext', 5, 12, 0, 5, 'Editor'],
+    ['Viewlet.commitPending', uid, 17],
   ])
-
   await new Promise((resolve) => setTimeout(resolve, 60))
-  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 123]])
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 4]])
 })

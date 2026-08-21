@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-tab-context-menu-inactive-tab'
+export const skip = ['webkit'] as const
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange

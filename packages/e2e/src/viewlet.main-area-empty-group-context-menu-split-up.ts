@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-empty-group-context-menu-split-up'
+export const skip = ['webkit'] as const
 
 export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()

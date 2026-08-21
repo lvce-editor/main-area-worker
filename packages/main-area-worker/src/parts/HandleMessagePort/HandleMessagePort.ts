@@ -9,7 +9,7 @@ const commandsWithDeferredRender = new Set(['handleContextMenu', 'handleTabConte
 export const handleMessagePort = async (
   port: MessagePort,
   viewletCommandMap: Readonly<Record<string, unknown>>,
-  setAsRendererProcess = true,
+  setAsRendererProcessFallback = true,
 ): Promise<void> => {
   const executeViewletCommand = async (uid: number, command: string, ...args: readonly any[]): Promise<void> => {
     const fn = viewletCommandMap[`MainArea.${command}`]
@@ -32,7 +32,7 @@ export const handleMessagePort = async (
     },
     messagePort: port,
   })
-  if (setAsRendererProcess) {
+  if (setAsRendererProcessFallback) {
     RendererProcess.set(rpc)
   }
 }

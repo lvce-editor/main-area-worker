@@ -109,8 +109,8 @@ const resize = async (uid: number, dimensions: any): Promise<readonly any[]> => 
   return handleResize(resizedState, dimensions)
 }
 
-const handleDirectMessagePort = (port: MessagePort, setAsRendererProcess = true): Promise<void> =>
-  HandleMessagePort.handleMessagePort(port, commandMap, setAsRendererProcess)
+const handleDirectMessagePort = (port: MessagePort, setAsRendererProcessFallback = true): Promise<void> =>
+  HandleMessagePort.handleMessagePort(port, commandMap, setAsRendererProcessFallback)
 
 const handleTestWorkerMessagePort = (port: MessagePort): Promise<void> => HandleMessagePort.handleMessagePort(port, commandMap, false)
 

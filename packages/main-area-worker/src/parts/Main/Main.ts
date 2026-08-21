@@ -1,5 +1,5 @@
 import * as Listen from '../Listen/Listen.ts'
 
-export const main = async (): Promise<void> => {
-  await Listen.listen()
+export const main = async (port: MessagePort): Promise<void> => {
+  await Listen.listen(port)
 }

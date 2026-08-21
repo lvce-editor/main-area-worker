@@ -1,11 +1,9 @@
 import { expect, test } from '@jest/globals'
-import { mockWorkerGlobalRpc } from '@lvce-editor/rpc'
 import * as Main from '../src/parts/Main/Main.ts'
 
 test('main', async () => {
-  const { dispose, start } = mockWorkerGlobalRpc()
-  const mainPromise = Main.main()
-  start()
-  await expect(mainPromise).resolves.toBeUndefined()
-  dispose()
+  const { port1, port2 } = new MessageChannel()
+  await expect(Main.main(port2)).resolves.toBeUndefined()
+  port1.close()
+  port2.close()
 })

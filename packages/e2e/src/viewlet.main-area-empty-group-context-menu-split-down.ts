@@ -2,14 +2,16 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-empty-group-context-menu-split-down'
 
-export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Locator, Workspace }) => {
+export const test: Test = async ({ ContextMenu, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
 
   const groups = Locator('.EditorGroup')
   await expect(groups).toHaveCount(0)
 
-  await Command.execute('Main.handleContextMenu', '', 10, 10)
+  const emptyGroup = Locator('.editor-groups-container')
+  // eslint-disable-next-line e2e/no-direct-click -- Right-click is the behavior under test and the main-area page object has no mouse-button API.
+  await emptyGroup.click({ button: 'right' })
   const menuItem = Locator('.MenuItem', { hasText: 'Split Down' })
   await expect(menuItem).toBeVisible()
   await ContextMenu.selectItem('Split Down')

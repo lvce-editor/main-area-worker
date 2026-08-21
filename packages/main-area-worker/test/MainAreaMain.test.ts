@@ -17,7 +17,7 @@ test('connects the renderer process over the native web worker rpc', async () =>
 test('connects the renderer worker over the transferred message port rpc', async () => {
   const { port1, port2 } = new MessageChannel()
 
-  await MainAreaMain.initialize('message-port', port2)
+  await expect(MainAreaMain.initialize('message-port', port2)).resolves.toBeUndefined()
 
   await RendererWorker.dispose()
   port1.close()

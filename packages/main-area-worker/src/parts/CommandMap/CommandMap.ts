@@ -109,9 +109,10 @@ const resize = async (uid: number, dimensions: any): Promise<readonly any[]> => 
   return handleResize(resizedState, dimensions)
 }
 
-const handleDirectMessagePort = (port: MessagePort): Promise<void> => HandleMessagePort.handleMessagePort(port, commandMap)
+const handleDirectMessagePort = (port: MessagePort, setAsRendererProcessFallback = true): Promise<void> =>
+  HandleMessagePort.handleMessagePort(port, commandMap, setAsRendererProcessFallback)
 
-const handleTestWorkerMessagePort = (port: MessagePort): Promise<void> => HandleMessagePort.handleMessagePort(port, commandMap)
+const handleTestWorkerMessagePort = (port: MessagePort): Promise<void> => HandleMessagePort.handleMessagePort(port, commandMap, false)
 
 export const commandMap = {
   'Main.closeActiveEditor': wrapSerialCommand(closeActiveEditor),

@@ -1,7 +1,23 @@
 import { expect, jest, test } from '@jest/globals'
 import { createMockRpc, PlainMessagePortRpcParent } from '@lvce-editor/rpc'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { RendererProcess, RendererWorker } from '@lvce-editor/rpc-registry'
 import { handleMessagePort } from '../src/parts/HandleMessagePort/HandleMessagePort.ts'
+
+test('accepts the legacy renderer process message port as a fallback', async () => {
+  const { port1, port2 } = new MessageChannel()
+  const rendererProcessRpc = await PlainMessagePortRpcParent.create({
+    commandMap: {
+      ping: async () => 'pong',
+    },
+    messagePort: port1,
+  })
+
+  await handleMessagePort(port2, {})
+
+  await expect(RendererProcess.invoke('ping')).resolves.toBe('pong')
+  await RendererProcess.dispose()
+  await rendererProcessRpc.dispose()
+})
 
 test('connects a secondary direct view rpc', async () => {
   const { port1, port2 } = new MessageChannel()
@@ -12,10 +28,14 @@ test('connects a secondary direct view rpc', async () => {
   const handleEvent = jest.fn(async (_uid: number, _value: string) => {})
   const handleContextMenu = jest.fn(async (_uid: number) => {})
 
-  await handleMessagePort(port2, {
-    'MainArea.handleContextMenu': handleContextMenu,
-    'MainArea.handleEvent': handleEvent,
-  })
+  await handleMessagePort(
+    port2,
+    {
+      'MainArea.handleContextMenu': handleContextMenu,
+      'MainArea.handleEvent': handleEvent,
+    },
+    false,
+  )
 
   const requestRender = jest.fn(async (_uid: number) => {})
   RendererWorker.set(

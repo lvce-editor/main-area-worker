@@ -18,6 +18,10 @@ export const test: Test = async ({ Command, FileSystem, Workspace }) => {
 
   await Command.execute('Main.handleDrop', [itemId])
 
-  const workspacePath = await Command.execute('Workspace.getPath')
+  let workspacePath = await Command.execute('Workspace.getPath')
+  for (let attempt = 0; !nativeFolderWorkspaceRegex.test(workspacePath) && attempt < 50; attempt++) {
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    workspacePath = await Command.execute('Workspace.getPath')
+  }
   assert(nativeFolderWorkspaceRegex.test(workspacePath), `Expected native folder workspace path, got ${workspacePath}`)
 }

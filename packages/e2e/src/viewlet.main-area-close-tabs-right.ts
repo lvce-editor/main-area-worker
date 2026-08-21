@@ -30,7 +30,8 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
 
   // act - select second tab and close tabs to the right
   await Main.selectTab(0, 1)
-  await Main.handleTabContextMenu(0, 0, 0)
+  // eslint-disable-next-line e2e/no-direct-click -- Right-click is the behavior under test and the main-area page object has no mouse-button API.
+  await tab2.click({ button: 'right' })
   const closeRightMenuItem = Locator('text=Close To The Right')
   await expect(closeRightMenuItem).toBeVisible()
   // TODO: implement close tabs right context menu action

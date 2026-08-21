@@ -32,7 +32,7 @@ export const maybeCreateViewletForSelectedTab = async (
     return undefined
   }
 
-  const bounds = getSelectedTabBounds(newState)
+  const bounds = getSelectedTabBounds(newState, newState.layout.groups[groupIndex].id)
   let stateWithViewlet = ViewletLifecycle.createViewletForTab(newState, tabId, viewletModuleId, bounds)
   MainAreaStates.set(uid, state, stateWithViewlet)
 

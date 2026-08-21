@@ -12,6 +12,7 @@ export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Loc
   const emptyGroup = Locator('.editor-groups-container')
   await expect(emptyGroup).toBeVisible()
   await Command.execute('Main.handleContextMenu', '', 10, 10)
+  await new Promise((resolve) => setTimeout(resolve, 50))
   const menuItem = Locator('.MenuItem', { hasText: 'Split Left' })
   await expect(menuItem).toBeVisible()
   await ContextMenu.selectItem('Split Left')

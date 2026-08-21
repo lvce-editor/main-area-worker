@@ -65,21 +65,14 @@ test('handleContextMenu should ignore a non-numeric group id', async () => {
   expect(mockRpc.invocations).toEqual([])
 })
 
-test('handleContextMenu should defer renderer worker forwarding for a direct connection', async () => {
-  const { promise: forwarded, resolve } = Promise.withResolvers<void>()
-  const forwardRendererWorkerCommand = jest.fn((_method: string, ..._params: readonly unknown[]) => {
-    resolve()
+test('handleContextMenu should defer the renderer worker command for a direct connection', async () => {
+  const { promise: shown, resolve } = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'ContextMenu.show2': async () => {
+      resolve()
+    },
   })
-  RendererProcess.set(
-    Object.assign(
-      createMockRpc({
-        commandMap: {
-          'Viewlet.forwardRendererWorkerCommand': forwardRendererWorkerCommand,
-        },
-      }),
-      { dispose: jest.fn() },
-    ),
-  )
+  RendererProcess.set(Object.assign(createMockRpc({ commandMap: {} }), { dispose: jest.fn() }))
   const state: MainAreaState = {
     ...createDefaultState(),
     uid: 321,
@@ -88,10 +81,7 @@ test('handleContextMenu should defer renderer worker forwarding for a direct con
   const result = await handleContextMenu(state, '', 50, 60)
 
   expect(result).toBe(state)
-  await forwarded
-  expect(forwardRendererWorkerCommand).toHaveBeenCalledWith('ContextMenu.show2', 321, MenuEntryId.Main, 50, 60, {
-    groupId: -1,
-    menuId: MenuEntryId.Main,
-  })
+  await shown
+  expect(mockRpc.invocations).toEqual([['ContextMenu.show2', 321, MenuEntryId.Main, 50, 60, { groupId: -1, menuId: MenuEntryId.Main }]])
   await RendererProcessRegistry.dispose()
 })

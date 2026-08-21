@@ -20,7 +20,7 @@ export const handleContextMenu = async (state: MainAreaState, rawGroupId: string
   }
   if (RendererProcess.isConnected()) {
     setTimeout(() => {
-      void RendererProcess.invoke('Viewlet.forwardRendererWorkerCommand', 'ContextMenu.show2', uid, MenuEntryId.Main, x, y, {
+      void ContextMenu.show2(uid, MenuEntryId.Main, x, y, {
         groupId,
         menuId: MenuEntryId.Main,
       })

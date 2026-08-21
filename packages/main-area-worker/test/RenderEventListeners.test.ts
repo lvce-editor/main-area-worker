@@ -26,6 +26,17 @@ test('renderEventListeners should pass the mouse button to the tab click handler
   ])
 })
 
+test('renderEventListeners should read close button indices from the current target', () => {
+  const result = RenderEventListeners.renderEventListeners()
+  const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleClickClose)
+
+  expect(listener).toEqual({
+    name: DomEventListenerFunctions.HandleClickClose,
+    params: ['handleClickCloseTab', 'event.currentTarget.dataset.groupIndex', 'event.currentTarget.dataset.index'],
+    stopPropagation: true,
+  })
+})
+
 test('renderEventListeners should pass the current tab and key to the tab keydown handler', () => {
   const result = RenderEventListeners.renderEventListeners()
   const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabKeyDown)

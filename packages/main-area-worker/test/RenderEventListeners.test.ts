@@ -39,6 +39,14 @@ test('renderEventListeners should pass the current tab and key to the tab keydow
   expect(listener?.preventDefault).toBeUndefined()
 })
 
+test('renderEventListeners should pass vertical wheel input to the tab strip', () => {
+  const result = RenderEventListeners.renderEventListeners()
+  const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabsWheel)
+
+  expect(listener?.params).toEqual(['handleTabsWheel', 'event.currentTarget.dataset.groupIndex', EventExpression.DeltaMode, EventExpression.DeltaY])
+  expect(listener?.preventDefault).toBeUndefined()
+})
+
 test('renderEventListeners should pass tab indices to the double click handler', () => {
   const result = RenderEventListeners.renderEventListeners()
   const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDoubleClick)

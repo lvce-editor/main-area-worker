@@ -31,7 +31,7 @@ test('diff should return RenderItems when left items differ', () => {
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss, DiffType.RenderActiveTabVisibility])
 })
 
 test('diff should return RenderItems when right items differ', () => {
@@ -54,7 +54,7 @@ test('diff should return RenderItems when right items differ', () => {
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss, DiffType.RenderActiveTabVisibility])
 })
 
 test('diff should return RenderItems when both left and right items differ', () => {
@@ -93,7 +93,7 @@ test('diff should return RenderItems when both left and right items differ', () 
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss, DiffType.RenderActiveTabVisibility])
 })
 
 test('diff should return RenderItems when left array length differs', () => {
@@ -116,7 +116,7 @@ test('diff should return RenderItems when left array length differs', () => {
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss, DiffType.RenderActiveTabVisibility])
 })
 
 test('diff should return RenderItems when right array length differs', () => {
@@ -139,7 +139,7 @@ test('diff should return RenderItems when right array length differs', () => {
     },
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss])
+  expect(result).toEqual([DiffType.RenderIncremental, DiffType.RenderCss, DiffType.RenderActiveTabVisibility])
 })
 
 test('diff should ignore uid when comparing', () => {

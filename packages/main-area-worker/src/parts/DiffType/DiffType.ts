@@ -8,3 +8,4 @@ export const RenderCss = 10
 export const RenderIncremental = 11
 export const RenderPendingViewletUpdate = 12
 export const RenderDragData = 13
+export const RenderActiveTabVisibility = 14

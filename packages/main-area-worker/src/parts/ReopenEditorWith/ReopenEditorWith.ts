@@ -6,6 +6,7 @@ import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
+import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
@@ -117,12 +118,7 @@ export const reopenEditorWith = async (context: AsyncCommandContext<MainAreaStat
     errorMessage: undefined,
     loadingState: undefined,
   })
-  const bounds = {
-    height: resetState.height - resetState.tabHeight,
-    width: resetState.width,
-    x: resetState.x,
-    y: resetState.y + resetState.tabHeight,
-  }
+  const bounds = getSelectedTabBounds(resetState, latestTab.groupId)
   const stateWithViewlet = ViewletLifecycle.createViewletForTab(resetState, initialTab.id, viewletModuleId, bounds)
   await context.updateState(() => stateWithViewlet)
 

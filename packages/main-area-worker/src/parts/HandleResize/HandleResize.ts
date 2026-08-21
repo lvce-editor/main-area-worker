@@ -1,5 +1,6 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { getEditorGroupContentBounds } from '../GetEditorGroupBounds/GetEditorGroupBounds.ts'
 
 const resizeChild = async (editorUid: number, dimensions: any): Promise<readonly any[]> => {
   try {
@@ -10,26 +11,28 @@ const resizeChild = async (editorUid: number, dimensions: any): Promise<readonly
 }
 
 export const handleResize = async (state: MainAreaState, dimensions: any): Promise<readonly any[]> => {
-  const { height, width, x, y } = dimensions
-
   // Resize all editor children to their new bounds
   const { layout, tabHeight } = state
   const { groups } = layout
-  const contentHeight = height - tabHeight
+  const groupBounds = getEditorGroupContentBounds(layout, dimensions, tabHeight)
 
   const resizePromises = []
-  const tabs = groups.flatMap((group) => group.tabs)
-  for (const tab of tabs) {
-    if (tab.editorUid === -1) {
+  for (const group of groups) {
+    const bounds = groupBounds.find((item) => item.groupId === group.id)
+    if (!bounds) {
       continue
     }
-    const resizePromise = resizeChild(tab.editorUid, {
-      height: contentHeight,
-      width,
-      x,
-      y: y + tabHeight,
-    })
-    resizePromises.push(resizePromise)
+    const dimensions = {
+      height: bounds.height,
+      width: bounds.width,
+      x: bounds.x,
+      y: bounds.y,
+    }
+    for (const tab of group.tabs) {
+      if (tab.editorUid !== -1) {
+        resizePromises.push(resizeChild(tab.editorUid, dimensions))
+      }
+    }
   }
 
   const resizeCommands = await Promise.all(resizePromises)

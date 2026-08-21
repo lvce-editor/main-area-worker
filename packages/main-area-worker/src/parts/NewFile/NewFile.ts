@@ -7,6 +7,7 @@ import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as Id from '../Id/Id.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
+import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 import * as ViewletModuleId from '../ViewletModuleId/ViewletModuleId.ts'
 
@@ -75,13 +76,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
 
   const stateWithNewTab = openTab(newState, targetGroupId, newTab)
 
-  // Calculate bounds: use main area bounds minus tab height
-  const bounds = {
-    height: stateWithNewTab.height - stateWithNewTab.tabHeight,
-    width: stateWithNewTab.width,
-    x: stateWithNewTab.x,
-    y: stateWithNewTab.y + stateWithNewTab.tabHeight,
-  }
+  const bounds = getSelectedTabBounds(stateWithNewTab, targetGroupId)
 
   const viewletModuleId = ViewletModuleId.EditorText
   const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateWithNewTab, tabId, viewletModuleId, bounds)

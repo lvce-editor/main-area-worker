@@ -17,6 +17,7 @@ import { getStateWithTab } from '../GetStateWithTab/GetStateWithTab.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
+import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import { updateTabIcon } from '../UpdateTabIcon/UpdateTabIcon.ts'
@@ -114,12 +115,8 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       return
     }
 
-    const bounds = {
-      height: stateAfterModuleId.height - stateAfterModuleId.tabHeight,
-      width: stateAfterModuleId.width,
-      x: stateAfterModuleId.x,
-      y: stateAfterModuleId.y + stateAfterModuleId.tabHeight,
-    }
+    const tabLocation = findTabById(stateAfterModuleId, tabId)
+    const bounds = getSelectedTabBounds(stateAfterModuleId, tabLocation?.groupId)
     const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateAfterModuleId, tabId, viewletModuleId, bounds)
     let intermediateState = stateWithViewlet
 

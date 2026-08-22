@@ -46,6 +46,7 @@ import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
 import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceChange.ts'
 import { handleWorkspaceRefreshWithContext } from '../HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
 import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
+import { hasDirtyTabs } from '../HasDirtyTabs/HasDirtyTabs.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { get, getCommandIds, set, wrapAsyncCommand, wrapGetter, wrapSerialAsyncCommand, wrapSerialCommand } from '../MainAreaStates/MainAreaStates.ts'
@@ -135,6 +136,7 @@ export const commandMap = {
   'Main.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
   'Main.handleTabContextMenu': wrapSerialCommand(handleTabContextMenu),
   'Main.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
+  'Main.hasDirtyTabs': wrapGetter(hasDirtyTabs),
   'Main.openInput': wrapSerialAsyncCommand(openInputWithContext),
   'Main.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'Main.openUris': wrapSerialAsyncCommand(openUrisWithContext),
@@ -198,6 +200,7 @@ export const commandMap = {
   'MainArea.handleWorkspaceChange': wrapSerialCommand(handleWorkspaceChange),
   'MainArea.handleWorkspaceRefresh': wrapAsyncCommand(handleWorkspaceRefreshWithContext),
   'MainArea.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
+  'MainArea.hasDirtyTabs': wrapGetter(hasDirtyTabs),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': loadContentTracked,
   'MainArea.moveIntoNewWindow': wrapSerialCommand(moveIntoNewWindow),

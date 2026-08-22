@@ -1,5 +1,6 @@
 import { DialogWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { Tab } from '../Tab/Tab.ts'
 import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
@@ -33,28 +34,34 @@ const promptSave = async (title: string): Promise<string> => {
   return shouldDiscard ? 'discard' : 'cancel'
 }
 
+export const canCloseTab = async (tab: Tab): Promise<boolean> => {
+  if (tab.editorUid === -1 || !tab.isDirty) {
+    return true
+  }
+  const savePromptResult = await promptSave(tab.title)
+  if (savePromptResult === 'cancel') {
+    return false
+  }
+  if (savePromptResult === 'save') {
+    const editorState = await saveEditor(tab.editorUid)
+    if (editorState?.modified !== false) {
+      return false
+    }
+    if (tab.uri) {
+      await RendererWorker.handleModifiedStatusChange(tab.uri, false)
+    }
+  }
+  return savePromptResult === 'save' || savePromptResult === 'discard'
+}
+
 export const closeTabAndSave = async (state: MainAreaState, groupId: number, tabId: number): Promise<MainAreaState> => {
   const tab = findTabInState(state, groupId, tabId)
   if (!tab) {
     return state
   }
 
-  if (tab.editorUid !== -1 && tab.isDirty) {
-    const savePromptResult = await promptSave(tab.title)
-    if (savePromptResult === 'cancel') {
-      return state
-    }
-    if (savePromptResult === 'save') {
-      const editorState = await saveEditor(tab.editorUid)
-      if (editorState?.modified !== false) {
-        return state
-      }
-      if (tab.uri) {
-        await RendererWorker.handleModifiedStatusChange(tab.uri, false)
-      }
-    } else if (savePromptResult !== 'discard') {
-      return state
-    }
+  if (!(await canCloseTab(tab))) {
+    return state
   }
 
   return closeTabWithViewlet(state, groupId, tabId)

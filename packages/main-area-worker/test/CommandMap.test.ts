@@ -5,6 +5,13 @@ test('commandMap - includes MainArea.hasActiveTextEditor', () => {
   expect(commandMap['MainArea.hasActiveTextEditor']).toBeDefined()
 })
 
+test('commandMap - includes dirty-tab queries', () => {
+  expect(commandMap['Main.closeAllEditorsAndSave']).toBeDefined()
+  expect(commandMap['Main.hasDirtyTabs']).toBeDefined()
+  expect(commandMap['MainArea.closeAllEditorsAndSave']).toBeDefined()
+  expect(commandMap['MainArea.hasDirtyTabs']).toBeDefined()
+})
+
 test('commandMap - includes Main.focus', () => {
   expect(commandMap['Main.focus']).toBeDefined()
 })

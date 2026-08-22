@@ -9,8 +9,8 @@
     "e2e:firefox": "test-with-playwright --only-extension=. --test-path=. --browser=firefox --reuse-page --server-path=../server/src/dev.js",
     "e2e:firefox:headless": "test-with-playwright --only-extension=. --test-path=. --browser=firefox --headless --reuse-page --server-path=../server/src/dev.js",
     "e2e:headless": "test-with-playwright --only-extension=. --test-path=. --browser=chromium --headless --reuse-page --server-path=../server/src/dev.js",
-    "e2e:webkit": "test-with-playwright --only-extension=. --test-path=. --browser=webkit --reuse-page --server-path=../server/src/dev.js",
-    "e2e:webkit:headless": "test-with-playwright --only-extension=. --test-path=. --browser=webkit --headless --reuse-page --server-path=../server/src/dev.js",
+    "e2e:webkit": "node ./scripts/run-webkit-e2e.js",
+    "e2e:webkit:headless": "node ./scripts/run-webkit-e2e.js --headless",
     "type-check": "tsc"
   },
   "devDependencies": {

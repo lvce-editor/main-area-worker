@@ -6,7 +6,9 @@ test('commandMap - includes MainArea.hasActiveTextEditor', () => {
 })
 
 test('commandMap - includes dirty-tab queries', () => {
+  expect(commandMap['Main.closeAllEditorsAndSave']).toBeDefined()
   expect(commandMap['Main.hasDirtyTabs']).toBeDefined()
+  expect(commandMap['MainArea.closeAllEditorsAndSave']).toBeDefined()
   expect(commandMap['MainArea.hasDirtyTabs']).toBeDefined()
 })
 

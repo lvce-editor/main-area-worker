@@ -1,6 +1,7 @@
 import { terminate } from '@lvce-editor/viewlet-registry'
 import { closeActiveEditor } from '../CloseActiveEditor/CloseActiveEditor.ts'
 import { closeAll } from '../CloseAll/CloseAll.ts'
+import { closeAllAndSave } from '../CloseAllAndSave/CloseAllAndSave.ts'
 import { closeEditorGroup } from '../CloseEditorGroup/CloseEditorGroup.ts'
 import { closeFocusedTab } from '../CloseFocusedTab/CloseFocusedTab.ts'
 import { closeOtherTabs } from '../CloseOtherTabs/CloseOtherTabs.ts'
@@ -121,6 +122,7 @@ export const commandMap = {
   'Main.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
   'Main.closeAll': wrapSerialCommand(closeAll),
   'Main.closeAllEditors': wrapSerialCommand(closeAll),
+  'Main.closeAllEditorsAndSave': wrapSerialCommand(closeAllAndSave),
   'Main.closeFocusedTab': wrapSerialCommand(closeFocusedTab),
   'Main.closeOthers': wrapSerialCommand(closeOtherTabs),
   'Main.closeSaved': wrapSerialCommand(closeSaved),
@@ -147,6 +149,7 @@ export const commandMap = {
   'MainArea.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
   'MainArea.closeAll': wrapSerialCommand(closeAll),
   'MainArea.closeAllEditors': wrapSerialCommand(closeAll),
+  'MainArea.closeAllEditorsAndSave': wrapSerialCommand(closeAllAndSave),
   'MainArea.closeEditorGroup': wrapSerialCommand(closeEditorGroup),
   'MainArea.closeFocusedTab': wrapSerialCommand(closeFocusedTab),
   'MainArea.closeOthers': wrapSerialCommand(closeOtherTabs),

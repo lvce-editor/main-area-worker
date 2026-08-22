@@ -1,8 +1,19 @@
+import type { GroupSegment } from '../GetGroupSegments/GetGroupSegments.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { clamp } from '../Clamp/Clamp.ts'
+import { getGroupSegment, getGroupSegments, getSegmentSize } from '../GetGroupSegments/GetGroupSegments.ts'
 import { getMinGroupSizePercent } from '../GetMinGroupSizePercent/GetMinGroupSizePercent.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { round } from '../Round/Round.ts'
+
+const resizeGroupInSegment = (segment: GroupSegment, groupId: number, segmentSize: number): number | undefined => {
+  const group = segment.groups.find((group) => group.id === groupId)
+  if (!group) {
+    return undefined
+  }
+  const previousSegmentSize = getSegmentSize(segment)
+  return round((group.size / previousSegmentSize) * segmentSize)
+}
 
 export const handleSashPointerMove = async (state: MainAreaState, clientX: number, clientY: number): Promise<MainAreaState> => {
   const { height, layout, minGroupHeightPx, minGroupWidthPx, sashDrag, width } = state
@@ -14,6 +25,13 @@ export const handleSashPointerMove = async (state: MainAreaState, clientX: numbe
     return state
   }
   const { direction, groups } = layout
+  const segments = getGroupSegments(groups, direction)
+  const beforeSegment = getGroupSegment(segments, sashDrag.beforeGroupId)
+  const afterSegment = getGroupSegment(segments, sashDrag.afterGroupId)
+  if (!beforeSegment || !afterSegment) {
+    return state
+  }
+  const isNestedSash = beforeSegment === afterSegment
 
   const axisSize = direction === LayoutDirection.Horizontal ? width : height
   if (!axisSize) {
@@ -36,6 +54,23 @@ export const handleSashPointerMove = async (state: MainAreaState, clientX: numbe
   const afterSize = totalResizableSize - beforeSize
 
   const newGroups = groups.map((group) => {
+    if (!isNestedSash) {
+      const resizedBeforeGroupSize = resizeGroupInSegment(beforeSegment, group.id, beforeSize)
+      if (resizedBeforeGroupSize !== undefined) {
+        return {
+          ...group,
+          size: resizedBeforeGroupSize,
+        }
+      }
+      const resizedAfterGroupSize = resizeGroupInSegment(afterSegment, group.id, afterSize)
+      if (resizedAfterGroupSize !== undefined) {
+        return {
+          ...group,
+          size: resizedAfterGroupSize,
+        }
+      }
+      return group
+    }
     if (group.id === sashDrag.beforeGroupId) {
       return {
         ...group,

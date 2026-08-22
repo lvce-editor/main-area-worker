@@ -1,6 +1,7 @@
 import { expect, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import { handleSashPointerDown } from '../src/parts/HandleSashPointerDown/HandleSashPointerDown.ts'
 import { handleSashPointerMove } from '../src/parts/HandleSashPointerMove/HandleSashPointerMove.ts'
 
 const createBaseState = (): MainAreaState => {
@@ -200,4 +201,56 @@ test('handleSashPointerMove should clamp vertical groups to the minimum height',
 
   expect(result.layout.groups[0].size).toBe(10)
   expect(result.layout.groups[1].size).toBe(70)
+})
+
+test('handleSashPointerMove should preserve nested horizontal group widths during vertical resize', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    height: 800,
+    layout: {
+      activeGroupId: 1,
+      direction: 2,
+      groups: [
+        {
+          activeTabId: -1,
+          direction: 2,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 50,
+          tabs: [],
+        },
+        {
+          activeTabId: -1,
+          direction: 1,
+          focused: false,
+          id: 2,
+          isEmpty: true,
+          segmentId: 2,
+          size: 20,
+          tabs: [],
+        },
+        {
+          activeTabId: -1,
+          direction: 1,
+          focused: false,
+          id: 3,
+          isEmpty: true,
+          segmentId: 2,
+          size: 30,
+          tabs: [],
+        },
+      ],
+    },
+    width: 1000,
+  }
+
+  const draggingState = await handleSashPointerDown(state, '1:2', 500, 400)
+  expect(draggingState.sashDrag?.beforeSize).toBe(50)
+  expect(draggingState.sashDrag?.afterSize).toBe(50)
+  const smallerNestedSegment = await handleSashPointerMove(draggingState, 500, 480)
+  const largerNestedSegment = await handleSashPointerMove(draggingState, 500, 320)
+
+  expect(smallerNestedSegment.layout.groups.map((group) => group.size)).toEqual([60, 16, 24])
+  expect(largerNestedSegment.layout.groups.map((group) => group.size)).toEqual([40, 24, 36])
 })

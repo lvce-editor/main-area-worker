@@ -11,6 +11,10 @@ export const getSegmentSize = (segment: GroupSegment): number => {
   return segment.groups.reduce((total, group) => total + group.size, 0)
 }
 
+export const getGroupSegment = (segments: readonly GroupSegment[], groupId: number): GroupSegment | undefined => {
+  return segments.find((segment) => segment.groups.some((group) => group.id === groupId))
+}
+
 export const getGroupSegments = (groups: readonly EditorGroup[], parentDirection: LayoutDirection): readonly GroupSegment[] => {
   const segments: GroupSegment[] = []
   let index = 0

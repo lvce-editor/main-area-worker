@@ -14,6 +14,10 @@ export const invoke = (method: string, ...params: readonly unknown[]): Promise<a
   return RendererProcessRegistry.invoke(method, ...params)
 }
 
+export const invokeAndTransfer = (method: string, ...params: readonly unknown[]): Promise<any> => {
+  return RendererProcessRegistry.invokeAndTransfer(method, ...params)
+}
+
 export const set = (rpc: Rpc): void => {
   RendererProcessRegistry.set(rpc)
   state.connected = true

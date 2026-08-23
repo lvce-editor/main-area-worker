@@ -1,8 +1,8 @@
 import { LazyTransferMessagePortRpcParent, type Rpc } from '@lvce-editor/rpc'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import * as RendererProcess from '../RendererProcess/RendererProcess.ts'
 
-const send = async (port: MessagePort): Promise<void> => {
-  await RendererWorker.sendMessagePortToDragAndDropWorker(port)
+export const send = async (port: MessagePort): Promise<void> => {
+  await RendererProcess.invokeAndTransfer('DragAndDrop.handleMessagePort', port)
 }
 
 export const createDragAndDropWorkerRpc = async (): Promise<Rpc> => {

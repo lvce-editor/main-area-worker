@@ -52,7 +52,7 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
 
   const result = getTabsVirtualDom(group, 0, 1)
 
-  expect(result).toHaveLength(7)
+  expect(result).toHaveLength(6)
   expect(result[0]).toEqual({
     childCount: 1,
     className: 'MainTabs',

@@ -136,6 +136,39 @@ const createStateWithTwoOpenFiles = (): MainAreaState => {
   }
 }
 
+const createStateWithTwoTabs = (): MainAreaState => {
+  const state = createStateWithOpenFile('/workspace/first.txt')
+  return {
+    ...state,
+    layout: {
+      ...state.layout,
+      groups: [
+        {
+          ...state.layout.groups[0],
+          activeTabId: 3,
+          tabs: [
+            state.layout.groups[0].tabs[0],
+            {
+              editorInput: {
+                type: 'editor',
+                uri: '/workspace/second.txt',
+              },
+              editorType: 'text',
+              editorUid: -1,
+              icon: '',
+              id: 3,
+              isDirty: false,
+              isPreview: false,
+              title: 'second.txt',
+              uri: '/workspace/second.txt',
+            },
+          ],
+        },
+      ],
+    },
+  }
+}
+
 test('clears the drag overlay when no uri is dropped', async () => {
   using _dragRpc = registerDroppedUris([])
   let state: MainAreaState = {
@@ -331,6 +364,74 @@ test('opens an already-open explorer uri in the new split group', async () => {
 
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([[uri], [uri]])
   expect(getState().layout.activeGroupId).toBe(getState().layout.groups[1].id)
+})
+
+test('moves an internally dragged tab into the new split group', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/first.txt'])
+  const initialState = {
+    ...createStateWithTwoTabs(),
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 0,
+  }
+  const { context, getState } = createContext(handleDragOver(initialState, 700, 300))
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([['/workspace/second.txt'], ['/workspace/first.txt']])
+  expect(getState().layout.activeGroupId).toBe(getState().layout.groups[1].id)
+  expect(getState().pointerDownGroupIndex).toBe(-1)
+  expect(getState().pointerDownTabIndex).toBe(-1)
+})
+
+test('does not split when the only open editor is internally dragged to an edge', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/original.txt'])
+  const initialState = {
+    ...createStateWithOpenFile('/workspace/original.txt'),
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 0,
+  }
+  const { context, getState } = createContext(handleDragOver(initialState, 700, 300))
+
+  await handleDrop(context, [1])
+
+  expect(getState().dragOverlay).toBeUndefined()
+  expect(getState().layout.groups).toHaveLength(1)
+  expect(getState().layout.groups[0].tabs.map((tab) => tab.uri)).toEqual(['/workspace/original.txt'])
+  expect(getState().pointerDownGroupIndex).toBe(-1)
+  expect(getState().pointerDownTabIndex).toBe(-1)
+})
+
+test('does not move an internally dragged tab when it is dropped in its current group', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/first.txt'])
+  const initialState = {
+    ...createStateWithTwoTabs(),
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 0,
+  }
+  const { context, getState } = createContext(handleDragOver(initialState, 400, 300))
+
+  await handleDrop(context, [1])
+
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([['/workspace/first.txt', '/workspace/second.txt']])
+  expect(getState().pointerDownGroupIndex).toBe(-1)
+  expect(getState().pointerDownTabIndex).toBe(-1)
+})
+
+test('does not move an internally dragged tab when there is no drop target', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/first.txt'])
+  const initialState = {
+    ...createStateWithTwoTabs(),
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 0,
+  }
+  const { context, getState } = createContext(initialState)
+
+  await handleDrop(context, [1])
+
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([['/workspace/first.txt', '/workspace/second.txt']])
+  expect(getState().pointerDownGroupIndex).toBe(-1)
+  expect(getState().pointerDownTabIndex).toBe(-1)
 })
 
 test('opens multiple dropped explorer uris in the new split group in source order', async () => {

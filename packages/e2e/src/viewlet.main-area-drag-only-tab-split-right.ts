@@ -17,7 +17,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Command.execute('Main.handleDrop', [itemId])
 
   const groups = Locator('.EditorGroup')
+  const group = groups.nth(0)
   await expect(groups).toHaveCount(1)
-  await expect(groups.nth(0).locator('.MainTab')).toHaveCount(1)
-  await expect(groups.nth(0).locator('.MainTab[title$="drag-only-tab-split-right.txt"]')).toBeVisible()
+  await expect(group.locator('.MainTab')).toHaveCount(1)
+  await expect(group.locator('.MainTab[title$="drag-only-tab-split-right.txt"]')).toBeVisible()
 }

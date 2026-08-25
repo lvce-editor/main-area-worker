@@ -1,4 +1,7 @@
-import { runBatchedE2E } from './run-batched-e2e.js'
+import { spawn } from 'node:child_process'
+import { cp, mkdir, readdir, rm } from 'node:fs/promises'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const excludedTests = new Set([
   'viewlet.main-area-auto-modified-status.ts',
@@ -50,9 +53,46 @@ const excludedTests = new Set([
   'viewlet.main-area-toggle-preview-html-file.ts',
 ])
 
-process.exitCode = await runBatchedE2E({
-  browser: 'webkit',
-  excludedTests,
-  forwardedArgs: process.argv.slice(2),
-  testBatchSize: 10,
-})
+const cwd = process.cwd()
+const sourcePath = join(cwd, 'src')
+const fixturesPath = join(cwd, 'fixtures')
+const testPath = join(cwd, '.tmp', 'e2e-webkit')
+const tmpSourcePath = join(testPath, 'src')
+const tmpFixturesPath = join(testPath, 'fixtures')
+const testWithPlaywrightPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/test-with-playwright/package.json'))
+const testWithPlaywrightPath = join(dirname(testWithPlaywrightPackagePath), 'bin', 'test-with-playwright.js')
+
+const copyTests = async () => {
+  await mkdir(tmpSourcePath, { recursive: true })
+  const entries = await readdir(sourcePath, { withFileTypes: true })
+  for (const entry of entries) {
+    if (entry.isFile() && !excludedTests.has(entry.name)) {
+      await cp(join(sourcePath, entry.name), join(tmpSourcePath, entry.name))
+    }
+  }
+  await cp(fixturesPath, tmpFixturesPath, { recursive: true })
+}
+
+const runTests = async () => {
+  const args = [
+    testWithPlaywrightPath,
+    '--only-extension=.',
+    '--test-path=.tmp/e2e-webkit',
+    '--browser=webkit',
+    '--server-path=../server/src/dev.js',
+    ...process.argv.slice(2),
+  ]
+  const child = spawn(process.execPath, args, { cwd, stdio: 'inherit' })
+  return new Promise((resolve, reject) => {
+    child.on('error', reject)
+    child.on('exit', resolve)
+  })
+}
+
+try {
+  await rm(testPath, { force: true, recursive: true })
+  await copyTests()
+  process.exitCode = (await runTests()) ?? 1
+} finally {
+  await rm(testPath, { force: true, recursive: true })
+}

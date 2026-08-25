@@ -42,12 +42,8 @@ const getPathEndIndex = (pathName: string): number => {
 }
 
 const getPathName = (uri: string): string => {
-  if (uri.startsWith('file://')) {
-    try {
-      return new URL(uri).pathname
-    } catch {
-      return uri
-    }
+  if (uri.startsWith('file://') && URL.canParse(uri)) {
+    return new URL(uri).pathname
   }
   return uri
 }
@@ -72,20 +68,16 @@ const hasBinaryFileSuffix = (uri: string): boolean => {
 }
 
 const getEditorInputFromUri = (uri: string): any => {
-  if (uri.startsWith('diff://?')) {
-    try {
-      const parsed = new URL(uri)
-      const uriLeft = parsed.searchParams.get('left')
-      const uriRight = parsed.searchParams.get('right')
-      if (uriLeft && uriRight) {
-        return {
-          type: 'diff-editor',
-          uriLeft,
-          uriRight,
-        }
+  if (uri.startsWith('diff://?') && URL.canParse(uri)) {
+    const parsed = new URL(uri)
+    const uriLeft = parsed.searchParams.get('left')
+    const uriRight = parsed.searchParams.get('right')
+    if (uriLeft && uriRight) {
+      return {
+        type: 'diff-editor',
+        uriLeft,
+        uriRight,
       }
-    } catch {
-      // Ignore malformed legacy URIs and fall back to a text editor input.
     }
   }
 

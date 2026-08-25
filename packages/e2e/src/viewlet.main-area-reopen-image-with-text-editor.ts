@@ -17,14 +17,13 @@ export const test: Test = async ({ Command, Editor, expect, Extension, FileSyste
   await expect(image).toBeVisible()
 
   const reopenPromise = Command.execute('Main.reopenEditorWith')
-  await new Promise((resolve) => setTimeout(resolve, 500))
   const textEditorChoice = Locator('.QuickPickItem').first()
+  await expect(textEditorChoice).toBeVisible()
   await textEditorChoice.dispatchEvent('pointerdown', { bubbles: true, clientX: 200, clientY: 100, pointerId: 1 } as any)
   await reopenPromise
   await Editor.shouldHaveText(content)
 
   const reopenAsImagePromise = Command.execute('Main.reopenEditorWith')
-  await new Promise((resolve) => setTimeout(resolve, 500))
   const mediaPreviewChoice = Locator('.QuickPickItem', { hasText: 'Media Preview' }).first()
   await expect(mediaPreviewChoice).toBeVisible()
   await mediaPreviewChoice.dispatchEvent('pointerdown', { bubbles: true, clientX: 200, clientY: 100, pointerId: 1 } as any)

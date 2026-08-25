@@ -46,6 +46,9 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
   if (tab.uri?.startsWith(SearchEditorScheme)) {
     return renderMaskIcon(ClassNames.MaskIconSearch)
   }
+  if (!tab.icon) {
+    return []
+  }
   return [
     {
       childCount: 0,
@@ -59,6 +62,7 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
 
 export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
   const closeButtonNodes = renderTabActions(tab.isDirty, tabIndex, groupIndex)
+  const tabIconNodes = renderTabIcon(tab)
   let className = ClassNames.MainTab
   if (isActive) {
     className = mergeClassNames(className, ClassNames.MainTabSelected)
@@ -73,7 +77,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
   return [
     {
       'aria-selected': isActive,
-      childCount: 3,
+      childCount: 2 + (tabIconNodes.length > 0 ? 1 : 0),
       className,
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,
@@ -90,7 +94,7 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       title: tab.uriTitle || tab.uri || tab.title,
       type: VirtualDomElements.Div,
     },
-    ...renderTabIcon(tab),
+    ...tabIconNodes,
     tabTitleNode,
     text(tab.title),
     ...closeButtonNodes,

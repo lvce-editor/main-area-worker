@@ -23,7 +23,7 @@ test('renderTab should return correct structure for clean tab', () => {
   expect(result).toEqual([
     {
       'aria-selected': false,
-      childCount: 3,
+      childCount: 2,
       className: 'MainTab',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -39,13 +39,6 @@ test('renderTab should return correct structure for clean tab', () => {
       tabIndex: -1,
       title: '/path/to/Test File',
       type: VirtualDomElements.Div,
-    },
-    {
-      childCount: 0,
-      className: 'TabIcon',
-      role: 'none',
-      src: '',
-      type: VirtualDomElements.Img,
     },
     {
       childCount: 1,
@@ -68,6 +61,27 @@ test('renderTab should return correct structure for clean tab', () => {
       type: VirtualDomElements.Div,
     },
   ])
+})
+
+test('renderTab should not render an empty file icon', () => {
+  const tab: Tab = {
+    editorType: 'text',
+    editorUid: -1,
+    errorMessage: '',
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    language: '',
+    loadingState: 'idle',
+    title: 'Test File',
+    uri: '/path/to/Test File',
+  }
+
+  const result = renderTab(tab, false, 0, 0)
+
+  expect(result[0].childCount).toBe(2)
+  expect(result.some((node) => node.className === 'TabIcon' && node.type === VirtualDomElements.Img)).toBe(false)
 })
 
 test('renderTab should use the extensions mask icon for running extensions', () => {
@@ -146,7 +160,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
   expect(result).toEqual([
     {
       'aria-selected': false,
-      childCount: 3,
+      childCount: 2,
       className: 'MainTab MainTabModified',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -162,13 +176,6 @@ test('renderTab should show dirty indicator for dirty tab', () => {
       tabIndex: -1,
       title: '/path/to/Test File',
       type: VirtualDomElements.Div,
-    },
-    {
-      childCount: 0,
-      className: 'TabIcon',
-      role: 'none',
-      src: '',
-      type: VirtualDomElements.Img,
     },
     {
       childCount: 1,
@@ -209,7 +216,7 @@ test('renderTab should handle empty title', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[3].text).toBe('')
+  expect(result[2].text).toBe('')
 })
 
 test('renderTab should put the active tab in the keyboard tab sequence', () => {
@@ -241,8 +248,8 @@ test('renderTab should handle dirty tab with empty title', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[3].text).toBe('')
-  expect(result[5].className).toBe('MaskIcon MaskIconCircleFilled')
+  expect(result[2].text).toBe('')
+  expect(result[4].className).toBe('MaskIcon MaskIconCircleFilled')
 })
 
 test('renderTab should use title as fallback when path is undefined', () => {
@@ -275,7 +282,7 @@ test('renderTab should prefer uriTitle for the tab tooltip', () => {
   const result = renderTab(tab, false, 0, 0)
 
   expect(result[0].title).toBe('~/file.md')
-  expect(result[3].text).toBe('file.md')
+  expect(result[2].text).toBe('file.md')
 })
 
 test('renderTab should add preview class for preview tabs', () => {

@@ -23,7 +23,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
 
   const inactiveCloseIcon = Locator('.MainTab[title$="close-child-target-1.ts"] .EditorTabCloseButton .MaskIconClose')
   await inactiveCloseIcon.dispatchEvent('click', clickEventInit)
-  await new Promise((resolve) => setTimeout(resolve, 500))
   await expect(tabs).toHaveCount(2)
   const firstTab = Locator('.MainTab[title$="close-child-target-1.ts"]')
   const selectedThirdTab = Locator('.MainTabSelected[title$="close-child-target-3.ts"]')
@@ -32,7 +31,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
 
   const activeCloseIcon = Locator('.MainTabSelected[title$="close-child-target-3.ts"] .EditorTabCloseButton .MaskIconClose')
   await activeCloseIcon.dispatchEvent('click', clickEventInit)
-  await new Promise((resolve) => setTimeout(resolve, 500))
   await expect(tabs).toHaveCount(1)
   const thirdTab = Locator('.MainTab[title$="close-child-target-3.ts"]')
   const selectedSecondTab = Locator('.MainTabSelected[title$="close-child-target-2.ts"]')

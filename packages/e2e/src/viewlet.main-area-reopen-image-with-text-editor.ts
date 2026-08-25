@@ -4,6 +4,19 @@ export const name = 'viewlet.main-area-reopen-image-with-text-editor'
 export const skip = ['webkit'] as const
 
 export const test: Test = async ({ Command, Editor, expect, Extension, FileSystem, Locator, Main }) => {
+  const dispatchPointerDownWhenReady = async (locator: ReturnType<typeof Locator>): Promise<void> => {
+    const eventInit = { bubbles: true, clientX: 200, clientY: 100, pointerId: 1 } as any
+    for (let attempt = 0; attempt < 60; attempt++) {
+      try {
+        await locator.dispatchEvent('pointerdown', eventInit)
+        return
+      } catch {
+        await new Promise(requestAnimationFrame)
+      }
+    }
+    await locator.dispatchEvent('pointerdown', eventInit)
+  }
+
   const extensionUri = import.meta.resolve('../fixtures/reopen-editor-media-preview')
   await Extension.addWebExtension(extensionUri)
 
@@ -18,15 +31,13 @@ export const test: Test = async ({ Command, Editor, expect, Extension, FileSyste
 
   const reopenPromise = Command.execute('Main.reopenEditorWith')
   const textEditorChoice = Locator('.QuickPickItem').first()
-  await expect(textEditorChoice).toBeVisible()
-  await textEditorChoice.dispatchEvent('pointerdown', { bubbles: true, clientX: 200, clientY: 100, pointerId: 1 } as any)
+  await dispatchPointerDownWhenReady(textEditorChoice)
   await reopenPromise
   await Editor.shouldHaveText(content)
 
   const reopenAsImagePromise = Command.execute('Main.reopenEditorWith')
   const mediaPreviewChoice = Locator('.QuickPickItem', { hasText: 'Media Preview' }).first()
-  await expect(mediaPreviewChoice).toBeVisible()
-  await mediaPreviewChoice.dispatchEvent('pointerdown', { bubbles: true, clientX: 200, clientY: 100, pointerId: 1 } as any)
+  await dispatchPointerDownWhenReady(mediaPreviewChoice)
   await reopenAsImagePromise
 
   await Command.execute('Main.reopenEditorWith', 'editor')

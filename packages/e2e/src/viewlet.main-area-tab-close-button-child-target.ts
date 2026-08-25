@@ -19,12 +19,22 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.openUri(file3)
 
   const tabs = Locator('.MainTab')
+  const waitForTabCount = async (count: number): Promise<void> => {
+    for (let attempt = 0; attempt < 60; attempt++) {
+      try {
+        await expect(tabs).toHaveCount(count)
+        return
+      } catch {
+        await new Promise(requestAnimationFrame)
+      }
+    }
+    await expect(tabs).toHaveCount(count)
+  }
   await expect(tabs).toHaveCount(3)
 
   const inactiveCloseIcon = Locator('.MainTab[title$="close-child-target-1.ts"] .EditorTabCloseButton .MaskIconClose')
   await inactiveCloseIcon.dispatchEvent('click', clickEventInit)
-  await new Promise((resolve) => setTimeout(resolve, 500))
-  await expect(tabs).toHaveCount(2)
+  await waitForTabCount(2)
   const firstTab = Locator('.MainTab[title$="close-child-target-1.ts"]')
   const selectedThirdTab = Locator('.MainTabSelected[title$="close-child-target-3.ts"]')
   await expect(firstTab).toBeHidden()
@@ -32,8 +42,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
 
   const activeCloseIcon = Locator('.MainTabSelected[title$="close-child-target-3.ts"] .EditorTabCloseButton .MaskIconClose')
   await activeCloseIcon.dispatchEvent('click', clickEventInit)
-  await new Promise((resolve) => setTimeout(resolve, 500))
-  await expect(tabs).toHaveCount(1)
+  await waitForTabCount(1)
   const thirdTab = Locator('.MainTab[title$="close-child-target-3.ts"]')
   const selectedSecondTab = Locator('.MainTabSelected[title$="close-child-target-2.ts"]')
   await expect(thirdTab).toBeHidden()

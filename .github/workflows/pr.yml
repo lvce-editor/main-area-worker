@@ -7,7 +7,7 @@ on:
 
 jobs:
   pr:
-    name: preview replacement (windows firefox) attempt ${{ matrix.attempt }}
+    name: full suite (windows firefox) attempt ${{ matrix.attempt }}
     strategy:
       fail-fast: false
       matrix:
@@ -41,14 +41,14 @@ jobs:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: e2e firefox
         working-directory: ./packages/e2e
-        run: npx test-with-playwright --only-extension=. --test-path=. --browser=firefox --headless --reuse-page --server-path=../server/src/dev.js --filter=viewlet.main-area-preview-tab-replaced
+        run: npm run e2e:firefox:headless
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: Upload e2e diagnostics
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: preview-replacement-attempt-${{ matrix.attempt }}
+          name: full-suite-attempt-${{ matrix.attempt }}
           path: |
             packages/e2e/.tmp
             packages/e2e/videos

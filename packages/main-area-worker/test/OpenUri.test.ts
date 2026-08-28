@@ -854,6 +854,32 @@ test('openUri should load and set file icon for new tab', async () => {
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
 
+test('openUri should preserve built-in tab metadata for cookie importer uri', async () => {
+  const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'CookieImport',
+  })
+  using mockIconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['default-file-icon'],
+  })
+
+  const result = await openUri(createDefaultState(), {
+    focus: false,
+    preview: false,
+    uri: 'cookie-import-view:///',
+  })
+  const tab = result.layout.groups[0].tabs[0]
+
+  expect(tab.title).toBe('Import Firefox Cookies')
+  expect(tab.icon).toBe('MaskIconRecordKey')
+  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+    ['Layout.getModuleId', 'cookie-import-view:///'],
+    ['Layout.createViewlet', 'CookieImport', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'cookie-import-view:///'],
+  ])
+  expect(mockIconRpc.invocations).toEqual([])
+})
+
 test('openUri should update fileIconCache with loaded icon', async () => {
   const { IconThemeWorker } = await import('@lvce-editor/rpc-registry')
   using mockRpc = RendererWorker.registerMockRpc({

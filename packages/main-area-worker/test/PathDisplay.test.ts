@@ -98,6 +98,14 @@ test('getLabel should return Running Extensions for running-extensions:// uri', 
   expect(PathDisplay.getLabel('running-extensions://')).toBe('Running Extensions')
 })
 
+test('getLabel should return Import Firefox Cookies for cookie-import-view:// uri', () => {
+  expect(PathDisplay.getLabel('cookie-import-view:///')).toBe('Import Firefox Cookies')
+})
+
+test('getLabel should return Import Firefox Cookies for nested cookie-import-view:// uri', () => {
+  expect(PathDisplay.getLabel('cookie-import-view:///firefox/default')).toBe('Import Firefox Cookies')
+})
+
 test('getLabel should return Keyboard Shortcuts for app://keybindings', () => {
   const uri: string = 'app://keybindings'
   const result: ReturnType<typeof PathDisplay.getLabel> = PathDisplay.getLabel(uri)
@@ -160,6 +168,10 @@ test('getFileIcon should return MaskIconDebugAlt2 for process-explorer:// uri wi
 
 test('getFileIcon should return MaskIconExtensions for running-extensions:// uri', () => {
   expect(PathDisplay.getFileIcon('running-extensions://')).toBe('MaskIconExtensions')
+})
+
+test('getFileIcon should return MaskIconRecordKey for cookie-import-view:// uri', () => {
+  expect(PathDisplay.getFileIcon('cookie-import-view:///')).toBe('MaskIconRecordKey')
 })
 
 test('getFileIcon should return MaskIconSearch for search-editor:// uri', () => {

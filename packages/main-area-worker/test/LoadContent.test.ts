@@ -111,6 +111,65 @@ test('loadContent should restore valid saved state', async () => {
   expect(result.layout.activeGroupId).toBe(1)
 })
 
+test('loadContent should preserve built-in metadata for a restored cookie importer tab', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'CookieImport',
+  })
+  using iconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['default-file-icon'],
+  })
+
+  const state = createDefaultState()
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [
+            {
+              editorType: 'custom',
+              editorUid: -1,
+              icon: 'default-file-icon',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'Import Firefox Cookies',
+              uri: 'cookie-import-view:///',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await LoadContent.loadContent(state, savedState)
+  const restoredTab = result.layout.groups[0].tabs[0]
+
+  expect(restoredTab.title).toBe('Import Firefox Cookies')
+  expect(restoredTab.icon).toBe('MaskIconRecordKey')
+  expect(rendererRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+    ['Workspace.getHomeDir'],
+    ['Layout.getModuleId', 'cookie-import-view:///'],
+    [
+      'Layout.createViewlet',
+      'CookieImport',
+      restoredTab.editorUid,
+      restoredTab.id,
+      { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
+      'cookie-import-view:///',
+    ],
+  ])
+  expect(iconRpc.invocations).toEqual([])
+})
+
 test('loadContent should add pretty uri titles for restored file tabs under the home dir', async () => {
   using rendererRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},

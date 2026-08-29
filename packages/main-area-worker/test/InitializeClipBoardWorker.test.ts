@@ -3,8 +3,8 @@ import { PlainMessagePortRpc } from '@lvce-editor/rpc'
 import { ClipBoardWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import { initializeClipBoardWorker } from '../src/parts/InitializeClipBoardWorker/InitializeClipBoardWorker.ts'
 
-afterEach(() => {
-  ClipBoardWorker.dispose()
+afterEach(async () => {
+  await ClipBoardWorker.dispose()
 })
 
 test('writes text through a lazily transferred message port', async () => {

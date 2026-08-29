@@ -7,12 +7,11 @@ on:
 
 jobs:
   pr:
-    name: full suite (ubuntu firefox) attempt ${{ matrix.attempt }}
     strategy:
       fail-fast: false
       matrix:
-        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    runs-on: ubuntu-24.04
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
@@ -33,13 +32,22 @@ jobs:
         if: steps.npm-cache.outputs.cache-hit != 'true'
       - run: npm run build
       - run: npm run build:static
+      - run: npm test
+      - run: npm run type-check
+      - run: npm run lint
       - name: install playwright system dependencies
         working-directory: ./packages/e2e
-        run: sudo npx playwright install-deps firefox
+        if: runner.os == 'Linux'
+        run: sudo npx playwright install-deps chromium firefox webkit
       - name: install playwright dependencies
         working-directory: ./packages/e2e
-        run: npx playwright install firefox
+        run: npx playwright install chromium firefox webkit
         if: steps.npm-cache.outputs.cache-hit != 'true'
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+      - name: e2e
+        working-directory: ./packages/e2e
+        run: npm run e2e:headless
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: e2e firefox
@@ -47,12 +55,14 @@ jobs:
         run: npm run e2e:firefox:headless
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
-      - name: Upload e2e diagnostics
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: ubuntu-firefox-full-suite-attempt-${{ matrix.attempt }}
-          path: |
-            packages/e2e/.tmp
-            packages/e2e/videos
-          if-no-files-found: ignore
+      - name: e2e webkit
+        if: runner.os != 'Windows'
+        working-directory: ./packages/e2e
+        run: npm run e2e:webkit:headless
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+      - name: measure
+        working-directory: ./packages/build
+        run: npm run measure
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0

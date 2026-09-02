@@ -10,8 +10,8 @@ import { handleDrop } from '../src/parts/HandleDrop/HandleDrop.ts'
 
 const registerDroppedUris = (uris: readonly string[]) => {
   return DragAndDropWorker.registerMockRpc({
-    'DragAndDrop.getDroppedItems'() {
-      return { files: [], strings: [], uris }
+    'DragAndDrop.getDroppedUrisByDropId'() {
+      return uris
     },
   })
 }
@@ -190,7 +190,7 @@ test('clears the drag overlay when no uri is dropped', async () => {
     },
   }
 
-  await handleDrop(context, [])
+  await handleDrop(context, 1)
 
   expect(state.dragOverlay).toBeUndefined()
 })
@@ -260,7 +260,7 @@ test('opens a dropped explorer uri', async () => {
     },
   }
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(state.dragOverlay).toBeUndefined()
   expect(state.layout.activeGroupId).toBe(1)
@@ -280,7 +280,7 @@ test.each([
     using _mockRpc = RendererWorker.registerMockRpc({})
     const { context, getState } = createContext(handleDragOver(createStateWithOpenFile(), eventX, eventY))
 
-    await handleDrop(context, [1])
+    await handleDrop(context, 1)
 
     expect(getState().dragOverlay).toBeUndefined()
     expect(getState().layout.direction).toBe(expectedDirection)
@@ -295,7 +295,7 @@ test('opens a center-dropped explorer uri in the existing group', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext(handleDragOver(createStateWithOpenFile(), 400, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toHaveLength(1)
@@ -309,7 +309,7 @@ test('opens a center-dropped explorer uri in the editor group under the pointer'
   using _mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext(handleDragOver(createStateWithTwoOpenFiles(), 600, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([
     ['file:///workspace/left.txt'],
@@ -323,7 +323,7 @@ test('splits the editor group under the pointer when dropping on its right edge'
   using _mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext(handleDragOver(createStateWithTwoOpenFiles(), 790, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([
     ['file:///workspace/left.txt'],
@@ -347,7 +347,7 @@ test('opens a dropped explorer uri without splitting for an unknown overlay dire
     },
   })
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toHaveLength(1)
@@ -360,7 +360,7 @@ test('opens an already-open explorer uri in the new split group', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext(handleDragOver(createStateWithOpenFile(uri), 700, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([[uri], [uri]])
   expect(getState().layout.activeGroupId).toBe(getState().layout.groups[1].id)
@@ -375,7 +375,7 @@ test('moves an internally dragged tab into the new split group', async () => {
   }
   const { context, getState } = createContext(handleDragOver(initialState, 700, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([['/workspace/second.txt'], ['/workspace/first.txt']])
@@ -393,7 +393,7 @@ test('does not split when the only open editor is internally dragged to an edge'
   }
   const { context, getState } = createContext(handleDragOver(initialState, 700, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toHaveLength(1)
@@ -411,7 +411,7 @@ test('does not move an internally dragged tab when it is dropped in its current 
   }
   const { context, getState } = createContext(handleDragOver(initialState, 400, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([['/workspace/first.txt', '/workspace/second.txt']])
   expect(getState().pointerDownGroupIndex).toBe(-1)
@@ -427,7 +427,7 @@ test('does not move an internally dragged tab when there is no drop target', asy
   }
   const { context, getState } = createContext(initialState)
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([['/workspace/first.txt', '/workspace/second.txt']])
   expect(getState().pointerDownGroupIndex).toBe(-1)
@@ -440,7 +440,7 @@ test('opens multiple dropped explorer uris in the new split group in source orde
   using _mockRpc = RendererWorker.registerMockRpc({})
   const { context, getState } = createContext(handleDragOver(createStateWithOpenFile(), 700, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([['file:///workspace/original.txt'], uris])
 })
@@ -454,11 +454,11 @@ test('opens a dropped native file using its persisted html uri', async () => {
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
   })
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups[0].tabs[0].uri).toBe(uri)
-  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, false]])
   expect(mockRpc.invocations).toEqual([['Layout.getModuleId', uri]])
 })
 
@@ -471,11 +471,11 @@ test('opens a dropped native electron file using its file uri', async () => {
     platform: PlatformType.Electron,
   })
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups[0].tabs[0].uri).toBe('file:///workspace/native%20file.txt')
-  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], true]])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, true]])
   expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///workspace/native%20file.txt']])
 })
 
@@ -487,11 +487,11 @@ test('sets a dropped native folder as the workspace folder', async () => {
   })
   const { context, getState } = createContext(handleDragOver({ ...createDefaultState(), height: 600, width: 800 }, 0, 300))
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
-  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, false]])
   expect(mockRpc.invocations).toEqual([['Workspace.setUri', workspaceUri]])
 })
 
@@ -509,11 +509,11 @@ test('sets a dropped folder path as the workspace folder', async () => {
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
   })
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
-  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, false]])
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.stat', workspacePath],
     ['Workspace.setPath', workspacePath],
@@ -538,7 +538,7 @@ test('does not wait for a workspace reload after dropping a folder', async () =>
   let dropCompleted = false
 
   const runDrop = async (): Promise<void> => {
-    await handleDrop(context, [1])
+    await handleDrop(context, 1)
     dropCompleted = true
   }
   const drop = runDrop()
@@ -565,11 +565,11 @@ test('sets a dropped explorer folder as the workspace folder', async () => {
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
   })
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
-  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, false]])
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.stat', folderUri],
     ['Workspace.setUri', folderUri],
@@ -590,11 +590,11 @@ test('sets a dropped remote explorer folder uri as the workspace folder', async 
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
   })
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
-  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, false]])
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.stat', folderUri],
     ['Workspace.setUri', folderUri],
@@ -612,11 +612,11 @@ test('preserves the uri scheme when a dropped remote explorer folder has a trail
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
   })
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups).toEqual([])
-  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [1], false]])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, false]])
   expect(mockRpc.invocations).toEqual([['Workspace.setUri', folderUri]])
 })
 
@@ -628,7 +628,7 @@ test('opens multiple dropped explorer uris in their source order', async () => {
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
   })
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState().layout.groups[0].tabs.map((tab) => tab.uri)).toEqual([
     'file:///workspace/first.ts',
@@ -646,18 +646,18 @@ test('opens an explorer file recovered from retained Chromium drag data', async 
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
   })
 
-  await handleDrop(context, [7])
+  await handleDrop(context, 7)
 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups[0].tabs[0].uri).toBe('file:///workspace/retained.ts')
-  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedItems', [7], false]])
+  expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 7, false]])
   expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///workspace/retained.ts']])
 })
 
 test('clears the drag overlay before a native drop lookup fails', async () => {
   const error = new Error('Failed to read native drop')
   using _dragRpc = DragAndDropWorker.registerMockRpc({
-    'DragAndDrop.getDroppedItems'() {
+    'DragAndDrop.getDroppedUrisByDropId'() {
       throw error
     },
   })
@@ -666,7 +666,7 @@ test('clears the drag overlay before a native drop lookup fails', async () => {
     dragOverlay: { height: 300, width: 400, x: 0, y: 0 },
   })
 
-  await expect(handleDrop(context, [1])).rejects.toThrow(error)
+  await expect(handleDrop(context, 1)).rejects.toThrow(error)
 
   expect(getState().dragOverlay).toBeUndefined()
 })
@@ -680,7 +680,7 @@ test('keeps the cancelled state when dropped data is unsupported', async () => {
   }
   const { context, getState } = createContext(initialState)
 
-  await handleDrop(context, [1])
+  await handleDrop(context, 1)
 
   expect(getState()).toEqual({
     ...initialState,

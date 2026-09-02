@@ -8,16 +8,16 @@ const assert = (condition: boolean, message: string): void => {
   }
 }
 
-export const test: Test = async ({ Command, FileSystem, Workspace }) => {
+export const test: Test = async ({ Command, DragAndDrop, FileSystem, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const folderPath = `${tmpDir}/explorer-folder`
   const expectedWorkspacePath = folderPath.slice('file://'.length)
 
   await FileSystem.mkdir(folderPath)
   await Workspace.setPath(tmpDir)
-  const itemId = await FileSystem.registerFileHandle({ kind: 'string', type: 'text/uri-list', value: folderPath } as any)
+  const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: folderPath }])
 
-  await Command.execute('Main.handleDrop', [itemId])
+  await Command.execute('Main.handleDrop', dropId)
 
   let workspacePath = await Command.execute('Workspace.getPath')
   for (let attempt = 0; workspacePath !== expectedWorkspacePath && attempt < 60; attempt++) {

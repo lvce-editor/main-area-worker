@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-drag-tab-split-right'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const first = `${tmpDir}/drag-tab-split-right-first.txt`
   const second = `${tmpDir}/drag-tab-split-right-second.txt`
@@ -14,12 +14,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Main.closeAllEditors()
   await Main.openUri(first)
   await Main.openUri(second)
-  const itemId = await FileSystem.registerFileHandle({ kind: 'string', type: 'text/uri-list', value: first } as any)
+  const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: first }])
 
   const firstTab = Locator('.MainTab[title$="drag-tab-split-right-first.txt"]')
   await firstTab.dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
   await Command.execute('Main.handleDragOver', 10_000, 300)
-  await Command.execute('Main.handleDrop', [itemId])
+  await Command.execute('Main.handleDrop', dropId)
 
   const groups = Locator('.EditorGroup')
   const leftGroup = groups.nth(0)

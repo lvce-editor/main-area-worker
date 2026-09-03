@@ -7,6 +7,7 @@ import { createViewletContent, getViewletTitle } from '../CreateViewlet/CreateVi
 import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
+import { focus as focusMainArea } from '../Focus/Focus.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import { getCurrentState } from '../GetCurrentState/GetCurrentState.ts'
@@ -28,6 +29,12 @@ const renderMainAreaPending = async (uid: number): Promise<void> => {
     await RendererWorker.invoke('Layout.renderMainAreaPending', uid)
   } catch {
     // Older renderer workers render the final state when openInput completes.
+  }
+}
+
+const focusIfRequested = async (state: MainAreaState, shouldFocus: boolean): Promise<void> => {
+  if (shouldFocus) {
+    await focusMainArea(state)
   }
 }
 
@@ -71,6 +78,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   if (existingTab && !shouldRetry) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
+    await focusIfRequested(switchedState, options.focus)
     return
   }
   const replacedEditorUid = getActivePreviewEditorUid(currentState)
@@ -142,6 +150,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
 
     await context.updateState(() => readyState)
     await renderMainAreaPending(state.uid)
+    await focusIfRequested(context.getState(), options.focus)
 
     const renderedTitle = await getViewletTitle(editorUid)
     if (renderedTitle) {

@@ -108,6 +108,7 @@ test('openUri should pass editor context to the created viewlet', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.focusSelector': async () => {},
   })
   const editorContext = {
     endColumnIndex: 17,
@@ -1013,6 +1014,7 @@ test('openUri should not create duplicate tabs when the same URI is opened simul
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => moduleIdPromise.promise,
+    'Viewlet.focusSelector': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({
@@ -1048,6 +1050,7 @@ test('openUri should handle race condition when second call starts while first a
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.focusSelector': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({

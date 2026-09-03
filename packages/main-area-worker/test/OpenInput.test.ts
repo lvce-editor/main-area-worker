@@ -47,6 +47,28 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   ])
 })
 
+test('openInput should focus the opened editor when requested', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+    'Viewlet.focusSelector': async () => {},
+  })
+
+  const state = createDefaultState()
+
+  const result = await openInput(state, {
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///path/to/file.ts',
+    },
+    focus: true,
+    preview: true,
+  })
+
+  const tab = result.layout.groups[0].tabs[0]
+  expect(mockRpc.invocations).toContainEqual(['Viewlet.focusSelector', tab.editorUid, '[name="editor"]'])
+})
+
 test('openInput should show a binary file placeholder without creating a viewlet', async () => {
   using mockRpc = RendererWorker.registerMockRpc({})
   const state = createDefaultState()
@@ -226,7 +248,10 @@ test('openInput should open extension detail view input without Layout.getModule
   ])
 })
 
-test('openInput should activate existing diff editor tab', async () => {
+test('openInput should activate and focus an existing diff editor tab when requested', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.focusSelector': async () => {},
+  })
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -248,7 +273,7 @@ test('openInput should activate existing diff editor tab', async () => {
                 uriRight: 'file:///path/to/right.ts',
               },
               editorType: 'custom',
-              editorUid: -1,
+              editorUid: 42,
               errorMessage: '',
               icon: '',
               id: 1,
@@ -271,12 +296,13 @@ test('openInput should activate existing diff editor tab', async () => {
       uriLeft: 'file:///path/to/left.ts',
       uriRight: 'file:///path/to/right.ts',
     },
-    focus: false,
+    focus: true,
     preview: false,
   })
 
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
 })
 
 test('openInput should show an error when opening a folder path', async () => {

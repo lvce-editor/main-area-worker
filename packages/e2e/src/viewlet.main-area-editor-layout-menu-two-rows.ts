@@ -9,6 +9,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const file = `${tmpDir}/two-rows.txt`
   await FileSystem.writeFile(file, 'editor layout menu test')
   await Main.openUri(file)
+  await Command.execute('Timeout.sleep', 200)
 
   await TitleBarMenuBar.focus()
   await TitleBarMenuBar.handleKeyArrowRight()

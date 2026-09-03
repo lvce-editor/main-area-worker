@@ -418,6 +418,61 @@ test('does not move an internally dragged tab when it is dropped in its current 
   expect(getState().pointerDownTabIndex).toBe(-1)
 })
 
+test('reorders an internally dragged tab before the first tab', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/second.txt'])
+  const initialState: MainAreaState = {
+    ...createStateWithTwoTabs(),
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 1,
+    tabDropIndicator: { groupId: 1, index: 0 },
+  }
+  const { context, getState } = createContext(initialState)
+
+  await handleDrop(context, 1)
+
+  expect(getState().layout.groups[0].tabs.map((tab) => tab.uri)).toEqual(['/workspace/second.txt', '/workspace/first.txt'])
+  expect(getState().layout.groups[0].activeTabId).toBe(3)
+  expect(getState().tabDropIndicator).toBeUndefined()
+  expect(getState().pointerDownGroupIndex).toBe(-1)
+  expect(getState().pointerDownTabIndex).toBe(-1)
+})
+
+test('reorders an internally dragged tab after the final tab', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/first.txt'])
+  const initialState: MainAreaState = {
+    ...createStateWithTwoTabs(),
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 0,
+    tabDropIndicator: { groupId: 1, index: 2 },
+  }
+  const { context, getState } = createContext(initialState)
+
+  await handleDrop(context, 1)
+
+  expect(getState().layout.groups[0].tabs.map((tab) => tab.uri)).toEqual(['/workspace/second.txt', '/workspace/first.txt'])
+  expect(getState().tabDropIndicator).toBeUndefined()
+})
+
+test('inserts an internally dragged tab at a specific position in another group', async () => {
+  using _dragRpc = registerDroppedUris(['file:///workspace/left.txt'])
+  const base = createStateWithTwoOpenFiles()
+  const initialState: MainAreaState = {
+    ...base,
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 0,
+    tabDropIndicator: { groupId: 3, index: 0 },
+  }
+  const { context, getState } = createContext(initialState)
+
+  await handleDrop(context, 1)
+
+  expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([
+    [],
+    ['file:///workspace/left.txt', 'file:///workspace/right.txt'],
+  ])
+  expect(getState().layout.activeGroupId).toBe(3)
+})
+
 test('does not move an internally dragged tab when there is no drop target', async () => {
   using _dragRpc = registerDroppedUris(['file:///workspace/first.txt'])
   const initialState = {

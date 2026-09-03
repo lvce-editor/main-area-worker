@@ -1,12 +1,13 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const handleDragLeave = (state: MainAreaState): MainAreaState => {
-  const { dragOverlay } = state
-  if (!dragOverlay) {
+  const { dragOverlay, tabDropIndicator } = state
+  if (!dragOverlay && !tabDropIndicator) {
     return state
   }
   return {
     ...state,
     dragOverlay: undefined,
+    tabDropIndicator: undefined,
   }
 }

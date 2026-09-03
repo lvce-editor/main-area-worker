@@ -87,6 +87,8 @@ test('renderEventListeners should register drag event listeners', () => {
   const dragStart = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragStart)
   const dragEnd = result.find((listener) => listener.name === DomEventListenerFunctions.HandleDragEnd)
   const mouseUp = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabMouseUp)
+  const tabDragOver = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabDragOver)
+  const tabsDragOver = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabsDragOver)
 
   expect(dragOver).toEqual({
     name: DomEventListenerFunctions.HandleDragOver,
@@ -114,5 +116,26 @@ test('renderEventListeners should register drag event listeners', () => {
   expect(mouseUp).toEqual({
     name: DomEventListenerFunctions.HandleTabMouseUp,
     params: ['handleTabMouseUp'],
+  })
+  expect(tabDragOver).toEqual({
+    name: DomEventListenerFunctions.HandleTabDragOver,
+    params: [
+      'handleTabDragOver',
+      'event.currentTarget.dataset.groupIndex',
+      'event.currentTarget.dataset.index',
+      'event.currentTarget.offsetLeft',
+      'event.currentTarget.offsetWidth',
+      'event.currentTarget.parentElement.scrollLeft',
+      EventExpression.ClientX,
+      EventExpression.ClientY,
+    ],
+    preventDefault: true,
+    stopPropagation: true,
+  })
+  expect(tabsDragOver).toEqual({
+    name: DomEventListenerFunctions.HandleTabsDragOver,
+    params: ['handleTabsDragOver', 'event.currentTarget.dataset.groupIndex', EventExpression.ClientX, EventExpression.ClientY],
+    preventDefault: true,
+    stopPropagation: true,
   })
 })

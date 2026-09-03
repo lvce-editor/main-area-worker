@@ -12,13 +12,35 @@ export const moveTabToGroup = (
   const sourceGroup = groups.find((group) => group.id === sourceGroupId)
   const hasTargetGroup = groups.some((group) => group.id === targetGroupId)
 
-  if (!sourceGroup || !hasTargetGroup || sourceGroupId === targetGroupId) {
+  if (!sourceGroup || !hasTargetGroup) {
     return state
   }
 
   const tabToMove = sourceGroup.tabs.find((tab) => tab.id === tabId)
   if (!tabToMove) {
     return state
+  }
+
+  if (sourceGroupId === targetGroupId) {
+    if (targetIndex === undefined) {
+      return state
+    }
+    const sourceIndex = sourceGroup.tabs.findIndex((tab) => tab.id === tabId)
+    const insertionBoundary = Math.min(Math.max(targetIndex, 0), sourceGroup.tabs.length)
+    const insertionIndex = insertionBoundary > sourceIndex ? insertionBoundary - 1 : insertionBoundary
+    if (insertionIndex === sourceIndex) {
+      return state
+    }
+    const tabs = sourceGroup.tabs.filter((tab) => tab.id !== tabId)
+    tabs.splice(insertionIndex, 0, tabToMove)
+    return {
+      ...state,
+      layout: {
+        ...layout,
+        activeGroupId: targetGroupId,
+        groups: groups.map((group) => (group.id === targetGroupId ? { ...group, tabs } : group)),
+      },
+    }
   }
 
   const updatedGroups = groups.map((group) => {
@@ -44,7 +66,7 @@ export const moveTabToGroup = (
     }
 
     if (group.id === targetGroupId) {
-      const insertIndex = targetIndex === undefined ? group.tabs.length : targetIndex
+      const insertIndex = targetIndex === undefined ? group.tabs.length : Math.min(Math.max(targetIndex, 0), group.tabs.length)
       const newTabs = [...group.tabs]
       newTabs.splice(insertIndex, 0, tabToMove)
 

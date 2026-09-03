@@ -1,11 +1,16 @@
 import { type VirtualDomNode, VirtualDomElements, AriaRoles } from '@lvce-editor/virtual-dom-worker'
-import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
+import type { EditorGroup, TabDropIndicator } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenersFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getTabsVirtualDom } from '../GetTabsVirtualDom/GetTabsVirtualDom.ts'
 import { renderEditorGroupActions } from '../RenderEditorGroupActions/RenderEditorGroupActions.ts'
 
-export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, splitButtonEnabled: boolean): readonly VirtualDomNode[] => {
+export const renderEditorGroupHeader = (
+  group: EditorGroup,
+  groupIndex: number,
+  splitButtonEnabled: boolean,
+  tabDropIndicator?: TabDropIndicator,
+): readonly VirtualDomNode[] => {
   const tabsChildCount = group.tabs.length
   const actions = renderEditorGroupActions(group, groupIndex, splitButtonEnabled)
 
@@ -18,7 +23,7 @@ export const renderEditorGroupHeader = (group: EditorGroup, groupIndex: number, 
       role: AriaRoles.None,
       type: VirtualDomElements.Div,
     },
-    ...getTabsVirtualDom(group, groupIndex, tabsChildCount),
+    ...getTabsVirtualDom(group, groupIndex, tabsChildCount, tabDropIndicator),
     ...actions,
   ]
 }

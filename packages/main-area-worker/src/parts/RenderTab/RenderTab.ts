@@ -60,7 +60,25 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
   ]
 }
 
-export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIndex: number): readonly VirtualDomNode[] => {
+type DropIndicatorPosition = 'after' | 'before' | undefined
+
+const getDropIndicatorStyle = (dropIndicatorPosition: DropIndicatorPosition): string | undefined => {
+  if (dropIndicatorPosition === 'before') {
+    return 'box-shadow:inset 2px 0 0 white;'
+  }
+  if (dropIndicatorPosition === 'after') {
+    return 'box-shadow:inset -2px 0 0 white;'
+  }
+  return undefined
+}
+
+export const renderTab = (
+  tab: Tab,
+  isActive: boolean,
+  tabIndex: number,
+  groupIndex: number,
+  dropIndicatorPosition?: DropIndicatorPosition,
+): readonly VirtualDomNode[] => {
   const closeButtonNodes = renderTabActions(tab.isDirty, tabIndex, groupIndex)
   const tabIconNodes = renderTabIcon(tab)
   let className = ClassNames.MainTab
@@ -85,11 +103,13 @@ export const renderTab = (tab: Tab, isActive: boolean, tabIndex: number, groupIn
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onDragEnd: DomEventListenerFunctions.HandleDragEnd,
+      onDragOver: DomEventListenerFunctions.HandleTabDragOver,
       onDragStart: DomEventListenerFunctions.HandleDragStart,
       onKeyDown: DomEventListenerFunctions.HandleTabKeyDown,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,
       onMouseUp: DomEventListenerFunctions.HandleTabMouseUp,
       role: AriaRoles.Tab,
+      ...(dropIndicatorPosition && { style: getDropIndicatorStyle(dropIndicatorPosition) }),
       tabIndex: isActive ? 0 : -1,
       title: tab.uriTitle || tab.uri || tab.title,
       type: VirtualDomElements.Div,

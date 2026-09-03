@@ -22,6 +22,7 @@ test('getTabsVirtualDom should return correct structure with empty tabs', () => 
     childCount: 0,
     className: 'MainTabs',
     'data-groupIndex': 0,
+    onDragOver: DomEventListenerFunctions.HandleTabsDragOver,
     onWheel: DomEventListenerFunctions.HandleTabsWheel,
     role: 'tablist',
     type: VirtualDomElements.Div,
@@ -57,6 +58,7 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
     childCount: 1,
     className: 'MainTabs',
     'data-groupIndex': 0,
+    onDragOver: DomEventListenerFunctions.HandleTabsDragOver,
     onWheel: DomEventListenerFunctions.HandleTabsWheel,
     role: 'tablist',
     type: VirtualDomElements.Div,
@@ -114,6 +116,7 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
     childCount: 3,
     className: 'MainTabs',
     'data-groupIndex': 0,
+    onDragOver: DomEventListenerFunctions.HandleTabsDragOver,
     onWheel: DomEventListenerFunctions.HandleTabsWheel,
     role: 'tablist',
     type: VirtualDomElements.Div,
@@ -201,6 +204,28 @@ test('getTabsVirtualDom should handle activeTabId -1', () => {
   // Should not throw and should return structure with tab element
   expect(result).toBeDefined()
   expect(result[0]).toHaveProperty('className', 'MainTabs')
+})
+
+test('getTabsVirtualDom should render an insertion indicator at the requested boundary', () => {
+  const tabs: Tab[] = [
+    { editorType: 'text', editorUid: -1, icon: '', id: 1, isDirty: false, isPreview: false, title: 'One', uri: '/one' },
+    { editorType: 'text', editorUid: -2, icon: '', id: 2, isDirty: false, isPreview: false, title: 'Two', uri: '/two' },
+  ]
+  const group: EditorGroup = {
+    activeTabId: 1,
+    direction: 1,
+    focused: true,
+    id: 7,
+    isEmpty: false,
+    size: 100,
+    tabs,
+  }
+
+  const beforeSecond = getTabsVirtualDom(group, 0, 2, { groupId: 7, index: 1 })
+  const afterLast = getTabsVirtualDom(group, 0, 2, { groupId: 7, index: 2 })
+
+  expect(beforeSecond.find((node) => node['data-index'] === 1)?.style).toBe('box-shadow:inset 2px 0 0 white;')
+  expect(afterLast.find((node) => node['data-index'] === 1)?.style).toBe('box-shadow:inset -2px 0 0 white;')
 })
 
 test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {

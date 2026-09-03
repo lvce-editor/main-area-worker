@@ -13,12 +13,13 @@ export const applyTabDrop = (
   tabId: number,
   splitDirection: number,
   targetGroupId?: number,
+  targetIndex?: number,
 ): MainAreaState => {
   if (targetGroupId === undefined) {
     return state
   }
   if (splitDirection === EditorSplitDirection.None) {
-    return moveTabToGroup(state, sourceGroupId, targetGroupId, tabId)
+    return moveTabToGroup(state, sourceGroupId, targetGroupId, tabId, targetIndex)
   }
   if (getOpenTabCount(state) === 1) {
     return state

@@ -1,6 +1,6 @@
 import { type VirtualDomNode, AriaRoles, mergeClassNames, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { LayoutDirection as LayoutDirectionType } from '../LayoutDirection/LayoutDirection.ts'
-import type { DragOverlay, MainAreaLayout } from '../MainAreaState/MainAreaState.ts'
+import type { DragOverlay, MainAreaLayout, TabDropIndicator } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getDragOverlayVirtualDom } from '../GetDragOverlayVirtualDom/GetDragOverlayVirtualDom.ts'
@@ -57,6 +57,7 @@ const renderSegmentChildren = (
   direction: LayoutDirectionType,
   groups: MainAreaLayout['groups'],
   splitButtonEnabled: boolean,
+  tabDropIndicator?: TabDropIndicator,
 ): { childCount: number; children: VirtualDomNode[] } => {
   const segments = getGroupSegments(groups, direction)
   const children: VirtualDomNode[] = []
@@ -73,7 +74,7 @@ const renderSegmentChildren = (
       childCount++
     }
     if (segment.direction === undefined) {
-      children.push(...renderEditorGroup(segment.groups[0], segment.startIndex, splitButtonEnabled, sizeProperty))
+      children.push(...renderEditorGroup(segment.groups[0], segment.startIndex, splitButtonEnabled, sizeProperty, true, tabDropIndicator))
       childCount++
       continue
     }
@@ -102,6 +103,8 @@ const renderSegmentChildren = (
           segment.startIndex + j,
           splitButtonEnabled,
           nestedSizeProperty,
+          true,
+          tabDropIndicator,
         ),
       )
       nestedCount++
@@ -124,11 +127,12 @@ export const getMainAreaVirtualDom = (
   layout: MainAreaLayout,
   splitButtonEnabled: boolean = false,
   dragOverlay?: DragOverlay,
+  tabDropIndicator?: TabDropIndicator,
 ): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
   const sizeProperty = getSizeProperty(direction)
   if (groups.length === 1) {
-    return addDragOverlay(renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty), dragOverlay)
+    return addDragOverlay(renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty, tabDropIndicator), dragOverlay)
   }
 
   const editorGroupsContainerClassName = getContainerClassName(direction, groups.length)
@@ -148,7 +152,7 @@ export const getMainAreaVirtualDom = (
       dragOverlay,
     )
   }
-  const { childCount, children } = renderSegmentChildren(direction, groups, splitButtonEnabled)
+  const { childCount, children } = renderSegmentChildren(direction, groups, splitButtonEnabled, tabDropIndicator)
   const sashCorner = getSashCorner(layout)
   const sashCornerChildren = sashCorner ? [renderSashCorner()] : []
   return addDragOverlay(

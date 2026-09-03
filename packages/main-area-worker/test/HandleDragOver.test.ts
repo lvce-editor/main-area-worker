@@ -5,6 +5,17 @@ import * as EditorSplitDirection from '../src/parts/EditorSplitDirection/EditorS
 import { handleDragOver } from '../src/parts/HandleDragOver/HandleDragOver.ts'
 import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 
+const tab = {
+  editorType: 'text' as const,
+  editorUid: 1,
+  icon: '',
+  id: 1,
+  isDirty: false,
+  isPreview: false,
+  title: 'a.txt',
+  uri: '/a.txt',
+}
+
 test('handleDragOver should show the overlay', () => {
   const state = {
     ...createDefaultState(),
@@ -219,6 +230,39 @@ test('handleDragOver should resolve an editor group in a nested layout', () => {
       width: 400,
       x: 400,
       y: 335,
+    },
+  })
+})
+
+test('handleDragOver should delegate to tab drag over when tab geometry is provided', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    height: 600,
+    layout: {
+      activeGroupId: 1,
+      direction: LayoutDirection.Horizontal,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: LayoutDirection.Horizontal,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [tab],
+        },
+      ],
+    },
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 0,
+    width: 800,
+  }
+
+  expect(handleDragOver(state, 0, 10, '0', '0', 0, 100, 0)).toEqual({
+    ...state,
+    tabDropIndicator: {
+      groupId: 1,
+      index: 0,
     },
   })
 })

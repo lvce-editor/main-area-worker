@@ -65,7 +65,7 @@ test('moveTabToGroup should return state unchanged when target group does not ex
   expect(result).toBe(state)
 })
 
-test('moveTabToGroup should return state unchanged when source and target are the same', () => {
+test('moveTabToGroup should return state unchanged when source and target are the same without a target index', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -88,6 +88,162 @@ test('moveTabToGroup should return state unchanged when source and target are th
   const result = MoveTabToGroup.moveTabToGroup(state, 1, 1, 1)
 
   expect(result).toBe(state)
+})
+
+test('moveTabToGroup should reorder a tab to the start of its group', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [createTab(1, 'file1.ts'), createTab(2, 'file2.ts'), createTab(3, 'file3.ts')],
+        },
+      ],
+    },
+  }
+
+  const result = MoveTabToGroup.moveTabToGroup(state, 1, 1, 2, 0)
+
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([2, 1, 3])
+  expect(result.layout.groups[0].activeTabId).toBe(2)
+})
+
+test('moveTabToGroup should reorder a tab to the end of its group', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [createTab(1, 'file1.ts'), createTab(2, 'file2.ts'), createTab(3, 'file3.ts')],
+        },
+      ],
+    },
+  }
+
+  const result = MoveTabToGroup.moveTabToGroup(state, 1, 1, 1, 3)
+
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([2, 3, 1])
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('moveTabToGroup should reorder the last tab into the middle of its group', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 3,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [createTab(1, 'file1.ts'), createTab(2, 'file2.ts'), createTab(3, 'file3.ts')],
+        },
+      ],
+    },
+  }
+
+  const result = MoveTabToGroup.moveTabToGroup(state, 1, 1, 3, 1)
+
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([1, 3, 2])
+})
+
+test('moveTabToGroup should return the same state when a same-group drop keeps the same order', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [createTab(1, 'file1.ts'), createTab(2, 'file2.ts'), createTab(3, 'file3.ts')],
+        },
+      ],
+    },
+  }
+
+  expect(MoveTabToGroup.moveTabToGroup(state, 1, 1, 2, 1)).toBe(state)
+  expect(MoveTabToGroup.moveTabToGroup(state, 1, 1, 2, 2)).toBe(state)
+})
+
+test('moveTabToGroup should preserve unrelated groups during a same-group reorder', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 2,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 50,
+          tabs: [createTab(1, 'file1.ts'), createTab(2, 'file2.ts')],
+        },
+        {
+          activeTabId: 3,
+          direction: 1,
+          focused: false,
+          id: 2,
+          isEmpty: false,
+          size: 50,
+          tabs: [createTab(3, 'file3.ts')],
+        },
+      ],
+    },
+  }
+
+  const result = MoveTabToGroup.moveTabToGroup(state, 1, 1, 2, 0)
+
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([2, 1])
+  expect(result.layout.groups[1]).toBe(state.layout.groups[1])
+})
+
+test('moveTabToGroup should preserve groups unrelated to a cross-group move', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        { activeTabId: 1, direction: 1, focused: true, id: 1, isEmpty: false, size: 34, tabs: [createTab(1, 'file1.ts')] },
+        { activeTabId: 2, direction: 1, focused: false, id: 2, isEmpty: false, size: 33, tabs: [createTab(2, 'file2.ts')] },
+        { activeTabId: 3, direction: 1, focused: false, id: 3, isEmpty: false, size: 33, tabs: [createTab(3, 'file3.ts')] },
+      ],
+    },
+  }
+
+  const result = MoveTabToGroup.moveTabToGroup(state, 1, 2, 1, 0)
+
+  expect(result.layout.groups[1].tabs.map((tab) => tab.id)).toEqual([1, 2])
+  expect(result.layout.groups[2]).toBe(state.layout.groups[2])
 })
 
 test('moveTabToGroup should return state unchanged when tab does not exist in source group', () => {

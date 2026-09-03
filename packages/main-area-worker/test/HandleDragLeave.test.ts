@@ -58,3 +58,15 @@ test('handleDragLeave should make a second drag cancellation a no-op', () => {
 
   expect(handleDragLeave(cancelledState)).toBe(cancelledState)
 })
+
+test('handleDragLeave should clear a tab drop indicator', () => {
+  const state = {
+    ...createDefaultState(),
+    tabDropIndicator: { groupId: 1, index: 2 },
+  }
+
+  expect(handleDragLeave(state)).toEqual({
+    ...state,
+    tabDropIndicator: undefined,
+  })
+})

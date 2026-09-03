@@ -1,19 +1,7 @@
-import { AriaRoles, type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
-import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
-import * as ClassNames from '../ClassNames/ClassNames.ts'
-import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
-import { renderTab } from '../RenderTab/RenderTab.ts'
+import type { VirtualDomNode } from '@lvce-editor/virtual-dom-worker'
+import type { EditorGroup, TabDropIndicator } from '../MainAreaState/MainAreaState.ts'
+import { getTabsVirtualDom } from '../GetTabsVirtualDom/GetTabsVirtualDom.ts'
 
-export const renderTabBar = (group: EditorGroup, groupIndex: number): readonly VirtualDomNode[] => {
-  return [
-    {
-      childCount: group.tabs.length,
-      className: ClassNames.MainTabs,
-      'data-groupIndex': groupIndex,
-      onWheel: DomEventListenerFunctions.HandleTabsWheel,
-      role: AriaRoles.TabList,
-      type: VirtualDomElements.Div,
-    },
-    ...group.tabs.flatMap((tab: Tab, tabIndex: number) => renderTab(tab, tab.id === group.activeTabId, tabIndex, groupIndex)),
-  ]
+export const renderTabBar = (group: EditorGroup, groupIndex: number, tabDropIndicator?: TabDropIndicator): readonly VirtualDomNode[] => {
+  return getTabsVirtualDom(group, groupIndex, group.tabs.length, tabDropIndicator)
 }

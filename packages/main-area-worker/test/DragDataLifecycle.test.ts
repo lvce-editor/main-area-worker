@@ -80,6 +80,24 @@ test('resetPointerDown should return unchanged idle state', () => {
   expect(resetPointerDown(state)).toBe(state)
 })
 
+test('resetPointerDown should clear all drag feedback', () => {
+  const state: MainAreaState = {
+    ...createState(),
+    dragOverlay: { height: 100, width: 100, x: 0, y: 35 },
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 0,
+    tabDropIndicator: { groupId: 1, index: 0 },
+  }
+
+  expect(resetPointerDown(state)).toEqual({
+    ...state,
+    dragOverlay: undefined,
+    pointerDownGroupIndex: -1,
+    pointerDownTabIndex: -1,
+    tabDropIndicator: undefined,
+  })
+})
+
 test('handleDragStart should preserve the staged drag state', () => {
   const state = createState()
 

@@ -1,5 +1,5 @@
 import { type VirtualDomNode, mergeClassNames, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
-import type { EditorGroup } from '../MainAreaState/MainAreaState.ts'
+import type { EditorGroup, TabDropIndicator } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
@@ -18,6 +18,7 @@ export const renderEditorGroup = (
   splitButtonEnabled: boolean = false,
   sizeProperty: 'width' | 'height' = 'width',
   closeButtonEnabled: boolean = true,
+  tabDropIndicator?: TabDropIndicator,
 ): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
   const style = `${sizeProperty}:${group.size}%;`
@@ -36,7 +37,7 @@ export const renderEditorGroup = (
       style,
       type: VirtualDomElements.Div,
     },
-    ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled),
+    ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled, tabDropIndicator),
     editorContainerNode,
     ...renderEditor(activeTab),
   ]

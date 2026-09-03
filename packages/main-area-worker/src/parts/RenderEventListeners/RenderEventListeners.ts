@@ -26,6 +26,27 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       params: ['handleTabsWheel', 'event.currentTarget.dataset.groupIndex', EventExpression.DeltaMode, EventExpression.DeltaY],
     },
     {
+      name: DomEventListenersFunctions.HandleTabDragOver,
+      params: [
+        'handleTabDragOver',
+        'event.currentTarget.dataset.groupIndex',
+        'event.currentTarget.dataset.index',
+        'event.currentTarget.offsetLeft',
+        'event.currentTarget.offsetWidth',
+        'event.currentTarget.parentElement.scrollLeft',
+        EventExpression.ClientX,
+        EventExpression.ClientY,
+      ],
+      preventDefault: true,
+      stopPropagation: true,
+    },
+    {
+      name: DomEventListenersFunctions.HandleTabsDragOver,
+      params: ['handleTabsDragOver', 'event.currentTarget.dataset.groupIndex', EventExpression.ClientX, EventExpression.ClientY],
+      preventDefault: true,
+      stopPropagation: true,
+    },
+    {
       name: DomEventListenersFunctions.HandleDoubleClick,
       params: ['handleDoubleClick', 'event.target.dataset.groupIndex', 'event.target.dataset.index'],
     },

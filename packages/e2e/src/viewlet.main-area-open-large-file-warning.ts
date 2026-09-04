@@ -2,6 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-large-file-warning'
 
+// TODO enable after the static server includes FileSystem.getFileSize
+export const skip = 1
+
 export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator, Main, Settings }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/large.txt`

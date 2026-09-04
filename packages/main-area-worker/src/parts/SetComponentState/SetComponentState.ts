@@ -17,4 +17,4 @@ const applyComponentState = (currentState: MainAreaState, state: MainAreaState):
   }
 }
 
-export const setComponentState = MainAreaStates.wrapSerialCommand(applyComponentState)
+export const setComponentState = MainAreaStates.wrapCommand(applyComponentState)

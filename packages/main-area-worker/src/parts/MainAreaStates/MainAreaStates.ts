@@ -11,6 +11,10 @@ export const wrapAsyncCommand = (fn: AsyncCommand<MainAreaState>): WrappedFn => 
   return registry.wrapAsyncCommand(WithActiveEditorChange.withActiveEditorChangeAsync(fn))
 }
 
+export const wrapCommand = (fn: Fn<MainAreaState>): WrappedFn => {
+  return registry.wrapCommand(WithActiveEditorChange.withActiveEditorChange(fn))
+}
+
 export const wrapSerialAsyncCommand = (fn: AsyncCommand<MainAreaState>): WrappedFn => {
   return registry.wrapSerialAsyncCommand(WithActiveEditorChange.withActiveEditorChangeAsync(fn))
 }

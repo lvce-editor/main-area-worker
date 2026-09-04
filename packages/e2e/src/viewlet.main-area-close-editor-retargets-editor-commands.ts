@@ -18,9 +18,12 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
 
   await Main.closeActiveEditor()
   const editorContent = Locator('.EditorContent')
+  const workspaceTab = Locator('.MainTab[title$="workspace-file.txt"]')
   await expect(editorContent).toBeVisible()
   await Command.execute('Editor.selectAll')
   await Editor.type('updated workspace content')
+  await Editor.shouldHaveText('updated workspace content')
+  await expect(workspaceTab).toHaveClass('MainTabModified')
   await Main.save()
 
   await FileSystem.shouldHaveFile(workspaceFile, 'updated workspace content')

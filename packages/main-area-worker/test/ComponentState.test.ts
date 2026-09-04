@@ -32,6 +32,38 @@ test('preserves non-finite limits after a JSON round trip', async () => {
   })
 })
 
+test('sets component state while a serial command is running', async () => {
+  const uid = 104
+  const oldState = { ...createDefaultState(), tabHeight: 35, uid }
+  const newState = { ...oldState, tabHeight: 41 }
+  MainAreaStates.set(uid, oldState, oldState)
+
+  const { promise, resolve } = Promise.withResolvers<void>()
+  const command = MainAreaStates.wrapSerialCommand(async (state) => {
+    await promise
+    return MainAreaStates.get(uid).newState
+  })
+  const runningCommand = command(uid)
+  await Promise.resolve()
+  const settingState = setComponentState(uid, newState)
+
+  try {
+    const waitForSettingState = async (): Promise<true> => {
+      await settingState
+      return true
+    }
+    const completedWithoutWaitingForTheSerialCommand = await Promise.race([
+      waitForSettingState(),
+      new Promise<false>((resolveTimeout) => setTimeout(resolveTimeout, 100, false)),
+    ])
+    expect(completedWithoutWaitingForTheSerialCommand).toBe(true)
+    expect(getComponentState(uid)).toMatchObject({ tabHeight: 41 })
+  } finally {
+    resolve()
+    await Promise.all([runningCommand, settingState])
+  }
+})
+
 test('rejects an invalid live component state', async () => {
   const uid = 102
   const state = { ...createDefaultState(), uid }

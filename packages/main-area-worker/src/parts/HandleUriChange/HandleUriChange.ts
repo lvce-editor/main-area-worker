@@ -1,3 +1,4 @@
+import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { loadFileIcons } from '../LoadContent/LoadFileIcons.ts'
@@ -58,5 +59,13 @@ export const handleUriChange = async (state: MainAreaState, oldUri: string, newU
     ...stateWithUpdatedUri,
     fileIconCache: result.fileIconCache,
     layout: result.updatedLayout,
+  }
+}
+
+export const handleUriChangeWithContext = async (context: AsyncCommandContext<MainAreaState>, oldUri: string, newUri: string): Promise<void> => {
+  const state = context.getState()
+  const newState = await handleUriChange(state, oldUri, newUri)
+  if (newState !== state) {
+    await context.updateState(() => newState)
   }
 }

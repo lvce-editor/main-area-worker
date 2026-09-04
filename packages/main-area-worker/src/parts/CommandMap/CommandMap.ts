@@ -45,7 +45,7 @@ import { handleTabContextMenu } from '../HandleTabContextMenu/HandleTabContextMe
 import { handleTabDragOver, handleTabsDragOver } from '../HandleTabDragOver/HandleTabDragOver.ts'
 import { handleTabKeyDown } from '../HandleTabKeyDown/HandleTabKeyDown.ts'
 import { handleTabsWheel } from '../HandleTabsWheel/HandleTabsWheel.ts'
-import { handleUriChange } from '../HandleUriChange/HandleUriChange.ts'
+import { handleUriChangeWithContext } from '../HandleUriChange/HandleUriChange.ts'
 import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceChange.ts'
 import { handleWorkspaceRefreshWithContext } from '../HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
 import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
@@ -205,7 +205,7 @@ export const commandMap = {
   'MainArea.handleTabsDragOver': wrapSerialCommand(handleTabsDragOver),
   'MainArea.handleTabsWheel': wrapSerialCommand(handleTabsWheel),
   'MainArea.handleTestWorkerMessagePort': handleTestWorkerMessagePort,
-  'MainArea.handleUriChange': wrapSerialCommand(handleUriChange),
+  'MainArea.handleUriChange': wrapAsyncCommand(handleUriChangeWithContext),
   'MainArea.handleWorkspaceChange': wrapSerialCommand(handleWorkspaceChange),
   'MainArea.handleWorkspaceRefresh': wrapAsyncCommand(handleWorkspaceRefreshWithContext),
   'MainArea.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),

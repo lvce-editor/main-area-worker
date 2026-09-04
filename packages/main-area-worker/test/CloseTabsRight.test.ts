@@ -167,7 +167,7 @@ test('closeTabsRight should close tabs after an inactive context menu tab', () =
 
   expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([1, 2])
   expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(result.closedTabs.map((entry) => entry.tab.id)).toEqual([3, 4])
+  expect(result).not.toHaveProperty('closedTabs')
 })
 
 test('closeTabsRight should preserve the active tab when it is left of the context menu tab', () => {

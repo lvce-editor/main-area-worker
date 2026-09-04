@@ -53,7 +53,7 @@ test('closeTabAndSave should save a dirty tab before closing it using the render
 
   const result = await closeTabAndSave(state, 1, 1)
 
-  expect(mockRpc.invocations).toEqual([
+  expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     [
       'ConfirmPrompt.prompt',
       'Do you want to save the changes you made to test.ts?',
@@ -115,7 +115,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
       { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
     ],
   ])
-  expect(mockRpc.invocations).toEqual([
+  expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     [
       'ConfirmPrompt.prompt',
       'Do you want to save the changes you made to test.ts?',
@@ -413,7 +413,7 @@ test('closeTabAndSave should skip saving tabs without editor instances', async (
 
   const result = await closeTabAndSave(state, 1, 1)
 
-  expect(mockRpc.invocations).toEqual([])
+  expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([])
   expect(result.layout.groups).toHaveLength(0)
 })
 
@@ -503,7 +503,7 @@ test('closeTabAndSave should save and close a dirty tab without a uri', async ()
   const result = await closeTabAndSave(state, 1, 1)
 
   expect(result.layout.groups).toHaveLength(0)
-  expect(rendererRpc.invocations).toEqual([
+  expect(rendererRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     [
       'ConfirmPrompt.prompt',
       'Do you want to save the changes you made to Untitled?',
@@ -563,5 +563,5 @@ test('closeTabAndSave should dispose a Settings editor after switching to the re
 
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.pendingViewletUpdate).toEqual({ disposal: 123, focus: 122 })
-  expect(mockRpc.invocations).toEqual([])
+  expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([])
 })

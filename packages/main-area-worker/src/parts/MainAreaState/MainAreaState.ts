@@ -55,7 +55,6 @@ export interface TabDropIndicator {
 
 export interface MainAreaState {
   readonly assetDir: string
-  readonly closedTabs: readonly ClosedTabEntry[]
   readonly disposed?: boolean
   readonly dragOverlay?: DragOverlay
   readonly fileIconCache: FileIconCache

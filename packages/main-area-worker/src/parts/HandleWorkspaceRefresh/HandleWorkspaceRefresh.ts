@@ -73,5 +73,7 @@ export const handleWorkspaceRefreshWithContext = async (
 ): Promise<void> => {
   const state = context.getState()
   const newState = await handleWorkspaceRefresh(state, refresh)
-  await context.updateState(() => newState)
+  if (newState !== state) {
+    await context.updateState(() => newState)
+  }
 }

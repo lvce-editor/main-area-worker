@@ -3,7 +3,7 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { EditorInput } from '../src/parts/EditorInput/EditorInput.ts'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
-import { handleWorkspaceRefresh } from '../src/parts/HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
+import { handleWorkspaceRefresh, handleWorkspaceRefreshWithContext } from '../src/parts/HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
 
 const createTab = (id: number, editorInput: EditorInput, uri: string, editorUid = id): Tab => ({
   editorInput,
@@ -331,4 +331,64 @@ test('does not reload an editor that has no renderer instance', async () => {
   })
 
   expect(mockRpc.invocations).toEqual([])
+})
+
+test('preserves a rename when an overlapping refresh finishes later', async () => {
+  const editorUriChangeStarted = Promise.withResolvers<void>()
+  const releaseEditorUriChange = Promise.withResolvers<void>()
+  const reloadStarted = Promise.withResolvers<void>()
+  const releaseReload = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    async 'Editor.handleUriChange'() {
+      editorUriChangeStarted.resolve()
+      await releaseEditorUriChange.promise
+    },
+    async 'Viewlet.reload'() {
+      reloadStarted.resolve()
+      await releaseReload.promise
+    },
+  })
+  let currentState: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          focused: true,
+          id: 1,
+          isEmpty: false,
+          size: 100,
+          tabs: [createTab(1, { type: 'editor', uri: '/workspace/original.txt' }, '/workspace/original.txt', 42)],
+        },
+      ],
+    },
+    uid: 1,
+  }
+  const context = {
+    getState() {
+      return currentState
+    },
+    async updateState(updater: (state: MainAreaState) => MainAreaState) {
+      currentState = updater(currentState)
+      return currentState
+    },
+  }
+
+  const rename = handleWorkspaceRefreshWithContext(context, {
+    renamed: [['/workspace/original.txt', '/workspace/renamed.txt']],
+  })
+  await editorUriChangeStarted.promise
+  const reload = handleWorkspaceRefreshWithContext(context, {
+    changed: ['/workspace/original.txt'],
+  })
+  await reloadStarted.promise
+  releaseEditorUriChange.resolve()
+  await rename
+  releaseReload.resolve()
+  await reload
+
+  expect(currentState.layout.groups[0].tabs[0].uri).toBe('/workspace/renamed.txt')
 })

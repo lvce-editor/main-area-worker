@@ -1,8 +1,11 @@
 import * as I18nString from '@lvce-editor/i18n'
 import {
   OpenFile,
+  OpenAnyway,
   OpenInTextEditor,
   BinaryFileNotDisplayed,
+  ConfigureLimit,
+  LargeFileNotDisplayed,
   SplitUp,
   SplitDown,
   SplitEditorGroup,
@@ -44,6 +47,18 @@ export const openInTextEditor = (): string => {
 
 export const binaryFileNotDisplayed = (): string => {
   return I18nString.i18nString(BinaryFileNotDisplayed)
+}
+
+export const configureLimit = (): string => {
+  return I18nString.i18nString(ConfigureLimit)
+}
+
+export const largeFileNotDisplayed = (): string => {
+  return I18nString.i18nString(LargeFileNotDisplayed)
+}
+
+export const openAnyway = (): string => {
+  return I18nString.i18nString(OpenAnyway)
 }
 
 export const splitUp = (): string => {

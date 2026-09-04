@@ -7,6 +7,7 @@ export interface Tab {
   readonly editorType: EditorType
   readonly editorUid: number
   readonly errorMessage?: string
+  readonly fileSize?: number
   readonly icon: string
   readonly id: number
   readonly isDirty: boolean

@@ -14,6 +14,7 @@ import { getCurrentState } from '../GetCurrentState/GetCurrentState.ts'
 import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
 import { getEditorInputTitle } from '../GetEditorInputTitle/GetEditorInputTitle.ts'
 import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
+import { getLargeFileSize } from '../GetLargeFileSize/GetLargeFileSize.ts'
 import { getStateWithTab } from '../GetStateWithTab/GetStateWithTab.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
@@ -52,12 +53,17 @@ const getActivePreviewEditorUid = (state: MainAreaState): number => {
   return activeTab?.isPreview ? activeTab.editorUid : -1
 }
 
-const shouldRetryExistingTab = (existingTab: ReturnType<typeof findTabByUri>, editorInput: OpenInputOptions['editorInput']): boolean => {
+const shouldRetryExistingTab = (
+  existingTab: ReturnType<typeof findTabByUri>,
+  editorInput: OpenInputOptions['editorInput'],
+  forceOpen: boolean,
+): boolean => {
   if (!existingTab) {
     return false
   }
   return (
     existingTab.tab.loadingState === 'error' ||
+    (forceOpen && existingTab.tab.loadingState === 'large') ||
     (editorInput.type === 'editor' && editorInput.forceText === true && existingTab.tab.editorInput?.type === 'binary')
   )
 }
@@ -74,7 +80,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const editorType = getEditorInputEditorType(editorInput)
   const currentState = state
   const existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
-  const shouldRetry = shouldRetryExistingTab(existingTab, editorInput)
+  const shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
   if (existingTab && !shouldRetry) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
@@ -107,6 +113,18 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       loadingState: 'binary',
     })
     await context.updateState(() => binaryState)
+    return
+  }
+
+  const fileSize = await getLargeFileSize(editorInput, options.forceOpen === true)
+  if (fileSize !== undefined) {
+    const latestState = context.getState()
+    const largeFileState = updateTab(latestState, tabId, {
+      editorUid: -1,
+      fileSize,
+      loadingState: 'large',
+    })
+    await context.updateState(() => largeFileState)
     return
   }
 

@@ -24,6 +24,7 @@ export const getStateWithTab = (
         editorInput,
         editorType,
         errorMessage: '',
+        fileSize: undefined,
         loadingState: 'loading',
         title,
         uri,

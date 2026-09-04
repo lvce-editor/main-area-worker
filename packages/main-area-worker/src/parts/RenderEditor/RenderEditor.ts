@@ -3,6 +3,7 @@ import type { Tab } from '../MainAreaState/MainAreaState.ts'
 import { renderBinary } from './RenderBinary/RenderBinary.ts'
 import { renderContent } from './RenderContent/RenderContent.ts'
 import { renderError } from './RenderError/RenderError.ts'
+import { renderLargeFile } from './RenderLargeFile/RenderLargeFile.ts'
 import { renderLoading } from './RenderLoading/RenderLoading.ts'
 import { renderViewletReference } from './RenderViewletReference/RenderViewletReference.ts'
 
@@ -19,6 +20,10 @@ export const renderEditor = (tab: Tab | undefined): readonly VirtualDomNode[] =>
 
   if (tab.loadingState === 'binary') {
     return renderBinary()
+  }
+
+  if (tab.loadingState === 'large' && tab.fileSize !== undefined) {
+    return renderLargeFile(tab.fileSize)
   }
 
   // Viewlet is ready - render a reference node

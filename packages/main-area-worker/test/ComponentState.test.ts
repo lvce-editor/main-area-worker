@@ -2,7 +2,6 @@ import { expect, test } from '@jest/globals'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { getComponentState } from '../src/parts/GetComponentState/GetComponentState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
-import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { setComponentState } from '../src/parts/SetComponentState/SetComponentState.ts'
 
 test('gets and sets the live component state', async () => {
@@ -23,5 +22,5 @@ test('rejects an invalid live component state', async () => {
   MainAreaStates.set(uid, state, state)
 
   await expect(setComponentState(uid, { ...state, uid: 103 })).rejects.toThrow('Main Area state uid must remain 102')
-  await expect(setComponentState(uid, [] as unknown as MainAreaState)).rejects.toThrow('Main Area state must be an object')
+  await expect(setComponentState(uid, [] as unknown)).rejects.toThrow('Main Area state must be an object')
 })

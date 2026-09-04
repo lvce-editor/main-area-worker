@@ -57,27 +57,34 @@ const cwd = process.cwd()
 const sourcePath = join(cwd, 'src')
 const fixturesPath = join(cwd, 'fixtures')
 const testPath = join(cwd, '.tmp', 'e2e-webkit')
-const tmpSourcePath = join(testPath, 'src')
-const tmpFixturesPath = join(testPath, 'fixtures')
 const testWithPlaywrightPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/test-with-playwright/package.json'))
 const testWithPlaywrightPath = join(dirname(testWithPlaywrightPackagePath), 'bin', 'test-with-playwright.js')
+const batchCount = 2
+
+const getBatchPath = (batchIndex) => join(testPath, String(batchIndex))
 
 const copyTests = async () => {
-  await mkdir(tmpSourcePath, { recursive: true })
-  const entries = await readdir(sourcePath, { withFileTypes: true })
-  for (const entry of entries) {
-    if (entry.isFile() && !excludedTests.has(entry.name)) {
+  const entries = (await readdir(sourcePath, { withFileTypes: true }))
+    .filter((entry) => entry.isFile() && !excludedTests.has(entry.name))
+    .sort((a, b) => a.name.localeCompare(b.name))
+  for (let batchIndex = 0; batchIndex < batchCount; batchIndex++) {
+    const batchPath = getBatchPath(batchIndex)
+    const tmpSourcePath = join(batchPath, 'src')
+    const tmpFixturesPath = join(batchPath, 'fixtures')
+    await mkdir(tmpSourcePath, { recursive: true })
+    for (let index = batchIndex; index < entries.length; index += batchCount) {
+      const entry = entries[index]
       await cp(join(sourcePath, entry.name), join(tmpSourcePath, entry.name))
     }
+    await cp(fixturesPath, tmpFixturesPath, { recursive: true })
   }
-  await cp(fixturesPath, tmpFixturesPath, { recursive: true })
 }
 
-const runTests = async () => {
+const runTests = async (batchIndex) => {
   const args = [
     testWithPlaywrightPath,
     '--only-extension=.',
-    '--test-path=.tmp/e2e-webkit',
+    `--test-path=.tmp/e2e-webkit/${batchIndex}`,
     '--browser=webkit',
     '--server-path=../server/src/dev.js',
     ...process.argv.slice(2),
@@ -92,7 +99,13 @@ const runTests = async () => {
 try {
   await rm(testPath, { force: true, recursive: true })
   await copyTests()
-  process.exitCode = (await runTests()) ?? 1
+  for (let batchIndex = 0; batchIndex < batchCount; batchIndex++) {
+    const exitCode = (await runTests(batchIndex)) ?? 1
+    if (exitCode !== 0) {
+      process.exitCode = exitCode
+      break
+    }
+  }
 } finally {
   await rm(testPath, { force: true, recursive: true })
 }

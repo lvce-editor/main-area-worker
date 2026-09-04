@@ -5,12 +5,16 @@ const applyComponentState = (currentState: MainAreaState, state: MainAreaState):
   if (!state || typeof state !== 'object' || Array.isArray(state)) {
     throw new TypeError('Main Area state must be an object')
   }
-  const { uid } = state
-  const { uid: currentUid } = currentState
+  const { maxOpenEditorGroups, maxOpenEditors, uid } = state
+  const { maxOpenEditorGroups: currentMaxOpenEditorGroups, maxOpenEditors: currentMaxOpenEditors, uid: currentUid } = currentState
   if (uid !== currentUid) {
     throw new Error(`Main Area state uid must remain ${currentUid}`)
   }
-  return state
+  return {
+    ...state,
+    maxOpenEditorGroups: maxOpenEditorGroups ?? currentMaxOpenEditorGroups,
+    maxOpenEditors: maxOpenEditors ?? currentMaxOpenEditors,
+  }
 }
 
 export const setComponentState = MainAreaStates.wrapSerialCommand(applyComponentState)

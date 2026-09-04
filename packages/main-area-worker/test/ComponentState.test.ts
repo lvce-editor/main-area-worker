@@ -16,6 +16,22 @@ test('gets and sets the live component state', async () => {
   expect(MainAreaStates.get(uid)).toEqual({ newState, oldState, scheduledState: newState })
 })
 
+test('preserves non-finite limits after a JSON round trip', async () => {
+  const uid = 103
+  const oldState = { ...createDefaultState(), uid }
+  const json = JSON.stringify({ ...oldState, tabHeight: 41 })
+  const jsonState = JSON.parse(json)
+  MainAreaStates.set(uid, oldState, oldState)
+
+  await setComponentState(uid, jsonState)
+
+  expect(getComponentState(uid)).toMatchObject({
+    maxOpenEditorGroups: Infinity,
+    maxOpenEditors: Infinity,
+    tabHeight: 41,
+  })
+})
+
 test('rejects an invalid live component state', async () => {
   const uid = 102
   const state = { ...createDefaultState(), uid }

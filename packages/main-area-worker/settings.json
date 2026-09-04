@@ -1,0 +1,11 @@
+[
+  {
+    "category": "text-editor",
+    "description": "The maximum file size in megabytes that is opened without a warning",
+    "heading": "Maximum File Size",
+    "id": "files.maxFileSizeMB",
+    "minimum": 0.001,
+    "type": "number",
+    "value": 50
+  }
+]

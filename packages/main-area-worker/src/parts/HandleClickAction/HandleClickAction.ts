@@ -5,6 +5,8 @@ import * as GroupDirection from '../GroupDirection/GroupDirection.ts'
 import { handleClickTogglePreview } from '../HandleClickTogglePreview/HandleClickTogglePreview.ts'
 import * as InputName from '../InputName/InputName.ts'
 import { openBinaryAsText } from '../OpenBinaryAsText/OpenBinaryAsText.ts'
+import { openLargeFile } from '../OpenLargeFile/OpenLargeFile.ts'
+import { openUri } from '../OpenUri/OpenUri.ts'
 import { parseRawGroupId } from '../ParseRawGroupId/ParseRawGroupId.ts'
 import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { retryOpen } from '../RetryOpen/RetryOpen.ts'
@@ -38,8 +40,12 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
       }
       return closeEditorGroup(state, groupId)
     }
+    case InputName.ConfigureLargeFileLimit:
+      return openUri(state, 'settings://')
     case InputName.OpenInTextEditor:
       return openBinaryAsText(state)
+    case InputName.OpenLargeFile:
+      return openLargeFile(state)
     case InputName.RetryOpen:
       return retryOpen(state)
     case InputName.SplitRight:

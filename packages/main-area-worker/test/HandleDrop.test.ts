@@ -531,7 +531,10 @@ test('opens a dropped native electron file using its file uri', async () => {
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups[0].tabs[0].uri).toBe('file:///workspace/native%20file.txt')
   expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, true]])
-  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///workspace/native%20file.txt']])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.getFileSize', 'file:///workspace/native%20file.txt'],
+    ['Layout.getModuleId', 'file:///workspace/native%20file.txt'],
+  ])
 })
 
 test('sets a dropped native folder as the workspace folder', async () => {
@@ -706,7 +709,10 @@ test('opens an explorer file recovered from retained Chromium drag data', async 
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups[0].tabs[0].uri).toBe('file:///workspace/retained.ts')
   expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 7, false]])
-  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', 'file:///workspace/retained.ts']])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.getFileSize', 'file:///workspace/retained.ts'],
+    ['Layout.getModuleId', 'file:///workspace/retained.ts'],
+  ])
 })
 
 test('clears the drag overlay before a native drop lookup fails', async () => {

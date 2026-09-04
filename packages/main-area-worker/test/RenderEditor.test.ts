@@ -177,6 +177,29 @@ test('renderEditor should show a binary file placeholder', () => {
   ])
 })
 
+test('renderEditor should show a large file warning', () => {
+  const tab: Tab = {
+    editorType: 'text',
+    editorUid: -1,
+    fileSize: 84.39 * 1024 * 1024,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    loadingState: 'large',
+    title: 'large.txt',
+  }
+
+  const result = renderEditor(tab)
+  expect(result.map((node) => node.text).filter(Boolean)).toEqual([
+    'The file is not displayed in the text editor because it is very large (84.39 MB).',
+    'Open Anyway',
+    'Configure Limit',
+  ])
+  expect(result).toContainEqual(expect.objectContaining({ 'data-action': 'open-large-file' }))
+  expect(result).toContainEqual(expect.objectContaining({ 'data-action': 'configure-large-file-limit' }))
+})
+
 test('renderEditor should show error state', () => {
   const tab: Tab = {
     editorType: 'text',

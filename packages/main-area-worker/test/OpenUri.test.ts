@@ -6,6 +6,9 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openUri } from '../src/parts/OpenUri/OpenUri.ts'
 
+const isSetupInvocation = ([command]: readonly unknown[]): boolean =>
+  command !== 'FileSystem.getFileSize' && command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending'
+
 // Clear the global state store between tests to prevent interference
 afterEach(() => {
   // Reset state for uid 0 (used by most tests)
@@ -535,7 +538,7 @@ test('openUri should open extension detail URIs with extension detail editor inp
     extensionId: 'chat',
     type: 'extension-detail-view',
   })
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail://chat'],
   ])
 })
@@ -561,7 +564,7 @@ test('openUri should use Process Explorer title for process explorer URI', async
   expect(tab.editorInput).toEqual({
     type: 'process-explorer',
   })
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.createViewlet', 'ProcessExplorer', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'process-explorer://'],
   ])
 })
@@ -608,7 +611,7 @@ test('openUri should calculate bounds with correct TAB_HEIGHT offset', async () 
   const tab = result.layout.groups[0].tabs[0]
 
   expect(result).toBeDefined()
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 565, width: 800, x: 100, y: 235 }, 'file:///path/to/file.ts'],
   ])
@@ -631,7 +634,7 @@ test('openUri should create viewlet for new tab', async () => {
   const tab = result.layout.groups[0].tabs[0]
 
   expect(result).toBeDefined()
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
   ])
@@ -652,9 +655,7 @@ test('openUri should not create viewlet when getViewletModuleId returns undefine
   const result = await openUri(state, options)
 
   expect(result).toBeDefined()
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
-    ['Layout.getModuleId', 'file:///path/to/file.ts'],
-  ])
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([['Layout.getModuleId', 'file:///path/to/file.ts']])
 })
 
 test('openUri should assign valid editorUid after viewlet creation', async () => {
@@ -678,7 +679,7 @@ test('openUri should assign valid editorUid after viewlet creation', async () =>
   expect(tab).toBeDefined()
   expect(tab.editorUid).not.toBe(-1)
   expect(typeof tab.editorUid).toBe('number')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
   ])
@@ -706,7 +707,7 @@ test('openUri should pass correct parameters to createViewlet', async () => {
   const result = await openUri(state, options)
   const tab = result.layout.groups[0].tabs[0]
 
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/test.js'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 765, width: 1000, x: 50, y: 135 }, 'file:///path/to/test.js'],
   ])
@@ -761,7 +762,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
 
   expect(result).toBeDefined()
   expect(result.layout.groups[0].tabs).toHaveLength(2)
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/new.ts'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/new.ts'],
   ])
@@ -789,7 +790,7 @@ test('openUri should handle bounds calculation with different main area dimensio
   const result = await openUri(state, options)
   const tab = result.layout.groups[0].tabs[0]
 
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///large-screen.ts'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 1045, width: 1920, x: 0, y: 35 }, 'file:///large-screen.ts'],
   ])
@@ -817,7 +818,7 @@ test('openUri should use TAB_HEIGHT constant of 35 pixels', async () => {
   const result = await openUri(state, options)
   const tab = result.layout.groups[0].tabs[0]
 
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///document.md'],
     ['Layout.createViewlet', 'editor.markdown', tab.editorUid, tab.id, { height: 365, width: 500, x: 10, y: 85 }, 'file:///document.md'],
   ])
@@ -848,7 +849,7 @@ test('openUri should load and set file icon for new tab', async () => {
 
   expect(result).toBeDefined()
   expect(tab.icon).toBe('file-icon-typescript')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
   ])
@@ -874,7 +875,7 @@ test('openUri should preserve built-in tab metadata for cookie importer uri', as
 
   expect(tab.title).toBe('Import Firefox Cookies')
   expect(tab.icon).toBe('MaskIconRecordKey')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'cookie-import-view:///'],
     ['Layout.createViewlet', 'CookieImport', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'cookie-import-view:///'],
   ])
@@ -906,7 +907,7 @@ test('openUri should update fileIconCache with loaded icon', async () => {
   const tab = result.layout.groups[0].tabs[0]
 
   expect(result.fileIconCache['file:///path/to/file.txt']).toBe('file-icon-text')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.txt'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.txt'],
   ])
@@ -940,7 +941,7 @@ test('openUri should handle icon loading failure gracefully', async () => {
   expect(result).toBeDefined()
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+  expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
     ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
   ])

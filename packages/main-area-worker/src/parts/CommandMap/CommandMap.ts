@@ -17,6 +17,7 @@ import { focus } from '../Focus/Focus.ts'
 import { focusNextTab } from '../FocusNextTab/FocusNextTab.ts'
 import { focusPreviousTab } from '../FocusPreviousTab/FocusPreviousTab.ts'
 import { getActiveEditorUid } from '../GetActiveEditorUid/GetActiveEditorUid.ts'
+import { getComponentState } from '../GetComponentState/GetComponentState.ts'
 import { getMenuIds } from '../GetMenuIds/GetMenuIds.ts'
 import * as HandleClick from '../HandleClick/HandleClick.ts'
 import { handleClickAction } from '../HandleClickAction/HandleClickAction.ts'
@@ -69,6 +70,7 @@ import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
 import { save } from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
+import { setComponentState } from '../SetComponentState/SetComponentState.ts'
 import {
   flipLayout,
   setEditorLayoutGrid,
@@ -170,6 +172,7 @@ export const commandMap = {
   'MainArea.focusPreviousTab': wrapSerialCommand(focusPreviousTab),
   'MainArea.getActiveEditorUid': wrapGetter(getActiveEditorUid),
   'MainArea.getCommandIds': getCommandIds,
+  'MainArea.getComponentState': getComponentState,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
   'MainArea.getMenuIds': getMenuIds,
   'MainArea.handleClick': wrapSerialCommand(HandleClick.handleClick),
@@ -224,6 +227,7 @@ export const commandMap = {
   'MainArea.save': wrapSerialCommand(save),
   'MainArea.saveState': wrapGetter(saveState),
   'MainArea.selectTab': wrapSerialCommand(selectTab),
+  'MainArea.setComponentState': setComponentState,
   'MainArea.setEditorLayoutGrid': wrapSerialCommand(setEditorLayoutGrid),
   'MainArea.setEditorLayoutSingle': wrapSerialCommand(setEditorLayoutSingle),
   'MainArea.setEditorLayoutThreeColumns': wrapSerialCommand(setEditorLayoutThreeColumns),

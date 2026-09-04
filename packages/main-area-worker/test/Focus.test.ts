@@ -49,12 +49,16 @@ test('focus focuses via the renderer worker without a direct renderer connection
   expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
 })
 
-test('focus waits for rendering when a direct renderer is connected', async () => {
+test('focus focuses immediately and retries after rendering when a direct renderer is connected', async () => {
+  const focusSelector = jest.fn()
   const focusSelectorAfterRender = jest.fn()
-  RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.focusSelectorAfterRender': focusSelectorAfterRender } }))
+  RendererProcess.set(
+    createMockRpc({ commandMap: { 'Viewlet.focusSelector': focusSelector, 'Viewlet.focusSelectorAfterRender': focusSelectorAfterRender } }),
+  )
   const state = createState()
 
   await expect(focus(state)).resolves.toBe(state)
+  expect(focusSelector).toHaveBeenCalledWith(42, '[name="editor"]')
   expect(focusSelectorAfterRender).toHaveBeenCalledWith(42, '[name="editor"]')
 })
 

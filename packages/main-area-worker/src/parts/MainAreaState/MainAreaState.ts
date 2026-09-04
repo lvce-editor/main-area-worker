@@ -48,6 +48,11 @@ export interface DragOverlay {
   readonly y: number
 }
 
+export interface TabDropIndicator {
+  readonly groupId: number
+  readonly index: number
+}
+
 export interface MainAreaState {
   readonly assetDir: string
   readonly closedTabs: readonly ClosedTabEntry[]
@@ -73,6 +78,7 @@ export interface MainAreaState {
   readonly sashCornerDrag?: SashCornerDragState
   readonly sashDrag?: SashDragState
   readonly splitButtonEnabled: boolean
+  readonly tabDropIndicator?: TabDropIndicator
   readonly tabHeight: number
   readonly uid: number
   readonly width: number

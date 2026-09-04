@@ -31,6 +31,7 @@ test('renderTab should return correct structure for clean tab', () => {
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onDragEnd: DomEventListenerFunctions.HandleDragEnd,
+      onDragOver: DomEventListenerFunctions.HandleTabDragOver,
       onDragStart: DomEventListenerFunctions.HandleDragStart,
       onKeyDown: DomEventListenerFunctions.HandleTabKeyDown,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,
@@ -82,6 +83,40 @@ test('renderTab should not render an empty file icon', () => {
 
   expect(result[0].childCount).toBe(2)
   expect(result.some((node) => node.className === 'TabIcon' && node.type === VirtualDomElements.Img)).toBe(false)
+})
+
+test('renderTab should render a white drop indicator before the tab', () => {
+  const tab: Tab = {
+    editorType: 'text',
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'Test File',
+    uri: '/path/to/Test File',
+  }
+
+  const result = renderTab(tab, false, 0, 0, 'before')
+
+  expect(result[0].style).toBe('box-shadow:inset 2px 0 0 white;')
+})
+
+test('renderTab should render a white drop indicator after the tab', () => {
+  const tab: Tab = {
+    editorType: 'text',
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'Test File',
+    uri: '/path/to/Test File',
+  }
+
+  const result = renderTab(tab, false, 0, 0, 'after')
+
+  expect(result[0].style).toBe('box-shadow:inset -2px 0 0 white;')
 })
 
 test('renderTab should use the extensions mask icon for running extensions', () => {
@@ -168,6 +203,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
       onContextMenu: DomEventListenerFunctions.HandleTabContextMenu,
       onDblClick: DomEventListenerFunctions.HandleDoubleClick,
       onDragEnd: DomEventListenerFunctions.HandleDragEnd,
+      onDragOver: DomEventListenerFunctions.HandleTabDragOver,
       onDragStart: DomEventListenerFunctions.HandleDragStart,
       onKeyDown: DomEventListenerFunctions.HandleTabKeyDown,
       onMouseDown: DomEventListenerFunctions.HandleClickTab,

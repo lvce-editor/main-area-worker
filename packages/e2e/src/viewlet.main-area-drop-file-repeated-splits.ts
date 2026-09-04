@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-drop-file-repeated-splits'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const original = `${tmpDir}/drop-repeated-original.txt`
   const first = `${tmpDir}/drop-repeated-first.txt`
@@ -15,15 +15,15 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   await Workspace.setPath(tmpDir)
   await Main.closeAllEditors()
   await Main.openUri(original)
-  const firstItemId = await FileSystem.registerFileHandle({ kind: 'string', type: 'text/uri-list', value: first } as any)
-  const secondItemId = await FileSystem.registerFileHandle({ kind: 'string', type: 'text/uri-list', value: second } as any)
+  const firstDropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: first }])
+  const secondDropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: second }])
 
   await Command.execute('Main.handleDragOver', 10_000, 300)
   await Main.handleClickAction('', '')
-  await Command.execute('Main.handleDrop', [firstItemId])
+  await Command.execute('Main.handleDrop', firstDropId)
   await Command.execute('Main.handleDragOver', 0, 300)
   await Main.handleClickAction('', '')
-  await Command.execute('Main.handleDrop', [secondItemId])
+  await Command.execute('Main.handleDrop', secondDropId)
 
   const groups = Locator('.EditorGroup')
   const firstGroup = groups.nth(0)

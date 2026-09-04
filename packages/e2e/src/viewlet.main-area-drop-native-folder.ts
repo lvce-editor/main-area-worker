@@ -10,13 +10,13 @@ const assert = (condition: boolean, message: string): void => {
   }
 }
 
-export const test: Test = async ({ Command, FileSystem, Workspace }) => {
-  const directoryHandle = { kind: 'directory', name: 'native-folder' }
+export const test: Test = async ({ Command, DragAndDrop, Workspace }) => {
+  const directoryHandle = { kind: 'directory', name: 'native-folder' } as FileSystemDirectoryHandle
 
   await Workspace.setPath('')
-  const itemId = await FileSystem.registerFileHandle({ kind: 'file', type: '', value: directoryHandle } as any)
+  const dropId = await DragAndDrop.createDropSession([{ fileSystemHandle: directoryHandle, kind: 'file', type: '' }])
 
-  await Command.execute('Main.handleDrop', [itemId])
+  await Command.execute('Main.handleDrop', dropId)
 
   let workspacePath = await Command.execute('Workspace.getPath')
   for (let attempt = 0; !nativeFolderWorkspaceRegex.test(workspacePath) && attempt < 60; attempt++) {

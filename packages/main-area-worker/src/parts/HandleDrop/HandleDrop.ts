@@ -13,24 +13,23 @@ const normalizeUri = (uri: string): string => {
   return uri.startsWith('/') ? `file://${uri}` : uri
 }
 
-export const handleDrop = async (context: AsyncCommandContext<MainAreaState>, dropIdOrItemIds: number | readonly number[]): Promise<void> => {
+export const handleDrop = async (context: AsyncCommandContext<MainAreaState>, dropId: number): Promise<void> => {
   const initialState = context.getState()
   const { pointerDownGroupIndex, pointerDownTabIndex } = initialState
   const sourceGroup = initialState.layout.groups[pointerDownGroupIndex]
   const draggedTab = sourceGroup?.tabs[pointerDownTabIndex]
   const { splitDirection = EditorSplitDirection.None, targetGroupId } = initialState.dragOverlay ?? {}
+  const { tabDropIndicator } = initialState
   await context.updateState(handleDragLeave)
   const { platform } = context.getState()
   const isElectron = platform === PlatformType.Electron
-  let uris: readonly string[]
-  if (typeof dropIdOrItemIds === 'number') {
-    uris = await DragAndDropWorker.getDroppedUrisByDropId(dropIdOrItemIds, isElectron)
-  } else {
-    const { uris: droppedUris } = await DragAndDropWorker.getDroppedItems(dropIdOrItemIds, isElectron)
-    uris = droppedUris
-  }
+  const uris = await DragAndDropWorker.getDroppedUrisByDropId(dropId, isElectron)
   if (draggedTab?.uri && uris.length === 1 && normalizeUri(uris[0]) === normalizeUri(draggedTab.uri)) {
-    await context.updateState((state) => resetPointerDown(applyTabDrop(state, sourceGroup.id, draggedTab.id, splitDirection, targetGroupId)))
+    const tabTargetGroupId = tabDropIndicator?.groupId ?? targetGroupId
+    const tabTargetIndex = tabDropIndicator?.index
+    await context.updateState((state) =>
+      resetPointerDown(applyTabDrop(state, sourceGroup.id, draggedTab.id, splitDirection, tabTargetGroupId, tabTargetIndex)),
+    )
     return
   }
   const actions = await getDropAction(uris)

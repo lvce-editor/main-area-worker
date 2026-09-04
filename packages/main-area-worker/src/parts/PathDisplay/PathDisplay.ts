@@ -53,6 +53,9 @@ export const getLabel = (uri: string): string => {
   if (uri.startsWith('running-extensions://')) {
     return 'Running Extensions'
   }
+  if (uri.startsWith('cookie-import-view://')) {
+    return 'Import Firefox Cookies'
+  }
   if (uri.startsWith(inlineDiffPrefix)) {
     return getInlineDiffLabel(uri)
   }
@@ -76,6 +79,9 @@ export const getFileIcon = (uri: string): string => {
   }
   if (uri.startsWith('running-extensions://')) {
     return `MaskIconExtensions`
+  }
+  if (uri.startsWith('cookie-import-view://')) {
+    return `MaskIconRecordKey`
   }
   if (uri.startsWith('search-editor://')) {
     return `MaskIconSearch`

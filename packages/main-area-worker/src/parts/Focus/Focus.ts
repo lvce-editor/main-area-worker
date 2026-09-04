@@ -10,6 +10,7 @@ export const focus = async (state: MainAreaState): Promise<MainAreaState> => {
     return state
   }
   if (RendererProcess.isConnected()) {
+    await RendererProcess.invoke('Viewlet.focusSelector', editorUid, '[name="editor"]')
     await RendererProcess.invoke('Viewlet.focusSelectorAfterRender', editorUid, '[name="editor"]')
   } else {
     await RendererWorker.invoke('Viewlet.focusSelector', editorUid, '[name="editor"]')

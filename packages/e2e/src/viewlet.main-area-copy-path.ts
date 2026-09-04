@@ -1,10 +1,9 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-copy-path'
+export const skip = ['webkit'] as const
 
-export const skip = true
-
-export const test: Test = async ({ ClipBoard, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ ClipBoard, ContextMenu, expect, FileSystem, Locator, Main }) => {
   // arrange
   await ClipBoard.enableMemoryClipBoard()
   const tmpDir = await FileSystem.getTmpDir()
@@ -18,12 +17,7 @@ export const test: Test = async ({ ClipBoard, expect, FileSystem, Locator, Main 
   // act - open tab context menu
   await Main.handleTabContextMenu(0, 0, 0)
 
-  // assert - verify Copy Path menu item is visible
-  const copyPathMenuItem = Locator('text=Copy Path')
-  await expect(copyPathMenuItem).toBeVisible()
-
-  // act - execute copy path command
-  await Main.copyPath()
+  await ContextMenu.selectItem('Copy Path')
 
   // assert - verify clipboard contains the absolute path
   await ClipBoard.shouldHaveText(testFile)

@@ -338,7 +338,7 @@ test('preserves a rename when an overlapping refresh finishes later', async () =
   const releaseEditorUriChange = Promise.withResolvers<void>()
   const reloadStarted = Promise.withResolvers<void>()
   const releaseReload = Promise.withResolvers<void>()
-  using mockRpc = RendererWorker.registerMockRpc({
+  using _mockRpc = RendererWorker.registerMockRpc({
     async 'Editor.handleUriChange'() {
       editorUriChangeStarted.resolve()
       await releaseEditorUriChange.promise

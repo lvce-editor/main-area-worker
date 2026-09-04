@@ -16,7 +16,7 @@ test('gets and sets the live component state', async () => {
   expect(MainAreaStates.get(uid)).toEqual({ newState, oldState, scheduledState: newState })
 })
 
-test('preserves non-finite limits after a JSON round trip', async () => {
+test('preserves numeric editor limits after a JSON round trip', async () => {
   const uid = 103
   const oldState = { ...createDefaultState(), uid }
   const json = JSON.stringify({ ...oldState, tabHeight: 41 })
@@ -26,8 +26,8 @@ test('preserves non-finite limits after a JSON round trip', async () => {
   await setComponentState(uid, jsonState)
 
   expect(getComponentState(uid)).toMatchObject({
-    maxOpenEditorGroups: Infinity,
-    maxOpenEditors: Infinity,
+    maxOpenEditorGroups: -1,
+    maxOpenEditors: -1,
     tabHeight: 41,
   })
 })

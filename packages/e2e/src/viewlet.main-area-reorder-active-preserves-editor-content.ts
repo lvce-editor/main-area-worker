@@ -9,6 +9,7 @@ export const test: Test = async ({ Command, DragAndDrop, Editor, expect, FileSys
   await FileSystem.setFiles(files.map((uri, index) => ({ content: `content-${index}`, uri })))
   await Main.closeAllEditors()
   await Main.openUris(files)
+  await Editor.shouldHaveText('content-2')
   const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: files[2] }])
   const tabs = Locator('.MainTab')
   const tabTitles = names.map((_name, index) => Locator(`.MainTab[data-index="${index}"] .TabTitle`))

@@ -1,15 +1,10 @@
 import type { ClosedTabEntry, MainAreaState } from '../MainAreaState/MainAreaState.ts'
-
-const maxClosedTabs = 20
+import * as ClosedTabsStorage from '../ClosedTabsStorage/ClosedTabsStorage.ts'
 
 export const addClosedTabs = (state: MainAreaState, entries: readonly ClosedTabEntry[]): MainAreaState => {
-  const { closedTabs } = state
   if (entries.length === 0) {
     return state
   }
-
-  return {
-    ...state,
-    closedTabs: [...closedTabs, ...entries].slice(-maxClosedTabs),
-  }
+  void ClosedTabsStorage.add(state.uid, entries)
+  return state
 }

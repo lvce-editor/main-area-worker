@@ -39,14 +39,6 @@ const getRestoredTab = (tab: Tab): Tab => {
   })
 }
 
-const getStateWithoutLastClosedTab = (state: MainAreaState): MainAreaState => {
-  const { closedTabs } = state
-  return {
-    ...state,
-    closedTabs: closedTabs.slice(0, -1),
-  }
-}
-
 const restoreExistingUri = (state: MainAreaState, entry: ClosedTabEntry): RestoreClosedTabResult | undefined => {
   const { layout } = state
   const { groups: layoutGroups } = layout
@@ -69,15 +61,14 @@ const restoreExistingUri = (state: MainAreaState, entry: ClosedTabEntry): Restor
     return undefined
   }
 
-  const newStateWithoutClosedTab = getStateWithoutLastClosedTab(state)
-  const groups = focusGroup(newStateWithoutClosedTab.layout.groups, existing.groupId, existing.tab.id)
+  const groups = focusGroup(state.layout.groups, existing.groupId, existing.tab.id)
 
   return {
     groupIndex,
     newState: {
-      ...newStateWithoutClosedTab,
+      ...state,
       layout: {
-        ...newStateWithoutClosedTab.layout,
+        ...state.layout,
         activeGroupId: existing.groupId,
         groups,
       },
@@ -100,7 +91,6 @@ const restoreIntoExistingGroup = (state: MainAreaState, entry: ClosedTabEntry): 
   const tabs = [...group.tabs]
   tabs.splice(tabIndex, 0, restoredTab)
 
-  const newStateWithoutClosedTab = getStateWithoutLastClosedTab(state)
   const updatedGroups = groups.map((currentGroup, index) => {
     if (index === groupIndex) {
       return {
@@ -120,9 +110,9 @@ const restoreIntoExistingGroup = (state: MainAreaState, entry: ClosedTabEntry): 
   return {
     groupIndex,
     newState: {
-      ...newStateWithoutClosedTab,
+      ...state,
       layout: {
-        ...newStateWithoutClosedTab.layout,
+        ...state.layout,
         activeGroupId: group.id,
         groups: updatedGroups,
       },
@@ -142,17 +132,16 @@ const createRestoredGroup = (entry: ClosedTabEntry): EditorGroup => {
 }
 
 const restoreIntoRecreatedGroup = (state: MainAreaState, entry: ClosedTabEntry): RestoreClosedTabResult => {
-  const newStateWithoutClosedTab = getStateWithoutLastClosedTab(state)
   const restoredGroup = createRestoredGroup(entry)
-  const { groups } = newStateWithoutClosedTab.layout
+  const { groups } = state.layout
 
   if (groups.length === 0) {
     return {
       groupIndex: 0,
       newState: {
-        ...newStateWithoutClosedTab,
+        ...state,
         layout: {
-          ...newStateWithoutClosedTab.layout,
+          ...state.layout,
           activeGroupId: restoredGroup.id,
           groups: [restoredGroup],
         },
@@ -171,9 +160,9 @@ const restoreIntoRecreatedGroup = (state: MainAreaState, entry: ClosedTabEntry):
   return {
     groupIndex,
     newState: {
-      ...newStateWithoutClosedTab,
+      ...state,
       layout: {
-        ...newStateWithoutClosedTab.layout,
+        ...state.layout,
         activeGroupId: restoredGroup.id,
         groups: redistributeSizesWithRounding(insertedGroups),
       },
@@ -182,12 +171,6 @@ const restoreIntoRecreatedGroup = (state: MainAreaState, entry: ClosedTabEntry):
   }
 }
 
-export const restoreClosedTabState = (state: MainAreaState): RestoreClosedTabResult | undefined => {
-  const { closedTabs } = state
-  const entry = closedTabs.at(-1)
-  if (!entry) {
-    return undefined
-  }
-
+export const restoreClosedTabState = (state: MainAreaState, entry: ClosedTabEntry): RestoreClosedTabResult => {
   return restoreExistingUri(state, entry) || restoreIntoExistingGroup(state, entry) || restoreIntoRecreatedGroup(state, entry)
 }

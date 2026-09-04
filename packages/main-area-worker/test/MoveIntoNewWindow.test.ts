@@ -40,7 +40,9 @@ test('moveIntoNewWindow should open active tab in new window and close it', asyn
 
   const result = await moveIntoNewWindow(state)
 
-  expect(mockRpc.invocations).toEqual([['ElectronWindow.openNewWithUri', '/workspace/file.txt']])
+  expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
+    ['ElectronWindow.openNewWithUri', '/workspace/file.txt'],
+  ])
   expect(result.layout.groups).toEqual([])
 })
 

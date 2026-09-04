@@ -307,7 +307,7 @@ test('closeAll should dispose editor viewlets', async () => {
 
   await closeAll(state)
 
-  expect(mockRpc.invocations).toEqual([
+  expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     ['Viewlet.dispose', 101],
     ['Viewlet.dispose', 102],
   ])

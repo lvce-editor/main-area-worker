@@ -13,6 +13,8 @@ test('create should store state with the given uid', () => {
   const oldStateTyped: MainAreaState = oldState
   expect(newStateTyped).toBeDefined()
   expect(newStateTyped.uid).toBe(uid)
+  expect(newStateTyped.maxOpenEditorGroups).toBe(-1)
+  expect(newStateTyped.maxOpenEditors).toBe(-1)
   expect(newStateTyped.minGroupHeightPx).toBe(80)
   expect(newStateTyped.minGroupWidthPx).toBe(250)
   expect(oldStateTyped).toBeDefined()

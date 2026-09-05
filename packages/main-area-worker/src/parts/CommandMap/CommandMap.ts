@@ -17,6 +17,7 @@ import { focus } from '../Focus/Focus.ts'
 import { focusNextTab } from '../FocusNextTab/FocusNextTab.ts'
 import { focusPreviousTab } from '../FocusPreviousTab/FocusPreviousTab.ts'
 import { getActiveEditorUid } from '../GetActiveEditorUid/GetActiveEditorUid.ts'
+import { getComponentDom } from '../GetComponentDom/GetComponentDom.ts'
 import { getComponentState } from '../GetComponentState/GetComponentState.ts'
 import { getMenuIds } from '../GetMenuIds/GetMenuIds.ts'
 import * as HandleClick from '../HandleClick/HandleClick.ts'
@@ -174,6 +175,7 @@ export const commandMap = {
   'MainArea.focusPreviousTab': wrapSerialCommand(focusPreviousTab),
   'MainArea.getActiveEditorUid': wrapGetter(getActiveEditorUid),
   'MainArea.getCommandIds': getCommandIds,
+  'MainArea.getComponentDom': getComponentDom,
   'MainArea.getComponentState': getComponentState,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
   'MainArea.getMenuIds': getMenuIds,

@@ -132,7 +132,7 @@ const getEditorInputFromUri = (uri: string): any => {
 }
 
 const getNormalizedEditorInput = (tab: any): any => {
-  const { editorInput: tabEditorInput, uri: tabUri } = tab ?? {}
+  const { editorInput: tabEditorInput, uri: tabUri } = tab
   if ((tabEditorInput?.type === 'editor' && tabEditorInput.forceText) || tabEditorInput?.type === 'webview') {
     return tabEditorInput
   }
@@ -149,7 +149,7 @@ const getNormalizedEditorInput = (tab: any): any => {
       return inferredEditorInput
     }
   }
-  return tab?.editorInput
+  return tab.editorInput
 }
 
 export const normalizeTabEditorInput = (tab: any): any => {
@@ -162,7 +162,7 @@ export const normalizeTabEditorInput = (tab: any): any => {
     return Object.hasOwn(tab, 'editorType') ? rest : tab
   }
 
-  const uri = typeof tab?.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
+  const uri = typeof tab.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
 
   return {
     ...rest,

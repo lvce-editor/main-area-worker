@@ -28,6 +28,7 @@ test('saving an untitled file can update its uri before the save command finishe
           size: 100,
           tabs: [
             {
+              editorInput: { type: 'editor', uri: oldUri },
               editorUid: 2,
               errorMessage: '',
               icon: '',
@@ -60,6 +61,7 @@ test('saving an untitled file can update its uri before the save command finishe
 
   const savedState = MainAreaStates.get(uid).newState
   expect(savedState.layout.groups[0].tabs[0]).toMatchObject({
+    editorInput: { type: 'editor', uri: newUri },
     isDirty: false,
     title: 'file.c',
     uri: newUri,

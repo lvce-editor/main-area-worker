@@ -73,3 +73,17 @@ export const patchRendererSelectionDiagnostics = (source) => {
     "  debugSelectionTrace: async () => ({ editor: await actualInvoke('DualIdeDebug.getSelectionTrace'), renderer: rendererFocusTrace }),\n  getActiveEditorId: getActiveEditorId,",
   )
 }
+
+export const patchRendererCommandTarget = (source) => {
+  const before = `  if (instance.factory && instance.factory.hasFunctionalRender) {
+    const oldState = instance.state;
+    const newState = await fn(oldState, ...args);`
+  if (source.includes('  id = instance.state.uid;\n' + before)) {
+    return source
+  }
+  return replaceOnce(source, before, `  id = instance.state.uid;
+${before}
+    if (getByUid(id) !== instance) {
+      return;
+    }`)
+}

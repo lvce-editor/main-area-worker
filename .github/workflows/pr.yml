@@ -39,5 +39,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: close-editor-retarget-${{ matrix.attempt }}
-          path: packages/e2e/close-editor-retarget.log
+          path: |
+            packages/e2e/close-editor-retarget.log
+            /tmp/allmessages-close-editor.json
           if-no-files-found: warn

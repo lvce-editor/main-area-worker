@@ -1,4 +1,5 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
+import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 
 export const getViewletTitle = async (editorUid: number): Promise<string | undefined> => {
   try {
@@ -16,11 +17,12 @@ export const createViewletContent = async (
   bounds: any,
   uri: string,
   args?: readonly unknown[],
+  applicationId?: string,
 ): Promise<void> => {
   if (args === undefined) {
-    await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
+    await ApplicationRpc.invoke(applicationId, 'Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri)
   } else {
-    await RendererWorker.invoke('Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri, args)
+    await ApplicationRpc.invoke(applicationId, 'Layout.createViewlet', viewletModuleId, editorUid, tabId, bounds, uri, args)
   }
 }
 
@@ -31,7 +33,8 @@ export const createViewlet = async (
   bounds: any,
   uri: string,
   args?: readonly unknown[],
+  applicationId?: string,
 ): Promise<string | undefined> => {
-  await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, args)
+  await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, args, applicationId)
   return getViewletTitle(editorUid)
 }

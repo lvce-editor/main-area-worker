@@ -1,9 +1,9 @@
 import type { DropAction } from '../DropAction/DropAction.ts'
 import { isDirectoryEditorInput } from '../../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
 
-export const getDropAction = async (uris: readonly string[]): Promise<DropAction> => {
+export const getDropAction = async (uris: readonly string[], applicationId?: string): Promise<DropAction> => {
   for (const uri of uris) {
-    if (uri.endsWith('/') || (await isDirectoryEditorInput({ type: 'editor', uri }))) {
+    if (uri.endsWith('/') || (await isDirectoryEditorInput({ type: 'editor', uri }, applicationId))) {
       if (uri.includes('://')) {
         return {
           command: 'setUri',

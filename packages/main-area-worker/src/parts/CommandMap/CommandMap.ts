@@ -50,6 +50,7 @@ import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceC
 import { handleWorkspaceRefreshWithContext } from '../HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
 import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
 import { hasDirtyTabs } from '../HasDirtyTabs/HasDirtyTabs.ts'
+import { configure as configureIds } from '../Id/Id.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
 import { get, getCommandIds, set, wrapAsyncCommand, wrapGetter, wrapSerialAsyncCommand, wrapSerialCommand } from '../MainAreaStates/MainAreaStates.ts'
@@ -122,6 +123,7 @@ const handleDirectMessagePort = (port: MessagePort, setAsRendererProcessFallback
 const handleTestWorkerMessagePort = (port: MessagePort): Promise<void> => HandleMessagePort.handleMessagePort(port, commandMap, false)
 
 export const commandMap = {
+  'Id.configure': configureIds,
   'Main.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
   'Main.closeAll': wrapSerialCommand(closeAll),
   'Main.closeAllEditors': wrapSerialCommand(closeAll),

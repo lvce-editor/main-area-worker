@@ -1,4 +1,4 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 
 const toFileUri = (path: string): string => {
   if (!path) {
@@ -13,9 +13,9 @@ const toFileUri = (path: string): string => {
   return path
 }
 
-export const loadHomeDirUri = async (): Promise<string> => {
+export const loadHomeDirUri = async (applicationId?: string): Promise<string> => {
   try {
-    const homeDir = await RendererWorker.invoke('Workspace.getHomeDir')
+    const homeDir = await ApplicationRpc.invoke(applicationId, 'Workspace.getHomeDir')
     return typeof homeDir === 'string' ? toFileUri(homeDir) : ''
   } catch {
     return ''

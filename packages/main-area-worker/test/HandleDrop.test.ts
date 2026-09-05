@@ -528,6 +528,7 @@ test('opens a dropped native electron file using its file uri', async () => {
   expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, true]])
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.getFileSize', 'file:///workspace/native%20file.txt'],
+    ['Preferences.get', 'files.maxFileSizeMB'],
     ['Layout.getModuleId', 'file:///workspace/native%20file.txt'],
   ])
 })
@@ -706,6 +707,7 @@ test('opens an explorer file recovered from retained Chromium drag data', async 
   expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 7, false]])
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.getFileSize', 'file:///workspace/retained.ts'],
+    ['Preferences.get', 'files.maxFileSizeMB'],
     ['Layout.getModuleId', 'file:///workspace/retained.ts'],
   ])
 })

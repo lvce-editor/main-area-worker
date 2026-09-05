@@ -13,7 +13,7 @@ export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayo
   }
 
   // Get viewlet module IDs for all active tabs
-  const viewletModuleIds = await getViewletModuleIds(newState.layout)
+  const viewletModuleIds = await getViewletModuleIds(newState.layout, state.applicationId)
 
   // Create viewlets and get editor UIDs
   const { editorUids, titles } = await createViewlets(newState, viewletModuleIds)

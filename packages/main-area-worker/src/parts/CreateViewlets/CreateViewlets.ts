@@ -22,7 +22,15 @@ export const createViewlets = async (state: MainAreaState, viewletModuleIds: Rec
       editorUids[activeTab.id] = editorUid
 
       const bounds = getSelectedTabBounds(state, group.id)
-      const title = await createViewlet(viewletModuleIds[activeTab.id], editorUid, activeTab.id, bounds, activeTab.uri || '')
+      const title = await createViewlet(
+        viewletModuleIds[activeTab.id],
+        editorUid,
+        activeTab.id,
+        bounds,
+        activeTab.uri || '',
+        undefined,
+        state.applicationId,
+      )
       if (title) {
         titles[activeTab.id] = title
       }

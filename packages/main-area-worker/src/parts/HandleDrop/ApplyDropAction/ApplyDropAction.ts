@@ -1,7 +1,7 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import type { DropAction } from '../DropAction/DropAction.ts'
+import * as ApplicationRpc from '../../ApplicationRpc/ApplicationRpc.ts'
 import * as EditorSplitDirection from '../../EditorSplitDirection/EditorSplitDirection.ts'
 import { focusEditorGroup } from '../../FocusEditorGroup/FocusEditorGroup.ts'
 import { openUrisWithContext } from '../../OpenUris/OpenUris.ts'
@@ -24,10 +24,10 @@ export const applyDropAction = async (
       break
     }
     case 'setPath':
-      void RendererWorker.invoke('Workspace.setPath', action.value).catch(() => {})
+      void ApplicationRpc.invoke(context.getState().applicationId, 'Workspace.setPath', action.value).catch(() => {})
       break
     case 'setUri':
-      void RendererWorker.invoke('Workspace.setUri', action.value).catch(() => {})
+      void ApplicationRpc.invoke(context.getState().applicationId, 'Workspace.setUri', action.value).catch(() => {})
       break
   }
 }

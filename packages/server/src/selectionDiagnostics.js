@@ -42,12 +42,34 @@ const recordSelectionTrace = (command, editor, extra) => {
 }
 
 export const patchRendererSelectionDiagnostics = (source) => {
-  if (source.includes('debugSelectionTrace:')) {
+  if (source.includes('___rendererFocusTrace')) {
     return source
+  }
+  source = `const rendererFocusTrace = globalThis.___rendererFocusTrace = [];\n` + source
+  source = replaceOnce(
+    source,
+    '  state$x.focusedInstanceByType[moduleId] = uid;',
+    `  rendererFocusTrace.push({ command: 'focus', uid, moduleId, previous: { ...state$x.focusedInstanceByType }, stack: new Error().stack });
+  state$x.focusedInstanceByType[moduleId] = uid;`,
+  )
+  source = replaceOnce(
+    source,
+    'const updateDynamicFocusContext = commands => {',
+    `const updateDynamicFocusContext = commands => {
+  rendererFocusTrace.push({ command: 'render', commands: commands.filter(command => command[0] === 'Viewlet.setFocusContext') });`,
+  )
+  source = replaceOnce(
+    source,
+    '    const result = await runFn(activeInstance, id, key, fn$1, args);',
+    `    if (key === 'selectAll') rendererFocusTrace.push({ command: 'selectAll', id, uid: activeInstance?.state.uid, focused: { ...state$x.focusedInstanceByType } });
+    const result = await runFn(activeInstance, id, key, fn$1, args);`,
+  )
+  if (source.includes('debugSelectionTrace:')) {
+    source = replaceOnce(source, "  debugSelectionTrace: () => actualInvoke('DualIdeDebug.getSelectionTrace'),\n", '')
   }
   return replaceOnce(
     source,
     '  getActiveEditorId: getActiveEditorId,',
-    "  debugSelectionTrace: () => actualInvoke('DualIdeDebug.getSelectionTrace'),\n  getActiveEditorId: getActiveEditorId,",
+    "  debugSelectionTrace: async () => ({ editor: await actualInvoke('DualIdeDebug.getSelectionTrace'), renderer: rendererFocusTrace }),\n  getActiveEditorId: getActiveEditorId,",
   )
 }

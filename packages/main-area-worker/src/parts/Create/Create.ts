@@ -12,8 +12,10 @@ export const create = (
   platform: number,
   assetDir: string,
   tabHeight: number = 35,
+  applicationId?: string,
 ): void => {
   const state: MainAreaState = {
+    ...(applicationId !== undefined && { applicationId }),
     assetDir,
     fileIconCache: {},
     height,

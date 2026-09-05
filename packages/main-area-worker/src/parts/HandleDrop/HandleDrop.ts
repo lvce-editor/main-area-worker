@@ -32,6 +32,6 @@ export const handleDrop = async (context: AsyncCommandContext<MainAreaState>, dr
     )
     return
   }
-  const actions = await getDropAction(uris)
+  const actions = await getDropAction(uris, initialState.applicationId)
   await applyDropAction(context, actions, splitDirection, targetGroupId)
 }

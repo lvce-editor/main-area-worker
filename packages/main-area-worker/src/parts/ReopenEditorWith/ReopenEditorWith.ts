@@ -2,6 +2,7 @@ import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { EditorInput } from '../EditorInput/EditorInput.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
@@ -39,9 +40,9 @@ const textEditorEntry: QuickPickEntry = {
   type: 'editor',
 }
 
-export const getViewProviderEntries = async (uri: string): Promise<readonly QuickPickEntry[]> => {
+export const getViewProviderEntries = async (uri: string, applicationId?: string): Promise<readonly QuickPickEntry[]> => {
   try {
-    const providers = (await RendererWorker.invoke('WebView.getEditorProviders')) as readonly ViewProvider[]
+    const providers = (await ApplicationRpc.invoke(applicationId, 'WebView.getEditorProviders')) as readonly ViewProvider[]
     const matchingProviders = providers.filter((provider) => provider?.id && provider.selector?.some((selector) => uri.endsWith(selector)))
     return [
       textEditorEntry,
@@ -72,13 +73,13 @@ export const reopenEditorWith = async (context: AsyncCommandContext<MainAreaStat
   if (preferredEditorId === textEditorEntry.id) {
     selected = textEditorEntry
   } else {
-    const entries = await getViewProviderEntries(initialTab.uri)
+    const entries = await getViewProviderEntries(initialTab.uri, initialState.applicationId)
     const items: readonly QuickPickItem[] = entries.map((entry) => ({
       description: '',
       label: entry.label,
       value: entry,
     }))
-    selected = (await RendererWorker.invoke('ExtensionHostQuickPick.showQuickPick', {
+    selected = (await ApplicationRpc.invoke(initialState.applicationId, 'ExtensionHostQuickPick.showQuickPick', {
       items,
       placeholder: 'Select Editor',
     })) as QuickPickEntry | undefined
@@ -99,7 +100,7 @@ export const reopenEditorWith = async (context: AsyncCommandContext<MainAreaStat
           type: 'webview',
           uri: initialTab.uri,
         }
-  const viewletModuleId = await getViewletModuleIdForEditorInput(editorInput)
+  const viewletModuleId = await getViewletModuleIdForEditorInput(editorInput, context.getState().applicationId)
   if (!viewletModuleId) {
     return
   }
@@ -127,7 +128,15 @@ export const reopenEditorWith = async (context: AsyncCommandContext<MainAreaStat
     return
   }
 
-  const renderedTitle = await createViewlet(viewletModuleId, tabWithViewlet.tab.editorUid, initialTab.id, bounds, initialTab.uri)
+  const renderedTitle = await createViewlet(
+    viewletModuleId,
+    tabWithViewlet.tab.editorUid,
+    initialTab.id,
+    bounds,
+    initialTab.uri,
+    undefined,
+    latestState.applicationId,
+  )
   const readyState = ViewletLifecycle.handleViewletReady(context.getState(), tabWithViewlet.tab.editorUid, renderedTitle)
   await context.updateState(() => readyState)
   if (oldEditorUid !== -1) {

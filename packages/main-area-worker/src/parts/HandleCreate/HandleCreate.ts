@@ -7,7 +7,16 @@ import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 export const handleCreate = async (command: Extract<ViewletCommand, { type: 'create' }>): Promise<MainAreaState> => {
   // Safe to call - no visible side effects
 
-  const title = await createViewlet(command.viewletModuleId, command.editorUid, command.tabId, command.bounds, command.uri || '')
+  const { applicationId } = MainAreaStates.get(command.uid).newState
+  const title = await createViewlet(
+    command.viewletModuleId,
+    command.editorUid,
+    command.tabId,
+    command.bounds,
+    command.uri || '',
+    undefined,
+    applicationId,
+  )
 
   // After viewlet is created, mark it as ready
   // Attachment is handled automatically by virtual DOM reference nodes

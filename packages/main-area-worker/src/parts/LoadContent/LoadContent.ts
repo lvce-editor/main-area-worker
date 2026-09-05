@@ -7,7 +7,7 @@ import { loadFileIcons } from './LoadFileIcons.ts'
 import { restoreAndCreateEditors } from './RestoreAndCreateEditors.ts'
 
 export const loadContent = async (state: MainAreaState, savedState: unknown): Promise<MainAreaState> => {
-  const homeDirUri = await loadHomeDirUri()
+  const homeDirUri = await loadHomeDirUri(state.applicationId)
   const stateWithHomeDir: MainAreaState = {
     ...state,
     homeDirUri,

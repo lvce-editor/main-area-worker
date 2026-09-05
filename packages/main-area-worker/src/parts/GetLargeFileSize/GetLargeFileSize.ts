@@ -1,5 +1,5 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { EditorInput } from '../EditorInput/EditorInput.ts'
+import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import * as Preferences from '../Preferences/Preferences.ts'
 
 const defaultMaxFileSizeMb = 50
@@ -17,12 +17,15 @@ const getMaxFileSize = async (): Promise<number> => {
   return defaultMaxFileSizeMb * bytesPerMegabyte
 }
 
-export const getLargeFileSize = async (editorInput: EditorInput, forceOpen: boolean = false): Promise<number | undefined> => {
+export const getLargeFileSize = async (editorInput: EditorInput, forceOpen: boolean = false, applicationId?: string): Promise<number | undefined> => {
   if (editorInput.type !== 'editor' || forceOpen || !editorInput.uri.startsWith('file://')) {
     return undefined
   }
   try {
-    const [fileSize, maxFileSize] = await Promise.all([RendererWorker.invoke('FileSystem.getFileSize', editorInput.uri), getMaxFileSize()])
+    const [fileSize, maxFileSize] = await Promise.all([
+      ApplicationRpc.invoke(applicationId, 'FileSystem.getFileSize', editorInput.uri),
+      getMaxFileSize(),
+    ])
     return typeof fileSize === 'number' && fileSize > maxFileSize ? fileSize : undefined
   } catch {
     // File systems without stat support should retain the existing open behavior.

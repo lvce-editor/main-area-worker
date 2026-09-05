@@ -1,7 +1,7 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
+import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewletContent, getViewletTitle } from '../CreateViewlet/CreateViewlet.ts'
 import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
@@ -25,9 +25,9 @@ import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import { updateTabIcon } from '../UpdateTabIcon/UpdateTabIcon.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
-const renderMainAreaPending = async (uid: number): Promise<void> => {
+const renderMainAreaPending = async (uid: number, applicationId?: string): Promise<void> => {
   try {
-    await RendererWorker.invoke('Layout.renderMainAreaPending', uid)
+    await ApplicationRpc.invoke(applicationId, 'Layout.renderMainAreaPending', uid)
   } catch {
     // Older renderer workers render the final state when openInput completes.
   }
@@ -96,7 +96,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     await disposeEditors([replacedEditorUid])
   }
 
-  if (await isDirectoryEditorInput(editorInput)) {
+  if (await isDirectoryEditorInput(editorInput, state.applicationId)) {
     const latestState = context.getState()
     const errorState = updateTab(latestState, tabId, {
       errorMessage: 'Expected a file but received a folder',
@@ -116,7 +116,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     return
   }
 
-  const fileSize = await getLargeFileSize(editorInput, options.forceOpen === true)
+  const fileSize = await getLargeFileSize(editorInput, options.forceOpen === true, state.applicationId)
   if (fileSize !== undefined) {
     const latestState = context.getState()
     const largeFileState = updateTab(latestState, tabId, {
@@ -129,7 +129,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   }
 
   try {
-    const viewletModuleId = await getViewletModuleIdForEditorInput(editorInput)
+    const viewletModuleId = await getViewletModuleIdForEditorInput(editorInput, state.applicationId)
     const stateAfterModuleId = context.getState()
 
     if (!viewletModuleId) {
@@ -161,13 +161,13 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       throw new Error('invalid editorUid')
     }
 
-    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, options.args)
+    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, options.args, state.applicationId)
 
     const latestState = context.getState()
     let readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
 
     await context.updateState(() => readyState)
-    await renderMainAreaPending(state.uid)
+    await renderMainAreaPending(state.uid, state.applicationId)
     await focusIfRequested(context.getState(), options.focus)
 
     const renderedTitle = await getViewletTitle(editorUid)

@@ -4,7 +4,7 @@ import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { normalizeTabEditorInput } from '../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 
-export const getViewletModuleIds = async (layout: MainAreaLayout): Promise<Record<string, string>> => {
+export const getViewletModuleIds = async (layout: MainAreaLayout, applicationId?: string): Promise<Record<string, string>> => {
   const { groups } = layout
   const viewletModuleIds: Record<string, string> = {}
 
@@ -14,7 +14,9 @@ export const getViewletModuleIds = async (layout: MainAreaLayout): Promise<Recor
     if (activeTab && (activeTab.editorInput || activeTab.uri)) {
       const normalizedTab = normalizeTabEditorInput(activeTab)
       const { editorInput, uri } = normalizedTab
-      const viewletModuleId = normalizedTab.editorInput ? await getViewletModuleIdForEditorInput(editorInput) : await getViewletModuleId(uri)
+      const viewletModuleId = normalizedTab.editorInput
+        ? await getViewletModuleIdForEditorInput(editorInput, applicationId)
+        : await getViewletModuleId(uri, undefined, applicationId)
       if (viewletModuleId) {
         viewletModuleIds[activeTab.id] = viewletModuleId
       }

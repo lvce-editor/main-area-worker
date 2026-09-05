@@ -10,8 +10,9 @@ export const createEmptyGroup = (
   requestId: number,
   preview: boolean = false,
   title: string = PathDisplay.getLabel(uri),
-  editorInput: EditorInput = { type: 'editor', uri },
+  editorInput?: EditorInput,
 ): MainAreaState => {
+  const resolvedEditorInput: EditorInput = editorInput ?? { type: 'editor', uri }
   const { homeDirUri, layout } = state
   const { direction, groups } = layout
 
@@ -19,7 +20,7 @@ export const createEmptyGroup = (
   const tabId = Id.create()
   const editorUid = Id.create()
   const newTab: Tab = {
-    editorInput,
+    editorInput: resolvedEditorInput,
     editorUid,
     errorMessage: '',
     icon: '',

@@ -12,8 +12,9 @@ export const ensureActiveGroup = (
   uri: string,
   preview: boolean = false,
   title: string = PathDisplay.getLabel(uri),
-  editorInput: EditorInput = { type: 'editor', uri },
+  editorInput?: EditorInput,
 ): MainAreaState => {
+  const resolvedEditorInput: EditorInput = editorInput ?? { type: 'editor', uri }
   // Find the active group (by activeGroupId or focused flag)
   const { homeDirUri, layout } = state
   const { activeGroupId, groups } = layout
@@ -38,7 +39,7 @@ export const ensureActiveGroup = (
           }
           return {
             ...tab,
-            editorInput,
+            editorInput: resolvedEditorInput,
             editorUid: Id.create(),
             errorMessage: '',
             icon: '',
@@ -72,7 +73,7 @@ export const ensureActiveGroup = (
     const tabId = Id.create()
     const editorUid = Id.create()
     const newTab: Tab = {
-      editorInput,
+      editorInput: resolvedEditorInput,
       editorUid,
       errorMessage: '',
       icon: '',
@@ -87,7 +88,7 @@ export const ensureActiveGroup = (
     }
     newState = openTab(state, activeGroup.id, newTab)
   } else {
-    newState = createEmptyGroup(state, uri, requestId, preview, title, editorInput)
+    newState = createEmptyGroup(state, uri, requestId, preview, title, resolvedEditorInput)
   }
 
   return newState

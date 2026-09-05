@@ -22,7 +22,6 @@ test('handleClickTab should return state unchanged when groupIndexRaw is empty',
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -60,7 +59,6 @@ test('handleClickTab should return state unchanged when indexRaw is empty', asyn
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -98,7 +96,6 @@ test('handleClickTab should return state unchanged when both groupIndexRaw and i
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -136,7 +133,6 @@ test('handleClickTab should select tab when valid groupIndex and index are provi
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -145,7 +141,6 @@ test('handleClickTab should select tab when valid groupIndex and index are provi
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -154,7 +149,6 @@ test('handleClickTab should select tab when valid groupIndex and index are provi
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -195,7 +189,6 @@ test('handleClickTab should select tab from second group', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -214,7 +207,6 @@ test('handleClickTab should select tab from second group', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -223,7 +215,6 @@ test('handleClickTab should select tab from second group', async () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -265,7 +256,6 @@ test('handleClickTab should return state unchanged when groupIndex is out of bou
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -303,7 +293,6 @@ test('handleClickTab should return state unchanged when tab index is out of boun
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -341,7 +330,6 @@ test('handleClickTab should return state unchanged when groupIndex is negative',
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -379,7 +367,6 @@ test('handleClickTab should return state unchanged when tab index is negative', 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -417,7 +404,6 @@ test('handleClickTab should parse string indexes correctly', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -426,7 +412,6 @@ test('handleClickTab should parse string indexes correctly', async () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -464,7 +449,6 @@ test('handleClickTab should return state unchanged for secondary button clicks',
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -473,7 +457,6 @@ test('handleClickTab should return state unchanged for secondary button clicks',
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

@@ -1,5 +1,4 @@
 import type { EditorInput } from '../EditorInput/EditorInput.ts'
-import type { EditorType } from '../EditorType/EditorType.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
@@ -15,14 +14,12 @@ export const getStateWithTab = (
   uri: string,
   preview: boolean,
   title: string,
-  editorType: EditorType,
 ): { stateWithTab: MainAreaState; tabId: number } => {
   if (shouldRetryExistingTab && existingTab) {
     const focusedState = focusEditorGroup(currentState, existingTab.groupId)
     return {
       stateWithTab: updateTab(focusedState, existingTab.tab.id, {
         editorInput,
-        editorType,
         errorMessage: '',
         fileSize: undefined,
         loadingState: 'loading',
@@ -34,7 +31,7 @@ export const getStateWithTab = (
     }
   }
 
-  const stateWithTab = ensureActiveGroup(currentState, uri, preview, title, editorType, editorInput)
+  const stateWithTab = ensureActiveGroup(currentState, uri, preview, title, editorInput)
   return {
     stateWithTab,
     tabId: getActiveTabId(stateWithTab)!,

@@ -20,7 +20,6 @@ test('renderActiveTabVisibility reveals the active tab', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: '',
               id: 42,

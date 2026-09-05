@@ -25,7 +25,6 @@ const createState = (): MainAreaState => ({
               type: 'image',
               uri: 'file:///workspace/image.png',
             },
-            editorType: 'custom',
             editorUid: 42,
             icon: 'image-icon',
             id: 7,
@@ -146,7 +145,6 @@ test('reopenEditorWith reopens an image preview as a text editor in the same tab
       type: 'editor',
       uri: 'file:///workspace/image.png',
     },
-    editorType: 'text',
     icon: 'image-icon',
     id: 7,
     isPreview: false,
@@ -196,7 +194,7 @@ test('reopenEditorWith directly reopens an image preview as text when requested'
     type: 'editor',
     uri: 'file:///workspace/image.png',
   })
-  expect(tab.editorType).toBe('text')
+  expect(tab).not.toHaveProperty('editorType')
   expect(mockRpc.invocations).toEqual([
     ['Layout.createViewlet', 'Editor', tab.editorUid, 7, { height: 565, width: 800, x: 0, y: 35 }, 'file:///workspace/image.png'],
     ['Viewlet.getTitle', tab.editorUid],
@@ -229,7 +227,7 @@ test('reopenEditorWith opens a selected registered provider', async () => {
     type: 'webview',
     uri: 'file:///workspace/image.png',
   })
-  expect(tab.editorType).toBe('custom')
+  expect(tab).not.toHaveProperty('editorType')
   expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///workspace/image.png', 'builtin.image-viewer'])
   expect(mockRpc.invocations).toContainEqual([
     'Layout.createViewlet',

@@ -52,7 +52,6 @@ test('openUri should add tab to active group when group exists', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -153,7 +152,6 @@ test('openUri should replace active preview tab instead of adding a new tab', as
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -210,7 +208,6 @@ test('openUri should replace a preview with a new tab identity and matching edit
                 type: 'editor',
                 uri: 'file:///workspace/index.html',
               },
-              editorType: 'text',
               editorUid: 41,
               icon: '',
               id: 1,
@@ -225,7 +222,6 @@ test('openUri should replace a preview with a new tab identity and matching edit
                 type: 'editor',
                 uri: 'file:///workspace/package.json',
               },
-              editorType: 'text',
               editorUid: 42,
               icon: '',
               id: 2,
@@ -285,7 +281,6 @@ test('openUri should dispose the replaced preview editor and create a new one', 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 42,
               icon: '',
               id: 1,
@@ -336,7 +331,6 @@ test('openUri should activate existing tab if URI already exists', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -349,7 +343,6 @@ test('openUri should activate existing tab if URI already exists', async () => {
               uri: 'file:///path/to/file.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -395,7 +388,6 @@ test('openUri should pin an existing preview tab when opened as non-preview', as
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -437,7 +429,6 @@ test('openUri should activate existing tab in different group', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -460,7 +451,6 @@ test('openUri should activate existing tab in different group', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -533,7 +523,7 @@ test('openUri should open extension detail URIs with extension detail editor inp
 
   const tab = result.layout.groups[0].tabs[0]
 
-  expect(tab.editorType).toBe('custom')
+  expect(tab).not.toHaveProperty('editorType')
   expect(tab.editorInput).toEqual({
     extensionId: 'chat',
     type: 'extension-detail-view',
@@ -560,7 +550,7 @@ test('openUri should use Process Explorer title for process explorer URI', async
 
   expect(tab.uri).toBe('process-explorer://')
   expect(tab.title).toBe('Process Explorer')
-  expect(tab.editorType).toBe('custom')
+  expect(tab).not.toHaveProperty('editorType')
   expect(tab.editorInput).toEqual({
     type: 'process-explorer',
   })
@@ -734,7 +724,6 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 5,
               errorMessage: '',
               icon: '',
@@ -1219,7 +1208,6 @@ test('openUri should preserve existing tabs when race condition occurs', async (
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 5,
               errorMessage: '',
               icon: 'existing-icon',

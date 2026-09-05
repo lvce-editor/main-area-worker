@@ -64,7 +64,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
         size: 100,
         tabs: [
           {
-            editorType: 'text',
+            editorInput: { type: 'editor', uri: '/test/file.ts' },
             editorUid,
             errorMessage: '',
             icon: '',
@@ -139,7 +139,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
           size: 100,
           tabs: [
             {
-              editorType: 'text',
+              editorInput: { type: 'editor', uri: '/existing/file.ts' },
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -174,7 +174,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
         size: 100,
         tabs: [
           {
-            editorType: 'text',
+            editorInput: { type: 'editor', uri: '/existing/file.ts' },
             editorUid: -1,
             errorMessage: '',
             icon: '',
@@ -187,7 +187,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
             uri: '/existing/file.ts',
           },
           {
-            editorType: 'text',
+            editorInput: { type: 'editor', uri: '/test/file.ts' },
             editorUid,
             errorMessage: '',
             icon: '',
@@ -222,7 +222,7 @@ test('ensureActiveGroup should replace the active preview tab', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
+              editorInput: { type: 'editor', uri: '/test/old.ts' },
               editorUid: 42,
               icon: 'old-icon',
               id: 1,
@@ -269,7 +269,7 @@ test('ensureActiveGroup should keep pinned tabs when opening a preview', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
+              editorInput: { type: 'editor', uri: '/test/pinned.ts' },
               editorUid: 42,
               icon: '',
               id: 1,
@@ -291,4 +291,30 @@ test('ensureActiveGroup should keep pinned tabs when opening a preview', () => {
   expect(result.layout.groups[0].tabs[0].isPreview).toBe(false)
   expect(result.layout.groups[0].tabs[1].uri).toBe('/test/preview.ts')
   expect(result.layout.groups[0].tabs[1].isPreview).toBe(true)
+})
+
+test('ensureActiveGroup replaces a text preview with an image input without changing other groups', () => {
+  const initialState = ensureActiveGroup(createDefaultState(), '/test/old.ts', true)
+  const activeGroup = initialState.layout.groups[0]
+  const otherGroup = {
+    ...activeGroup,
+    activeTabId: -1,
+    focused: false,
+    id: activeGroup.id + 1,
+    isEmpty: true,
+    tabs: [],
+  }
+  const state = {
+    ...initialState,
+    layout: { ...initialState.layout, groups: [activeGroup, otherGroup] },
+  }
+
+  const editorInput = { type: 'image', uri: '/test/image.png' } as const
+  const result = ensureActiveGroup(state, editorInput.uri, true, 'image.png', editorInput)
+
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  expect(result.layout.groups[0].tabs[0].editorInput).toEqual(editorInput)
+  expect(result.layout.groups[0].tabs[0]).not.toHaveProperty('editorType')
+  expect(result.layout.groups[1]).toBe(otherGroup)
+  expect(activeGroup.tabs[0].editorInput).toEqual({ type: 'editor', uri: '/test/old.ts' })
 })

@@ -6,7 +6,6 @@ import { getMissingIconRequestsForTabs } from '../src/parts/GetMissingIconReques
 test('getMissingIconRequestsForTabs should request file icons by basename', () => {
   const tabs: readonly Tab[] = [
     {
-      editorType: 'text',
       editorUid: -1,
       icon: '',
       id: 1,
@@ -29,7 +28,6 @@ test('getMissingIconRequestsForTabs should request file icons by basename', () =
 test('getMissingIconRequestsForTabs should use a slashless uri as the basename', () => {
   const tabs: readonly Tab[] = [
     {
-      editorType: 'text',
       editorUid: -1,
       icon: '',
       id: 1,
@@ -56,7 +54,6 @@ test('getMissingIconRequestsForTabs should skip extension detail icons', () => {
         extensionId: 'builtin.theme-ayu',
         type: 'extension-detail-view',
       },
-      editorType: 'custom',
       editorUid: -1,
       icon: '',
       id: 1,
@@ -76,7 +73,6 @@ test('getMissingIconRequestsForTabs should skip running extensions icons', () =>
       editorInput: {
         type: 'running-extensions',
       },
-      editorType: 'custom',
       editorUid: -1,
       icon: '',
       id: 1,
@@ -93,7 +89,6 @@ test('getMissingIconRequestsForTabs should skip running extensions icons', () =>
 test('getMissingIconRequestsForTabs should skip cached icons', () => {
   const tabs: readonly Tab[] = [
     {
-      editorType: 'text',
       editorUid: -1,
       icon: 'cached-icon',
       id: 1,

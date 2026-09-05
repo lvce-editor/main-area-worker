@@ -59,7 +59,6 @@ test('getAllEditorUids should filter out tabs with editorUid -1', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -68,7 +67,6 @@ test('getAllEditorUids should filter out tabs with editorUid -1', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -103,7 +101,6 @@ test('getAllEditorUids should return all valid editorUids from single group', ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 101,
               icon: '',
               id: 1,
@@ -112,7 +109,6 @@ test('getAllEditorUids should return all valid editorUids from single group', ()
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: 102,
               icon: '',
               id: 2,
@@ -147,7 +143,6 @@ test('getAllEditorUids should return all valid editorUids from multiple groups',
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 101,
               icon: '',
               id: 1,
@@ -156,7 +151,6 @@ test('getAllEditorUids should return all valid editorUids from multiple groups',
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: 102,
               icon: '',
               id: 2,
@@ -175,7 +169,6 @@ test('getAllEditorUids should return all valid editorUids from multiple groups',
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 103,
               icon: '',
               id: 3,
@@ -210,7 +203,6 @@ test('getAllEditorUids should only return valid editorUids, filtering out -1', (
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 101,
               icon: '',
               id: 1,
@@ -219,7 +211,6 @@ test('getAllEditorUids should only return valid editorUids, filtering out -1', (
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -228,7 +219,6 @@ test('getAllEditorUids should only return valid editorUids, filtering out -1', (
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: 102,
               icon: '',
               id: 3,
@@ -247,7 +237,6 @@ test('getAllEditorUids should only return valid editorUids, filtering out -1', (
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -256,7 +245,6 @@ test('getAllEditorUids should only return valid editorUids, filtering out -1', (
               title: 'File 4',
             },
             {
-              editorType: 'text',
               editorUid: 103,
               icon: '',
               id: 5,
@@ -291,7 +279,6 @@ test('getAllEditorUids should handle three groups with mixed valid and invalid e
           size: 33,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 201,
               icon: '',
               id: 1,
@@ -310,7 +297,6 @@ test('getAllEditorUids should handle three groups with mixed valid and invalid e
           size: 33,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -329,7 +315,6 @@ test('getAllEditorUids should handle three groups with mixed valid and invalid e
           size: 34,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 203,
               icon: '',
               id: 3,
@@ -338,7 +323,6 @@ test('getAllEditorUids should handle three groups with mixed valid and invalid e
               title: 'File 3',
             },
             {
-              editorType: 'text',
               editorUid: 204,
               icon: '',
               id: 4,

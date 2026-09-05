@@ -19,7 +19,6 @@ test('hasDirtyTabs should return true when dirty tabs exist', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -52,7 +51,6 @@ test('hasDirtyTabs should return false when no dirty tabs exist', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

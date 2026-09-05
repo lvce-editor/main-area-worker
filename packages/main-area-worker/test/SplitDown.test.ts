@@ -148,7 +148,6 @@ test('splitDown should preserve tabs in the original group', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -157,7 +156,6 @@ test('splitDown should preserve tabs in the original group', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -263,7 +261,6 @@ test('splitDown should create a new group with empty tabs', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

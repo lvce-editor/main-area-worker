@@ -19,7 +19,6 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -208,7 +207,6 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -228,7 +226,6 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -306,7 +303,6 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,

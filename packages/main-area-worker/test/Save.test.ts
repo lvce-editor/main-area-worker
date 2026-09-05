@@ -35,7 +35,6 @@ const createSaveState = ({
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: id,
             errorMessage: '',
             icon: '',
@@ -95,7 +94,6 @@ test('save should return state when tab is loading', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               errorMessage: '',
               icon: '',
@@ -139,7 +137,6 @@ test('save should clear dirty state after a successful save', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               errorMessage: '',
               icon: '',
@@ -188,7 +185,6 @@ test('save should notify layout after saving settings', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               errorMessage: '',
               icon: '',
@@ -238,7 +234,6 @@ test('save should use the latest stored state when the call-site state is stale'
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 7,
               errorMessage: '',
               icon: '',

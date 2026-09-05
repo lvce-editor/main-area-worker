@@ -14,7 +14,6 @@ test('renderTabBar should return correct structure for single tab', () => {
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -90,7 +89,6 @@ test('renderTabBar should handle multiple tabs', () => {
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -100,7 +98,6 @@ test('renderTabBar should handle multiple tabs', () => {
         uri: '/path/to/File 1',
       },
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 2,

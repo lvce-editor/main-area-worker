@@ -19,7 +19,6 @@ test('findTabById should return tab and groupId when found', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -38,7 +37,6 @@ test('findTabById should return tab and groupId when found', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -73,7 +71,6 @@ test('findTabById should return undefined when not found', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

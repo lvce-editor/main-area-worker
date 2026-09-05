@@ -61,7 +61,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   const tabId = Id.create()
   const editorUid = Id.create()
   const newTab: Tab = {
-    editorType: 'text',
+    editorInput: { type: 'editor', uri: 'untitled:///1' },
     editorUid,
     errorMessage: '',
     icon: '',

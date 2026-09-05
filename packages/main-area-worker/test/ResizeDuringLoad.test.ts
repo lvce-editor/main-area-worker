@@ -33,7 +33,6 @@ test('resize during restore is applied to the restored editor', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

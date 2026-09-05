@@ -22,7 +22,6 @@ test('handleHeaderDoubleClick should return state unchanged when groupIndexRaw i
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -62,7 +61,6 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -104,7 +102,6 @@ test('handleHeaderDoubleClick should add untitled tab to the active group', asyn
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

@@ -1,4 +1,3 @@
-import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
 import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
 
 const imageExtensions = new Set(['.avif', '.bmp', '.gif', '.ico', '.jpeg', '.jpg', '.png', '.svg', '.tif', '.tiff', '.webp'])
@@ -133,7 +132,7 @@ const getEditorInputFromUri = (uri: string): any => {
 }
 
 const getNormalizedEditorInput = (tab: any): any => {
-  const { editorInput: tabEditorInput, uri: tabUri } = tab ?? {}
+  const { editorInput: tabEditorInput, uri: tabUri } = tab
   if ((tabEditorInput?.type === 'editor' && tabEditorInput.forceText) || tabEditorInput?.type === 'webview') {
     return tabEditorInput
   }
@@ -146,25 +145,28 @@ const getNormalizedEditorInput = (tab: any): any => {
   }
   if (uri) {
     const inferredEditorInput = getEditorInputFromUri(uri)
-    if (inferredEditorInput.type !== 'editor') {
+    if (inferredEditorInput.type !== 'editor' || !tabEditorInput) {
       return inferredEditorInput
     }
   }
-  return tab?.editorInput
+  return tab.editorInput
 }
 
 export const normalizeTabEditorInput = (tab: any): any => {
-  const editorInput = getNormalizedEditorInput(tab)
-  if (!editorInput) {
+  if (!tab) {
     return tab
   }
+  const { editorType: _editorType, ...rest } = tab
+  const editorInput = getNormalizedEditorInput(rest)
+  if (!editorInput) {
+    return Object.hasOwn(tab, 'editorType') ? rest : tab
+  }
 
-  const uri = typeof tab?.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
+  const uri = typeof tab.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
 
   return {
-    ...tab,
+    ...rest,
     editorInput,
-    editorType: getEditorInputEditorType(editorInput),
     ...(editorInput.type === 'binary' && {
       editorUid: -1,
       loadingState: 'binary',

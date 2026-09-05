@@ -4,7 +4,7 @@ import { isValidTab } from '../src/parts/IsValidTab/IsValidTab.ts'
 
 test('isValidTab should return true for valid text tab', () => {
   const tab: Tab = {
-    editorType: 'text',
+    editorInput: { type: 'editor', uri: '/test/file.txt' },
     editorUid: -1,
     icon: '',
     id: 1,
@@ -17,7 +17,7 @@ test('isValidTab should return true for valid text tab', () => {
 
 test('isValidTab should return true for valid custom tab', () => {
   const tab: Tab = {
-    editorType: 'custom',
+    editorInput: { type: 'process-explorer' },
     editorUid: -1,
     icon: '',
     id: 1,
@@ -38,7 +38,6 @@ test('isValidTab should return false for undefined', () => {
 
 test('isValidTab should return false for missing id', () => {
   const tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     isDirty: false,
@@ -50,7 +49,6 @@ test('isValidTab should return false for missing id', () => {
 
 test('isValidTab should return false for invalid id type', () => {
   const tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: '1',
@@ -63,7 +61,6 @@ test('isValidTab should return false for invalid id type', () => {
 
 test('isValidTab should return false for missing title', () => {
   const tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -75,7 +72,6 @@ test('isValidTab should return false for missing title', () => {
 
 test('isValidTab should return false for invalid title type', () => {
   const tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -88,7 +84,6 @@ test('isValidTab should return false for invalid title type', () => {
 
 test('isValidTab should return false for missing editorUid', () => {
   const tab = {
-    editorType: 'text',
     icon: '',
     id: 1,
     isDirty: false,
@@ -100,7 +95,6 @@ test('isValidTab should return false for missing editorUid', () => {
 
 test('isValidTab should return false for invalid editorUid type', () => {
   const tab = {
-    editorType: 'text',
     editorUid: 'invalid',
     icon: '',
     id: 1,
@@ -113,7 +107,6 @@ test('isValidTab should return false for invalid editorUid type', () => {
 
 test('isValidTab should return false for missing isDirty', () => {
   const tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -124,7 +117,6 @@ test('isValidTab should return false for missing isDirty', () => {
 
 test('isValidTab should return false for invalid isDirty type', () => {
   const tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -135,9 +127,9 @@ test('isValidTab should return false for invalid isDirty type', () => {
   expect(isValidTab(tab)).toBe(false)
 })
 
-test('isValidTab should return false for invalid editorType', () => {
+test('isValidTab should return false for invalid editorInput type', () => {
   const tab = {
-    editorType: 'invalid',
+    editorInput: { type: 'invalid' },
     editorUid: -1,
     icon: '',
     id: 1,
@@ -150,7 +142,6 @@ test('isValidTab should return false for invalid editorType', () => {
 
 test('isValidTab should return false for missing icon', () => {
   const tab = {
-    editorType: 'text',
     editorUid: -1,
     id: 1,
     isDirty: false,
@@ -162,7 +153,6 @@ test('isValidTab should return false for missing icon', () => {
 
 test('isValidTab should return false for invalid icon type', () => {
   const tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: 123,
     id: 1,
@@ -171,4 +161,8 @@ test('isValidTab should return false for invalid icon type', () => {
     title: 'File',
   }
   expect(isValidTab(tab)).toBe(false)
+})
+
+test.each([null, {}, { type: 1 }, { type: 'unknown' }])('isValidTab rejects malformed editor inputs: %j', (editorInput) => {
+  expect(isValidTab({ editorInput, editorUid: -1, icon: '', id: 1, isDirty: false, isPreview: false, title: 'File' })).toBe(false)
 })

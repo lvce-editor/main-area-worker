@@ -33,7 +33,6 @@ test('closeTabAndSave should save a dirty tab before closing it using the render
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               errorMessage: '',
               icon: '',
@@ -91,7 +90,6 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               icon: '',
               id: 1,
@@ -151,7 +149,6 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               errorMessage: '',
               icon: '',
@@ -212,7 +209,6 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               errorMessage: '',
               icon: '',
@@ -271,7 +267,6 @@ test('closeTabAndSave should keep a dirty tab open when closing is canceled', as
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               icon: '',
               id: 1,
@@ -342,7 +337,6 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 123,
               icon: '',
               id: 1,
@@ -396,7 +390,6 @@ test('closeTabAndSave should skip saving tabs without editor instances', async (
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -445,7 +438,6 @@ test('closeTabAndSave should propagate unexpected dialog errors', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: '',
               id: 1,
@@ -486,7 +478,6 @@ test('closeTabAndSave should save and close a dirty tab without a uri', async ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: '',
               id: 1,
@@ -534,7 +525,6 @@ test('closeTabAndSave should dispose a Settings editor after switching to the re
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 122,
               icon: '',
               id: 1,
@@ -544,7 +534,6 @@ test('closeTabAndSave should dispose a Settings editor after switching to the re
               uri: 'file:///workspace-file.txt',
             },
             {
-              editorType: 'text',
               editorUid: 123,
               icon: '',
               id: 2,

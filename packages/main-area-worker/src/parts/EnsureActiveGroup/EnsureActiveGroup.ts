@@ -1,5 +1,4 @@
 import type { EditorInput } from '../EditorInput/EditorInput.ts'
-import type { EditorType } from '../EditorType/EditorType.ts'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
@@ -13,9 +12,9 @@ export const ensureActiveGroup = (
   uri: string,
   preview: boolean = false,
   title: string = PathDisplay.getLabel(uri),
-  editorType: EditorType = 'text',
   editorInput?: EditorInput,
 ): MainAreaState => {
+  const resolvedEditorInput: EditorInput = editorInput ?? { type: 'editor', uri }
   // Find the active group (by activeGroupId or focused flag)
   const { homeDirUri, layout } = state
   const { activeGroupId, groups } = layout
@@ -40,8 +39,7 @@ export const ensureActiveGroup = (
           }
           return {
             ...tab,
-            editorInput,
-            editorType,
+            editorInput: resolvedEditorInput,
             editorUid: Id.create(),
             errorMessage: '',
             icon: '',
@@ -75,8 +73,7 @@ export const ensureActiveGroup = (
     const tabId = Id.create()
     const editorUid = Id.create()
     const newTab: Tab = {
-      editorInput,
-      editorType,
+      editorInput: resolvedEditorInput,
       editorUid,
       errorMessage: '',
       icon: '',
@@ -91,7 +88,7 @@ export const ensureActiveGroup = (
     }
     newState = openTab(state, activeGroup.id, newTab)
   } else {
-    newState = createEmptyGroup(state, uri, requestId, preview, title, editorType, editorInput)
+    newState = createEmptyGroup(state, uri, requestId, preview, title, resolvedEditorInput)
   }
 
   return newState

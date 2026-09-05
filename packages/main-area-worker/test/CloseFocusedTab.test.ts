@@ -19,7 +19,6 @@ test('closeFocusedTab should close the focused tab', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -28,7 +27,6 @@ test('closeFocusedTab should close the focused tab', async () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -57,7 +55,6 @@ test('closeFocusedTab should close the focused tab', async () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -90,7 +87,6 @@ test('closeFocusedTab should return same state when no focused group', async () 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -125,7 +121,6 @@ test('closeFocusedTab should return same state when no active tab in focused gro
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -175,7 +170,6 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -217,7 +211,6 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -236,7 +229,6 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -245,7 +237,6 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -274,7 +265,6 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -293,7 +283,6 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 3,
@@ -326,7 +315,6 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -345,7 +333,6 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -374,7 +361,6 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,

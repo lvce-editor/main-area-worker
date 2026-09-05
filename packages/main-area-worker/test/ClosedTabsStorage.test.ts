@@ -7,7 +7,6 @@ const closedTabsKeyRegex = /^https:\/\/lvce-editor\.invalid\/closed-tabs\/sessio
 
 const createEntry = (id: number): ClosedTabEntry => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: id,
     icon: '',
     id,

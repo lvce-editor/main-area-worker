@@ -14,7 +14,6 @@ test('renderEditorGroupActions should return empty array when splitButtonEnabled
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -41,7 +40,6 @@ test('renderEditorGroupActions should render split button when splitButtonEnable
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -92,7 +90,6 @@ test('renderEditorGroupActions should render toggle preview button for HTML file
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -144,7 +141,6 @@ test('renderEditorGroupActions should not render toggle preview button for non-H
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -171,7 +167,6 @@ test('renderEditorGroupActions should render both buttons when HTML file and spl
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -238,7 +233,6 @@ test('renderEditorGroupActions should not render toggle preview button when tab 
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -264,7 +258,6 @@ test('renderEditorGroupActions should not render toggle preview button when no a
     size: 100,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,

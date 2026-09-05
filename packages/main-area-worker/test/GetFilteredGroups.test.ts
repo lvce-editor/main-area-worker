@@ -13,7 +13,6 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
       size: 50,
       tabs: [
         {
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: 1,
@@ -23,7 +22,7 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
           uri: 'untitled://Untitled-1',
         },
         {
-          editorType: 'text',
+          editorInput: { type: 'editor', uri: 'file:///workspace/file.ts' },
           editorUid: -1,
           icon: '',
           id: 2,
@@ -43,7 +42,6 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
       size: 50,
       tabs: [
         {
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: 3,
@@ -68,7 +66,7 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
       size: 50,
       tabs: [
         {
-          editorType: 'text',
+          editorInput: { type: 'editor', uri: 'file:///workspace/file.ts' },
           editorUid: -1,
           icon: '',
           id: 2,

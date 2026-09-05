@@ -6,7 +6,6 @@ import { renderTab } from '../src/parts/RenderTab/RenderTab.ts'
 
 test('renderTab should return correct structure for clean tab', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     errorMessage: '',
     icon: '',
@@ -66,7 +65,6 @@ test('renderTab should return correct structure for clean tab', () => {
 
 test('renderTab should not render an empty file icon', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     errorMessage: '',
     icon: '',
@@ -87,7 +85,6 @@ test('renderTab should not render an empty file icon', () => {
 
 test('renderTab should render a white drop indicator before the tab', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -104,7 +101,6 @@ test('renderTab should render a white drop indicator before the tab', () => {
 
 test('renderTab should render a white drop indicator after the tab', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -121,7 +117,6 @@ test('renderTab should render a white drop indicator after the tab', () => {
 
 test('renderTab should use the extensions mask icon for running extensions', () => {
   const tab: Tab = {
-    editorType: 'custom',
     editorUid: -1,
     errorMessage: '',
     icon: '',
@@ -151,7 +146,6 @@ test('renderTab should use the extensions mask icon for running extensions', () 
 
 test('renderTab should use the search mask icon for search editors', () => {
   const tab: Tab = {
-    editorType: 'custom',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -178,7 +172,6 @@ test('renderTab should use the search mask icon for search editors', () => {
 
 test('renderTab should show dirty indicator for dirty tab', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     errorMessage: '',
     icon: '',
@@ -238,7 +231,6 @@ test('renderTab should show dirty indicator for dirty tab', () => {
 
 test('renderTab should handle empty title', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     errorMessage: '',
     icon: '',
@@ -257,7 +249,6 @@ test('renderTab should handle empty title', () => {
 
 test('renderTab should put the active tab in the keyboard tab sequence', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -273,7 +264,6 @@ test('renderTab should put the active tab in the keyboard tab sequence', () => {
 
 test('renderTab should handle dirty tab with empty title', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -290,7 +280,6 @@ test('renderTab should handle dirty tab with empty title', () => {
 
 test('renderTab should use title as fallback when path is undefined', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -305,7 +294,6 @@ test('renderTab should use title as fallback when path is undefined', () => {
 
 test('renderTab should prefer uriTitle for the tab tooltip', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -323,7 +311,6 @@ test('renderTab should prefer uriTitle for the tab tooltip', () => {
 
 test('renderTab should add preview class for preview tabs', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -339,7 +326,6 @@ test('renderTab should add preview class for preview tabs', () => {
 
 test('renderTab should use the built-in keyboard icon for the Keyboard Shortcuts tab', () => {
   const tab: Tab = {
-    editorType: 'custom',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -365,7 +351,6 @@ test('renderTab should use the built-in keyboard icon for the Keyboard Shortcuts
 
 test('renderTab should use the built-in extensions icon for extension detail tabs', () => {
   const tab: Tab = {
-    editorType: 'custom',
     editorUid: -1,
     icon: '',
     id: 1,

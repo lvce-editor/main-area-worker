@@ -7,7 +7,6 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
   const tabs: Tab[] =
     tabOverrides.length > 0
       ? tabOverrides.map((override, index) => ({
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: index + 1,
@@ -19,7 +18,6 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
         }))
       : [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -67,7 +65,6 @@ const createStateWithMultipleGroups = (): MainAreaState => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -77,7 +74,6 @@ const createStateWithMultipleGroups = (): MainAreaState => {
               uri: '/test/file1.txt',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -97,7 +93,6 @@ const createStateWithMultipleGroups = (): MainAreaState => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,

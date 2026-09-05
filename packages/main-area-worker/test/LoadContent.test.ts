@@ -52,7 +52,6 @@ test('loadContent should return empty layout when restore is disabled', async ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -89,7 +88,6 @@ test('loadContent should restore valid saved state', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -135,7 +133,6 @@ test('loadContent should preserve built-in metadata for a restored cookie import
           size: 100,
           tabs: [
             {
-              editorType: 'custom',
               editorUid: -1,
               icon: 'default-file-icon',
               id: 1,
@@ -196,7 +193,6 @@ test('loadContent should add pretty uri titles for restored file tabs under the 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -236,7 +232,6 @@ test('loadContent should normalize legacy string directions', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -272,7 +267,6 @@ test('loadContent should restore layout with multiple groups', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -291,7 +285,6 @@ test('loadContent should restore layout with multiple groups', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -328,7 +321,6 @@ test('loadContent should restore layout with multiple tabs per group', async () 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -337,7 +329,6 @@ test('loadContent should restore layout with multiple tabs per group', async () 
               title: 'Tab 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -346,7 +337,6 @@ test('loadContent should restore layout with multiple tabs per group', async () 
               title: 'Tab 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -476,7 +466,6 @@ test('loadContent should restore layout with custom editor tabs', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'custom',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -492,7 +481,7 @@ test('loadContent should restore layout with custom editor tabs', async () => {
 
   const result = await LoadContent.loadContent(state, savedState)
 
-  expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[0]).not.toHaveProperty('editorType')
 })
 
 test('loadContent should restore layout with tabs containing paths', async () => {
@@ -511,7 +500,6 @@ test('loadContent should restore layout with tabs containing paths', async () =>
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -553,7 +541,6 @@ test('loadContent should load icon theme for tabs with uri', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -595,7 +582,6 @@ test('loadContent should load icons for multiple tabs', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -605,7 +591,6 @@ test('loadContent should load icons for multiple tabs', async () => {
               uri: '/path/to/script.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -658,7 +643,6 @@ test('loadContent should update fileIconCache with loaded icons', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -701,7 +685,6 @@ test('loadContent should handle icon loading failure gracefully', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -745,7 +728,6 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -765,7 +747,6 @@ test('loadContent should load icons for tabs in multiple groups', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -822,7 +803,6 @@ test('loadContent should restore extension detail tabs with the correct editor i
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -832,7 +812,6 @@ test('loadContent should restore extension detail tabs with the correct editor i
               uri: 'extension-detail://theme-ayu',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -849,8 +828,8 @@ test('loadContent should restore extension detail tabs with the correct editor i
 
   const result = await LoadContent.loadContent(state, savedState)
 
-  expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
-  expect(result.layout.groups[0].tabs[1].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[0]).not.toHaveProperty('editorType')
+  expect(result.layout.groups[0].tabs[1]).not.toHaveProperty('editorType')
   expect(result.layout.groups[0].tabs[0].editorInput).toEqual({
     extensionId: 'theme-ayu',
     type: 'extension-detail-view',
@@ -904,7 +883,6 @@ test('loadContent should normalize stale extension detail editor inputs from sav
                 type: 'editor',
                 uri: 'extension-detail://chat',
               },
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -922,7 +900,7 @@ test('loadContent should normalize stale extension detail editor inputs from sav
   const restoredTab = result.layout.groups[0].tabs[0]
 
   expect(restoredTab.uri).toBe('extension-detail://chat')
-  expect(restoredTab.editorType).toBe('custom')
+  expect(restoredTab).not.toHaveProperty('editorType')
   expect(restoredTab.editorInput).toEqual({
     extensionId: 'chat',
     type: 'extension-detail-view',

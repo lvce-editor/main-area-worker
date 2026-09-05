@@ -6,7 +6,6 @@ import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { restoreClosedTab } from '../src/parts/RestoreClosedTab/RestoreClosedTab.ts'
 
 const tab: Tab = {
-  editorType: 'text',
   editorUid: 1,
   icon: '',
   id: 1,

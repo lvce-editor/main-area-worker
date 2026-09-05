@@ -4,7 +4,6 @@ import { getUpdatedGroups } from '../src/parts/SelectTab/GetUpdatedGroups/GetUpd
 
 const createTab = (id: number, overrides: Partial<Tab> = {}): Tab => {
   return {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id,

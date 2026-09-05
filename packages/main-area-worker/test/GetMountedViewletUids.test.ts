@@ -5,7 +5,6 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { getMountedViewletUids } from '../src/parts/GetMountedViewletUids/GetMountedViewletUids.ts'
 
 const tab = (id: number, editorUid: number, loadingState: 'error' | 'loaded' | 'loading'): Tab => ({
-  editorType: 'text',
   editorUid,
   icon: '',
   id,

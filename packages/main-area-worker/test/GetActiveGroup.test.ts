@@ -13,7 +13,6 @@ test('GetActiveGroup should return group when found by ID', () => {
       size: 50,
       tabs: [
         {
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: 1,
@@ -32,7 +31,6 @@ test('GetActiveGroup should return group when found by ID', () => {
       size: 50,
       tabs: [
         {
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: 2,
@@ -61,7 +59,6 @@ test('GetActiveGroup should return undefined when group not found', () => {
       size: 100,
       tabs: [
         {
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: 1,
@@ -88,7 +85,6 @@ test('GetActiveGroup should return first matching group by ID', () => {
       size: 50,
       tabs: [
         {
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: 1,
@@ -107,7 +103,6 @@ test('GetActiveGroup should return first matching group by ID', () => {
       size: 50,
       tabs: [
         {
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: 3,
@@ -160,7 +155,6 @@ test('GetActiveGroup should return group from array with multiple tabs', () => {
       size: 100,
       tabs: [
         {
-          editorType: 'text',
           editorUid: 1,
           icon: 'file-icon',
           id: 1,
@@ -169,7 +163,6 @@ test('GetActiveGroup should return group from array with multiple tabs', () => {
           title: 'File 1',
         },
         {
-          editorType: 'text',
           editorUid: 2,
           icon: 'file-icon',
           id: 2,
@@ -178,7 +171,6 @@ test('GetActiveGroup should return group from array with multiple tabs', () => {
           title: 'File 2',
         },
         {
-          editorType: 'text',
           editorUid: 3,
           icon: 'file-icon',
           id: 3,

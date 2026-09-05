@@ -23,7 +23,6 @@ test('openTab assigns default preview state and an id', () => {
   }
 
   const result = openTab(state, 1, {
-    editorType: 'text',
     editorUid: 1,
     icon: '',
     isDirty: false,

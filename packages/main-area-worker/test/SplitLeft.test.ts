@@ -5,7 +5,6 @@ import * as SplitLeft from '../src/parts/SplitLeft/SplitLeft.ts'
 
 const createTab = (id: number, title: string): Tab => {
   return {
-    editorType: 'text',
     editorUid: id,
     icon: '',
     id,

@@ -21,7 +21,6 @@ test('loadFileIcons should load icons for all tabs', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -31,7 +30,6 @@ test('loadFileIcons should load icons for all tabs', async () => {
               uri: 'file:///file1.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -65,7 +63,6 @@ test('loadFileIcons should load icons for all tabs', async () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-ts',
             id: 1,
@@ -75,7 +72,6 @@ test('loadFileIcons should load icons for all tabs', async () => {
             uri: 'file:///file1.ts',
           },
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-js',
             id: 2,
@@ -150,7 +146,6 @@ test('loadFileIcons should update only relevant tabs', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -170,7 +165,6 @@ test('loadFileIcons should update only relevant tabs', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -204,7 +198,6 @@ test('loadFileIcons should update only relevant tabs', async () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-ts',
             id: 1,
@@ -224,7 +217,6 @@ test('loadFileIcons should update only relevant tabs', async () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-js',
             id: 2,
@@ -267,7 +259,6 @@ test('loadFileIcons should preserve other tab properties', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 42,
               icon: 'old-icon',
               id: 99,
@@ -300,7 +291,6 @@ test('loadFileIcons should preserve other tab properties', async () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: 42,
             icon: 'new-icon',
             id: 99,
@@ -335,7 +325,6 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -369,7 +358,6 @@ test('loadFileIcons should handle missing icons gracefully', async () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: undefined,
             id: 1,
@@ -404,7 +392,6 @@ test('loadFileIcons should handle error and return original state', async () => 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -449,7 +436,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
           size: 33,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -459,7 +445,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
               uri: 'file:///f1.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -479,7 +464,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
           size: 33,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -499,7 +483,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
           size: 34,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -509,7 +492,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
               uri: 'file:///f4.css',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -543,7 +525,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
         size: 33,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-ts',
             id: 1,
@@ -553,7 +534,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
             uri: 'file:///f1.ts',
           },
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-js',
             id: 2,
@@ -573,7 +553,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
         size: 33,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-json',
             id: 3,
@@ -593,7 +572,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
         size: 34,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-css',
             id: 4,
@@ -603,7 +581,6 @@ test('loadFileIcons should handle multiple groups with multiple tabs', async () 
             uri: 'file:///f4.css',
           },
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-html',
             id: 5,
@@ -649,7 +626,6 @@ test('loadFileIcons should preserve group structure', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -669,7 +645,6 @@ test('loadFileIcons should preserve group structure', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -703,7 +678,6 @@ test('loadFileIcons should preserve group structure', async () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-ts',
             id: 1,
@@ -723,7 +697,6 @@ test('loadFileIcons should preserve group structure', async () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: 'icon-js',
             id: 2,
@@ -766,7 +739,6 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -799,7 +771,6 @@ test('loadFileIcons should handle tabs with empty uri', async () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: undefined,
             id: 1,

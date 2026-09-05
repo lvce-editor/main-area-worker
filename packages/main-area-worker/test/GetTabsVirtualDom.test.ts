@@ -31,7 +31,6 @@ test('getTabsVirtualDom should return correct structure with empty tabs', () => 
 
 test('getTabsVirtualDom should return correct structure with single tab', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -68,7 +67,6 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
 test('getTabsVirtualDom should return correct structure with multiple tabs', () => {
   const tabs: Tab[] = [
     {
-      editorType: 'text',
       editorUid: -1,
       icon: '',
       id: 1,
@@ -78,7 +76,6 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
       uri: '/path/to/file1',
     },
     {
-      editorType: 'text',
       editorUid: -2,
       icon: '',
       id: 2,
@@ -88,7 +85,6 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
       uri: '/path/to/file2',
     },
     {
-      editorType: 'text',
       editorUid: -3,
       icon: '',
       id: 3,
@@ -130,7 +126,6 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
 test('getTabsVirtualDom should correctly mark active tab', () => {
   const tabs: Tab[] = [
     {
-      editorType: 'text',
       editorUid: -1,
       icon: '',
       id: 1,
@@ -140,7 +135,6 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
       uri: '/path/to/file1',
     },
     {
-      editorType: 'text',
       editorUid: -2,
       icon: '',
       id: 2,
@@ -178,7 +172,6 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
 test('getTabsVirtualDom should handle activeTabId -1', () => {
   const tabs: Tab[] = [
     {
-      editorType: 'text',
       editorUid: -1,
       icon: '',
       id: 1,
@@ -208,8 +201,8 @@ test('getTabsVirtualDom should handle activeTabId -1', () => {
 
 test('getTabsVirtualDom should render an insertion indicator at the requested boundary', () => {
   const tabs: Tab[] = [
-    { editorType: 'text', editorUid: -1, icon: '', id: 1, isDirty: false, isPreview: false, title: 'One', uri: '/one' },
-    { editorType: 'text', editorUid: -2, icon: '', id: 2, isDirty: false, isPreview: false, title: 'Two', uri: '/two' },
+    { editorUid: -1, icon: '', id: 1, isDirty: false, isPreview: false, title: 'One', uri: '/one' },
+    { editorUid: -2, icon: '', id: 2, isDirty: false, isPreview: false, title: 'Two', uri: '/two' },
   ]
   const group: EditorGroup = {
     activeTabId: 1,
@@ -230,7 +223,6 @@ test('getTabsVirtualDom should render an insertion indicator at the requested bo
 
 test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -260,7 +252,6 @@ test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
 test('getTabsVirtualDom should use provided tabsChildCount', () => {
   const tabs: Tab[] = [
     {
-      editorType: 'text',
       editorUid: -1,
       icon: '',
       id: 1,
@@ -270,7 +261,6 @@ test('getTabsVirtualDom should use provided tabsChildCount', () => {
       uri: '/path/to/file1',
     },
     {
-      editorType: 'text',
       editorUid: -2,
       icon: '',
       id: 2,

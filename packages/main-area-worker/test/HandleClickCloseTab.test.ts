@@ -19,7 +19,6 @@ test('handleClickCloseTab should return state unchanged when rawGroupIndex is em
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -54,7 +53,6 @@ test('handleClickCloseTab should return state unchanged when rawIndex is empty',
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -89,7 +87,6 @@ test('handleClickCloseTab should return state unchanged when groupIndex is negat
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -124,7 +121,6 @@ test('handleClickCloseTab should return state unchanged when groupIndex is out o
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -159,7 +155,6 @@ test('handleClickCloseTab should return state unchanged when tab index is negati
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -194,7 +189,6 @@ test('handleClickCloseTab should return state unchanged when tab index is out of
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -229,7 +223,6 @@ test('handleClickCloseTab should close the tab at the specified index', async ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -238,7 +231,6 @@ test('handleClickCloseTab should close the tab at the specified index', async ()
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -247,7 +239,6 @@ test('handleClickCloseTab should close the tab at the specified index', async ()
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -284,7 +275,6 @@ test('handleClickCloseTab should close tab from the correct group', async () => 
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -303,7 +293,6 @@ test('handleClickCloseTab should close tab from the correct group', async () => 
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -312,7 +301,6 @@ test('handleClickCloseTab should close tab from the correct group', async () => 
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -350,7 +338,6 @@ test('handleClickCloseTab should close first tab when index is 0', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -359,7 +346,6 @@ test('handleClickCloseTab should close first tab when index is 0', async () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -397,7 +383,6 @@ test('handleClickCloseTab should close last tab when index points to last elemen
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -406,7 +391,6 @@ test('handleClickCloseTab should close last tab when index points to last elemen
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -415,7 +399,6 @@ test('handleClickCloseTab should close last tab when index points to last elemen
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -453,7 +436,6 @@ test('handleClickCloseTab should remove group when closing only tab in group', a
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -490,7 +472,6 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -509,7 +490,6 @@ test('handleClickCloseTab should remove empty group when multiple groups exist',
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

@@ -4,7 +4,6 @@ import type { EditorInput } from '../EditorInput/EditorInput.ts'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
-import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
@@ -113,7 +112,6 @@ export const reopenEditorWith = async (context: AsyncCommandContext<MainAreaStat
   const oldEditorUid = latestTab.tab.editorUid
   const resetState = updateTab(latestState, initialTab.id, {
     editorInput,
-    editorType: getEditorInputEditorType(editorInput),
     editorUid: -1,
     errorMessage: undefined,
     loadingState: undefined,

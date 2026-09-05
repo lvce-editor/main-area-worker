@@ -15,7 +15,6 @@ const createGroup = (id: number, size: number, direction: LayoutDirection.Layout
   size,
   tabs: [
     {
-      editorType: 'text' as const,
       editorUid: id,
       icon: '',
       id,
@@ -42,7 +41,6 @@ test('splitEditorGroup should split editor group to the right', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -85,7 +83,6 @@ test('splitEditorGroup should split editor group to the left', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -127,7 +124,6 @@ test('splitEditorGroup should split editor group down', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -169,7 +165,6 @@ test('splitEditorGroup should split editor group up', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -211,7 +206,6 @@ test('splitEditorGroup should return unchanged state if group not found', () => 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -247,7 +241,6 @@ test('splitEditorGroup should preserve tabs in source group', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -256,7 +249,6 @@ test('splitEditorGroup should preserve tabs in source group', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -265,7 +257,6 @@ test('splitEditorGroup should preserve tabs in source group', () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -358,7 +349,6 @@ test('splitEditorGroup should set new group activeTabId to -1', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -394,7 +384,6 @@ test('splitEditorGroup should split multiple existing groups', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -413,7 +402,6 @@ test('splitEditorGroup should split multiple existing groups', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -458,7 +446,6 @@ test('splitEditorGroup should handle split of second group', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -477,7 +464,6 @@ test('splitEditorGroup should handle split of second group', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -519,7 +505,6 @@ test('splitEditorGroup should preserve parent layout direction when splitting ac
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -597,7 +582,6 @@ test('splitEditorGroup should preserve activeTabId in source group', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 42,
@@ -741,7 +725,6 @@ test('splitEditorGroup should not mutate original state', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

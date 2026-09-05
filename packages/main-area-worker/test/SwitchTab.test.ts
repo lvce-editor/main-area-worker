@@ -5,7 +5,6 @@ import * as SwitchTab from '../src/parts/SwitchTab/SwitchTab.ts'
 
 const createTab = (id: number, title: string): Tab => {
   return {
-    editorType: 'text',
     editorUid: id,
     icon: '',
     id,

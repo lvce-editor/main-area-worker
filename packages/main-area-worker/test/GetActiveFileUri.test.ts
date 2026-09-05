@@ -23,7 +23,6 @@ const createState = (tabs: readonly Tab[], activeTabId: number = tabs[0]?.id ?? 
 })
 
 const createTab = (overrides: Partial<Tab> = {}): Tab => ({
-  editorType: 'text',
   editorUid: 1,
   icon: '',
   id: 1,

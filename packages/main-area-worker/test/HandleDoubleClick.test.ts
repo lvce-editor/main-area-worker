@@ -5,7 +5,6 @@ import { handleDoubleClick } from '../src/parts/HandleDoubleClick/HandleDoubleCl
 
 const createTab = (id: number, isPreview: boolean): Tab => {
   return {
-    editorType: 'text',
     editorUid: id,
     icon: '',
     id,

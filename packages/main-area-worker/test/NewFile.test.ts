@@ -4,7 +4,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { newFile } from '../src/parts/NewFile/NewFile.ts'
 
-test('newFile should create a new empty tab in the active group', async () => {
+test.each([1, -1])('newFile should create a new empty tab in the active or focused group (activeGroupId: %s)', async (activeGroupId) => {
   // @ts-ignore
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
@@ -13,7 +13,7 @@ test('newFile should create a new empty tab in the active group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
-      activeGroupId: 1,
+      activeGroupId,
       direction: 1,
       groups: [
         {

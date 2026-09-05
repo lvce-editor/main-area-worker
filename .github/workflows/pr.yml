@@ -12,7 +12,7 @@ jobs:
       matrix:
         attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     name: close-editor-retarget (${{ matrix.attempt }})
-    runs-on: ubuntu-24.04
+    runs-on: windows-2025
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
@@ -23,7 +23,7 @@ jobs:
       - run: npm run build
       - name: install playwright dependencies
         working-directory: ./packages/e2e
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install firefox
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: reproduce tab-close command routing
@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          npm run e2e:headless -- --filter=main-area-close-editor-retargets-editor-commands 2>&1 | tee close-editor-retarget.log
+          npm run e2e:firefox:headless -- --filter=main-area-close-editor-retargets-editor-commands 2>&1 | tee close-editor-retarget.log
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: upload attempt evidence

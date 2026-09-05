@@ -1,6 +1,6 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { Tab } from '../Tab/Tab.ts'
+import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
 import { get } from '../MainAreaStates/MainAreaStates.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
@@ -8,10 +8,10 @@ import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
 const settingsUri = 'app://settings.json'
 
-const saveEditorAndHandleSettingsChange = async (tab: Tab) => {
+const saveEditorAndHandleSettingsChange = async (tab: Tab, applicationId?: string) => {
   const editorState = await saveEditor(tab.editorUid)
   if (!editorState?.modified && tab.uri === settingsUri) {
-    await RendererWorker.invoke('Layout.handleSettingsChanged')
+    await ApplicationRpc.invoke(applicationId, 'Layout.handleSettingsChanged')
   }
   return editorState
 }
@@ -60,18 +60,18 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   }
 
   if (!tab.isDirty) {
-    await saveEditorAndHandleSettingsChange(tab)
+    await saveEditorAndHandleSettingsChange(tab, state.applicationId)
     return getLatestStoredState(uid, currentState, tab.id, tab.uri)
   }
 
-  const editorState = await saveEditorAndHandleSettingsChange(tab)
+  const editorState = await saveEditorAndHandleSettingsChange(tab, state.applicationId)
   const latestState = getLatestStoredState(uid, currentState, tab.id, tab.uri)
   if (editorState?.modified) {
     return latestState
   }
 
   if (tab.uri) {
-    await RendererWorker.handleModifiedStatusChange(tab.uri, false)
+    await ApplicationRpc.invoke(state.applicationId, 'Main.handleModifiedStatusChange', tab.uri, false)
   }
   const stateAfterModifiedStatusChange = getLatestStoredState(uid, latestState, tab.id, tab.uri)
 

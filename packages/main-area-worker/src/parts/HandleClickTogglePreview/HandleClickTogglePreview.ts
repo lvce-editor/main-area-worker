@@ -1,5 +1,5 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
 
 export const handleClickTogglePreview = async (state: MainAreaState): Promise<MainAreaState> => {
@@ -8,6 +8,6 @@ export const handleClickTogglePreview = async (state: MainAreaState): Promise<Ma
     return state
   }
 
-  await RendererWorker.invoke('Layout.showPreview', activeTabInfo.tab.uri)
+  await ApplicationRpc.invoke(state.applicationId, 'Layout.showPreview', activeTabInfo.tab.uri)
   return state
 }

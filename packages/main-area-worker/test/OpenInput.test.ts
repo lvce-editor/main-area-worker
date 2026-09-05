@@ -8,7 +8,10 @@ import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openInput, openInputWithContext } from '../src/parts/OpenInput/OpenInput.ts'
 
 const isSetupInvocation = ([command]: readonly unknown[]): boolean =>
-  command !== 'FileSystem.getFileSize' && command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending'
+  command !== 'FileSystem.getFileSize' &&
+  command !== 'Preferences.get' &&
+  command !== 'Viewlet.getTitle' &&
+  command !== 'Layout.renderMainAreaPending'
 
 afterEach(() => {
   MainAreaStates.clear()
@@ -164,6 +167,7 @@ test('openInput renders loaded editor content before the title request finishes'
   expect(settled).toBe(false)
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.getFileSize', 'file:///path/to/file.ts'],
+    ['Preferences.get', 'files.maxFileSizeMB'],
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
     ['Layout.createViewlet', 'Editor', expect.any(Number), expect.any(Number), { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
     ['Layout.renderMainAreaPending', state.uid],

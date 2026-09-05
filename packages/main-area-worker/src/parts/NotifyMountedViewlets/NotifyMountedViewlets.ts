@@ -1,5 +1,5 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import * as GetMountedViewletUids from '../GetMountedViewletUids/GetMountedViewletUids.ts'
 
 const arraysEqual = (a: readonly number[], b: readonly number[]): boolean => {
@@ -13,7 +13,7 @@ export const notifyMountedViewlets = async (oldState: MainAreaState, newState: M
     return
   }
   try {
-    await RendererWorker.invoke('Layout.setMountedViewlets', newState.uid, newViewletUids)
+    await ApplicationRpc.invoke(newState.applicationId, 'Layout.setMountedViewlets', newState.uid, newViewletUids)
   } catch (error) {
     console.warn('Failed to publish mounted viewlets', error)
   }

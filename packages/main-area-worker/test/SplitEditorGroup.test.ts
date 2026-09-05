@@ -15,7 +15,6 @@ const createGroup = (id: number, size: number, direction: LayoutDirection.Layout
   size,
   tabs: [
     {
-      editorType: 'text' as const,
       editorUid: id,
       icon: '',
       id,

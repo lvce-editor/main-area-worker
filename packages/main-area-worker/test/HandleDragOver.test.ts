@@ -6,7 +6,6 @@ import { handleDragOver } from '../src/parts/HandleDragOver/HandleDragOver.ts'
 import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 
 const tab = {
-  editorType: 'text' as const,
   editorUid: 1,
   icon: '',
   id: 1,

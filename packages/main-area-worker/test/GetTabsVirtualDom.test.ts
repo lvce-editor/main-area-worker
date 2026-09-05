@@ -201,8 +201,8 @@ test('getTabsVirtualDom should handle activeTabId -1', () => {
 
 test('getTabsVirtualDom should render an insertion indicator at the requested boundary', () => {
   const tabs: Tab[] = [
-    { editorType: 'text', editorUid: -1, icon: '', id: 1, isDirty: false, isPreview: false, title: 'One', uri: '/one' },
-    { editorType: 'text', editorUid: -2, icon: '', id: 2, isDirty: false, isPreview: false, title: 'Two', uri: '/two' },
+    { editorUid: -1, icon: '', id: 1, isDirty: false, isPreview: false, title: 'One', uri: '/one' },
+    { editorUid: -2, icon: '', id: 2, isDirty: false, isPreview: false, title: 'Two', uri: '/two' },
   ]
   const group: EditorGroup = {
     activeTabId: 1,

@@ -18,7 +18,6 @@ const createState = (editorUid: number, focused = true): MainAreaState => ({
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid,
             icon: '',
             id: 2,

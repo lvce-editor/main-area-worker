@@ -4,7 +4,6 @@ import { shouldCreateViewletForSelectedTab } from '../src/parts/SelectTab/Should
 
 const createTab = (overrides: Partial<Tab> = {}): Tab => {
   return {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,

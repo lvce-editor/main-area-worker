@@ -19,7 +19,6 @@ test('closeTabsByUris should remove tabs with matching uris', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -29,7 +28,6 @@ test('closeTabsByUris should remove tabs with matching uris', () => {
               uri: '/workspace/delete-me.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -68,7 +66,6 @@ test('closeTabsByUris should remove empty groups after closing the last tab', ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

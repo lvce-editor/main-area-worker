@@ -24,7 +24,6 @@ test('restoreMainAreaState should restore layout from valid saved state', () => 
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -160,7 +159,6 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -179,7 +177,6 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -226,7 +223,6 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
         size: 100,
         tabs: [
           {
-            editorType: 'custom',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -247,7 +243,7 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
   const result = restoreMainAreaState(savedState, currentState)
 
   expect(result.layout).toEqual(savedLayout)
-  expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[0]).not.toHaveProperty('editorType')
 })
 
 test('restoreMainAreaState should normalize stale extension detail editor inputs', () => {
@@ -276,7 +272,6 @@ test('restoreMainAreaState should normalize stale extension detail editor inputs
                 type: 'editor',
                 uri: 'extension-detail://chat',
               },
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -295,7 +290,7 @@ test('restoreMainAreaState should normalize stale extension detail editor inputs
   const restoredTab = result.layout.groups[0].tabs[0]
 
   expect(restoredTab.uri).toBe('extension-detail://chat')
-  expect(restoredTab.editorType).toBe('custom')
+  expect(restoredTab).not.toHaveProperty('editorType')
   expect(restoredTab.editorInput).toEqual({
     extensionId: 'chat',
     type: 'extension-detail-view',
@@ -328,7 +323,6 @@ test('restoreMainAreaState should normalize stale process explorer editor inputs
                 type: 'editor',
                 uri: 'process-explorer://',
               },
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -348,7 +342,7 @@ test('restoreMainAreaState should normalize stale process explorer editor inputs
   const restoredTab = result.layout.groups[0].tabs[0]
 
   expect(restoredTab.uri).toBe('process-explorer://')
-  expect(restoredTab.editorType).toBe('custom')
+  expect(restoredTab).not.toHaveProperty('editorType')
   expect(restoredTab.editorInput).toEqual({
     type: 'process-explorer',
   })
@@ -375,7 +369,7 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
         size: 100,
         tabs: [
           {
-            editorType: 'text',
+            editorInput: { type: 'editor', uri: '/path/to/script.ts' },
             editorUid: -1,
             icon: '',
             id: 1,
@@ -864,7 +858,7 @@ test('restoreMainAreaState should clear transient loading fields from restored t
           size: 100,
           tabs: [
             {
-              editorType: 'text',
+              editorInput: { type: 'editor', uri: '/path/to/file.ts' },
               editorUid: 99,
               errorMessage: 'Old error',
               icon: '',
@@ -886,7 +880,7 @@ test('restoreMainAreaState should clear transient loading fields from restored t
 
   expect(result.layout.groups[0].tabs).toEqual([
     {
-      editorType: 'text',
+      editorInput: { type: 'editor', uri: '/path/to/file.ts' },
       editorUid: -1,
       icon: '',
       id: 2,
@@ -912,7 +906,6 @@ test('restoreMainState should return valid layout', () => {
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -1086,7 +1079,6 @@ test('restoreMainState should accept layout with valid groups', () => {
         size: 50,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -1105,7 +1097,6 @@ test('restoreMainState should accept layout with valid groups', () => {
         size: 50,
         tabs: [
           {
-            editorType: 'custom',
             editorUid: -1,
             icon: '',
             id: 2,

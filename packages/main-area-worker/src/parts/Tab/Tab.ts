@@ -1,10 +1,8 @@
 import type { EditorInput } from '../EditorInput/EditorInput.ts'
-import type { EditorType } from '../EditorType/EditorType.ts'
 import type { LoadingState } from '../LoadingState/LoadingState.ts'
 
 export interface Tab {
   readonly editorInput?: EditorInput
-  readonly editorType: EditorType
   readonly editorUid: number
   readonly errorMessage?: string
   readonly fileSize?: number

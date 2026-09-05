@@ -24,7 +24,6 @@ test('getMenuEntries returns correct menu entries for active tab with path', () 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 0,
@@ -88,7 +87,6 @@ test('getMenuEntries includes correct path in args for reveal and find reference
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 0,
@@ -128,7 +126,6 @@ test('getMenuEntries handles tab without path', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 0,
@@ -164,7 +161,6 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 0,
@@ -174,7 +170,6 @@ test('getMenuEntries uses correct active tab from multiple tabs', () => {
               uri: '/file1.txt',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -211,7 +206,6 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 0,
@@ -231,7 +225,6 @@ test('getMenuEntries uses correct active group from multiple groups', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 0,
@@ -268,7 +261,6 @@ test('getMenuEntries targets the tab that opened the context menu', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -278,7 +270,6 @@ test('getMenuEntries targets the tab that opened the context menu', () => {
               uri: '/target.txt',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

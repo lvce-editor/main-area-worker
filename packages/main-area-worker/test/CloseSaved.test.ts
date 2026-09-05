@@ -19,7 +19,6 @@ test('closeSaved preserves a missing active tab id', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: '',
               id: 1,
@@ -54,7 +53,6 @@ test('closeSaved should close all non-dirty tabs', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -63,7 +61,6 @@ test('closeSaved should close all non-dirty tabs', () => {
               title: 'saved-1.txt',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -72,7 +69,6 @@ test('closeSaved should close all non-dirty tabs', () => {
               title: 'dirty.txt',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -110,7 +106,6 @@ test('closeSaved should update activeTabId when active tab is closed', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -119,7 +114,6 @@ test('closeSaved should update activeTabId when active tab is closed', () => {
               title: 'dirty-1.txt',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -128,7 +122,6 @@ test('closeSaved should update activeTabId when active tab is closed', () => {
               title: 'saved.txt',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -166,7 +159,6 @@ test('closeSaved should mark group empty when no dirty tabs remain', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -203,7 +195,6 @@ test('closeSaved should preserve groups with only dirty tabs', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -222,7 +213,6 @@ test('closeSaved should preserve groups with only dirty tabs', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -231,7 +221,6 @@ test('closeSaved should preserve groups with only dirty tabs', () => {
               title: 'saved-1.txt',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,

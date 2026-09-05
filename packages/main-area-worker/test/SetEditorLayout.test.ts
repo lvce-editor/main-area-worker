@@ -29,7 +29,6 @@ const createGroup = (
     size,
     tabs: [
       {
-        editorType: 'text',
         editorUid: id,
         icon: '',
         id,

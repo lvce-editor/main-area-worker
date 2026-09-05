@@ -11,7 +11,6 @@ import { focus as focusMainArea } from '../Focus/Focus.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import { getCurrentState } from '../GetCurrentState/GetCurrentState.ts'
-import { getEditorInputEditorType } from '../GetEditorInputEditorType/GetEditorInputEditorType.ts'
 import { getEditorInputTitle } from '../GetEditorInputTitle/GetEditorInputTitle.ts'
 import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
 import { getLargeFileSize } from '../GetLargeFileSize/GetLargeFileSize.ts'
@@ -77,7 +76,6 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const preview = options.preview ?? false
   const uri = getEditorInputUri(editorInput)
   const title = getEditorInputTitle(editorInput)
-  const editorType = getEditorInputEditorType(editorInput)
   const currentState = state
   const existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
   const shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
@@ -89,7 +87,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   }
   const replacedEditorUid = getActivePreviewEditorUid(currentState)
   const previousTabId = getActiveTabId(currentState)
-  const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetry, uri, preview, title, editorType)
+  const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetry, uri, preview, title)
 
   await context.updateState(() => stateWithTab)
   if (replacedEditorUid !== -1) {

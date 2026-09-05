@@ -29,7 +29,6 @@ test('saveState should save layout with custom configuration', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -87,7 +86,6 @@ test('saveState should save layout with multiple groups', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -106,7 +104,6 @@ test('saveState should save layout with multiple groups', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -143,7 +140,6 @@ test('saveState should save layout with custom editor tabs', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'custom',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -157,7 +153,7 @@ test('saveState should save layout with custom editor tabs', () => {
     },
   }
   const result: SavedState = saveState(state)
-  expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[0]).not.toHaveProperty('editorType')
 })
 
 test('saveState should save layout with tabs containing paths and languages', () => {
@@ -176,7 +172,6 @@ test('saveState should save layout with tabs containing paths and languages', ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -217,7 +212,6 @@ test('saveState should preserve editorInput for custom tabs', () => {
                 uriLeft: 'file:///left.ts',
                 uriRight: 'file:///right.ts',
               },
-              editorType: 'custom',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -260,7 +254,6 @@ test('saveState should preserve process explorer editor input', () => {
               editorInput: {
                 type: 'process-explorer',
               },
-              editorType: 'custom',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -302,7 +295,6 @@ test('saveState should normalize extension detail tabs based on URI', () => {
                 type: 'editor',
                 uri: 'extension-detail://chat',
               },
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -319,7 +311,7 @@ test('saveState should normalize extension detail tabs based on URI', () => {
 
   const result: SavedState = saveState(state)
 
-  expect(result.layout.groups[0].tabs[0].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[0]).not.toHaveProperty('editorType')
   expect(result.layout.groups[0].tabs[0].editorInput).toEqual({
     extensionId: 'chat',
     type: 'extension-detail-view',
@@ -389,7 +381,6 @@ test('saveState should return a new object, not mutate the original state', () =
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -423,7 +414,6 @@ test('saveState should filter out untitled editors from tabs', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -433,7 +423,6 @@ test('saveState should filter out untitled editors from tabs', () => {
               uri: '/path/to/file1.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -443,7 +432,6 @@ test('saveState should filter out untitled editors from tabs', () => {
               uri: 'untitled://1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -480,7 +468,6 @@ test('saveState should preserve groups that become empty after filtering untitle
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -500,7 +487,6 @@ test('saveState should preserve groups that become empty after filtering untitle
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -510,7 +496,6 @@ test('saveState should preserve groups that become empty after filtering untitle
               uri: 'untitled://1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -555,7 +540,6 @@ test('saveState should preserve activeGroupId when active group becomes empty af
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -599,7 +583,6 @@ test('saveState should preserve activeGroupId if active group still has tabs aft
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -609,7 +592,6 @@ test('saveState should preserve activeGroupId if active group still has tabs aft
               uri: '/path/to/file1.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -629,7 +611,6 @@ test('saveState should preserve activeGroupId if active group still has tabs aft
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -666,7 +647,6 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
           size: 33,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -676,7 +656,6 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
               uri: 'untitled://a',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -696,7 +675,6 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
           size: 34,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -706,7 +684,6 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
               uri: '/path/to/fileA.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -726,7 +703,6 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
           size: 33,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -736,7 +712,6 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
               uri: '/path/to/fileB.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 6,
@@ -804,7 +779,6 @@ test('saveState should not persist live editor instance state', () => {
                 type: 'editor',
                 uri: '/tmp/active.ts',
               },
-              editorType: 'text',
               editorUid: 0.123,
               errorMessage: 'stale error',
               icon: '',

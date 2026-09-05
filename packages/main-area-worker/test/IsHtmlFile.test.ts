@@ -4,7 +4,6 @@ import { isHtmlFile } from '../src/parts/IsHtmlFile/IsHtmlFile.ts'
 
 test('isHtmlFile should return true for .html file', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 1,
     icon: '',
     id: 1,
@@ -18,7 +17,6 @@ test('isHtmlFile should return true for .html file', () => {
 
 test('isHtmlFile should return true for .html file with complex path', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 2,
     icon: '',
     id: 2,
@@ -32,7 +30,6 @@ test('isHtmlFile should return true for .html file with complex path', () => {
 
 test('isHtmlFile should return false for .js file', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 3,
     icon: '',
     id: 3,
@@ -46,7 +43,6 @@ test('isHtmlFile should return false for .js file', () => {
 
 test('isHtmlFile should return false for .ts file', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 4,
     icon: '',
     id: 4,
@@ -60,7 +56,6 @@ test('isHtmlFile should return false for .ts file', () => {
 
 test('isHtmlFile should return false for .css file', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 5,
     icon: '',
     id: 5,
@@ -74,7 +69,6 @@ test('isHtmlFile should return false for .css file', () => {
 
 test('isHtmlFile should return false for tab with no uri', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 6,
     icon: '',
     id: 6,
@@ -91,7 +85,6 @@ test('isHtmlFile should return false for undefined tab', () => {
 
 test('isHtmlFile should return false for tab with empty uri', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 7,
     icon: '',
     id: 7,
@@ -105,7 +98,6 @@ test('isHtmlFile should return false for tab with empty uri', () => {
 
 test('isHtmlFile should return false for file containing .html but not ending with it', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 8,
     icon: '',
     id: 8,
@@ -119,7 +111,6 @@ test('isHtmlFile should return false for file containing .html but not ending wi
 
 test('isHtmlFile should return true for .HTML file with uppercase extension', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: 9,
     icon: '',
     id: 9,

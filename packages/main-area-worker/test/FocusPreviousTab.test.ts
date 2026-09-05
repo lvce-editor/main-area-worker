@@ -22,7 +22,6 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -31,7 +30,6 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -40,7 +38,6 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -78,7 +75,6 @@ test('focusPreviousTab should cycle from first tab to last tab', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -87,7 +83,6 @@ test('focusPreviousTab should cycle from first tab to last tab', async () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -96,7 +91,6 @@ test('focusPreviousTab should cycle from first tab to last tab', async () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -132,7 +126,6 @@ test('focusPreviousTab should return state if there is no active group', async (
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -141,7 +134,6 @@ test('focusPreviousTab should return state if there is no active group', async (
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -201,7 +193,6 @@ test('focusPreviousTab should return state if active tab is not found', async ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -210,7 +201,6 @@ test('focusPreviousTab should return state if active tab is not found', async ()
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -247,7 +237,6 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -256,7 +245,6 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -265,7 +253,6 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -303,7 +290,6 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -312,7 +298,6 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -331,7 +316,6 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -340,7 +324,6 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
               title: 'File 3',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,

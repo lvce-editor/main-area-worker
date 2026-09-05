@@ -57,7 +57,6 @@ test('normalizeTabEditorInput preserves an image explicitly reopened as text', (
         type: 'editor',
         uri: 'file:///test/tiny.png',
       },
-      editorType: 'text',
       uri: 'file:///test/tiny.png',
     }),
   ).toMatchObject({
@@ -66,7 +65,6 @@ test('normalizeTabEditorInput preserves an image explicitly reopened as text', (
       type: 'editor',
       uri: 'file:///test/tiny.png',
     },
-    editorType: 'text',
   })
 })
 
@@ -78,7 +76,6 @@ test('normalizeTabEditorInput preserves a binary file explicitly opened as text'
         type: 'editor',
         uri: 'file:///test/archive.zip',
       },
-      editorType: 'text',
       uri: 'file:///test/archive.zip',
     }),
   ).toMatchObject({
@@ -87,7 +84,6 @@ test('normalizeTabEditorInput preserves a binary file explicitly opened as text'
       type: 'editor',
       uri: 'file:///test/archive.zip',
     },
-    editorType: 'text',
   })
 })
 
@@ -176,7 +172,6 @@ test('normalizeTabEditorInput infers media from an editor input uri', () => {
       type: 'image',
       uri: '/test/image.png',
     },
-    editorType: 'custom',
     uri: '/test/image.png',
   })
 })
@@ -184,7 +179,6 @@ test('normalizeTabEditorInput infers media from an editor input uri', () => {
 test('normalizeTabEditorInput restores the binary placeholder state', () => {
   expect(
     normalizeTabEditorInput({
-      editorType: 'text',
       editorUid: 42,
       uri: '/test/archive.zip',
     }),
@@ -193,8 +187,27 @@ test('normalizeTabEditorInput restores the binary placeholder state', () => {
       type: 'binary',
       uri: '/test/archive.zip',
     },
-    editorType: 'custom',
     editorUid: -1,
     loadingState: 'binary',
+  })
+})
+
+test.each([
+  ['text', '/test/file.ts', 'editor'],
+  ['custom', '/test/image.png', 'image'],
+])('normalizeTabEditorInput migrates legacy %s tabs without retaining editorType', (editorType, uri, type) => {
+  const tab = { editorType, uri }
+  expect(normalizeTabEditorInput(tab)).toEqual({ editorInput: { type, uri }, uri })
+  expect(tab).toEqual({ editorType, uri })
+})
+
+test('normalizeTabEditorInput removes editorType from legacy tabs without an input or uri', () => {
+  expect(normalizeTabEditorInput({ editorType: 'text', title: 'File' })).toEqual({ title: 'File' })
+})
+
+test('normalizeTabEditorInput uses editorInput when the legacy editorType disagrees', () => {
+  expect(normalizeTabEditorInput({ editorInput: { type: 'process-explorer' }, editorType: 'text' })).toEqual({
+    editorInput: { type: 'process-explorer' },
+    uri: 'process-explorer://',
   })
 })

@@ -5,7 +5,6 @@ import * as SplitUp from '../src/parts/SplitUp/SplitUp.ts'
 
 const createTab = (id: number, title: string): Tab => {
   return {
-    editorType: 'text',
     editorUid: id,
     icon: '',
     id,

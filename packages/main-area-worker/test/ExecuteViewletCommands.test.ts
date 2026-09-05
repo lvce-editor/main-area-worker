@@ -53,7 +53,6 @@ test('executeViewletCommands creates a viewlet and marks its tab ready', async (
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 7,
               icon: '',
               id: 1,

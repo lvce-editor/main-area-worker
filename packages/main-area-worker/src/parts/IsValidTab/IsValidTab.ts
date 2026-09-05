@@ -9,6 +9,9 @@ export const isValidTab = (tab: any): tab is Tab => {
     typeof tab.isPreview === 'boolean' &&
     typeof tab.editorUid === 'number' &&
     typeof tab.icon === 'string' &&
-    (tab.editorType === 'text' || tab.editorType === 'custom')
+    (tab.editorInput === undefined ||
+      ['binary', 'diff-editor', 'editor', 'extension-detail-view', 'image', 'process-explorer', 'running-extensions', 'video', 'webview'].includes(
+        tab.editorInput?.type,
+      ))
   )
 }

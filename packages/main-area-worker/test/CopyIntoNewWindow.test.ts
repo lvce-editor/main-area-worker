@@ -24,7 +24,6 @@ test('copyIntoNewWindow should open active tab in new window and keep it open', 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: '',
               id: 1,
@@ -64,7 +63,6 @@ test('copyIntoNewWindow should do nothing when active tab has no uri', async () 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: '',
               id: 1,

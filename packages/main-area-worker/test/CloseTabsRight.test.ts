@@ -19,7 +19,6 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -28,7 +27,6 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -37,7 +35,6 @@ test('closeTabsRight should close all tabs to the right of the active tab', () =
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -76,7 +73,6 @@ test('closeTabsRight should use active group when groupId is not provided', () =
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -95,7 +91,6 @@ test('closeTabsRight should use active group when groupId is not provided', () =
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -104,7 +99,6 @@ test('closeTabsRight should use active group when groupId is not provided', () =
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -113,7 +107,6 @@ test('closeTabsRight should use active group when groupId is not provided', () =
               title: 'File 3',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -150,7 +143,6 @@ test('closeTabsRight should close tabs after an inactive context menu tab', () =
           isEmpty: false,
           size: 100,
           tabs: [1, 2, 3, 4].map((id) => ({
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id,
@@ -185,7 +177,6 @@ test('closeTabsRight should preserve the active tab when it is left of the conte
           isEmpty: false,
           size: 100,
           tabs: [1, 2, 3].map((id) => ({
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id,
@@ -235,7 +226,6 @@ test('closeTabsRight should return state unchanged when group does not exist', (
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -270,7 +260,6 @@ test('closeTabsRight should return state unchanged when there is no active tab',
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -305,7 +294,6 @@ test('closeTabsRight should return state unchanged when active tab is at the end
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -314,7 +302,6 @@ test('closeTabsRight should return state unchanged when active tab is at the end
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -323,7 +310,6 @@ test('closeTabsRight should return state unchanged when active tab is at the end
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -358,7 +344,6 @@ test('closeTabsRight should preserve other groups', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -367,7 +352,6 @@ test('closeTabsRight should preserve other groups', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -376,7 +360,6 @@ test('closeTabsRight should preserve other groups', () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -395,7 +378,6 @@ test('closeTabsRight should preserve other groups', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -404,7 +386,6 @@ test('closeTabsRight should preserve other groups', () => {
               title: 'File 4',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -413,7 +394,6 @@ test('closeTabsRight should preserve other groups', () => {
               title: 'File 5',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 6,
@@ -454,7 +434,6 @@ test('closeTabsRight should handle single tab in group', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -489,7 +468,6 @@ test('closeTabsRight should handle active tab at the beginning', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -498,7 +476,6 @@ test('closeTabsRight should handle active tab at the beginning', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -507,7 +484,6 @@ test('closeTabsRight should handle active tab at the beginning', () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -545,7 +521,6 @@ test('closeTabsRight should preserve other state properties', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -554,7 +529,6 @@ test('closeTabsRight should preserve other state properties', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -595,7 +569,6 @@ test('closeTabsRight should handle tabs with custom properties', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -606,7 +579,6 @@ test('closeTabsRight should handle tabs with custom properties', () => {
               uri: '/file1.ts',
             },
             {
-              editorType: 'custom',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -617,7 +589,6 @@ test('closeTabsRight should handle tabs with custom properties', () => {
               uri: '/file2.ts',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -639,7 +610,7 @@ test('closeTabsRight should handle tabs with custom properties', () => {
   expect(result.layout.groups[0].tabs[0].language).toBe('typescript')
   expect(result.layout.groups[0].tabs[0].uri).toBe('/file1.ts')
   expect(result.layout.groups[0].tabs[1].id).toBe(2)
-  expect(result.layout.groups[0].tabs[1].editorType).toBe('custom')
+  expect(result.layout.groups[0].tabs[1]).not.toHaveProperty('editorType')
 })
 
 test('closeTabsRight should close tabs in second group when specified', () => {
@@ -658,7 +629,6 @@ test('closeTabsRight should close tabs in second group when specified', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -667,7 +637,6 @@ test('closeTabsRight should close tabs in second group when specified', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -686,7 +655,6 @@ test('closeTabsRight should close tabs in second group when specified', () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -695,7 +663,6 @@ test('closeTabsRight should close tabs in second group when specified', () => {
               title: 'File 3',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -704,7 +671,6 @@ test('closeTabsRight should close tabs in second group when specified', () => {
               title: 'File 4',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -742,7 +708,6 @@ test('closeTabsRight should return state unchanged when active tab id not found 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -751,7 +716,6 @@ test('closeTabsRight should return state unchanged when active tab id not found 
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -786,7 +750,6 @@ test('closeTabsRight should close multiple tabs to the right', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -795,7 +758,6 @@ test('closeTabsRight should close multiple tabs to the right', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -804,7 +766,6 @@ test('closeTabsRight should close multiple tabs to the right', () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -813,7 +774,6 @@ test('closeTabsRight should close multiple tabs to the right', () => {
               title: 'File 3',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -822,7 +782,6 @@ test('closeTabsRight should close multiple tabs to the right', () => {
               title: 'File 4',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -873,7 +832,6 @@ test('closeTabsRight should preserve group properties', () => {
           size: 75,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -882,7 +840,6 @@ test('closeTabsRight should preserve group properties', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -921,7 +878,6 @@ test('closeTabsRight should handle active tab in the middle', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -930,7 +886,6 @@ test('closeTabsRight should handle active tab in the middle', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -939,7 +894,6 @@ test('closeTabsRight should handle active tab in the middle', () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -948,7 +902,6 @@ test('closeTabsRight should handle active tab in the middle', () => {
               title: 'File 3',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -957,7 +910,6 @@ test('closeTabsRight should handle active tab in the middle', () => {
               title: 'File 4',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -995,7 +947,6 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1004,7 +955,6 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1013,7 +963,6 @@ test('closeTabsRight should preserve dirty tabs to the left', () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -1050,7 +999,6 @@ test('closeTabsRight should handle vertical layout direction', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1059,7 +1007,6 @@ test('closeTabsRight should handle vertical layout direction', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -1095,7 +1042,6 @@ test('closeTabsRight should handle two tabs with one to close', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -1104,7 +1050,6 @@ test('closeTabsRight should handle two tabs with one to close', () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

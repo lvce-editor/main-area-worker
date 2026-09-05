@@ -43,7 +43,6 @@ test('handleClick should return the same state object', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: 'file-icon',
               id: 1,

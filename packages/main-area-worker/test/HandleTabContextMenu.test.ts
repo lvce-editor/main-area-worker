@@ -45,7 +45,6 @@ test('handleTabContextMenu should return state unchanged', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -140,7 +139,6 @@ test('handleTabContextMenu should include the context menu tab target', async ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 11,
@@ -149,7 +147,6 @@ test('handleTabContextMenu should include the context menu tab target', async ()
               title: 'Target',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 12,

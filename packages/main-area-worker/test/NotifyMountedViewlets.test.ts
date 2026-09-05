@@ -19,7 +19,6 @@ const createState = (editorUid: number, loadingState: 'loaded' | 'loading' = 'lo
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid,
             icon: '',
             id: 1,

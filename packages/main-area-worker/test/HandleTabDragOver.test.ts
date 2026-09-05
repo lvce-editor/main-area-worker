@@ -4,7 +4,6 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { handleTabDragOver, handleTabsDragOver } from '../src/parts/HandleTabDragOver/HandleTabDragOver.ts'
 
 const createTab = (id: number): Tab => ({
-  editorType: 'text',
   editorUid: id,
   icon: '',
   id,

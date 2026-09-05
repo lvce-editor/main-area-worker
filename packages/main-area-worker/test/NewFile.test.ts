@@ -25,7 +25,6 @@ test('newFile should create a new empty tab in the active group', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -47,7 +46,7 @@ test('newFile should create a new empty tab in the active group', async () => {
 
   expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(result.layout.groups[0].tabs[1].title).toBe('Untitled')
-  expect(result.layout.groups[0].tabs[1].editorType).toBe('text')
+  expect(result.layout.groups[0].tabs[1]).not.toHaveProperty('editorType')
   expect(result.layout.groups[0].tabs[1].isDirty).toBe(false)
   expect(result.layout.groups[0].tabs[1].language).not.toBeUndefined()
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[1].id)
@@ -66,7 +65,7 @@ test('newFile should create a new group if no active group exists', async () => 
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   expect(result.layout.groups[0].tabs[0].title).toBe('Untitled')
-  expect(result.layout.groups[0].tabs[0].editorType).toBe('text')
+  expect(result.layout.groups[0].tabs[0]).not.toHaveProperty('editorType')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
   expect(mockRpc.invocations.length).toBeGreaterThan(0)
 })
@@ -91,7 +90,6 @@ test('newFile should preserve existing tabs when creating new tab', async () => 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -104,7 +102,6 @@ test('newFile should preserve existing tabs when creating new tab', async () => 
               uri: 'file:///file1.js',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -152,7 +149,6 @@ test('newFile should create a new tab with unique ID', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',
@@ -196,7 +192,6 @@ test('newFile should set active group to the group where tab was created', async
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               errorMessage: '',
               icon: '',

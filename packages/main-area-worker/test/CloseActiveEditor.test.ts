@@ -19,7 +19,6 @@ test('closeActiveEditor should close the active tab in focused group', async () 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -28,7 +27,6 @@ test('closeActiveEditor should close the active tab in focused group', async () 
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -57,7 +55,6 @@ test('closeActiveEditor should close the active tab in focused group', async () 
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 2,
@@ -89,7 +86,6 @@ test('closeActiveEditor should return same state when no focused group', async (
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -164,7 +160,6 @@ test('closeActiveEditor should remove group when closing the last tab in focused
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -200,7 +195,6 @@ test('closeActiveEditor should close active tab in focused group when multiple g
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -209,7 +203,6 @@ test('closeActiveEditor should close active tab in focused group when multiple g
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -228,7 +221,6 @@ test('closeActiveEditor should close active tab in focused group when multiple g
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -268,7 +260,6 @@ test('closeActiveEditor should remove group when closing last tab with multiple 
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -287,7 +278,6 @@ test('closeActiveEditor should remove group when closing last tab with multiple 
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

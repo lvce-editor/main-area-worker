@@ -23,7 +23,6 @@ const createState = (): MainAreaState => ({
               type: 'editor',
               uri: 'file:///home/test/old.ts',
             },
-            editorType: 'text',
             editorUid: 1,
             errorMessage: 'failed',
             icon: '',
@@ -51,7 +50,6 @@ test('getStateWithTab resets and focuses a failed existing tab', () => {
     'file:///home/test/old.ts',
     false,
     'old.ts',
-    'text',
   )
 
   expect(result.tabId).toBe(1)
@@ -68,7 +66,7 @@ test('getStateWithTab creates a new tab when retry data is missing', () => {
     homeDirUri: '',
   }
 
-  const result = getStateWithTab(state, { type: 'editor', uri: 'file:///new.ts' }, undefined, true, 'file:///new.ts', false, 'new.ts', 'text')
+  const result = getStateWithTab(state, { type: 'editor', uri: 'file:///new.ts' }, undefined, true, 'file:///new.ts', false, 'new.ts')
 
   expect(result.stateWithTab.layout.groups[0].tabs).toHaveLength(2)
   expect(result.tabId).toBe(result.stateWithTab.layout.groups[0].tabs[1].id)

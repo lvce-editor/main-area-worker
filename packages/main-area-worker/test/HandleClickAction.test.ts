@@ -20,7 +20,6 @@ test('handleClickAction should return state unchanged when action is empty', asy
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -71,7 +70,6 @@ test('handleClickAction should return state unchanged when activeGroupId does no
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -106,7 +104,6 @@ test('handleClickAction should close group when action is "close-group" with val
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -125,7 +122,6 @@ test('handleClickAction should close group when action is "close-group" with val
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -162,7 +158,6 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -181,7 +176,6 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -216,7 +210,6 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -235,7 +228,6 @@ test('handleClickAction should return state unchanged when "close-group" rawGrou
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -270,7 +262,6 @@ test('handleClickAction should split editor group right when action is "split-ri
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -309,7 +300,6 @@ test('handleClickAction should route retry-open to the active tab', async () => 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -344,7 +334,6 @@ test('handleClickAction should return state unchanged when action is unknown', a
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -379,7 +368,6 @@ test('handleClickAction should close active group when action is "close-group" w
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -398,7 +386,6 @@ test('handleClickAction should close active group when action is "close-group" w
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -435,7 +422,6 @@ test('handleClickAction should handle close-group with non-existent group id', a
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -454,7 +440,6 @@ test('handleClickAction should handle close-group with non-existent group id', a
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -493,7 +478,6 @@ test('handleClickAction should handle toggle-preview action', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

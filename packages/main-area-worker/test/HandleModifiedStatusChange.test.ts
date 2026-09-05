@@ -7,7 +7,6 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
   const tabs: Tab[] =
     tabOverrides.length > 0
       ? tabOverrides.map((override, index) => ({
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: index + 1,
@@ -19,7 +18,6 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
         }))
       : [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -122,7 +120,6 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -142,7 +139,6 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -167,7 +163,6 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
 test('handleModifiedStatusChange should preserve other tab properties', () => {
   const state = createStateWithTabs([
     {
-      editorType: 'text',
       icon: 'file-icon',
       id: 1,
       isDirty: false,
@@ -183,7 +178,7 @@ test('handleModifiedStatusChange should preserve other tab properties', () => {
   expect(updatedTab.uri).toBe('/test/file.txt')
   expect(updatedTab.title).toBe('file.txt')
   expect(updatedTab.isDirty).toBe(true)
-  expect(updatedTab.editorType).toBe('text')
+  expect(updatedTab).not.toHaveProperty('editorType')
   expect(updatedTab.icon).toBe('file-icon')
 })
 
@@ -256,7 +251,6 @@ test('handleModifiedStatusChange should preserve group properties', () => {
           size: 75,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

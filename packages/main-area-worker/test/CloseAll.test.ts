@@ -20,7 +20,6 @@ test('closeAll should close all tabs and groups', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -29,7 +28,6 @@ test('closeAll should close all tabs and groups', async () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -48,7 +46,6 @@ test('closeAll should close all tabs and groups', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -85,7 +82,6 @@ test('closeAll should preserve layout direction', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -123,7 +119,6 @@ test('closeAll should preserve other state properties', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -178,7 +173,6 @@ test('closeAll should handle multiple groups with many tabs', async () => {
           size: 33,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -187,7 +181,6 @@ test('closeAll should handle multiple groups with many tabs', async () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -206,7 +199,6 @@ test('closeAll should handle multiple groups with many tabs', async () => {
           size: 33,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 3,
@@ -225,7 +217,6 @@ test('closeAll should handle multiple groups with many tabs', async () => {
           size: 34,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 4,
@@ -234,7 +225,6 @@ test('closeAll should handle multiple groups with many tabs', async () => {
               title: 'File 4',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 5,
@@ -273,7 +263,6 @@ test('closeAll should dispose editor viewlets', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 101,
               icon: '',
               id: 1,
@@ -282,7 +271,6 @@ test('closeAll should dispose editor viewlets', async () => {
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -291,7 +279,6 @@ test('closeAll should dispose editor viewlets', async () => {
               title: 'File 2',
             },
             {
-              editorType: 'text',
               editorUid: 102,
               icon: '',
               id: 3,

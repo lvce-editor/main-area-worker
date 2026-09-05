@@ -79,7 +79,6 @@ test('handleResize should resize all editors', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 100,
               icon: 'file',
               id: 1,
@@ -88,7 +87,6 @@ test('handleResize should resize all editors', async () => {
               title: 'test.ts',
             },
             {
-              editorType: 'text',
               editorUid: 101,
               icon: 'file',
               id: 2,
@@ -132,7 +130,6 @@ test('handleResize should resize editors in parallel', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 100,
               icon: 'file',
               id: 1,
@@ -141,7 +138,6 @@ test('handleResize should resize editors in parallel', async () => {
               title: 'test.ts',
             },
             {
-              editorType: 'text',
               editorUid: 101,
               icon: 'file',
               id: 2,
@@ -188,7 +184,6 @@ test('handleResize should skip editors with editorUid -1', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: 'file',
               id: 1,

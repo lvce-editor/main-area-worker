@@ -13,7 +13,6 @@ test('addClosedTabs stores compact entries outside of main area component state'
   })
   const state = { ...createDefaultState(), uid: 7 }
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,

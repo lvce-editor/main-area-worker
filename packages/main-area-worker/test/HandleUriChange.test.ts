@@ -8,7 +8,6 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
   const tabs: Tab[] =
     tabOverrides.length > 0
       ? tabOverrides.map((override, index) => ({
-          editorType: 'text',
           editorUid: -1,
           icon: '',
           id: index + 1,
@@ -20,7 +19,6 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
         }))
       : [
           {
-            editorType: 'text',
             editorUid: -1,
             icon: '',
             id: 1,
@@ -63,7 +61,7 @@ test('handleUriChange should retarget a loaded text editor', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.handleUriChange'() {},
   })
-  const state = createStateWithTabs([{ editorUid: 42, uri: '/test/original.txt' }])
+  const state = createStateWithTabs([{ editorInput: { type: 'editor', uri: '/test/original.txt' }, editorUid: 42, uri: '/test/original.txt' }])
 
   const result = await handleUriChange(state, '/test/original.txt', '/test/renamed.txt')
 
@@ -99,7 +97,7 @@ test('handleUriChange should retarget descendants after a folder rename', async 
 
 test('handleUriChange should not send text editor commands to custom editors', async () => {
   using mockRpc = RendererWorker.registerMockRpc({})
-  const state = createStateWithTabs([{ editorType: 'custom', editorUid: 42, uri: '/test/original.txt' }])
+  const state = createStateWithTabs([{ editorInput: { type: 'image', uri: '/test/original.txt' }, editorUid: 42, uri: '/test/original.txt' }])
 
   const result = await handleUriChange(state, '/test/original.txt', '/test/renamed.txt')
 
@@ -149,7 +147,6 @@ test('handleUriChange should work with multiple editor groups', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -169,7 +166,6 @@ test('handleUriChange should work with multiple editor groups', async () => {
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,
@@ -194,7 +190,6 @@ test('handleUriChange should work with multiple editor groups', async () => {
 test('handleUriChange should preserve other tab properties', async () => {
   const state = createStateWithTabs([
     {
-      editorType: 'text',
       icon: 'file-icon',
       id: 1,
       isDirty: true,
@@ -209,7 +204,7 @@ test('handleUriChange should preserve other tab properties', async () => {
   expect(updatedTab.uri).toBe('/test/newfile.txt')
   expect(updatedTab.title).toBe('newfile.txt')
   expect(updatedTab.isDirty).toBe(true)
-  expect(updatedTab.editorType).toBe('text')
+  expect(updatedTab).not.toHaveProperty('editorType')
   expect(updatedTab.icon).toBe('file-icon')
 })
 
@@ -282,7 +277,6 @@ test('handleUriChange should handle tabs without URI property', async () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -338,7 +332,6 @@ test('handleUriChange should preserve group properties', async () => {
           size: 75,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,

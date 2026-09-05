@@ -5,7 +5,6 @@ import * as HandleEditorModified from '../src/parts/HandleEditorModified/HandleE
 
 const createTab = (id: number, editorUid: number, title: string): Tab => {
   return {
-    editorType: 'text',
     editorUid,
     icon: 'file-icon',
     id,
@@ -117,7 +116,6 @@ test('handleEditorModified should preserve other tab properties when setting isD
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: 'my-icon',
               id: 1,

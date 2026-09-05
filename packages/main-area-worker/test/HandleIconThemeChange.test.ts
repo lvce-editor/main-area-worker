@@ -25,7 +25,6 @@ test('handleIconThemeChange should reload icons for restored tabs', async () => 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -72,7 +71,6 @@ test('handleIconThemeChange should ignore stale icon cache and refetch icons', a
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: 'file-icon-old',
               id: 1,

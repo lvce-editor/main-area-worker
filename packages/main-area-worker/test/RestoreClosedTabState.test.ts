@@ -4,7 +4,6 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 import { restoreClosedTabState } from '../src/parts/RestoreClosedTabState/RestoreClosedTabState.ts'
 
 const createTab = (id: number, title: string, uri: string): Tab => ({
-  editorType: 'text',
   editorUid: -1,
   icon: '',
   id,
@@ -63,7 +62,6 @@ test('restoreClosedTabState should restore a binary tab as a binary placeholder'
       type: 'binary',
       uri: '/tmp/hello.beam',
     },
-    editorType: 'custom',
     loadingState: 'binary',
   }
   const originalGroup = createGroup(1, [binaryTab])
@@ -75,7 +73,6 @@ test('restoreClosedTabState should restore a binary tab as a binary placeholder'
       type: 'binary',
       uri: '/tmp/hello.beam',
     },
-    editorType: 'custom',
     editorUid: -1,
     loadingState: 'binary',
   })

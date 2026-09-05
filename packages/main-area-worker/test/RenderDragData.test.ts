@@ -19,7 +19,6 @@ const createState = (uri?: string): MainAreaState => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 1,
               icon: '',
               id: 1,

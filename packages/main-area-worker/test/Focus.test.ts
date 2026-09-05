@@ -25,7 +25,6 @@ const createState = (): MainAreaState => ({
               type: 'editor',
               uri: 'file:///test.txt',
             },
-            editorType: 'text',
             editorUid: 42,
             icon: '',
             id: 2,

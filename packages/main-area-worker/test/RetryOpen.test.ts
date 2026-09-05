@@ -27,7 +27,6 @@ test('retryOpen should return state unchanged when active tab has no uri', async
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -62,7 +61,6 @@ test('retryOpen should keep tab layout unchanged when reopening active tab uri',
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -83,7 +81,6 @@ test('retryOpen should keep tab layout unchanged when reopening active tab uri',
           size: 50,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

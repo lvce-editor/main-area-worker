@@ -63,7 +63,6 @@ test('applyRender reveals the active tab after applying DOM and CSS changes', ()
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 3,
               icon: '',
               id: 2,

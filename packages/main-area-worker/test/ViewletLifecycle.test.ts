@@ -19,7 +19,6 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
         size: 100,
         tabs: [
           {
-            editorType: 'text',
             editorUid: -1,
             errorMessage: '',
             icon: '',
@@ -95,7 +94,6 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 100,
               errorMessage: '',
               icon: '',
@@ -108,7 +106,6 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
               uri: '/test/file1.txt',
             },
             {
-              editorType: 'text',
               editorUid: 101,
               errorMessage: '',
               icon: '',
@@ -150,7 +147,6 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 100,
               errorMessage: '',
               icon: '',
@@ -163,7 +159,6 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
               uri: '/test/file1.txt',
             },
             {
-              editorType: 'text',
               editorUid: 101,
               errorMessage: '',
               icon: '',
@@ -217,7 +212,6 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 100,
               errorMessage: '',
               icon: '',
@@ -261,7 +255,6 @@ test('handleViewletReady works regardless of active tab - reference nodes render
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 100,
               errorMessage: '',
               icon: '',
@@ -274,7 +267,6 @@ test('handleViewletReady works regardless of active tab - reference nodes render
               uri: '/test/file1.txt',
             },
             {
-              editorType: 'text',
               editorUid: 101,
               errorMessage: '',
               icon: '',

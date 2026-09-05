@@ -24,7 +24,6 @@ test('renderEditor should return empty editor container for undefined tab', () =
 
 test('renderEditor should return custom editor structure', () => {
   const tab: Tab = {
-    editorType: 'custom',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -52,7 +51,6 @@ test('renderEditor should return custom editor structure', () => {
 
 test('renderEditor should return text editor structure with content', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -79,7 +77,6 @@ test('renderEditor should return text editor structure with content', () => {
 
 test('renderEditor should handle text editor with empty content', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -95,7 +92,6 @@ test('renderEditor should handle text editor with empty content', () => {
 
 test('renderEditor should handle text editor with undefined content', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -111,7 +107,6 @@ test('renderEditor should handle text editor with undefined content', () => {
 
 test('renderEditor should show loading state', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -139,7 +134,6 @@ test('renderEditor should show loading state', () => {
 
 test('renderEditor should show a binary file placeholder', () => {
   const tab: Tab = {
-    editorType: 'custom',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -179,7 +173,6 @@ test('renderEditor should show a binary file placeholder', () => {
 
 test('renderEditor should show a large file warning', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     fileSize: 84.39 * 1024 * 1024,
     icon: '',
@@ -202,7 +195,6 @@ test('renderEditor should show a large file warning', () => {
 
 test('renderEditor should show error state', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     errorMessage: 'File not found',
     icon: '',
@@ -244,7 +236,6 @@ test('renderEditor should show error state', () => {
 
 test('renderEditor should show content when loadingState is loaded', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -272,7 +263,6 @@ test('renderEditor should show content when loadingState is loaded', () => {
 
 test('renderEditor should show content when loadingState is idle', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     icon: '',
     id: 1,
@@ -300,7 +290,6 @@ test('renderEditor should show content when loadingState is idle', () => {
 
 test('renderEditor should show error state even when content exists', () => {
   const tab: Tab = {
-    editorType: 'text',
     editorUid: -1,
     errorMessage: 'Permission denied',
     icon: '',

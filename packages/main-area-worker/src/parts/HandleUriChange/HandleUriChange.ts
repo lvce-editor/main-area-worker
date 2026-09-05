@@ -21,7 +21,7 @@ export const handleUriChange = async (state: MainAreaState, oldUri: string, newU
           renamedUri = `${newUri}${uri.slice(oldUri.length)}`
         }
         if (renamedUri) {
-          if (tab.editorType === 'text' && tab.editorUid !== -1) {
+          if (tab.editorInput?.type === 'editor' && tab.editorUid !== -1) {
             editorUriUpdates.push(RendererWorker.invoke('Editor.handleUriChange', tab.editorUid, renamedUri))
           }
           const editorInput =

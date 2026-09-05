@@ -24,7 +24,6 @@ test('closeAllAndSave should keep a dirty editor open when closing is canceled',
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 101,
               icon: '',
               id: 1,

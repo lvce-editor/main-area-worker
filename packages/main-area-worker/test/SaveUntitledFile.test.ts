@@ -28,7 +28,6 @@ test('saving an untitled file can update its uri before the save command finishe
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: 2,
               errorMessage: '',
               icon: '',

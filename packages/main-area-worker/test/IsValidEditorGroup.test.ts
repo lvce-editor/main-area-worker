@@ -12,7 +12,6 @@ test('isValidEditorGroup should return true for valid group', () => {
     size: 50,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: 1,
@@ -139,7 +138,6 @@ test('isValidEditorGroup should return false for tabs with invalid tab', () => {
     size: 50,
     tabs: [
       {
-        editorType: 'text',
         editorUid: -1,
         icon: '',
         id: '1',

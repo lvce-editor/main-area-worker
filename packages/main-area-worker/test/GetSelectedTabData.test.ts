@@ -19,7 +19,6 @@ test('getSelectedTabData should return selected tab data for valid indexes', () 
           size: 100,
           tabs: [
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 1,
@@ -28,7 +27,6 @@ test('getSelectedTabData should return selected tab data for valid indexes', () 
               title: 'File 1',
             },
             {
-              editorType: 'text',
               editorUid: -1,
               icon: '',
               id: 2,

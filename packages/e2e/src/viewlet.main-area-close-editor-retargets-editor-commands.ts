@@ -16,21 +16,16 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await Main.openUri(closedFile)
   await Editor.shouldHaveText('{"closed":true}')
 
-  try {
-    await Main.closeActiveEditor()
-    const editorContent = Locator('.EditorContent')
-    const workspaceTab = Locator('.MainTab[title$="workspace-file.txt"]')
-    await expect(editorContent).toBeVisible()
-    await Command.execute('Editor.selectAll')
-    await Editor.type('updated workspace content')
-    await Editor.shouldHaveText('updated workspace content')
-    await expect(workspaceTab).toHaveClass('MainTabModified')
-    await Main.save()
+  await Main.closeActiveEditor()
+  const editorContent = Locator('.EditorContent')
+  const workspaceTab = Locator('.MainTab[title$="workspace-file.txt"]')
+  await expect(editorContent).toBeVisible()
+  await Command.execute('Editor.selectAll')
+  await Editor.type('updated workspace content')
+  await Editor.shouldHaveText('updated workspace content')
+  await expect(workspaceTab).toHaveClass('MainTabModified')
+  await Main.save()
 
-    await FileSystem.shouldHaveFile(workspaceFile, 'updated workspace content')
-    await FileSystem.shouldHaveFile(closedFile, '{"closed":true}')
-  } finally {
-    const trace = await Command.execute('GetActiveEditor.debugSelectionTrace')
-    await FileSystem.writeFile('file:///tmp/allmessages-close-editor.json', JSON.stringify(trace, null, 2))
-  }
+  await FileSystem.shouldHaveFile(workspaceFile, 'updated workspace content')
+  await FileSystem.shouldHaveFile(closedFile, '{"closed":true}')
 }

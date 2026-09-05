@@ -1,9 +1,11 @@
 import { cp, readFile, readdir, writeFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { patchEditorSelectionDiagnostics, patchRendererCommandTarget, patchRendererSelectionDiagnostics } from './selectionDiagnostics.js'
 
-const staticServerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/static-server/package.json'))
+const serverPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/server/package.json'))
+const requireFromServer = createRequire(serverPackagePath)
+const staticServerPackagePath = requireFromServer.resolve('@lvce-editor/static-server/package.json')
 const serverStaticPath = join(dirname(staticServerPackagePath), 'static')
 const commitHash = (await readdir(serverStaticPath)).find((entry) => /^[a-z\d]{7}$/.test(entry)) || ''
 const packagePath = (...parts) => join(serverStaticPath, commitHash, 'packages', ...parts)
@@ -61,11 +63,6 @@ const handleDragAndDropMessagePort = async port => {
 const rendererProcessPath = packagePath('renderer-process', 'dist', 'rendererProcessMain.js')
 const rendererProcess = await readFile(rendererProcessPath, 'utf8')
 await writeFile(rendererProcessPath, patchRendererProcess(rendererProcess))
-
-const editorWorkerPath = packagePath('editor-worker', 'dist', 'editorWorkerMain.js')
-await writeFile(editorWorkerPath, patchEditorSelectionDiagnostics(await readFile(editorWorkerPath, 'utf8')))
-const rendererWorkerPath = packagePath('renderer-worker', 'dist', 'rendererWorkerMain.js')
-await writeFile(rendererWorkerPath, patchRendererCommandTarget(patchRendererSelectionDiagnostics(await readFile(rendererWorkerPath, 'utf8'))))
 
 const dragAndDropWorkerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/drag-and-drop-worker/package.json'))
 await cp(

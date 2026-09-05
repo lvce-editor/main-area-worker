@@ -7,7 +7,10 @@ import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openUri } from '../src/parts/OpenUri/OpenUri.ts'
 
 const isSetupInvocation = ([command]: readonly unknown[]): boolean =>
-  command !== 'FileSystem.getFileSize' && command !== 'Preferences.get' && command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending'
+  command !== 'FileSystem.getFileSize' &&
+  command !== 'Preferences.get' &&
+  command !== 'Viewlet.getTitle' &&
+  command !== 'Layout.renderMainAreaPending'
 
 // Clear the global state store between tests to prevent interference
 afterEach(() => {

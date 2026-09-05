@@ -8,7 +8,10 @@ import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openInput, openInputWithContext } from '../src/parts/OpenInput/OpenInput.ts'
 
 const isSetupInvocation = ([command]: readonly unknown[]): boolean =>
-  command !== 'FileSystem.getFileSize' && command !== 'Preferences.get' && command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending'
+  command !== 'FileSystem.getFileSize' &&
+  command !== 'Preferences.get' &&
+  command !== 'Viewlet.getTitle' &&
+  command !== 'Layout.renderMainAreaPending'
 
 afterEach(() => {
   MainAreaStates.clear()

@@ -2,6 +2,7 @@ import { cp, readFile, readdir, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { patchFirefoxDiagnostics } from './firefoxDiagnostics.js'
 
 const serverPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/server/package.json'))
 const requireFromServer = createRequire(serverPackagePath)
@@ -63,6 +64,7 @@ const handleDragAndDropMessagePort = async port => {
 const rendererProcessPath = packagePath('renderer-process', 'dist', 'rendererProcessMain.js')
 const rendererProcess = await readFile(rendererProcessPath, 'utf8')
 await writeFile(rendererProcessPath, patchRendererProcess(rendererProcess))
+await patchFirefoxDiagnostics(rendererProcessPath)
 
 const dragAndDropWorkerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/drag-and-drop-worker/package.json'))
 await cp(

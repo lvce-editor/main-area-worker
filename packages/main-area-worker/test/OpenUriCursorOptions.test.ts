@@ -28,11 +28,9 @@ test.each([true, false])('opens at the requested position with shouldFocus=%s', 
   expect(rpc.invocations).toContainEqual(cursorCommand)
   const focusCommands = rpc.invocations.filter(([method]) => method === 'Viewlet.focusSelector')
   expect(focusCommands).toHaveLength(shouldFocus ? 1 : 0)
-  if (shouldFocus) {
-    expect(rpc.invocations.indexOf(focusCommands[0])).toBeGreaterThan(
-      rpc.invocations.findIndex(([method]) => method === 'Viewlet.executeViewletCommand'),
-    )
-  }
+  const cursorIndex = rpc.invocations.findIndex(([method]) => method === 'Viewlet.executeViewletCommand')
+  const focusIndex = rpc.invocations.findIndex(([method]) => method === 'Viewlet.focusSelector')
+  expect(focusIndex > cursorIndex).toBe(shouldFocus)
   // Navigation options belong to the main area, not the viewlet's load context.
   expect(rpc.invocations.find(([method]) => method === 'Layout.createViewlet')).toHaveLength(6)
 })

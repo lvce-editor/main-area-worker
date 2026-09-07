@@ -11,7 +11,10 @@ const getViewletContext = (options: OpenUriOptions | string, viewletContext?: un
     return viewletContext
   }
   const context = Object.fromEntries(
-    Object.entries(options).filter(([key]) => key !== 'focus' && key !== 'preview' && key !== 'reuseExisting' && key !== 'uri'),
+    Object.entries(options).filter(
+      ([key]) =>
+        key !== 'focus' && key !== 'initialCursorPosition' && key !== 'shouldFocus' && key !== 'preview' && key !== 'reuseExisting' && key !== 'uri',
+    ),
   )
   return Object.keys(context).length === 0 ? undefined : context
 }
@@ -24,7 +27,8 @@ const getOpenInputOptions = (options: OpenUriOptions | string, focus = true, vie
   return {
     ...(context !== undefined && { args: [context] }),
     editorInput: getNormalizedOpenEditorInput(uri),
-    focus: typeof options === 'string' ? focus : options.focus,
+    focus: typeof options === 'string' ? focus : (options.shouldFocus ?? options.focus ?? true),
+    ...(typeof options !== 'string' && options.initialCursorPosition && { initialCursorPosition: options.initialCursorPosition }),
     preview,
     reuseExisting,
   }

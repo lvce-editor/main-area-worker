@@ -2,6 +2,7 @@ import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
 import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
+import { applyInitialCursorPosition } from '../ApplyInitialCursorPosition/ApplyInitialCursorPosition.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewletContent, getViewletTitle } from '../CreateViewlet/CreateViewlet.ts'
 import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
@@ -82,7 +83,8 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   if (existingTab && !shouldRetry) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
-    await focusIfRequested(switchedState, options.focus)
+    await applyInitialCursorPosition(switchedState, existingTab.tab.id, options.initialCursorPosition)
+    await focusIfRequested(context.getState(), options.focus)
     return
   }
   const replacedEditorUid = getActivePreviewEditorUid(currentState)
@@ -166,6 +168,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
 
     await context.updateState(() => readyState)
     await renderMainAreaPending(state.uid, state.applicationId)
+    await applyInitialCursorPosition(context.getState(), tabId, options.initialCursorPosition)
     await focusIfRequested(context.getState(), options.focus)
 
     const renderedTitle = await getViewletTitle(editorUid)

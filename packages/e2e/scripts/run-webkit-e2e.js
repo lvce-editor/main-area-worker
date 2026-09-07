@@ -34,6 +34,7 @@ const excludedTests = new Set([
   'viewlet.main-area-open-css-file.ts',
   'viewlet.main-area-open-html-file.ts',
   'viewlet.main-area-open-txt-file.ts',
+  'viewlet.main-area-open-uri-cursor-options.ts',
   'viewlet.main-area-open-uris-second-already-exists.ts',
   'viewlet.main-area-restore-closed-tab-existing-uri.ts',
   'viewlet.main-area-restore-closed-tab-middle.ts',

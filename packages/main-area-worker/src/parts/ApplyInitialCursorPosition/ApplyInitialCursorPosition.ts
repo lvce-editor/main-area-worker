@@ -15,7 +15,7 @@ export const applyInitialCursorPosition = async (state: MainAreaState, tabId: nu
     state.applicationId,
     'Viewlet.executeViewletCommand',
     tab.editorUid,
-    'cursorSet',
+    position.highlightProblem ? 'revealProblem' : 'cursorSet',
     position.rowIndex,
     position.columnIndex,
   )

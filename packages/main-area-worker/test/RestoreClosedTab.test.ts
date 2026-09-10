@@ -1,9 +1,9 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { ClosedTabEntry, MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { restoreClosedTab } from '../src/parts/RestoreClosedTab/RestoreClosedTab.ts'
+import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 
 const tab: Tab = {
   editorUid: 1,
@@ -34,19 +34,19 @@ const entry: ClosedTabEntry = {
 }
 
 test('restoreClosedTab returns unchanged state when cache storage is empty', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
-    'CacheStorage.getJson': () => [],
+  using mockRpc = mockCacheStorage({
+    getJson: () => [],
   })
   const state = createDefaultState()
 
   await expect(restoreClosedTab(state)).resolves.toBe(state)
-  expect(mockRpc.invocations).toEqual([['CacheStorage.getJson', expect.stringContaining('/closed-tabs/')]])
+  expect(mockRpc.invocations).toEqual([['getJson', expect.stringContaining('/closed-tabs/')]])
 })
 
 test('restoreClosedTab focuses an already open tab returned from cache storage', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
-    'CacheStorage.getJson': () => [entry],
-    'CacheStorage.setJson': () => undefined,
+  using mockRpc = mockCacheStorage({
+    getJson: () => [entry],
+    setJson: () => undefined,
   })
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -59,7 +59,7 @@ test('restoreClosedTab focuses an already open tab returned from cache storage',
 
   const result = await restoreClosedTab(state)
 
-  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['CacheStorage.getJson', 'CacheStorage.setJson'])
+  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['getJson', 'setJson'])
   expect(result.layout.activeGroupId).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })
@@ -80,9 +80,9 @@ test('restoreClosedTab preserves the rendered state for the next diff', async ()
     tab: closedTab,
     tabIndex: 0,
   }
-  using _mockRpc = RendererWorker.registerMockRpc({
-    'CacheStorage.getJson': () => [closedEntry],
-    'CacheStorage.setJson': () => undefined,
+  using _mockRpc = mockCacheStorage({
+    getJson: () => [closedEntry],
+    setJson: () => undefined,
   })
   const state = createDefaultState()
   MainAreaStates.set(state.uid, state, state)
@@ -94,8 +94,8 @@ test('restoreClosedTab preserves the rendered state for the next diff', async ()
 })
 
 test('restoreClosedTab ignores cache storage errors', async () => {
-  using _mockRpc = RendererWorker.registerMockRpc({
-    'CacheStorage.getJson': () => {
+  using _mockRpc = mockCacheStorage({
+    getJson: () => {
       throw new Error('cache unavailable')
     },
   })

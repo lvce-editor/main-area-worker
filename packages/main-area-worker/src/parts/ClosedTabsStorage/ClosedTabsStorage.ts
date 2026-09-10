@@ -52,13 +52,14 @@ const getEntries = async (key: string): Promise<readonly ClosedTabEntry[]> => {
 const setEntries = async (key: string, entries: readonly ClosedTabEntry[]): Promise<void> => {
   const cache = await caches.open(cacheName)
   const value = JSON.stringify(entries)
+  const expires = new Date(Date.now() + cacheDuration).toUTCString()
   await cache.put(
     key,
     new Response(value, {
       headers: {
+        'Content-Length': String(value.length),
         'Content-Type': 'application/json',
-        'Content-Length': `${value.length}`,
-        Expires: new Date(Date.now() + cacheDuration).toUTCString(),
+        Expires: expires,
       },
     }),
   )

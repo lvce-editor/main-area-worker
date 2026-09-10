@@ -1,8 +1,8 @@
 import { expect, test } from '@jest/globals'
-import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 import type { ClosedTabEntry, EditorGroup, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { addClosedTabs } from '../src/parts/AddClosedTabs/AddClosedTabs.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 
 const closedTabsKeyRegex = /^https:\/\/lvce-editor\.invalid\/closed-tabs\/session-.+\/7$/
 

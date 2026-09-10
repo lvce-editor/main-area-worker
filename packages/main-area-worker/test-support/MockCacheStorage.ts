@@ -12,7 +12,7 @@ export const mockCacheStorage = (handlers: { getJson?: (key: string) => unknown;
           match: async (key: string) => {
             invocations.push(['getJson', key])
             const value = handlers.getJson?.(key)
-            return value === undefined ? undefined : new Response(JSON.stringify(value))
+            return value === undefined ? undefined : Response.json(value)
           },
           put: async (key: string, response: Response) => {
             expect(response.headers.get('Content-Type')).toBe('application/json')
@@ -31,7 +31,7 @@ export const mockCacheStorage = (handlers: { getJson?: (key: string) => unknown;
       if (previous) {
         Object.defineProperty(globalThis, 'caches', previous)
       } else {
-        Reflect.deleteProperty(globalThis, 'caches')
+        delete (globalThis as { caches?: CacheStorage }).caches
       }
     },
   }

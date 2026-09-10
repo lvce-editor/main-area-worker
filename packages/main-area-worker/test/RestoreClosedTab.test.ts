@@ -1,9 +1,9 @@
 import { expect, test } from '@jest/globals'
-import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 import type { ClosedTabEntry, MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { restoreClosedTab } from '../src/parts/RestoreClosedTab/RestoreClosedTab.ts'
+import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 
 const tab: Tab = {
   editorUid: 1,

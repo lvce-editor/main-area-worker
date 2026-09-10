@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
-import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 import type { ClosedTabEntry, EditorGroup, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import * as ClosedTabsStorage from '../src/parts/ClosedTabsStorage/ClosedTabsStorage.ts'
+import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 
 const closedTabsKeyRegex = /^https:\/\/lvce-editor\.invalid\/closed-tabs\/session-.+\/7$/
 
@@ -148,7 +148,8 @@ test('main areas keep separate histories and clearing one preserves the other', 
   await ClosedTabsStorage.clear(1)
 
   await expect(ClosedTabsStorage.takeLast(1)).resolves.toBeUndefined()
-  expect((await ClosedTabsStorage.takeLast(2))?.tab.id).toBe(2)
+  const restored = await ClosedTabsStorage.takeLast(2)
+  expect(restored?.tab.id).toBe(2)
   await expect(ClosedTabsStorage.takeLast(2)).resolves.toBeUndefined()
 })
 

@@ -1,8 +1,8 @@
 import { expect, test } from '@jest/globals'
-import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleWorkspaceChange } from '../src/parts/HandleWorkspaceChange/HandleWorkspaceChange.ts'
+import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 
 test('handleWorkspaceChange should clear activeGroupId and groups', async () => {
   const initialState: MainAreaState = {

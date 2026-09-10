@@ -1,5 +1,6 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { closeTab } from '../CloseTab/CloseTab.ts'
+import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
 
 const closeFirstTabByUri = (state: MainAreaState, uri: string): MainAreaState | undefined => {
   const { layout } = state
@@ -14,7 +15,12 @@ const closeFirstTabByUri = (state: MainAreaState, uri: string): MainAreaState | 
   return closeTab(state, matchingGroup.id, matchingTab.id)
 }
 
-export const closeTabsByUris = (state: MainAreaState, uris: readonly string[]): MainAreaState => {
+export const closeTabsByUris = async (state: MainAreaState, uris: readonly string[]): Promise<MainAreaState> => {
+  const uriSet = new Set(uris)
+  const editorUids = state.layout.groups.flatMap((group) =>
+    group.tabs.filter((tab) => tab.editorUid !== -1 && uriSet.has(tab.uri!)).map((tab) => tab.editorUid),
+  )
+  await disposeEditors(editorUids)
   let currentState = state
 
   for (const uri of uris) {

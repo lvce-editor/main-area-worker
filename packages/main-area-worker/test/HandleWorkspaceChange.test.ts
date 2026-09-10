@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleWorkspaceChange } from '../src/parts/HandleWorkspaceChange/HandleWorkspaceChange.ts'
@@ -116,13 +116,12 @@ test('handleWorkspaceChange should restore saved editor groups', async () => {
 })
 
 test('handleWorkspaceChange should clear closed tab history', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
-    'CacheStorage.setJson': () => undefined,
-    'Workspace.getHomeDir': () => '',
+  using mockRpc = mockCacheStorage({
+    setJson: () => undefined,
   })
   const initialState = createDefaultState()
 
   await handleWorkspaceChange(initialState, '/new-workspace')
 
-  expect(mockRpc.invocations).toContainEqual(['CacheStorage.setJson', expect.stringContaining('/closed-tabs/'), []])
+  expect(mockRpc.invocations).toContainEqual(['setJson', expect.stringContaining('/closed-tabs/'), []])
 })

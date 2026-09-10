@@ -1,6 +1,7 @@
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { ClosedTabEntry } from '../MainAreaState/MainAreaState.ts'
 
+const cacheName = 'lvce0main-area-tabs'
+const cacheDuration = 90 * 24 * 60 * 60 * 1000
 const maxClosedTabs = 20
 const pendingOperations = new Map<number, { readonly id: object; readonly promise: Promise<unknown> }>()
 const sessionId = encodeURIComponent(`session-${new Date().toISOString()}`)
@@ -42,8 +43,25 @@ const isClosedTabEntry = (value: unknown): value is ClosedTabEntry => {
 }
 
 const getEntries = async (key: string): Promise<readonly ClosedTabEntry[]> => {
-  const entries = await RendererWorker.invoke('CacheStorage.getJson', key)
+  const cache = await caches.open(cacheName)
+  const response = await cache.match(key)
+  const entries: unknown = response ? await response.json() : []
   return Array.isArray(entries) ? entries.filter(isClosedTabEntry) : []
+}
+
+const setEntries = async (key: string, entries: readonly ClosedTabEntry[]): Promise<void> => {
+  const cache = await caches.open(cacheName)
+  const value = JSON.stringify(entries)
+  await cache.put(
+    key,
+    new Response(value, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': `${value.length}`,
+        Expires: new Date(Date.now() + cacheDuration).toUTCString(),
+      },
+    }),
+  )
 }
 
 const compact = (entry: ClosedTabEntry): ClosedTabEntry => {
@@ -65,7 +83,7 @@ export const add = (uid: number, entries: readonly ClosedTabEntry[]): Promise<vo
       const key = getKey(uid)
       const existing = await getEntries(key)
       const compactEntries = entries.map(compact)
-      await RendererWorker.invoke('CacheStorage.setJson', key, [...existing, ...compactEntries].slice(-maxClosedTabs))
+      await setEntries(key, [...existing, ...compactEntries].slice(-maxClosedTabs))
     } catch {
       // Closed tab history is optional and must never break editor commands.
     }
@@ -75,7 +93,7 @@ export const add = (uid: number, entries: readonly ClosedTabEntry[]): Promise<vo
 export const clear = (uid: number): Promise<void> => {
   return run(uid, async () => {
     try {
-      await RendererWorker.invoke('CacheStorage.setJson', getKey(uid), [])
+      await setEntries(getKey(uid), [])
     } catch {
       // Closed tab history is optional and must never break workspace changes.
     }
@@ -91,7 +109,7 @@ export const takeLast = (uid: number): Promise<ClosedTabEntry | undefined> => {
       if (!isClosedTabEntry(entry)) {
         return undefined
       }
-      await RendererWorker.invoke('CacheStorage.setJson', key, entries.slice(0, -1))
+      await setEntries(key, entries.slice(0, -1))
       return entry
     } catch {
       return undefined

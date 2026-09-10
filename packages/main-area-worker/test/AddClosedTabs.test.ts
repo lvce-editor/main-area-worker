@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { mockCacheStorage } from '../test-support/MockCacheStorage.ts'
 import type { ClosedTabEntry, EditorGroup, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { addClosedTabs } from '../src/parts/AddClosedTabs/AddClosedTabs.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -7,9 +7,9 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 const closedTabsKeyRegex = /^https:\/\/lvce-editor\.invalid\/closed-tabs\/session-.+\/7$/
 
 test('addClosedTabs stores compact entries outside of main area component state', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
-    'CacheStorage.getJson': () => [],
-    'CacheStorage.setJson': () => undefined,
+  using mockRpc = mockCacheStorage({
+    getJson: () => [],
+    setJson: () => undefined,
   })
   const state = { ...createDefaultState(), uid: 7 }
   const tab: Tab = {
@@ -40,9 +40,9 @@ test('addClosedTabs stores compact entries outside of main area component state'
   const key = mockRpc.invocations[0][1]
   expect(key).toMatch(closedTabsKeyRegex)
   expect(mockRpc.invocations).toEqual([
-    ['CacheStorage.getJson', key],
+    ['getJson', key],
     [
-      'CacheStorage.setJson',
+      'setJson',
       key,
       [
         {

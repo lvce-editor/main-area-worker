@@ -47,7 +47,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     },
   }
 
-  const { commands: switchCommands, newState: stateWithViewlet } = ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
+  const { commands: switchCommands, newState: stateWithViewlet } = await ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
   newState = stateWithViewlet
 
   const maybeCreatedState = await maybeCreateViewletForSelectedTab(

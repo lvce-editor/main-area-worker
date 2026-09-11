@@ -822,7 +822,7 @@ test('selectTab should normalize stale extension detail tabs before switching', 
             {
               editorInput: {
                 type: 'editor',
-                uri: 'extension-detail://chat',
+                uri: 'extension-detail:///chat',
               },
               editorUid: -1,
               icon: '',
@@ -847,7 +847,7 @@ test('selectTab should normalize stale extension detail tabs before switching', 
       result.layout.groups[0].tabs[1].editorUid,
       2,
       { height: -35, width: 0, x: 0, y: 35 },
-      'extension-detail://chat',
+      'extension-detail:///chat',
     ],
   ])
 })

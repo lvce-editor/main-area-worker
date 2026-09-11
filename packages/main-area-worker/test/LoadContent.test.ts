@@ -809,7 +809,7 @@ test('loadContent should restore extension detail tabs with the correct editor i
               isDirty: false,
               isPreview: false,
               title: 'theme-ayu',
-              uri: 'extension-detail://theme-ayu',
+              uri: 'extension-detail:///theme-ayu',
             },
             {
               editorUid: -1,
@@ -818,7 +818,7 @@ test('loadContent should restore extension detail tabs with the correct editor i
               isDirty: false,
               isPreview: false,
               title: 'chat',
-              uri: 'extension-detail://chat',
+              uri: 'extension-detail:///chat',
             },
           ],
         },
@@ -846,7 +846,7 @@ test('loadContent should restore extension detail tabs with the correct editor i
       expect.any(Number),
       2,
       { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
-      'extension-detail://chat',
+      'extension-detail:///chat',
     ],
   ])
   expect(iconRpc.invocations).toEqual([])
@@ -881,7 +881,7 @@ test('loadContent should normalize stale extension detail editor inputs from sav
             {
               editorInput: {
                 type: 'editor',
-                uri: 'extension-detail://chat',
+                uri: 'extension-detail:///chat',
               },
               editorUid: -1,
               icon: '',
@@ -899,7 +899,7 @@ test('loadContent should normalize stale extension detail editor inputs from sav
   const result = await LoadContent.loadContent(state, savedState)
   const restoredTab = result.layout.groups[0].tabs[0]
 
-  expect(restoredTab.uri).toBe('extension-detail://chat')
+  expect(restoredTab.uri).toBe('extension-detail:///chat')
   expect(restoredTab).not.toHaveProperty('editorType')
   expect(restoredTab.editorInput).toEqual({
     extensionId: 'chat',
@@ -913,7 +913,7 @@ test('loadContent should normalize stale extension detail editor inputs from sav
       restoredTab.editorUid,
       restoredTab.id,
       { height: expect.any(Number), width: expect.any(Number), x: expect.any(Number), y: expect.any(Number) },
-      'extension-detail://chat',
+      'extension-detail:///chat',
     ],
   ])
   expect(iconRpc.invocations).toEqual([])

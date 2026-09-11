@@ -12,7 +12,7 @@ export const getEditorInputUri = (editorInput: EditorInput): string => {
     case 'webview':
       return editorInput.uri
     case 'extension-detail-view':
-      return `extension-detail://${editorInput.extensionId}`
+      return `extension-detail:///${encodeURIComponent(editorInput.extensionId)}`
     case 'process-explorer':
       return 'process-explorer://'
     case 'running-extensions':

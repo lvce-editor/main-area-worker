@@ -60,7 +60,7 @@ test('getMissingIconRequestsForTabs should skip extension detail icons', () => {
       isDirty: false,
       isPreview: false,
       title: 'builtin.theme-ayu',
-      uri: 'extension-detail://builtin.theme-ayu',
+      uri: 'extension-detail:///builtin.theme-ayu',
     },
   ]
 

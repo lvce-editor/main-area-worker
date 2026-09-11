@@ -141,13 +141,13 @@ test('getNormalizedOpenEditorInput falls back to text for incomplete diff URIs',
 })
 
 test('getNormalizedOpenEditorInput returns extension detail inputs only when an id is present', () => {
-  expect(getNormalizedOpenEditorInput('extension-detail://publisher.extension/readme')).toEqual({
+  expect(getNormalizedOpenEditorInput('extension-detail:///publisher.extension/readme')).toEqual({
     extensionId: 'publisher.extension',
     type: 'extension-detail-view',
   })
-  expect(getNormalizedOpenEditorInput('extension-detail://')).toEqual({
+  expect(getNormalizedOpenEditorInput('extension-detail:///')).toEqual({
     type: 'editor',
-    uri: 'extension-detail://',
+    uri: 'extension-detail:///',
   })
 })
 
@@ -210,4 +210,23 @@ test('normalizeTabEditorInput uses editorInput when the legacy editorType disagr
     editorInput: { type: 'process-explorer' },
     uri: 'process-explorer://',
   })
+})
+
+test('legacy extension detail URIs remain supported', () => {
+  expect(getNormalizedOpenEditorInput('extension-detail://publisher.extension/readme')).toEqual({
+    extensionId: 'publisher.extension',
+    type: 'extension-detail-view',
+  })
+})
+
+test('canonical extension detail URIs decode the extension id', () => {
+  expect(getNormalizedOpenEditorInput('extension-detail:///publisher.name%23test')).toEqual({
+    extensionId: 'publisher.name#test',
+    type: 'extension-detail-view',
+  })
+})
+
+test('restoring legacy extension detail tabs preserves the extension identity', () => {
+  const tab = normalizeTabEditorInput({ uri: 'extension-detail://builtin.chat' })
+  expect(tab.editorInput).toEqual({ extensionId: 'builtin.chat', type: 'extension-detail-view' })
 })

@@ -270,7 +270,7 @@ test('restoreMainAreaState should normalize stale extension detail editor inputs
             {
               editorInput: {
                 type: 'editor',
-                uri: 'extension-detail://chat',
+                uri: 'extension-detail:///chat',
               },
               editorUid: -1,
               icon: '',
@@ -289,7 +289,7 @@ test('restoreMainAreaState should normalize stale extension detail editor inputs
   const result = restoreMainAreaState(savedState, currentState)
   const restoredTab = result.layout.groups[0].tabs[0]
 
-  expect(restoredTab.uri).toBe('extension-detail://chat')
+  expect(restoredTab.uri).toBe('extension-detail:///chat')
   expect(restoredTab).not.toHaveProperty('editorType')
   expect(restoredTab.editorInput).toEqual({
     extensionId: 'chat',

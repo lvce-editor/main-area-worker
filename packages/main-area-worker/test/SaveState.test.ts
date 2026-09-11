@@ -293,7 +293,7 @@ test('saveState should normalize extension detail tabs based on URI', () => {
             {
               editorInput: {
                 type: 'editor',
-                uri: 'extension-detail://chat',
+                uri: 'extension-detail:///chat',
               },
               editorUid: -1,
               icon: '',
@@ -301,7 +301,7 @@ test('saveState should normalize extension detail tabs based on URI', () => {
               isDirty: false,
               isPreview: false,
               title: 'chat',
-              uri: 'extension-detail://chat',
+              uri: 'extension-detail:///chat',
             },
           ],
         },

@@ -521,7 +521,7 @@ test('openUri should open extension detail URIs with extension detail editor inp
   const result = await openUri(state, {
     focus: false,
     preview: false,
-    uri: 'extension-detail://chat',
+    uri: 'extension-detail:///chat',
   })
 
   const tab = result.layout.groups[0].tabs[0]
@@ -532,7 +532,7 @@ test('openUri should open extension detail URIs with extension detail editor inp
     type: 'extension-detail-view',
   })
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
-    ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail://chat'],
+    ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail:///chat'],
   ])
 })
 

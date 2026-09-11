@@ -142,14 +142,14 @@ test('getFileIcon should return MaskIconRecordKey for app://keybindings', () => 
   expect(result).toBe('MaskIconRecordKey')
 })
 
-test('getFileIcon should return MaskIconExtensions for extension-detail:// uri', () => {
-  const uri: string = 'extension-detail://extension-id'
+test('getFileIcon should return MaskIconExtensions for extension-detail:/// uri', () => {
+  const uri: string = 'extension-detail:///extension-id'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
   expect(result).toBe('MaskIconExtensions')
 })
 
-test('getFileIcon should return MaskIconExtensions for extension-detail:// uri with path', () => {
-  const uri: string = 'extension-detail://extension-id/details'
+test('getFileIcon should return MaskIconExtensions for extension-detail:/// uri with path', () => {
+  const uri: string = 'extension-detail:///extension-id/details'
   const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
   expect(result).toBe('MaskIconExtensions')
 })

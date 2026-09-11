@@ -1605,7 +1605,10 @@ test('selectTab should not trigger loading when tab is already loading', async (
   expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
 })
 
-test('selectTab should not trigger loading when tab is already loaded with content', async () => {
+test('selectTab focuses a loaded tab without reloading its content', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.focusSelector'() {},
+  })
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -1648,6 +1651,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
+  expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
 })
 
 test('selectTab should recover restored tab when loadingState is loaded but editorUid is missing', async () => {

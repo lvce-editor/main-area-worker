@@ -1,5 +1,6 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import * as ExecuteViewletCommands from '../../ExecuteViewletCommands/ExecuteViewletCommands.ts'
+import { focus } from '../../Focus/Focus.ts'
 import * as GetNextRequestId from '../../GetNextRequestId/GetNextRequestId.ts'
 import * as MainAreaStates from '../../MainAreaStates/MainAreaStates.ts'
 import { normalizeTabEditorInput } from '../../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
@@ -71,5 +72,8 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     await ExecuteViewletCommands.executeViewletCommands(switchCommands)
   }
 
+  if (!needsLoading) {
+    await focus(newState)
+  }
   return maybeStartLoading(state, newState, tabId, normalizedTab, needsLoading, requestId)
 }

@@ -66,6 +66,13 @@ const hasBinaryFileSuffix = (uri: string): boolean => {
   return binaryFileSuffixes.some((suffix) => cleanPath.endsWith(suffix))
 }
 
+const getExtensionId = (uri: string): string => {
+  if (uri.startsWith('extension-detail:///')) {
+    return decodeURIComponent(uri.slice('extension-detail:///'.length).split('/', 1)[0])
+  }
+  return uri.slice('extension-detail://'.length).split('/', 1)[0]
+}
+
 const getEditorInputFromUri = (uri: string): any => {
   if (uri.startsWith('diff://?') && URL.canParse(uri)) {
     const parsed = new URL(uri)
@@ -81,8 +88,7 @@ const getEditorInputFromUri = (uri: string): any => {
   }
 
   if (uri.startsWith('extension-detail://')) {
-    const extensionIdWithPath = uri.slice('extension-detail://'.length)
-    const extensionId = extensionIdWithPath.split('/', 1)[0]
+    const extensionId = getExtensionId(uri)
     if (extensionId) {
       return {
         extensionId,
@@ -162,7 +168,7 @@ export const normalizeTabEditorInput = (tab: any): any => {
     return Object.hasOwn(tab, 'editorType') ? rest : tab
   }
 
-  const uri = typeof tab.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
+  const uri = editorInput.type !== 'extension-detail-view' && typeof tab.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
 
   return {
     ...rest,

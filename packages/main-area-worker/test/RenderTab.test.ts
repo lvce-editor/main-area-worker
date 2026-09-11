@@ -357,7 +357,7 @@ test('renderTab should use the built-in extensions icon for extension detail tab
     isDirty: false,
     isPreview: false,
     title: 'builtin.theme-ayu',
-    uri: 'extension-detail://builtin.theme-ayu',
+    uri: 'extension-detail:///builtin.theme-ayu',
   }
   const result = renderTab(tab, false, 0, 0)
 

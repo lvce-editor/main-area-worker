@@ -270,10 +270,10 @@ test('openInput should open extension detail view input without Layout.getModule
     extensionId: 'abc',
     type: 'extension-detail-view',
   })
-  expect(tab.uri).toBe('extension-detail://abc')
+  expect(tab.uri).toBe('extension-detail:///abc')
   expect(tab.title).toBe('abc')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
-    ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail://abc'],
+    ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail:///abc'],
   ])
 })
 

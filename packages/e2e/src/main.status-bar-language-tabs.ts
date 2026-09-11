@@ -2,10 +2,12 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-status-bar-language-tabs'
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await FileSystem.writeFile(`${tmpDir}/App.tsx`, 'export default function App() { return <div /> }')
-  await FileSystem.writeFile(`${tmpDir}/settings.json`, '{}')
+  await FileSystem.setFiles([
+    { content: 'export default function App() { return <div /> }', uri: `${tmpDir}/App.tsx` },
+    { content: '{}', uri: `${tmpDir}/settings.json` },
+  ])
   await Workspace.setPath(tmpDir)
   await Main.closeAllEditors()
   const language = Locator('.StatusBarItem[name="EditorLanguage"]')
@@ -18,9 +20,9 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   await Main.selectTab(0, 1)
   await expect(language).toHaveText('json')
   for (let i = 0; i < 3; i++) {
-    await Locator('.MainTab[title$="App.tsx"]').click()
+    await Command.execute('Main.handleClickTab', '0', '0', 0)
     await expect(language).toHaveText('typescriptreact')
-    await Locator('.MainTab[title$="settings.json"]').click()
+    await Command.execute('Main.handleClickTab', '0', '1', 0)
     await expect(language).toHaveText('json')
   }
 }

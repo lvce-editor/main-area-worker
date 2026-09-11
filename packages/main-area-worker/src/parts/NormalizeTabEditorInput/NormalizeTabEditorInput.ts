@@ -66,6 +66,13 @@ const hasBinaryFileSuffix = (uri: string): boolean => {
   return binaryFileSuffixes.some((suffix) => cleanPath.endsWith(suffix))
 }
 
+const getExtensionId = (uri: string): string => {
+  if (uri.startsWith('extension-detail:///')) {
+    return decodeURIComponent(uri.slice('extension-detail:///'.length).split('/', 1)[0])
+  }
+  return uri.slice('extension-detail://'.length).split('/', 1)[0]
+}
+
 const getEditorInputFromUri = (uri: string): any => {
   if (uri.startsWith('diff://?') && URL.canParse(uri)) {
     const parsed = new URL(uri)
@@ -81,10 +88,7 @@ const getEditorInputFromUri = (uri: string): any => {
   }
 
   if (uri.startsWith('extension-detail://')) {
-    const isCanonical = uri.startsWith('extension-detail:///')
-    const extensionIdWithPath = uri.slice(isCanonical ? 'extension-detail:///'.length : 'extension-detail://'.length)
-    const rawExtensionId = extensionIdWithPath.split('/', 1)[0]
-    const extensionId = isCanonical ? decodeURIComponent(rawExtensionId) : rawExtensionId
+    const extensionId = getExtensionId(uri)
     if (extensionId) {
       return {
         extensionId,

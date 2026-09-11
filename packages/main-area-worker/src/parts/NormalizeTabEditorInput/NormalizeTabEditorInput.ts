@@ -168,7 +168,7 @@ export const normalizeTabEditorInput = (tab: any): any => {
     return Object.hasOwn(tab, 'editorType') ? rest : tab
   }
 
-  const uri = typeof tab.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
+  const uri = editorInput.type !== 'extension-detail-view' && typeof tab.uri === 'string' ? tab.uri : getEditorInputUri(editorInput)
 
   return {
     ...rest,

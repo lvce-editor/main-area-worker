@@ -229,4 +229,5 @@ test('canonical extension detail URIs decode the extension id', () => {
 test('restoring legacy extension detail tabs preserves the extension identity', () => {
   const tab = normalizeTabEditorInput({ uri: 'extension-detail://builtin.chat' })
   expect(tab.editorInput).toEqual({ extensionId: 'builtin.chat', type: 'extension-detail-view' })
+  expect(tab.uri).toBe('extension-detail:///builtin.chat')
 })

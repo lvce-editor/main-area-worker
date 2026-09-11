@@ -2,7 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-status-bar-language-tabs'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Settings, Workspace }) => {
+  await Settings.update({ 'statusBar.itemsVisible': true })
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.setFiles([
     { content: 'export default function App() { return <div /> }', uri: `${tmpDir}/App.tsx` },

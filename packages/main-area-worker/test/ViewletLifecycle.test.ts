@@ -351,7 +351,7 @@ test('switchViewlet blurs the outgoing editor before its reference is detached',
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.executeViewletCommand'() {},
   })
-  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1 })
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
 
   const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
 
@@ -362,9 +362,18 @@ test('switchViewlet blurs the outgoing editor before its reference is detached',
 
 test('switchViewlet does not blur the editor when the active tab is unchanged', async () => {
   using mockRpc = RendererWorker.registerMockRpc({})
-  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1 })
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
 
   await ViewletLifecycle.switchViewlet(state, 1, 1)
+
+  expect(mockRpc.invocations).toEqual([])
+})
+
+test('switchViewlet does not blur an editor that is still being created', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loading' })
+
+  await ViewletLifecycle.switchViewlet(state, 1, 2)
 
   expect(mockRpc.invocations).toEqual([])
 })

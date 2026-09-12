@@ -23,9 +23,13 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   await expect(menuItem).toBeVisible()
   await Command.execute('TitleBar.handleMenuClick', 1, 17)
 
+  const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientHeight' })
+  const { actual: width } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientWidth' })
   const group = Locator('.EditorGroup')
   const tab = group.locator('.MainTab[title$="flip-layout.txt"]')
   await expect(group).toHaveCount(1)
-  await expect(group).toHaveAttribute('style', 'width: 100%; height: 100%;')
+  await expect(group).toHaveAttribute('style', null)
+  await expect(group).toHaveCSS('width', `${width}px`)
+  await expect(group).toHaveCSS('height', `${height}px`)
   await expect(tab).toBeVisible()
 }

@@ -17,7 +17,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   const groups = Locator('.EditorGroup')
   await expect(groups).toHaveCount(2)
   const firstEditor = groups.nth(0).locator('.Editor')
-  await expect(firstEditor).toBeVisible()
+  try {
+    await expect(firstEditor).toBeVisible()
+  } catch (error) {
+    throw new Error(`first editor before flip: ${error}`)
+  }
   const secondEditor = groups.nth(1).locator('.Editor')
   await expect(secondEditor).toBeVisible()
   for (let flip = 0; flip < 4; flip++) {

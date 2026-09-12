@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as GetNextRequestId from '../src/parts/GetNextRequestId/GetNextRequestId.ts'
@@ -78,7 +79,7 @@ test('createViewletForTab returns empty commands for non-existent tab', () => {
   expect(result).toBe(state)
 })
 
-test('switchViewlet with reference nodes - no attach/detach commands', () => {
+test('switchViewlet with reference nodes - no attach/detach commands', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -124,14 +125,14 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
     uid: 1,
   }
 
-  const result = ViewletLifecycle.switchViewlet(state, 1, 2)
+  const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
 
   // Reference nodes handle attachment automatically - no commands needed
   expect(result.commands).toHaveLength(0)
   expect(result.newState).toBe(state)
 })
 
-test('switchViewlet with not-ready tab - still no attach/detach commands', () => {
+test('switchViewlet with not-ready tab - still no attach/detach commands', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -177,16 +178,16 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
     uid: 1,
   }
 
-  const result = ViewletLifecycle.switchViewlet(state, 1, 2)
+  const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
 
   // Reference nodes handle it - only reference nodes for ready viewlets are rendered
   expect(result.commands).toHaveLength(0)
   expect(result.newState).toBe(state)
 })
 
-test('switchViewlet handles undefined fromTabId - no commands', () => {
+test('switchViewlet handles undefined fromTabId - no commands', async () => {
   const state = createStateWithTab()
-  const result = ViewletLifecycle.switchViewlet(state, undefined, 1)
+  const result = await ViewletLifecycle.switchViewlet(state, undefined, 1)
 
   // Reference nodes handle attachment automatically
   expect(result.commands).toHaveLength(0)
@@ -344,4 +345,35 @@ test('disposeViewletForTab returns empty commands for non-existent tab', () => {
   const result = ViewletLifecycle.disposeViewletForTab(state, 999)
 
   expect(result.commands).toHaveLength(0)
+})
+
+test('switchViewlet blurs the outgoing editor before its reference is detached', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.executeViewletCommand'() {},
+  })
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
+
+  const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
+
+  expect(mockRpc.invocations).toEqual([['Viewlet.executeViewletCommand', 42, 'handleBlur']])
+  expect(result.newState).toBe(state)
+  expect(result.commands).toEqual([])
+})
+
+test('switchViewlet does not blur the editor when the active tab is unchanged', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
+
+  await ViewletLifecycle.switchViewlet(state, 1, 1)
+
+  expect(mockRpc.invocations).toEqual([])
+})
+
+test('switchViewlet does not blur an editor that is still being created', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({})
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loading' })
+
+  await ViewletLifecycle.switchViewlet(state, 1, 2)
+
+  expect(mockRpc.invocations).toEqual([])
 })

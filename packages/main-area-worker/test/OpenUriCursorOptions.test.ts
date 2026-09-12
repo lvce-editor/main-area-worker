@@ -118,6 +118,7 @@ test('highlights problems in the exact new or reused tab without focusing it', a
   expect(result.layout.groups[0].activeTabId).toBe(tab.id)
   expect(rpc.invocations.filter(([method]) => method === 'Viewlet.executeViewletCommand')).toEqual([
     ['Viewlet.executeViewletCommand', tab.editorUid, 'revealProblem', 4, 2],
+    ['Viewlet.executeViewletCommand', tab.editorUid, 'handleBlur'],
     ['Viewlet.executeViewletCommand', tab.editorUid, 'revealProblem', 4, 2],
   ])
   expect(rpc.invocations.some(([method]) => method === 'Viewlet.focusSelector')).toBe(false)

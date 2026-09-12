@@ -959,6 +959,7 @@ test('openUri should handle race condition when second call starts while first a
       }
       return deferred.promise
     },
+    'Viewlet.executeViewletCommand': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({
@@ -1007,6 +1008,7 @@ test('openUri should not create duplicate tabs when the same URI is opened simul
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => moduleIdPromise.promise,
+    'Viewlet.executeViewletCommand': async () => {},
     'Viewlet.focusSelector': async () => {},
   })
 
@@ -1043,6 +1045,7 @@ test('openUri should handle race condition when second call starts while first a
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.executeViewletCommand': async () => {},
     'Viewlet.focusSelector': async () => {},
   })
 
@@ -1118,6 +1121,7 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
       }
       return deferred.promise
     },
+    'Viewlet.executeViewletCommand': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({
@@ -1190,6 +1194,7 @@ test('openUri should preserve existing tabs when race condition occurs', async (
       }
       return deferred.promise
     },
+    'Viewlet.executeViewletCommand': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({
@@ -1280,6 +1285,7 @@ test('openUri should handle race condition with createViewlet delays', async () 
       return deferred.promise
     },
     'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.executeViewletCommand': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({

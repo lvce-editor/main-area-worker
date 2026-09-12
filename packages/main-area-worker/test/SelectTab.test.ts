@@ -855,6 +855,7 @@ test('selectTab should normalize stale extension detail tabs before switching', 
 test('selectTab should recreate restored process explorer tabs without loading them as files', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.executeViewletCommand'() {},
   })
 
   const state: MainAreaState = {
@@ -909,6 +910,7 @@ test('selectTab should recreate restored process explorer tabs without loading t
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(processExplorerTab.editorUid).not.toBe(-1)
   expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+    ['Viewlet.executeViewletCommand', 42, 'handleBlur'],
     ['Layout.createViewlet', 'ProcessExplorer', processExplorerTab.editorUid, 1, { height: -35, width: 0, x: 0, y: 35 }, 'process-explorer://'],
   ])
 })
@@ -1605,7 +1607,10 @@ test('selectTab should not trigger loading when tab is already loading', async (
   expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
 })
 
-test('selectTab should not trigger loading when tab is already loaded with content', async () => {
+test('selectTab focuses a loaded tab without reloading its content', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.focusSelector'() {},
+  })
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -1648,6 +1653,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
+  expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
 })
 
 test('selectTab should recover restored tab when loadingState is loaded but editorUid is missing', async () => {

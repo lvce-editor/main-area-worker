@@ -33,14 +33,16 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const sashCorner = Locator('.Main .SashCorner')
   await expect(groups).toHaveCount(4)
   for (let index = 0; index < 4; index++) {
-    await expect(groups.nth(index)).toHaveAttribute('style', null)
-    await expect(groups.nth(index)).toHaveCSS('--EditorGroupWidth', '100%')
-    await expect(groups.nth(index)).toHaveCSS('--EditorGroupHeight', '50%')
+    const group = groups.nth(index)
+    await expect(group).toHaveAttribute('style', null)
+    await expect(group).toHaveCSS('--EditorGroupWidth', '100%')
+    await expect(group).toHaveCSS('--EditorGroupHeight', '50%')
   }
   for (let index = 0; index < 2; index++) {
-    await expect(horizontalContainers.nth(index)).toHaveAttribute('style', null)
-    await expect(horizontalContainers.nth(index)).toHaveCSS('--EditorGroupWidth', '50%')
-    await expect(horizontalContainers.nth(index)).toHaveCSS('--EditorGroupHeight', '100%')
+    const container = horizontalContainers.nth(index)
+    await expect(container).toHaveAttribute('style', null)
+    await expect(container).toHaveCSS('--EditorGroupWidth', '50%')
+    await expect(container).toHaveCSS('--EditorGroupHeight', '100%')
   }
   await expect(firstGroupTab).toBeVisible()
   await expect(verticalContainer).toHaveCount(1)

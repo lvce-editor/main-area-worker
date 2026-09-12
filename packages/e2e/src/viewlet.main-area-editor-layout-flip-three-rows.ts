@@ -9,14 +9,11 @@ export const test: Test = async ({ Command, expect, Locator, Main }) => {
   for (let flip = 0; flip < 4; flip++) {
     await Command.execute('Main.flipEditorLayout')
     const horizontal = flip % 2 === 0
-    const groupHorizontal = horizontal
-    const size = '33.3333%'
-    const style = groupHorizontal ? `width: ${size}; height: 100%;` : `width: 100%; height: ${size};`
+    // Browsers serialize fractional percentages with different precision.
+    const dimensions = horizontal ? '[style*="width: 33.3333"][style*="height: 100%;"]' : '[style*="width: 100%;"][style*="height: 33.3333"]'
+    const sizedGroups = Locator(`.EditorGroup${dimensions}`)
     await expect(groups).toHaveCount(3)
-    for (let index = 0; index < 3; index++) {
-      const group = groups.nth(index)
-      await expect(group).toHaveAttribute('style', style)
-    }
+    await expect(sizedGroups).toHaveCount(3)
     const sashes = Locator('.Main .Sash')
     await expect(sashes).toHaveCount(2)
   }

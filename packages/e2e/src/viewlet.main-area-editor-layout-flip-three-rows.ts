@@ -1,23 +1,23 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-export const name = 'viewlet.main-area-editor-layout-flip-two-rows'
+export const name = 'viewlet.main-area-editor-layout-flip-three-rows'
 
 export const test: Test = async ({ Command, expect, Locator, Main }) => {
   await Main.closeAllEditors()
-  await Command.execute('Main.setEditorLayoutTwoRows')
+  await Command.execute('Main.setEditorLayoutThreeRows')
   const groups = Locator('.EditorGroup')
   const { actual: width } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientWidth' })
   const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientHeight' })
   for (let flip = 0; flip < 4; flip++) {
     await Command.execute('Main.flipEditorLayout')
     const horizontal = flip % 2 === 0
-    await expect(groups).toHaveCount(2)
-    for (let index = 0; index < 2; index++) {
+    await expect(groups).toHaveCount(3)
+    for (let index = 0; index < 3; index++) {
       const group = groups.nth(index)
-      await expect(group).toHaveJSProperty('clientWidth', Math.round(horizontal ? width / 2 : width))
-      await expect(group).toHaveJSProperty('clientHeight', Math.round(horizontal ? height : height / 2))
+      await expect(group).toHaveJSProperty('clientWidth', Math.round(horizontal ? width / 3 : width))
+      await expect(group).toHaveJSProperty('clientHeight', Math.round(horizontal ? height : height / 3))
     }
     const sashes = Locator('.Main .Sash')
-    await expect(sashes).toHaveCount(1)
+    await expect(sashes).toHaveCount(2)
   }
 }

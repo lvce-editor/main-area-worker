@@ -1,4 +1,4 @@
-import { AriaRoles, mergeClassNames, text, type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { AriaRoles, text, type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
@@ -43,7 +43,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
     buttons.push(
       {
         childCount: 1,
-        className: mergeClassNames(ClassNames.EditorGroupActionButton, ClassNames.SplitEditorGroupButton),
+        className: ClassNames.SplitEditorGroupButton,
         'data-action': InputName.SplitRight,
         'data-groupId': String(group.id),
         name: InputName.SplitRight,

@@ -20,7 +20,10 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDrop', dropId)
 
-  await expect(firstTab.locator('.TabTitle')).toHaveText('a.txt')
-  await expect(secondTab.locator('.TabTitle')).toHaveText('c.txt')
-  await expect(thirdTab.locator('.TabTitle')).toHaveText('b.txt')
+  const firstTabTitle = firstTab.locator('.TabTitle')
+  await expect(firstTabTitle).toHaveText('a.txt')
+  const secondTabTitle = secondTab.locator('.TabTitle')
+  await expect(secondTabTitle).toHaveText('c.txt')
+  const thirdTabTitle = thirdTab.locator('.TabTitle')
+  await expect(thirdTabTitle).toHaveText('b.txt')
 }

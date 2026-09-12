@@ -19,6 +19,8 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const groups = Locator('.EditorGroup')
   const group = groups.nth(0)
   await expect(groups).toHaveCount(1)
-  await expect(group.locator('.MainTab')).toHaveCount(1)
-  await expect(group.locator('.MainTab[title$="drag-only-tab-split-right.txt"]')).toBeVisible()
+  const groupTabs = group.locator('.MainTab')
+  await expect(groupTabs).toHaveCount(1)
+  const groupTab = group.locator('.MainTab[title$="drag-only-tab-split-right.txt"]')
+  await expect(groupTab).toBeVisible()
 }

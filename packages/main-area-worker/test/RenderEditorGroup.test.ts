@@ -31,7 +31,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       childCount: 2,
       className: 'EditorGroup EditorGroup-1',
       'data-groupId': '1',
-      style: 'width:100%;',
+      style: 'width:100%;height:100%;',
       type: VirtualDomElements.Div,
     },
     {
@@ -194,7 +194,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
       className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-      style: 'width:100%;',
+      style: 'width:100%;height:100%;',
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -249,7 +249,7 @@ test('renderEditorGroup should expose a unique group class for CSS targeting', (
     className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
     'data-groupId': '1',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-    style: 'height:50%;',
+    style: 'width:100%;height:50%;',
     tabIndex: 0,
     type: VirtualDomElements.Div,
   })

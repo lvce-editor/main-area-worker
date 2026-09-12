@@ -1,21 +1,21 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-export const name = 'viewlet.main-area-editor-layout-flip-two-columns'
+export const name = 'viewlet.main-area-editor-layout-flip-three-columns'
 
 export const test: Test = async ({ Command, expect, Locator, Main }) => {
   await Main.closeAllEditors()
-  await Command.execute('Main.setEditorLayoutTwoColumns')
+  await Command.execute('Main.setEditorLayoutThreeColumns')
   const groups = Locator('.EditorGroup')
   for (let flip = 0; flip < 4; flip++) {
     await Command.execute('Main.flipEditorLayout')
     const horizontal = flip % 2 === 1
     const groupHorizontal = horizontal
-    const size = '50%'
+    const size = '33.3333%'
     const style = groupHorizontal ? `width: ${size}; height: 100%;` : `width: 100%; height: ${size};`
-    await expect(groups).toHaveCount(2)
-    for (let index = 0; index < 2; index++) {
+    await expect(groups).toHaveCount(3)
+    for (let index = 0; index < 3; index++) {
       await expect(groups.nth(index)).toHaveAttribute('style', style)
     }
-    await expect(Locator('.Main .Sash')).toHaveCount(1)
+    await expect(Locator('.Main .Sash')).toHaveCount(2)
   }
 }

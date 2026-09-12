@@ -1,25 +1,21 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-editor-layout-flip-grid'
-export const skip = 1
 
-const assert = (condition: boolean, message: string): void => {
-  if (!condition) {
-    throw new Error(message)
+export const test: Test = async ({ Command, expect, Locator, Main }) => {
+  await Main.closeAllEditors()
+  await Command.execute('Main.setEditorLayoutGrid')
+  const groups = Locator('.EditorGroup')
+  for (let flip = 0; flip < 4; flip++) {
+    await Command.execute('Main.flipEditorLayout')
+    const horizontal = flip % 2 === 1
+    const groupHorizontal = !horizontal
+    const size = '50%'
+    const style = groupHorizontal ? `width: ${size}; height: 100%;` : `width: 100%; height: ${size};`
+    await expect(groups).toHaveCount(4)
+    for (let index = 0; index < 4; index++) {
+      await expect(groups.nth(index)).toHaveAttribute('style', style)
+    }
+    await expect(Locator('.Main .Sash')).toHaveCount(3)
   }
-}
-
-export const test: Test = async ({ Command, FileSystem }) => {
-  const tmpDir = await FileSystem.getTmpDir()
-  const uid = 9020
-  await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
-  await Command.execute('MainArea.setEditorLayoutGrid', uid)
-  await Command.execute('MainArea.flipEditorLayout', uid)
-  const savedState = await Command.execute('MainArea.saveState', uid)
-
-  assert(savedState.layout.direction === 2, `Expected vertical layout, got ${savedState.layout.direction}`)
-  assert(
-    savedState.layout.groups.every((group) => group.direction === 1),
-    'Expected nested directions to flip to horizontal',
-  )
 }

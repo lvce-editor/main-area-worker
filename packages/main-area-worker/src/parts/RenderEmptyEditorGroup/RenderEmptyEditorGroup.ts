@@ -7,12 +7,7 @@ import { renderEmptyGroupCloseButton } from '../RenderEmptyGroupCloseButton/Rend
 import { renderWaterMark } from '../RenderWaterMark/RenderWaterMark.ts'
 import * as TabIndex from '../TabIndex/TabIndex.ts'
 
-export const renderEmptyEditorGroup = (
-  group: EditorGroup,
-  groupIndex: number,
-  style: string,
-  closeButtonEnabled: boolean = true,
-): readonly VirtualDomNode[] => {
+export const renderEmptyEditorGroup = (group: EditorGroup, groupIndex: number, closeButtonEnabled: boolean = true): readonly VirtualDomNode[] => {
   const closeButtonDom = closeButtonEnabled ? renderEmptyGroupCloseButton(group, groupIndex) : []
   return [
     {
@@ -20,7 +15,6 @@ export const renderEmptyEditorGroup = (
       className: mergeClassNames(ClassNames.EditorGroupEmpty, getEditorGroupClassName(group.id)),
       'data-groupId': String(group.id),
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-      style,
       tabIndex: TabIndex.Focusable,
       type: VirtualDomElements.Div,
     },

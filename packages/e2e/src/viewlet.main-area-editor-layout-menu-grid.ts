@@ -32,6 +32,16 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const horizontalSashes = Locator('.Main .SashHorizontal')
   const sashCorner = Locator('.Main .SashCorner')
   await expect(groups).toHaveCount(4)
+  for (let index = 0; index < 4; index++) {
+    await expect(groups.nth(index)).toHaveAttribute('style', null)
+    await expect(groups.nth(index)).toHaveCSS('--EditorGroupWidth', '100%')
+    await expect(groups.nth(index)).toHaveCSS('--EditorGroupHeight', '50%')
+  }
+  for (let index = 0; index < 2; index++) {
+    await expect(horizontalContainers.nth(index)).toHaveAttribute('style', null)
+    await expect(horizontalContainers.nth(index)).toHaveCSS('--EditorGroupWidth', '50%')
+    await expect(horizontalContainers.nth(index)).toHaveCSS('--EditorGroupHeight', '100%')
+  }
   await expect(firstGroupTab).toBeVisible()
   await expect(verticalContainer).toHaveCount(1)
   await expect(horizontalContainers).toHaveCount(2)

@@ -33,8 +33,10 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   await Main.handleClickAction('', '')
 
   await expect(groups).toHaveCount(2)
-  await expect(firstGroup).toHaveAttribute('style', 'width: 50%;')
-  await expect(secondGroup).toHaveAttribute('style', 'width: 50%;')
+  await expect(firstGroup).toHaveAttribute('style', null)
+  await expect(firstGroup).toHaveCSS('--EditorGroupWidth', '50%')
+  await expect(secondGroup).toHaveAttribute('style', null)
+  await expect(secondGroup).toHaveCSS('--EditorGroupWidth', '50%')
   await expect(verticalContainers).toHaveCount(1)
   await expect(horizontalContainers).toHaveCount(0)
   await expect(verticalSashes).toHaveCount(1)

@@ -26,6 +26,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const group = Locator('.EditorGroup')
   const tab = group.locator('.MainTab[title$="single.txt"]')
   await expect(group).toHaveCount(1)
-  await expect(group).toHaveAttribute('style', 'width: 100%;')
+  await expect(group).toHaveAttribute('style', null)
+  await expect(group).toHaveCSS('--EditorGroupWidth', '100%')
   await expect(tab).toBeVisible()
 }

@@ -1,12 +1,10 @@
-import { AriaRoles, mergeClassNames, text, type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
+import { AriaRoles, text, type VirtualDomNode, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import * as InputName from '../InputName/InputName.ts'
 import { isHtmlFile } from '../IsHtmlFile/IsHtmlFile.ts'
 import * as MainStrings from '../MainStrings/MainStrings.ts'
-
-const splitButtonClassName = mergeClassNames(ClassNames.EditorGroupActionButton, ClassNames.SplitEditorGroupButton)
 
 const previewIconNode: VirtualDomNode = {
   childCount: 0,
@@ -45,7 +43,7 @@ export const renderEditorGroupActions = (group: EditorGroup, groupIndex: number,
     buttons.push(
       {
         childCount: 1,
-        className: splitButtonClassName,
+        className: ClassNames.SplitEditorGroupButton,
         'data-action': InputName.SplitRight,
         'data-groupId': String(group.id),
         name: InputName.SplitRight,

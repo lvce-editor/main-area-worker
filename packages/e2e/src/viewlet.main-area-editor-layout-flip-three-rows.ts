@@ -14,8 +14,10 @@ export const test: Test = async ({ Command, expect, Locator, Main }) => {
     const style = groupHorizontal ? `width: ${size}; height: 100%;` : `width: 100%; height: ${size};`
     await expect(groups).toHaveCount(3)
     for (let index = 0; index < 3; index++) {
-      await expect(groups.nth(index)).toHaveAttribute('style', style)
+      const group = groups.nth(index)
+      await expect(group).toHaveAttribute('style', style)
     }
-    await expect(Locator('.Main .Sash')).toHaveCount(2)
+    const sashes = Locator('.Main .Sash')
+    await expect(sashes).toHaveCount(2)
   }
 }

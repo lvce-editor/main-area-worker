@@ -10,6 +10,7 @@ export const test: Test = async ({ Command, expect, Locator, Main }) => {
     await Command.execute('Main.flipEditorLayout')
     await expect(group).toHaveCount(1)
     await expect(group).toHaveAttribute('style', 'width: 100%; height: 100%;')
-    await expect(Locator('.Main .Sash')).toHaveCount(0)
+    const sashes = Locator('.Main .Sash')
+    await expect(sashes).toHaveCount(0)
   }
 }

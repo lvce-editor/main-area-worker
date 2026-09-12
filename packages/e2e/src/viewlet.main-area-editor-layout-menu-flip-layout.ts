@@ -13,7 +13,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const second = `${tmpDir}/flip-layout-second.txt`
   await FileSystem.writeFile(second, 'second editor')
   await Main.openUri(second)
-  await expect(Locator('.Editor')).toHaveCount(2)
+  const editors = Locator('.Editor')
+  await expect(editors).toHaveCount(2)
 
   await TitleBarMenuBar.focus()
   await TitleBarMenuBar.handleKeyArrowRight()
@@ -30,8 +31,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const group = Locator('.EditorGroup')
   const tab = group.locator('.MainTab[title$="flip-layout.txt"]')
   await expect(group).toHaveCount(2)
-  await expect(group.nth(0)).toHaveAttribute('style', 'width: 100%; height: 50%;')
-  await expect(group.nth(1)).toHaveAttribute('style', 'width: 100%; height: 50%;')
-  await expect(group.nth(1).locator('.MainTab[title$="flip-layout-second.txt"]')).toBeVisible()
+  const firstGroup = group.nth(0)
+  await expect(firstGroup).toHaveAttribute('style', 'width: 100%; height: 50%;')
+  const secondGroup = group.nth(1)
+  await expect(secondGroup).toHaveAttribute('style', 'width: 100%; height: 50%;')
+  const secondTab = group.nth(1).locator('.MainTab[title$="flip-layout-second.txt"]')
+  await expect(secondTab).toBeVisible()
   await expect(tab).toBeVisible()
 }

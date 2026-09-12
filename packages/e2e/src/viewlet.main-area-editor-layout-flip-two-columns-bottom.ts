@@ -13,11 +13,15 @@ export const test: Test = async ({ Command, expect, Locator, Main }) => {
     const rootStyle = horizontal ? 'width: 50%; height: 100%;' : 'width: 100%; height: 50%;'
     const nestedStyle = horizontal ? 'width: 100%; height: 50%;' : 'width: 50%; height: 100%;'
     await expect(groups).toHaveCount(3)
-    await expect(groups.nth(0)).toHaveAttribute('style', rootStyle)
+    const firstGroup = groups.nth(0)
+    await expect(firstGroup).toHaveAttribute('style', rootStyle)
     await expect(nested).toHaveCount(1)
     await expect(nested).toHaveAttribute('style', rootStyle)
-    await expect(groups.nth(1)).toHaveAttribute('style', nestedStyle)
-    await expect(groups.nth(2)).toHaveAttribute('style', nestedStyle)
-    await expect(Locator('.Main .Sash')).toHaveCount(2)
+    const secondGroup = groups.nth(1)
+    await expect(secondGroup).toHaveAttribute('style', nestedStyle)
+    const thirdGroup = groups.nth(2)
+    await expect(thirdGroup).toHaveAttribute('style', nestedStyle)
+    const sashes = Locator('.Main .Sash')
+    await expect(sashes).toHaveCount(2)
   }
 }

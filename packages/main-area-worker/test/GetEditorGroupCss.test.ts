@@ -76,7 +76,7 @@ test('getEditorGroupCss should use height variable for vertical layouts', () => 
   ])
 })
 
-test.each([LayoutDirection.Horizontal, LayoutDirection.Vertical])('sizes nested segments and their groups for direction %s', (direction) => {
+test.each([LayoutDirection.Horizontal, LayoutDirection.Vertical] as const)('sizes nested segments and their groups for direction %s', (direction) => {
   const nestedDirection = direction === LayoutDirection.Horizontal ? LayoutDirection.Vertical : LayoutDirection.Horizontal
   const layout: MainAreaLayout = {
     activeGroupId: 1,

@@ -53,7 +53,7 @@ jobs:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: Preserve flip trace
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: flip-trace-${{ runner.os }}
           path: '**/renderer-worker-traces/**'

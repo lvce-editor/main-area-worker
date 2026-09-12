@@ -7,8 +7,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   const tmpDir = await FileSystem.getTmpDir()
   const first = `${tmpDir}/first.txt`
   const second = `${tmpDir}/second.txt`
-  await FileSystem.writeFile(first, 'first editor')
-  await FileSystem.writeFile(second, 'second editor')
+  await FileSystem.setFiles([
+    { content: 'first editor', uri: first },
+    { content: 'second editor', uri: second },
+  ])
   await Main.openUri(first)
   await Main.splitRight()
   await Main.openUri(second)

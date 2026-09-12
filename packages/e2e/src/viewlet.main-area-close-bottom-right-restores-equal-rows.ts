@@ -5,7 +5,7 @@ export const skip = ['webkit'] as const
 
 const clickEventInit = { bubbles: true } as unknown as string
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
   await Main.closeAllEditors()
@@ -21,6 +21,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   await Main.openUri(bottomFile)
   await Main.splitRight()
 
+  const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientHeight' })
   const groups = Locator('.EditorGroup')
   const firstGroup = groups.nth(0)
   const secondGroup = groups.nth(1)
@@ -34,9 +35,9 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
 
   await expect(groups).toHaveCount(2)
   await expect(firstGroup).toHaveAttribute('style', null)
-  await expect(firstGroup).toHaveCSS('--EditorGroupHeight', '50%')
+  await expect(firstGroup).toHaveCSS('height', `${height * 0.5}px`)
   await expect(secondGroup).toHaveAttribute('style', null)
-  await expect(secondGroup).toHaveCSS('--EditorGroupHeight', '50%')
+  await expect(secondGroup).toHaveCSS('height', `${height * 0.5}px`)
   await expect(horizontalContainers).toHaveCount(1)
   await expect(verticalContainers).toHaveCount(0)
   await expect(horizontalSashes).toHaveCount(1)

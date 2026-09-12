@@ -85,7 +85,7 @@ test.each([LayoutDirection.Horizontal, LayoutDirection.Vertical] as const)('size
       activeTabId: -1,
       direction: index < 2 ? nestedDirection : direction,
       focused: false,
-      id: index + 1,
+      id: (index + 1) / 10,
       isEmpty: true,
       segmentId: 1,
       size,
@@ -96,8 +96,9 @@ test.each([LayoutDirection.Horizontal, LayoutDirection.Vertical] as const)('size
   const outerProperty = direction === LayoutDirection.Horizontal ? '--EditorGroupWidth' : '--EditorGroupHeight'
   const innerProperty = direction === LayoutDirection.Horizontal ? '--EditorGroupHeight' : '--EditorGroupWidth'
   expect(result).toHaveLength(4)
-  expect(result[0]).toContain('.EditorGroupSegment-1 {')
+  expect(result[0]).toContain('.EditorGroupSegment-0-1 {')
   expect(result[0]).toContain(`${outerProperty}: 40%;`)
+  expect(result[1]).toContain('.EditorGroup-0-1 {')
   expect(result[1]).toContain(`${innerProperty}: 25%;`)
   expect(result[2]).toContain(`${innerProperty}: 75%;`)
   expect(result[3]).toContain(`${outerProperty}: 60%;`)

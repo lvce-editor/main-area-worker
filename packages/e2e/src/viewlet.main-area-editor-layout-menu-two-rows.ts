@@ -24,6 +24,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   await expect(menuItem).toBeVisible()
   await Command.execute('TitleBar.handleMenuClick', 1, 11)
 
+  const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientHeight' })
   const groups = Locator('.EditorGroup')
   const firstGroup = groups.nth(0)
   const secondGroup = groups.nth(1)
@@ -32,10 +33,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const sash = Locator('.Main .SashHorizontal')
   await expect(groups).toHaveCount(2)
   await expect(firstGroup).toHaveAttribute('style', null)
-  await expect(firstGroup).toHaveCSS('--EditorGroupHeight', '50%')
+  await expect(firstGroup).toHaveCSS('height', `${height * 0.5}px`)
   await expect(firstGroupTab).toBeVisible()
   await expect(secondGroup).toHaveAttribute('style', null)
-  await expect(secondGroup).toHaveCSS('--EditorGroupHeight', '50%')
+  await expect(secondGroup).toHaveCSS('height', `${height * 0.5}px`)
   await expect(groupsContainer).toHaveCount(1)
   await expect(sash).toHaveCount(1)
 }

@@ -4,7 +4,7 @@ import type { DragOverlay, MainAreaLayout, TabDropIndicator } from '../MainAreaS
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getDragOverlayVirtualDom } from '../GetDragOverlayVirtualDom/GetDragOverlayVirtualDom.ts'
-import { getEditorGroupSegmentClassName } from '../GetEditorGroupSegmentClassName/GetEditorGroupSegmentClassName.ts'
+import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
 import { getGroupSegments } from '../GetGroupSegments/GetGroupSegments.ts'
 import { getSashCorner } from '../GetSashCorner/GetSashCorner.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
@@ -92,7 +92,10 @@ const renderSegmentChildren = (
     }
     children.push({
       childCount: nestedChildCount,
-      className: mergeClassNames(getContainerClassName(nestedDirection, segment.groups.length), getEditorGroupSegmentClassName(segment.groups[0].id)),
+      className: mergeClassNames(
+        getContainerClassName(nestedDirection, segment.groups.length),
+        `${getEditorGroupClassName(segment.groups[0].id)}-Segment`,
+      ),
       role: AriaRoles.None,
       type: VirtualDomElements.Div,
     })

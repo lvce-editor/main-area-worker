@@ -1,6 +1,5 @@
 import type { MainAreaLayout } from '../MainAreaLayout/MainAreaLayout.ts'
 import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
-import { getEditorGroupSegmentClassName } from '../GetEditorGroupSegmentClassName/GetEditorGroupSegmentClassName.ts'
 import { getGroupSegments, getSegmentSize } from '../GetGroupSegments/GetGroupSegments.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 
@@ -23,7 +22,7 @@ export const getEditorGroupCss = (layout: MainAreaLayout): readonly string[] => 
       continue
     }
     const segmentSize = getSegmentSize(segment)
-    rules.push(getSizeCss(getEditorGroupSegmentClassName(segment.groups[0].id), direction, segmentSize))
+    rules.push(getSizeCss(`${getEditorGroupClassName(segment.groups[0].id)}-Segment`, direction, segmentSize))
     for (const group of segment.groups) {
       const normalizedSize = Number(((group.size / segmentSize) * 100).toFixed(6))
       rules.push(getSizeCss(getEditorGroupClassName(group.id), segment.direction, normalizedSize))

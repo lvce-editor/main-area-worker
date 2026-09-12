@@ -90,7 +90,7 @@ test.each([LayoutDirection.Horizontal, LayoutDirection.Vertical] as const)('size
   const outerProperty = direction === LayoutDirection.Horizontal ? 'width' : 'height'
   const innerProperty = direction === LayoutDirection.Horizontal ? 'height' : 'width'
   expect(result).toHaveLength(4)
-  expect(result[0]).toContain('.EditorGroupSegment-0-1 {')
+  expect(result[0]).toContain('.EditorGroup-0-1-Segment {')
   expect(result[0]).toContain(`${outerProperty}: 40%;`)
   expect(result[1]).toContain('.EditorGroup-0-1 {')
   expect(result[1]).toContain(`${innerProperty}: 25%;`)

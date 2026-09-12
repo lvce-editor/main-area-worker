@@ -23,14 +23,20 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, S
     await expect(firstEditor).toBeVisible()
     const secondEditor = groups.nth(1).locator('.Editor')
     await expect(secondEditor).toBeVisible()
+    const { actual: width } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientWidth' })
+    const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), {
+      key: 'clientHeight',
+    })
     for (let flip = 0; flip < 4; flip++) {
       await Command.execute('Main.flipEditorLayout')
-      const style = flip % 2 === 0 ? 'width: 100%; height: 50%;' : 'width: 50%; height: 100%;'
+      const horizontal = flip % 2 === 1
       await expect(groups).toHaveCount(2)
       const firstGroup = groups.nth(0)
-      await expect(firstGroup).toHaveAttribute('style', style)
+      await expect(firstGroup).toHaveJSProperty('clientWidth', Math.round(horizontal ? width / 2 : width))
+      await expect(firstGroup).toHaveJSProperty('clientHeight', Math.round(horizontal ? height : height / 2))
       const secondGroup = groups.nth(1)
-      await expect(secondGroup).toHaveAttribute('style', style)
+      await expect(secondGroup).toHaveJSProperty('clientWidth', Math.round(horizontal ? width / 2 : width))
+      await expect(secondGroup).toHaveJSProperty('clientHeight', Math.round(horizontal ? height : height / 2))
       const firstTab = groups.nth(0).locator('.MainTab[title$="first.txt"]')
       await expect(firstTab).toBeVisible()
       const secondTab = groups.nth(1).locator('.MainTab[title$="second.txt"]')

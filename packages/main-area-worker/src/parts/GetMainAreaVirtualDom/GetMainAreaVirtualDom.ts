@@ -4,7 +4,8 @@ import type { DragOverlay, MainAreaLayout, TabDropIndicator } from '../MainAreaS
 import * as ClassNames from '../ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getDragOverlayVirtualDom } from '../GetDragOverlayVirtualDom/GetDragOverlayVirtualDom.ts'
-import { getGroupSegments, getSegmentSize } from '../GetGroupSegments/GetGroupSegments.ts'
+import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
+import { getGroupSegments } from '../GetGroupSegments/GetGroupSegments.ts'
 import { getSashCorner } from '../GetSashCorner/GetSashCorner.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
 import { renderEditorGroup } from '../RenderEditorGroup/RenderEditorGroup.ts'
@@ -49,10 +50,6 @@ const addDragOverlay = (dom: readonly VirtualDomNode[], dragOverlay: DragOverlay
   ]
 }
 
-const getSizeProperty = (direction: LayoutDirectionType): 'width' | 'height' => {
-  return direction === LayoutDirection.Vertical ? 'height' : 'width'
-}
-
 const renderSegmentChildren = (
   direction: LayoutDirectionType,
   groups: MainAreaLayout['groups'],
@@ -62,7 +59,6 @@ const renderSegmentChildren = (
   const segments = getGroupSegments(groups, direction)
   const children: VirtualDomNode[] = []
   let childCount = 0
-  const sizeProperty = getSizeProperty(direction)
   for (let i = 0; i < segments.length; i++) {
     const segment = segments[i]
     if (i > 0) {
@@ -74,16 +70,14 @@ const renderSegmentChildren = (
       childCount++
     }
     if (segment.direction === undefined) {
-      children.push(...renderEditorGroup(segment.groups[0], segment.startIndex, splitButtonEnabled, sizeProperty, true, tabDropIndicator))
+      children.push(...renderEditorGroup(segment.groups[0], segment.startIndex, splitButtonEnabled, true, tabDropIndicator))
       childCount++
       continue
     }
     const nestedDirection = segment.direction
-    const nestedSizeProperty = getSizeProperty(nestedDirection)
     const nestedChildCount = segment.groups.length + segment.groups.length - 1
     const nestedChildren: VirtualDomNode[] = []
     let nestedCount = 0
-    const segmentSize = getSegmentSize(segment)
     for (let j = 0; j < segment.groups.length; j++) {
       if (j > 0) {
         const beforeGroupId = segment.groups[j - 1].id
@@ -93,27 +87,16 @@ const renderSegmentChildren = (
         nestedCount++
       }
       const group = segment.groups[j]
-      const normalizedSize = Number(((group.size / segmentSize) * 100).toFixed(6))
-      nestedChildren.push(
-        ...renderEditorGroup(
-          {
-            ...group,
-            size: normalizedSize,
-          },
-          segment.startIndex + j,
-          splitButtonEnabled,
-          nestedSizeProperty,
-          true,
-          tabDropIndicator,
-        ),
-      )
+      nestedChildren.push(...renderEditorGroup(group, segment.startIndex + j, splitButtonEnabled, true, tabDropIndicator))
       nestedCount++
     }
     children.push({
       childCount: nestedChildCount,
-      className: getContainerClassName(nestedDirection, segment.groups.length),
+      className: mergeClassNames(
+        getContainerClassName(nestedDirection, segment.groups.length),
+        `${getEditorGroupClassName(segment.groups[0].id)}-Segment`,
+      ),
       role: AriaRoles.None,
-      style: sizeProperty === 'width' ? `width:${segmentSize}%;height:100%;` : `width:100%;height:${segmentSize}%;`,
       type: VirtualDomElements.Div,
     })
     children.push(...nestedChildren)
@@ -130,9 +113,8 @@ export const getMainAreaVirtualDom = (
   tabDropIndicator?: TabDropIndicator,
 ): readonly VirtualDomNode[] => {
   const { direction, groups } = layout
-  const sizeProperty = getSizeProperty(direction)
   if (groups.length === 1) {
-    return addDragOverlay(renderSingleEditorGroup(layout, splitButtonEnabled, sizeProperty, tabDropIndicator), dragOverlay)
+    return addDragOverlay(renderSingleEditorGroup(layout, splitButtonEnabled, tabDropIndicator), dragOverlay)
   }
 
   const editorGroupsContainerClassName = getContainerClassName(direction, groups.length)

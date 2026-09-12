@@ -3,7 +3,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'viewlet.main-area-editor-layout-menu-flip-layout'
 export const skip = ['webkit'] as const
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, TitleBarMenuBar }) => {
   await Main.closeAllEditors()
   const tmpDir = await FileSystem.getTmpDir()
   const file = `${tmpDir}/flip-layout.txt`
@@ -32,13 +32,17 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, TitleBarMe
   // eslint-disable-next-line e2e/no-direct-click
   await menuItem.click()
 
+  const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientHeight' })
+  const { actual: width } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientWidth' })
   const group = Locator('.EditorGroup')
   const tab = group.locator('.MainTab[title$="flip-layout.txt"]')
   await expect(group).toHaveCount(2)
   const firstGroup = group.nth(0)
-  await expect(firstGroup).toHaveAttribute('style', 'width: 100%; height: 50%;')
+  await expect(firstGroup).toHaveJSProperty('clientWidth', width)
+  await expect(firstGroup).toHaveJSProperty('clientHeight', Math.round(height / 2))
   const secondGroup = group.nth(1)
-  await expect(secondGroup).toHaveAttribute('style', 'width: 100%; height: 50%;')
+  await expect(secondGroup).toHaveJSProperty('clientWidth', width)
+  await expect(secondGroup).toHaveJSProperty('clientHeight', Math.round(height / 2))
   const secondTab = group.nth(1).locator('.MainTab[title$="flip-layout-second.txt"]')
   await expect(secondTab).toBeVisible()
   await expect(tab).toBeVisible()

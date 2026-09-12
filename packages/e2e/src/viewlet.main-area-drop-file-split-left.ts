@@ -23,6 +23,8 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const leftGroup = groups.nth(0)
   const rightGroup = groups.nth(1)
   await expect(groups).toHaveCount(2)
-  await expect(leftGroup.locator('.MainTab[title$="drop-split-left-dropped.txt"]')).toBeVisible()
-  await expect(rightGroup.locator('.MainTab[title$="drop-split-left-original.txt"]')).toBeVisible()
+  const leftGroupDroppedTab = leftGroup.locator('.MainTab[title$="drop-split-left-dropped.txt"]')
+  await expect(leftGroupDroppedTab).toBeVisible()
+  const rightGroupOriginalTab = rightGroup.locator('.MainTab[title$="drop-split-left-original.txt"]')
+  await expect(rightGroupOriginalTab).toBeVisible()
 }

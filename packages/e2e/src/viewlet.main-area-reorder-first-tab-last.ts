@@ -20,7 +20,10 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
 
   await expect(thirdTab).toHaveAttribute('style', 'box-shadow: white -2px 0px 0px inset;')
   await Command.execute('Main.handleDrop', dropId)
-  await expect(firstTab.locator('.TabTitle')).toHaveText('reorder-first-last-2.txt')
-  await expect(secondTab.locator('.TabTitle')).toHaveText('reorder-first-last-3.txt')
-  await expect(thirdTab.locator('.TabTitle')).toHaveText('reorder-first-last-1.txt')
+  const firstTabTitle = firstTab.locator('.TabTitle')
+  await expect(firstTabTitle).toHaveText('reorder-first-last-2.txt')
+  const secondTabTitle = secondTab.locator('.TabTitle')
+  await expect(secondTabTitle).toHaveText('reorder-first-last-3.txt')
+  const thirdTabTitle = thirdTab.locator('.TabTitle')
+  await expect(thirdTabTitle).toHaveText('reorder-first-last-1.txt')
 }

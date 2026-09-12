@@ -45,18 +45,6 @@ jobs:
         if: steps.npm-cache.outputs.cache-hit != 'true'
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
-      - name: Diagnose populated flip in WebKit
-        if: runner.os != 'Windows'
-        working-directory: ./packages/e2e
-        run: npm run e2e:webkit:headless -- --filter=editor-layout-flip-populated --trace-renderer-worker
-        env:
-          PLAYWRIGHT_BROWSERS_PATH: 0
-      - name: Preserve flip trace
-        if: failure()
-        uses: actions/upload-artifact@v7
-        with:
-          name: flip-trace-${{ runner.os }}
-          path: '**/renderer-worker-traces/**'
       - name: e2e
         working-directory: ./packages/e2e
         run: npm run e2e:headless

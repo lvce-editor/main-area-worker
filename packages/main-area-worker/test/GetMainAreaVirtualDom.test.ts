@@ -46,7 +46,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       childCount: 2,
       className: 'EditorGroup EditorGroup-1',
       'data-groupId': '1',
-      style: 'width:100%;',
+      style: 'width:100%;height:100%;',
       type: VirtualDomElements.Div,
     },
     {
@@ -174,7 +174,7 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
       className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-      style: 'width:100%;',
+      style: 'width:100%;height:100%;',
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -285,8 +285,8 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
   expect(editorGroupNodes).toHaveLength(2)
   expect(editorGroupNodes[0]['data-groupId']).toBe('1')
   expect(editorGroupNodes[1]['data-groupId']).toBe('2')
-  expect(editorGroupNodes[0].style).toBe('height:50%;')
-  expect(editorGroupNodes[1].style).toBe('height:50%;')
+  expect(editorGroupNodes[0].style).toBe('width:100%;height:50%;')
+  expect(editorGroupNodes[1].style).toBe('width:100%;height:50%;')
 })
 
 test('getMainAreaVirtualDom should render nested split groups without flattening the parent axis', () => {

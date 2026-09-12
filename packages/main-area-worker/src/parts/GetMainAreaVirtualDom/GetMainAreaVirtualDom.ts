@@ -113,7 +113,7 @@ const renderSegmentChildren = (
       childCount: nestedChildCount,
       className: getContainerClassName(nestedDirection, segment.groups.length),
       role: AriaRoles.None,
-      style: `${sizeProperty}:${segmentSize}%;`,
+      style: sizeProperty === 'width' ? `width:${segmentSize}%;height:100%;` : `width:100%;height:${segmentSize}%;`,
       type: VirtualDomElements.Div,
     })
     children.push(...nestedChildren)

@@ -31,9 +31,9 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const groupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
   const sash = Locator('.Main .SashVertical')
   await expect(groups).toHaveCount(2)
-  await expect(firstGroup).toHaveAttribute('style', 'width: 50%;')
+  await expect(firstGroup).toHaveAttribute('style', 'width: 50%; height: 100%;')
   await expect(firstGroupTab).toBeVisible()
-  await expect(secondGroup).toHaveAttribute('style', 'width: 50%;')
+  await expect(secondGroup).toHaveAttribute('style', 'width: 50%; height: 100%;')
   await expect(groupsContainer).toHaveCount(1)
   await expect(sash).toHaveCount(1)
 }

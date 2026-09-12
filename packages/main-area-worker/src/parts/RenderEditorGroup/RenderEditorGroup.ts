@@ -21,7 +21,8 @@ export const renderEditorGroup = (
   tabDropIndicator?: TabDropIndicator,
 ): readonly VirtualDomNode[] => {
   const activeTab = group.tabs.find((tab: any) => tab.id === group.activeTabId)
-  const style = `${sizeProperty}:${group.size}%;`
+  // Inline style updates merge properties, so reset the cross axis when the layout flips.
+  const style = sizeProperty === 'width' ? `width:${group.size}%;height:100%;` : `width:100%;height:${group.size}%;`
   const hasTabs = group.tabs.length > 0
   const hasEmptyGroupCloseButton = !hasTabs
 

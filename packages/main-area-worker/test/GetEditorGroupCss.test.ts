@@ -3,7 +3,7 @@ import type { MainAreaLayout } from '../src/parts/MainAreaLayout/MainAreaLayout.
 import { getEditorGroupCss } from '../src/parts/GetEditorGroupCss/GetEditorGroupCss.ts'
 import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 
-test('getEditorGroupCss should use width variable for horizontal layouts', () => {
+test('getEditorGroupCss should use width for horizontal layouts', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
     direction: LayoutDirection.Horizontal,
@@ -33,21 +33,17 @@ test('getEditorGroupCss should use width variable for horizontal layouts', () =>
 
   expect(result).toEqual([
     `.EditorGroup-1 {
-  --EditorGroupWidth: 40%;
-  --EditorGroupHeight: 100%;
-  width: var(--EditorGroupWidth);
-  height: var(--EditorGroupHeight);
+  width: 40%;
+  height: 100%;
 }`,
     `.EditorGroup-2 {
-  --EditorGroupWidth: 60%;
-  --EditorGroupHeight: 100%;
-  width: var(--EditorGroupWidth);
-  height: var(--EditorGroupHeight);
+  width: 60%;
+  height: 100%;
 }`,
   ])
 })
 
-test('getEditorGroupCss should use height variable for vertical layouts', () => {
+test('getEditorGroupCss should use height for vertical layouts', () => {
   const layout: MainAreaLayout = {
     activeGroupId: 1,
     direction: LayoutDirection.Vertical,
@@ -68,10 +64,8 @@ test('getEditorGroupCss should use height variable for vertical layouts', () => 
 
   expect(result).toEqual([
     `.EditorGroup-1 {
-  --EditorGroupWidth: 100%;
-  --EditorGroupHeight: 100%;
-  width: var(--EditorGroupWidth);
-  height: var(--EditorGroupHeight);
+  width: 100%;
+  height: 100%;
 }`,
   ])
 })
@@ -93,8 +87,8 @@ test.each([LayoutDirection.Horizontal, LayoutDirection.Vertical] as const)('size
     })),
   }
   const result = getEditorGroupCss(layout)
-  const outerProperty = direction === LayoutDirection.Horizontal ? '--EditorGroupWidth' : '--EditorGroupHeight'
-  const innerProperty = direction === LayoutDirection.Horizontal ? '--EditorGroupHeight' : '--EditorGroupWidth'
+  const outerProperty = direction === LayoutDirection.Horizontal ? 'width' : 'height'
+  const innerProperty = direction === LayoutDirection.Horizontal ? 'height' : 'width'
   expect(result).toHaveLength(4)
   expect(result[0]).toContain('.EditorGroupSegment-0-1 {')
   expect(result[0]).toContain(`${outerProperty}: 40%;`)

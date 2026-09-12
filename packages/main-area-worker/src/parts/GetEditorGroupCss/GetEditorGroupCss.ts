@@ -8,10 +8,8 @@ const getSizeCss = (className: string, direction: number, size: number): string 
   const width = direction === LayoutDirection.Vertical ? 100 : size
   const height = direction === LayoutDirection.Vertical ? size : 100
   return `.${className} {
-  --EditorGroupWidth: ${width}%;
-  --EditorGroupHeight: ${height}%;
-  width: var(--EditorGroupWidth);
-  height: var(--EditorGroupHeight);
+  width: ${width}%;
+  height: ${height}%;
 }`
 }
 

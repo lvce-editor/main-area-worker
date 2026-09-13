@@ -3,6 +3,10 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'viewlet.main-area-sash-vertical'
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
+  const waitForNextFrame = async (): Promise<void> => {
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+  }
+
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.ts`
   const file2 = `${tmpDir}/file2.ts`
@@ -20,7 +24,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await expect(sash).toHaveCount(1)
 
   const border = sash.locator('.SashBorder')
-  const pointerDown = { bubbles: true, button: 0, clientX: 500, clientY: 1, pointerId: 1 }
+  const pointerDown = { bubbles: true, button: 0, buttons: 1, clientX: 500, clientY: 1, pointerId: 1, pointerType: 'mouse' }
   const editorGroups = Locator('.EditorGroup')
   const firstGroup = editorGroups.first()
   const secondGroup = editorGroups.nth(1)
@@ -32,9 +36,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   })
 
   await border.dispatchEvent('pointerdown', pointerDown as any)
+  await waitForNextFrame()
   await border.dispatchEvent('pointermove', { ...pointerDown, clientY: 600 } as any)
-  await border.dispatchEvent('pointerup', { ...pointerDown, clientY: 600 } as any)
+  await waitForNextFrame()
+  await border.dispatchEvent('pointerup', { ...pointerDown, buttons: 0, clientY: 600 } as any)
   await border.dispatchEvent('lostpointercapture', {} as any)
+  await waitForNextFrame()
 
   const { actual: resizedFirstGroupHeight } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', firstGroup, {
     key: 'clientHeight',
@@ -49,9 +56,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   }
 
   await border.dispatchEvent('pointerdown', { ...pointerDown, clientY: 600 } as any)
+  await waitForNextFrame()
   await border.dispatchEvent('pointermove', { ...pointerDown, clientY: 1 } as any)
-  await border.dispatchEvent('pointerup', { ...pointerDown, clientY: 1 } as any)
+  await waitForNextFrame()
+  await border.dispatchEvent('pointerup', { ...pointerDown, buttons: 0, clientY: 1 } as any)
   await border.dispatchEvent('lostpointercapture', {} as any)
+  await waitForNextFrame()
 
   const { actual: restoredFirstGroupHeight } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', firstGroup, {
     key: 'clientHeight',

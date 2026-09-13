@@ -34,6 +34,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await border.dispatchEvent('pointerdown', pointerDown as any)
   await border.dispatchEvent('pointermove', { ...pointerDown, clientX: 900 } as any)
   await border.dispatchEvent('pointerup', { ...pointerDown, clientX: 900 } as any)
+  await border.dispatchEvent('lostpointercapture', {} as any)
 
   const { actual: resizedFirstGroupWidth } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', firstGroup, {
     key: 'clientWidth',
@@ -50,6 +51,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   await border.dispatchEvent('pointerdown', { ...pointerDown, clientX: 900 } as any)
   await border.dispatchEvent('pointermove', { ...pointerDown, clientX: 1 } as any)
   await border.dispatchEvent('pointerup', { ...pointerDown, clientX: 1 } as any)
+  await border.dispatchEvent('lostpointercapture', {} as any)
 
   const { actual: restoredFirstGroupWidth } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', firstGroup, {
     key: 'clientWidth',

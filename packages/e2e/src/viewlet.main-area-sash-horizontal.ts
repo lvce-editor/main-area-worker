@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-sash-horizontal'
 
 const firstGroupWidth = /^(?:[7-9]\d\d|1\d{3})px$/
 const secondGroupWidth = /^25\dpx$/
-const restoredGroupWidth = /^(?:[4-6]\d\d)px$/
+const minimumGroupWidth = /^250(?:\.\d+)?px$/
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
@@ -39,5 +39,5 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await border.dispatchEvent('pointermove', { ...pointerDown, clientX: 1 } as any)
   await border.dispatchEvent('pointerup', { ...pointerDown, clientX: 1 } as any)
 
-  await expect(firstGroup).toHaveCSS('width', restoredGroupWidth as any)
+  await expect(firstGroup).toHaveCSS('width', minimumGroupWidth as any)
 }

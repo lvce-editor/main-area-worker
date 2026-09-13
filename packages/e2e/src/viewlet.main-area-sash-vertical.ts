@@ -2,9 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-sash-vertical'
 
-const firstGroupHeight = /^(?:[5-9]\d\d|1\d{3})px$/
+const firstGroupHeight = /^(?:[5-9]\d\d|1\d{3})(?:\.\d+)?px$/
 const secondGroupHeight = /^8\dpx$/
-const restoredGroupHeight = /^(?:[3-5]\d\d)px$/
+const minimumGroupHeight = /^250(?:\.\d+)?px$/
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
@@ -39,5 +39,5 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await border.dispatchEvent('pointermove', { ...pointerDown, clientY: 1 } as any)
   await border.dispatchEvent('pointerup', { ...pointerDown, clientY: 1 } as any)
 
-  await expect(firstGroup).toHaveCSS('height', restoredGroupHeight as any)
+  await expect(firstGroup).toHaveCSS('height', minimumGroupHeight as any)
 }

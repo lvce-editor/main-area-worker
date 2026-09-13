@@ -35,6 +35,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
     key: 'clientHeight',
   })
 
+  await Command.execute('PointerCapture.mock')
   await border.dispatchEvent('pointerdown', pointerDown as any)
   await waitForNextFrame()
   await border.dispatchEvent('pointermove', { ...pointerDown, clientY: 600 } as any)
@@ -69,4 +70,5 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   if (restoredFirstGroupHeight === resizedFirstGroupHeight) {
     throw new Error('Expected a second sash border drag to resize the editor groups again')
   }
+  await Command.execute('PointerCapture.unmock')
 }

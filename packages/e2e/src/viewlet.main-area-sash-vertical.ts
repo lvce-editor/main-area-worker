@@ -2,11 +2,11 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-sash-vertical'
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
-  const waitForNextFrame = async (): Promise<void> => {
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
-  }
+const waitForNextFrame = async (): Promise<void> => {
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+}
 
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()
   const file1 = `${tmpDir}/file1.ts`
   const file2 = `${tmpDir}/file2.ts`

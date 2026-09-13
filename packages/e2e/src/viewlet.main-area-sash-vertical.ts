@@ -19,7 +19,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.openUri(file1)
   await Main.splitDown()
 
-  const sash = Locator('.SashHorizontal')
+  const sash = Locator('.Main .SashHorizontal')
   await expect(sash).toBeVisible()
   await expect(sash).toHaveCount(1)
 

@@ -14,11 +14,11 @@ test('renderEventListeners should return array with HandleClick event listener',
   expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashCornerPointerUp)).toBe(true)
 })
 
-test('renderEventListeners should read the sash id from the current target', () => {
+test('renderEventListeners should read the sash id from the event target', () => {
   const result = RenderEventListeners.renderEventListeners()
   const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleSashPointerDown)
 
-  expect(listener?.params).toEqual(['handleSashPointerDown', 'event.currentTarget.dataset.sashId', EventExpression.ClientX, EventExpression.ClientY])
+  expect(listener?.params).toEqual(['handleSashPointerDown', 'event.target.dataset.sashId', EventExpression.ClientX, EventExpression.ClientY])
 })
 
 test('renderEventListeners should pass the mouse button to the tab click handler', () => {

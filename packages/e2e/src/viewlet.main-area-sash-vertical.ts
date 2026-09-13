@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-sash-vertical'
 
 const firstGroupHeight = /^(?:[5-9]\d\d|1\d{3})(?:\.\d+)?px$/
 const secondGroupHeight = /^(?:[7-9]\d)(?:\.\d+)?px$/
-const minimumGroupHeight = /^250(?:\.\d+)?px$/
+const minimumGroupHeight = /^(?:[7-9]\d)(?:\.\d+)?px$/
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir()

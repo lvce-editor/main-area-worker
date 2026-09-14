@@ -193,6 +193,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
       className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+      onFocus: DomEventListenerFunctions.HandleFocus,
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -247,6 +248,7 @@ test('renderEditorGroup should expose a unique group class for CSS targeting', (
     className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
     'data-groupId': '1',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+    onFocus: DomEventListenerFunctions.HandleFocus,
     tabIndex: 0,
     type: VirtualDomElements.Div,
   })

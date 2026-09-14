@@ -20,7 +20,7 @@ test('renderEventListeners should pass the empty group id to the focus handler',
 
   expect(listener).toEqual({
     name: DomEventListenerFunctions.HandleFocus,
-    params: ['handleFocus', 'event.target.dataset.groupId'],
+    params: ['handleClick', 'event.target.dataset.groupId'],
   })
 })
 

@@ -31,7 +31,6 @@ import { handleDragLeave } from '../HandleDragLeave/HandleDragLeave.ts'
 import { handleDragOver } from '../HandleDragOver/HandleDragOver.ts'
 import { handleDragStart } from '../HandleDragStart/HandleDragStart.ts'
 import { handleDrop } from '../HandleDrop/HandleDrop.ts'
-import { handleFocus } from '../HandleFocus/HandleFocus.ts'
 import { handleHeaderDoubleClick } from '../HandleHeaderDoubleClick/HandleHeaderDoubleClick.ts'
 import { handleIconThemeChange } from '../HandleIconThemeChange/HandleIconThemeChange.ts'
 import * as HandleMessagePort from '../HandleMessagePort/HandleMessagePort.ts'
@@ -192,7 +191,6 @@ export const commandMap = {
   'MainArea.handleDragOver': wrapSerialCommand(handleDragOver),
   'MainArea.handleDragStart': wrapSerialCommand(handleDragStart),
   'MainArea.handleDrop': wrapSerialAsyncCommand(handleDrop),
-  'MainArea.handleFocus': wrapSerialCommand(handleFocus),
   'MainArea.handleHeaderDoubleClick': wrapSerialCommand(handleHeaderDoubleClick),
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
   'MainArea.handleMessagePort': handleDirectMessagePort,

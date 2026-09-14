@@ -10,7 +10,7 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
     },
     {
       name: DomEventListenersFunctions.HandleFocus,
-      params: ['handleFocus', 'event.target.dataset.groupId'],
+      params: ['handleClick', 'event.target.dataset.groupId'],
     },
     {
       name: DomEventListenersFunctions.HandleClickClose,

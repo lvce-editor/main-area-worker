@@ -56,7 +56,7 @@ test('concurrent file openings keep their application through asynchronous modul
   expect(rpc.invocations.some(([method]) => method === 'Layout.createViewlet')).toBe(false)
   await notifyActiveEditorChange(source, openedSource)
   await notifyMountedViewlets(source, openedSource)
-  expect(rpc.invocations).toContainEqual(['Application.execute', 'source', 'Layout.handleActiveEditorChange', 'memfs:///main.ts'])
+  expect(rpc.invocations).toContainEqual(['Application.execute', 'source', 'Layout.handleActiveEditorChange', 'memfs:///main.ts', true])
   expect(rpc.invocations).toContainEqual(['Application.execute', 'source', 'Layout.setMountedViewlets', 1, [sourceTab.editorUid]])
 })
 

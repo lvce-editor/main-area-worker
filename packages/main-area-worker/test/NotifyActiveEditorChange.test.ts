@@ -4,7 +4,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { notifyActiveEditorChange } from '../src/parts/NotifyActiveEditorChange/NotifyActiveEditorChange.ts'
 
-const createState = (uri: string): MainAreaState => ({
+const createState = (uri: string, type: 'editor' | 'image' = 'editor'): MainAreaState => ({
   ...createDefaultState(),
   layout: {
     activeGroupId: 1,
@@ -20,6 +20,10 @@ const createState = (uri: string): MainAreaState => ({
         tabs: uri
           ? [
               {
+                editorInput: {
+                  type,
+                  uri,
+                },
                 editorUid: 1,
                 icon: '',
                 id: 1,
@@ -40,7 +44,7 @@ test('notifies loaded viewlets when the active file changes', async () => {
     'Layout.handleActiveEditorChange': () => undefined,
   })
   await notifyActiveEditorChange(createState('file:///one.txt'), createState('file:///two.txt'))
-  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///two.txt']])
+  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///two.txt', true]])
 })
 
 test('notifies loaded viewlets with an empty uri after the last editor closes', async () => {
@@ -48,7 +52,7 @@ test('notifies loaded viewlets with an empty uri after the last editor closes', 
     'Layout.handleActiveEditorChange': () => undefined,
   })
   await notifyActiveEditorChange(createState('file:///one.txt'), createState(''))
-  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', '']])
+  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', '', false]])
 })
 
 test('does not notify viewlets when the active file is unchanged', async () => {
@@ -57,6 +61,14 @@ test('does not notify viewlets when the active file is unchanged', async () => {
   })
   await notifyActiveEditorChange(createState('file:///one.txt'), createState('file:///one.txt'))
   expect(mockRpc.invocations).toEqual([])
+})
+
+test('notifies viewlets when the active editor type changes for the same uri', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.handleActiveEditorChange': () => undefined,
+  })
+  await notifyActiveEditorChange(createState('file:///image.png', 'editor'), createState('file:///image.png', 'image'))
+  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///image.png', false]])
 })
 
 test('does not fail the editor command when viewlets cannot receive the notification', async () => {

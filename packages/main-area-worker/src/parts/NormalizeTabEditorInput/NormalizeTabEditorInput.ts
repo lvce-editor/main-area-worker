@@ -1,4 +1,5 @@
 import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 
 const imageExtensions = new Set(['.avif', '.bmp', '.gif', '.ico', '.jpeg', '.jpg', '.png', '.svg', '.tif', '.tiff', '.webp'])
 const videoExtensions = new Set(['.avi', '.m4v', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogv', '.webm'])
@@ -175,7 +176,7 @@ export const normalizeTabEditorInput = (tab: any): any => {
     editorInput,
     ...(editorInput.type === 'binary' && {
       editorUid: -1,
-      loadingState: 'binary',
+      loadingState: LoadingState.Binary,
     }),
     uri,
   }

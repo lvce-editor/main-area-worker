@@ -92,7 +92,7 @@ test('openInput should show a binary file placeholder without creating a viewlet
       uri: 'file:///path/to/archive.zip',
     },
     editorUid: -1,
-    loadingState: 'binary',
+    loadingState: 4,
     title: 'archive.zip',
     uri: 'file:///path/to/archive.zip',
   })
@@ -118,7 +118,7 @@ test('openInput should show a large file placeholder without creating a viewlet'
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
     editorUid: -1,
     fileSize: 2 * 1024 * 1024,
-    loadingState: 'large',
+    loadingState: 6,
   })
   expect(mockRpc.invocations).not.toContainEqual(expect.arrayContaining(['Layout.createViewlet']))
 })
@@ -140,7 +140,7 @@ test('openInput renders loaded editor content before the title request finishes'
     'Layout.getModuleId': async () => 'Editor',
     'Layout.renderMainAreaPending': async () => {
       const tab = state.layout.groups[0].tabs[0]
-      expect(tab.loadingState).toBe('loaded')
+      expect(tab.loadingState).toBe(3)
       rendered.resolve()
     },
     'Viewlet.getTitle': async () => {
@@ -308,7 +308,7 @@ test('openInput should activate and focus an existing diff editor tab when reque
               isDirty: false,
               isPreview: false,
               language: '',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'left.ts - right.ts',
               uri: 'diff://?left=file%3A%2F%2F%2Fpath%2Fto%2Fleft.ts&right=file%3A%2F%2F%2Fpath%2Fto%2Fright.ts',
             },
@@ -351,7 +351,7 @@ test('openInput should show an error when opening a folder path', async () => {
 
   const tab = result.layout.groups[0].tabs[0]
 
-  expect(tab.loadingState).toBe('error')
+  expect(tab.loadingState).toBe(5)
   expect(tab.errorMessage).toBe('Expected a file but received a folder')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([['FileSystem.stat', '/tmp/folder-to-open']])
 })
@@ -386,7 +386,7 @@ test('openInput should activate an existing stored tab when the call-site state 
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file.ts',
               uri: 'file:///path/to/file.ts',
             },
@@ -433,7 +433,7 @@ test('openInput should use default options and initialize missing stored state',
 
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
     isPreview: false,
-    loadingState: 'loaded',
+    loadingState: 3,
     uri: 'file:///new.ts',
   })
   expect(mockRpc.invocations.filter(isSetupInvocation)).toHaveLength(2)
@@ -462,7 +462,7 @@ test('openInput should expose an Error message when resolving the viewlet fails'
 
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
     errorMessage: 'module lookup failed',
-    loadingState: 'error',
+    loadingState: 5,
   })
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///failed.ts'],
@@ -493,6 +493,6 @@ test('openInput should use a generic message for non-Error failures', async () =
 
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
     errorMessage: 'Failed to open URI',
-    loadingState: 'error',
+    loadingState: 5,
   })
 })

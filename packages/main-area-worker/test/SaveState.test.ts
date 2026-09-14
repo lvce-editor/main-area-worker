@@ -785,7 +785,7 @@ test('saveState should not persist live editor instance state', () => {
               id: 1,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'active.ts',
               uri: '/tmp/active.ts',
             },

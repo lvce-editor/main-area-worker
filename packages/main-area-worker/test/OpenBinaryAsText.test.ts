@@ -28,7 +28,7 @@ test('openBinaryAsText reopens the binary tab in the text editor', async () => {
     uri: 'file:///path/archive.zip',
   })
   expect(tab).not.toHaveProperty('editorType')
-  expect(tab.loadingState).toBe('loaded')
+  expect(tab.loadingState).toBe(3)
   expect(mockRpc.invocations).toContainEqual([
     'Layout.createViewlet',
     'Editor',

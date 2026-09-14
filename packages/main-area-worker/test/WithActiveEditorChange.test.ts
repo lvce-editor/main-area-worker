@@ -20,6 +20,10 @@ const createState = (uri: string): MainAreaState => ({
         size: 100,
         tabs: [
           {
+            editorInput: {
+              type: 'editor',
+              uri,
+            },
             editorUid: 1,
             icon: '',
             id: 1,
@@ -42,7 +46,7 @@ test('wraps state commands and notifies after their result is available', async 
   const newState = createState('file:///two.txt')
   const wrapped = withActiveEditorChange(() => newState)
   await expect(wrapped(oldState)).resolves.toBe(newState)
-  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///two.txt']])
+  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///two.txt', true]])
 })
 
 test('wraps context commands and notifies after their final update', async () => {
@@ -61,5 +65,5 @@ test('wraps context commands and notifies after their final update', async () =>
     await commandContext.updateState(() => createState('file:///two.txt'))
   })
   await wrapped(context)
-  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///two.txt']])
+  expect(mockRpc.invocations).toEqual([['Layout.handleActiveEditorChange', 'file:///two.txt', true]])
 })

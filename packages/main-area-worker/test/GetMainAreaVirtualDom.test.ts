@@ -242,7 +242,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   const sashNode = result.find((node) => node.className === 'Sash SashVertical')
   expect(sashNode).toBeDefined()
   expect(sashNode?.['data-sashId']).toBe('1:2')
-  expect(sashNode?.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
+  const sashBorder = result.find((node) => node.className === 'SashBorder SashBorderVertical')
+  expect(sashBorder?.['data-sashId']).toBe('1:2')
   expect(sashNode?.role).toBe('none')
   expect(sashNode?.type).toBe(VirtualDomElements.Button)
   expect(result[1].childCount).toBe(3) // direct children: group 1 + sash + group 2

@@ -25,6 +25,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
       className: `${ClassNames.EditorGroupEmpty} EditorGroup-1`,
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+      onFocus: DomEventListenerFunctions.HandleFocus,
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -80,6 +81,7 @@ test('renderEmptyEditorGroup should expose a unique group class for CSS targetin
     className: `${ClassNames.EditorGroupEmpty} EditorGroup-2`,
     'data-groupId': '2',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+    onFocus: DomEventListenerFunctions.HandleFocus,
     tabIndex: 0,
     type: VirtualDomElements.Div,
   })

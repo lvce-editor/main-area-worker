@@ -14,6 +14,16 @@ test('renderEventListeners should return array with HandleClick event listener',
   expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashCornerPointerUp)).toBe(true)
 })
 
+test('renderEventListeners should pass the empty group id to the focus handler', () => {
+  const result = RenderEventListeners.renderEventListeners()
+  const listener = result.find((currentListener) => currentListener.name === DomEventListenerFunctions.HandleFocus)
+
+  expect(listener).toEqual({
+    name: DomEventListenerFunctions.HandleFocus,
+    params: ['handleClick', 'event.target.dataset.groupId'],
+  })
+})
+
 test('renderEventListeners should read the sash id from the event target', () => {
   const result = RenderEventListeners.renderEventListeners()
   const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleSashPointerDown)

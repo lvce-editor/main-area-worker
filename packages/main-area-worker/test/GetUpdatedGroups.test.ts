@@ -67,7 +67,7 @@ test('getUpdatedGroups should reset loading state and error message for selected
       id: 1,
       isEmpty: false,
       size: 100,
-      tabs: [createTab(1, { errorMessage: 'failure', loadingState: 'error' }), createTab(2)],
+      tabs: [createTab(1, { errorMessage: 'failure', loadingState: 5 }), createTab(2)],
     },
   ]
 
@@ -79,7 +79,7 @@ test('getUpdatedGroups should reset loading state and error message for selected
       id: 1,
       isEmpty: false,
       size: 100,
-      tabs: [createTab(1, { errorMessage: '', loadingState: 'loading' }), createTab(2)],
+      tabs: [createTab(1, { errorMessage: '', loadingState: 2 }), createTab(2)],
     },
   ])
 })

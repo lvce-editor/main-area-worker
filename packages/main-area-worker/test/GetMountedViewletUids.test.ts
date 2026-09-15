@@ -4,7 +4,7 @@ import type { Tab } from '../src/parts/Tab/Tab.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { getMountedViewletUids } from '../src/parts/GetMountedViewletUids/GetMountedViewletUids.ts'
 
-const tab = (id: number, editorUid: number, loadingState: 'error' | 'loaded' | 'loading'): Tab => ({
+const tab = (id: number, editorUid: number, loadingState: 5 | 3 | 2): Tab => ({
   editorUid,
   icon: '',
   id,
@@ -29,7 +29,7 @@ test('returns the loaded active tab from every visible editor group', () => {
           id: 1,
           isEmpty: false,
           size: 50,
-          tabs: [tab(1, 101, 'loaded'), tab(2, 102, 'loaded')],
+          tabs: [tab(1, 101, 3), tab(2, 102, 3)],
         },
         {
           activeTabId: 3,
@@ -38,7 +38,7 @@ test('returns the loaded active tab from every visible editor group', () => {
           id: 2,
           isEmpty: false,
           size: 50,
-          tabs: [tab(3, 103, 'loaded')],
+          tabs: [tab(3, 103, 3)],
         },
       ],
     },
@@ -54,9 +54,9 @@ test('excludes loading, error, missing, and uncreated active tabs', () => {
       activeGroupId: 1,
       direction: 1,
       groups: [
-        { activeTabId: 1, direction: 1, focused: true, id: 1, isEmpty: false, size: 25, tabs: [tab(1, 101, 'loading')] },
-        { activeTabId: 2, direction: 1, focused: false, id: 2, isEmpty: false, size: 25, tabs: [tab(2, 102, 'error')] },
-        { activeTabId: 3, direction: 1, focused: false, id: 3, isEmpty: false, size: 25, tabs: [tab(3, -1, 'loaded')] },
+        { activeTabId: 1, direction: 1, focused: true, id: 1, isEmpty: false, size: 25, tabs: [tab(1, 101, 2)] },
+        { activeTabId: 2, direction: 1, focused: false, id: 2, isEmpty: false, size: 25, tabs: [tab(2, 102, 5)] },
+        { activeTabId: 3, direction: 1, focused: false, id: 3, isEmpty: false, size: 25, tabs: [tab(3, -1, 3)] },
         { activeTabId: -1, direction: 1, focused: false, id: 4, isEmpty: true, size: 25, tabs: [] },
       ],
     },

@@ -2,6 +2,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { Tab } from '../Tab/Tab.ts'
 import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { get } from '../MainAreaStates/MainAreaStates.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
@@ -55,7 +56,7 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   }
 
   const { tab } = activeTabData
-  if (tab.loadingState === 'loading') {
+  if (tab.loadingState === LoadingState.Loading) {
     return currentState
   }
 

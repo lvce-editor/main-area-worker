@@ -865,7 +865,7 @@ test('restoreMainAreaState should clear transient loading fields from restored t
               id: 2,
               isDirty: true,
               isPreview: true,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'File 2',
               uri: '/path/to/file.ts',
             },

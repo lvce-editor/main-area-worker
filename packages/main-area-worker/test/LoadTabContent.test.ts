@@ -74,11 +74,11 @@ test('findTab returns undefined when tab not found', () => {
 test('updateTab updates tab properties', () => {
   const state = createStateWithTab()
   const result = LoadTabContent.updateTab(state, 1, {
-    loadingState: 'loaded',
+    loadingState: 3,
   })
 
   const updatedTab = LoadTabContent.findTab(result, 1)
-  expect(updatedTab?.loadingState).toBe('loaded')
+  expect(updatedTab?.loadingState).toBe(3)
 })
 
 test('updateTab returns unchanged state when tab not found', () => {
@@ -98,7 +98,7 @@ test('loadTabContentAsync loads content successfully', async () => {
 
   const state: MainAreaState = {
     ...createStateWithTab({
-      loadingState: 'loading',
+      loadingState: 2,
     }),
   }
 
@@ -107,7 +107,7 @@ test('loadTabContentAsync loads content successfully', async () => {
   const result = await LoadTabContent.loadTabContentAsync(1, '/test/file.txt', requestId, getLatestState)
 
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.loadingState).toBe('loaded')
+  expect(tab?.loadingState).toBe(3)
   expect(tab?.errorMessage).toBeUndefined()
   expect(mockRpc.invocations).toHaveLength(1)
   expect(mockRpc.invocations[0]).toEqual(['FileSystem.readFile', '/test/file.txt'])
@@ -125,7 +125,7 @@ test('loadTabContentAsync handles error', async () => {
 
   const state: MainAreaState = {
     ...createStateWithTab({
-      loadingState: 'loading',
+      loadingState: 2,
     }),
   }
 
@@ -134,7 +134,7 @@ test('loadTabContentAsync handles error', async () => {
   const result = await LoadTabContent.loadTabContentAsync(1, '/test/file.txt', requestId, getLatestState)
 
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.loadingState).toBe('error')
+  expect(tab?.loadingState).toBe(5)
   expect(tab?.errorMessage).toBe('File not found')
   expect(mockRpc.invocations).toHaveLength(1)
 })
@@ -151,7 +151,7 @@ test('loadTabContentAsync normalizes directory read errors', async () => {
 
   const state: MainAreaState = {
     ...createStateWithTab({
-      loadingState: 'loading',
+      loadingState: 2,
     }),
   }
 
@@ -160,7 +160,7 @@ test('loadTabContentAsync normalizes directory read errors', async () => {
   const result = await LoadTabContent.loadTabContentAsync(1, '/test/folder', requestId, getLatestState)
 
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.loadingState).toBe('error')
+  expect(tab?.loadingState).toBe(5)
   expect(tab?.errorMessage).toBe('Expected a file but received a folder')
   expect(mockRpc.invocations).toHaveLength(1)
 })
@@ -177,7 +177,7 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
   // Simulate a newer request being started while the old one is in flight
   const newerState: MainAreaState = {
     ...createStateWithTab({
-      loadingState: 'loaded',
+      loadingState: 3,
     }),
   }
 
@@ -187,7 +187,7 @@ test('loadTabContentAsync discards result when request ID changed (race conditio
 
   // The result should be the newer state unchanged because the request IDs don't match
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.loadingState).toBe('loaded')
+  expect(tab?.loadingState).toBe(3)
 })
 
 test('loadTabContentAsync discards result when tab no longer exists', async () => {
@@ -229,7 +229,7 @@ test('loadTabContentAsync handles non-Error exception', async () => {
 
   const state: MainAreaState = {
     ...createStateWithTab({
-      loadingState: 'loading',
+      loadingState: 2,
     }),
   }
 
@@ -238,7 +238,7 @@ test('loadTabContentAsync handles non-Error exception', async () => {
   const result = await LoadTabContent.loadTabContentAsync(1, '/test/file.txt', requestId, getLatestState)
 
   const tab = LoadTabContent.findTab(result, 1)
-  expect(tab?.loadingState).toBe('error')
+  expect(tab?.loadingState).toBe(5)
   expect(tab?.errorMessage).toBe('Failed to load file content')
 })
 
@@ -291,9 +291,9 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
   }
 
   const result = LoadTabContent.updateTab(state, 2, {
-    loadingState: 'loaded',
+    loadingState: 3,
   })
 
   // Check that the second group's tab was updated
-  expect(LoadTabContent.findTab(result, 2)?.loadingState).toBe('loaded')
+  expect(LoadTabContent.findTab(result, 2)?.loadingState).toBe(3)
 })

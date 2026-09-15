@@ -20,7 +20,7 @@ test('shouldCreateViewletForSelectedTab should return true for unloaded uri tab'
 })
 
 test('shouldCreateViewletForSelectedTab should return true for loading tab with editor uid', () => {
-  expect(shouldCreateViewletForSelectedTab(createTab({ editorUid: 5, loadingState: 'loading' }))).toBe(true)
+  expect(shouldCreateViewletForSelectedTab(createTab({ editorUid: 5, loadingState: 2 }))).toBe(true)
 })
 
 test('shouldCreateViewletForSelectedTab should return false without uri', () => {
@@ -28,5 +28,5 @@ test('shouldCreateViewletForSelectedTab should return false without uri', () => 
 })
 
 test('shouldCreateViewletForSelectedTab should return false for loaded tab with existing editor', () => {
-  expect(shouldCreateViewletForSelectedTab(createTab({ editorUid: 5, loadingState: 'loaded' }))).toBe(false)
+  expect(shouldCreateViewletForSelectedTab(createTab({ editorUid: 5, loadingState: 3 }))).toBe(false)
 })

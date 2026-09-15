@@ -62,7 +62,7 @@ test('restoreClosedTabState should restore a binary tab as a binary placeholder'
       type: 'binary',
       uri: '/tmp/hello.beam',
     },
-    loadingState: 'binary',
+    loadingState: 4,
   }
   const originalGroup = createGroup(1, [binaryTab])
 
@@ -74,7 +74,7 @@ test('restoreClosedTabState should restore a binary tab as a binary placeholder'
       uri: '/tmp/hello.beam',
     },
     editorUid: -1,
-    loadingState: 'binary',
+    loadingState: 4,
   })
 })
 

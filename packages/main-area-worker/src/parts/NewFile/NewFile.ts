@@ -83,7 +83,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   let intermediateState = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
-  const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId)
+  const { newState: switchedState } = await ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId)
   intermediateState = switchedState
 
   set(uid, state, intermediateState)

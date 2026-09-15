@@ -68,6 +68,13 @@ const shouldRetryExistingTab = (
   )
 }
 
+const getViewletArgs = (options: OpenInputOptions): readonly unknown[] | undefined => {
+  if (options.forceOpen !== true || options.editorInput.type !== 'editor') {
+    return options.args
+  }
+  return [{ ...(options.args?.[0] as object), largeFile: true }, ...(options.args?.slice(1) || [])]
+}
+
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
   const state = context.getState()
   Assert.object(state)
@@ -161,7 +168,8 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       throw new Error('invalid editorUid')
     }
 
-    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, options.args, state.applicationId)
+    const args = getViewletArgs(options)
+    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, args, state.applicationId)
 
     const latestState = context.getState()
     let readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)

@@ -5,8 +5,11 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 export const renderPendingViewletUpdate = (oldState: MainAreaState, newState: MainAreaState): readonly any[] => {
   const update = newState.pendingViewletUpdate
   newState.pendingViewletUpdate = undefined
+  if (!update) {
+    return []
+  }
   setTimeout(() => {
-    void RendererWorker.invoke('Viewlet.dispose', update!.disposal).catch(() => {})
+    void RendererWorker.invoke('Viewlet.dispose', update.disposal).catch(() => {})
   }, 50)
-  return update!.focus === undefined ? [] : ['Viewlet.setFocusContext', update!.focus, WhenExpression.FocusEditorText, 0, update!.focus, 'Editor']
+  return update.focus === undefined ? [] : ['Viewlet.setFocusContext', update.focus, WhenExpression.FocusEditorText, 0, update.focus, 'Editor']
 }

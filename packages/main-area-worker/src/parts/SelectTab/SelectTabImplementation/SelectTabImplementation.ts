@@ -27,13 +27,14 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   const { group, groupId, tab, tabId } = selectedTabData
   const normalizedTab = normalizeTabEditorInput(tab)
   const isAlreadyActive = activeGroupId === groupId && group.activeTabId === tabId
+  const needsLoading = shouldLoadContentForTab(normalizedTab)
+  const needsViewlet = normalizedTab.editorUid === -1 && Boolean(normalizedTab.uri)
 
-  if (isAlreadyActive && !shouldLoadContentForTab(normalizedTab)) {
+  if (isAlreadyActive && !needsLoading && !needsViewlet) {
     return state
   }
 
   const previousTabId = getActiveTabId(state)
-  const needsLoading = shouldLoadContentForTab(normalizedTab)
   const requestId = needsLoading ? GetNextRequestId.getNextRequestId() : 0
   const updatedGroups = getUpdatedGroups(groups, groupIndex, needsLoading, tabId)
 

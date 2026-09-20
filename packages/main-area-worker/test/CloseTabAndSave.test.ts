@@ -379,6 +379,30 @@ test('canCloseTab falls back to the two-step prompt for older dialog workers', a
   expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'ConfirmPrompt.prompt'])
 })
 
+test('canCloseTab falls back when an older dialog worker returns a boolean', async () => {
+  let promptCount = 0
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => {
+      promptCount++
+      return promptCount === 2
+    },
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+  })
+  using _dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt3': async () => false,
+  })
+  await expect(
+    canCloseTab({
+      editorUid: 123,
+      isDirty: true,
+      title: 'test.ts',
+    } as Tab),
+  ).resolves.toBe(true)
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'ConfirmPrompt.prompt'])
+})
+
 test('canCloseTab saves when older dialog workers confirm the first prompt', async () => {
   using rendererRpc = RendererWorker.registerMockRpc({
     'ConfirmPrompt.prompt': async () => true,

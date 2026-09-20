@@ -43,7 +43,7 @@ const promptSave = async (title: string): Promise<SavePromptResult> => {
     }
     try {
       const result = await DialogWorker.invoke('ConfirmPrompt.prompt3', message, options)
-      if (result !== undefined) {
+      if (['cancel', 'discard', 'save'].includes(result)) {
         return result
       }
     } catch (error) {

@@ -5,19 +5,24 @@ import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
-const confirm = async (message: string, options: Parameters<typeof RendererWorker.confirm>[1]): Promise<boolean> => {
-  try {
-    return await RendererWorker.confirm(message, options)
-  } catch (error) {
-    const errorMessage = String(error)
-    if (!errorMessage.includes('ConfirmPrompt.prompt') || !errorMessage.includes('not found')) {
-      throw error
-    }
-    return DialogWorker.invoke('ConfirmPrompt.prompt', message, options)
-  }
-}
-
 type SavePromptResult = 'cancel' | 'discard' | 'save'
+
+const promptLegacy = async (message: string, discardPrompt: string): Promise<SavePromptResult> => {
+  const shouldSave = await RendererWorker.confirm(message, {
+    cancelMessage: 'More Options',
+    confirmMessage: 'Save',
+    title: 'Save Changes',
+  })
+  if (shouldSave) {
+    return 'save'
+  }
+  const shouldDiscard = await RendererWorker.confirm(discardPrompt, {
+    cancelMessage: 'Cancel',
+    confirmMessage: "Don't Save",
+    title: 'Save Changes',
+  })
+  return shouldDiscard ? 'discard' : 'cancel'
+}
 
 const promptSave = async (title: string): Promise<SavePromptResult> => {
   const message = `Do you want to save the changes you made to ${title}?`
@@ -37,27 +42,17 @@ const promptSave = async (title: string): Promise<SavePromptResult> => {
       throw error
     }
     try {
-      return await DialogWorker.invoke('ConfirmPrompt.prompt3', message, options)
+      const result = await DialogWorker.invoke('ConfirmPrompt.prompt3', message, options)
+      if (result !== undefined) {
+        return result
+      }
     } catch (error) {
       const errorMessage = String(error)
       if (!errorMessage.includes('ConfirmPrompt.prompt3') || !errorMessage.includes('not found')) {
         throw error
       }
-      const shouldSave = await confirm(message, {
-        cancelMessage: 'More Options',
-        confirmMessage: 'Save',
-        title: 'Save Changes',
-      })
-      if (shouldSave) {
-        return 'save'
-      }
-      const shouldDiscard = await confirm(discardPrompt, {
-        cancelMessage: 'Cancel',
-        confirmMessage: "Don't Save",
-        title: 'Save Changes',
-      })
-      return shouldDiscard ? 'discard' : 'cancel'
     }
+    return promptLegacy(message, discardPrompt)
   }
 }
 

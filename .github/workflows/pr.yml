@@ -79,7 +79,6 @@ jobs:
       - run: npm run build:static
       - run: npm test
       - run: npm run type-check
-      - run: npm run lint
       - name: install playwright system dependencies
         working-directory: ./packages/e2e
         if: runner.os == 'Linux'
@@ -121,3 +120,5 @@ jobs:
             packages/e2e/test-results/**
             packages/e2e/renderer-worker-traces/**
           if-no-files-found: ignore
+      - run: npm run lint
+        if: always()

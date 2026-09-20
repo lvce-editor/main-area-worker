@@ -5,15 +5,28 @@ import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
+const confirm = async (message: string, options: Parameters<typeof RendererWorker.confirm>[1]): Promise<boolean> => {
+  try {
+    return await RendererWorker.confirm(message, options)
+  } catch (error) {
+    const errorMessage = String(error)
+    if (!errorMessage.includes('ConfirmPrompt.prompt') || !errorMessage.includes('not found')) {
+      throw error
+    }
+    return DialogWorker.invoke('ConfirmPrompt.prompt', message, options)
+  }
+}
+
 type SavePromptResult = 'cancel' | 'discard' | 'save'
 
 const promptSave = async (title: string): Promise<SavePromptResult> => {
   const message = `Do you want to save the changes you made to ${title}?`
+  const discardPrompt = `Discard the changes you made to ${title}?`
   const options = {
     cancelMessage: 'Cancel',
     confirmMessage: 'Save',
     discardMessage: "Don't Save",
-    discardPrompt: `Discard the changes you made to ${title}?`,
+    discardPrompt,
     title: 'Save Changes',
   }
   try {
@@ -23,7 +36,28 @@ const promptSave = async (title: string): Promise<SavePromptResult> => {
     if (!errorMessage.includes('ConfirmPrompt.prompt3') || !errorMessage.includes('not found')) {
       throw error
     }
-    return DialogWorker.invoke('ConfirmPrompt.prompt3', message, options)
+    try {
+      return await DialogWorker.invoke('ConfirmPrompt.prompt3', message, options)
+    } catch (error) {
+      const errorMessage = String(error)
+      if (!errorMessage.includes('ConfirmPrompt.prompt3') || !errorMessage.includes('not found')) {
+        throw error
+      }
+      const shouldSave = await confirm(message, {
+        cancelMessage: 'More Options',
+        confirmMessage: 'Save',
+        title: 'Save Changes',
+      })
+      if (shouldSave) {
+        return 'save'
+      }
+      const shouldDiscard = await confirm(discardPrompt, {
+        cancelMessage: 'Cancel',
+        confirmMessage: "Don't Save",
+        title: 'Save Changes',
+      })
+      return shouldDiscard ? 'discard' : 'cancel'
+    }
   }
 }
 

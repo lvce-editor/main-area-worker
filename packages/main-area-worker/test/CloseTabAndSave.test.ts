@@ -1,7 +1,8 @@
 import { afterEach, expect, test } from '@jest/globals'
 import { DialogWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
-import { closeTabAndSave } from '../src/parts/CloseTabAndSave/CloseTabAndSave.ts'
+import type { Tab } from '../src/parts/Tab/Tab.ts'
+import { canCloseTab, closeTabAndSave } from '../src/parts/CloseTabAndSave/CloseTabAndSave.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 
@@ -352,6 +353,99 @@ test('closeTabAndSave should keep a dirty tab open when closing is canceled', as
     ],
   ])
   expect(result).toBe(state)
+})
+
+test('canCloseTab falls back to the two-step prompt for older dialog workers', async () => {
+  let promptCount = 0
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => {
+      promptCount++
+      return promptCount === 2
+    },
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+  })
+  using dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+  })
+
+  await expect(
+    canCloseTab({
+      editorUid: 123,
+      isDirty: true,
+      title: 'test.ts',
+    } as Tab),
+  ).resolves.toBe(true)
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'ConfirmPrompt.prompt'])
+  expect(dialogRpc.invocations).toEqual([
+    [
+      'ConfirmPrompt.prompt3',
+      'Do you want to save the changes you made to test.ts?',
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
+    ],
+  ])
+})
+
+test('canCloseTab saves when older dialog workers confirm the first prompt', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+    'Editor.save': async () => ({ modified: false }),
+  })
+  using dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+  })
+
+  await expect(
+    canCloseTab({
+      editorUid: 123,
+      isDirty: true,
+      title: 'test.ts',
+    } as Tab),
+  ).resolves.toBe(true)
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'Editor.save'])
+  expect(dialogRpc.invocations).toHaveLength(1)
+})
+
+test('canCloseTab falls back to the dialog worker for older renderer workers', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt')
+    },
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+    'Editor.save': async () => ({ modified: false }),
+  })
+  using dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+  })
+
+  await expect(
+    canCloseTab({
+      editorUid: 123,
+      isDirty: true,
+      title: 'test.ts',
+    } as Tab),
+  ).resolves.toBe(true)
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'Editor.save'])
+  expect(dialogRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt'])
 })
 
 test('closeTabAndSave should close a dirty tab without saving when changes are discarded', async () => {

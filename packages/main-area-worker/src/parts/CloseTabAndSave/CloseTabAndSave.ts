@@ -5,33 +5,26 @@ import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
-const confirm = async (message: string, options: Parameters<typeof RendererWorker.confirm>[1]): Promise<boolean> => {
+type SavePromptResult = 'cancel' | 'discard' | 'save'
+
+const promptSave = async (title: string): Promise<SavePromptResult> => {
+  const message = `Do you want to save the changes you made to ${title}?`
+  const options = {
+    cancelMessage: 'Cancel',
+    confirmMessage: 'Save',
+    discardMessage: "Don't Save",
+    discardPrompt: `Discard the changes you made to ${title}?`,
+    title: 'Save Changes',
+  }
   try {
-    return await RendererWorker.confirm(message, options)
+    return await RendererWorker.invoke('ConfirmPrompt.prompt3', message, options)
   } catch (error) {
     const errorMessage = String(error)
-    if (!errorMessage.includes('ConfirmPrompt.prompt') || !errorMessage.includes('not found')) {
+    if (!errorMessage.includes('ConfirmPrompt.prompt3') || !errorMessage.includes('not found')) {
       throw error
     }
-    return DialogWorker.invoke('ConfirmPrompt.prompt', message, options)
+    return DialogWorker.invoke('ConfirmPrompt.prompt3', message, options)
   }
-}
-
-const promptSave = async (title: string): Promise<string> => {
-  const shouldSave = await confirm(`Do you want to save the changes you made to ${title}?`, {
-    cancelMessage: 'More Options',
-    confirmMessage: 'Save',
-    title: 'Save Changes',
-  })
-  if (shouldSave) {
-    return 'save'
-  }
-  const shouldDiscard = await confirm(`Discard the changes you made to ${title}?`, {
-    cancelMessage: 'Cancel',
-    confirmMessage: "Don't Save",
-    title: 'Save Changes',
-  })
-  return shouldDiscard ? 'discard' : 'cancel'
 }
 
 export const canCloseTab = async (tab: Tab): Promise<boolean> => {

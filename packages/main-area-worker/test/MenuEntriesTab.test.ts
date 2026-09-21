@@ -101,6 +101,7 @@ test('getMenuEntries includes correct path in args for reveal and find reference
     },
   }
   const result = MenuEntriesTab.getMenuEntries(state)
+  expect(getEntryById(result, 'revealInExplorerView').command).toBe('RevealInExplorer.reveal')
   expect(getEntryById(result, 'revealInExplorerView').args).toEqual(['/workspace/src/index.ts'])
   expect(getEntryById(result, 'copyPath').args).toEqual(['/workspace/src/index.ts'])
   expect(getEntryById(result, 'copyRelativePath').args).toEqual(['/workspace/src/index.ts'])

@@ -7,10 +7,55 @@ on:
 
 jobs:
   pr:
+    name: pr (${{ matrix.os }}, attempt ${{ matrix.attempt }})
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-15, windows-2025]
+        include:
+          - os: ubuntu-24.04
+            attempt: 1
+          - os: macos-15
+            attempt: 1
+          - os: windows-2025
+            attempt: 1
+          - os: windows-2025
+            attempt: 2
+          - os: windows-2025
+            attempt: 3
+          - os: windows-2025
+            attempt: 4
+          - os: windows-2025
+            attempt: 5
+          - os: windows-2025
+            attempt: 6
+          - os: windows-2025
+            attempt: 7
+          - os: windows-2025
+            attempt: 8
+          - os: windows-2025
+            attempt: 9
+          - os: windows-2025
+            attempt: 10
+          - os: windows-2025
+            attempt: 11
+          - os: windows-2025
+            attempt: 12
+          - os: windows-2025
+            attempt: 13
+          - os: windows-2025
+            attempt: 14
+          - os: windows-2025
+            attempt: 15
+          - os: windows-2025
+            attempt: 16
+          - os: windows-2025
+            attempt: 17
+          - os: windows-2025
+            attempt: 18
+          - os: windows-2025
+            attempt: 19
+          - os: windows-2025
+            attempt: 20
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     steps:
@@ -34,7 +79,6 @@ jobs:
       - run: npm run build:static
       - run: npm test
       - run: npm run type-check
-      - run: npm run lint
       - name: install playwright system dependencies
         working-directory: ./packages/e2e
         if: runner.os == 'Linux'
@@ -47,7 +91,10 @@ jobs:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: e2e
         working-directory: ./packages/e2e
-        run: npm run e2e:headless
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run e2e:headless 2>&1 | tee e2e.log
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: e2e firefox
@@ -66,3 +113,16 @@ jobs:
         run: npm run measure
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
+      - name: Upload e2e artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-${{ matrix.os }}-${{ matrix.attempt }}
+          path: |
+            packages/e2e/e2e.log
+            packages/e2e/screenshots/**
+            packages/e2e/test-results/**
+            packages/e2e/renderer-worker-traces/**
+          if-no-files-found: ignore
+      - run: npm run lint
+        if: always()

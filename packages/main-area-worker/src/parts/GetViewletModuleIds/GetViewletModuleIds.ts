@@ -4,14 +4,14 @@ import { getViewletModuleId } from '../GetViewletModuleId/GetViewletModuleId.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { normalizeTabEditorInput } from '../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 
-export const getViewletModuleIds = async (layout: MainAreaLayout, applicationId?: string): Promise<Record<string, string>> => {
+export const getViewletModuleIds = async (layout: MainAreaLayout, applicationId?: string, restoreAll = false): Promise<Record<string, string>> => {
   const { groups } = layout
   const viewletModuleIds: Record<string, string> = {}
 
   for (const group of groups) {
     const { tabs } = group
-    const activeTab = tabs.find((tab: Tab) => tab.id === group.activeTabId)
-    if (activeTab && (activeTab.editorInput || activeTab.uri)) {
+    const selectedTabs = tabs.filter((tab: Tab) => (restoreAll || tab.id === group.activeTabId) && (tab.editorInput || tab.uri))
+    for (const activeTab of selectedTabs) {
       const normalizedTab = normalizeTabEditorInput(activeTab)
       const { editorInput, uri } = normalizedTab
       const viewletModuleId = normalizedTab.editorInput

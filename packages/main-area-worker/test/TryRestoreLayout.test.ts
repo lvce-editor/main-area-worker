@@ -162,3 +162,23 @@ test('tryRestoreLayout should normalize group directions', () => {
 
   expect(result?.groups[0].direction).toBe(2)
 })
+
+test('only hotreload retains dirty flags while replacing stale worker editor IDs', () => {
+  const layout = {
+    activeGroupId: 1,
+    direction: 1,
+    groups: [
+      {
+        activeTabId: 2,
+        direction: 1,
+        focused: true,
+        id: 1,
+        isEmpty: false,
+        size: 100,
+        tabs: [{ editorUid: 100, icon: '', id: 2, isDirty: true, isPreview: false, title: 'Draft', uri: 'untitled://1' }],
+      },
+    ],
+  }
+  expect(TryRestoreLayout.tryRestoreLayout({ hotReload: true, layout })?.groups[0].tabs[0]).toMatchObject({ editorUid: -1, isDirty: true })
+  expect(TryRestoreLayout.tryRestoreLayout({ layout })?.groups[0].tabs[0]).toMatchObject({ editorUid: -1, isDirty: false })
+})

@@ -2,12 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-large-file-warning'
 
-// TODO enable after the static server includes FileSystem.getFileSize
-export const skip = 1
-
 export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator, Main, Settings }) => {
-  const tmpDir = await FileSystem.getTmpDir()
-  const testFile = `${tmpDir}/large.txt`
+  const testFile = 'file:///tmp/lvce-editor-large-file-warning.txt'
   const testContent = 'large file content '.repeat(128)
   await Settings.update({ 'files.maxFileSizeMB': 0.001 })
   await FileSystem.writeFile(testFile, testContent)

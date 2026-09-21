@@ -11,7 +11,7 @@ const tab: Tab = {
   id: 1,
   isDirty: false,
   isPreview: false,
-  loadingState: 'loaded',
+  loadingState: 3,
   title: 'file.ts',
   uri: '/file.ts',
 }

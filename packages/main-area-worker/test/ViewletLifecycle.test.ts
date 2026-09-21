@@ -25,7 +25,7 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
             id: 1,
             isDirty: false,
             language: 'typescript',
-            loadingState: 'idle',
+            loadingState: 1,
             title: 'file.txt',
             uri: '/test/file.txt',
             ...tabOverrides,
@@ -50,7 +50,7 @@ test('createViewletForTab creates viewlet command for idle tab', () => {
 })
 
 test('createViewletForTab creates a missing viewlet for a loading tab', () => {
-  const state = createStateWithTab({ loadingState: 'loading' })
+  const state = createStateWithTab({ loadingState: 2 })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
@@ -60,7 +60,7 @@ test('createViewletForTab creates a missing viewlet for a loading tab', () => {
 })
 
 test('createViewletForTab creates a missing viewlet for a loaded restored tab', () => {
-  const state = createStateWithTab({ loadingState: 'loaded' })
+  const state = createStateWithTab({ loadingState: 3 })
   const bounds = { height: 600, width: 800, x: 0, y: 0 }
 
   const result = ViewletLifecycle.createViewletForTab(state, 1, 'EditorText', bounds)
@@ -101,7 +101,7 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file1.txt',
               uri: '/test/file1.txt',
             },
@@ -113,7 +113,7 @@ test('switchViewlet with reference nodes - no attach/detach commands', () => {
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file2.txt',
               uri: '/test/file2.txt',
             },
@@ -154,7 +154,7 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file1.txt',
               uri: '/test/file1.txt',
             },
@@ -166,7 +166,7 @@ test('switchViewlet with not-ready tab - still no attach/detach commands', () =>
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file2.txt',
               uri: '/test/file2.txt',
             },
@@ -219,7 +219,7 @@ test('handleViewletReady marks viewlet as ready without attach command', () => {
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file.txt',
               uri: '/test/file.txt',
             },
@@ -262,7 +262,7 @@ test('handleViewletReady works regardless of active tab - reference nodes render
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file1.txt',
               uri: '/test/file1.txt',
             },
@@ -274,7 +274,7 @@ test('handleViewletReady works regardless of active tab - reference nodes render
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file2.txt',
               uri: '/test/file2.txt',
             },
@@ -306,7 +306,7 @@ test('handleViewletReady uses a title rendered by the provider', () => {
   const result = ViewletLifecycle.handleViewletReady(state, 100, 'Atom One Dark Theme')
 
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
-    loadingState: 'loaded',
+    loadingState: 3,
     title: 'Atom One Dark Theme',
   })
 })
@@ -317,7 +317,7 @@ test('handleViewletReady preserves the fallback title when the provider has no t
   const result = ViewletLifecycle.handleViewletReady(state, 100)
 
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
-    loadingState: 'loaded',
+    loadingState: 3,
     title: 'test.ts',
   })
 })

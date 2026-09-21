@@ -1,5 +1,6 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import { findTabByEditorUid } from '../../FindTabByEditorUid/FindTabByEditorUid.ts'
+import * as LoadingState from '../../LoadingState/LoadingState.ts'
 import { updateTab } from '../../LoadTabContent/LoadTabContent.ts'
 
 /**
@@ -23,7 +24,7 @@ export const handleViewletReady = (state: MainAreaState, editorUid: number, titl
   // Reference nodes will handle rendering at the correct position automatically
   const newState = updateTab(state, tab.id, {
     editorUid,
-    loadingState: 'loaded',
+    loadingState: LoadingState.Loaded,
     ...(title && { title }),
   })
 

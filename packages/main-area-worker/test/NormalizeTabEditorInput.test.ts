@@ -188,7 +188,7 @@ test('normalizeTabEditorInput restores the binary placeholder state', () => {
       uri: '/test/archive.zip',
     },
     editorUid: -1,
-    loadingState: 'binary',
+    loadingState: 4,
   })
 })
 

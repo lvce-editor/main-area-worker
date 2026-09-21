@@ -23,7 +23,7 @@ test.each([true, false])('opens at the requested position with shouldFocus=%s', 
     uri,
   })
   const tab = state.layout.groups[0].tabs[0]
-  expect(tab.loadingState).toBe('loaded')
+  expect(tab.loadingState).toBe(3)
   const cursorCommand = ['Viewlet.executeViewletCommand', tab.editorUid, 'cursorSet', 4, 7]
   expect(rpc.invocations).toContainEqual(cursorCommand)
   const focusCommands = rpc.invocations.filter(([method]) => method === 'Viewlet.focusSelector')
@@ -94,7 +94,7 @@ test('does not position an editor when opening fails', async () => {
     shouldFocus: false,
     uri: 'file:///workspace/test.txt',
   })
-  expect(state.layout.groups[0].tabs[0].loadingState).toBe('error')
+  expect(state.layout.groups[0].tabs[0].loadingState).toBe(5)
   expect(rpc.invocations.some(([method]) => method === 'Viewlet.executeViewletCommand')).toBe(false)
 })
 

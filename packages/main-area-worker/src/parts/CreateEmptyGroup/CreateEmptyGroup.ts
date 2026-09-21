@@ -1,6 +1,7 @@
 import type { EditorInput } from '../EditorInput/EditorInput.ts'
 import type { EditorGroup, MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 
@@ -28,7 +29,7 @@ export const createEmptyGroup = (
     isDirty: false,
     isPreview: preview,
     language: '',
-    loadingState: 'loading',
+    loadingState: LoadingState.Loading,
     title,
     uri,
     uriTitle: getUriTitle(uri, homeDirUri || ''),

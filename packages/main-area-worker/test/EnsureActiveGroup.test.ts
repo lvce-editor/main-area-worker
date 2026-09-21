@@ -30,7 +30,7 @@ test('ensureActiveGroup should add tab to existing active group', () => {
   expect(newState.layout.groups[0].tabs).toHaveLength(1)
   expect(newState.layout.groups[0].tabs[0].id).toBe(tabId)
   expect(newState.layout.groups[0].tabs[0].uri).toBe('/test/file.ts')
-  expect(newState.layout.groups[0].tabs[0].loadingState).toBe('loading')
+  expect(newState.layout.groups[0].tabs[0].loadingState).toBe(2)
   expect(newState.layout.groups[0].tabs[0].title).toBe('file.ts')
   expect(newState.layout.groups[0].activeTabId).toBe(tabId)
   expect(newState).not.toBe(state)
@@ -72,7 +72,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
             isDirty: false,
             isPreview: false,
             language: '',
-            loadingState: 'loading',
+            loadingState: 2,
             title: 'file.ts',
             uri: '/test/file.ts',
           },
@@ -147,7 +147,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
               isDirty: false,
               isPreview: false,
               language: '',
-              loadingState: 'loading',
+              loadingState: 2,
               title: 'File 1',
               uri: '/existing/file.ts',
             },
@@ -182,7 +182,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
             isDirty: false,
             isPreview: false,
             language: '',
-            loadingState: 'loading',
+            loadingState: 2,
             title: 'File 1',
             uri: '/existing/file.ts',
           },
@@ -195,7 +195,7 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
             isDirty: false,
             isPreview: false,
             language: '',
-            loadingState: 'loading',
+            loadingState: 2,
             title: 'file.ts',
             uri: '/test/file.ts',
           },
@@ -228,7 +228,7 @@ test('ensureActiveGroup should replace the active preview tab', () => {
               id: 1,
               isDirty: false,
               isPreview: true,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'old.ts',
               uri: '/test/old.ts',
             },
@@ -247,7 +247,7 @@ test('ensureActiveGroup should replace the active preview tab', () => {
   expect(tab.editorUid).not.toBe(42)
   expect(tab.icon).toBe('')
   expect(tab.isPreview).toBe(true)
-  expect(tab.loadingState).toBe('loading')
+  expect(tab.loadingState).toBe(2)
   expect(tab.title).toBe('new.ts')
   expect(tab.uri).toBe('/test/new.ts')
   expect(result.layout.groups[0].activeTabId).toBe(tab.id)

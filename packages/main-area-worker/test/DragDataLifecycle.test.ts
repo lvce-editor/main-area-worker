@@ -29,7 +29,7 @@ const createState = (): MainAreaState => {
               id: 1,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'file.txt',
               uri: '/workspace/file.txt',
             },

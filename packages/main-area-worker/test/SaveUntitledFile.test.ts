@@ -36,7 +36,7 @@ test('saving an untitled file can update its uri before the save command finishe
               isDirty: true,
               isPreview: false,
               language: 'plaintext',
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'Untitled',
               uri: oldUri,
             },

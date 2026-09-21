@@ -91,7 +91,10 @@ jobs:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: e2e
         working-directory: ./packages/e2e
-        run: npm run e2e:headless -- --filter=editor-layout-menu --trace-renderer-worker
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run e2e:headless 2>&1 | tee e2e.log
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: e2e firefox
@@ -116,6 +119,7 @@ jobs:
         with:
           name: e2e-${{ matrix.os }}-${{ matrix.attempt }}
           path: |
+            packages/e2e/e2e.log
             packages/e2e/screenshots/**
             packages/e2e/test-results/**
             packages/e2e/renderer-worker-traces/**

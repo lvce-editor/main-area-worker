@@ -1,7 +1,8 @@
 import { afterEach, expect, test } from '@jest/globals'
 import { DialogWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
-import { closeTabAndSave } from '../src/parts/CloseTabAndSave/CloseTabAndSave.ts'
+import type { Tab } from '../src/parts/Tab/Tab.ts'
+import { canCloseTab, closeTabAndSave } from '../src/parts/CloseTabAndSave/CloseTabAndSave.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 
@@ -12,7 +13,7 @@ afterEach(() => {
 
 test('closeTabAndSave should save a dirty tab before closing it using the renderer confirmation', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt3': async () => 'save',
     'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
     'Viewlet.dispose': async () => undefined,
@@ -54,9 +55,15 @@ test('closeTabAndSave should save a dirty tab before closing it using the render
 
   expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
     ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
@@ -72,7 +79,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
     'Viewlet.dispose': async () => undefined,
   })
   using mockDialogRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt3': async () => 'save',
   })
 
   const state: MainAreaState = {
@@ -108,16 +115,28 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
 
   expect(mockDialogRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
     ],
   ])
   expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
     ],
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
@@ -131,7 +150,7 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
     'Editor.save': async () => ({ modified: true }),
   })
   using mockDialogRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt3': async () => 'save',
   })
 
   const state: MainAreaState = {
@@ -170,16 +189,28 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
 
   expect(mockDialogRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to Untitled?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to Untitled?',
+        title: 'Save Changes',
+      },
     ],
   ])
   expect(mockRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to Untitled?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to Untitled?',
+        title: 'Save Changes',
+      },
     ],
     ['Editor.save', 123],
   ])
@@ -191,7 +222,7 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
     'Editor.save': async () => undefined,
   })
   using mockDialogRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt3': async () => 'save',
   })
 
   const state: MainAreaState = {
@@ -230,16 +261,28 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
 
   expect(mockDialogRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
     ],
   ])
   expect(mockRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
     ],
     ['Editor.save', 123],
   ])
@@ -249,7 +292,7 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
 test('closeTabAndSave should keep a dirty tab open when closing is canceled', async () => {
   using rendererRpc = RendererWorker.registerMockRpc({})
   using mockRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => false,
+    'ConfirmPrompt.prompt3': async () => 'cancel',
   })
 
   const state: MainAreaState = {
@@ -285,41 +328,132 @@ test('closeTabAndSave should keep a dirty tab open when closing is canceled', as
 
   expect(rendererRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
-    ],
-    [
-      'ConfirmPrompt.prompt',
-      'Discard the changes you made to test.ts?',
-      { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
     ],
   ])
   expect(mockRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
-    ],
-    [
-      'ConfirmPrompt.prompt',
-      'Discard the changes you made to test.ts?',
-      { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
     ],
   ])
   expect(result).toBe(state)
 })
 
-test('closeTabAndSave should close a dirty tab without saving when changes are discarded', async () => {
+test('canCloseTab falls back to the two-step prompt for older dialog workers', async () => {
   let promptCount = 0
-  RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async () => undefined,
-  })
-  using mockRpc = DialogWorker.registerMockRpc({
+  using rendererRpc = RendererWorker.registerMockRpc({
     'ConfirmPrompt.prompt': async () => {
       promptCount++
       return promptCount === 2
     },
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+  })
+  using _dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt3': async () => undefined,
+  })
+  await expect(
+    canCloseTab({
+      editorUid: 123,
+      isDirty: true,
+      title: 'test.ts',
+    } as Tab),
+  ).resolves.toBe(true)
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'ConfirmPrompt.prompt'])
+})
+
+test('canCloseTab falls back when an older dialog worker returns a boolean', async () => {
+  let promptCount = 0
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => {
+      promptCount++
+      return promptCount === 2
+    },
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+  })
+  using _dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt3': async () => false,
+  })
+  await expect(
+    canCloseTab({
+      editorUid: 123,
+      isDirty: true,
+      title: 'test.ts',
+    } as Tab),
+  ).resolves.toBe(true)
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'ConfirmPrompt.prompt'])
+})
+
+test('canCloseTab falls back when an older renderer worker returns undefined', async () => {
+  let promptCount = 0
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => {
+      promptCount++
+      return promptCount === 2
+    },
+    'ConfirmPrompt.prompt3': async () => undefined,
+  })
+  using _dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt3': async () => undefined,
+  })
+  await expect(
+    canCloseTab({
+      editorUid: 123,
+      isDirty: true,
+      title: 'test.ts',
+    } as Tab),
+  ).resolves.toBe(true)
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'ConfirmPrompt.prompt'])
+})
+
+test('canCloseTab saves when older dialog workers confirm the first prompt', async () => {
+  using rendererRpc = RendererWorker.registerMockRpc({
+    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+    'Editor.save': async () => ({ modified: false }),
+  })
+  using _dialogRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt3': async () => {
+      throw new Error('Command not found ConfirmPrompt.prompt3')
+    },
+  })
+  await expect(
+    canCloseTab({
+      editorUid: 123,
+      isDirty: true,
+      title: 'test.ts',
+    } as Tab),
+  ).resolves.toBe(true)
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'Editor.save'])
+})
+
+test('closeTabAndSave should close a dirty tab without saving when changes are discarded', async () => {
+  RendererWorker.registerMockRpc({
+    'Viewlet.dispose': async () => undefined,
+  })
+  using mockRpc = DialogWorker.registerMockRpc({
+    'ConfirmPrompt.prompt3': async () => 'discard',
   })
 
   const state: MainAreaState = {
@@ -355,14 +489,15 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
 
   expect(mockRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to test.ts?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
-    ],
-    [
-      'ConfirmPrompt.prompt',
-      'Discard the changes you made to test.ts?',
-      { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to test.ts?',
+        title: 'Save Changes',
+      },
     ],
   ])
   expect(result.layout.groups).toHaveLength(0)
@@ -419,7 +554,7 @@ test('closeTabAndSave should return unchanged state when the tab does not exist'
 test('closeTabAndSave should propagate unexpected dialog errors', async () => {
   using rendererRpc = RendererWorker.registerMockRpc({})
   using mockRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => {
+    'ConfirmPrompt.prompt3': async () => {
       throw new Error('dialog unavailable')
     },
   })
@@ -461,7 +596,7 @@ test('closeTabAndSave should save and close a dirty tab without a uri', async ()
     'Editor.save': async () => ({ modified: false }),
   })
   using dialogRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => true,
+    'ConfirmPrompt.prompt3': async () => 'save',
   })
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -496,9 +631,15 @@ test('closeTabAndSave should save and close a dirty tab without a uri', async ()
   expect(result.layout.groups).toHaveLength(0)
   expect(rendererRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to Untitled?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to Untitled?',
+        title: 'Save Changes',
+      },
     ],
     ['Editor.save', 1],
   ])

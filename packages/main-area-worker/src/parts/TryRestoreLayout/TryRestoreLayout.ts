@@ -3,13 +3,13 @@ import { isValidMainAreaLayout } from '../IsValidMainAreaLayout/IsValidMainAreaL
 import { normalizeLayoutDirection } from '../LayoutDirection/LayoutDirection.ts'
 import { normalizeTabEditorInput } from '../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 
-const normalizeRestoredTab = (tab: any): any => {
+const normalizeRestoredTab = (tab: any, hotReload: boolean): any => {
   const { errorMessage: _errorMessage, loadingState: _loadingState, ...rest } = tab ?? {}
   const normalizedTab = normalizeTabEditorInput(rest)
   return {
     ...normalizedTab,
     editorUid: -1,
-    isDirty: false,
+    isDirty: hotReload && tab?.isDirty === true,
     isPreview: typeof tab?.isPreview === 'boolean' ? tab.isPreview : false,
   }
 }
@@ -31,7 +31,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
   if ((savedState as Record<string, unknown>).restore === false) {
     return undefined
   }
-  const { layout } = savedState as Record<string, unknown>
+  const { hotReload, layout } = savedState as Record<string, unknown>
   if (!layout || typeof layout !== 'object') {
     return undefined
   }
@@ -58,7 +58,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
         ...group,
         activeTabId: group?.activeTabId === undefined ? -1 : group.activeTabId,
         direction: groupDirection,
-        tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : [],
+        tabs: Array.isArray(group?.tabs) ? group.tabs.map((tab: any) => normalizeRestoredTab(tab, hotReload === true)) : [],
       }
     }),
   }

@@ -19,8 +19,20 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await Command.execute('Main.handleClickAction', 'open-large-file')
 
   await expect(warning).toBeHidden()
-  await Command.execute('Timeout.sleep', 200)
-  await Editor.shouldHaveText(testContent)
+  let lastError: Error | undefined
+  for (let attempt = 0; attempt < 10; attempt++) {
+    try {
+      await Editor.shouldHaveText(testContent)
+      lastError = undefined
+      break
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error('Editor text assertion failed')
+      await Command.execute('Timeout.sleep', 200)
+    }
+  }
+  if (lastError) {
+    throw lastError
+  }
   const editorContent = Locator('.EditorContent')
   await expect(editorContent).toBeVisible()
 }

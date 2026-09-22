@@ -509,7 +509,11 @@ test('opens a dropped native file using its persisted html uri', async () => {
   expect(getState().dragOverlay).toBeUndefined()
   expect(getState().layout.groups[0].tabs[0].uri).toBe(uri)
   expect(dragRpc.invocations).toEqual([['DragAndDrop.getDroppedUrisByDropId', 1, false]])
-  expect(mockRpc.invocations).toEqual([['Layout.getModuleId', uri]])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.getFileSize', uri],
+    ['Preferences.get', 'files.maxFileSizeMB'],
+    ['Layout.getModuleId', uri],
+  ])
 })
 
 test('opens a dropped native electron file using its file uri', async () => {

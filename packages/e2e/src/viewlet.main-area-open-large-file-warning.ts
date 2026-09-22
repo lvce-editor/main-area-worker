@@ -2,14 +2,12 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-open-large-file-warning'
 
-// TODO enable after the static server includes FileSystem.getFileSize
-export const skip = 1
-
 export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator, Main, Settings }) => {
-  const tmpDir = await FileSystem.getTmpDir()
-  const testFile = `${tmpDir}/large.txt`
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const testFile = `${tmpDir}/lvce-editor-large-file-warning.txt`
   const testContent = 'large file content '.repeat(128)
-  await Settings.update({ 'files.maxFileSizeMB': 0.001 })
+  // Keep this file-loading regression independent of downloadable font support.
+  await Settings.update({ 'editor.fontFamily': 'monospace', 'files.maxFileSizeMB': 0.001 })
   await FileSystem.writeFile(testFile, testContent)
 
   await Main.openUri(testFile)
@@ -23,4 +21,6 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
 
   await expect(warning).toBeHidden()
   await Editor.shouldHaveText(testContent)
+  const editorContent = Locator('.EditorContent')
+  await expect(editorContent).toBeVisible()
 }

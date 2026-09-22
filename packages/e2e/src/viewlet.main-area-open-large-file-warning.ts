@@ -19,7 +19,7 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await Command.execute('Main.handleClickAction', 'open-large-file')
 
   await expect(warning).toBeHidden()
+  await Editor.shouldHaveText(testContent)
   const editorContent = Locator('.EditorContent')
   await expect(editorContent).toBeVisible()
-  await Editor.shouldHaveText(testContent)
 }

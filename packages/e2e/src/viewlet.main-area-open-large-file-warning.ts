@@ -19,6 +19,7 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await Command.execute('Main.handleClickAction', 'open-large-file')
 
   await expect(warning).toBeHidden()
+  await Command.execute('Timeout.sleep', 200)
   await Editor.shouldHaveText(testContent)
   const editorContent = Locator('.EditorContent')
   await expect(editorContent).toBeVisible()

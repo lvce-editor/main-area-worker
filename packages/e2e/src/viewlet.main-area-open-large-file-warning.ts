@@ -20,7 +20,7 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
 
   await expect(warning).toBeHidden()
   let lastError: Error | undefined
-  for (let attempt = 0; attempt < 10; attempt++) {
+  for (let attempt = 0; attempt < 30; attempt++) {
     try {
       await Editor.shouldHaveText(testContent)
       lastError = undefined

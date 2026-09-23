@@ -88,6 +88,7 @@ import { splitDown } from '../SplitDown/SplitDown.ts'
 import { splitLeft } from '../SplitLeft/SplitLeft.ts'
 import { splitRight } from '../SplitRight/SplitRight.ts'
 import { splitUp } from '../SplitUp/SplitUp.ts'
+import { handlePanelDrop, handleTerminalExit } from '../TerminalTransfer/TerminalTransfer.ts'
 
 const pendingLoads = new Map<number, Promise<void>>()
 const loadContent = wrapSerialCommand(LoadContent.loadContent)
@@ -195,6 +196,7 @@ export const commandMap = {
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
   'MainArea.handleMessagePort': handleDirectMessagePort,
   'MainArea.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
+  'MainArea.handlePanelDrop': wrapSerialAsyncCommand(handlePanelDrop),
   'MainArea.handleResize': resize,
   'MainArea.handleSashCornerPointerDown': wrapSerialCommand(handleSashCornerPointerDown),
   'MainArea.handleSashCornerPointerMove': wrapSerialCommand(handleSashCornerPointerMove),
@@ -208,6 +210,7 @@ export const commandMap = {
   'MainArea.handleTabMouseUp': wrapSerialCommand(resetPointerDown),
   'MainArea.handleTabsDragOver': wrapSerialCommand(handleTabsDragOver),
   'MainArea.handleTabsWheel': wrapSerialCommand(handleTabsWheel),
+  'MainArea.handleTerminalExit': wrapSerialCommand(handleTerminalExit),
   'MainArea.handleTestWorkerMessagePort': handleTestWorkerMessagePort,
   'MainArea.handleUriChange': wrapAsyncCommand(handleUriChangeWithContext),
   'MainArea.handleWorkspaceChange': wrapSerialCommand(handleWorkspaceChange),

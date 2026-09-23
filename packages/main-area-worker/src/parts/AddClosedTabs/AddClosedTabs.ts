@@ -5,6 +5,9 @@ export const addClosedTabs = (state: MainAreaState, entries: readonly ClosedTabE
   if (entries.length === 0) {
     return state
   }
-  void ClosedTabsStorage.add(state.uid, entries)
+  void ClosedTabsStorage.add(
+    state.uid,
+    entries.filter((entry) => !entry.tab.terminal),
+  )
   return state
 }

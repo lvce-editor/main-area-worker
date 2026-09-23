@@ -3,6 +3,8 @@ import { expect, test } from '@jest/globals'
 import { RendererWorker, DragAndDropWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
+import { ensureActiveGroup } from '../src/parts/EnsureActiveGroup/EnsureActiveGroup.ts'
+import { handleDrop } from '../src/parts/HandleDrop/HandleDrop.ts'
 import { renderDragData } from '../src/parts/RenderDragData/RenderDragData.ts'
 import { saveState } from '../src/parts/SaveState/SaveState.ts'
 import {
@@ -161,4 +163,101 @@ test('failed panel attachment restores the main source tab', async () => {
   const original = context.getState().layout
   await expect(releaseTerminal(context, 300, 200)).rejects.toThrow('attachment failed')
   expect(context.getState().layout).toBe(original)
+})
+
+test('drops a panel terminal beside an existing preview without replacing it', async () => {
+  using _rpc = RendererWorker.registerMockRpc({
+    'Layout.renderMainAreaPending': () => {},
+    'TerminalTransfer.commit': () => {},
+    'TerminalTransfer.resize': () => {},
+    'TerminalTransfer.takePanelTerminal': () => descriptor,
+    'Viewlet.focusSelector': () => {},
+  })
+  using _dragRpc = DragAndDropWorker.registerMockRpc({
+    'DragAndDrop.getDroppedItemsByDropId': () => ({ files: [], strings: [`lvce-terminal:${JSON.stringify(drag)}`], uris: [] }),
+  })
+  const context = createContext()
+  await context.updateState((state) => ensureActiveGroup(state, 'file:///preview.ts', true))
+  const group = context.getState().layout.groups[0]
+  const previewId = group.tabs[0].id
+  await context.updateState((state) => ({ ...state, dragOverlay: { height: 600, targetGroupId: group.id, width: 800, x: 0, y: 0 } }))
+  await handleDrop(context, 1)
+  expect(context.getState().layout.groups[0].tabs).toHaveLength(2)
+  expect(context.getState().layout.groups[0].tabs[0]).toMatchObject({ id: previewId, isPreview: false })
+})
+
+test.each([true, false])('moves an existing main terminal without transferring ownership (tab indicator: %s)', async (indicator) => {
+  using rpc = RendererWorker.registerMockRpc({
+    'Layout.renderMainAreaPending': () => {},
+    'TerminalTransfer.commit': () => {},
+    'TerminalTransfer.resize': () => {},
+    'TerminalTransfer.takePanelTerminal': () => descriptor,
+    'Viewlet.focusSelector': () => {},
+  })
+  const context = createContext()
+  await receiveTerminal(context, drag)
+  await receiveTerminal(context, { ...drag, terminalUid: 301 })
+  const group = context.getState().layout.groups[0]
+  await context.updateState((state) => ({
+    ...state,
+    dragOverlay: { height: 600, targetGroupId: group.id, width: 800, x: 0, y: 0 },
+    pointerDownGroupIndex: 0,
+    pointerDownTabIndex: 1,
+    ...(indicator && { tabDropIndicator: { groupId: group.id, index: 0 } }),
+  }))
+  using _dragRpc = DragAndDropWorker.registerMockRpc({
+    'DragAndDrop.getDroppedItemsByDropId': () => ({ files: [], strings: ['lvce-terminal:{"sourceUid":100,"terminalUid":301}'], uris: [] }),
+  })
+  const before = rpc.invocations.length
+  await handleDrop(context, 2)
+  const { tabs } = context.getState().layout.groups[0]
+  expect(tabs.map((tab) => tab.editorUid).toSorted((a, b) => a - b)).toEqual([300, 301])
+  expect(tabs.map((tab) => tab.editorUid)).toEqual(indicator ? [301, 300] : [300, 301])
+  expect(rpc.invocations).toHaveLength(before)
+  expect(context.getState().pointerDownTabIndex).toBe(-1)
+})
+
+test('ignores stale main terminal drags and clears terminal drag data after cancellation', async () => {
+  using _rpc = RendererWorker.registerMockRpc({
+    'Layout.renderMainAreaPending': () => {},
+    'TerminalTransfer.commit': () => {},
+    'TerminalTransfer.resize': () => {},
+    'TerminalTransfer.takePanelTerminal': () => descriptor,
+    'Viewlet.focusSelector': () => {},
+  })
+  const context = createContext()
+  await receiveTerminal(context, drag)
+  const initial = context.getState()
+  using _dragRpc = DragAndDropWorker.registerMockRpc({
+    'DragAndDrop.getDroppedItemsByDropId': () => ({ files: [], strings: ['lvce-terminal:{"sourceUid":100,"terminalUid":999}'], uris: [] }),
+  })
+  await handleDrop(context, 3)
+  expect(context.getState().layout).toBe(initial.layout)
+  expect(renderDragData({ ...initial, pointerDownGroupIndex: 0, pointerDownTabIndex: 0 }, initial)).toEqual([
+    'Viewlet.setDragData',
+    100,
+    { items: [], label: '' },
+  ])
+})
+
+test('routes a main terminal drop to the panel and does not resurrect a terminal that exits during failed attachment', async () => {
+  using _rpc = RendererWorker.registerMockRpc({
+    'Layout.renderMainAreaPending': () => {},
+    'TerminalTransfer.attachPanelTerminal': () => {
+      throw new Error('terminal exited')
+    },
+    'TerminalTransfer.beginPanelTransfer': () => true,
+    'TerminalTransfer.cancelPanelTransfer': () => false,
+    'TerminalTransfer.commit': () => {},
+    'TerminalTransfer.resize': () => {},
+    'TerminalTransfer.takePanelTerminal': () => descriptor,
+    'Viewlet.focusSelector': () => {},
+  })
+  const context = createContext()
+  await receiveTerminal(context, drag)
+  using _dragRpc = DragAndDropWorker.registerMockRpc({
+    'DragAndDrop.getDroppedItemsByDropId': () => ({ files: [], strings: ['lvce-terminal:{"sourceUid":100,"terminalUid":300}'], uris: [] }),
+  })
+  await expect(handlePanelDrop(context, 200, 3)).rejects.toThrow('terminal exited')
+  expect(context.getState().layout.groups).toEqual([])
 })

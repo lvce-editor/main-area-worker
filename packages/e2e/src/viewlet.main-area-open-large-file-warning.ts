@@ -29,23 +29,27 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   const icon = Locator('.EditorLargeFileWarningIcon')
   const message = Locator('.EditorContentLargeFile > p')
   const actions = Locator('.EditorContentLargeFileActions')
+  const openAnywayButton = Locator('[data-action="open-large-file"]')
+  const configureLimitButton = Locator('[data-action="configure-large-file-limit"]')
   await expect(message).toBeVisible()
   await expect(actions).toBeVisible()
-  await expect(Locator('[data-action="open-large-file"]')).toBeVisible()
-  await expect(Locator('[data-action="configure-large-file-limit"]')).toBeVisible()
+  await expect(openAnywayButton).toBeVisible()
+  await expect(configureLimitButton).toBeVisible()
   if ((await getProperty(message, 'scrollWidth')) > (await getProperty(message, 'clientWidth'))) {
     throw new Error('Expected the warning message to wrap within the editor pane')
   }
-  for (const [name, locator] of [['warning icon', icon], ['warning message', message], ['warning actions', actions]] as const) {
+  for (const [name, locator] of [
+    ['warning icon', icon],
+    ['warning message', message],
+    ['warning actions', actions],
+  ] as const) {
     const left = await getProperty(locator, 'offsetLeft')
     const width = await getProperty(locator, 'offsetWidth')
     if (left < -2 || left + width > paneWidth + 2) {
       throw new Error(`Expected ${name} to stay within the editor pane: left ${left}, width ${width}, pane width ${paneWidth}`)
     }
     if (Math.abs(left + width / 2 - paneWidth / 2) > 2) {
-      throw new Error(
-        `Expected ${name} to be horizontally centered in the editor pane: left ${left}, width ${width}, pane width ${paneWidth}`,
-      )
+      throw new Error(`Expected ${name} to be horizontally centered in the editor pane: left ${left}, width ${width}, pane width ${paneWidth}`)
     }
   }
 

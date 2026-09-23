@@ -1,7 +1,7 @@
 import type { EditorGroup, MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 const isFocused = (group: EditorGroup): boolean => {
-  return group.focused
+  return group.isFocused
 }
 
 export const getFocusedGroup = (state: MainAreaState): EditorGroup | undefined => {

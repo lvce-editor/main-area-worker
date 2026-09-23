@@ -3,7 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { getActiveTab } from '../src/parts/GetActiveTab/GetActiveTab.ts'
 
-test('getActiveTab should return active tab when group is focused and has activeTabId', () => {
+test('getActiveTab should return active tab when group is isFocused and has activeTabId', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -13,9 +13,9 @@ test('getActiveTab should return active tab when group is focused and has active
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -39,9 +39,9 @@ test('getActiveTab should return active tab when group is focused and has active
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -63,7 +63,7 @@ test('getActiveTab should return active tab when group is focused and has active
   expect(result?.groupId).toBe(1)
 })
 
-test('getActiveTab should return undefined when no group is focused', () => {
+test('getActiveTab should return undefined when no group is isFocused', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -73,9 +73,9 @@ test('getActiveTab should return undefined when no group is focused', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -95,7 +95,7 @@ test('getActiveTab should return undefined when no group is focused', () => {
   expect(result).toBeUndefined()
 })
 
-test('getActiveTab should return undefined when focused group has no activeTabId', () => {
+test('getActiveTab should return undefined when isFocused group has no activeTabId', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -105,9 +105,9 @@ test('getActiveTab should return undefined when focused group has no activeTabId
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -128,9 +128,9 @@ test('getActiveTab should return undefined when activeTabId does not match any t
         {
           activeTabId: 999,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

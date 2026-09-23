@@ -71,9 +71,9 @@ test('getDragOverlay should exclude the tab bar when an editor is open', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [],
         },

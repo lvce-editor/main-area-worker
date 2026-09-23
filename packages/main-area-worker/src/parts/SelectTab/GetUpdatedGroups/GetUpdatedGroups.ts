@@ -10,7 +10,7 @@ export const getUpdatedGroups = (
     if (index !== groupIndex) {
       return {
         ...group,
-        focused: false,
+        isFocused: false,
       }
     }
 
@@ -30,7 +30,7 @@ export const getUpdatedGroups = (
     return {
       ...group,
       activeTabId: tabId,
-      focused: true,
+      isFocused: true,
       tabs,
     }
   })

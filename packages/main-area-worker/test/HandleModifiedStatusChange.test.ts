@@ -37,9 +37,9 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs,
         },
@@ -114,9 +114,9 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -133,9 +133,9 @@ test('handleModifiedStatusChange should work with multiple editor groups', () =>
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -219,9 +219,9 @@ test('handleModifiedStatusChange should handle empty groups', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -245,9 +245,9 @@ test('handleModifiedStatusChange should preserve group properties', () => {
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 75,
           tabs: [
             {
@@ -269,7 +269,7 @@ test('handleModifiedStatusChange should preserve group properties', () => {
   const result = handleModifiedStatusChange(state, '/test/file.txt', true)
 
   expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(result.layout.groups[0].focused).toBe(true)
+  expect(result.layout.groups[0].isFocused).toBe(true)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].isEmpty).toBe(false)
   expect(result.layout.groups[0].size).toBe(75)

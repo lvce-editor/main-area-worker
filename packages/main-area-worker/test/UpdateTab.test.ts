@@ -37,9 +37,9 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs,
         },
@@ -59,9 +59,9 @@ const createStateWithMultipleGroups = (): MainAreaState => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -87,9 +87,9 @@ const createStateWithMultipleGroups = (): MainAreaState => {
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {

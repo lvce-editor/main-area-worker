@@ -17,9 +17,9 @@ test('getCss should position the sash corner at the grid intersection', () => {
       {
         activeTabId: -1,
         direction: LayoutDirection.Vertical,
-        focused: true,
         id: 1,
         isEmpty: true,
+        isFocused: true,
         segmentId: 1,
         size: 30,
         tabs: [],
@@ -27,9 +27,9 @@ test('getCss should position the sash corner at the grid intersection', () => {
       {
         activeTabId: -1,
         direction: LayoutDirection.Vertical,
-        focused: false,
         id: 2,
         isEmpty: true,
+        isFocused: false,
         segmentId: 1,
         size: 30,
         tabs: [],
@@ -37,9 +37,9 @@ test('getCss should position the sash corner at the grid intersection', () => {
       {
         activeTabId: -1,
         direction: LayoutDirection.Vertical,
-        focused: false,
         id: 3,
         isEmpty: true,
+        isFocused: false,
         segmentId: 2,
         size: 20,
         tabs: [],
@@ -47,9 +47,9 @@ test('getCss should position the sash corner at the grid intersection', () => {
       {
         activeTabId: -1,
         direction: LayoutDirection.Vertical,
-        focused: false,
         id: 4,
         isEmpty: true,
+        isFocused: false,
         segmentId: 2,
         size: 20,
         tabs: [],

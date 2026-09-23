@@ -24,9 +24,9 @@ test('splitUp should return state unchanged when group does not exist', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, 'file1.ts')],
         },
@@ -49,9 +49,9 @@ test('splitUp should split single editor group vertically', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -77,9 +77,9 @@ test('splitUp should preserve tabs in the original group', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, 'file1.ts'), createTab(2, 'file2.ts')],
         },
@@ -103,18 +103,18 @@ test('splitUp should use activeGroupId when groupId not provided', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [createTab(1, 'file1.ts')],
         },
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [createTab(2, 'file2.ts')],
         },
@@ -137,9 +137,9 @@ test('splitUp should return unchanged state when activeGroupId is -1 and groupId
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -167,7 +167,7 @@ test('splitUp with empty groups should create initial group', () => {
   expect(result.layout.groups.length).toBeGreaterThan(0)
 })
 
-test('splitUp should set new group as focused', () => {
+test('splitUp should set new group as isFocused', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -177,9 +177,9 @@ test('splitUp should set new group as focused', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, 'file1.ts')],
         },
@@ -190,5 +190,5 @@ test('splitUp should set new group as focused', () => {
   const result = SplitUp.splitUp(state, 1)
 
   expect(result.layout.groups).toHaveLength(2)
-  expect(result.layout.groups.some((g) => g.focused)).toBe(true)
+  expect(result.layout.groups.some((g) => g.isFocused)).toBe(true)
 })

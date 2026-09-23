@@ -15,9 +15,9 @@ test('handleWorkspaceChange should clear activeGroupId and groups', async () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -53,9 +53,9 @@ test('handleWorkspaceChange should preserve other state properties', async () =>
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 2,
           isEmpty: true,
+          isFocused: true,
           size: 50,
           tabs: [],
         },
@@ -115,9 +115,9 @@ test('handleWorkspaceChange should restore saved editor groups', async () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -151,9 +151,9 @@ test('handleWorkspaceChange should rebuild the file icon cache for restored tabs
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

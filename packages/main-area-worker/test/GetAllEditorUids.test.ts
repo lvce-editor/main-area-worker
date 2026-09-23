@@ -28,9 +28,9 @@ test('getAllEditorUids should return empty array when groups have no tabs', () =
         {
           activeTabId: 0,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -53,9 +53,9 @@ test('getAllEditorUids should filter out tabs with editorUid -1', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -95,9 +95,9 @@ test('getAllEditorUids should return all valid editorUids from single group', ()
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -137,9 +137,9 @@ test('getAllEditorUids should return all valid editorUids from multiple groups',
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -163,9 +163,9 @@ test('getAllEditorUids should return all valid editorUids from multiple groups',
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -197,9 +197,9 @@ test('getAllEditorUids should only return valid editorUids, filtering out -1', (
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -231,9 +231,9 @@ test('getAllEditorUids should only return valid editorUids, filtering out -1', (
         {
           activeTabId: 4,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -273,9 +273,9 @@ test('getAllEditorUids should handle three groups with mixed valid and invalid e
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 33,
           tabs: [
             {
@@ -291,9 +291,9 @@ test('getAllEditorUids should handle three groups with mixed valid and invalid e
         {
           activeTabId: 2,
           direction: 2,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 33,
           tabs: [
             {
@@ -309,9 +309,9 @@ test('getAllEditorUids should handle three groups with mixed valid and invalid e
         {
           activeTabId: 3,
           direction: 2,
-          focused: false,
           id: 3,
           isEmpty: false,
+          isFocused: false,
           size: 34,
           tabs: [
             {

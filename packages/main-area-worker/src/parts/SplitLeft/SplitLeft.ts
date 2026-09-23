@@ -13,9 +13,9 @@ export const splitLeft = (state: MainAreaState, groupId?: number): MainAreaState
     const initialGroup: EditorGroup = {
       activeTabId: -1,
       direction,
-      focused: true,
       id: initialGroupId,
       isEmpty: true,
+      isFocused: true,
       size: 100,
       tabs: [],
     }

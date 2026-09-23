@@ -19,9 +19,9 @@ const tab: Tab = {
 const group = {
   activeTabId: 1,
   direction: 1 as const,
-  focused: true,
   id: 1,
   isEmpty: false,
+  isFocused: true,
   size: 100,
   tabs: [tab],
 }

@@ -8,9 +8,9 @@ test('renderEditorGroup should return correct structure for group with active ta
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 100,
     tabs: [
       {
@@ -129,9 +129,9 @@ test('renderEditorGroup should handle group with no active tab', () => {
   const group: EditorGroup = {
     activeTabId: 999,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 100,
     tabs: [
       {
@@ -154,9 +154,9 @@ test('renderEditorGroup should handle group with custom editor', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 100,
     tabs: [
       {
@@ -179,9 +179,9 @@ test('renderEditorGroup should handle empty tabs array', () => {
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 100,
     tabs: [],
   }
@@ -235,9 +235,9 @@ test('renderEditorGroup should expose a unique group class for CSS targeting', (
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 50,
     tabs: [],
   }

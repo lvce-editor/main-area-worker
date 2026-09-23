@@ -27,9 +27,9 @@ test('closes missing text file tabs and preserves existing tabs', async () => {
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -81,9 +81,9 @@ test('ignores non-text editor inputs', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -120,9 +120,9 @@ test('preserves text file tabs when no files were deleted', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -162,9 +162,9 @@ test('reloads all open editors when the changed files are unknown', async () => 
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             createTab(1, { type: 'editor', uri: '/workspace/one.ts' }, '/workspace/one.ts', 41),
@@ -194,9 +194,9 @@ test('supports the legacy deleted uri array', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -236,9 +236,9 @@ test('retargets open files below a renamed folder', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -299,9 +299,9 @@ test('reloads matching text, diff, image, video, and webview editors', async () 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             createTab(1, { type: 'editor', uri: '/workspace/file.ts' }, '/workspace/file.ts'),
@@ -343,9 +343,9 @@ test('does not reload an editor that has no renderer instance', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, { type: 'editor', uri: '/workspace/file.ts' }, '/workspace/file.ts', -1)],
         },
@@ -384,9 +384,9 @@ test('preserves a rename when an overlapping refresh finishes later', async () =
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, { type: 'editor', uri: '/workspace/original.txt' }, '/workspace/original.txt', 42)],
         },

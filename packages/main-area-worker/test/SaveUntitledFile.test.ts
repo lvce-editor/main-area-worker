@@ -22,9 +22,9 @@ test('saving an untitled file can update its uri before the save command finishe
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

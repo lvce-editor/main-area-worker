@@ -47,9 +47,9 @@ const createStateWithOpenFile = (uri: string = 'file:///workspace/original.txt')
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -84,9 +84,9 @@ const createStateWithTwoOpenFiles = (): MainAreaState => {
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -107,9 +107,9 @@ const createStateWithTwoOpenFiles = (): MainAreaState => {
         {
           activeTabId: 4,
           direction: 1,
-          focused: false,
           id: 3,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -222,9 +222,9 @@ test('opens a dropped explorer uri', async () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -260,7 +260,7 @@ test('opens a dropped explorer uri', async () => {
   expect(state.dragOverlay).toBeUndefined()
   expect(state.layout.activeGroupId).toBe(1)
   expect(state.layout.groups[0].activeTabId).toBe(2)
-  expect(state.layout.groups[0].focused).toBe(true)
+  expect(state.layout.groups[0].isFocused).toBe(true)
 })
 
 test.each([

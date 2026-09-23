@@ -290,9 +290,9 @@ test('openInput should activate and focus an existing diff editor tab when reque
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -369,9 +369,9 @@ test('openInput should activate an existing stored tab when the call-site state 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

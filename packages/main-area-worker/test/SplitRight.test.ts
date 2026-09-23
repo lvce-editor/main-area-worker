@@ -14,9 +14,9 @@ test('splitRight should return state unchanged when group does not exist', () =>
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -39,9 +39,9 @@ test('splitRight should split single group into two horizontal groups', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -55,9 +55,9 @@ test('splitRight should split single group into two horizontal groups', () => {
   expect(result.layout.groups).toHaveLength(2)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].size).toBe(50)
-  expect(result.layout.groups[0].focused).toBe(false)
+  expect(result.layout.groups[0].isFocused).toBe(false)
   expect(result.layout.groups[1].size).toBe(50)
-  expect(result.layout.groups[1].focused).toBe(true)
+  expect(result.layout.groups[1].isFocused).toBe(true)
   expect(result.layout.groups[1].tabs).toHaveLength(0)
 })
 
@@ -71,9 +71,9 @@ test('splitRight should set new group as active', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -97,9 +97,9 @@ test('splitRight should place new group to the right', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -124,18 +124,18 @@ test('splitRight should split with multiple existing groups', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 50,
           tabs: [],
         },
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: true,
+          isFocused: false,
           size: 50,
           tabs: [],
         },
@@ -148,9 +148,9 @@ test('splitRight should split with multiple existing groups', () => {
   expect(result.layout.groups).toHaveLength(3)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].size).toBeCloseTo(33.333333, 5)
-  expect(result.layout.groups[0].focused).toBe(false)
+  expect(result.layout.groups[0].isFocused).toBe(false)
   expect(result.layout.groups[1].id).toBe(2)
-  expect(result.layout.groups[2].focused).toBe(true)
+  expect(result.layout.groups[2].isFocused).toBe(true)
 })
 
 test('splitRight should split middle group correctly', () => {
@@ -163,27 +163,27 @@ test('splitRight should split middle group correctly', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 33,
           tabs: [],
         },
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 2,
           isEmpty: true,
+          isFocused: true,
           size: 33,
           tabs: [],
         },
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 3,
           isEmpty: true,
+          isFocused: false,
           size: 34,
           tabs: [],
         },
@@ -197,9 +197,9 @@ test('splitRight should split middle group correctly', () => {
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[1].id).toBe(2)
   expect(result.layout.groups[1].size).toBe(25)
-  expect(result.layout.groups[1].focused).toBe(false)
+  expect(result.layout.groups[1].isFocused).toBe(false)
   expect(result.layout.groups[2].id).toBe(3)
-  expect(result.layout.groups[3].focused).toBe(true)
+  expect(result.layout.groups[3].isFocused).toBe(true)
 })
 
 test('splitRight should create new group with empty tabs', () => {
@@ -212,9 +212,9 @@ test('splitRight should create new group with empty tabs', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -258,9 +258,9 @@ test('splitRight should preserve original group tabs', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [tab],
         },
@@ -294,9 +294,9 @@ test('splitRight should maintain activeTabId in original group', () => {
         {
           activeTabId: 5,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [tab],
         },
@@ -357,7 +357,7 @@ test('splitRight should split empty groups into two when groups array is empty',
   expect(result.layout.groups[1].size).toBe(50)
 })
 
-test('splitRight should set second group as focused after splitting empty groups', () => {
+test('splitRight should set second group as isFocused after splitting empty groups', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -369,8 +369,8 @@ test('splitRight should set second group as focused after splitting empty groups
 
   const result = splitRight(state)
 
-  expect(result.layout.groups[0].focused).toBe(false)
-  expect(result.layout.groups[1].focused).toBe(true)
+  expect(result.layout.groups[0].isFocused).toBe(false)
+  expect(result.layout.groups[1].isFocused).toBe(true)
 })
 
 test('splitRight should set activeGroupId to second group after splitting empty groups', () => {
@@ -446,9 +446,9 @@ test('splitRight should use provided groupId when groups is not empty', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -471,9 +471,9 @@ test('splitRight should use activeGroupId as fallback when groupId not provided 
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -496,9 +496,9 @@ test('splitRight should use first group when activeGroupId is -1 and groups not 
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },

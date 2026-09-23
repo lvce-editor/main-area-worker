@@ -36,7 +36,7 @@ test('openUri should create a new group and tab when no groups exist', async () 
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
   expect(result.layout.groups[0].tabs[0].title).toBe('file.ts')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
-  expect(result.layout.groups[0].focused).toBe(true)
+  expect(result.layout.groups[0].isFocused).toBe(true)
 })
 
 test('openUri should add tab to active group when group exists', async () => {
@@ -49,9 +49,9 @@ test('openUri should add tab to active group when group exists', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -149,9 +149,9 @@ test('openUri should replace active preview tab instead of adding a new tab', as
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -201,9 +201,9 @@ test('openUri should replace a preview with a new tab identity and matching edit
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -278,9 +278,9 @@ test('openUri should dispose the replaced preview editor and create a new one', 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -328,9 +328,9 @@ test('openUri should activate existing tab if URI already exists', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -385,9 +385,9 @@ test('openUri should pin an existing preview tab when opened as non-preview', as
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -426,9 +426,9 @@ test('openUri should activate existing tab in different group', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -448,9 +448,9 @@ test('openUri should activate existing tab in different group', async () => {
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -484,7 +484,7 @@ test('openUri should activate existing tab in different group', async () => {
   expect(result.layout.groups[1].tabs).toHaveLength(1)
   expect(result.layout.activeGroupId).toBe(2)
   expect(result.layout.groups[1].activeTabId).toBe(2)
-  expect(result.layout.groups[1].focused).toBe(true)
+  expect(result.layout.groups[1].isFocused).toBe(true)
 })
 
 test('openUri should create group when activeGroupId points to non-existent group', async () => {
@@ -721,9 +721,9 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -1205,9 +1205,9 @@ test('openUri should preserve existing tabs when race condition occurs', async (
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

@@ -4,7 +4,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { newFile } from '../src/parts/NewFile/NewFile.ts'
 
-test.each([1, -1])('newFile should create a new empty tab in the active or focused group (activeGroupId: %s)', async (activeGroupId) => {
+test.each([1, -1])('newFile should create a new empty tab in the active or isFocused group (activeGroupId: %s)', async (activeGroupId) => {
   // @ts-ignore
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
@@ -19,9 +19,9 @@ test.each([1, -1])('newFile should create a new empty tab in the active or focus
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -86,9 +86,9 @@ test('newFile should preserve existing tabs when creating new tab', async () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -145,9 +145,9 @@ test('newFile should create a new tab with unique ID', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -188,9 +188,9 @@ test('newFile should set active group to the group where tab was created', async
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -229,9 +229,9 @@ test('newFile should create a group when existing groups are inactive', async ()
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },

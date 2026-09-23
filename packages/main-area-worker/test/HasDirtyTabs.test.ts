@@ -13,9 +13,9 @@ test('hasDirtyTabs should return true when dirty tabs exist', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -45,9 +45,9 @@ test('hasDirtyTabs should return false when no dirty tabs exist', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

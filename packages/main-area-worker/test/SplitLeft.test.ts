@@ -24,9 +24,9 @@ test('splitLeft should return state unchanged when group does not exist', () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, 'file1.ts')],
         },
@@ -49,9 +49,9 @@ test('splitLeft should split single editor group horizontally', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -64,9 +64,9 @@ test('splitLeft should split single editor group horizontally', () => {
 
   expect(result.layout.direction).toBe(1)
   expect(result.layout.groups).toHaveLength(2)
-  expect(result.layout.groups[0].focused).toBe(true)
+  expect(result.layout.groups[0].isFocused).toBe(true)
   expect(result.layout.groups[0].size).toBe(50)
-  expect(result.layout.groups[1].focused).toBe(false)
+  expect(result.layout.groups[1].isFocused).toBe(false)
   expect(result.layout.groups[1].size).toBe(50)
   expect(result.layout.activeGroupId).toBe(newGroupId)
 })
@@ -81,9 +81,9 @@ test('splitLeft should preserve tabs in the original group', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, 'file1.ts'), createTab(2, 'file2.ts')],
         },
@@ -108,18 +108,18 @@ test('splitLeft should use activeGroupId when groupId not provided', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [createTab(1, 'file1.ts')],
         },
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [createTab(2, 'file2.ts')],
         },
@@ -149,7 +149,7 @@ test('splitLeft with empty groups should create initial group', () => {
   expect(result.layout.groups[1].isEmpty).toBe(true)
 })
 
-test('splitLeft should set new group as focused', () => {
+test('splitLeft should set new group as isFocused', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -159,9 +159,9 @@ test('splitLeft should set new group as focused', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, 'file1.ts')],
         },
@@ -171,6 +171,6 @@ test('splitLeft should set new group as focused', () => {
 
   const result = SplitLeft.splitLeft(state, 1)
 
-  expect(result.layout.groups[0].focused).toBe(true)
-  expect(result.layout.groups[1].focused).toBe(false)
+  expect(result.layout.groups[0].isFocused).toBe(true)
+  expect(result.layout.groups[1].isFocused).toBe(false)
 })

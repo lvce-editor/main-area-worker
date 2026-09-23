@@ -261,3 +261,10 @@ test('routes a main terminal drop to the panel and does not resurrect a terminal
   await expect(handlePanelDrop(context, 200, 3)).rejects.toThrow('terminal exited')
   expect(context.getState().layout.groups).toEqual([])
 })
+
+test('accepts fractional renderer viewlet ids used by the live application', () => {
+  expect(parseTerminalDrag(['lvce-terminal:{"sourceUid":0.3915119890430704,"terminalUid":0.8123456789}'])).toEqual({
+    sourceUid: 0.3915119890430704,
+    terminalUid: 0.8123456789,
+  })
+})

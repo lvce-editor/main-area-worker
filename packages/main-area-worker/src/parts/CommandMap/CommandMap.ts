@@ -69,7 +69,7 @@ import { reopenEditorWith } from '../ReopenEditorWith/ReopenEditorWith.ts'
 import { resetPointerDown } from '../ResetPointerDown/ResetPointerDown.ts'
 import * as Resize from '../Resize/Resize.ts'
 import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
-import { save } from '../Save/Save.ts'
+import * as Save from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
 import { setComponentState } from '../SetComponentState/SetComponentState.ts'
@@ -150,7 +150,7 @@ export const commandMap = {
   'Main.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'Main.openUris': wrapSerialAsyncCommand(openUrisWithContext),
   'Main.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
-  'Main.save': wrapSerialCommand(save),
+  'Main.save': wrapSerialCommand(Save.save),
   'Main.saveState': wrapGetter(saveState),
   'Main.splitRight': wrapSerialCommand(splitRight),
   'MainArea.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
@@ -231,8 +231,9 @@ export const commandMap = {
   'MainArea.reopenEditorWith': wrapSerialAsyncCommand(reopenEditorWith),
   'MainArea.resize': resize,
   'MainArea.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
-  'MainArea.save': wrapSerialCommand(save),
+  'MainArea.save': wrapSerialCommand(Save.save),
   'MainArea.saveState': wrapGetter(saveState),
+  'MainArea.saveWithoutFormatting': wrapSerialCommand(Save.saveWithoutFormatting),
   'MainArea.selectTab': wrapSerialCommand(selectTab),
   'MainArea.setComponentState': setComponentState,
   'MainArea.setEditorLayoutGrid': wrapSerialCommand(setEditorLayoutGrid),

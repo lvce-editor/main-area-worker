@@ -3,7 +3,7 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
-import { save } from '../src/parts/Save/Save.ts'
+import { save, saveWithoutFormatting } from '../src/parts/Save/Save.ts'
 
 afterEach(() => {
   const defaultState = createDefaultState()
@@ -74,6 +74,14 @@ test('save should return state when no active tab', async () => {
   }
 
   const result = await save(state)
+
+  expect(result).toBe(state)
+})
+
+test('saveWithoutFormatting should safely return state when no active tab', async () => {
+  const state = createDefaultState()
+
+  const result = await saveWithoutFormatting(state)
 
   expect(result).toBe(state)
 })
@@ -159,6 +167,22 @@ test('save should clear dirty state after a successful save', async () => {
   expect(mockRpc.invocations).toEqual([
     ['Editor.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///file-1', false],
+  ])
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
+})
+
+test('saveWithoutFormatting should bypass formatting and clear dirty state after a successful save', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Editor.save': async () => ({ modified: false }),
+    'Main.handleModifiedStatusChange': async () => undefined,
+  })
+  const state = createSaveState()
+
+  const result = await saveWithoutFormatting(state)
+
+  expect(mockRpc.invocations).toEqual([
+    ['Editor.save', 1, true],
+    ['Main.handleModifiedStatusChange', 'file:///file.ts', false],
   ])
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
 })

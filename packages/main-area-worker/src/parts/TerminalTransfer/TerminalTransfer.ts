@@ -23,7 +23,7 @@ export const parseTerminalDrag = (strings: readonly string[]): TerminalDrag | un
   }
   try {
     const data = JSON.parse(value.slice('lvce-terminal:'.length))
-    if (Number.isSafeInteger(data.sourceUid) && data.sourceUid > 0 && Number.isSafeInteger(data.terminalUid) && data.terminalUid > 0) {
+    if (Number.isFinite(data.sourceUid) && data.sourceUid > 0 && Number.isFinite(data.terminalUid) && data.terminalUid > 0) {
       return data
     }
   } catch {

@@ -12,7 +12,8 @@ export const test: Test = async ({ expect, Locator, Main }) => {
   await expect(settingsTab).toHaveAttribute('aria-selected', 'true')
   await expect(settingsIcon).toBeVisible()
 
-  await expect(Locator('.MainTab[title="app://keybindings"] .TabIcon .MaskIconRecordKey')).toBeVisible()
+  const keybindingsIcon = Locator('.MainTab[title="app://keybindings"] .TabIcon .MaskIconRecordKey')
+  await expect(keybindingsIcon).toBeVisible()
 
   await Main.openUri('app://keybindings')
   await expect(settingsTab).toHaveAttribute('aria-selected', 'false')

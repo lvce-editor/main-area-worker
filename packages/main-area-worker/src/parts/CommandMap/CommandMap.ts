@@ -85,6 +85,7 @@ import {
   setEditorLayoutTwoRowsRight,
 } from '../SetEditorLayout/SetEditorLayout.ts'
 import { splitDown } from '../SplitDown/SplitDown.ts'
+import { splitEditorGroupAndResize } from '../SplitEditorGroupAndResize/SplitEditorGroupAndResize.ts'
 import { splitLeft } from '../SplitLeft/SplitLeft.ts'
 import { splitRight } from '../SplitRight/SplitRight.ts'
 import { splitUp } from '../SplitUp/SplitUp.ts'
@@ -92,6 +93,11 @@ import { handlePanelDrop, handleTerminalExit } from '../TerminalTransfer/Termina
 
 const pendingLoads = new Map<number, Promise<void>>()
 const loadContent = wrapSerialCommand(LoadContent.loadContent)
+
+const splitDownAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitDown, ...args))
+const splitLeftAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitLeft, ...args))
+const splitRightAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitRight, ...args))
+const splitUpAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitUp, ...args))
 
 const loadContentTracked = async (uid: number, ...args: readonly any[]): Promise<void> => {
   const loading = loadContent(uid, ...args)
@@ -152,7 +158,7 @@ export const commandMap = {
   'Main.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
   'Main.save': wrapSerialCommand(Save.save),
   'Main.saveState': wrapGetter(saveState),
-  'Main.splitRight': wrapSerialCommand(splitRight),
+  'Main.splitRight': splitRightAndResize,
   'MainArea.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
   'MainArea.closeAll': wrapSerialCommand(closeAll),
   'MainArea.closeAllEditors': wrapSerialCommand(closeAll),
@@ -244,9 +250,9 @@ export const commandMap = {
   'MainArea.setEditorLayoutTwoColumnsBottom': wrapSerialCommand(setEditorLayoutTwoColumnsBottom),
   'MainArea.setEditorLayoutTwoRows': wrapSerialCommand(setEditorLayoutTwoRows),
   'MainArea.setEditorLayoutTwoRowsRight': wrapSerialCommand(setEditorLayoutTwoRowsRight),
-  'MainArea.splitDown': wrapSerialCommand(splitDown),
-  'MainArea.splitLeft': wrapSerialCommand(splitLeft),
-  'MainArea.splitRight': wrapSerialCommand(splitRight),
-  'MainArea.splitUp': wrapSerialCommand(splitUp),
+  'MainArea.splitDown': splitDownAndResize,
+  'MainArea.splitLeft': splitLeftAndResize,
+  'MainArea.splitRight': splitRightAndResize,
+  'MainArea.splitUp': splitUpAndResize,
   'MainArea.terminate': terminate,
 }

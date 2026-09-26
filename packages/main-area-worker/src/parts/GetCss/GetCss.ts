@@ -12,9 +12,11 @@ const getSashCornerCss = (left: number, top: number) => {
 }
 
 export const getCss = (layout?: MainAreaLayout, width: number = 0, dragOverlay?: DragOverlay, tabHeight: number = 35): string => {
-  const rules: string[] = [`.EditorGroupHeader {
+  const rules: string[] = [
+    `.EditorGroupHeader {
   --EditorGroupHeight: ${tabHeight}px;
-}`]
+}`,
+  ]
   if (layout) {
     rules.push(...getEditorGroupCss(layout), ...getDragOverlayCss(dragOverlay), ...getSashCss(layout, width))
     const sashCorner = getSashCorner(layout)

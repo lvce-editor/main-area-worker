@@ -3,10 +3,16 @@ import type { MainAreaLayout } from '../src/parts/MainAreaLayout/MainAreaLayout.
 import { getCss } from '../src/parts/GetCss/GetCss.ts'
 import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.ts'
 
-test('getCss should return no css when there is no layout', () => {
+test('getCss should render the default editor group height without a layout', () => {
   const result = getCss()
 
-  expect(result).toBe('')
+  expect(result).toContain('--EditorGroupHeight: 35px;')
+})
+
+test('getCss should render the configured editor group height without a layout', () => {
+  const result = getCss(undefined, 0, undefined, 42)
+
+  expect(result).toContain('--EditorGroupHeight: 42px;')
 })
 
 test('getCss should position the sash corner at the grid intersection', () => {

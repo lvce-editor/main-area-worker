@@ -3,7 +3,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'viewlet.main-status-bar-language-tabs'
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Settings, Workspace }) => {
-  await Settings.update({ 'statusBar.itemsVisible': true })
+  // Keep tab-status coverage independent of downloadable font support.
+  await Settings.update({ 'editor.fontFamily': 'monospace', 'statusBar.itemsVisible': true })
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.setFiles([
     { content: 'export default function App() { return <div /> }', uri: `${tmpDir}/App.tsx` },
@@ -13,6 +14,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, S
   await Main.closeAllEditors()
   const language = Locator('.StatusBarItem[name="EditorLanguage"]')
   await Main.openUri(`${tmpDir}/App.tsx`)
+  await expect(Locator('.Editor')).toBeVisible()
   await expect(language).toHaveText('typescriptreact')
   await Main.openUri(`${tmpDir}/settings.json`)
   await expect(language).toHaveText('json')

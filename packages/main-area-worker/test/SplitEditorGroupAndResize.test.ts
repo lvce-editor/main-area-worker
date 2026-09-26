@@ -48,15 +48,15 @@ test('splitEditorGroupAndResize updates existing editor bounds after splitting t
   }
 
   using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.requestRender': async () => undefined,
     'Viewlet.resize': async () => [['editor.resize']],
-    'Viewlet.sendMultiple': async () => undefined,
   })
 
   const newState = await splitEditorGroupAndResize(state, splitLeft)
 
   expect(mockRpc.invocations).toEqual([
     ['Viewlet.resize', 10, { height: 560, width: 400, x: 400, y: 40 }],
-    ['Viewlet.sendMultiple', [['editor.resize']]],
+    ['Viewlet.requestRender', 10],
   ])
   expect(newState.layout.groups[1].id).toBe(1)
 })

@@ -9,9 +9,10 @@ export const splitEditorGroupAndResize = async (state: MainAreaState, split: Spl
   if (newState === state) {
     return state
   }
-  const resizeCommands = await handleResize(newState, newState)
-  if (resizeCommands.length > 0) {
-    await RendererWorker.invoke('Viewlet.sendMultiple', resizeCommands)
+  await handleResize(newState, newState)
+  const editorUids = newState.layout.groups.flatMap((group) => group.tabs.map((tab) => tab.editorUid).filter((editorUid) => editorUid !== -1))
+  for (const editorUid of editorUids) {
+    await RendererWorker.invoke('Viewlet.requestRender', editorUid)
   }
   return newState
 }

@@ -7,6 +7,14 @@ import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.t
 import { splitEditorGroupAndResize } from '../src/parts/SplitEditorGroupAndResize/SplitEditorGroupAndResize.ts'
 import { splitLeft } from '../src/parts/SplitLeft/SplitLeft.ts'
 
+test('splitEditorGroupAndResize skips resizing when splitting does not change the state', async () => {
+  const state = createDefaultState()
+
+  const newState = await splitEditorGroupAndResize(state, (currentState) => currentState)
+
+  expect(newState).toBe(state)
+})
+
 test('splitEditorGroupAndResize updates existing editor bounds after splitting to the left', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),

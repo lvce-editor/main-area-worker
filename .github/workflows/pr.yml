@@ -107,7 +107,13 @@ jobs:
       - name: e2e webkit
         if: runner.os != 'Windows'
         working-directory: ./packages/e2e
-        run: npm run e2e:webkit:headless -- --filter=main.status-bar-language-tabs
+        run: npm run e2e:webkit:headless -- --filter=main.status-bar-language-tabs --trace-renderer-worker
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+      - name: Trace Chromium comparison
+        if: always()
+        working-directory: ./packages/e2e
+        run: npx test-with-playwright --only-extension=. --test-path=. --browser=chromium --headless --server-path=../server/src/dev.js --filter=main.status-bar-language-tabs --trace-renderer-worker
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: Upload attempt artifacts
@@ -119,4 +125,4 @@ jobs:
             packages/e2e/screenshots/
             packages/e2e/test-results/
             packages/e2e/renderer-worker-traces/
-          if-no-files-found: ignore
+          if-no-files-found: error

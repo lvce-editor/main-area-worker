@@ -8,9 +8,9 @@ test('renderEditorGroup should return correct structure for group with active ta
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 100,
     tabs: [
       {
@@ -31,7 +31,6 @@ test('renderEditorGroup should return correct structure for group with active ta
       childCount: 2,
       className: 'EditorGroup EditorGroup-1',
       'data-groupId': '1',
-      style: 'width:100%;',
       type: VirtualDomElements.Div,
     },
     {
@@ -130,9 +129,9 @@ test('renderEditorGroup should handle group with no active tab', () => {
   const group: EditorGroup = {
     activeTabId: 999,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 100,
     tabs: [
       {
@@ -155,9 +154,9 @@ test('renderEditorGroup should handle group with custom editor', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 100,
     tabs: [
       {
@@ -180,9 +179,9 @@ test('renderEditorGroup should handle empty tabs array', () => {
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 100,
     tabs: [],
   }
@@ -194,7 +193,7 @@ test('renderEditorGroup should handle empty tabs array', () => {
       className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-      style: 'width:100%;',
+      onFocus: DomEventListenerFunctions.HandleFocus,
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -236,20 +235,20 @@ test('renderEditorGroup should expose a unique group class for CSS targeting', (
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 50,
     tabs: [],
   }
-  const result = renderEditorGroup(group, 0, true, 'height')
+  const result = renderEditorGroup(group, 0, true)
 
   expect(result[0]).toEqual({
     childCount: 2,
     className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
     'data-groupId': '1',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-    style: 'height:50%;',
+    onFocus: DomEventListenerFunctions.HandleFocus,
     tabIndex: 0,
     type: VirtualDomElements.Div,
   })

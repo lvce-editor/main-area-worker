@@ -69,7 +69,7 @@ import { reopenEditorWith } from '../ReopenEditorWith/ReopenEditorWith.ts'
 import { resetPointerDown } from '../ResetPointerDown/ResetPointerDown.ts'
 import * as Resize from '../Resize/Resize.ts'
 import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
-import { save } from '../Save/Save.ts'
+import * as Save from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
 import { setComponentState } from '../SetComponentState/SetComponentState.ts'
@@ -88,6 +88,7 @@ import { splitDown } from '../SplitDown/SplitDown.ts'
 import { splitLeft } from '../SplitLeft/SplitLeft.ts'
 import { splitRight } from '../SplitRight/SplitRight.ts'
 import { splitUp } from '../SplitUp/SplitUp.ts'
+import { handlePanelDrop, handleTerminalExit } from '../TerminalTransfer/TerminalTransfer.ts'
 
 const pendingLoads = new Map<number, Promise<void>>()
 const loadContent = wrapSerialCommand(LoadContent.loadContent)
@@ -149,7 +150,7 @@ export const commandMap = {
   'Main.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'Main.openUris': wrapSerialAsyncCommand(openUrisWithContext),
   'Main.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
-  'Main.save': wrapSerialCommand(save),
+  'Main.save': wrapSerialCommand(Save.save),
   'Main.saveState': wrapGetter(saveState),
   'Main.splitRight': wrapSerialCommand(splitRight),
   'MainArea.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
@@ -195,6 +196,7 @@ export const commandMap = {
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
   'MainArea.handleMessagePort': handleDirectMessagePort,
   'MainArea.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
+  'MainArea.handlePanelDrop': wrapSerialAsyncCommand(handlePanelDrop),
   'MainArea.handleResize': resize,
   'MainArea.handleSashCornerPointerDown': wrapSerialCommand(handleSashCornerPointerDown),
   'MainArea.handleSashCornerPointerMove': wrapSerialCommand(handleSashCornerPointerMove),
@@ -208,6 +210,7 @@ export const commandMap = {
   'MainArea.handleTabMouseUp': wrapSerialCommand(resetPointerDown),
   'MainArea.handleTabsDragOver': wrapSerialCommand(handleTabsDragOver),
   'MainArea.handleTabsWheel': wrapSerialCommand(handleTabsWheel),
+  'MainArea.handleTerminalExit': wrapSerialCommand(handleTerminalExit),
   'MainArea.handleTestWorkerMessagePort': handleTestWorkerMessagePort,
   'MainArea.handleUriChange': wrapAsyncCommand(handleUriChangeWithContext),
   'MainArea.handleWorkspaceChange': wrapSerialCommand(handleWorkspaceChange),
@@ -228,8 +231,9 @@ export const commandMap = {
   'MainArea.reopenEditorWith': wrapSerialAsyncCommand(reopenEditorWith),
   'MainArea.resize': resize,
   'MainArea.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
-  'MainArea.save': wrapSerialCommand(save),
+  'MainArea.save': wrapSerialCommand(Save.save),
   'MainArea.saveState': wrapGetter(saveState),
+  'MainArea.saveWithoutFormatting': wrapSerialCommand(Save.saveWithoutFormatting),
   'MainArea.selectTab': wrapSerialCommand(selectTab),
   'MainArea.setComponentState': setComponentState,
   'MainArea.setEditorLayoutGrid': wrapSerialCommand(setEditorLayoutGrid),

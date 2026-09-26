@@ -20,6 +20,7 @@ export const renderSash = (direction: LayoutDirection, sashId: string): readonly
     {
       childCount: 0,
       className: getSashBorderClassName(direction),
+      'data-sashId': sashId,
       type: VirtualDomElements.Div,
     },
   ]

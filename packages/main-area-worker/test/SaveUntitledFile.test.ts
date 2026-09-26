@@ -22,9 +22,9 @@ test('saving an untitled file can update its uri before the save command finishe
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -69,8 +69,8 @@ test('saving an untitled file can update its uri before the save command finishe
   expect(mockRpc.invocations).toEqual([
     ['Editor.save', 2],
     ['Editor.handleUriChange', 2, newUri],
-    ['Layout.handleActiveEditorChange', newUri],
+    ['Layout.handleActiveEditorChange', newUri, true],
     ['Main.handleModifiedStatusChange', oldUri, false],
-    ['Layout.handleActiveEditorChange', newUri],
+    ['Layout.handleActiveEditorChange', newUri, true],
   ])
 })

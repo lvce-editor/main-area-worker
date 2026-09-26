@@ -19,9 +19,9 @@ test('handleIconThemeChange should reload icons for restored tabs', async () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -65,9 +65,9 @@ test('handleIconThemeChange should ignore stale icon cache and refetch icons', a
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

@@ -18,7 +18,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   const { activeGroupId, groups } = layout
 
   // Find the active group
-  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.isFocused) : groups.find((group) => group.id === activeGroupId)
 
   // Prepare initial state
   let newState = state

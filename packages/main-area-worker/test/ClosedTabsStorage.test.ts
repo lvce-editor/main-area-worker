@@ -18,9 +18,9 @@ const createEntry = (id: number): ClosedTabEntry => {
   const group: EditorGroup = {
     activeTabId: id,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [tab],
   }

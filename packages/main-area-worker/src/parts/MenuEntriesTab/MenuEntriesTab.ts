@@ -94,7 +94,7 @@ export const getMenuEntries = (state: MainAreaState, groupId?: number, tabId?: n
     },
     {
       args: [path],
-      command: 'Explorer.revealItem',
+      command: 'RevealInExplorer.reveal',
       flags: MenuItemFlags.None,
       id: 'revealInExplorerView',
       label: ViewletMainStrings.revealInExplorerView(),

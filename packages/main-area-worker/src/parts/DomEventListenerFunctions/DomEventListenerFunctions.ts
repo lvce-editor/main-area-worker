@@ -22,3 +22,4 @@ export const HandleTabKeyDown = 29
 export const HandleTabsWheel = 30
 export const HandleTabDragOver = 31
 export const HandleTabsDragOver = 32
+export const HandleFocus = 33

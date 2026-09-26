@@ -16,9 +16,9 @@ test('selectTab should update active group and tab with valid indexes', async ()
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -42,9 +42,9 @@ test('selectTab should update active group and tab with valid indexes', async ()
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -72,9 +72,9 @@ test('selectTab should update active group and tab with valid indexes', async ()
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -98,9 +98,9 @@ test('selectTab should update active group and tab with valid indexes', async ()
       {
         activeTabId: 3,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -131,9 +131,9 @@ test('selectTab should switch to different group', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -157,9 +157,9 @@ test('selectTab should switch to different group', async () => {
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -187,9 +187,9 @@ test('selectTab should switch to different group', async () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -213,9 +213,9 @@ test('selectTab should switch to different group', async () => {
       {
         activeTabId: 3,
         direction: 1,
-        focused: true,
         id: 2,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -244,9 +244,9 @@ test('selectTab should return original state for invalid group index', async () 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -270,9 +270,9 @@ test('selectTab should return original state for invalid group index', async () 
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -304,9 +304,9 @@ test('selectTab should return original state for negative group index', async ()
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -330,9 +330,9 @@ test('selectTab should return original state for negative group index', async ()
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -364,9 +364,9 @@ test('selectTab should return original state for invalid tab index', async () =>
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -390,9 +390,9 @@ test('selectTab should return original state for invalid tab index', async () =>
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -424,9 +424,9 @@ test('selectTab should return original state for negative tab index', async () =
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -450,9 +450,9 @@ test('selectTab should return original state for negative tab index', async () =
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -484,9 +484,9 @@ test('selectTab should handle single group with single tab', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -512,9 +512,9 @@ test('selectTab should handle single group with single tab', async () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -559,9 +559,9 @@ test('selectTab should handle group with empty tabs array', async () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -586,9 +586,9 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 33,
           tabs: [
             {
@@ -604,9 +604,9 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 3,
           isEmpty: false,
+          isFocused: false,
           size: 33,
           tabs: [
             {
@@ -622,9 +622,9 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 4,
           direction: 1,
-          focused: false,
           id: 4,
           isEmpty: false,
+          isFocused: false,
           size: 34,
           tabs: [
             {
@@ -652,9 +652,9 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 33,
         tabs: [
           {
@@ -670,9 +670,9 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 3,
         direction: 1,
-        focused: false,
         id: 3,
         isEmpty: false,
+        isFocused: false,
         size: 33,
         tabs: [
           {
@@ -688,9 +688,9 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 4,
         direction: 1,
-        focused: true,
         id: 4,
         isEmpty: false,
+        isFocused: true,
         size: 34,
         tabs: [
           {
@@ -721,9 +721,9 @@ test('selectTab should handle custom editor tabs', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -759,9 +759,9 @@ test('selectTab should handle custom editor tabs', async () => {
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -805,9 +805,9 @@ test('selectTab should normalize stale extension detail tabs before switching', 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -867,9 +867,9 @@ test('selectTab should recreate restored process explorer tabs without loading t
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -931,9 +931,9 @@ test('selectTab should handle tabs with paths and languages', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -977,9 +977,9 @@ test('selectTab should handle tabs with paths and languages', async () => {
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -1022,9 +1022,9 @@ test('selectTab should handle vertical layout direction', async () => {
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -1040,9 +1040,9 @@ test('selectTab should handle vertical layout direction', async () => {
         {
           activeTabId: 2,
           direction: 2,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -1068,9 +1068,9 @@ test('selectTab should handle vertical layout direction', async () => {
       {
         activeTabId: 1,
         direction: 2,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -1086,9 +1086,9 @@ test('selectTab should handle vertical layout direction', async () => {
       {
         activeTabId: 2,
         direction: 2,
-        focused: true,
         id: 2,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1117,9 +1117,9 @@ test('selectTab should return same state when clicking same tab that is already 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -1143,9 +1143,9 @@ test('selectTab should return same state when clicking same tab that is already 
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -1171,9 +1171,9 @@ test('selectTab should return same state when clicking same tab that is already 
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1197,9 +1197,9 @@ test('selectTab should return same state when clicking same tab that is already 
       {
         activeTabId: 3,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -1235,9 +1235,9 @@ test('selectTab should recover already active restored tab when editorUid is mis
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -1279,9 +1279,9 @@ test('selectTab should return new state when clicking different tab in same grou
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -1305,9 +1305,9 @@ test('selectTab should return new state when clicking different tab in same grou
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -1333,9 +1333,9 @@ test('selectTab should return new state when clicking different tab in same grou
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1359,9 +1359,9 @@ test('selectTab should return new state when clicking different tab in same grou
       {
         activeTabId: 3,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -1391,9 +1391,9 @@ test('selectTab should return new state when clicking same tab index in differen
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -1417,9 +1417,9 @@ test('selectTab should return new state when clicking same tab index in differen
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -1445,9 +1445,9 @@ test('selectTab should return new state when clicking same tab index in differen
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -1471,9 +1471,9 @@ test('selectTab should return new state when clicking same tab index in differen
       {
         activeTabId: 3,
         direction: 1,
-        focused: true,
         id: 2,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1503,9 +1503,9 @@ test('selectTab should return same state when activeGroupId is -1', async () => 
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -1531,9 +1531,9 @@ test('selectTab should return same state when activeGroupId is -1', async () => 
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -1568,9 +1568,9 @@ test('selectTab should not trigger loading when tab is already loading', async (
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -1620,9 +1620,9 @@ test('selectTab focuses a loaded tab without reloading its content', async () =>
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -1672,9 +1672,9 @@ test('selectTab should recover restored tab when loadingState is loaded but edit
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

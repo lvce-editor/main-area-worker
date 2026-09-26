@@ -21,7 +21,8 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   await Command.execute('Main.handleDrop', dropId)
 
   const movedTab = tabs.nth(1)
-  await expect(movedTab.locator('.TabTitle')).toHaveText('reorder-active-1.txt')
+  const movedTabTitle = movedTab.locator('.TabTitle')
+  await expect(movedTabTitle).toHaveText('reorder-active-1.txt')
   await expect(movedTab).toHaveClass('MainTabSelected')
   await expect(movedTab).toHaveAttribute('aria-selected', 'true')
 }

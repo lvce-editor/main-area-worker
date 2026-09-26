@@ -9,11 +9,12 @@ export const focus = async (state: MainAreaState): Promise<MainAreaState> => {
   if (typeof editorUid !== 'number' || editorUid < 0) {
     return state
   }
+  const selector = activeTab?.tab.terminal ? '.xterm-helper-textarea' : '[name="editor"]'
   if (RendererProcess.isConnected()) {
-    await RendererProcess.invoke('Viewlet.focusSelector', editorUid, '[name="editor"]')
-    await RendererProcess.invoke('Viewlet.focusSelectorAfterRender', editorUid, '[name="editor"]')
+    await RendererProcess.invoke('Viewlet.focusSelector', editorUid, selector)
+    await RendererProcess.invoke('Viewlet.focusSelectorAfterRender', editorUid, selector)
   } else {
-    await RendererWorker.invoke('Viewlet.focusSelector', editorUid, '[name="editor"]')
+    await RendererWorker.invoke('Viewlet.focusSelector', editorUid, selector)
   }
   return state
 }

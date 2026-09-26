@@ -15,9 +15,9 @@ const createState = (): MainAreaState => ({
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -83,7 +83,7 @@ test('handleTabKeyDown should wrap arrow focus within the tab list', async () =>
   ])
 })
 
-test.each(['Enter', ' ', 'Space'])('handleTabKeyDown should activate the focused tab for %j', async (key) => {
+test.each(['Enter', ' ', 'Space'])('handleTabKeyDown should activate the isFocused tab for %j', async (key) => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.focusSelector'() {},
   })

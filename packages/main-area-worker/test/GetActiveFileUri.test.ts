@@ -12,9 +12,9 @@ const createState = (tabs: readonly Tab[], activeTabId: number = tabs[0]?.id ?? 
       {
         activeTabId,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: tabs.length === 0,
+        isFocused: true,
         size: 100,
         tabs,
       },
@@ -59,12 +59,12 @@ test('returns empty string when the active group does not exist', () => {
   expect(getActiveFileUri({ ...state, layout: { ...state.layout, activeGroupId: 99 } })).toBe('')
 })
 
-test('uses the active group rather than a stale focused group', () => {
+test('uses the active group rather than a stale isFocused group', () => {
   const state = createState([createTab()])
   const otherTab = createTab({ id: 2, uri: 'file:///other.txt' })
   const groups = [
-    { ...state.layout.groups[0], focused: true },
-    { ...state.layout.groups[0], activeTabId: 2, focused: false, id: 2, tabs: [otherTab] },
+    { ...state.layout.groups[0], isFocused: true },
+    { ...state.layout.groups[0], activeTabId: 2, id: 2, isFocused: false, tabs: [otherTab] },
   ]
   const activeUri = getActiveFileUri({ ...state, layout: { ...state.layout, activeGroupId: 2, groups } })
   expect(activeUri).toBe('file:///other.txt')

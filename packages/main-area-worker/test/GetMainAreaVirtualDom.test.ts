@@ -13,9 +13,9 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 100,
         tabs: [
           {
@@ -46,7 +46,6 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       childCount: 2,
       className: 'EditorGroup EditorGroup-1',
       'data-groupId': '1',
-      style: 'width:100%;',
       type: VirtualDomElements.Div,
     },
     {
@@ -149,9 +148,9 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
       {
         activeTabId: -1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: true,
+        isFocused: true,
         size: 100,
         tabs: [],
       },
@@ -174,7 +173,7 @@ test('getMainAreaVirtualDom should hide the close button for a single empty grou
       className: 'EditorGroup EditorGroupEmpty EditorGroup-1',
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
-      style: 'width:100%;',
+      onFocus: DomEventListenerFunctions.HandleFocus,
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -201,9 +200,9 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -220,9 +219,9 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
       {
         activeTabId: 2,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -244,7 +243,8 @@ test('getMainAreaVirtualDom should handle multiple groups', () => {
   const sashNode = result.find((node) => node.className === 'Sash SashVertical')
   expect(sashNode).toBeDefined()
   expect(sashNode?.['data-sashId']).toBe('1:2')
-  expect(sashNode?.onPointerDown).toBe(DomEventListenerFunctions.HandleSashPointerDown)
+  const sashBorder = result.find((node) => node.className === 'SashBorder SashBorderVertical')
+  expect(sashBorder?.['data-sashId']).toBe('1:2')
   expect(sashNode?.role).toBe('none')
   expect(sashNode?.type).toBe(VirtualDomElements.Button)
   expect(result[1].childCount).toBe(3) // direct children: group 1 + sash + group 2
@@ -260,18 +260,18 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
       {
         activeTabId: -1,
         direction: 2,
-        focused: false,
         id: 1,
         isEmpty: true,
+        isFocused: false,
         size: 50,
         tabs: [],
       },
       {
         activeTabId: -1,
         direction: 2,
-        focused: false,
         id: 2,
         isEmpty: true,
+        isFocused: false,
         size: 50,
         tabs: [],
       },
@@ -285,8 +285,8 @@ test('getMainAreaVirtualDom should add vertical class for split-down layout', ()
   expect(editorGroupNodes).toHaveLength(2)
   expect(editorGroupNodes[0]['data-groupId']).toBe('1')
   expect(editorGroupNodes[1]['data-groupId']).toBe('2')
-  expect(editorGroupNodes[0].style).toBe('height:50%;')
-  expect(editorGroupNodes[1].style).toBe('height:50%;')
+  expect(editorGroupNodes[0].style).toBeUndefined()
+  expect(editorGroupNodes[1].style).toBeUndefined()
 })
 
 test('getMainAreaVirtualDom should render nested split groups without flattening the parent axis', () => {
@@ -297,9 +297,9 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -316,18 +316,18 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
       {
         activeTabId: -1,
         direction: 2,
-        focused: false,
         id: 2,
         isEmpty: true,
+        isFocused: false,
         size: 25,
         tabs: [],
       },
       {
         activeTabId: -1,
         direction: 2,
-        focused: true,
         id: 3,
         isEmpty: true,
+        isFocused: true,
         size: 25,
         tabs: [],
       },
@@ -351,9 +351,9 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
       {
         activeTabId: -1,
         direction: 2,
-        focused: true,
         id: 1,
         isEmpty: true,
+        isFocused: true,
         segmentId: 1,
         size: 25,
         tabs: [],
@@ -361,9 +361,9 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
       {
         activeTabId: -1,
         direction: 2,
-        focused: false,
         id: 2,
         isEmpty: true,
+        isFocused: false,
         segmentId: 1,
         size: 25,
         tabs: [],
@@ -371,9 +371,9 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
       {
         activeTabId: -1,
         direction: 2,
-        focused: false,
         id: 3,
         isEmpty: true,
+        isFocused: false,
         segmentId: 2,
         size: 25,
         tabs: [],
@@ -381,9 +381,9 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
       {
         activeTabId: -1,
         direction: 2,
-        focused: false,
         id: 4,
         isEmpty: true,
+        isFocused: false,
         segmentId: 2,
         size: 25,
         tabs: [],
@@ -454,27 +454,27 @@ test('getMainAreaVirtualDom should position sashes at one-third and two-thirds',
       {
         activeTabId: -1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: true,
+        isFocused: false,
         size: 33.333333,
         tabs: [],
       },
       {
         activeTabId: -1,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: true,
+        isFocused: false,
         size: 33.333333,
         tabs: [],
       },
       {
         activeTabId: -1,
         direction: 1,
-        focused: false,
         id: 3,
         isEmpty: true,
+        isFocused: false,
         size: 33.333334,
         tabs: [],
       },
@@ -497,27 +497,27 @@ test('getMainAreaVirtualDom should render horizontal sashes without inline style
       {
         activeTabId: -1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: true,
+        isFocused: false,
         size: 33.333333,
         tabs: [],
       },
       {
         activeTabId: -1,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: true,
+        isFocused: false,
         size: 33.333333,
         tabs: [],
       },
       {
         activeTabId: -1,
         direction: 1,
-        focused: false,
         id: 3,
         isEmpty: true,
+        isFocused: false,
         size: 33.333334,
         tabs: [],
       },

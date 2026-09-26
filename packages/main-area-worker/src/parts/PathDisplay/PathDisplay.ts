@@ -86,5 +86,8 @@ export const getFileIcon = (uri: string): string => {
   if (uri.startsWith('search-editor://')) {
     return `MaskIconSearch`
   }
+  if (uri.startsWith('settings://')) {
+    return `MaskIconSettingsGear`
+  }
   return ''
 }

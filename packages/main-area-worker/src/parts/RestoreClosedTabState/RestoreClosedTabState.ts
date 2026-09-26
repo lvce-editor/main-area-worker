@@ -16,12 +16,12 @@ const focusGroup = (groups: readonly EditorGroup[], groupId: number, activeTabId
       return {
         ...group,
         activeTabId,
-        focused: true,
+        isFocused: true,
       }
     }
     return {
       ...group,
-      focused: false,
+      isFocused: false,
     }
   })
 }
@@ -96,14 +96,14 @@ const restoreIntoExistingGroup = (state: MainAreaState, entry: ClosedTabEntry): 
       return {
         ...currentGroup,
         activeTabId: restoredTab.id,
-        focused: true,
         isEmpty: false,
+        isFocused: true,
         tabs,
       }
     }
     return {
       ...currentGroup,
-      focused: false,
+      isFocused: false,
     }
   })
 
@@ -125,8 +125,8 @@ const createRestoredGroup = (entry: ClosedTabEntry): EditorGroup => {
   return {
     ...entry.group,
     activeTabId: entry.tab.id,
-    focused: true,
     isEmpty: false,
+    isFocused: true,
     tabs: [getRestoredTab(entry.tab)],
   }
 }
@@ -153,7 +153,7 @@ const restoreIntoRecreatedGroup = (state: MainAreaState, entry: ClosedTabEntry):
   const groupIndex = clampIndex(entry.groupIndex, 0, groups.length)
   const unfocusedGroups = groups.map((group) => ({
     ...group,
-    focused: false,
+    isFocused: false,
   }))
   const insertedGroups = [...unfocusedGroups.slice(0, groupIndex), restoredGroup, ...unfocusedGroups.slice(groupIndex)]
 

@@ -4,5 +4,9 @@ import * as LoadContent from '../LoadContent/LoadContent.ts'
 
 export const handleWorkspaceChange = async (state: MainAreaState, _workspacePath?: string, savedState?: unknown): Promise<MainAreaState> => {
   await ClosedTabsStorage.clear(state.uid)
-  return LoadContent.loadContent(state, savedState)
+  const stateWithEmptyIconCache: MainAreaState = {
+    ...state,
+    fileIconCache: {},
+  }
+  return LoadContent.loadContent(stateWithEmptyIconCache, savedState)
 }

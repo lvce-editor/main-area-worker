@@ -16,9 +16,8 @@ const mainNode: VirtualDomNode = {
 export const renderSingleEditorGroup = (
   layout: MainAreaLayout,
   splitButtonEnabled: boolean,
-  sizeProperty: 'width' | 'height' = 'width',
   tabDropIndicator?: TabDropIndicator,
 ): readonly VirtualDomNode[] => {
   const { groups } = layout
-  return [mainNode, ...renderEditorGroup(groups[0], 0, splitButtonEnabled, sizeProperty, false, tabDropIndicator)]
+  return [mainNode, ...renderEditorGroup(groups[0], 0, splitButtonEnabled, false, tabDropIndicator)]
 }

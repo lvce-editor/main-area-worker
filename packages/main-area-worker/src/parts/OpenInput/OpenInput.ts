@@ -48,7 +48,7 @@ const getExistingTabState = (state: MainAreaState, existingTab: NonNullable<Retu
 const getActivePreviewEditorUid = (state: MainAreaState): number => {
   const { layout } = state
   const { activeGroupId, groups } = layout
-  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.isFocused) : groups.find((group) => group.id === activeGroupId)
   const activeTab = activeGroup?.tabs.find((tab) => tab.id === activeGroup.activeTabId)
   return activeTab?.isPreview ? activeTab.editorUid : -1
 }
@@ -66,6 +66,13 @@ const shouldRetryExistingTab = (
     (forceOpen && existingTab.tab.loadingState === 'large') ||
     (editorInput.type === 'editor' && editorInput.forceText === true && existingTab.tab.editorInput?.type === 'binary')
   )
+}
+
+const getViewletArgs = (options: OpenInputOptions): readonly unknown[] | undefined => {
+  if (options.forceOpen !== true || options.editorInput.type !== 'editor') {
+    return options.args
+  }
+  return [{ ...(options.args?.[0] as object), largeFile: true }, ...(options.args?.slice(1) || [])]
 }
 
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
@@ -161,7 +168,8 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       throw new Error('invalid editorUid')
     }
 
-    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, options.args, state.applicationId)
+    const args = getViewletArgs(options)
+    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, args, state.applicationId)
 
     const latestState = context.getState()
     let readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)

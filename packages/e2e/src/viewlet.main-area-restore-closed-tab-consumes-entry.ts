@@ -17,5 +17,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
 
   await Command.execute('Main.restoreClosedTab')
   await expect(tabs).toHaveCount(1)
-  await expect(restoredTab.locator('.TabTitle')).toHaveText('restore-once.ts')
+  const restoredTabTitle = restoredTab.locator('.TabTitle')
+  await expect(restoredTabTitle).toHaveText('restore-once.ts')
 }

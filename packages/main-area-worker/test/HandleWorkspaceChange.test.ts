@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { IconThemeWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { handleWorkspaceChange } from '../src/parts/HandleWorkspaceChange/HandleWorkspaceChange.ts'
@@ -14,9 +15,9 @@ test('handleWorkspaceChange should clear activeGroupId and groups', async () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -52,9 +53,9 @@ test('handleWorkspaceChange should preserve other state properties', async () =>
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 2,
           isEmpty: true,
+          isFocused: true,
           size: 50,
           tabs: [],
         },
@@ -88,6 +89,22 @@ test('handleWorkspaceChange should handle empty groups', async () => {
   expect(result.layout.groups).toEqual([])
 })
 
+test('handleWorkspaceChange should clear the file icon cache for an empty workspace', async () => {
+  const initialState: MainAreaState = {
+    ...createDefaultState(),
+    fileIconCache: {
+      '/old-workspace/file.ts': 'old-file-icon',
+    },
+  }
+
+  const result = await handleWorkspaceChange(initialState)
+
+  expect(result.fileIconCache).toEqual({})
+  expect(initialState.fileIconCache).toEqual({
+    '/old-workspace/file.ts': 'old-file-icon',
+  })
+})
+
 test('handleWorkspaceChange should restore saved editor groups', async () => {
   const initialState = createDefaultState()
   const savedState = {
@@ -98,9 +115,9 @@ test('handleWorkspaceChange should restore saved editor groups', async () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -113,6 +130,57 @@ test('handleWorkspaceChange should restore saved editor groups', async () => {
   expect(result.layout.activeGroupId).toBe(1)
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].id).toBe(1)
+})
+
+test('handleWorkspaceChange should rebuild the file icon cache for restored tabs', async () => {
+  using mockRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': async () => ['new-file-icon'],
+  })
+
+  const initialState: MainAreaState = {
+    ...createDefaultState(),
+    fileIconCache: {
+      '/old-workspace/file.ts': 'old-file-icon',
+    },
+  }
+  const savedState = {
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          id: 1,
+          isEmpty: false,
+          isFocused: true,
+          size: 100,
+          tabs: [
+            {
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'new-file.ts',
+              uri: '/new-workspace/new-file.ts',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await handleWorkspaceChange(initialState, '/new-workspace', savedState)
+
+  expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'new-file.ts', type: 1 }]]])
+  expect(result.fileIconCache).toEqual({
+    '/new-workspace/new-file.ts': 'new-file-icon',
+  })
+  expect(result.layout.groups[0].tabs[0].icon).toBe('new-file-icon')
+  expect(initialState.fileIconCache).toEqual({
+    '/old-workspace/file.ts': 'old-file-icon',
+  })
 })
 
 test('handleWorkspaceChange should clear closed tab history', async () => {

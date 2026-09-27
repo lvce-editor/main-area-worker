@@ -97,17 +97,17 @@ test('tryRestoreLayout should handle multiple groups', () => {
       direction: 1,
       groups: [
         {
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 50,
           tabs: [],
         },
         {
           activeTabId: -1,
-          focused: false,
           id: 2,
           isEmpty: true,
+          isFocused: false,
           size: 50,
           tabs: [],
         },
@@ -119,6 +119,29 @@ test('tryRestoreLayout should handle multiple groups', () => {
   expect(result?.groups).toHaveLength(2)
   expect(result?.groups[0].activeTabId).toBe(-1)
   expect(result?.groups.map((group) => group.direction)).toEqual([1, 1])
+  expect(result?.groups.map((group) => group.isFocused)).toEqual([true, false])
+  expect(result?.groups[0]).not.toHaveProperty('focused')
+})
+
+test('tryRestoreLayout should normalize the legacy focused property', () => {
+  const result = TryRestoreLayout.tryRestoreLayout({
+    layout: {
+      direction: 1,
+      groups: [
+        {
+          activeTabId: -1,
+          focused: true,
+          id: 1,
+          isEmpty: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  })
+
+  expect(result?.groups[0].isFocused).toBe(true)
+  expect(result?.groups[0]).not.toHaveProperty('focused')
 })
 
 test('tryRestoreLayout should reject an invalid explicit group direction', () => {
@@ -129,9 +152,9 @@ test('tryRestoreLayout should reject an invalid explicit group direction', () =>
         {
           activeTabId: -1,
           direction: 999,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -150,9 +173,9 @@ test('tryRestoreLayout should normalize group directions', () => {
         {
           activeTabId: -1,
           direction: 2,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },

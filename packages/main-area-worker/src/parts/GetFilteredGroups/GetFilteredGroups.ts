@@ -12,7 +12,7 @@ const getSavedTab = (tab: EditorGroup['tabs'][number]): EditorGroup['tabs'][numb
 
 export const getFilteredGroups = (groups: readonly EditorGroup[]): readonly EditorGroup[] => {
   return groups.map((group) => {
-    const tabs = group.tabs.filter((tab) => !tab.uri?.startsWith('untitled://')).map(getSavedTab)
+    const tabs = group.tabs.filter((tab) => !tab.terminal && !tab.uri?.startsWith('untitled://')).map(getSavedTab)
     const activeTabId = tabs.some((tab) => tab.id === group.activeTabId) ? group.activeTabId : (tabs[0]?.id ?? -1)
     return {
       ...group,

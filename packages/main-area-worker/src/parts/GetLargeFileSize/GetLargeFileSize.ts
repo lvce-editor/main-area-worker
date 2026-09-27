@@ -18,7 +18,7 @@ const getMaxFileSize = async (): Promise<number> => {
 }
 
 export const getLargeFileSize = async (editorInput: EditorInput, forceOpen: boolean = false, applicationId?: string): Promise<number | undefined> => {
-  if (editorInput.type !== 'editor' || forceOpen || !editorInput.uri.startsWith('file://')) {
+  if (editorInput.type !== 'editor' || forceOpen) {
     return undefined
   }
   try {

@@ -38,9 +38,9 @@ const createStateWithTabs = (tabOverrides: Partial<Tab>[] = []): MainAreaState =
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs,
         },
@@ -141,9 +141,9 @@ test('handleUriChange should work with multiple editor groups', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -160,9 +160,9 @@ test('handleUriChange should work with multiple editor groups', async () => {
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -245,9 +245,9 @@ test('handleUriChange should handle empty groups', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -271,9 +271,9 @@ test('handleUriChange should handle tabs without URI property', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -326,9 +326,9 @@ test('handleUriChange should preserve group properties', async () => {
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 75,
           tabs: [
             {
@@ -350,7 +350,7 @@ test('handleUriChange should preserve group properties', async () => {
   const result = await handleUriChange(state, '/test/oldfile.txt', '/test/newfile.txt')
 
   expect(result.layout.groups[0].activeTabId).toBe(1)
-  expect(result.layout.groups[0].focused).toBe(true)
+  expect(result.layout.groups[0].isFocused).toBe(true)
   expect(result.layout.groups[0].id).toBe(1)
   expect(result.layout.groups[0].isEmpty).toBe(false)
   expect(result.layout.groups[0].size).toBe(75)

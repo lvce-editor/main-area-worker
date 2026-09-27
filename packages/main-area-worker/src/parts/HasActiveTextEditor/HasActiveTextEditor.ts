@@ -3,5 +3,5 @@ import { getActiveTab } from '../GetActiveTab/GetActiveTab.ts'
 
 export const hasActiveTextEditor = (state: MainAreaState): boolean => {
   const activeTab = getActiveTab(state)
-  return activeTab?.tab.editorInput?.type === 'editor'
+  return !activeTab?.tab.terminal && activeTab?.tab.editorInput?.type === 'editor'
 }

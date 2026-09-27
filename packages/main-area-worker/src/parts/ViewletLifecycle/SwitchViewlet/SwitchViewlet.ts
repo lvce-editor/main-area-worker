@@ -1,17 +1,13 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import type { ViewletLifecycleResult } from '../ViewletLifecycleResult.ts'
+import * as ApplicationRpc from '../../ApplicationRpc/ApplicationRpc.ts'
+import { findTabById } from '../../FindTabById/FindTabById.ts'
 
-/**
- * Called when switching tabs.
- * With reference nodes, attachment/detachment is handled automatically by virtual DOM rendering.
- * No attach/detach commands needed - virtual DOM will render the correct reference at each position.
- */
-export const switchViewlet = (state: MainAreaState, fromTabId: number | undefined, toTabId: number): ViewletLifecycleResult => {
-  // No commands needed - virtual DOM reference nodes handle attachment automatically
-  // Virtual DOM will:
-  // 1. Remove the old reference node from the previous active tab
-  // 2. Add the new reference node for the now-active tab
-  // This achieves the same effect as detach/attach without explicit commands
-
+export const switchViewlet = async (state: MainAreaState, fromTabId: number | undefined, toTabId: number): Promise<ViewletLifecycleResult> => {
+  const previous = fromTabId === undefined ? undefined : findTabById(state, fromTabId)?.tab
+  if (fromTabId !== toTabId && previous && previous.editorUid >= 0 && previous.loadingState === 'loaded' && previous.editorInput?.type === 'editor') {
+    // Browsers do not consistently emit blur when a focused editor reference is detached.
+    await ApplicationRpc.invoke(state.applicationId, 'Viewlet.executeViewletCommand', previous.editorUid, 'handleBlur')
+  }
   return { commands: [], newState: state }
 }

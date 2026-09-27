@@ -196,10 +196,12 @@ test('getFileIcon should return empty string for other protocol schemes', () => 
   expect(result).toBe('')
 })
 
-test('getFileIcon should return empty string for settings:// uri', () => {
-  const uri: string = 'settings://general'
-  const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
-  expect(result).toBe('')
+test('getFileIcon should return MaskIconSettingsGear for settings:// uri', () => {
+  expect(PathDisplay.getFileIcon('settings://general')).toBe('MaskIconSettingsGear')
+})
+
+test('getFileIcon should return MaskIconSettingsGear for settings:// uri with path', () => {
+  expect(PathDisplay.getFileIcon('settings://editor/preferences')).toBe('MaskIconSettingsGear')
 })
 
 test('getFileIcon should return empty string for simple-browser:// uri', () => {

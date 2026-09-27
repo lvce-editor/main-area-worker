@@ -8,8 +8,8 @@ import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
 const settingsUri = 'app://settings.json'
 
-const saveEditorAndHandleSettingsChange = async (tab: Tab, applicationId?: string) => {
-  const editorState = await saveEditor(tab.editorUid)
+const saveEditorAndHandleSettingsChange = async (tab: Tab, applicationId?: string, skipFormatting = false) => {
+  const editorState = await saveEditor(tab.editorUid, skipFormatting)
   if (!editorState?.modified && tab.uri === settingsUri) {
     await ApplicationRpc.invoke(applicationId, 'Layout.handleSettingsChanged')
   }
@@ -44,7 +44,7 @@ const getLatestStoredState = (
   return fallbackState
 }
 
-export const save = async (state: MainAreaState): Promise<MainAreaState> => {
+const saveInternal = async (state: MainAreaState, skipFormatting: boolean): Promise<MainAreaState> => {
   const { uid } = state
   const requestedActiveTabData = getActiveTab(state)
   const currentState = getLatestStoredState(uid, state, requestedActiveTabData?.tab.id, requestedActiveTabData?.tab.uri, !requestedActiveTabData)
@@ -60,11 +60,11 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   }
 
   if (!tab.isDirty) {
-    await saveEditorAndHandleSettingsChange(tab, state.applicationId)
+    await saveEditorAndHandleSettingsChange(tab, state.applicationId, skipFormatting)
     return getLatestStoredState(uid, currentState, tab.id, tab.uri)
   }
 
-  const editorState = await saveEditorAndHandleSettingsChange(tab, state.applicationId)
+  const editorState = await saveEditorAndHandleSettingsChange(tab, state.applicationId, skipFormatting)
   const latestState = getLatestStoredState(uid, currentState, tab.id, tab.uri)
   if (editorState?.modified) {
     return latestState
@@ -76,4 +76,12 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
   const stateAfterModifiedStatusChange = getLatestStoredState(uid, latestState, tab.id, tab.uri)
 
   return updateTab(stateAfterModifiedStatusChange, tab.id, { isDirty: false })
+}
+
+export const save = async (state: MainAreaState): Promise<MainAreaState> => {
+  return saveInternal(state, false)
+}
+
+export const saveWithoutFormatting = async (state: MainAreaState): Promise<MainAreaState> => {
+  return saveInternal(state, true)
 }

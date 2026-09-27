@@ -15,9 +15,9 @@ test('getMenuEntries returns tab menu entries when menuId is Tab', async () => {
         {
           activeTabId: 0,
           direction: 1,
-          focused: true,
           id: 0,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -167,9 +167,9 @@ test('getMenuEntries handles state with no tabs', async () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 0,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -195,9 +195,9 @@ test('getMenuEntries handles state with multiple tabs', async () => {
         {
           activeTabId: 0,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -244,9 +244,9 @@ test('getMenuEntries handles state with multiple groups', async () => {
         {
           activeTabId: 0,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -263,9 +263,9 @@ test('getMenuEntries handles state with multiple groups', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -303,9 +303,9 @@ test('getMenuEntries returns consistent result for same input', async () => {
         {
           activeTabId: 0,
           direction: 1,
-          focused: true,
           id: 0,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -342,9 +342,9 @@ test('getMenuEntries handles tab without uri', async () => {
         {
           activeTabId: 0,
           direction: 1,
-          focused: true,
           id: 0,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

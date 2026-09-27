@@ -17,9 +17,9 @@ test('moveIntoNewWindow should open active tab in new window and close it', asyn
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -58,9 +58,9 @@ test('moveIntoNewWindow should do nothing when active tab has no uri', async () 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

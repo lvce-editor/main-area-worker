@@ -12,9 +12,9 @@ test('openTab assigns default preview state and an id', () => {
         {
           activeTabId: -1,
           direction: 1 as const,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },

@@ -5,7 +5,7 @@ export const getActiveFileUri = (state: MainAreaState): string => {
   const { activeGroupId, groups } = layout
   const activeGroup = groups.find((group) => group.id === activeGroupId)
   const activeTab = activeGroup?.tabs.find((tab) => tab.id === activeGroup.activeTabId)
-  if (!activeTab) {
+  if (!activeTab || activeTab.terminal) {
     return ''
   }
   if (typeof activeTab.uri === 'string') {

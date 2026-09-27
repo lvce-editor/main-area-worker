@@ -3,6 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import type { SavedState } from '../src/parts/SavedState/SavedState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { saveState } from '../src/parts/SaveState/SaveState.ts'
+import { tryRestoreLayout } from '../src/parts/TryRestoreLayout/TryRestoreLayout.ts'
 
 test('saveState should save layout from default state', () => {
   const state: MainAreaState = createDefaultState()
@@ -23,9 +24,9 @@ test('saveState should save layout with custom configuration', () => {
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -46,6 +47,35 @@ test('saveState should save layout with custom configuration', () => {
   expect(result.layout.activeGroupId).toBe(2)
   expect(result.layout.direction).toBe(2)
   expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].isFocused).toBe(true)
+  expect(result.layout.groups[0]).not.toHaveProperty('focused')
+})
+
+test('saveState should preserve isFocused through a restore round trip', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: -1,
+          direction: 1,
+          id: 1,
+          isEmpty: true,
+          isFocused: true,
+          size: 100,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const savedState = saveState(state)
+  const restoredLayout = tryRestoreLayout(savedState)
+
+  expect(restoredLayout?.groups[0].isFocused).toBe(true)
+  expect(restoredLayout?.groups[0]).not.toHaveProperty('focused')
 })
 
 test('saveState should only save layout, not other state properties', () => {
@@ -80,9 +110,9 @@ test('saveState should save layout with multiple groups', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -98,9 +128,9 @@ test('saveState should save layout with multiple groups', () => {
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -134,9 +164,9 @@ test('saveState should save layout with custom editor tabs', () => {
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -166,9 +196,9 @@ test('saveState should save layout with tabs containing paths and languages', ()
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -201,9 +231,9 @@ test('saveState should preserve editorInput for custom tabs', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -245,9 +275,9 @@ test('saveState should preserve process explorer editor input', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -285,9 +315,9 @@ test('saveState should normalize extension detail tabs based on URI', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -342,9 +372,9 @@ test('saveState should save layout with empty groups', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -356,9 +386,9 @@ test('saveState should save layout with empty groups', () => {
   expect(result.layout.groups[0]).toEqual({
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 100,
     tabs: [],
   })
@@ -375,9 +405,9 @@ test('saveState should return a new object, not mutate the original state', () =
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -408,9 +438,9 @@ test('saveState should filter out untitled editors from tabs', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -462,9 +492,9 @@ test('saveState should preserve groups that become empty after filtering untitle
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -481,9 +511,9 @@ test('saveState should preserve groups that become empty after filtering untitle
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -516,9 +546,9 @@ test('saveState should preserve groups that become empty after filtering untitle
   expect(result.layout.groups[1]).toEqual({
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 2,
     isEmpty: true,
+    isFocused: false,
     size: 50,
     tabs: [],
   })
@@ -534,9 +564,9 @@ test('saveState should preserve activeGroupId when active group becomes empty af
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -558,9 +588,9 @@ test('saveState should preserve activeGroupId when active group becomes empty af
   expect(result.layout.groups[0]).toEqual({
     activeTabId: -1,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: true,
+    isFocused: true,
     size: 100,
     tabs: [],
   })
@@ -577,9 +607,9 @@ test('saveState should preserve activeGroupId if active group still has tabs aft
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -605,9 +635,9 @@ test('saveState should preserve activeGroupId if active group still has tabs aft
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -641,9 +671,9 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
         {
           activeTabId: 1,
           direction: 2,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 33,
           tabs: [
             {
@@ -669,9 +699,9 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
         {
           activeTabId: 3,
           direction: 2,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 34,
           tabs: [
             {
@@ -697,9 +727,9 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
         {
           activeTabId: 5,
           direction: 2,
-          focused: false,
           id: 3,
           isEmpty: false,
+          isFocused: false,
           size: 33,
           tabs: [
             {
@@ -730,9 +760,9 @@ test('saveState should handle complex scenario with multiple groups and mixed ta
   expect(result.layout.groups[0]).toEqual({
     activeTabId: -1,
     direction: 2,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 33,
     tabs: [],
   })
@@ -769,9 +799,9 @@ test('saveState should not persist live editor instance state', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

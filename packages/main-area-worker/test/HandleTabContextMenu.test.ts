@@ -39,9 +39,9 @@ test('handleTabContextMenu should return state unchanged', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -133,9 +133,9 @@ test('handleTabContextMenu should include the context menu tab target', async ()
         {
           activeTabId: 12,
           direction: 1,
-          focused: true,
           id: 7,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

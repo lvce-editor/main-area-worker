@@ -12,6 +12,7 @@ export interface Tab {
   readonly isPreview: boolean
   readonly language?: string
   readonly loadingState?: LoadingState
+  readonly terminal?: boolean
   readonly title: string
   readonly uri?: string
   readonly uriTitle?: string

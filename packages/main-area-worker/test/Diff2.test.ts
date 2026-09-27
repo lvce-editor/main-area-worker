@@ -24,9 +24,9 @@ test('diff2 - should return RenderItems when groups differ', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -48,9 +48,9 @@ test('diff2 - should return RenderItems when tabs differ', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -78,9 +78,9 @@ test('diff2 - should return RenderItems when tabs differ', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -136,9 +136,9 @@ test('diff2 - should return RenderItems when active tab changes', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -192,9 +192,9 @@ test('diff2 - should return RenderItems when group focus changes', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -208,7 +208,7 @@ test('diff2 - should return RenderItems when group focus changes', () => {
       groups: [
         {
           ...oldState.layout.groups[0],
-          focused: true,
+          isFocused: true,
         },
       ],
     },
@@ -228,18 +228,18 @@ test('diff2 - should return RenderItems when group sizes change', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 50,
           tabs: [],
         },
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: true,
+          isFocused: false,
           size: 50,
           tabs: [],
         },
@@ -277,9 +277,9 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -294,18 +294,18 @@ test('diff2 - should return RenderItems when number of groups changes', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 50,
           tabs: [],
         },
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: true,
+          isFocused: false,
           size: 50,
           tabs: [],
         },

@@ -18,9 +18,9 @@ const createEmptyGroup = (direction: LayoutDirection): EditorGroup => {
   return {
     activeTabId: -1,
     direction,
-    focused: false,
     id: Id.create(),
     isEmpty: true,
+    isFocused: false,
     size: 100,
     tabs: [],
   }
@@ -31,7 +31,7 @@ const getActiveGroupIndex = (groups: readonly EditorGroup[], activeGroupId: numb
   if (activeIndex !== -1) {
     return activeIndex
   }
-  const focusedIndex = groups.findIndex((group) => group.focused)
+  const focusedIndex = groups.findIndex((group) => group.isFocused)
   if (focusedIndex !== -1) {
     return focusedIndex
   }
@@ -85,11 +85,11 @@ export const setEditorLayout = (state: MainAreaState, direction: LayoutDirection
   const activeIndex = originalActiveIndex >= slots.length ? slots.length - 1 : getActiveGroupIndex(groups, activeGroupId)
   const nextGroups = groups.map((group, index) => {
     const slot = slots[index]
-    const focused = index === activeIndex
+    const isFocused = index === activeIndex
     return {
       ...group,
       direction: slot.direction,
-      focused,
+      isFocused,
       segmentId: slot.segmentId,
       size: slot.size,
     }

@@ -17,15 +17,15 @@ import {
 const createGroup = (
   id: number,
   size: number,
-  focused = false,
+  isFocused = false,
   direction: LayoutDirection.LayoutDirection = LayoutDirection.Horizontal,
 ): EditorGroup => {
   return {
     activeTabId: id,
     direction,
-    focused,
     id,
     isEmpty: false,
+    isFocused,
     size,
     tabs: [
       {
@@ -149,13 +149,13 @@ test('flipLayout flips root and nested directions', () => {
   expect(result.layout.groups.map((group) => group.direction)).toEqual([LayoutDirection.Horizontal, LayoutDirection.Horizontal])
 })
 
-test('setEditorLayout uses the focused group when the active group id is stale', () => {
+test('setEditorLayout uses the isFocused group when the active group id is stale', () => {
   const state = createState([createGroup(1, 50), createGroup(2, 50, true)], 999)
 
   const result = setEditorLayoutTwoColumns(state)
 
   expect(result.layout.activeGroupId).toBe(2)
-  expect(result.layout.groups.map((group) => group.focused)).toEqual([false, true])
+  expect(result.layout.groups.map((group) => group.isFocused)).toEqual([false, true])
 })
 
 test('setEditorLayout preserves groups when the slot count already matches', () => {
@@ -178,8 +178,8 @@ test('setEditorLayoutSingle creates an empty group when the layout has no groups
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0]).toMatchObject({
     activeTabId: -1,
-    focused: true,
     isEmpty: true,
+    isFocused: true,
     size: 100,
     tabs: [],
   })

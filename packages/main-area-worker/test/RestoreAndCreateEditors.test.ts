@@ -12,9 +12,9 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -72,9 +72,9 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -110,9 +110,9 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -158,9 +158,9 @@ test('restoreAndCreateEditors should preserve existing editorUid', async () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -196,9 +196,9 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
       {
         activeTabId: 1,
         direction: 2,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -215,9 +215,9 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
       {
         activeTabId: 2,
         direction: 2,
-        focused: true,
         id: 2,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -255,9 +255,9 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -294,9 +294,9 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -313,9 +313,9 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
       {
         activeTabId: 2,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -376,9 +376,9 @@ test('restoreAndCreateEditors should restore diff editor inputs without Layout.g
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {

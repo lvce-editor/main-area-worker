@@ -7,7 +7,7 @@ import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaul
 test('closeAllAndSave should keep a dirty editor open when closing is canceled', async () => {
   using rendererRpc = RendererWorker.registerMockRpc({})
   using dialogRpc = DialogWorker.registerMockRpc({
-    'ConfirmPrompt.prompt': async () => false,
+    'ConfirmPrompt.prompt3': async () => 'cancel',
   })
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -43,14 +43,15 @@ test('closeAllAndSave should keep a dirty editor open when closing is canceled',
   expect(result).toBe(state)
   expect(rendererRpc.invocations).toEqual([
     [
-      'ConfirmPrompt.prompt',
+      'ConfirmPrompt.prompt3',
       'Do you want to save the changes you made to dirty.txt?',
-      { cancelMessage: 'More Options', confirmMessage: 'Save', title: 'Save Changes' },
-    ],
-    [
-      'ConfirmPrompt.prompt',
-      'Discard the changes you made to dirty.txt?',
-      { cancelMessage: 'Cancel', confirmMessage: "Don't Save", title: 'Save Changes' },
+      {
+        cancelMessage: 'Cancel',
+        confirmMessage: 'Save',
+        discardMessage: "Don't Save",
+        discardPrompt: 'Discard the changes you made to dirty.txt?',
+        title: 'Save Changes',
+      },
     ],
   ])
   expect(dialogRpc.invocations).toEqual(rendererRpc.invocations)

@@ -347,7 +347,7 @@ test('disposeViewletForTab returns empty commands for non-existent tab', () => {
   expect(result.commands).toHaveLength(0)
 })
 
-test('switchViewlet blurs the outgoing editor before its reference is detached', async () => {
+test('switchViewlet requests blur before the outgoing editor reference is detached', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.executeViewletCommand'() {},
   })
@@ -376,4 +376,36 @@ test('switchViewlet does not blur an editor that is still being created', async 
   await ViewletLifecycle.switchViewlet(state, 1, 2)
 
   expect(mockRpc.invocations).toEqual([])
+})
+
+test('switchViewlet completes while blur waits for the outgoing navigation command', async () => {
+  const { promise, resolve } = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Application.execute': async () => {
+      await promise
+    },
+  })
+  const state = {
+    ...createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' }),
+    applicationId: 'test-application',
+  }
+  try {
+    const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
+    expect(result.newState).toBe(state)
+    expect(mockRpc.invocations).toEqual([['Application.execute', 'test-application', 'Viewlet.executeViewletCommand', 42, 'handleBlur']])
+  } finally {
+    resolve()
+  }
+})
+
+test('switchViewlet tolerates disposal of the outgoing editor during blur', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.executeViewletCommand': async () => {
+      throw new Error('editor disposed')
+    },
+  })
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
+  const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
+  expect(result.newState).toBe(state)
+  expect(mockRpc.invocations).toHaveLength(1)
 })

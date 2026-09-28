@@ -1,5 +1,6 @@
-import { expect, test } from '@jest/globals'
+import { expect, jest, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { setImmediate } from 'node:timers/promises'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as GetNextRequestId from '../src/parts/GetNextRequestId/GetNextRequestId.ts'
@@ -347,7 +348,7 @@ test('disposeViewletForTab returns empty commands for non-existent tab', () => {
   expect(result.commands).toHaveLength(0)
 })
 
-test('switchViewlet blurs the outgoing editor before its reference is detached', async () => {
+test('switchViewlet requests blur before detaching the outgoing editor', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Viewlet.executeViewletCommand'() {},
   })
@@ -376,4 +377,50 @@ test('switchViewlet does not blur an editor that is still being created', async 
   await ViewletLifecycle.switchViewlet(state, 1, 2)
 
   expect(mockRpc.invocations).toEqual([])
+})
+
+test('switchViewlet completes while blur waits for the navigating editor command', async () => {
+  const blur = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.executeViewletCommand'() {
+      return blur.promise
+    },
+  })
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
+  const switching = ViewletLifecycle.switchViewlet(state, 1, 2)
+
+  try {
+    // The outgoing editor cannot process blur until its navigation command returns.
+    const navigation = async () => {
+      await switching
+      return true
+    }
+    const nextTurn = async () => {
+      await setImmediate()
+      return false
+    }
+    const completed = await Promise.race([navigation(), nextTurn()])
+    expect(completed).toBe(true)
+    expect(mockRpc.invocations).toEqual([['Viewlet.executeViewletCommand', 42, 'handleBlur']])
+  } finally {
+    blur.resolve()
+    await switching
+  }
+})
+
+test('switchViewlet reports a rejected blur without failing navigation', async () => {
+  using warning = jest.spyOn(console, 'warn').mockImplementation(() => {})
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.executeViewletCommand'() {
+      throw new Error('editor disposed')
+    },
+  })
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
+
+  const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
+  await setImmediate()
+
+  expect(result.newState).toBe(state)
+  expect(mockRpc.invocations).toHaveLength(1)
+  expect(warning).toHaveBeenCalledWith('Failed to blur outgoing editor: Error: editor disposed')
 })

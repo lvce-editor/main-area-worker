@@ -1,6 +1,5 @@
 import { expect, jest, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
-import { setImmediate } from 'node:timers/promises'
 import type { MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as GetNextRequestId from '../src/parts/GetNextRequestId/GetNextRequestId.ts'
@@ -396,7 +395,7 @@ test('switchViewlet completes while blur waits for the navigating editor command
       return true
     }
     const nextTurn = async () => {
-      await setImmediate()
+      await new Promise<void>((resolve) => setTimeout(resolve, 0))
       return false
     }
     const completed = await Promise.race([navigation(), nextTurn()])
@@ -418,7 +417,7 @@ test('switchViewlet reports a rejected blur without failing navigation', async (
   const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
 
   const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
-  await setImmediate()
+  await new Promise<void>((resolve) => setTimeout(resolve, 0))
 
   expect(result.newState).toBe(state)
   expect(mockRpc.invocations).toHaveLength(1)

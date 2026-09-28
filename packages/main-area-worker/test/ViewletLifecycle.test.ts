@@ -386,7 +386,7 @@ test('switchViewlet completes while blur waits for the navigating editor command
     },
   })
   const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
-  const switching = ViewletLifecycle.switchViewlet(state, 1, 2)
+  const switching = ViewletLifecycle.switchViewlet(state, 1, 2, false)
 
   try {
     // The outgoing editor cannot process blur until its navigation command returns.
@@ -416,10 +416,36 @@ test('switchViewlet reports a rejected blur without failing navigation', async (
   })
   const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
 
-  const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
+  const result = await ViewletLifecycle.switchViewlet(state, 1, 2, false)
   await new Promise<void>((resolve) => setTimeout(resolve, 0))
 
   expect(result.newState).toBe(state)
   expect(mockRpc.invocations).toHaveLength(1)
   expect(warning).toHaveBeenCalledWith('Failed to blur outgoing editor: Error: editor disposed')
+})
+
+test('switchViewlet waits for blur during ordinary tab selection', async () => {
+  const blur = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.executeViewletCommand'() {
+      return blur.promise
+    },
+  })
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
+  let completed = false
+  const select = async () => {
+    await ViewletLifecycle.switchViewlet(state, 1, 2)
+    completed = true
+  }
+  const selecting = select()
+
+  try {
+    await new Promise<void>((resolve) => setTimeout(resolve, 0))
+    expect(completed).toBe(false)
+    expect(mockRpc.invocations).toEqual([['Viewlet.executeViewletCommand', 42, 'handleBlur']])
+  } finally {
+    blur.resolve()
+    await selecting
+  }
+  expect(completed).toBe(true)
 })

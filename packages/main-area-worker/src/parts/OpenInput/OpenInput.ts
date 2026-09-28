@@ -153,7 +153,9 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateAfterModuleId, tabId, viewletModuleId, bounds)
     let intermediateState = stateWithViewlet
 
-    const { newState: switchedState } = await ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId)
+    // An editor command may be awaiting this open request. Its queued blur cannot
+    // finish until navigation returns; ordinary tab selection still awaits blur.
+    const { newState: switchedState } = await ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId, false)
     intermediateState = switchedState
 
     await context.updateState(() => intermediateState)

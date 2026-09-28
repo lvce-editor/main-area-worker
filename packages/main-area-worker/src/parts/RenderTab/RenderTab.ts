@@ -8,6 +8,7 @@ const ExtensionDetailScheme = 'extension-detail://'
 const KeyBindingsUri = 'app://keybindings'
 const RunningExtensionsScheme = 'running-extensions://'
 const SearchEditorScheme = 'search-editor://'
+const SettingsScheme = 'settings://'
 
 const tabIconNode: VirtualDomNode = {
   childCount: 1,
@@ -45,6 +46,9 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
   }
   if (tab.uri?.startsWith(SearchEditorScheme)) {
     return renderMaskIcon(ClassNames.MaskIconSearch)
+  }
+  if (tab.uri?.startsWith(SettingsScheme)) {
+    return renderMaskIcon(ClassNames.MaskIconSettingsGear)
   }
   if (!tab.icon) {
     return []

@@ -86,6 +86,22 @@ test('getMissingIconRequestsForTabs should skip running extensions icons', () =>
   expect(getMissingIconRequestsForTabs(tabs, {})).toEqual([])
 })
 
+test('getMissingIconRequestsForTabs should skip settings icons', () => {
+  const tabs: readonly Tab[] = [
+    {
+      editorUid: -1,
+      icon: '',
+      id: 1,
+      isDirty: false,
+      isPreview: false,
+      title: 'Settings',
+      uri: 'settings://editor/preferences',
+    },
+  ]
+
+  expect(getMissingIconRequestsForTabs(tabs, {})).toEqual([])
+})
+
 test('getMissingIconRequestsForTabs should skip cached icons', () => {
   const tabs: readonly Tab[] = [
     {

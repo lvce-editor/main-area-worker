@@ -5,7 +5,7 @@ export const focusEditorGroup = (state: MainAreaState, groupId: number): MainAre
   const { groups } = layout
   const updatedGroups = groups.map((group) => ({
     ...group,
-    focused: group.id === groupId,
+    isFocused: group.id === groupId,
   }))
 
   return {

@@ -8,9 +8,9 @@ test('getTabsVirtualDom should return correct structure with empty tabs', () => 
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 50,
     tabs: [],
   }
@@ -43,9 +43,9 @@ test('getTabsVirtualDom should return correct structure with single tab', () => 
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 50,
     tabs: [tab],
   }
@@ -98,9 +98,9 @@ test('getTabsVirtualDom should return correct structure with multiple tabs', () 
   const group: EditorGroup = {
     activeTabId: 2,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 50,
     tabs,
   }
@@ -148,9 +148,9 @@ test('getTabsVirtualDom should correctly mark active tab', () => {
   const group: EditorGroup = {
     activeTabId: 2,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 50,
     tabs,
   }
@@ -185,9 +185,9 @@ test('getTabsVirtualDom should handle activeTabId -1', () => {
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 50,
     tabs,
   }
@@ -207,9 +207,9 @@ test('getTabsVirtualDom should render an insertion indicator at the requested bo
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: true,
     id: 7,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs,
   }
@@ -235,9 +235,9 @@ test('getTabsVirtualDom should pass correct groupIndex to tabs', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 50,
     tabs: [tab],
   }
@@ -274,9 +274,9 @@ test('getTabsVirtualDom should use provided tabsChildCount', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 50,
     tabs,
   }

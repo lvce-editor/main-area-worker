@@ -18,9 +18,9 @@ test('restoreMainAreaState should restore layout from valid saved state', () => 
       {
         activeTabId: 1,
         direction: 2,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -153,9 +153,9 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -171,9 +171,9 @@ test('restoreMainAreaState should handle complex layout with multiple groups', (
       {
         activeTabId: 2,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -217,9 +217,9 @@ test('restoreMainAreaState should handle layout with custom editor tabs', () => 
       {
         activeTabId: 1,
         direction: 2,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -262,9 +262,9 @@ test('restoreMainAreaState should normalize stale extension detail editor inputs
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -313,9 +313,9 @@ test('restoreMainAreaState should normalize stale process explorer editor inputs
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -363,9 +363,9 @@ test('restoreMainAreaState should handle layout with tabs containing paths and l
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -434,9 +434,9 @@ test('restoreMainAreaState should normalize a missing activeTabId to -1', () => 
     groups: [
       {
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: true,
+        isFocused: false,
         size: 100,
         tabs: [],
       },
@@ -705,9 +705,9 @@ test('restoreMainAreaState should handle layout with group having invalid size',
       {
         activeTabId: -1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: true,
+        isFocused: false,
         size: -10,
         tabs: [],
       },
@@ -724,7 +724,7 @@ test('restoreMainAreaState should handle layout with group having invalid size',
   expect(result.layout.groups[0].size).toBe(-10)
 })
 
-test('restoreMainAreaState should handle layout with group having invalid focused type', () => {
+test('restoreMainAreaState should handle layout with group having invalid isFocused type', () => {
   const currentState: MainAreaState = {
     ...createDefaultState(),
     assetDir: '/test/path',
@@ -739,9 +739,9 @@ test('restoreMainAreaState should handle layout with group having invalid focuse
       {
         activeTabId: -1,
         direction: 1,
-        focused: 'invalid' as any,
         id: 1,
         isEmpty: true,
+        isFocused: 'invalid' as any,
         size: 100,
         tabs: [],
       },
@@ -755,7 +755,7 @@ test('restoreMainAreaState should handle layout with group having invalid focuse
 
   const result = restoreMainAreaState(savedState, currentState)
 
-  expect((result.layout.groups[0] as any).focused).toBe('invalid')
+  expect((result.layout.groups[0] as any).isFocused).toBe('invalid')
 })
 
 test('restoreMainAreaState should handle layout with group having invalid tabs', () => {
@@ -772,8 +772,8 @@ test('restoreMainAreaState should handle layout with group having invalid tabs',
     groups: [
       {
         activeTabId: -1,
-        focused: false,
         id: 1,
+        isFocused: false,
         size: 100,
         tabs: 'not an array' as any,
       },
@@ -805,9 +805,9 @@ test('restoreMainAreaState should handle layout with group having invalid tab st
       {
         activeTabId: -1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 100,
         tabs: [
           {
@@ -852,9 +852,9 @@ test('restoreMainAreaState should clear transient loading fields from restored t
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -900,9 +900,9 @@ test('restoreMainState should return valid layout', () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -1051,9 +1051,9 @@ test('restoreMainState should add the root direction to legacy groups', () => {
     groups: [
       {
         activeTabId: -1,
-        focused: true,
         id: 1,
         isEmpty: true,
+        isFocused: true,
         size: 100,
         tabs: [],
       },
@@ -1073,9 +1073,9 @@ test('restoreMainState should accept layout with valid groups', () => {
       {
         activeTabId: 1,
         direction: 2,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1091,9 +1091,9 @@ test('restoreMainState should accept layout with valid groups', () => {
       {
         activeTabId: 2,
         direction: 2,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {

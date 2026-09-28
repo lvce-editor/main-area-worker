@@ -8,9 +8,9 @@ test('renderEditorGroupActions should return empty array when splitButtonEnabled
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [
       {
@@ -34,9 +34,9 @@ test('renderEditorGroupActions should render split button when splitButtonEnable
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [
       {
@@ -84,9 +84,9 @@ test('renderEditorGroupActions should render toggle preview button for HTML file
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [
       {
@@ -135,9 +135,9 @@ test('renderEditorGroupActions should not render toggle preview button for non-H
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [
       {
@@ -161,9 +161,9 @@ test('renderEditorGroupActions should render both buttons when HTML file and spl
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [
       {
@@ -227,9 +227,9 @@ test('renderEditorGroupActions should not render toggle preview button when tab 
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [
       {
@@ -252,9 +252,9 @@ test('renderEditorGroupActions should not render toggle preview button when no a
   const group: EditorGroup = {
     activeTabId: 2,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [
       {
@@ -278,9 +278,9 @@ test('renderEditorGroupActions should handle empty tabs array', () => {
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: true,
     id: 1,
     isEmpty: true,
+    isFocused: true,
     size: 100,
     tabs: [],
   }

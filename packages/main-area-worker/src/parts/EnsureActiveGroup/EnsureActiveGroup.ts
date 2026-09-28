@@ -15,10 +15,10 @@ export const ensureActiveGroup = (
   editorInput?: EditorInput,
 ): MainAreaState => {
   const resolvedEditorInput: EditorInput = editorInput ?? { type: 'editor', uri }
-  // Find the active group (by activeGroupId or focused flag)
+  // Find the active group (by activeGroupId or isFocused flag)
   const { homeDirUri, layout } = state
   const { activeGroupId, groups } = layout
-  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.isFocused) : groups.find((group) => group.id === activeGroupId)
 
   // Generate a request ID for content loading
   const requestId = GetNextRequestId.getNextRequestId()

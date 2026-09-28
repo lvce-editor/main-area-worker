@@ -57,9 +57,9 @@ test('applyRender reveals the active tab after applying DOM and CSS changes', ()
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

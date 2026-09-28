@@ -13,9 +13,9 @@ const createState = (uri: string, type: 'editor' | 'image' = 'editor'): MainArea
       {
         activeTabId: uri ? 1 : -1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: !uri,
+        isFocused: true,
         size: 100,
         tabs: uri
           ? [

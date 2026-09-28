@@ -55,7 +55,7 @@ const splitOnlyGroup = (
       return {
         ...group,
         direction: splitLayoutDirection,
-        focused: false,
+        isFocused: false,
         size: 50,
       }
     }
@@ -92,7 +92,7 @@ const splitWithinMatchingNestedDirection = (
     if (group.id === groupId) {
       return {
         ...group,
-        focused: false,
+        isFocused: false,
         size: Number((group.size / 2).toFixed(6)),
       }
     }
@@ -125,7 +125,7 @@ const splitStandaloneSourceIntoNestedDirection = (
   const updatedSourceGroup: EditorGroup = {
     ...sourceGroup,
     direction: splitLayoutDirection,
-    focused: false,
+    isFocused: false,
     segmentId,
     size: halfSize,
   }
@@ -153,7 +153,7 @@ const splitAtRootLevel = (
       return {
         ...group,
         direction: state.layout.direction,
-        focused: false,
+        isFocused: false,
         size: 50,
       }
     }
@@ -190,9 +190,9 @@ export const splitEditorGroup = (state: MainAreaState, groupId: number, directio
   const baseNewGroup: EditorGroup = {
     activeTabId: -1,
     direction: sourceGroup.direction,
-    focused: true,
     id: newGroupId,
     isEmpty: true,
+    isFocused: true,
     size: sourceGroup.size / 2,
     tabs: [],
   }

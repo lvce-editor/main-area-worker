@@ -61,9 +61,14 @@ test('retains existing open behavior when file size is unavailable', async () =>
   await expect(getLargeFileSize({ type: 'editor', uri: 'file:///file.txt' })).resolves.toBeUndefined()
 })
 
-test('does not stat non-file inputs', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({})
-
-  await expect(getLargeFileSize({ type: 'editor', uri: 'memory://file.txt' })).resolves.toBeUndefined()
-  expect(mockRpc.invocations).toEqual([])
-})
+test.each(['/tmp/snapshot.heapsnapshot', 'memory://file.txt', 'vscode-remote://host/file.txt'])(
+  'checks size for supported provider URI %s',
+  async (uri) => {
+    using mockRpc = RendererWorker.registerMockRpc({
+      'FileSystem.getFileSize': async () => 60 * 1024 * 1024,
+      'Preferences.get': async () => 50,
+    })
+    await expect(getLargeFileSize({ type: 'editor', uri })).resolves.toBe(60 * 1024 * 1024)
+    expect(mockRpc.invocations).toContainEqual(['FileSystem.getFileSize', uri])
+  },
+)

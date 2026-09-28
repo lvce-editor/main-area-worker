@@ -24,9 +24,9 @@ test('handleEditorModified should return state unchanged when tab not found', ()
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, 1, 'file1.ts')],
         },
@@ -50,9 +50,9 @@ test('handleEditorModified should set isDirty to true when tab is found', () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [createTab(1, 1, 'file1.ts')],
         },
@@ -75,18 +75,18 @@ test('handleEditorModified should find tab by editorUid across groups', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [createTab(1, 1, 'file1.ts')],
         },
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [createTab(2, 2, 'file2.ts')],
         },
@@ -110,9 +110,9 @@ test('handleEditorModified should preserve other tab properties when setting isD
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

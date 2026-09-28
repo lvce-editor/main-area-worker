@@ -6,9 +6,9 @@ import * as LayoutDirection from '../src/parts/LayoutDirection/LayoutDirection.t
 const createGroup = (id: number, direction: LayoutDirection.LayoutDirection, segmentId?: number): EditorGroup => ({
   activeTabId: -1,
   direction,
-  focused: false,
   id,
   isEmpty: true,
+  isFocused: false,
   segmentId,
   size: 50,
   tabs: [],

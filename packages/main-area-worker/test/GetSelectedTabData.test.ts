@@ -13,9 +13,9 @@ test('getSelectedTabData should return selected tab data for valid indexes', () 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -58,9 +58,9 @@ test('getSelectedTabData should return undefined for invalid indexes', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [],
         },

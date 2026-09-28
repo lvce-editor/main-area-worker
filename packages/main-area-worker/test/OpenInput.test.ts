@@ -290,9 +290,9 @@ test('openInput should activate and focus an existing diff editor tab when reque
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -369,9 +369,9 @@ test('openInput should activate an existing stored tab when the call-site state 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -495,4 +495,22 @@ test('openInput should use a generic message for non-Error failures', async () =
     errorMessage: 'Failed to open URI',
     loadingState: 'error',
   })
+})
+
+test('confirmation opens the warned document with reduced features', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.getFileSize': async () => 60 * 1024 * 1024,
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+    'Preferences.get': async () => 50,
+  })
+  const options = { editorInput: { type: 'editor' as const, uri: '/tmp/snapshot.heapsnapshot' }, focus: false }
+  const warned = await openInput(createDefaultState(), options)
+  expect(warned.layout.groups[0].tabs[0].loadingState).toBe('large')
+  expect(mockRpc.invocations.some(([command]) => command === 'Layout.createViewlet')).toBe(false)
+  const repeated = await openInput(warned, options)
+  expect(repeated.layout.groups[0].tabs).toHaveLength(1)
+  expect(mockRpc.invocations.some(([command]) => command === 'Layout.createViewlet')).toBe(false)
+  await openInput(repeated, { ...options, forceOpen: true })
+  expect(mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')?.at(-1)).toEqual([{ largeFile: true }])
 })

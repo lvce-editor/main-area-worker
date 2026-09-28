@@ -7,7 +7,7 @@ export const test: Test = async ({ Command, expect, Locator, Main }) => {
   await Command.execute('Developer.openProcessExplorer')
 
   const processExplorer = Locator('.ProcessExplorer')
-  const selectedTab = Locator('.MainTabSelected[title="Process Explorer"]')
+  const selectedTab = Locator('.MainTabSelected[title="process-explorer://"]')
   await expect(processExplorer).toBeVisible()
   await expect(selectedTab).toBeVisible()
 

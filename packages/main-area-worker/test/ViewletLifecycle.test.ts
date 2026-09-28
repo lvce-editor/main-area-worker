@@ -390,7 +390,7 @@ test('switchViewlet completes while blur waits for the outgoing navigation comma
     applicationId: 'test-application',
   }
   try {
-    const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
+    const result = await ViewletLifecycle.switchViewlet(state, 1, 2, false)
     expect(result.newState).toBe(state)
     expect(mockRpc.invocations).toEqual([['Application.execute', 'test-application', 'Viewlet.executeViewletCommand', 42, 'handleBlur']])
   } finally {
@@ -405,7 +405,30 @@ test('switchViewlet tolerates disposal of the outgoing editor during blur', asyn
     },
   })
   const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
-  const result = await ViewletLifecycle.switchViewlet(state, 1, 2)
+  const result = await ViewletLifecycle.switchViewlet(state, 1, 2, false)
   expect(result.newState).toBe(state)
   expect(mockRpc.invocations).toHaveLength(1)
+})
+
+test('switchViewlet waits for blur before switching between existing tabs', async () => {
+  const { promise, resolve } = Promise.withResolvers<void>()
+  let completed = false
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.executeViewletCommand': async () => promise,
+  })
+  const state = createStateWithTab({ editorInput: { type: 'editor', uri: '/test/file.txt' }, editorUid: 42, id: 1, loadingState: 'loaded' })
+  const switchTab = async (): Promise<void> => {
+    await ViewletLifecycle.switchViewlet(state, 1, 2)
+    completed = true
+  }
+  const switching = switchTab()
+  try {
+    await Promise.resolve()
+    expect(mockRpc.invocations).toHaveLength(1)
+    expect(completed).toBe(false)
+  } finally {
+    resolve()
+    await switching
+  }
+  expect(completed).toBe(true)
 })

@@ -29,6 +29,10 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   const icon = Locator('.EditorLargeFileWarningIcon')
   const message = Locator('.EditorContentLargeFile > p')
   const actions = Locator('.EditorContentLargeFileActions')
+  await expect(actions).toHaveText('Open AnywayConfigure Limit')
+  if ((await getProperty(actions, 'childElementCount')) !== 2) {
+    throw new Error('Expected the large-file warning actions to contain exactly two buttons')
+  }
   const openAnywayButton = Locator('[data-action="open-large-file"]')
   const configureLimitButton = Locator('[data-action="configure-large-file-limit"]')
   await expect(message).toBeVisible()

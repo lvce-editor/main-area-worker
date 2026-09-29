@@ -26,7 +26,7 @@ test('executeViewletCommands handles attach, detach, dispose, and bounds command
   ])
 
   expect(mockRpc.invocations).toEqual([
-    ['Layout.attachViewlet', '.editor-groups-container, .EditorGroup', 1],
+    ['Layout.attachViewlet', '.EditorGroupsContainer, .EditorGroup', 1],
     ['Viewlet.detach', 2],
     ['Viewlet.dispose', 3],
     ['Viewlet.setBounds', 4, bounds],

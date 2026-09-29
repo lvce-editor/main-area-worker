@@ -15,9 +15,15 @@ test('renders kilobyte sizes', () => {
 })
 
 test('renders megabyte sizes and actions', () => {
+  const rendered = renderLargeFile(2 * 1024 * 1024)
   expect(getText(2 * 1024 * 1024)).toEqual([
     'The file is not displayed in the text editor because it is very large (2.00 MB).',
     'Open Anyway',
     'Configure Limit',
   ])
+  expect(rendered[5].childCount).toBe(2)
+  expect(rendered[6].childCount).toBe(1)
+  expect(rendered[7].text).toBe('Open Anyway')
+  expect(rendered[8].childCount).toBe(1)
+  expect(rendered[9].text).toBe('Configure Limit')
 })

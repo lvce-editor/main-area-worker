@@ -38,6 +38,40 @@ test('handleClickAction should return state unchanged when action is empty', asy
   expect(result).toBe(state)
 })
 
+test('handleClickAction should open settings with the canonical URI when configuring the large file limit', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          id: 1,
+          isEmpty: false,
+          isFocused: true,
+          size: 100,
+          tabs: [
+            {
+              editorUid: -1,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await handleClickAction(state, 'configure-large-file-limit')
+
+  expect(result.layout.groups[0].tabs.map((tab) => tab.uri)).toContain('settings:///')
+})
+
 test('handleClickAction should restore the last closed tab before resolving an active group', async () => {
   const state = createDefaultState()
 

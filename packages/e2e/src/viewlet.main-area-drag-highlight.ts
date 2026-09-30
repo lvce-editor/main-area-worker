@@ -6,7 +6,7 @@ export const test: Test = async ({ expect, Locator, Main }) => {
   const main = Locator('.Main')
   const dragOverlay = Locator('.DragOverlay')
   const mainDragOverlay = Locator('.Main > .DragOverlay')
-  const nestedDragOverlay = Locator('.editor-groups-container .DragOverlay')
+  const nestedDragOverlay = Locator('.EditorGroupsContainer .DragOverlay')
 
   await main.dispatchEvent('dragover', { bubbles: true, clientX: 500, clientY: 300 } as any)
   await Main.handleClickAction('', '')

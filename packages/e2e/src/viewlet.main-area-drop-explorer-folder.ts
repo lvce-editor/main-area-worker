@@ -11,7 +11,7 @@ const assert = (condition: boolean, message: string): void => {
 export const test: Test = async ({ Command, DragAndDrop, FileSystem, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const folderPath = `${tmpDir}/explorer-folder`
-  const expectedWorkspacePath = folderPath.slice('file://'.length)
+  const expectedWorkspacePath = decodeURIComponent(new URL(folderPath).pathname).replace(/^\/(?=[a-zA-Z]:\/)/, '')
 
   await FileSystem.mkdir(folderPath)
   await Workspace.setPath(tmpDir)

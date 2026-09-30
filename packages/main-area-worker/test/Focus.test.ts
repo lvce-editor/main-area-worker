@@ -52,7 +52,7 @@ test('focus commits the selected editor before focusing when a direct renderer i
   using renderRpc = RendererWorker.registerMockRpc({
     'Layout.renderMainAreaPending'() {},
   })
-  const focusSelector = jest.fn(() => {
+  const focusSelector = jest.fn<(id: number, selector: string) => void>(() => {
     expect(renderRpc.invocations).toEqual([['Layout.renderMainAreaPending', state.uid]])
   })
   const focusSelectorAfterRender = jest.fn()

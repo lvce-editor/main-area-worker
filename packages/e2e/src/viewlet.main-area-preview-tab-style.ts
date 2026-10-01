@@ -12,7 +12,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
       type: 'editor',
       uri: file,
     },
-    focus: true,
+    focu: true,
     preview: true,
   })
 

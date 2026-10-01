@@ -18,7 +18,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
       type: 'editor',
       uri: firstFile,
     },
-    focus: true,
+    focu: true,
     preview: true,
   })
   await Main.openInput({
@@ -26,7 +26,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
       type: 'editor',
       uri: firstFile,
     },
-    focus: true,
+    focu: true,
     preview: false,
   })
 
@@ -35,7 +35,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
       type: 'editor',
       uri: secondFile,
     },
-    focus: true,
+    focu: true,
     preview: true,
   })
 

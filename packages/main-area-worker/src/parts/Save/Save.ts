@@ -1,3 +1,4 @@
+import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { Tab } from '../Tab/Tab.ts'
 import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
@@ -84,4 +85,23 @@ export const save = async (state: MainAreaState): Promise<MainAreaState> => {
 
 export const saveWithoutFormatting = async (state: MainAreaState): Promise<MainAreaState> => {
   return saveInternal(state, true)
+}
+
+export const saveAll = async (context: AsyncCommandContext<MainAreaState>): Promise<void> => {
+  const initialState = context.getState()
+  const tabs = initialState.layout.groups.flatMap((group) => group.tabs).filter((tab) => tab.isDirty && tab.loadingState !== 'loading')
+  for (const tab of tabs) {
+    const current = context
+      .getState()
+      .layout.groups.flatMap((group) => group.tabs)
+      .find((item) => item.id === tab.id)
+    if (!current?.isDirty || current.editorUid !== tab.editorUid) {
+      continue
+    }
+    const result = await saveEditorAndHandleSettingsChange(current, initialState.applicationId)
+    if (result?.modified) {
+      continue
+    }
+    await context.updateState((state) => updateTab(state, tab.id, { isDirty: false }))
+  }
 }

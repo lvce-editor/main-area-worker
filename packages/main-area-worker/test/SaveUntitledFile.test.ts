@@ -49,7 +49,7 @@ test('saving an untitled file can update its uri before the save command finishe
   MainAreaStates.set(uid, state, state)
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.handleUriChange': async () => {},
-    'Editor.save': async () => {
+    'Viewlet.save': async () => {
       await commandMap['MainArea.handleUriChange'](uid, oldUri, newUri)
       return { modified: false }
     },
@@ -67,7 +67,7 @@ test('saving an untitled file can update its uri before the save command finishe
     uri: newUri,
   })
   expect(mockRpc.invocations).toEqual([
-    ['Editor.save', 2],
+    ['Viewlet.save', 2],
     ['Editor.handleUriChange', 2, newUri],
     ['Layout.handleActiveEditorChange', newUri, true],
     ['Main.handleModifiedStatusChange', oldUri, false],

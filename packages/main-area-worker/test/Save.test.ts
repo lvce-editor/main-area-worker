@@ -3,7 +3,7 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
-import { save, saveWithoutFormatting } from '../src/parts/Save/Save.ts'
+import { save, saveAll, saveWithoutFormatting } from '../src/parts/Save/Save.ts'
 
 afterEach(() => {
   const defaultState = createDefaultState()
@@ -126,8 +126,8 @@ test('save should return state when tab is loading', async () => {
 
 test('save should clear dirty state after a successful save', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
 
   const state: MainAreaState = {
@@ -165,7 +165,7 @@ test('save should clear dirty state after a successful save', async () => {
   const result = await save(state)
 
   expect(mockRpc.invocations).toEqual([
-    ['Editor.save', 123],
+    ['Viewlet.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///file-1', false],
   ])
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
@@ -173,15 +173,15 @@ test('save should clear dirty state after a successful save', async () => {
 
 test('saveWithoutFormatting should bypass formatting and clear dirty state after a successful save', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
   const state = createSaveState()
 
   const result = await saveWithoutFormatting(state)
 
   expect(mockRpc.invocations).toEqual([
-    ['Editor.save', 1, true],
+    ['Viewlet.save', 1, true],
     ['Main.handleModifiedStatusChange', 'file:///file.ts', false],
   ])
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
@@ -189,9 +189,9 @@ test('saveWithoutFormatting should bypass formatting and clear dirty state after
 
 test('save should notify layout after saving settings', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Layout.handleSettingsChanged': async () => undefined,
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
 
   const state: MainAreaState = {
@@ -229,7 +229,7 @@ test('save should notify layout after saving settings', async () => {
   const result = await save(state)
 
   expect(mockRpc.invocations).toEqual([
-    ['Editor.save', 123],
+    ['Viewlet.save', 123],
     ['Layout.handleSettingsChanged'],
     ['Main.handleModifiedStatusChange', 'app://settings.json', false],
   ])
@@ -238,8 +238,8 @@ test('save should notify layout after saving settings', async () => {
 
 test('save should use the latest stored state when the call-site state is stale', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
 
   const staleState = createDefaultState()
@@ -280,7 +280,7 @@ test('save should use the latest stored state when the call-site state is stale'
   const result = await save(staleState)
 
   expect(mockRpc.invocations).toEqual([
-    ['Editor.save', 7],
+    ['Viewlet.save', 7],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
@@ -288,8 +288,8 @@ test('save should use the latest stored state when the call-site state is stale'
 
 test('save should work when the state is not registered', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
   const state = createSaveState({ uid: 99 })
 
@@ -297,15 +297,15 @@ test('save should work when the state is not registered', async () => {
 
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
   expect(mockRpc.invocations).toEqual([
-    ['Editor.save', 1],
+    ['Viewlet.save', 1],
     ['Main.handleModifiedStatusChange', 'file:///file.ts', false],
   ])
 })
 
 test('save should use a stored state whose active tab has the same id', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
   const state = createSaveState()
   const storedState = {
@@ -322,8 +322,8 @@ test('save should use a stored state whose active tab has the same id', async ()
 
 test('save should use a stored state whose active tab has the same uri', async () => {
   using _mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
   const state = createSaveState({ id: 1 })
   const storedState = {
@@ -340,8 +340,8 @@ test('save should use a stored state whose active tab has the same uri', async (
 
 test('save should keep the requested state when the stored active tab differs', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
   const state = createSaveState({ id: 1, uri: 'file:///requested.ts' })
   const storedState = createSaveState({ id: 2, uri: 'file:///other.ts' })
@@ -349,42 +349,94 @@ test('save should keep the requested state when the stored active tab differs', 
 
   const result = await save(state)
 
-  expect(mockRpc.invocations[0]).toEqual(['Editor.save', 1])
+  expect(mockRpc.invocations[0]).toEqual(['Viewlet.save', 1])
   expect(result.layout.groups[0].tabs[0].id).toBe(1)
 })
 
 test('save should invoke the editor for an unmodified tab without changing state', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
+    'Viewlet.save': async () => ({ modified: false }),
   })
   const state = createSaveState({ isDirty: false, uid: 99 })
 
   const result = await save(state)
 
   expect(result).toBe(state)
-  expect(mockRpc.invocations).toEqual([['Editor.save', 1]])
+  expect(mockRpc.invocations).toEqual([['Viewlet.save', 1]])
 })
 
 test('save should preserve dirty state when the editor remains modified', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: true }),
+    'Viewlet.save': async () => ({ modified: true }),
   })
   const state = createSaveState({ uid: 99 })
 
   const result = await save(state)
 
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
-  expect(mockRpc.invocations).toEqual([['Editor.save', 1]])
+  expect(mockRpc.invocations).toEqual([['Viewlet.save', 1]])
 })
 
 test('save should clear dirty state without notifying for a tab without a uri', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
+    'Viewlet.save': async () => ({ modified: false }),
   })
   const state = createSaveState({ uid: 99, uri: '' })
 
   const result = await save(state)
 
   expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
-  expect(mockRpc.invocations).toEqual([['Editor.save', 1]])
+  expect(mockRpc.invocations).toEqual([['Viewlet.save', 1]])
+})
+
+const createSaveAllContext = () => {
+  let state = createSaveState()
+  const group = state.layout.groups[0]
+  state = {
+    ...state,
+    layout: { ...state.layout, groups: [{ ...group, tabs: [group.tabs[0], { ...group.tabs[0], editorUid: 2, id: 2, uri: 'file:///second.csv' }] }] },
+  }
+  return {
+    getState: () => state,
+    updateState: async (updater: (state: MainAreaState) => MainAreaState) => {
+      state = updater(state)
+      return state
+    },
+  }
+}
+
+test('saveAll saves dirty tabs without changing the selected tab', async () => {
+  const context = createSaveAllContext()
+  using mockRpc = RendererWorker.registerMockRpc({ 'Viewlet.save': async () => ({ modified: false }) })
+  await saveAll(context)
+  expect(context.getState().layout.groups[0].tabs.map((tab) => tab.isDirty)).toEqual([false, false])
+  expect(context.getState().layout.groups[0].activeTabId).toBe(1)
+  expect(mockRpc.invocations).toEqual([
+    ['Viewlet.save', 1],
+    ['Viewlet.save', 2],
+  ])
+})
+
+test('saveAll preserves failed and still-modified documents', async () => {
+  const context = createSaveAllContext()
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.save': async (uid: number) => {
+      if (uid === 2) throw new Error('disk full')
+      return { modified: true }
+    },
+  })
+  await expect(saveAll(context)).rejects.toThrow('disk full')
+  expect(context.getState().layout.groups[0].tabs.every((tab) => tab.isDirty)).toBe(true)
+})
+
+test('saveAll retains earlier successes when a later save fails', async () => {
+  const context = createSaveAllContext()
+  using _mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.save': async (uid: number) => {
+      if (uid === 2) throw new Error('disk full')
+      return { modified: false }
+    },
+  })
+  await expect(saveAll(context)).rejects.toThrow('disk full')
+  expect(context.getState().layout.groups[0].tabs.map((tab) => tab.isDirty)).toEqual([false, true])
 })

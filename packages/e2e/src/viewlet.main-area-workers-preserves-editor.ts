@@ -9,7 +9,8 @@ interface RestoredState {
 
 export const name = 'viewlet.main-area-workers-preserves-editor'
 
-export const test: Test = async ({ Command, ComponentState, Editor, expect, FileSystem, Locator, Main }) => {
+export const test: Test = async ({ Command, ComponentState, Editor, expect, FileSystem, Locator, Main, Settings }) => {
+  await Settings.update({ 'editor.fontFamily': 'monospace' })
   const tmpDir = await FileSystem.getTmpDir()
   const uri = `${tmpDir}/original.ts`
   await FileSystem.writeFile(uri, 'const value = 1\n')

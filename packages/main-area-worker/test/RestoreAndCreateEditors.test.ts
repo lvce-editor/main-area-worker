@@ -1,11 +1,12 @@
 import { expect, test } from '@jest/globals'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
+import type { MainAreaLayout } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { restoreAndCreateEditors } from '../src/parts/LoadContent/RestoreAndCreateEditors.ts'
 
 test('restoreAndCreateEditors should set layout from restoredLayout', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 1,
     groups: [
@@ -46,7 +47,7 @@ test('restoreAndCreateEditors should set layout from restoredLayout', async () =
 
 test('restoreAndCreateEditors should handle empty groups', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: -1,
     direction: 1,
     groups: [],
@@ -65,7 +66,7 @@ test('restoreAndCreateEditors should handle empty groups', async () => {
 
 test('restoreAndCreateEditors should skip tabs without uri', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 1,
     groups: [
@@ -103,7 +104,7 @@ test('restoreAndCreateEditors should skip tabs without uri', async () => {
 
 test('restoreAndCreateEditors should process only active tabs', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 1,
     groups: [
@@ -151,7 +152,7 @@ test('restoreAndCreateEditors should process only active tabs', async () => {
 
 test('restoreAndCreateEditors should preserve existing editorUid', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 1,
     groups: [
@@ -189,7 +190,7 @@ test('restoreAndCreateEditors should preserve existing editorUid', async () => {
 
 test('restoreAndCreateEditors should handle multiple groups', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: 2,
     direction: 2,
     groups: [
@@ -248,7 +249,7 @@ test('restoreAndCreateEditors should handle multiple groups', async () => {
 
 test('restoreAndCreateEditors should handle no matching viewlet module', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 1,
     groups: [
@@ -287,7 +288,7 @@ test('restoreAndCreateEditors should handle no matching viewlet module', async (
 
 test('restoreAndCreateEditors should maintain group structure', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 1,
     groups: [
@@ -369,7 +370,7 @@ test('restoreAndCreateEditors should maintain group structure', async () => {
 
 test('restoreAndCreateEditors should restore diff editor inputs without Layout.getModuleId', async () => {
   const initialState = createDefaultState()
-  const restoredLayout = {
+  const restoredLayout: MainAreaLayout = {
     activeGroupId: 1,
     direction: 1,
     groups: [

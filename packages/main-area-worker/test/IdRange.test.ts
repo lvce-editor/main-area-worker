@@ -30,6 +30,16 @@ test('cannot reset an allocator and reuse component ids', async () => {
   expect(Id.create()).toBe(101)
 })
 
+test('skips restored ids within its remaining range without discarding unused ids', async () => {
+  const Id = await import('../src/parts/Id/Id.ts')
+  Id.configure(100, 105)
+  expect(Id.create()).toBe(100)
+  Id.reserve([99, 100, 102, 103, 105, 200])
+  expect(Id.create()).toBe(101)
+  expect(Id.create()).toBe(104)
+  expect(() => Id.create()).toThrow('range exhausted')
+})
+
 test.each([
   [0, 1],
   [-1, 1],

@@ -48,6 +48,57 @@ test('focus focuses via the renderer worker without a direct renderer connection
   expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
 })
 
+test('focus runs the search editor viewlet focus command without a direct renderer connection', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.focus'() {},
+  })
+  const state = createState()
+  const group = state.layout.groups[0]
+  const tab = group.tabs[0]
+  const searchState: MainAreaState = {
+    ...state,
+    layout: {
+      ...state.layout,
+      groups: [
+        {
+          ...group,
+          tabs: [{ ...tab, uri: 'search-editor://1/Search' }],
+        },
+      ],
+    },
+  }
+
+  await expect(focus(searchState)).resolves.toBe(searchState)
+  expect(mockRpc.invocations).toEqual([['Viewlet.focus', 42]])
+})
+
+test('focus runs the search editor viewlet focus command after pending layout renders', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.renderMainAreaPending'() {},
+  })
+  const viewletFocus = jest.fn()
+  RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.focus': viewletFocus } }))
+  const state = createState()
+  const group = state.layout.groups[0]
+  const tab = group.tabs[0]
+  const searchState: MainAreaState = {
+    ...state,
+    layout: {
+      ...state.layout,
+      groups: [
+        {
+          ...group,
+          tabs: [{ ...tab, uri: 'search-editor://1/Search' }],
+        },
+      ],
+    },
+  }
+
+  await expect(focus(searchState)).resolves.toBe(searchState)
+  expect(mockRpc.invocations).toEqual([['Layout.renderMainAreaPending', state.uid]])
+  expect(viewletFocus).toHaveBeenCalledWith(42)
+})
+
 test('focus commits the selected editor before focusing when a direct renderer is connected', async () => {
   using renderRpc = RendererWorker.registerMockRpc({
     'Layout.renderMainAreaPending'() {},

@@ -48,9 +48,9 @@ test('focus focuses via the renderer worker without a direct renderer connection
   expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
 })
 
-test('focus runs the search editor viewlet focus command without a direct renderer connection', async () => {
+test('focus targets the search input without a direct renderer connection', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.focus'() {},
+    'Viewlet.focusSelector'() {},
   })
   const state = createState()
   const group = state.layout.groups[0]
@@ -69,15 +69,16 @@ test('focus runs the search editor viewlet focus command without a direct render
   }
 
   await expect(focus(searchState)).resolves.toBe(searchState)
-  expect(mockRpc.invocations).toEqual([['Viewlet.focus', 42]])
+  expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="SearchValue"]']])
 })
 
-test('focus runs the search editor viewlet focus command after pending layout renders', async () => {
+test('focus targets the search input after pending layout renders', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.renderMainAreaPending'() {},
   })
   const viewletFocus = jest.fn()
-  RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.focus': viewletFocus } }))
+  const focusAfterRender = jest.fn()
+  RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.focusSelector': viewletFocus, 'Viewlet.focusSelectorAfterRender': focusAfterRender } }))
   const state = createState()
   const group = state.layout.groups[0]
   const tab = group.tabs[0]
@@ -96,7 +97,8 @@ test('focus runs the search editor viewlet focus command after pending layout re
 
   await expect(focus(searchState)).resolves.toBe(searchState)
   expect(mockRpc.invocations).toEqual([['Layout.renderMainAreaPending', state.uid]])
-  expect(viewletFocus).toHaveBeenCalledWith(42)
+  expect(viewletFocus).toHaveBeenCalledWith(42, '[name="SearchValue"]')
+  expect(focusAfterRender).toHaveBeenCalledWith(42, '[name="SearchValue"]')
 })
 
 test('focus commits the selected editor before focusing when a direct renderer is connected', async () => {

@@ -10,16 +10,11 @@ export const focus = async (state: MainAreaState): Promise<MainAreaState> => {
   if (typeof editorUid !== 'number' || editorUid < 0) {
     return state
   }
-  if (activeTab?.tab.uri?.startsWith('search-editor://')) {
-    if (RendererProcess.isConnected()) {
-      await ApplicationRpc.invoke(state.applicationId, 'Layout.renderMainAreaPending', state.uid)
-      await RendererProcess.invoke('Viewlet.focus', editorUid)
-    } else {
-      await RendererWorker.invoke('Viewlet.focus', editorUid)
-    }
-    return state
-  }
-  const selector = activeTab?.tab.terminal ? '.xterm-helper-textarea' : '[name="editor"]'
+  const selector = activeTab?.tab.uri?.startsWith('search-editor://')
+    ? '[name="SearchValue"]'
+    : activeTab?.tab.terminal
+      ? '.xterm-helper-textarea'
+      : '[name="editor"]'
   if (RendererProcess.isConnected()) {
     await ApplicationRpc.invoke(state.applicationId, 'Layout.renderMainAreaPending', state.uid)
     await RendererProcess.invoke('Viewlet.focusSelector', editorUid, selector)

@@ -46,3 +46,24 @@ test('pending viewlet update without replacement only schedules disposal', async
 
   expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 123]])
 })
+
+test('stale pending viewlet updates are ignored after the first render', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.dispose': async () => undefined,
+  })
+  const oldState = createDefaultState()
+  const newState = {
+    ...oldState,
+    pendingViewletUpdate: {
+      disposal: 123,
+      focus: 122,
+    },
+  }
+
+  expect(renderPendingViewletUpdate(oldState, newState)).toEqual(['Viewlet.setFocusContext', 122, 12, 0, 122, 'Editor'])
+  expect(renderPendingViewletUpdate(oldState, newState)).toEqual([])
+
+  await new Promise((resolve) => setTimeout(resolve, 60))
+
+  expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 123]])
+})

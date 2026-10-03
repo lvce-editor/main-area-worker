@@ -15,7 +15,7 @@ export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Loc
   await expect(menuItem).toBeVisible()
   await ContextMenu.selectItem('Split Left')
 
-  const groupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
+  const groupsContainer = Locator('.EditorGroupsContainer.EditorGroupsVertical')
   const sash = Locator('.Main .SashVertical')
   await expect(groups).toHaveCount(2)
   await expect(groupsContainer).toHaveCount(1)

@@ -1,4 +1,5 @@
 import type { ClosedTabEntry } from '../MainAreaState/MainAreaState.ts'
+import * as CacheStorageClient from '../CacheStorageClient/CacheStorageClient.ts'
 
 const cacheName = 'lvce0main-area-tabs'
 const cacheDuration = 90 * 24 * 60 * 60 * 1000
@@ -43,26 +44,26 @@ const isClosedTabEntry = (value: unknown): value is ClosedTabEntry => {
 }
 
 const getEntries = async (key: string): Promise<readonly ClosedTabEntry[]> => {
-  const cache = await caches.open(cacheName)
-  const response = await cache.match(key)
-  const entries: unknown = response ? await response.json() : []
+  const item = (await CacheStorageClient.invoke('Cache.getCacheStorageItem', key, cacheName)) as { readonly body: ArrayBuffer } | null
+  const entries: unknown = item ? JSON.parse(new TextDecoder().decode(item.body)) : []
   return Array.isArray(entries) ? entries.filter(isClosedTabEntry) : []
 }
 
 const setEntries = async (key: string, entries: readonly ClosedTabEntry[]): Promise<void> => {
-  const cache = await caches.open(cacheName)
   const value = JSON.stringify(entries)
   const expires = new Date(Date.now() + cacheDuration).toUTCString()
-  await cache.put(
-    key,
-    new Response(value, {
-      headers: {
-        'Content-Length': String(value.length),
-        'Content-Type': 'application/json',
-        Expires: expires,
-      },
-    }),
-  )
+  const result = (await CacheStorageClient.invoke('Cache.setCacheStorageItem', key, value, cacheName, {
+    'Content-Length': String(value.length),
+    'Content-Type': 'application/json',
+    Expires: expires,
+  })) as { readonly success: boolean }
+  if (!result?.success) {
+    throw new Error('Failed to store closed tab history')
+  }
+}
+
+const removeEntries = async (key: string): Promise<boolean> => {
+  return (await CacheStorageClient.invoke('Cache.removeCacheStorageItem', key, cacheName)) as boolean
 }
 
 const compact = (entry: ClosedTabEntry): ClosedTabEntry => {
@@ -94,7 +95,7 @@ export const add = (uid: number, entries: readonly ClosedTabEntry[]): Promise<vo
 export const clear = (uid: number): Promise<void> => {
   return run(uid, async () => {
     try {
-      await setEntries(getKey(uid), [])
+      await removeEntries(getKey(uid))
     } catch {
       // Closed tab history is optional and must never break workspace changes.
     }
@@ -108,9 +109,17 @@ export const takeLast = (uid: number): Promise<ClosedTabEntry | undefined> => {
       const entries = await getEntries(key)
       const entry = entries.at(-1)
       if (!isClosedTabEntry(entry)) {
+        await removeEntries(key)
         return undefined
       }
-      await setEntries(key, entries.slice(0, -1))
+      if (entries.length === 1) {
+        const removed = await removeEntries(key)
+        if (!removed) {
+          return undefined
+        }
+      } else {
+        await setEntries(key, entries.slice(0, -1))
+      }
       return entry
     } catch {
       return undefined

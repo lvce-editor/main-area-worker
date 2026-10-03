@@ -6,7 +6,7 @@ export const test: Test = async ({ Command, expect, Locator, Main }) => {
   await Main.closeAllEditors()
   await Command.execute('Main.setEditorLayoutTwoRowsRight')
   const groups = Locator('.EditorGroup')
-  const nested = Locator('.Main .editor-groups-container .editor-groups-container')
+  const nested = Locator('.Main .EditorGroupsContainer .EditorGroupsContainer')
   const { actual: width } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientWidth' })
   const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientHeight' })
   for (let flip = 0; flip < 4; flip++) {

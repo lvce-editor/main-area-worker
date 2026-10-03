@@ -191,5 +191,5 @@ test('handleWorkspaceChange should clear closed tab history', async () => {
 
   await handleWorkspaceChange(initialState, '/new-workspace')
 
-  expect(mockRpc.invocations).toContainEqual(['setJson', expect.stringContaining('/closed-tabs/'), []])
+  expect(mockRpc.invocations).toContainEqual(['Cache.removeCacheStorageItem', expect.stringContaining('/closed-tabs/'), 'lvce0main-area-tabs'])
 })

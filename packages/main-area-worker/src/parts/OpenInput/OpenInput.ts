@@ -69,10 +69,19 @@ const shouldRetryExistingTab = (
 }
 
 const getViewletArgs = (options: OpenInputOptions): readonly unknown[] | undefined => {
-  if (options.forceOpen !== true || options.editorInput.type !== 'editor') {
+  if (options.editorInput.type !== 'editor') {
     return options.args
   }
-  return [{ ...(options.args?.[0] as object), largeFile: true }, ...(options.args?.slice(1) || [])]
+  const [viewletContext, ...rest] = options.args || []
+  const context = viewletContext && typeof viewletContext === 'object' ? viewletContext : {}
+  return [
+    {
+      ...context,
+      focus: options.focus,
+      ...(options.forceOpen === true && { largeFile: true }),
+    },
+    ...rest,
+  ]
 }
 
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {

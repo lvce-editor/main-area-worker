@@ -135,7 +135,7 @@ test('openUri should pass editor context to the created viewlet', async () => {
     expect.any(Number),
     { height: -35, width: 0, x: 0, y: 35 },
     'file:///path/to/definition.ts',
-    [editorContext],
+    [{ ...editorContext, focus: true }],
   ])
 })
 
@@ -315,6 +315,7 @@ test('openUri should dispose the replaced preview editor and create a new one', 
     tab.id,
     { height: -35, width: 0, x: 0, y: 35 },
     'file:///path/to/replacement.ts',
+    [{ focus: true }],
   ])
 })
 
@@ -606,7 +607,15 @@ test('openUri should calculate bounds with correct TAB_HEIGHT offset', async () 
   expect(result).toBeDefined()
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 565, width: 800, x: 100, y: 235 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: 565, width: 800, x: 100, y: 235 },
+      'file:///path/to/file.ts',
+      [{ focus: false }],
+    ],
   ])
 })
 
@@ -629,7 +638,15 @@ test('openUri should create viewlet for new tab', async () => {
   expect(result).toBeDefined()
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ focus: false }],
+    ],
   ])
 })
 
@@ -674,7 +691,15 @@ test('openUri should assign valid editorUid after viewlet creation', async () =>
   expect(typeof tab.editorUid).toBe('number')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ focus: false }],
+    ],
   ])
 })
 
@@ -702,7 +727,15 @@ test('openUri should pass correct parameters to createViewlet', async () => {
 
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/test.js'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 765, width: 1000, x: 50, y: 135 }, 'file:///path/to/test.js'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: 765, width: 1000, x: 50, y: 135 },
+      'file:///path/to/test.js',
+      [{ focus: false }],
+    ],
   ])
 })
 
@@ -756,7 +789,15 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
   expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/new.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/new.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/new.ts',
+      [{ focus: false }],
+    ],
   ])
 })
 
@@ -784,7 +825,15 @@ test('openUri should handle bounds calculation with different main area dimensio
 
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///large-screen.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 1045, width: 1920, x: 0, y: 35 }, 'file:///large-screen.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: 1045, width: 1920, x: 0, y: 35 },
+      'file:///large-screen.ts',
+      [{ focus: false }],
+    ],
   ])
 })
 
@@ -812,7 +861,15 @@ test('openUri should use TAB_HEIGHT constant of 35 pixels', async () => {
 
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///document.md'],
-    ['Layout.createViewlet', 'editor.markdown', tab.editorUid, tab.id, { height: 365, width: 500, x: 10, y: 85 }, 'file:///document.md'],
+    [
+      'Layout.createViewlet',
+      'editor.markdown',
+      tab.editorUid,
+      tab.id,
+      { height: 365, width: 500, x: 10, y: 85 },
+      'file:///document.md',
+      [{ focus: false }],
+    ],
   ])
 })
 test('openUri should load and set file icon for new tab', async () => {
@@ -843,7 +900,15 @@ test('openUri should load and set file icon for new tab', async () => {
   expect(tab.icon).toBe('file-icon-typescript')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ focus: false }],
+    ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
@@ -869,7 +934,15 @@ test('openUri should preserve built-in tab metadata for cookie importer uri', as
   expect(tab.icon).toBe('MaskIconRecordKey')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'cookie-import-view:///'],
-    ['Layout.createViewlet', 'CookieImport', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'cookie-import-view:///'],
+    [
+      'Layout.createViewlet',
+      'CookieImport',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'cookie-import-view:///',
+      [{ focus: false }],
+    ],
   ])
   expect(mockIconRpc.invocations).toEqual([])
 })
@@ -901,7 +974,15 @@ test('openUri should update fileIconCache with loaded icon', async () => {
   expect(result.fileIconCache['file:///path/to/file.txt']).toBe('file-icon-text')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.txt'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.txt'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.txt',
+      [{ focus: false }],
+    ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
@@ -935,7 +1016,15 @@ test('openUri should handle icon loading failure gracefully', async () => {
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ focus: false }],
+    ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })

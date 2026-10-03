@@ -29,7 +29,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const firstGroup = groups.nth(0)
   const secondGroup = groups.nth(1)
   const firstGroupTab = firstGroup.locator('.MainTab[title$="two-columns.txt"]')
-  const groupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
+  const groupsContainer = Locator('.EditorGroupsContainer.EditorGroupsVertical')
   const sash = Locator('.Main .SashVertical')
   await expect(groupsContainer).toHaveCSS('width', `${width}px`)
   await expect(groups).toHaveCount(2)

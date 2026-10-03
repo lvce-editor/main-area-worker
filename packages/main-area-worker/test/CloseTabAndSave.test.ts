@@ -14,9 +14,9 @@ afterEach(() => {
 test('closeTabAndSave should save a dirty tab before closing it using the renderer confirmation', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'ConfirmPrompt.prompt3': async () => 'save',
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
     'Viewlet.dispose': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
 
   const state: MainAreaState = {
@@ -65,7 +65,7 @@ test('closeTabAndSave should save a dirty tab before closing it using the render
         title: 'Save Changes',
       },
     ],
-    ['Editor.save', 123],
+    ['Viewlet.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])
   expect(result.layout.groups).toHaveLength(0)
@@ -74,9 +74,9 @@ test('closeTabAndSave should save a dirty tab before closing it using the render
 
 test('closeTabAndSave should save an editor-backed tab before closing it', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
     'Viewlet.dispose': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
   using mockDialogRpc = DialogWorker.registerMockRpc({
     'ConfirmPrompt.prompt3': async () => 'save',
@@ -138,7 +138,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
         title: 'Save Changes',
       },
     ],
-    ['Editor.save', 123],
+    ['Viewlet.save', 123],
     ['Main.handleModifiedStatusChange', 'file:///test.ts', false],
   ])
   expect(result.layout.groups).toHaveLength(0)
@@ -147,7 +147,7 @@ test('closeTabAndSave should save an editor-backed tab before closing it', async
 
 test('closeTabAndSave should keep a modified untitled tab open when saving is canceled', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: true }),
+    'Viewlet.save': async () => ({ modified: true }),
   })
   using mockDialogRpc = DialogWorker.registerMockRpc({
     'ConfirmPrompt.prompt3': async () => 'save',
@@ -212,14 +212,14 @@ test('closeTabAndSave should keep a modified untitled tab open when saving is ca
         title: 'Save Changes',
       },
     ],
-    ['Editor.save', 123],
+    ['Viewlet.save', 123],
   ])
   expect(result).toBe(state)
 })
 
 test('closeTabAndSave should keep a dirty tab open when saving fails', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => undefined,
+    'Viewlet.save': async () => undefined,
   })
   using mockDialogRpc = DialogWorker.registerMockRpc({
     'ConfirmPrompt.prompt3': async () => 'save',
@@ -284,7 +284,7 @@ test('closeTabAndSave should keep a dirty tab open when saving fails', async () 
         title: 'Save Changes',
       },
     ],
-    ['Editor.save', 123],
+    ['Viewlet.save', 123],
   ])
   expect(result).toBe(state)
 })
@@ -431,7 +431,7 @@ test('canCloseTab saves when older dialog workers confirm the first prompt', asy
     'ConfirmPrompt.prompt3': async () => {
       throw new Error('Command not found ConfirmPrompt.prompt3')
     },
-    'Editor.save': async () => ({ modified: false }),
+    'Viewlet.save': async () => ({ modified: false }),
   })
   using _dialogRpc = DialogWorker.registerMockRpc({
     'ConfirmPrompt.prompt3': async () => {
@@ -445,7 +445,7 @@ test('canCloseTab saves when older dialog workers confirm the first prompt', asy
       title: 'test.ts',
     } as Tab),
   ).resolves.toBe(true)
-  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'Editor.save'])
+  expect(rendererRpc.invocations.map(([command]) => command)).toEqual(['ConfirmPrompt.prompt3', 'ConfirmPrompt.prompt', 'Viewlet.save'])
 })
 
 test('closeTabAndSave should close a dirty tab without saving when changes are discarded', async () => {
@@ -506,8 +506,8 @@ test('closeTabAndSave should close a dirty tab without saving when changes are d
 
 test('closeTabAndSave should skip saving tabs without editor instances', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
     'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
   })
 
   const state: MainAreaState = {
@@ -593,7 +593,7 @@ test('closeTabAndSave should propagate unexpected dialog errors', async () => {
 
 test('closeTabAndSave should save and close a dirty tab without a uri', async () => {
   using rendererRpc = RendererWorker.registerMockRpc({
-    'Editor.save': async () => ({ modified: false }),
+    'Viewlet.save': async () => ({ modified: false }),
   })
   using dialogRpc = DialogWorker.registerMockRpc({
     'ConfirmPrompt.prompt3': async () => 'save',
@@ -641,7 +641,7 @@ test('closeTabAndSave should save and close a dirty tab without a uri', async ()
         title: 'Save Changes',
       },
     ],
-    ['Editor.save', 1],
+    ['Viewlet.save', 1],
   ])
   expect(dialogRpc.invocations).toHaveLength(1)
 })

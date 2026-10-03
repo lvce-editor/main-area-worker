@@ -45,7 +45,7 @@ test('add appends compact entries and retains the twenty most recent tabs', asyn
   await ClosedTabsStorage.add(7, [createEntry(20), createEntry(21)])
 
   const [, key] = mockRpc.invocations[0]
-  const stored = mockRpc.invocations[1][2] as readonly ClosedTabEntry[]
+  const stored = JSON.parse(mockRpc.invocations[1][2] as string) as readonly ClosedTabEntry[]
   expect(key).toMatch(closedTabsKeyRegex)
   expect(stored.map((entry) => entry.tab.id)).toEqual(Array.from({ length: 20 }, (_, index) => index + 2))
   expect(stored.at(-1)?.group.tabs).toEqual([])
@@ -56,16 +56,27 @@ test('takeLast reads and consumes the most recently cached entry', async () => {
   const last = createEntry(2)
   using mockRpc = mockCacheStorage({
     getJson: () => [first, last],
-    setJson: () => undefined,
+    remove: () => true,
   })
 
   await expect(ClosedTabsStorage.takeLast(3)).resolves.toEqual(last)
 
   const key = mockRpc.invocations[0][1]
-  expect(mockRpc.invocations).toEqual([
-    ['getJson', key],
-    ['setJson', key, [first]],
-  ])
+  expect(mockRpc.invocations[0]).toEqual(['Cache.getCacheStorageItem', key, 'lvce0main-area-tabs'])
+  expect(mockRpc.invocations[1][0]).toBe('Cache.setCacheStorageItem')
+  expect(JSON.parse(mockRpc.invocations[1][2] as string)).toEqual([first])
+})
+
+test('takeLast removes exhausted history before reporting the final entry', async () => {
+  const entry = createEntry(1)
+  using mockRpc = mockCacheStorage({
+    getJson: () => [entry],
+    remove: () => true,
+  })
+
+  await expect(ClosedTabsStorage.takeLast(3)).resolves.toEqual(entry)
+
+  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['Cache.getCacheStorageItem', 'Cache.removeCacheStorageItem'])
 })
 
 test('operations for the same main area are serialized', async () => {
@@ -89,19 +100,19 @@ test('invalid cached data is treated as an empty history', async () => {
 
   await expect(ClosedTabsStorage.takeLast(1)).resolves.toBeUndefined()
 
-  expect(mockRpc.invocations).toHaveLength(1)
+  expect(mockRpc.invocations).toHaveLength(2)
 })
 
 test('invalid entries do not prevent restoring a valid cached tab', async () => {
   const entry = createEntry(1)
   using mockRpc = mockCacheStorage({
     getJson: () => [entry, { invalid: true }],
-    setJson: () => undefined,
+    remove: () => true,
   })
 
   await expect(ClosedTabsStorage.takeLast(1)).resolves.toEqual(entry)
 
-  expect(mockRpc.invocations[1][2]).toEqual([])
+  expect(mockRpc.invocations[1][0]).toBe('Cache.removeCacheStorageItem')
 })
 
 test('cache read errors are ignored', async () => {
@@ -118,6 +129,7 @@ test('cache read errors are ignored', async () => {
 test('cache quota errors are ignored', async () => {
   using _mockRpc = mockCacheStorage({
     getJson: () => [createEntry(1)],
+    remove: () => false,
     setJson: () => {
       throw new DOMException('Quota exceeded', 'QuotaExceededError')
     },
@@ -128,18 +140,32 @@ test('cache quota errors are ignored', async () => {
   await expect(ClosedTabsStorage.takeLast(1)).resolves.toBeUndefined()
 })
 
+test('failed cache writes do not report a closed tab as restored', async () => {
+  const first = createEntry(1)
+  const last = createEntry(2)
+  using mockRpc = mockCacheStorage({
+    getJson: () => [first, last],
+    setJson: () => ({ errorCode: 'CACHE_STORAGE_WRITE_FAILED', errorMessage: 'write failed', success: false }),
+  })
+
+  await expect(ClosedTabsStorage.takeLast(1)).resolves.toBeUndefined()
+
+  expect(mockRpc.invocations[1][0]).toBe('Cache.setCacheStorageItem')
+})
+
 test('missing cache entries are treated as an empty history', async () => {
   using mockCache = mockCacheStorage({})
 
   await expect(ClosedTabsStorage.takeLast(1)).resolves.toBeUndefined()
 
-  expect(mockCache.invocations).toHaveLength(1)
+  expect(mockCache.invocations).toHaveLength(2)
 })
 
 test('main areas keep separate histories and clearing one preserves the other', async () => {
   const entries = new Map<string, unknown>()
   using _mockCache = mockCacheStorage({
     getJson: (key) => entries.get(key),
+    remove: (key) => entries.delete(key),
     setJson: (key, value) => entries.set(key, value),
   })
 

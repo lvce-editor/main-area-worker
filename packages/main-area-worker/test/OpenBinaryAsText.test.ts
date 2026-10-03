@@ -36,6 +36,7 @@ test('openBinaryAsText reopens the binary tab in the text editor', async () => {
     tab.id,
     { height: -35, width: 0, x: 0, y: 35 },
     'file:///path/archive.zip',
+    [{ focus: false }],
   ])
 })
 

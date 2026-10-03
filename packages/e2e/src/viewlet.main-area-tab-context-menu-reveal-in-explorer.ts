@@ -11,7 +11,7 @@ export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Loc
   const testFile = `${folder}/reveal-target.ts`
   await FileSystem.mkdir(folder)
   await FileSystem.writeFile(testFile, 'export const revealTarget = true')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(testFile)
 
   const tab = Locator('.MainTab[title$="reveal-target.ts"]')

@@ -10,7 +10,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, S
     { content: 'export default function App() { return <div /> }', uri: `${tmpDir}/App.tsx` },
     { content: '{}', uri: `${tmpDir}/settings.json` },
   ])
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
   const editor = Locator('.Editor')
   const language = Locator('.StatusBarItem[name="EditorLanguage"]')

@@ -7,7 +7,7 @@ const clickEventInit = { bubbles: true } as unknown as string
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
   const leftFile = `${tmpDir}/left.ts`
   const rightFile = `${tmpDir}/right.ts`
@@ -30,7 +30,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const verticalSashes = Locator('.Main .SashVertical')
   const horizontalSashes = Locator('.Main .SashHorizontal')
   await expect(groups).toHaveCount(3)
-  await groups.nth(2).locator('.EmptyGroupCloseButton').dispatchEvent('click', clickEventInit)
+  await Command.execute('TestFrameWork.performAction', groups.nth(2).locator('.EmptyGroupCloseButton'), 'dispatchEvent', {
+    init: clickEventInit,
+    type: 'click',
+  })
   await Main.handleClickAction('', '')
 
   await expect(groups).toHaveCount(2)

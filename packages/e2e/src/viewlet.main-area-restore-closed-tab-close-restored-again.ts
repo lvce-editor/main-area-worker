@@ -6,7 +6,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const tmpDir = await FileSystem.getTmpDir()
   const file = `${tmpDir}/restore-again.ts`
   await FileSystem.writeFile(file, 'restore again')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(file)
 
   const tabs = Locator('.MainTab')

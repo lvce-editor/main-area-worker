@@ -28,7 +28,7 @@ export const skip = true
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   await Main.splitRight()
 

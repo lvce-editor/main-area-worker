@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-reopen-closed-file'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file = `${tmpDir}/reopen-closed.ts`
 
   await FileSystem.writeFile(file, 'export const reopened = true')

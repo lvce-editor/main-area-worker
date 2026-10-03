@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-uris-one-item'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/open-uris-one-item.ts`
 
   await FileSystem.writeFile(file1, 'export const one = 1')

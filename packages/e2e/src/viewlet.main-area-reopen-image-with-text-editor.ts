@@ -8,13 +8,13 @@ export const test: Test = async ({ Command, Editor, expect, Extension, FileSyste
     const eventInit = { bubbles: true, clientX: 200, clientY: 100, pointerId: 1 } as any
     for (let attempt = 0; attempt < 60; attempt++) {
       try {
-        await locator.dispatchEvent('pointerdown', eventInit)
+        await Command.execute('TestFrameWork.performAction', locator, 'dispatchEvent', { init: eventInit, type: 'pointerdown' })
         return
       } catch {
         await new Promise(requestAnimationFrame)
       }
     }
-    await locator.dispatchEvent('pointerdown', eventInit)
+    await Command.execute('TestFrameWork.performAction', locator, 'dispatchEvent', { init: eventInit, type: 'pointerdown' })
   }
 
   const extensionUri = import.meta.resolve('../fixtures/reopen-editor-media-preview')

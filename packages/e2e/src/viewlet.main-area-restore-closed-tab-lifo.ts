@@ -10,7 +10,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
     { content: 'two', uri: files[1] },
     { content: 'three', uri: files[2] },
   ])
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   for (const file of files) {
     await Main.openUri(file)
   }

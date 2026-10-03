@@ -8,7 +8,7 @@ const splitCount = 10_000
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/file1.ts`
 
   await FileSystem.writeFile(file1, 'content1')

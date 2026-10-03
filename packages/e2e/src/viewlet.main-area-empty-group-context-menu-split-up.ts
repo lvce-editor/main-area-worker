@@ -5,7 +5,7 @@ export const skip = ['webkit'] as const
 
 export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   const groups = Locator('.EditorGroup')
   await expect(groups).toHaveCount(0)

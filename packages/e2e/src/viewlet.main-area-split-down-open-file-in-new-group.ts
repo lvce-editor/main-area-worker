@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-split-down-open-file-in-new-group'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/split-down-new-group-1.ts`
   const file2 = `${tmpDir}/split-down-new-group-2.ts`
 

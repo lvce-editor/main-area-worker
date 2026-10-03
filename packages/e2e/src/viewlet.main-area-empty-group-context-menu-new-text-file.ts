@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-empty-group-context-menu-new-text-file'
 
 export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
 

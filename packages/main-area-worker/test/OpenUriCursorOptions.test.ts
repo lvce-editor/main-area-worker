@@ -31,8 +31,16 @@ test.each([true, false])('opens at the requested position with shouldFocus=%s', 
   const cursorIndex = rpc.invocations.findIndex(([method]) => method === 'Viewlet.executeViewletCommand')
   const focusIndex = rpc.invocations.findIndex(([method]) => method === 'Viewlet.focusSelector')
   expect(focusIndex > cursorIndex).toBe(shouldFocus)
-  // Navigation options belong to the main area, not the viewlet's load context.
-  expect(rpc.invocations.find(([method]) => method === 'Layout.createViewlet')).toHaveLength(6)
+  // Cursor navigation options stay in the main area, while focus reaches the viewlet load context.
+  expect(rpc.invocations.find(([method]) => method === 'Layout.createViewlet')).toEqual([
+    'Layout.createViewlet',
+    'editor.text',
+    expect.any(Number),
+    expect.any(Number),
+    expect.any(Object),
+    uri,
+    [{ focus: shouldFocus }],
+  ])
 })
 
 test('moves the cursor in a reused tab without creating another editor', async () => {

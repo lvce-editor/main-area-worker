@@ -41,7 +41,7 @@ test('restoreClosedTab returns unchanged state when cache storage is empty', asy
   const state = createDefaultState()
 
   await expect(restoreClosedTab(state)).resolves.toBe(state)
-  expect(mockRpc.invocations).toEqual([['getJson', expect.stringContaining('/closed-tabs/')]])
+  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['Cache.getCacheStorageItem', 'Cache.removeCacheStorageItem'])
 })
 
 test('restoreClosedTab focuses an already open tab returned from cache storage', async () => {
@@ -60,7 +60,7 @@ test('restoreClosedTab focuses an already open tab returned from cache storage',
 
   const result = await restoreClosedTab(state)
 
-  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['getJson', 'setJson'])
+  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['Cache.getCacheStorageItem', 'Cache.removeCacheStorageItem'])
   expect(result.layout.activeGroupId).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
 })

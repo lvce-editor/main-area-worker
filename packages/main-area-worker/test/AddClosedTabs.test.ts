@@ -39,20 +39,14 @@ test('addClosedTabs stores compact entries outside of main area component state'
   expect(result).not.toHaveProperty('closedTabs')
   const key = mockRpc.invocations[0][1]
   expect(key).toMatch(closedTabsKeyRegex)
-  expect(mockRpc.invocations).toEqual([
-    ['getJson', key],
-    [
-      'setJson',
-      key,
-      [
-        {
-          ...entries[0],
-          group: {
-            ...group,
-            tabs: [],
-          },
-        },
-      ],
-    ],
+  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['Cache.getCacheStorageItem', 'Cache.setCacheStorageItem'])
+  expect(JSON.parse(mockRpc.invocations[1][2] as string)).toEqual([
+    {
+      ...entries[0],
+      group: {
+        ...group,
+        tabs: [],
+      },
+    },
   ])
 })

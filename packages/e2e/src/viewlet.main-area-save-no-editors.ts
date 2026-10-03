@@ -5,7 +5,7 @@ export const name = 'viewlet.main-area-save-no-editors'
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   // act
   await Main.save()

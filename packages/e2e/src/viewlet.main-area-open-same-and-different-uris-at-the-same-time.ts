@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-same-and-different-uris-at-the-same-
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const sharedFile = `${tmpDir}/shared.txt`
   const otherFile = `${tmpDir}/other.txt`
 

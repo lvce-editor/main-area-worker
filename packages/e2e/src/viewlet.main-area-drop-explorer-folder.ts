@@ -16,7 +16,7 @@ export const test: Test = async ({ Command, DragAndDrop, FileSystem, Workspace }
   const expectedWorkspacePath = decodeURIComponent(new URL(folderPath).pathname).replace(windowsDrivePrefix, '')
 
   await FileSystem.mkdir(folderPath)
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: folderPath }])
 
   await Command.execute('Main.handleDrop', dropId)

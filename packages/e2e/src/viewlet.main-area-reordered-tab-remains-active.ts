@@ -15,8 +15,11 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: first }])
   const tabs = Locator('.MainTab')
 
-  await tabs.nth(0).dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
-  await Locator('.MainTabs').dispatchEvent('dragover', { bubbles: true, clientX: 10_000, clientY: 10 } as any)
+  await Command.execute('TestFrameWork.performAction', tabs.nth(0), 'dispatchEvent', { init: { bubbles: true, button: 0 } as any, type: 'mousedown' })
+  await Command.execute('TestFrameWork.performAction', Locator('.MainTabs'), 'dispatchEvent', {
+    init: { bubbles: true, clientX: 10_000, clientY: 10 } as any,
+    type: 'dragover',
+  })
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDrop', dropId)
 

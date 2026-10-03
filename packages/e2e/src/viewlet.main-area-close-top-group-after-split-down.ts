@@ -35,7 +35,7 @@ export const skip = 1
 
 export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fileTop = `${tmpDir}/file-top.ts`
   const fileBottom = `${tmpDir}/file-bottom.ts`
 

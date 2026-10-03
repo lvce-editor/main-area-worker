@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-close-active-editor-twice-from-three-tabs
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/close-twice-1.ts`
   const file2 = `${tmpDir}/close-twice-2.ts`
   const file3 = `${tmpDir}/close-twice-3.ts`

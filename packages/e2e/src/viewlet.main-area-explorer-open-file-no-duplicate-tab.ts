@@ -9,7 +9,7 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Worksp
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/open-once.ts`
   await FileSystem.writeFile(testFile, 'export const openOnce = true')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Explorer.refresh()
 
   const explorerItem = Locator('[role="treeitem"][title$="open-once.ts"]')

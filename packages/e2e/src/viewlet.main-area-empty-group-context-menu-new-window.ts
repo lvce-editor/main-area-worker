@@ -7,7 +7,7 @@ export const test: Test = async ({ BaseUrl, Command, FileSystem, Open, Workspace
   const tmpDir = await FileSystem.getTmpDir()
   const baseUrl = BaseUrl.getBaseUrl()
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   await Open.enableMemoryOpener()
 

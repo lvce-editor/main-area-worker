@@ -18,7 +18,7 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const secondTab = tabs.nth(1)
   const tabDropIndicator = Locator('.MainTab[style*="box-shadow"]')
 
-  await secondTab.dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
+  await Command.execute('TestFrameWork.performAction', secondTab, 'dispatchEvent', { init: { bubbles: true, button: 0 } as any, type: 'mousedown' })
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDragOver', 0, 10, '0', '0', 0, 100, 0)
   await Main.handleClickAction('', '')

@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-close-all-after-split-down'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/close-all-split-down-1.ts`
   const file2 = `${tmpDir}/close-all-split-down-2.ts`
 

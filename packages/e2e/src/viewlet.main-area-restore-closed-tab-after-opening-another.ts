@@ -12,7 +12,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
     { content: 'closed', uri: closed },
     { content: 'later', uri: later },
   ])
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(first)
   await Main.openUri(closed)
   await Main.closeActiveEditor()

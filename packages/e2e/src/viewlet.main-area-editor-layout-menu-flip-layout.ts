@@ -24,13 +24,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const editorLayoutMenuItem = Locator('#Menu-0 .MenuItem', { hasText: 'Editor Layout' })
   await expect(editorLayoutMenuItem).toBeVisible()
   // Exercise the rendered menu: the page object has no submenu click API.
-  // eslint-disable-next-line e2e/no-direct-click
-  await editorLayoutMenuItem.click()
+  await Command.execute('TestFrameWork.performAction', editorLayoutMenuItem, 'click', { bubbles: true, button: 0, cancable: true, detail: 1 })
   const menuItem = Locator('#Menu-1 .MenuItem', { hasText: 'Flip Layout' })
   await expect(menuItem).toBeVisible()
   // Keep selection on the same DOM event path that opened this submenu.
-  // eslint-disable-next-line e2e/no-direct-click
-  await menuItem.click()
+  await Command.execute('TestFrameWork.performAction', menuItem, 'click', { bubbles: true, button: 0, cancable: true, detail: 1 })
 
   const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientHeight' })
   const { actual: width } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientWidth' })

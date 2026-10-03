@@ -13,7 +13,7 @@ const assert = (condition: boolean, message: string): void => {
 export const test: Test = async ({ Command, DragAndDrop, Workspace }) => {
   const directoryHandle = { kind: 'directory', name: 'native-folder' } as FileSystemDirectoryHandle
 
-  await Workspace.setUri('')
+  await Workspace.close()
   const dropId = await DragAndDrop.createDropSession([{ fileSystemHandle: directoryHandle, kind: 'file', type: '' }])
 
   await Command.execute('Main.handleDrop', dropId)

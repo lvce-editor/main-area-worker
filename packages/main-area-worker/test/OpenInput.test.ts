@@ -47,7 +47,7 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   expect(tab.title).toBe('file.ts')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts', [{ focus: false }]],
   ])
 })
 
@@ -71,6 +71,15 @@ test('openInput should focus the opened editor when requested', async () => {
 
   const tab = result.layout.groups[0].tabs[0]
   expect(mockRpc.invocations).toContainEqual(['Viewlet.focusSelector', tab.editorUid, '[name="editor"]'])
+  expect(mockRpc.invocations).toContainEqual([
+    'Layout.createViewlet',
+    'Editor',
+    tab.editorUid,
+    tab.id,
+    { height: -35, width: 0, x: 0, y: 35 },
+    'file:///path/to/file.ts',
+    [{ focus: true }],
+  ])
 })
 
 test('openInput should show a binary file placeholder without creating a viewlet', async () => {
@@ -169,7 +178,15 @@ test('openInput renders loaded editor content before the title request finishes'
     ['FileSystem.getFileSize', 'file:///path/to/file.ts'],
     ['Preferences.get', 'files.maxFileSizeMB'],
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'Editor', expect.any(Number), expect.any(Number), { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'Editor',
+      expect.any(Number),
+      expect.any(Number),
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ focus: false }],
+    ],
     ['Layout.renderMainAreaPending', state.uid],
     ['Viewlet.getTitle', expect.any(Number)],
   ])
@@ -206,7 +223,15 @@ test('openInput should add pretty uri title for file under home dir', async () =
   expect(tab.uriTitle).toBe('~/Documents/file.md')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///home/user/Documents/file.md'],
-    ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///home/user/Documents/file.md'],
+    [
+      'Layout.createViewlet',
+      'Editor',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///home/user/Documents/file.md',
+      [{ focus: false }],
+    ],
   ])
 })
 
@@ -466,7 +491,15 @@ test('openInput should expose an Error message when resolving the viewlet fails'
   })
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///failed.ts'],
-    ['Layout.createViewlet', 'Editor', expect.any(Number), expect.any(Number), { height: -35, width: 0, x: 0, y: 35 }, 'file:///failed.ts'],
+    [
+      'Layout.createViewlet',
+      'Editor',
+      expect.any(Number),
+      expect.any(Number),
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///failed.ts',
+      [{ focus: false }],
+    ],
   ])
 })
 
@@ -512,5 +545,5 @@ test('confirmation opens the warned document with reduced features', async () =>
   expect(repeated.layout.groups[0].tabs).toHaveLength(1)
   expect(mockRpc.invocations.some(([command]) => command === 'Layout.createViewlet')).toBe(false)
   await openInput(repeated, { ...options, forceOpen: true })
-  expect(mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')?.at(-1)).toEqual([{ largeFile: true }])
+  expect(mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')?.at(-1)).toEqual([{ focus: false, largeFile: true }])
 })

@@ -1,38 +1,48 @@
 import { expect } from '@jest/globals'
+import * as CacheStorageClient from '../src/parts/CacheStorageClient/CacheStorageClient.ts'
 
-export const mockCacheStorage = (handlers: { getJson?: (key: string) => unknown; setJson?: (key: string, value: unknown) => unknown }) => {
-  const previous = Object.getOwnPropertyDescriptor(globalThis, 'caches')
+export const mockCacheStorage = (handlers: {
+  getJson?: (key: string) => unknown
+  remove?: (key: string) => boolean
+  setJson?: (key: string, value: unknown) => unknown
+}) => {
   const invocations: unknown[][] = []
-  Object.defineProperty(globalThis, 'caches', {
-    configurable: true,
-    value: {
-      open: async (name: string) => {
-        expect(name).toBe('lvce0main-area-tabs')
-        return {
-          match: async (key: string) => {
-            invocations.push(['getJson', key])
-            const value = handlers.getJson?.(key)
-            return value === undefined ? undefined : Response.json(value)
-          },
-          put: async (key: string, response: Response) => {
-            expect(response.headers.get('Content-Type')).toBe('application/json')
-            expect(Date.parse(response.headers.get('Expires')!)).toBeGreaterThan(Date.now())
-            const value: unknown = await response.json()
-            invocations.push(['setJson', key, value])
-            handlers.setJson?.(key, value)
-          },
+  const previous = CacheStorageClient.set({
+    dispose: async () => {},
+    invoke: async (command: string, ...args: readonly unknown[]) => {
+      invocations.push([command, ...args])
+      const key = args[0] as string
+      const value = args[1] as string | undefined
+      const cacheName = (command === 'Cache.setCacheStorageItem' ? args[2] : args[1]) as string | undefined
+      const headers = args[3] as Record<string, string> | undefined
+      if (['Cache.getCacheStorageItem', 'Cache.setCacheStorageItem', 'Cache.removeCacheStorageItem'].includes(command)) {
+        expect(cacheName).toBe('lvce0main-area-tabs')
+      }
+      if (command === 'Cache.getCacheStorageItem') {
+        const json = handlers.getJson?.(key)
+        if (json === undefined) {
+          return null
         }
-      },
+        return { body: new TextEncoder().encode(JSON.stringify(json)).buffer }
+      }
+      if (command === 'Cache.setCacheStorageItem') {
+        expect(headers?.['Content-Type']).toBe('application/json')
+        expect(Date.parse(headers?.Expires ?? '')).toBeGreaterThan(Date.now())
+        const result = handlers.setJson?.(key, JSON.parse(value!))
+        return result === undefined ? { success: true } : result
+      }
+      if (command === 'Cache.removeCacheStorageItem') {
+        return handlers.remove ? handlers.remove(key) : true
+      }
+      throw new Error(`Unexpected cache worker command: ${command} (${cacheName}, ${JSON.stringify(headers)})`)
     },
+    invokeAndTransfer: async () => undefined,
+    send: () => {},
   })
   return {
     invocations,
     [Symbol.dispose]: () => {
-      if (previous) {
-        Object.defineProperty(globalThis, 'caches', previous)
-      } else {
-        delete (globalThis as { caches?: CacheStorage }).caches
-      }
+      CacheStorageClient.set(previous)
     },
   }
 }

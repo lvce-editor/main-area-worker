@@ -1,6 +1,6 @@
 import { cp, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
-import { fileURLToPath, pathToFileURL } from 'node:url'
+import { fileURLToPath } from 'node:url'
 import { root } from './root.js'
 
 const sharedProcessUrl = import.meta.resolve('@lvce-editor/shared-process')
@@ -13,7 +13,7 @@ const { commitHash } = await sharedProcess.exportStatic({
   testPath: 'packages/e2e',
 })
 
-const rendererWorkerPath = join(root, 'dist', commitHash, 'packages', 'renderer-worker', 'dist', 'rendererWorkerMain.js')
+const viewletPath = join(root, 'dist', commitHash, 'packages', 'renderer-worker', 'dist', 'Viewlet.js')
 const rendererProcessPath = join(root, 'dist', commitHash, 'packages', 'renderer-process', 'dist', 'rendererProcessMain.js')
 const mainAreaWorkerDistPath = join(root, 'dist', commitHash, 'packages', 'main-area-worker', 'dist', 'mainAreaWorkerMain.js')
 const staticServerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/static-server/package.json'))
@@ -27,33 +27,29 @@ const serverRendererProcessPath = join(
   'rendererProcessMain.js',
 )
 
-export const getRemoteUrl = (path: string): string => {
-  const url = pathToFileURL(path).toString().slice(8)
-  return `/remote/${url}`
+const workerPath = join(root, '.tmp/dist/dist/mainAreaWorkerMain.js')
+// The exported configuration selects this repository's worker through InitData IPC.
+const indexHtml = await readFile(join(root, 'dist', 'index.html'), 'utf8')
+const configMatch = indexHtml.match(/<script id="Config" type="application\/json">(.*?)<\/script>/)
+if (!configMatch) {
+  throw new Error('exported runtime configuration not found')
+}
+const config = JSON.parse(configMatch[1])
+if (config.workerUrls?.['develop.mainAreaWorkerPath'] !== `${config.assetDir}/packages/main-area-worker/dist/mainAreaWorkerMain.js`) {
+  throw new Error('exported configuration must select the local main area worker')
 }
 
-const content = await readFile(rendererWorkerPath, 'utf8')
-const workerPath = join(root, '.tmp/dist/dist/mainAreaWorkerMain.js')
-const remoteUrl = getRemoteUrl(workerPath)
-
-const occurrence = `// const mainAreaWorkerUrl = \`\${assetDir}/packages/main-area-worker/dist/mainAreaWorkerMain.js\`
-const mainAreaWorkerUrl = \`${remoteUrl}\``
-const replacement = `const mainAreaWorkerUrl = \`\${assetDir}/packages/main-area-worker/dist/mainAreaWorkerMain.js\``
+const content = await readFile(viewletPath, 'utf8')
 const saveReturnOccurrence = `|| key === 'getPlatform') {
       return newState;
     }`
 const saveReturnReplacement = `|| key === 'getPlatform' || key === 'save') {
       return newState;
     }`
-if (!content.includes(occurrence) && !content.includes(replacement)) {
-  throw new Error('occurrence not found')
-}
-if (!content.includes(saveReturnOccurrence)) {
+if (!content.includes(saveReturnOccurrence) && !content.includes(saveReturnReplacement)) {
   throw new Error('save return occurrence not found')
 }
-const contentWithMainAreaWorkerUrl = content.includes(occurrence) ? content.replace(occurrence, replacement) : content
-const contentWithSaveReturnValue = contentWithMainAreaWorkerUrl.replace(saveReturnOccurrence, saveReturnReplacement)
-await writeFile(rendererWorkerPath, contentWithSaveReturnValue)
+await writeFile(viewletPath, content.replace(saveReturnOccurrence, saveReturnReplacement))
 
 const addScrollCommandHandlers = (content: string): string => {
   if (content.includes(`'Viewlet.scrollSelectorIntoView':`)) {

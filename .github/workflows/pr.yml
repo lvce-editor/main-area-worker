@@ -81,10 +81,12 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
-      - name: Select comparison version
+      - name: Select baseline lockfile
+        if: matrix.version == '22.40.2'
         run: |
-          npm pkg set 'devDependencies.@lvce-editor/test-with-playwright=${{ matrix.version }}' --workspace ./packages/e2e
-          npm install --package-lock-only --ignore-scripts
+          git fetch --depth=1 origin 5b13bbd651e49763e74fc97e337d28dbe2e909c5
+          git show 5b13bbd651e49763e74fc97e337d28dbe2e909c5:package-lock.json > package-lock.json
+          git show 5b13bbd651e49763e74fc97e337d28dbe2e909c5:packages/e2e/package.json > packages/e2e/package.json
       - name: npm ci
         run: npm ci
       - name: Verify installed harness version

@@ -31,19 +31,25 @@ replaceOnce(
 const initializeNavigationDiagnostics = (page, url) => {
   let state = navigationDiagnostics.get(page);
   if (!state) {
-    state = { events: [], url, captured: false };
+    state = { events: [], pending: new Map(), url, captured: false };
     const record = (type, details = {}) => {
       state.events.push({ sequence: state.sequence++, time: performance.now(), type, ...details });
       if (state.events.length > 30) state.events.shift();
     };
     state.sequence = 0;
     page.on('request', request => {
+      if (request.url().startsWith('http://127.0.0.1:')) state.pending.set(request, { url: request.url(), type: request.resourceType(), start: performance.now() });
       if (request.isNavigationRequest()) record('request', { url: request.url() });
     });
     page.on('response', response => {
+      const pending = state.pending.get(response.request());
+      if (pending) { pending.status = response.status(); pending.responseTime = performance.now(); }
       if (response.request().isNavigationRequest()) record('response', { url: response.url(), status: response.status() });
     });
+    page.on('requestfinished', request => state.pending.delete(request));
+    page.on('pageerror', error => record('pageerror', { error: String(error) }));
     page.on('requestfailed', request => {
+      state.pending.delete(request);
       if (request.isNavigationRequest()) record('requestfailed', { url: request.url(), error: request.failure() });
     });
     page.on('domcontentloaded', () => record('domcontentloaded', { url: page.url() }));
@@ -62,7 +68,7 @@ const captureNavigationFailure = async (page, error) => {
     wallTime: new Date().toISOString(), time: performance.now(),
     url: state.url, pageUrl: page.url(), pageClosed: page.isClosed(),
     browserConnected: page.context().browser()?.isConnected(),
-    error: String(error), events: state.events.slice(),
+    error: String(error), events: state.events.slice(), pendingRequests: [...state.pending.values()],
   };
   const start = performance.now();
   try {
@@ -72,6 +78,29 @@ const captureNavigationFailure = async (page, error) => {
   } catch (probeError) {
     capture.httpProbe = { error: String(probeError), elapsed: performance.now() - start };
   }
+  const pageProbeStart = performance.now();
+  let pageProbeTimer;
+  try {
+    capture.pageProbe = await Promise.race([
+      page.evaluate(() => ({ readyState: document.readyState, title: document.title, scripts: [...document.scripts].map(script => ({ src: script.src, type: script.type })), overlay: document.querySelector('#TestOverlay')?.textContent })),
+      new Promise((resolve, reject) => { pageProbeTimer = setTimeout(() => reject(new Error('page evaluation timed out')), 5000); }),
+    ]);
+  } catch (pageProbeError) {
+    capture.pageProbe = { error: String(pageProbeError) };
+  } finally {
+    clearTimeout(pageProbeTimer);
+    capture.pageProbeElapsed = performance.now() - pageProbeStart;
+  }
+  capture.resourceProbes = await Promise.all(capture.pendingRequests.slice(0, 3).map(async request => {
+    const start = performance.now();
+    try {
+      const response = await fetch(request.url, { signal: AbortSignal.timeout(5000) });
+      const body = await response.arrayBuffer();
+      return { url: request.url, status: response.status, bytes: body.byteLength, elapsed: performance.now() - start };
+    } catch (resourceError) {
+      return { url: request.url, error: String(resourceError), elapsed: performance.now() - start };
+    }
+  }));
   try {
     const { execFile } = await import('node:child_process');
     capture.processes = await new Promise((resolve, reject) => {

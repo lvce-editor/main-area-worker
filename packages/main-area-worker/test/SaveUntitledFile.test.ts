@@ -52,7 +52,7 @@ test('saving an untitled file can update its uri before the save command finishe
     'Layout.handleActiveEditorChange': async () => {},
     'Main.handleModifiedStatusChange': async () => {},
     'Viewlet.save': async () => {
-      await commandMap['MainArea.handleUriChange'](uid, oldUri, newUri)
+      await commandMap['Main.handleUriChange'](uid, oldUri, newUri)
       return { modified: false }
     },
   })

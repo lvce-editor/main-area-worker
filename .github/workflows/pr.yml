@@ -66,3 +66,47 @@ jobs:
         run: npm run measure
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
+
+  webkit-reproduction:
+    name: WebKit reproduction (${{ matrix.attempt }})
+    strategy:
+      fail-fast: false
+      matrix:
+        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+      - name: npm ci
+        run: npm ci
+      - run: npm run build
+      - run: npm run build:static
+      - name: install playwright system dependencies
+        working-directory: ./packages/e2e
+        run: sudo npx playwright install-deps chromium firefox webkit
+      - name: install playwright dependencies
+        working-directory: ./packages/e2e
+        run: npx playwright install chromium firefox webkit
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+      - name: e2e webkit
+        working-directory: ./packages/e2e
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run e2e:webkit:headless 2>&1 | tee webkit-attempt-${{ matrix.attempt }}.log
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+      - name: Upload WebKit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webkit-attempt-${{ matrix.attempt }}
+          path: |
+            packages/e2e/webkit-attempt-${{ matrix.attempt }}.log
+            packages/e2e/screenshots/**
+            packages/e2e/renderer-worker-traces/**
+          if-no-files-found: warn

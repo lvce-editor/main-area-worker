@@ -81,10 +81,12 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
+      - name: Select comparison version
+        run: |
+          npm pkg set 'devDependencies.@lvce-editor/test-with-playwright=${{ matrix.version }}' --workspace ./packages/e2e
+          npm install --package-lock-only --ignore-scripts
       - name: npm ci
         run: npm ci
-      - name: Install comparison version
-        run: npm install --workspace e2e --no-save --package-lock=false @lvce-editor/test-with-playwright@${{ matrix.version }}
       - name: Verify installed harness version
         working-directory: ./packages/e2e
         run: |
@@ -97,11 +99,12 @@ jobs:
           const require = createRequire(harnessPath)
           const workerPath = require.resolve(workerName)
           const workerSource = readFileSync(workerPath, 'utf8')
+          const worker = JSON.parse(readFileSync(require.resolve(workerName + '/package.json'), 'utf8'))
           const expected = process.env.COMPARISON_VERSION
-          if (harness.version !== expected || harness.dependencies[workerName] !== expected) throw new Error('Incorrect harness version')
+          if (harness.version !== expected || harness.dependencies[workerName] !== expected || worker.version !== expected) throw new Error('Incorrect harness version')
           const commitReadiness = workerSource.includes(`browser === 'webkit' ? 'commit' : 'domcontentloaded'`)
           if (commitReadiness !== (expected === '22.40.3')) throw new Error('Incorrect navigation implementation')
-          const versions = { harness: harness.version, worker: harness.dependencies[workerName], playwright: require('@playwright/test/package.json').version, node: process.version, commitReadiness }
+          const versions = { harness: harness.version, worker: worker.version, playwright: require('@playwright/test/package.json').version, node: process.version, commitReadiness }
           console.log(versions)
           writeFileSync('comparison-versions.json', JSON.stringify(versions, null, 2))
           JS

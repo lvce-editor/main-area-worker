@@ -108,6 +108,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: webkit-attempt-${{ matrix.attempt }}
+          include-hidden-files: true
           path: |
             packages/e2e/webkit-attempt-${{ matrix.attempt }}.log
             packages/e2e/.e2e-artifacts/**

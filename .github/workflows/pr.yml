@@ -67,11 +67,12 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
 
-  webkit-reproduction:
-    name: WebKit reproduction (${{ matrix.attempt }})
+  webkit-comparison:
+    name: WebKit comparison (${{ matrix.version }}, ${{ matrix.attempt }})
     strategy:
       fail-fast: false
       matrix:
+        version: ['22.40.2', '22.40.3']
         attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     runs-on: ubuntu-24.04
     timeout-minutes: 45
@@ -82,8 +83,30 @@ jobs:
           node-version-file: '.nvmrc'
       - name: npm ci
         run: npm ci
-      - name: Install navigation diagnostics
-        run: node packages/e2e/scripts/patch-navigation-diagnostics.js
+      - name: Install comparison version
+        run: npm install --workspace e2e --no-save --package-lock=false @lvce-editor/test-with-playwright@${{ matrix.version }}
+      - name: Verify installed harness version
+        working-directory: ./packages/e2e
+        run: |
+          node --input-type=module <<'JS'
+          import { createRequire } from 'node:module'
+          import { readFileSync, writeFileSync } from 'node:fs'
+          const harnessPath = import.meta.resolve('@lvce-editor/test-with-playwright/package.json')
+          const harness = JSON.parse(readFileSync(new URL(harnessPath), 'utf8'))
+          const workerName = Object.keys(harness.dependencies).find(name => name.endsWith('/test-with-playwright-worker'))
+          const require = createRequire(harnessPath)
+          const workerPath = require.resolve(workerName)
+          const workerSource = readFileSync(workerPath, 'utf8')
+          const expected = process.env.COMPARISON_VERSION
+          if (harness.version !== expected || harness.dependencies[workerName] !== expected) throw new Error('Incorrect harness version')
+          const commitReadiness = workerSource.includes(`browser === 'webkit' ? 'commit' : 'domcontentloaded'`)
+          if (commitReadiness !== (expected === '22.40.3')) throw new Error('Incorrect navigation implementation')
+          const versions = { harness: harness.version, worker: harness.dependencies[workerName], playwright: require('@playwright/test/package.json').version, node: process.version, commitReadiness }
+          console.log(versions)
+          writeFileSync('comparison-versions.json', JSON.stringify(versions, null, 2))
+          JS
+        env:
+          COMPARISON_VERSION: ${{ matrix.version }}
       - run: npm run build
       - run: npm run build:static
       - name: install playwright system dependencies
@@ -99,19 +122,15 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          timeout --kill-after=10s 20m npm run e2e:webkit:headless 2>&1 | tee webkit-attempt-${{ matrix.attempt }}.log
+          timeout --kill-after=10s 20m npm run e2e:webkit:headless 2>&1 | tee webkit-comparison-${{ matrix.version }}-${{ matrix.attempt }}.log
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
-          E2E_ATTEMPT: ${{ matrix.attempt }}
-      - name: Upload WebKit evidence
+      - name: Upload comparison evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: webkit-attempt-${{ matrix.attempt }}
-          include-hidden-files: true
+          name: webkit-comparison-${{ matrix.version }}-${{ matrix.attempt }}
           path: |
-            packages/e2e/webkit-attempt-${{ matrix.attempt }}.log
-            packages/e2e/.e2e-artifacts/**
-            packages/e2e/screenshots/**
-            packages/e2e/renderer-worker-traces/**
+            packages/e2e/webkit-comparison-${{ matrix.version }}-${{ matrix.attempt }}.log
+            packages/e2e/comparison-versions.json
           if-no-files-found: warn

@@ -1,8 +1,13 @@
 import { createRequire } from 'node:module'
 import { readFile, writeFile } from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
 
-const require = createRequire(import.meta.url)
-const runner = require.resolve('@lvce-editor/test-with-playwright-worker')
+const harnessPath = fileURLToPath(import.meta.resolve('@lvce-editor/test-with-playwright/package.json'))
+const harness = JSON.parse(await readFile(harnessPath, 'utf8'))
+const workerName = Object.keys(harness.dependencies).find((name) => name.endsWith('/test-with-playwright-worker'))
+if (!workerName) throw new Error('Test harness worker dependency not found')
+const require = createRequire(harnessPath)
+const runner = require.resolve(workerName)
 let source = await readFile(runner, 'utf8')
 const replaceOnce = (before, after) => {
   if (source.split(before).length !== 2) {

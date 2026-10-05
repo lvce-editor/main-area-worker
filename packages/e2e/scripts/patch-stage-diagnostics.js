@@ -22,7 +22,7 @@ const replaceInSection = (startMarker, endMarker, before, after) => {
   replaceOnce(section, section.replace(before, after))
 }
 
-source = `import { appendFileSync as diagAppend, mkdirSync as diagMkdir, writeFileSync as diagWrite } from 'node:fs';\nimport { execFileSync as diagExec } from 'node:child_process';\n${source}`
+source = `import { appendFileSync as diagAppend, mkdirSync as diagMkdir, writeFileSync as diagWrite } from 'node:fs';\nimport { execFileSync as diagExec, execFile as diagExecAsync } from 'node:child_process';\n${source}`
 replaceOnce(
   'const navigateToTest = async (page, url, browser) => {',
   String.raw`const diagDirectory = '.e2e-artifacts';
@@ -40,6 +40,31 @@ const diagBounded = async (run) => {
   } finally {
     clearTimeout(timer);
   }
+};
+const diagNativeCommand = (command, args) => new Promise(resolve => {
+  diagExecAsync(command, args, { encoding: 'utf8', timeout: 15000, maxBuffer: 1024 * 1024 }, (error, stdout, stderr) => {
+    resolve({ error: error ? String(error) : undefined, stdout, stderr });
+  });
+});
+const diagNativeCapture = async (capture) => {
+  const rows = diagExec('ps', ['-eo', 'pid,ppid,pcpu,rss,nlwp,stat,comm'], { encoding: 'utf8', timeout: 5000 }).split('\n');
+  const webkitRows = rows.filter(line => /WPE/.test(line));
+  const pids = new Set();
+  for (const row of webkitRows) {
+    const [pid, parent] = row.trim().split(/\s+/);
+    pids.add(pid);
+    pids.add(parent);
+  }
+  capture.nativeProcesses = rows.filter(line => /PID/.test(line) || pids.has(line.trim().split(/\s+/)[0]));
+  capture.nativeThreads = await diagNativeCommand('ps', ['-L', '-p', [...pids].join(','), '-o', 'pid,tid,pcpu,stat,wchan:32,comm']);
+  diagPersist('native', capture);
+  capture.stacks = await Promise.all([...pids].map(async pid => ({
+    pid,
+    ...await diagNativeCommand('sudo', ['-n', 'gdb', '--batch', '-nx', '--quiet', '-p', pid,
+      '-ex', 'set pagination off', '-ex', 'set print thread-events off',
+      '-ex', 'thread apply all bt 24', '-ex', 'detach']),
+  })));
+  diagPersist('native', capture);
 };
 const diagCapture = async (page, state, reason) => {
   if (state.captured) return;
@@ -69,6 +94,10 @@ const diagCapture = async (page, state, reason) => {
   }
   [capture.pageProbe, capture.httpProbe] = await Promise.all([pageProbe, httpProbe]);
   diagPersist('stall', capture);
+  if (capture.pageProbe.error && !page.isClosed()) {
+    try { await diagNativeCapture({ stage: capture.stage, wallTime: new Date().toISOString() }); }
+    catch (error) { diagPersist('native-error', { error: String(error) }); }
+  }
 };
 const diagStage = (page, test, stage, details = {}) => {
   let state = diagStates.get(page);

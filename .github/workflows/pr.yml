@@ -84,6 +84,8 @@ jobs:
         run: npm ci
       - name: Install stage diagnostics
         run: node packages/e2e/scripts/patch-stage-diagnostics.js
+      - name: Install native stack capture
+        run: command -v gdb || sudo apt-get install -y gdb
       - run: npm run build
       - run: npm run build:static
       - name: install playwright system dependencies

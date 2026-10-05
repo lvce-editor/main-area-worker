@@ -67,8 +67,8 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
 
-  webkit-validation:
-    name: WebKit published harness (${{ matrix.attempt }})
+  webkit-isolation:
+    name: WebKit isolated browser (${{ matrix.attempt }})
     strategy:
       fail-fast: false
       matrix:
@@ -93,6 +93,8 @@ jobs:
           if (harness.version !== '22.40.5' || worker.version !== '22.40.5') throw new Error('Unexpected harness version')
           console.log({ harness: harness.version, worker: worker.version })
           NODE
+      - name: Install browser isolation experiment
+        run: node packages/e2e/scripts/patch-browser-isolation.js
       - run: npm run build
       - run: npm run build:static
       - name: install playwright system dependencies
@@ -108,13 +110,13 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          timeout --kill-after=10s 20m npm run e2e:webkit:headless 2>&1 | tee webkit-validation-${{ matrix.attempt }}.log
+          timeout --kill-after=10s 20m npm run e2e:webkit:headless 2>&1 | tee webkit-isolation-${{ matrix.attempt }}.log
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: Upload validation evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: webkit-validation-${{ matrix.attempt }}
-          path: packages/e2e/webkit-validation-${{ matrix.attempt }}.log
+          name: webkit-isolation-${{ matrix.attempt }}
+          path: packages/e2e/webkit-isolation-${{ matrix.attempt }}.log
           if-no-files-found: warn

@@ -66,3 +66,50 @@ jobs:
         run: npm run measure
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
+
+  webkit-stages:
+    name: WebKit stages (${{ matrix.attempt }})
+    strategy:
+      fail-fast: false
+      matrix:
+        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+      - name: npm ci
+        run: npm ci
+      - name: Install stage diagnostics
+        run: node packages/e2e/scripts/patch-stage-diagnostics.js
+      - run: npm run build
+      - run: npm run build:static
+      - name: install playwright system dependencies
+        working-directory: ./packages/e2e
+        run: sudo npx playwright install-deps chromium firefox webkit
+      - name: install playwright dependencies
+        working-directory: ./packages/e2e
+        run: npx playwright install chromium firefox webkit
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+      - name: e2e webkit
+        working-directory: ./packages/e2e
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout --kill-after=10s 20m npm run e2e:webkit:headless 2>&1 | tee webkit-stages-${{ matrix.attempt }}.log
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+          E2E_ATTEMPT: ${{ matrix.attempt }}
+      - name: Upload stage evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: webkit-stages-${{ matrix.attempt }}
+          include-hidden-files: true
+          path: |
+            packages/e2e/webkit-stages-${{ matrix.attempt }}.log
+            packages/e2e/.e2e-artifacts/**
+          if-no-files-found: warn

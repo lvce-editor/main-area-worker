@@ -67,8 +67,8 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
 
-  webkit-stages:
-    name: WebKit stages (${{ matrix.attempt }})
+  webkit-validation:
+    name: WebKit published harness (${{ matrix.attempt }})
     strategy:
       fail-fast: false
       matrix:
@@ -82,10 +82,17 @@ jobs:
           node-version-file: '.nvmrc'
       - name: npm ci
         run: npm ci
-      - name: Install stage diagnostics
-        run: node packages/e2e/scripts/patch-stage-diagnostics.js
-      - name: Install native stack capture
-        run: command -v gdb || sudo apt-get install -y gdb
+      - name: Verify published harness
+        run: |
+          node --input-type=module <<'NODE'
+          import { createRequire } from 'node:module'
+          const require = createRequire(import.meta.resolve('@lvce-editor/test-with-playwright/package.json'))
+          const harness = require('@lvce-editor/test-with-playwright/package.json')
+          const workerName = Object.keys(harness.dependencies).find(name => name.endsWith('/test-with-playwright-worker'))
+          const worker = require(workerName + '/package.json')
+          if (harness.version !== '22.40.5' || worker.version !== '22.40.5') throw new Error('Unexpected harness version')
+          console.log({ harness: harness.version, worker: worker.version })
+          NODE
       - run: npm run build
       - run: npm run build:static
       - name: install playwright system dependencies
@@ -101,17 +108,13 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          timeout --kill-after=10s 20m npm run e2e:webkit:headless 2>&1 | tee webkit-stages-${{ matrix.attempt }}.log
+          timeout --kill-after=10s 20m npm run e2e:webkit:headless 2>&1 | tee webkit-validation-${{ matrix.attempt }}.log
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
-          E2E_ATTEMPT: ${{ matrix.attempt }}
-      - name: Upload stage evidence
+      - name: Upload validation evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: webkit-stages-${{ matrix.attempt }}
-          include-hidden-files: true
-          path: |
-            packages/e2e/webkit-stages-${{ matrix.attempt }}.log
-            packages/e2e/.e2e-artifacts/**
+          name: webkit-validation-${{ matrix.attempt }}
+          path: packages/e2e/webkit-validation-${{ matrix.attempt }}.log
           if-no-files-found: warn

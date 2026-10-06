@@ -1,4 +1,5 @@
-import { cp, mkdir, readdir, readFile, realpath, rm } from 'node:fs/promises'
+import { cp, mkdir, readdir, readFile, realpath, rm, writeFile } from 'node:fs/promises'
+import { stripTypeScriptTypes } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -20,6 +21,13 @@ const selectedTests = testFilter ? sourceTests.filter((name) => name.includes(te
 if (testFilter && selectedTests.length === 0) throw new Error(`No integration tests match filter: ${testFilter}`)
 for (const name of selectedTests) {
   await cp(join(here, 'src', name), join(tests, 'src', name), { recursive: true })
+}
+// The application's development test URLs resolve to JavaScript modules.
+for (const name of selectedTests) {
+  if (!name.endsWith('.ts')) continue
+  const source = join(tests, 'src', name)
+  await writeFile(source.replace(/\.ts$/, '.js'), stripTypeScriptTypes(await readFile(source, 'utf8')))
+  await rm(source)
 }
 await rm(join(tests, 'fixtures'), { recursive: true, force: true })
 await mkdir(join(tests, 'fixtures'), { recursive: true })

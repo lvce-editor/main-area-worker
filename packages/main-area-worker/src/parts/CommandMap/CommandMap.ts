@@ -13,6 +13,7 @@ import { copyPath } from '../CopyPath/CopyPath.ts'
 import { copyRelativePath } from '../CopyRelativePath/CopyRelativePath.ts'
 import * as MainArea from '../Create/Create.ts'
 import { diff2 } from '../Diff2/Diff2.ts'
+import { dispose } from '../Dispose/Dispose.ts'
 import { focus } from '../Focus/Focus.ts'
 import { focusNextTab } from '../FocusNextTab/FocusNextTab.ts'
 import { focusPreviousTab } from '../FocusPreviousTab/FocusPreviousTab.ts'
@@ -54,6 +55,8 @@ import { hasDirtyTabs } from '../HasDirtyTabs/HasDirtyTabs.ts'
 import { configure as configureIds } from '../Id/Id.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
+import { loadContentLater } from '../LoadContent/LoadContentLater.ts'
+import { loadContentShell } from '../LoadContent/LoadContentShell.ts'
 import { get, getCommandIds, set, wrapAsyncCommand, wrapGetter, wrapSerialAsyncCommand, wrapSerialCommand } from '../MainAreaStates/MainAreaStates.ts'
 import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
 import { moveIntoNewWindow } from '../MoveIntoNewWindow/MoveIntoNewWindow.ts'
@@ -176,6 +179,7 @@ export const commandMap = {
   'MainArea.copyRelativePath': wrapSerialCommand(copyRelativePath),
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
+  'MainArea.dispose': dispose,
   'MainArea.flipEditorLayout': wrapSerialCommand(flipLayout),
   'MainArea.focus': wrapSerialCommand(focus),
   'MainArea.focusNext': wrapSerialCommand(focusNextTab),
@@ -183,7 +187,8 @@ export const commandMap = {
   'MainArea.focusPrevious': wrapSerialCommand(focusPreviousTab),
   'MainArea.focusPreviousTab': wrapSerialCommand(focusPreviousTab),
   'MainArea.getActiveEditorUid': wrapGetter(getActiveEditorUid),
-  'MainArea.getCommandIds': getCommandIds,
+  // Lifecycle hooks require an explicit renderer adapter, not command discovery.
+  'MainArea.getCommandIds': () => getCommandIds().filter((id) => id !== 'loadContentLater'),
   'MainArea.getComponentDom': getComponentDom,
   'MainArea.getComponentState': getComponentState,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
@@ -227,6 +232,11 @@ export const commandMap = {
   'MainArea.hasDirtyTabs': wrapGetter(hasDirtyTabs),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': loadContentTracked,
+  'MainArea.loadContentLater': wrapAsyncCommand(loadContentLater),
+  'MainArea.loadContentShell': (uid: number, savedState: unknown): void => {
+    const instance = get(uid)
+    set(uid, instance.oldState, loadContentShell(instance.newState, savedState))
+  },
   'MainArea.moveIntoNewWindow': wrapSerialCommand(moveIntoNewWindow),
   'MainArea.newFile': wrapSerialCommand(newFile),
   'MainArea.newWindow': wrapSerialCommand(newWindow),

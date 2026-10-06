@@ -12,4 +12,6 @@ cd /path/to/disposable/lvce-editor/packages/extension-host-worker-tests
 npm run e2e:headless --
 ```
 
+To prepare only scenarios whose filenames contain a given substring, pass it as the second argument to `prepare.mjs`.
+
 Preparation replaces the disposable application's scenarios and fixtures and overlays local build artifacts. See `config.json` for artifact and script destinations, and `.github/workflows/integration.yml` for static export, Electron, and settings requirements. Update the pinned application commit when its runtime needs updating.

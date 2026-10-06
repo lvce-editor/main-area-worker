@@ -338,9 +338,12 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
 
   const verticalSashes = result.filter((node) => node.className === 'Sash SashVertical')
   const horizontalSashes = result.filter((node) => node.className === 'Sash SashHorizontal')
+  const nestedSegment = result.find((node) => node.className?.endsWith('-Segment'))
 
   expect(verticalSashes).toHaveLength(1)
   expect(horizontalSashes).toHaveLength(1)
+  expect(result[1].childCount).toBe(3) // one group, one sash, and one nested segment
+  expect(nestedSegment?.childCount).toBe(3) // two groups and their sash
 })
 
 test('getMainAreaVirtualDom should render a sash corner for an aligned grid', () => {
@@ -393,6 +396,7 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
 
   const result = getMainAreaVirtualDom(layout)
   const sashCorner = result.find((node) => node.className === 'SashCorner')
+  const nestedSegments = result.filter((node) => node.className?.endsWith('-Segment'))
 
   expect(sashCorner).toEqual({
     childCount: 0,
@@ -401,7 +405,8 @@ test('getMainAreaVirtualDom should render a sash corner for an aligned grid', ()
     role: 'none',
     type: VirtualDomElements.Button,
   })
-  expect(result[1].childCount).toBe(10)
+  expect(result[1].childCount).toBe(4) // two nested segments, one sash, and the corner
+  expect(nestedSegments.map((node) => node.childCount)).toEqual([3, 3])
 })
 
 test('getMainAreaVirtualDom should handle empty groups array', () => {

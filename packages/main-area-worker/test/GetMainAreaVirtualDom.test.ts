@@ -4,6 +4,7 @@ import type { MainAreaLayout } from '../src/parts/MainAreaLayout/MainAreaLayout.
 import * as ClassNames from '../src/parts/ClassNames/ClassNames.ts'
 import * as DomEventListenerFunctions from '../src/parts/DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getMainAreaVirtualDom } from '../src/parts/GetMainAreaVirtualDom/GetMainAreaVirtualDom.ts'
+import * as TryRestoreLayout from '../src/parts/TryRestoreLayout/TryRestoreLayout.ts'
 
 test('getMainAreaVirtualDom should return correct structure for single group', () => {
   const layout: MainAreaLayout = {
@@ -344,6 +345,56 @@ test('getMainAreaVirtualDom should render nested split groups without flattening
   expect(horizontalSashes).toHaveLength(1)
   expect(result[1].childCount).toBe(3) // one group, one sash, and one nested segment
   expect(nestedSegment?.childCount).toBe(3) // two groups and their sash
+})
+
+test('getMainAreaVirtualDom should preserve direct child counts for a restored nested layout', () => {
+  const layout: MainAreaLayout = {
+    activeGroupId: 3,
+    direction: 1,
+    groups: [
+      {
+        activeTabId: 1,
+        direction: 1,
+        id: 1,
+        isEmpty: false,
+        isFocused: false,
+        size: 50,
+        tabs: [{ editorUid: -1, icon: '', id: 1, isDirty: false, isPreview: false, title: 'Top', uri: '/top.ts' }],
+      },
+      {
+        activeTabId: 2,
+        direction: 2,
+        id: 2,
+        isEmpty: false,
+        isFocused: false,
+        size: 25,
+        tabs: [{ editorUid: -1, icon: '', id: 2, isDirty: false, isPreview: false, title: 'Middle', uri: '/middle.ts' }],
+      },
+      {
+        activeTabId: 3,
+        direction: 2,
+        id: 3,
+        isEmpty: false,
+        isFocused: true,
+        size: 25,
+        tabs: [{ editorUid: -1, icon: '', id: 3, isDirty: false, isPreview: false, title: 'Bottom', uri: '/bottom.ts' }],
+      },
+    ],
+  }
+  const restoredLayout = TryRestoreLayout.tryRestoreLayout({ layout })
+
+  expect(restoredLayout).toBeDefined()
+  if (!restoredLayout) {
+    throw new Error('Expected the saved split layout to restore')
+  }
+
+  const result = getMainAreaVirtualDom(restoredLayout)
+  const nestedSegment = result.find((node) => node.className?.endsWith('-Segment'))
+
+  expect(result[1].childCount).toBe(3)
+  expect(nestedSegment?.childCount).toBe(3)
+  expect(restoredLayout.groups.map((group) => group.size)).toEqual([50, 25, 25])
+  expect(result.some((node) => node.text === 'undefined')).toBe(false)
 })
 
 test('getMainAreaVirtualDom should render a sash corner for an aligned grid', () => {

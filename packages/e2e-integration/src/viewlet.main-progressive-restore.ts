@@ -4,8 +4,8 @@ export const name = 'viewlet.main-progressive-restore'
 
 export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  const restoredFile = `${tmpDir}/restored.txt`
-  const newFile = `${tmpDir}/opened-during-restore.txt`
+  const restoredFile = `${tmpDir}/restored.js`
+  const newFile = `${tmpDir}/opened-during-restore.js`
   await FileSystem.setFiles([
     { content: 'restored file', uri: restoredFile },
     { content: 'new file', uri: newFile },
@@ -23,7 +23,7 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
           isEmpty: false,
           isFocused: true,
           size: 100,
-          tabs: [{ editorUid: -1, icon: '', id: 102, isDirty: false, isPreview: false, title: 'restored.txt', uri: restoredFile }],
+          tabs: [{ editorUid: -1, icon: '', id: 102, isDirty: false, isPreview: false, title: 'restored.js', uri: restoredFile }],
         },
       ],
     },
@@ -31,15 +31,15 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
 
   // Exercise the shell boundary with content deliberately not started yet.
   await Command.execute('Main.loadContentShell', savedState)
-  const restoredTab = Locator('.MainTab[title$="restored.txt"]')
+  const restoredTab = Locator('.MainTab[title$="restored.js"]')
   await expect(restoredTab).toBeVisible()
-  const loading = Locator('.EditorContentLoading')
+  const loading = Locator('.EditorContent--loading')
   await expect(loading).toHaveText('Loading...')
 
   await Main.openUri(newFile)
   await Editor.shouldHaveText('new file')
   await Command.execute('Main.loadContentLater')
-  const selectedTab = Locator('.MainTabSelected[title$="opened-during-restore.txt"]')
+  const selectedTab = Locator('.MainTabSelected[title$="opened-during-restore.js"]')
   await expect(selectedTab).toBeVisible()
   await Editor.shouldHaveText('new file')
   await Main.selectTab(0, 0)

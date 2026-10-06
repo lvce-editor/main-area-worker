@@ -18,7 +18,7 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await Main.splitDown()
   await Main.openUri(files[2])
 
-  await Command.execute('Window.reload')
+  await Command.execute('Reload.reload')
 
   const editors = Locator('.Editor')
   await expect(editors).toHaveCount(3)

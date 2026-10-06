@@ -440,3 +440,32 @@ test('saveAll retains earlier successes when a later save fails', async () => {
   await expect(saveAll(context)).rejects.toThrow('disk full')
   expect(context.getState().layout.groups[0].tabs.map((tab) => tab.isDirty)).toEqual([false, true])
 })
+
+test('save preserves dirty state when a legacy text save returns no status', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({ 'Viewlet.save': async () => ({ commands: [] }) })
+  const state = createSaveState({ uri: 'untitled:///1' })
+  const result = await save(state)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
+  expect(mockRpc.invocations).toEqual([['Viewlet.save', 1]])
+})
+
+test('save honors a successful legacy text save notification', async () => {
+  const state = createSaveState()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.save': async () => {
+      const saved = createSaveState({ isDirty: false })
+      MainAreaStates.set(0, state, saved)
+      return { commands: [] }
+    },
+  })
+  const result = await save(state)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(false)
+  expect(mockRpc.invocations).toEqual([['Viewlet.save', 1]])
+})
+
+test('saveAll preserves dirty state when text saves return no status', async () => {
+  const context = createSaveAllContext()
+  using _mockRpc = RendererWorker.registerMockRpc({ 'Viewlet.save': async () => ({ commands: [] }) })
+  await saveAll(context)
+  expect(context.getState().layout.groups[0].tabs.every((tab) => tab.isDirty)).toBe(true)
+})

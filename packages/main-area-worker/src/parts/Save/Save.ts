@@ -67,7 +67,8 @@ const saveInternal = async (state: MainAreaState, skipFormatting: boolean): Prom
 
   const editorState = await saveEditorAndHandleSettingsChange(tab, state.applicationId, skipFormatting)
   const latestState = getLatestStoredState(uid, currentState, tab.id, tab.uri)
-  if (editorState?.modified) {
+  // Legacy text saves report status through notifications rather than a result.
+  if (editorState?.modified !== false) {
     return latestState
   }
 
@@ -99,7 +100,7 @@ export const saveAll = async (context: AsyncCommandContext<MainAreaState>): Prom
       continue
     }
     const result = await saveEditorAndHandleSettingsChange(current, initialState.applicationId)
-    if (result?.modified) {
+    if (result?.modified !== false) {
       continue
     }
     await context.updateState((state) => updateTab(state, tab.id, { isDirty: false }))

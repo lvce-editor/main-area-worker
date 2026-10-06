@@ -58,6 +58,16 @@ const createShell = (): void => {
   commandMap['MainArea.loadContentShell'](91, savedState)
 }
 
+test('the discovered deferred hook is inert for renderers using legacy content loading', async () => {
+  using rpc = RendererWorker.registerMockRpc(rpcCommands)
+  const state = { ...createDefaultState(), uid: 91 }
+  set(91, state, state)
+  await commandMap['MainArea.loadContentLater'](91)
+  expect(get(91).newState).toBe(state)
+  expect(rpc.invocations).toEqual([])
+  expect(commandMap['MainArea.getCommandIds']()).not.toContain('loadContentLater')
+})
+
 const waitForCreate = async (rpc: { invocations: readonly (readonly unknown[])[] }): Promise<void> => {
   for (let i = 0; i < 30; i++) {
     if (rpc.invocations.some(([method]) => method === 'Layout.createViewlet')) {

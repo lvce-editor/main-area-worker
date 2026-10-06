@@ -118,6 +118,10 @@ const loadIcons = async (context: AsyncCommandContext<MainAreaState>): Promise<v
 
 export const loadContentLater = async (context: AsyncCommandContext<MainAreaState>): Promise<void> => {
   const state = context.getState()
+  // Older renderers discover this lifecycle hook but still use loadContent.
+  if (state.pendingRestoreTabIds === undefined) {
+    return
+  }
   const pendingIds = new Set(state.pendingRestoreTabIds)
   const tabs = state.layout.groups.flatMap((group) => group.tabs.filter((tab) => pendingIds.has(tab.id) && tab.loadingState === 'loading'))
   await context.updateState((current) => ({ ...current, pendingRestoreTabIds: [] }))

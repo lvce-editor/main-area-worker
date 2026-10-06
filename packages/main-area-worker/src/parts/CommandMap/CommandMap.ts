@@ -187,7 +187,8 @@ export const commandMap = {
   'MainArea.focusPrevious': wrapSerialCommand(focusPreviousTab),
   'MainArea.focusPreviousTab': wrapSerialCommand(focusPreviousTab),
   'MainArea.getActiveEditorUid': wrapGetter(getActiveEditorUid),
-  'MainArea.getCommandIds': getCommandIds,
+  // Lifecycle hooks require an explicit renderer adapter, not command discovery.
+  'MainArea.getCommandIds': () => getCommandIds().filter((id) => id !== 'loadContentLater'),
   'MainArea.getComponentDom': getComponentDom,
   'MainArea.getComponentState': getComponentState,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),

@@ -193,7 +193,7 @@ export const commandMap = {
   'MainArea.getComponentState': getComponentState,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
   'MainArea.getMenuIds': getMenuIds,
-  'MainArea.handleClick': wrapSerialCommand(HandleClick.handleClick),
+  'MainArea.handleClick': wrapSerialAsyncCommand(HandleClick.handleClickWithContext),
   'MainArea.handleClickAction': wrapSerialCommand(handleClickAction),
   'MainArea.handleClickCloseTab': wrapSerialCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapSerialCommand(handleClickTab),

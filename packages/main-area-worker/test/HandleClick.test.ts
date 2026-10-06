@@ -98,10 +98,73 @@ test('handleClick should focus the group from the event target', async () => {
   expect(result.layout.groups[1].isFocused).toBe(false)
 })
 
+test('handleClick should focus a non-empty editor group', async () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          id: 1,
+          isEmpty: false,
+          isFocused: true,
+          size: 50,
+          tabs: [],
+        },
+        {
+          activeTabId: 2,
+          direction: 1,
+          id: 2,
+          isEmpty: false,
+          isFocused: false,
+          size: 50,
+          tabs: [],
+        },
+      ],
+    },
+  }
+
+  const result = await HandleClick.handleClick(state, '2')
+
+  expect(result.layout.activeGroupId).toBe(2)
+  expect(result.layout.groups.map((group) => group.isFocused)).toEqual([false, true])
+})
+
 test('handleClick should return the same state when the group does not exist', async () => {
   const state: MainAreaState = createDefaultState()
 
   const result = await HandleClick.handleClick(state, '3')
 
   expect(result).toBe(state)
+})
+
+test('handleClickWithContext publishes the focused group before returning', async () => {
+  let currentState = createDefaultState()
+  currentState = {
+    ...currentState,
+    layout: {
+      ...currentState.layout,
+      activeGroupId: 1,
+      groups: [
+        { activeTabId: -1, direction: 1, id: 1, isEmpty: true, isFocused: true, size: 50, tabs: [] },
+        { activeTabId: -1, direction: 1, id: 2, isEmpty: true, isFocused: false, size: 50, tabs: [] },
+      ],
+    },
+  }
+  const context = {
+    getState: () => currentState,
+    updateState: async (updater: (state: MainAreaState) => MainAreaState) => {
+      currentState = updater(currentState)
+      return currentState
+    },
+  }
+  await HandleClick.handleClickWithContext(context, '2')
+  expect(currentState.layout.activeGroupId).toBe(2)
+  expect(currentState.layout.groups.map((group) => group.isFocused)).toEqual([false, true])
+  const focusedState = currentState
+  await HandleClick.handleClickWithContext(context, '2')
+  expect(currentState).toBe(focusedState)
 })

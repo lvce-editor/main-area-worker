@@ -440,3 +440,23 @@ test('saveAll retains earlier successes when a later save fails', async () => {
   await expect(saveAll(context)).rejects.toThrow('disk full')
   expect(context.getState().layout.groups[0].tabs.map((tab) => tab.isDirty)).toEqual([false, true])
 })
+
+test.each([save, saveWithoutFormatting])('saving the focused second group preserves the dirty first group', async (saveCommand) => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Main.handleModifiedStatusChange': async () => undefined,
+    'Viewlet.save': async () => ({ modified: false }),
+  })
+  const base = createSaveState({ uid: 99 })
+  const first = base.layout.groups[0]
+  const second = {
+    ...first,
+    activeTabId: 2,
+    id: 2,
+    tabs: [{ ...first.tabs[0], editorUid: 42, id: 2, uri: 'file:///second.ts' }],
+  }
+  const state = { ...base, layout: { ...base.layout, activeGroupId: 2, groups: [{ ...first, isFocused: false }, second] } }
+  const result = await saveCommand(state)
+  expect(result.layout.groups[0].tabs[0].isDirty).toBe(true)
+  expect(result.layout.groups[1].tabs[0].isDirty).toBe(false)
+  expect(mockRpc.invocations[0]).toEqual(saveCommand === save ? ['Viewlet.save', 42] : ['Viewlet.save', 42, true])
+})

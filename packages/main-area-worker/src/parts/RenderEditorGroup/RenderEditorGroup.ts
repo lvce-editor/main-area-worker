@@ -1,6 +1,7 @@
 import { type VirtualDomNode, mergeClassNames, VirtualDomElements } from '@lvce-editor/virtual-dom-worker'
 import type { EditorGroup, TabDropIndicator } from '../MainAreaState/MainAreaState.ts'
 import * as ClassNames from '../ClassNames/ClassNames.ts'
+import * as DomEventListenerFunctions from '../DomEventListenerFunctions/DomEventListenerFunctions.ts'
 import { getEditorGroupClassName } from '../GetEditorGroupClassName/GetEditorGroupClassName.ts'
 import { renderEditor } from '../RenderEditor/RenderEditor.ts'
 import { renderEditorGroupHeader } from '../RenderEditorGroupHeader/RenderEditorGroupHeader.ts'
@@ -32,6 +33,7 @@ export const renderEditorGroup = (
       childCount: 2,
       className: mergeClassNames(ClassNames.EditorGroup, getEditorGroupClassName(group.id)),
       'data-groupId': String(group.id),
+      onMouseDown: DomEventListenerFunctions.HandleFocus,
       type: VirtualDomElements.Div,
     },
     ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled, tabDropIndicator),

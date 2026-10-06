@@ -6,6 +6,7 @@ const here = dirname(fileURLToPath(import.meta.url))
 const owner = resolve(here, '../..')
 if (!process.argv[2]) throw new Error('Pass the path to a disposable LVCE checkout')
 const application = resolve(process.argv[2])
+const testFilter = process.argv[3]?.trim()
 const manifest = JSON.parse(await readFile(join(application, 'package.json'), 'utf8'))
 if (manifest.name !== 'lvce-editor') throw new Error('Expected an LVCE application checkout')
 const config = JSON.parse(await readFile(join(here, 'config.json'), 'utf8'))
@@ -14,7 +15,12 @@ const tests = join(application, 'packages/extension-host-worker-tests')
 for (const name of await readdir(join(tests, 'src'))) {
   if (name !== '_all.js') await rm(join(tests, 'src', name), { recursive: true })
 }
-await cp(join(here, 'src'), join(tests, 'src'), { recursive: true })
+const sourceTests = await readdir(join(here, 'src'))
+const selectedTests = testFilter ? sourceTests.filter((name) => name.includes(testFilter)) : sourceTests
+if (testFilter && selectedTests.length === 0) throw new Error(`No integration tests match filter: ${testFilter}`)
+for (const name of selectedTests) {
+  await cp(join(here, 'src', name), join(tests, 'src', name), { recursive: true })
+}
 await rm(join(tests, 'fixtures'), { recursive: true, force: true })
 await mkdir(join(tests, 'fixtures'), { recursive: true })
 try {

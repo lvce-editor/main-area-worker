@@ -41,15 +41,9 @@ jobs:
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
         run: npx playwright install --with-deps chromium
       - name: Prepare owned integration tests
-        run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration
-      - name: Run owned integration tests
-        working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
-        shell: bash
         env:
           TEST_FILTER: ${{ inputs.test_filter }}
-        run: |
-          if [ -n "$TEST_FILTER" ]; then
-            npm run e2e:headless -- --filter="$TEST_FILTER"
-          else
-            npm run e2e:headless --
-          fi
+        run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
+      - name: Run owned integration tests
+        working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
+        run: npm run e2e:headless --

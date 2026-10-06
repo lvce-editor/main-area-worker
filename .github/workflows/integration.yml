@@ -1,6 +1,11 @@
 name: Integration
 'on':
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      test_filter:
+        description: Optional test name filter
+        required: false
+        type: string
 jobs:
   integration:
     strategy:
@@ -36,8 +41,10 @@ jobs:
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
         run: npx playwright install --with-deps chromium
       - name: Prepare owned integration tests
-        run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration
+        shell: bash
+        env:
+          TEST_FILTER: ${{ inputs.test_filter }}
+        run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
       - name: Run owned integration tests
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
-        shell: bash
         run: npm run e2e:headless --

@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
+import { IconThemeWorker, RendererWorker } from '@lvce-editor/rpc-registry'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { loadContentShell as loadContent } from '../src/parts/LoadContent/LoadContentShell.ts'
 
@@ -252,4 +252,133 @@ test('the shell preserves inactive and binary tabs without starting editors for 
   expect(state.layout.groups[0].tabs[0]).toMatchObject({ editorUid: -1, loadingState: 'binary' })
   expect(state.layout.groups[0].tabs[1].editorUid).toBe(-1)
   expect(loadContent(createDefaultState(), undefined).layout.groups).toEqual([])
+})
+
+test('delayed metadata cannot publish state after the main area is disposed', async () => {
+  const homeDir = Promise.withResolvers<string>()
+  const icons = Promise.withResolvers<string[]>()
+  using renderer = RendererWorker.registerMockRpc({
+    ...rpcCommands,
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'EditorText',
+    'Workspace.getHomeDir': () => homeDir.promise,
+  })
+  using iconRpc = IconThemeWorker.registerMockRpc({ 'IconTheme.getIcons': () => icons.promise })
+  createShell()
+  const restoration = commandMap['MainArea.loadContentLater'](91)
+  await waitForCreate(renderer)
+  await commandMap['MainArea.dispose'](91)
+  homeDir.resolve('/home/user')
+  icons.resolve(['delayed-icon'])
+  await restoration
+  expect(get(91)).toBeUndefined()
+  expect(iconRpc.invocations).toHaveLength(1)
+  // Disposal is idempotent, including when metadata is still completing.
+  await commandMap['MainArea.dispose'](91)
+})
+
+test('late title lookup cannot restore a closed tab', async () => {
+  const title = Promise.withResolvers<string>()
+  using rpc = RendererWorker.registerMockRpc({
+    ...rpcCommands,
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'EditorText',
+    'Viewlet.getTitle': () => title.promise,
+  })
+  createShell()
+  const restoration = commandMap['MainArea.loadContentLater'](91)
+  for (let i = 0; i < 100 && rpc.invocations.every(([command]) => command !== 'Viewlet.getTitle'); i++) {
+    await Promise.resolve()
+  }
+  expect(get(91).newState.layout.groups[0].tabs[0].loadingState).toBe('loaded')
+  await commandMap['MainArea.closeAll'](91)
+  title.resolve('obsolete title')
+  await restoration
+  expect(get(91).newState.layout.groups.flatMap((group) => group.tabs)).toEqual([])
+})
+
+test('a late rejection after closing the tab does not restore an error tab', async () => {
+  const content = Promise.withResolvers<void>()
+  using rpc = RendererWorker.registerMockRpc({
+    ...rpcCommands,
+    'Layout.createViewlet': () => content.promise,
+    'Layout.getModuleId': async () => 'EditorText',
+  })
+  createShell()
+  const restoration = commandMap['MainArea.loadContentLater'](91)
+  await waitForCreate(rpc)
+  await commandMap['MainArea.closeAll'](91)
+  content.reject(new Error('Late failure'))
+  await restoration
+  expect(get(91).newState.layout.groups.flatMap((group) => group.tabs)).toEqual([])
+})
+
+test('non-Error failures during restoration show a useful error', async () => {
+  using rpc = RendererWorker.registerMockRpc({
+    ...rpcCommands,
+    'Layout.createViewlet': async () => {
+      throw null
+    },
+    'Layout.getModuleId': async () => 'EditorText',
+  })
+  createShell()
+  await commandMap['MainArea.loadContentLater'](91)
+  expect(get(91).newState.layout.groups[0].tabs[0].errorMessage).toBe('Failed to restore editor')
+  expect(rpc.invocations.some(([command]) => command === 'Viewlet.getTitle')).toBe(false)
+})
+
+test('delayed icons preserve files and selection opened after restoration started', async () => {
+  const icons = Promise.withResolvers<string[]>()
+  using renderer = RendererWorker.registerMockRpc({
+    ...rpcCommands,
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'EditorText',
+  })
+  using iconRpc = IconThemeWorker.registerMockRpc({
+    'IconTheme.getIcons': (...args: readonly any[]) => (args[0][0].name === 'slow.txt' ? icons.promise : ['new-icon']),
+  })
+  createShell()
+  const restoration = commandMap['MainArea.loadContentLater'](91)
+  await waitForCreate(renderer)
+  await commandMap['MainArea.openUri'](91, 'file:///new.txt', false)
+  const selectedId = get(91).newState.layout.groups[0].activeTabId
+  icons.resolve(['restored-icon'])
+  await restoration
+  const group = get(91).newState.layout.groups[0]
+  expect(group.activeTabId).toBe(selectedId)
+  expect(group.tabs[0].icon).toBe('restored-icon')
+  expect(group.tabs[1].icon).toBe('new-icon')
+  expect(iconRpc.invocations).toHaveLength(2)
+})
+
+test('opening a file before deferred restoration starts still loads the restored tab once', async () => {
+  using rpc = RendererWorker.registerMockRpc({
+    ...rpcCommands,
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'EditorText',
+  })
+  createShell()
+  await commandMap['MainArea.openUri'](91, 'file:///new.txt', false)
+  const selectedId = get(91).newState.layout.groups[0].activeTabId
+  await commandMap['MainArea.loadContentLater'](91)
+  await commandMap['MainArea.loadContentLater'](91)
+  const group = get(91).newState.layout.groups[0]
+  expect(group.activeTabId).toBe(selectedId)
+  expect(group.tabs[0].loadingState).toBe('loaded')
+  expect(rpc.invocations.filter((invocation) => invocation[0] === 'Layout.createViewlet' && invocation[5] === 'file:///slow.txt')).toHaveLength(1)
+})
+
+test('disposal during readiness notification prevents rendering the disposed main area', async () => {
+  using rpc = RendererWorker.registerMockRpc({
+    ...rpcCommands,
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'EditorText',
+    'Layout.setMountedViewlets': async () => {
+      clear()
+    },
+  })
+  createShell()
+  await commandMap['MainArea.loadContentLater'](91)
+  expect(get(91)).toBeUndefined()
+  expect(rpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///slow.txt'])
 })

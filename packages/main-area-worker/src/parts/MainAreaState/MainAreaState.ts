@@ -72,6 +72,7 @@ export interface MainAreaState {
     readonly disposal: number
     readonly focus?: number
   }
+  readonly pendingRestoreTabIds?: readonly number[]
   readonly platform: number
   readonly pointerDownGroupIndex: number
   readonly pointerDownTabIndex: number

@@ -24,5 +24,8 @@ export const loadContentShell = (state: MainAreaState, savedState: unknown): Mai
         }),
       })),
     },
+    pendingRestoreTabIds: groups.flatMap((group) =>
+      group.tabs.filter((tab) => tab.id === group.activeTabId && tab.uri && tab.loadingState !== 'binary').map((tab) => tab.id),
+    ),
   })
 }

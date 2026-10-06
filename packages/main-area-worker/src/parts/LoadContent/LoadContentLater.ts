@@ -46,7 +46,7 @@ const loadRestoredTab = async (context: AsyncCommandContext<MainAreaState>, tab:
     const latestState = context.getState()
     const location = findTabById(latestState, tab.id)!
     const bounds = getSelectedTabBounds(latestState, location.groupId)
-    await createViewletContent(moduleId, tab.editorUid, tab.id, bounds, tab.uri || '', [{ focus: false }], state.applicationId)
+    await createViewletContent(moduleId, tab.editorUid, tab.id, bounds, tab.uri!, [{ focus: false }], state.applicationId)
     if (!isPending()) {
       await disposeEditors([tab.editorUid])
       return
@@ -118,6 +118,8 @@ const loadIcons = async (context: AsyncCommandContext<MainAreaState>): Promise<v
 
 export const loadContentLater = async (context: AsyncCommandContext<MainAreaState>): Promise<void> => {
   const state = context.getState()
-  const tabs = state.layout.groups.flatMap((group) => group.tabs.filter((tab) => tab.id === group.activeTabId && tab.loadingState === 'loading'))
+  const pendingIds = new Set(state.pendingRestoreTabIds)
+  const tabs = state.layout.groups.flatMap((group) => group.tabs.filter((tab) => pendingIds.has(tab.id) && tab.loadingState === 'loading'))
+  await context.updateState((current) => ({ ...current, pendingRestoreTabIds: [] }))
   await Promise.all([loadHomeDir(context), loadIcons(context), ...tabs.map((tab) => loadRestoredTab(context, tab))])
 }

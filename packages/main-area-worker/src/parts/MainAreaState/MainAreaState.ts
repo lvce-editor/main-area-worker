@@ -68,6 +68,7 @@ export interface MainAreaState {
   readonly maxOpenEditors: number
   readonly minGroupHeightPx: number
   readonly minGroupWidthPx: number
+  readonly pendingRestoreTabIds?: readonly number[]
   pendingViewletUpdate?: {
     readonly disposal: number
     readonly focus?: number

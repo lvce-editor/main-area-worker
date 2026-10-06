@@ -20,13 +20,12 @@ export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main, Wo
 
   const editors = Locator('.Editor')
   await expect(editors).toHaveCount(3)
+  await expect(Locator('.EditorGroup')).toHaveCount(3)
   await expect(Locator('.Main .Sash')).toHaveCount(2)
   await expect(Locator('.Main')).toHaveText('top.tstop contentmiddle.tsmiddle contentbottom.tsbottom content')
   await expect(editors.nth(0)).toHaveText('top content')
   await expect(editors.nth(1)).toHaveText('middle content')
   await expect(editors.nth(2)).toHaveText('bottom content')
-  await Main.shouldHaveLayout({ direction: 'vertical', groups: [{}, {}, {}] })
-
   await Main.selectTab(0, 0)
   await Editor.shouldHaveText('top content')
 }

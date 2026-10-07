@@ -46,4 +46,18 @@ for (const [from, to] of config.artifacts) {
     return join(application, to)
   })
   await cp(join(owner, from), target, { recursive: true })
+  // Temporary targeted evidence for the split-save integration investigation.
+  if (testFilter === 'save-active-split-editor') {
+    const bundlePath = join(target, 'dist/mainAreaWorkerMain.js')
+    let bundle = await readFile(bundlePath, 'utf8')
+    for (const [marker, label, state] of [
+      ['const handleModifiedStatusChange = (state, uri, newStatus) => {', 'modified', '{ uid: state.uid, uri, newStatus, layout: state.layout }'],
+      ['const handleClick = (state, name) => {', 'focus', '{ uid: state.uid, name, layout: state.layout }'],
+      ['const renderIncremental = (oldState, newState) => {', 'render', '{ uid: newState.uid, layout: newState.layout }'],
+    ]) {
+      if (!bundle.includes(marker)) throw new Error(`Missing diagnostic marker: ${marker}`)
+      bundle = bundle.replace(marker, `${marker}\n console.log('SPLIT_SAVE_${label}', JSON.stringify(${state}));`)
+    }
+    await writeFile(bundlePath, bundle)
+  }
 }

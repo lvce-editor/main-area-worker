@@ -14,13 +14,21 @@ test('renderEventListeners should return array with HandleClick event listener',
   expect(result.some((listener) => listener.name === DomEventListenerFunctions.HandleSashCornerPointerUp)).toBe(true)
 })
 
-test('renderEventListeners should pass the empty group id to the focus handler', () => {
+test('renderEventListeners should pass the focused empty group id to the focus handler', () => {
   const result = RenderEventListeners.renderEventListeners()
   const listener = result.find((currentListener) => currentListener.name === DomEventListenerFunctions.HandleFocus)
 
   expect(listener).toEqual({
     name: DomEventListenerFunctions.HandleFocus,
     params: ['handleClick', 'event.target.dataset.groupId'],
+  })
+})
+
+test('renderEventListeners should pass the owning group id for populated pane mouse events', () => {
+  const listener = RenderEventListeners.renderEventListeners().find((item) => item.name === DomEventListenerFunctions.HandleGroupMouseDown)
+  expect(listener).toEqual({
+    name: DomEventListenerFunctions.HandleGroupMouseDown,
+    params: ['handleGroupMouseDown', 'event.currentTarget.dataset.groupId'],
   })
 })
 

@@ -62,6 +62,11 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await expect(leftTab).toHaveClass('MainTabModified')
   await expect(rightModifiedTab).toHaveCount(0)
 
+  await Editor.setCursor(0, 0)
+  await Editor.type('unsaved ')
+  await expect(rightEditorContent).toHaveText('unsaved changed right')
+  await expect(rightTab).toHaveClass('MainTabModified')
+
   // eslint-disable-next-line @typescript-eslint/no-deprecated, e2e/no-direct-click -- Exercise the pane mouse event before focusing its DOM input.
   await leftEditor.click()
   // eslint-disable-next-line @typescript-eslint/no-deprecated -- Focus the actual DOM input.
@@ -75,5 +80,5 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await FileSystem.shouldHaveFile(leftUri, 'changed left')
   await FileSystem.shouldHaveFile(rightUri, 'changed right')
   await expect(leftModifiedTab).toHaveCount(0)
-  await expect(rightModifiedTab).toHaveCount(0)
+  await expect(rightTab).toHaveClass('MainTabModified')
 }

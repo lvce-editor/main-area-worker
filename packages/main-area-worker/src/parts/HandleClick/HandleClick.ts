@@ -9,9 +9,11 @@ export const handleClick = (state: MainAreaState, name: string): MainAreaState =
     return state
   }
   const hasGroup = state.layout.groups.some((group) => group.id === groupId)
-  return hasGroup && state.layout.activeGroupId !== groupId ? focusEditorGroup(state, groupId) : state
+  // Empty-group focus must publish a fresh layout even when this group is already active.
+  return hasGroup ? focusEditorGroup(state, groupId) : state
 }
 
-export const handleClickWithContext = async (context: AsyncCommandContext<MainAreaState>, name: string): Promise<void> => {
-  await context.updateState((state) => handleClick(state, name))
+export const handleGroupMouseDown = async (context: AsyncCommandContext<MainAreaState>, name: string): Promise<void> => {
+  const groupId = parseRawGroupId(name)
+  await context.updateState((state) => (state.layout.activeGroupId === groupId ? state : handleClick(state, name)))
 }

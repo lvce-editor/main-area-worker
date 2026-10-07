@@ -31,7 +31,7 @@ test('renderEditorGroup should return correct structure for group with active ta
       childCount: 2,
       className: 'EditorGroup EditorGroup-1',
       'data-groupId': '1',
-      onMouseDown: DomEventListenerFunctions.HandleFocus,
+      onMouseDown: DomEventListenerFunctions.HandleGroupMouseDown,
       type: VirtualDomElements.Div,
     },
     {

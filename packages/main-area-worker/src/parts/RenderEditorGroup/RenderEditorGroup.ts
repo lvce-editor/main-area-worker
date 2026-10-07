@@ -33,7 +33,7 @@ export const renderEditorGroup = (
       childCount: 2,
       className: mergeClassNames(ClassNames.EditorGroup, getEditorGroupClassName(group.id)),
       'data-groupId': String(group.id),
-      onMouseDown: DomEventListenerFunctions.HandleFocus,
+      onMouseDown: DomEventListenerFunctions.HandleGroupMouseDown,
       type: VirtualDomElements.Div,
     },
     ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled, tabDropIndicator),

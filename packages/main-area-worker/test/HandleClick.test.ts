@@ -141,7 +141,7 @@ test('handleClick should return the same state when the group does not exist', (
   expect(result).toBe(state)
 })
 
-test('handleClickWithContext publishes the focused group before returning', async () => {
+test('handleGroupMouseDown publishes the focused group before returning', async () => {
   let currentState = createDefaultState()
   currentState = {
     ...currentState,
@@ -161,10 +161,10 @@ test('handleClickWithContext publishes the focused group before returning', asyn
       return currentState
     },
   }
-  await HandleClick.handleClickWithContext(context, '2')
+  await HandleClick.handleGroupMouseDown(context, '2')
   expect(currentState.layout.activeGroupId).toBe(2)
   expect(currentState.layout.groups.map((group) => group.isFocused)).toEqual([false, true])
   const focusedState = currentState
-  await HandleClick.handleClickWithContext(context, '2')
+  await HandleClick.handleGroupMouseDown(context, '2')
   expect(currentState).toBe(focusedState)
 })

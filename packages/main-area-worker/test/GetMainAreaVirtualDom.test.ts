@@ -47,7 +47,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       childCount: 2,
       className: 'EditorGroup EditorGroup-1',
       'data-groupId': '1',
-      onMouseDown: DomEventListenerFunctions.HandleFocus,
+      onMouseDown: DomEventListenerFunctions.HandleGroupMouseDown,
       type: VirtualDomElements.Div,
     },
     {

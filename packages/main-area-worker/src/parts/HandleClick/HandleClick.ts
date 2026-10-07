@@ -17,3 +17,7 @@ export const handleGroupMouseDown = async (context: AsyncCommandContext<MainArea
   const groupId = parseRawGroupId(name)
   await context.updateState((state) => (state.layout.activeGroupId === groupId ? state : handleClick(state, name)))
 }
+
+export const handleClickWithContext = async (context: AsyncCommandContext<MainAreaState>, name: string): Promise<void> => {
+  await context.updateState((state) => handleClick(state, name))
+}

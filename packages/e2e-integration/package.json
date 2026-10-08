@@ -5,6 +5,6 @@
   "type": "module",
   "devDependencies": {
     "@lvce-editor/test-with-playwright": "^22.40.6",
-    "@playwright/test": "^1.63.0"
+    "@playwright/test": "^1.64.0"
   }
 }

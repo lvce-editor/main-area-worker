@@ -1,4 +1,4 @@
-import { cp, readFile, writeFile } from 'node:fs/promises'
+import { cp, readFile, readdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { root } from './root.js'
@@ -13,7 +13,17 @@ const { commitHash } = await sharedProcess.exportStatic({
   testPath: 'packages/e2e',
 })
 
-const viewletPath = join(root, 'dist', commitHash, 'packages', 'renderer-worker', 'dist', 'Viewlet.js')
+const rendererWorkerDistPath = join(root, 'dist', commitHash, 'packages', 'renderer-worker', 'dist')
+const rendererWorkerFiles = await readdir(rendererWorkerDistPath)
+const viewletFileName = rendererWorkerFiles.includes('Viewlet.js')
+  ? 'Viewlet.js'
+  : rendererWorkerFiles.includes('rendererWorkerMain.js')
+    ? 'rendererWorkerMain.js'
+    : ''
+if (!viewletFileName) {
+  throw new Error('renderer worker viewlet bundle not found')
+}
+const viewletPath = join(rendererWorkerDistPath, viewletFileName)
 const rendererProcessPath = join(root, 'dist', commitHash, 'packages', 'renderer-process', 'dist', 'rendererProcessMain.js')
 const mainAreaWorkerDistPath = join(root, 'dist', commitHash, 'packages', 'main-area-worker', 'dist', 'mainAreaWorkerMain.js')
 const staticServerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/static-server/package.json'))
@@ -46,10 +56,22 @@ const saveReturnOccurrence = `|| key === 'getPlatform') {
 const saveReturnReplacement = `|| key === 'getPlatform' || key === 'save') {
       return newState;
     }`
-if (!content.includes(saveReturnOccurrence) && !content.includes(saveReturnReplacement)) {
+const bundledSaveReturnOccurrence = `|| key === "getPlatform") {
+          return newState;
+        }`
+const bundledSaveReturnReplacement = `|| key === "getPlatform" || key === "save") {
+          return newState;
+        }`
+if (
+  !content.includes(saveReturnOccurrence) &&
+  !content.includes(saveReturnReplacement) &&
+  !content.includes(bundledSaveReturnOccurrence) &&
+  !content.includes(bundledSaveReturnReplacement)
+) {
   throw new Error('save return occurrence not found')
 }
-await writeFile(viewletPath, content.replace(saveReturnOccurrence, saveReturnReplacement))
+const updatedContent = content.replace(saveReturnOccurrence, saveReturnReplacement).replace(bundledSaveReturnOccurrence, bundledSaveReturnReplacement)
+await writeFile(viewletPath, updatedContent)
 
 const addScrollCommandHandlers = (content: string): string => {
   if (content.includes(`'Viewlet.scrollSelectorIntoView':`)) {

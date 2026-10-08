@@ -70,9 +70,7 @@ if (
 ) {
   throw new Error('save return occurrence not found')
 }
-const updatedContent = content
-  .replace(saveReturnOccurrence, saveReturnReplacement)
-  .replace(bundledSaveReturnOccurrence, bundledSaveReturnReplacement)
+const updatedContent = content.replace(saveReturnOccurrence, saveReturnReplacement).replace(bundledSaveReturnOccurrence, bundledSaveReturnReplacement)
 await writeFile(viewletPath, updatedContent)
 
 const addScrollCommandHandlers = (content: string): string => {

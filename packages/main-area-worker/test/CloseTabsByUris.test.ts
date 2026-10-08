@@ -1,9 +1,12 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeTabsByUris } from '../src/parts/CloseTabsByUris/CloseTabsByUris.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
-test('closeTabsByUris should remove tabs with matching uris', () => {
+test('closeTabsByUris waits for inactive matching editors to be disposed', async () => {
+  const disposal = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({ 'Viewlet.dispose': () => disposal.promise })
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -19,7 +22,7 @@ test('closeTabsByUris should remove tabs with matching uris', () => {
           size: 100,
           tabs: [
             {
-              editorUid: -1,
+              editorUid: 101,
               icon: '',
               id: 1,
               isDirty: false,
@@ -28,7 +31,7 @@ test('closeTabsByUris should remove tabs with matching uris', () => {
               uri: '/workspace/delete-me.ts',
             },
             {
-              editorUid: -1,
+              editorUid: 102,
               icon: '',
               id: 2,
               isDirty: false,
@@ -42,7 +45,16 @@ test('closeTabsByUris should remove tabs with matching uris', () => {
     },
   }
 
-  const result = closeTabsByUris(state, ['/workspace/delete-me.ts'])
+  const closing = closeTabsByUris(state, ['/workspace/delete-me.ts'])
+  let resolved = false
+  void closing.then(() => {
+    resolved = true
+  })
+  await Promise.resolve()
+  expect(resolved).toBe(false)
+  disposal.resolve()
+  const result = await closing
+  expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([['Viewlet.dispose', 101]])
 
   expect(result.layout.groups).toHaveLength(1)
   expect(result.layout.groups[0].tabs).toHaveLength(1)
@@ -50,7 +62,7 @@ test('closeTabsByUris should remove tabs with matching uris', () => {
   expect(result.layout.groups[0].activeTabId).toBe(2)
 })
 
-test('closeTabsByUris should remove empty groups after closing the last tab', () => {
+test('closeTabsByUris should remove empty groups after closing the last tab', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -80,7 +92,7 @@ test('closeTabsByUris should remove empty groups after closing the last tab', ()
     },
   }
 
-  const result = closeTabsByUris(state, ['/workspace/delete-me.ts'])
+  const result = await closeTabsByUris(state, ['/workspace/delete-me.ts'])
 
   expect(result.layout.groups).toHaveLength(0)
   expect(result.layout.activeGroupId).toBe(-1)

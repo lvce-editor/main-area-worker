@@ -11,6 +11,7 @@ export const SplitEditorGroupButton: string = 'EditorGroupActionButton SplitEdit
 export const MaskIconPreview: string = 'MaskIcon MaskIconPreview'
 export const MaskIconCircleFilled: string = 'MaskIcon MaskIconCircleFilled'
 export const MaskIconClose: string = 'MaskIcon MaskIconClose'
+export const MaskIconDebugAlt2: string = 'MaskIcon MaskIconDebugAlt2'
 export const MaskIconExtensions: string = 'MaskIcon MaskIconExtensions'
 export const MaskIconRecordKey: string = 'MaskIcon MaskIconRecordKey'
 export const MaskIconSearch: string = 'MaskIcon MaskIconSearch'

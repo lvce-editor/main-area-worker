@@ -6,6 +6,7 @@ import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
 const ExtensionDetailScheme = 'extension-detail://'
 const KeyBindingsUri = 'app://keybindings'
+const ProcessExplorerScheme = 'process-explorer://'
 const RunningExtensionsScheme = 'running-extensions://'
 const SearchEditorScheme = 'search-editor://'
 const SettingsScheme = 'settings://'
@@ -37,6 +38,9 @@ const renderMaskIcon = (className: string): readonly VirtualDomNode[] => {
 const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
   if (tab.uri === KeyBindingsUri) {
     return renderMaskIcon(ClassNames.MaskIconRecordKey)
+  }
+  if (tab.uri?.startsWith(ProcessExplorerScheme)) {
+    return renderMaskIcon(ClassNames.MaskIconDebugAlt2)
   }
   if (tab.uri?.startsWith(ExtensionDetailScheme)) {
     return renderMaskIcon(ClassNames.MaskIconExtensions)

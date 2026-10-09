@@ -144,6 +144,33 @@ test('renderTab should use the extensions mask icon for running extensions', () 
   })
 })
 
+test('renderTab should use the debug mask icon for Process Explorer tabs without a tab icon', () => {
+  const tab: Tab = {
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'Process Explorer',
+    uri: 'process-explorer://main',
+  }
+
+  const result = renderTab(tab, true, 0, 0)
+
+  expect(result[0].childCount).toBe(3)
+  expect(result[1]).toEqual({
+    childCount: 1,
+    className: 'TabIcon',
+    role: 'none',
+    type: VirtualDomElements.Div,
+  })
+  expect(result[2]).toEqual({
+    childCount: 0,
+    className: 'MaskIcon MaskIconDebugAlt2',
+    type: VirtualDomElements.Div,
+  })
+})
+
 test('renderTab should use the search mask icon for search editors', () => {
   const tab: Tab = {
     editorUid: -1,

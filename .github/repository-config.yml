@@ -1,0 +1,26 @@
+version: 1
+pages:
+  build_type: workflow
+requiredStatusChecks:
+  - pr (ubuntu-24.04)
+  - pr (macos-15)
+  - pr (windows-2025)
+rulesetId: 11749500
+settings:
+  description: Main Area Worker
+  homepage: https://lvce-editor.github.io/main-area-worker/
+  has_wiki: false
+  has_projects: false
+  allow_squash_merge: true
+  allow_merge_commit: false
+  allow_rebase_merge: false
+  allow_auto_merge: true
+  delete_branch_on_merge: true
+topics:
+  - lvce-editor
+  - web-worker
+labels:
+  - name: repository-config
+    color: '5319e7'
+    description: Changes to GitHub repository configuration
+milestones: []

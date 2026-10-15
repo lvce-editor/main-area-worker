@@ -62,7 +62,7 @@ test('takeLast reads and consumes the most recently cached entry', async () => {
   await expect(ClosedTabsStorage.takeLast(3)).resolves.toEqual(last)
 
   const key = mockRpc.invocations[0][1]
-  expect(mockRpc.invocations[0]).toEqual(['Cache.getCacheStorageItem', key, 'lvce0main-area-tabs'])
+  expect(mockRpc.invocations[0]).toEqual(['Cache.getCacheStorageItem', key, 'lvce-main-area-tabs'])
   expect(mockRpc.invocations[1][0]).toBe('Cache.setCacheStorageItem')
   expect(JSON.parse(mockRpc.invocations[1][2] as string)).toEqual([first])
 })

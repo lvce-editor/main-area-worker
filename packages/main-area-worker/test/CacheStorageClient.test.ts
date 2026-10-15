@@ -26,8 +26,8 @@ test('initialize routes Cache Worker RPC through the renderer worker relay', asy
 
   await CacheStorageClient.initialize()
 
-  await expect(CacheStorageClient.invoke('Cache.getCacheStorageItem', 'key', 'lvce0main-area-tabs')).resolves.toEqual({
-    body: new TextEncoder().encode('lvce0main-area-tabs:key').buffer,
+  await expect(CacheStorageClient.invoke('Cache.getCacheStorageItem', 'key', 'lvce-main-area-tabs')).resolves.toEqual({
+    body: new TextEncoder().encode('lvce-main-area-tabs:key').buffer,
   })
 
   await cacheWorkerRpc?.dispose()

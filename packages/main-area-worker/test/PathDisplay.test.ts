@@ -98,6 +98,10 @@ test('getLabel should return Running Extensions for running-extensions:// uri', 
   expect(PathDisplay.getLabel('running-extensions://')).toBe('Running Extensions')
 })
 
+test('getFileIcon should return the debug icon for Workers view', () => {
+  expect(PathDisplay.getFileIcon('workers:///1')).toBe('MaskIconDebugAlt2')
+})
+
 test('getLabel should return Import Firefox Cookies for cookie-import-view:// uri', () => {
   expect(PathDisplay.getLabel('cookie-import-view:///')).toBe('Import Firefox Cookies')
 })

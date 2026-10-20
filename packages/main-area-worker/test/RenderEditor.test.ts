@@ -167,7 +167,7 @@ test('renderEditor should show a binary file placeholder', () => {
       onClick: DomEventListenerFunctions.HandleClickAction,
       type: VirtualDomElements.Button,
     },
-    text('Open in Text Editor'),
+    text('Reopen with Text Editor'),
   ])
 })
 

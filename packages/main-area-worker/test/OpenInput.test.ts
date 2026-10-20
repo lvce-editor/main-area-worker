@@ -547,3 +547,22 @@ test('confirmation opens the warned document with reduced features', async () =>
   await openInput(repeated, { ...options, forceOpen: true })
   expect(mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')?.at(-1)).toEqual([{ focus: false, largeFile: true }])
 })
+
+test('read-detected binary errors replace the failed viewlet with a reopen placeholder', async () => {
+  const uri = 'file:///node_modules/esbuild/bin/esbuild'
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {
+      throw Object.defineProperty(new Error('Cannot open binary file'), 'name', { value: 'BinaryFileError' })
+    },
+    'Layout.getModuleId': async () => 'Editor',
+    'Viewlet.dispose': async () => {},
+  })
+  const state = createDefaultState()
+  const result = await openInput(state, { editorInput: { type: 'editor', uri }, focus: false, preview: true })
+  const tab = result.layout.groups[0].tabs[0]
+  expect(tab).toMatchObject({ editorInput: { type: 'binary', uri }, editorUid: -1, isPreview: true, loadingState: 'binary', uri })
+  expect(tab.errorMessage).toBeUndefined()
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  const createCall = mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')!
+  expect(mockRpc.invocations).toContainEqual(['Viewlet.dispose', createCall[2]])
+})

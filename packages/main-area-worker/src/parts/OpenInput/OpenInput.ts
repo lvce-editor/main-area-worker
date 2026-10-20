@@ -78,6 +78,7 @@ const getViewletArgs = (options: OpenInputOptions): readonly unknown[] | undefin
     {
       ...context,
       focus: options.focus,
+      ...(options.editorInput.type === 'editor' && options.editorInput.forceText === true && { forceText: true }),
       ...(options.forceOpen === true && { largeFile: true }),
     },
     ...rest,

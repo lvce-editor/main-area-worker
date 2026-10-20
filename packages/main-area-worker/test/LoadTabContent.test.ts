@@ -143,7 +143,7 @@ test('loadTabContentAsync renders binary read errors with the binary placeholder
   using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => {
       const error = new Error('The esbuild executable is a binary file and cannot be opened as text')
-      error.name = 'BinaryFileError'
+      Object.defineProperty(error, 'name', { value: 'BinaryFileError' })
       throw error
     },
   })

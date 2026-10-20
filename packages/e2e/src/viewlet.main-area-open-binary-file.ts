@@ -12,7 +12,7 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator,
   await Main.openUri(testFile)
 
   const binaryContent = Locator('.EditorContentBinary')
-  await expect(binaryContent).toHaveText('The file is not displayed in the text editor because its contents are binary.Open in Text Editor')
+  await expect(binaryContent).toHaveText('The file is not displayed in the text editor because its contents are binary.Reopen with Text Editor')
 
   const openInTextEditorButton = Locator('.EditorContentBinary .Button')
   await expect(openInTextEditorButton).toBeVisible()

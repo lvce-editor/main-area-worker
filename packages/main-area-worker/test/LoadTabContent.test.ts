@@ -139,6 +139,30 @@ test('loadTabContentAsync handles error', async () => {
   expect(mockRpc.invocations).toHaveLength(1)
 })
 
+test('loadTabContentAsync renders binary read errors with the binary placeholder', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.readFile': async () => {
+      const error = new Error('The esbuild executable is a binary file and cannot be opened as text')
+      Object.defineProperty(error, 'name', { value: 'BinaryFileError' })
+      throw error
+    },
+  })
+
+  GetNextRequestId.resetRequestIdCounter()
+  const requestId = GetNextRequestId.getNextRequestId()
+  const state = createStateWithTab({
+    editorInput: { type: 'editor', uri: '/test/esbuild' },
+    loadingState: 'loading',
+  })
+  const result = await LoadTabContent.loadTabContentAsync(1, '/test/esbuild', requestId, () => state)
+  const tab = LoadTabContent.findTab(result, 1)
+
+  expect(tab?.loadingState).toBe('binary')
+  expect(tab?.editorInput).toEqual({ type: 'binary', uri: '/test/esbuild' })
+  expect(tab?.errorMessage).toBeUndefined()
+  expect(mockRpc.invocations).toHaveLength(1)
+})
+
 test('loadTabContentAsync normalizes directory read errors', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => {

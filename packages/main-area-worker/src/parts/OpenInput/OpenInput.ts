@@ -85,6 +85,36 @@ const getViewletArgs = (options: OpenInputOptions): readonly unknown[] | undefin
   ]
 }
 
+const handleOpenError = async (
+  context: AsyncCommandContext<MainAreaState>,
+  tabId: number,
+  editorInput: OpenInputOptions['editorInput'],
+  uri: string,
+  error: unknown,
+): Promise<void> => {
+  const latestState = context.getState()
+  if (editorInput.type === 'editor' && error instanceof Error && error.name === 'BinaryFileError') {
+    const editorUid = findTabById(latestState, tabId)?.tab.editorUid ?? -1
+    const binaryState = updateTab(latestState, tabId, {
+      editorInput: { type: 'binary', uri },
+      editorUid: -1,
+      errorMessage: undefined,
+      loadingState: 'binary',
+    })
+    await context.updateState(() => binaryState)
+    if (editorUid !== -1) {
+      await disposeEditors([editorUid])
+    }
+    return
+  }
+  const errorMessage = error instanceof Error ? error.message : 'Failed to open URI'
+  const errorState = updateTab(latestState, tabId, {
+    errorMessage,
+    loadingState: 'error',
+  })
+  await context.updateState(() => errorState)
+}
+
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
   const state = context.getState()
   Assert.object(state)
@@ -200,13 +230,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       return
     }
   } catch (error) {
-    const latestState = context.getState()
-    const errorMessage = error instanceof Error ? error.message : 'Failed to open URI'
-    const errorState = updateTab(latestState, tabId, {
-      errorMessage,
-      loadingState: 'error',
-    })
-    await context.updateState(() => errorState)
+    await handleOpenError(context, tabId, editorInput, uri, error)
   }
 }
 

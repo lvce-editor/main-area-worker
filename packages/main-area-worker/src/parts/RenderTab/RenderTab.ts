@@ -10,6 +10,7 @@ const ProcessExplorerScheme = 'process-explorer://'
 const RunningExtensionsScheme = 'running-extensions://'
 const SearchEditorScheme = 'search-editor://'
 const SettingsScheme = 'settings://'
+const WorkersScheme = 'workers:///'
 
 const tabIconNode: VirtualDomNode = {
   childCount: 1,
@@ -53,6 +54,9 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
   }
   if (tab.uri?.startsWith(SettingsScheme)) {
     return renderMaskIcon(ClassNames.MaskIconSettingsGear)
+  }
+  if (tab.uri?.startsWith(WorkersScheme)) {
+    return renderMaskIcon(ClassNames.MaskIconDebugAlt2)
   }
   if (!tab.icon) {
     return []

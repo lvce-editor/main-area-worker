@@ -1,5 +1,6 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import { afterEach, expect, test } from '@jest/globals'
+import { restoreJsonRpcError } from '@lvce-editor/json-rpc'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -552,7 +553,7 @@ test('read-detected binary errors replace the failed viewlet with a reopen place
   const uri = 'file:///node_modules/esbuild/bin/esbuild'
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {
-      throw Object.defineProperty(new Error('Cannot open binary file'), 'name', { value: 'BinaryFileError' })
+      throw restoreJsonRpcError({ data: { name: 'BinaryFileError', type: 'Error' }, message: 'Cannot open binary file' })
     },
     'Layout.getModuleId': async () => 'Editor',
     'Viewlet.dispose': async () => {},

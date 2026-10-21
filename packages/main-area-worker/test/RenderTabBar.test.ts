@@ -38,7 +38,7 @@ test('renderTabBar should return correct structure for single tab', () => {
     },
     {
       'aria-selected': true,
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -54,6 +54,12 @@ test('renderTabBar should return correct structure for single tab', () => {
       role: 'tab',
       tabIndex: 0,
       title: '/path/to/Test File',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'TabIcon',
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     {
@@ -110,7 +116,7 @@ test('renderTabBar should handle multiple tabs', () => {
   }
   const result = renderTabBar(group, 0)
 
-  expect(result).toHaveLength(11) // 1 (MainTabs) + 5*2 (renderTab without icons for each)
+  expect(result).toHaveLength(13) // MainTabs and two tabs, each with an icon slot
   expect(result[0].childCount).toBe(2)
 })
 

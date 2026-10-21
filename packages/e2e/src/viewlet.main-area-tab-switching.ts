@@ -5,9 +5,9 @@ export const name = 'viewlet.main-area-tab-switching'
 export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
-  const file1 = `${tmpDir}/file1.txt`
-  const file2 = `${tmpDir}/file2.txt`
-  const file3 = `${tmpDir}/file3.txt`
+  const file1 = `${tmpDir}/file1.py`
+  const file2 = `${tmpDir}/file2.py`
+  const file3 = `${tmpDir}/file3.py`
   await FileSystem.setFiles([
     { content: 'content1', uri: file1 },
     { content: 'content2', uri: file2 },
@@ -21,6 +21,13 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.selectTab(0, 0)
 
   // assert
-  const selectedTab1 = Locator('.MainTabSelected[title$="file1.txt"]')
+  const selectedTab1 = Locator('.MainTabSelected[title$="file1.py"]')
   await expect(selectedTab1).toBeVisible()
+  await expect(selectedTab1.locator('img.TabIcon[src]')).toBeVisible()
+  for (let i = 0; i < 5; i++) {
+    await Main.selectTab(0, 1)
+    await expect(Locator('.MainTabSelected[title$="file2.py"] img.TabIcon[src]')).toBeVisible()
+    await Main.selectTab(0, 0)
+    await expect(selectedTab1.locator('img.TabIcon[src]')).toBeVisible()
+  }
 }

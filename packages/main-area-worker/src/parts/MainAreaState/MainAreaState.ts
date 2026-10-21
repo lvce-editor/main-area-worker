@@ -58,6 +58,7 @@ export interface MainAreaState {
   readonly assetDir: string
   readonly disposed?: boolean
   readonly dragOverlay?: DragOverlay
+  readonly iconThemeVersion?: number
   readonly fileIconCache: FileIconCache
   readonly height: number
   readonly homeDirUri?: string

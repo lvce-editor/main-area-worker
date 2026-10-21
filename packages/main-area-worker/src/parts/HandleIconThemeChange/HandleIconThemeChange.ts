@@ -9,6 +9,7 @@ export const handleIconThemeChange = async (state: MainAreaState): Promise<MainA
   const { fileIconCache, updatedLayout } = await loadFileIcons(stateWithEmptyIconCache)
   return {
     ...state,
+    iconThemeVersion: (state.iconThemeVersion ?? 0) + 1,
     fileIconCache,
     layout: updatedLayout,
   }

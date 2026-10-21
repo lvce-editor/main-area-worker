@@ -5,6 +5,7 @@ import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { applyInitialCursorPosition } from '../ApplyInitialCursorPosition/ApplyInitialCursorPosition.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewletContent, getViewletTitle } from '../CreateViewlet/CreateViewlet.ts'
+import * as DirentType from '../DirentType/DirentType.ts'
 import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
@@ -20,9 +21,10 @@ import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditor
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
+import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+import { requestFileIcons } from '../RequestFileIcons/RequestFileIcons.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
-import { updateTabIcon } from '../UpdateTabIcon/UpdateTabIcon.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
 const renderMainAreaPending = async (uid: number, applicationId?: string): Promise<void> => {
@@ -124,9 +126,25 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const preview = options.preview ?? false
   const uri = getEditorInputUri(editorInput)
   const title = getEditorInputTitle(editorInput)
-  const currentState = state
-  const existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
-  const shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
+  let currentState = state
+  let existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
+  let shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
+  let icon = PathDisplay.getFileIcon(uri) || state.fileIconCache[uri] || ''
+  if ((!existingTab || shouldRetry) && !icon && uri && !(uri in state.fileIconCache)) {
+    try {
+      const icons = await requestFileIcons([{ name: uri.slice(uri.lastIndexOf('/') + 1), path: uri, type: DirentType.File }])
+      icon = icons[0] || ''
+    } catch {
+      // Icon failures must not prevent opening the file. The reserved slot keeps its title stable.
+    }
+    currentState = context.getState()
+    if (currentState.iconThemeVersion !== state.iconThemeVersion) {
+      // A theme change invalidates icons resolved using the previous cache.
+      return openInputWithContext(context, options)
+    }
+    existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
+    shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
+  }
   if (existingTab && !shouldRetry) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
@@ -138,7 +156,11 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const previousTabId = getActiveTabId(currentState)
   const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetry, uri, preview, title)
 
-  await context.updateState(() => stateWithTab)
+  const stateWithIcon = updateTab(stateWithTab, tabId, { icon })
+  await context.updateState(() => ({
+    ...stateWithIcon,
+    fileIconCache: icon && !PathDisplay.getFileIcon(uri) ? { ...stateWithIcon.fileIconCache, [uri]: icon } : stateWithIcon.fileIconCache,
+  }))
   if (replacedEditorUid !== -1) {
     await disposeEditors([replacedEditorUid])
   }
@@ -223,11 +245,6 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     if (renderedTitle) {
       readyState = ViewletLifecycle.handleViewletReady(context.getState(), editorUid, renderedTitle)
       await context.updateState(() => readyState)
-    }
-
-    const stateWithIcon = await updateTabIcon(context, readyState, tabId)
-    if (stateWithIcon) {
-      return
     }
   } catch (error) {
     await handleOpenError(context, tabId, editorInput, uri, error)

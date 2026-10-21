@@ -59,7 +59,14 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
     return renderMaskIcon(ClassNames.MaskIconDebugAlt2)
   }
   if (!tab.icon) {
-    return []
+    return [
+      {
+        childCount: 0,
+        className: ClassNames.TabIcon,
+        role: AriaRoles.None,
+        type: VirtualDomElements.Div,
+      },
+    ]
   }
   return [
     {
@@ -107,7 +114,7 @@ export const renderTab = (
   return [
     {
       'aria-selected': isActive,
-      childCount: 2 + (tabIconNodes.length > 0 ? 1 : 0),
+      childCount: 3,
       className,
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,

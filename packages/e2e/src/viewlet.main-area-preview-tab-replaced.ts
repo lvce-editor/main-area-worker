@@ -50,5 +50,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await expect(packageTab).toBeHidden()
   await expect(viteTab).toBeVisible()
   await expect(selectedViteTab).toBeVisible()
+  await expect(selectedViteTab.locator('img.TabIcon[src]')).toBeVisible()
   await expect(tabs).toHaveCount(2)
 }

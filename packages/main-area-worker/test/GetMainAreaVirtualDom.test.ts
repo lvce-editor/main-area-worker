@@ -68,7 +68,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     },
     {
       'aria-selected': true,
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -84,6 +84,12 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       role: 'tab',
       tabIndex: 0,
       title: '/path/to/Test File',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'TabIcon',
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     {

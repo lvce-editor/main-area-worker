@@ -15,6 +15,7 @@ import { getCurrentState } from '../GetCurrentState/GetCurrentState.ts'
 import { getEditorInputTitle } from '../GetEditorInputTitle/GetEditorInputTitle.ts'
 import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
 import { getLargeFileSize } from '../GetLargeFileSize/GetLargeFileSize.ts'
+import { getNextRequestId } from '../GetNextRequestId/GetNextRequestId.ts'
 import { getStateWithTab } from '../GetStateWithTab/GetStateWithTab.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
@@ -128,10 +129,22 @@ const getStateWithIcon = (state: MainAreaState, tabId: number, uri: string, icon
   }
 }
 
+const disposePreviewEditor = async (editorUid: number): Promise<void> => {
+  if (editorUid !== -1) {
+    await disposeEditors([editorUid])
+  }
+}
+
+const isSupersededPreview = (state: MainAreaState, initialState: MainAreaState, requestId: number, preview: boolean): boolean => {
+  return preview && (state.openRequestId !== requestId || getActiveTabId(state) !== getActiveTabId(initialState))
+}
+
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
-  const state = context.getState()
-  Assert.object(state)
+  Assert.object(context.getState())
   Assert.object(options)
+  const requestId = getNextRequestId()
+  await context.updateState((state) => ({ ...state, openRequestId: requestId }))
+  const state = context.getState()
 
   const { editorInput } = options
   const preview = options.preview ?? false
@@ -141,15 +154,23 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   let existingTab = findReusableTab(currentState, options, uri)
   let shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
   let icon = ''
+  let { iconThemeVersion } = state
   if (!existingTab || shouldRetry) {
-    const { icon: resolvedIcon, state: iconState } = await prepareTabIcon(context, uri)
+    const {
+      icon: resolvedIcon,
+      state: { iconThemeVersion: resolvedIconThemeVersion },
+    } = await prepareTabIcon(context, uri)
     icon = resolvedIcon
+    iconThemeVersion = resolvedIconThemeVersion
     currentState = context.getState()
-    if (currentState.iconThemeVersion !== iconState.iconThemeVersion) {
-      return openInputWithContext(context, options)
-    }
     existingTab = findReusableTab(currentState, options, uri)
     shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
+  }
+  if (isSupersededPreview(currentState, state, requestId, preview)) {
+    return
+  }
+  if (currentState.iconThemeVersion !== iconThemeVersion) {
+    return openInputWithContext(context, options)
   }
   if (existingTab && !shouldRetry) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)
@@ -163,9 +184,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetry, uri, preview, title)
 
   await context.updateState(() => getStateWithIcon(stateWithTab, tabId, uri, icon))
-  if (replacedEditorUid !== -1) {
-    await disposeEditors([replacedEditorUid])
-  }
+  await disposePreviewEditor(replacedEditorUid)
 
   if (await isDirectoryEditorInput(editorInput, state.applicationId)) {
     const latestState = context.getState()

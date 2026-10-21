@@ -5,7 +5,6 @@ import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { applyInitialCursorPosition } from '../ApplyInitialCursorPosition/ApplyInitialCursorPosition.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewletContent, getViewletTitle } from '../CreateViewlet/CreateViewlet.ts'
-import * as DirentType from '../DirentType/DirentType.ts'
 import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
@@ -20,9 +19,9 @@ import { getStateWithTab } from '../GetStateWithTab/GetStateWithTab.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
-import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
-import { requestFileIcons } from '../RequestFileIcons/RequestFileIcons.ts'
+import { prepareTabIcon } from '../PrepareTabIcon/PrepareTabIcon.ts'
+import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
@@ -117,6 +116,14 @@ const handleOpenError = async (
   await context.updateState(() => errorState)
 }
 
+const getStateWithIcon = (state: MainAreaState, tabId: number, uri: string, icon: string): MainAreaState => {
+  const stateWithIcon = updateTab(state, tabId, { icon })
+  return {
+    ...stateWithIcon,
+    fileIconCache: icon && !PathDisplay.getFileIcon(uri) ? { ...stateWithIcon.fileIconCache, [uri]: icon } : stateWithIcon.fileIconCache,
+  }
+}
+
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
   const state = context.getState()
   Assert.object(state)
@@ -129,17 +136,12 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   let currentState = state
   let existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
   let shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
-  let icon = PathDisplay.getFileIcon(uri) || state.fileIconCache[uri] || ''
-  if ((!existingTab || shouldRetry) && !icon && uri && !(uri in state.fileIconCache)) {
-    try {
-      const icons = await requestFileIcons([{ name: uri.slice(uri.lastIndexOf('/') + 1), path: uri, type: DirentType.File }])
-      icon = icons[0] || ''
-    } catch {
-      // Icon failures must not prevent opening the file. The reserved slot keeps its title stable.
-    }
+  let icon = ''
+  if (!existingTab || shouldRetry) {
+    const { icon: resolvedIcon, state: iconState } = await prepareTabIcon(context, uri)
+    icon = resolvedIcon
     currentState = context.getState()
-    if (currentState.iconThemeVersion !== state.iconThemeVersion) {
-      // A theme change invalidates icons resolved using the previous cache.
+    if (currentState.iconThemeVersion !== iconState.iconThemeVersion) {
       return openInputWithContext(context, options)
     }
     existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
@@ -156,11 +158,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const previousTabId = getActiveTabId(currentState)
   const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetry, uri, preview, title)
 
-  const stateWithIcon = updateTab(stateWithTab, tabId, { icon })
-  await context.updateState(() => ({
-    ...stateWithIcon,
-    fileIconCache: icon && !PathDisplay.getFileIcon(uri) ? { ...stateWithIcon.fileIconCache, [uri]: icon } : stateWithIcon.fileIconCache,
-  }))
+  await context.updateState(() => getStateWithIcon(stateWithTab, tabId, uri, icon))
   if (replacedEditorUid !== -1) {
     await disposeEditors([replacedEditorUid])
   }

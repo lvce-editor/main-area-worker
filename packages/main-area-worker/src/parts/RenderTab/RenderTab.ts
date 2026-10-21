@@ -19,6 +19,13 @@ const tabIconNode: VirtualDomNode = {
   type: VirtualDomElements.Div,
 }
 
+const emptyTabIconNode: VirtualDomNode = {
+  childCount: 0,
+  className: ClassNames.TabIcon,
+  role: AriaRoles.None,
+  type: VirtualDomElements.Div,
+}
+
 const tabTitleNode: VirtualDomNode = {
   childCount: 1,
   className: ClassNames.TabTitle,
@@ -59,14 +66,7 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
     return renderMaskIcon(ClassNames.MaskIconDebugAlt2)
   }
   if (!tab.icon) {
-    return [
-      {
-        childCount: 0,
-        className: ClassNames.TabIcon,
-        role: AriaRoles.None,
-        type: VirtualDomElements.Div,
-      },
-    ]
+    return [emptyTabIconNode]
   }
   return [
     {

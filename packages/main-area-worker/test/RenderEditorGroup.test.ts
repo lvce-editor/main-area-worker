@@ -52,7 +52,7 @@ test('renderEditorGroup should return correct structure for group with active ta
     },
     {
       'aria-selected': true,
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -68,6 +68,12 @@ test('renderEditorGroup should return correct structure for group with active ta
       role: 'tab',
       tabIndex: 0,
       title: '/path/to/Test File',
+      type: VirtualDomElements.Div,
+    },
+    {
+      childCount: 0,
+      className: 'TabIcon',
+      role: 'none',
       type: VirtualDomElements.Div,
     },
     {
@@ -148,7 +154,7 @@ test('renderEditorGroup should handle group with no active tab', () => {
   }
   const result = renderEditorGroup(group, 0, true)
 
-  expect(result).toHaveLength(15) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 5 (Tab without icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + Editor)
+  expect(result).toHaveLength(16) // Includes the reserved tab icon slot
 })
 
 test('renderEditorGroup should handle group with custom editor', () => {
@@ -173,7 +179,7 @@ test('renderEditorGroup should handle group with custom editor', () => {
   }
   const result = renderEditorGroup(group, 0, true)
 
-  expect(result).toHaveLength(15) // 1 (EditorGroup) + 1 (EditorGroupHeader) + 1 (MainTabs) + 5 (Tab without icon) + 1 (EditorGroupActions) + 1 (SplitButton) + 1 (text) + 4 (EditorContainer + CustomEditor)
+  expect(result).toHaveLength(16) // Includes the reserved tab icon slot
 })
 
 test('renderEditorGroup should handle empty tabs array', () => {

@@ -45,10 +45,12 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const packageTab = Locator('.MainTab[title$="package.json"]')
   const viteTab = Locator('.MainTabPreview[title$="vite.config.js"]')
   const selectedViteTab = Locator('.MainTabPreview.MainTabSelected[title$="vite.config.js"]')
+  const selectedViteIcon = selectedViteTab.locator('img.TabIcon[src]')
   const tabs = Locator('.MainTab')
   await expect(indexTab).toBeVisible()
   await expect(packageTab).toBeHidden()
   await expect(viteTab).toBeVisible()
   await expect(selectedViteTab).toBeVisible()
+  await expect(selectedViteIcon).toBeVisible()
   await expect(tabs).toHaveCount(2)
 }

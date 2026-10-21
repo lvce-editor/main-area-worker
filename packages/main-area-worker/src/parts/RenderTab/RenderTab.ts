@@ -19,6 +19,13 @@ const tabIconNode: VirtualDomNode = {
   type: VirtualDomElements.Div,
 }
 
+const emptyTabIconNode: VirtualDomNode = {
+  childCount: 0,
+  className: ClassNames.TabIcon,
+  role: AriaRoles.None,
+  type: VirtualDomElements.Div,
+}
+
 const tabTitleNode: VirtualDomNode = {
   childCount: 1,
   className: ClassNames.TabTitle,
@@ -59,7 +66,7 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
     return renderMaskIcon(ClassNames.MaskIconDebugAlt2)
   }
   if (!tab.icon) {
-    return []
+    return [emptyTabIconNode]
   }
   return [
     {
@@ -107,7 +114,7 @@ export const renderTab = (
   return [
     {
       'aria-selected': isActive,
-      childCount: 2 + (tabIconNodes.length > 0 ? 1 : 0),
+      childCount: 3,
       className,
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,

@@ -116,6 +116,10 @@ const handleOpenError = async (
   await context.updateState(() => errorState)
 }
 
+const findReusableTab = (state: MainAreaState, options: OpenInputOptions, uri: string): ReturnType<typeof findTabByUri> => {
+  return options.reuseExisting === false ? undefined : findTabByUri(state, uri)
+}
+
 const getStateWithIcon = (state: MainAreaState, tabId: number, uri: string, icon: string): MainAreaState => {
   const stateWithIcon = updateTab(state, tabId, { icon })
   return {
@@ -134,7 +138,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   const uri = getEditorInputUri(editorInput)
   const title = getEditorInputTitle(editorInput)
   let currentState = state
-  let existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
+  let existingTab = findReusableTab(currentState, options, uri)
   let shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
   let icon = ''
   if (!existingTab || shouldRetry) {
@@ -144,7 +148,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     if (currentState.iconThemeVersion !== iconState.iconThemeVersion) {
       return openInputWithContext(context, options)
     }
-    existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
+    existingTab = findReusableTab(currentState, options, uri)
     shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
   }
   if (existingTab && !shouldRetry) {

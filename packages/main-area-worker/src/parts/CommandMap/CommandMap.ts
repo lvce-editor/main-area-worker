@@ -52,6 +52,7 @@ import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceC
 import { handleWorkspaceRefreshWithContext } from '../HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
 import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
 import { hasDirtyTabs } from '../HasDirtyTabs/HasDirtyTabs.ts'
+import { hasOpenTextEditor } from '../HasOpenTextEditor/HasOpenTextEditor.ts'
 import { configure as configureIds } from '../Id/Id.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
@@ -231,6 +232,7 @@ export const commandMap = {
   'MainArea.handleWorkspaceRefresh': wrapAsyncCommand(handleWorkspaceRefreshWithContext),
   'MainArea.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
   'MainArea.hasDirtyTabs': wrapGetter(hasDirtyTabs),
+  'MainArea.hasOpenTextEditor': wrapGetter(hasOpenTextEditor),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': loadContentTracked,
   'MainArea.loadContentLater': wrapAsyncCommand(loadContentLater),

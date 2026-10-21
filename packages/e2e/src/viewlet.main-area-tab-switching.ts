@@ -22,12 +22,14 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
 
   // assert
   const selectedTab1 = Locator('.MainTabSelected[title$="file1.py"]')
+  const selectedTab1Icon = selectedTab1.locator('img.TabIcon[src]')
+  const selectedTab2Icon = Locator('.MainTabSelected[title$="file2.py"] img.TabIcon[src]')
   await expect(selectedTab1).toBeVisible()
-  await expect(selectedTab1.locator('img.TabIcon[src]')).toBeVisible()
+  await expect(selectedTab1Icon).toBeVisible()
   for (let i = 0; i < 5; i++) {
     await Main.selectTab(0, 1)
-    await expect(Locator('.MainTabSelected[title$="file2.py"] img.TabIcon[src]')).toBeVisible()
+    await expect(selectedTab2Icon).toBeVisible()
     await Main.selectTab(0, 0)
-    await expect(selectedTab1.locator('img.TabIcon[src]')).toBeVisible()
+    await expect(selectedTab1Icon).toBeVisible()
   }
 }

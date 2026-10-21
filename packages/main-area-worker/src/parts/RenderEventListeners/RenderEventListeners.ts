@@ -22,6 +22,11 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       stopPropagation: true,
     },
     {
+      name: DomEventListenersFunctions.HandleCloseButtonMouseDown,
+      params: ['handleCloseButtonMouseDown'],
+      stopPropagation: true,
+    },
+    {
       name: DomEventListenersFunctions.HandleClickTab,
       params: ['handleClickTab', 'event.currentTarget.dataset.groupIndex', 'event.currentTarget.dataset.index', EventExpression.Button],
     },

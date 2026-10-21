@@ -199,6 +199,7 @@ export const commandMap = {
   'MainArea.handleClickCloseTab': wrapSerialCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapSerialCommand(handleClickTab),
   'MainArea.handleClickTogglePreview': wrapSerialCommand(handleClickTogglePreview),
+  'MainArea.handleCloseButtonMouseDown': (state: any) => state,
   'MainArea.handleContextMenu': wrapSerialCommand(handleContextMenu),
   'MainArea.handleDoubleClick': wrapSerialCommand(handleDoubleClick),
   'MainArea.handleDragEnd': wrapSerialCommand(resetPointerDown),

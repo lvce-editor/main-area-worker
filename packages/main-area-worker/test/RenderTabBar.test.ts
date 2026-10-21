@@ -75,6 +75,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       'data-groupIndex': 0,
       'data-index': 0,
       onClick: DomEventListenerFunctions.HandleClickClose,
+      onMouseDown: DomEventListenerFunctions.HandleCloseButtonMouseDown,
       type: VirtualDomElements.Button,
     },
     {

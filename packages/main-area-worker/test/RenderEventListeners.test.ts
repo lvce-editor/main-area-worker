@@ -62,6 +62,16 @@ test('renderEventListeners should read close button indices from the current tar
   })
 })
 
+test('renderEventListeners should stop close button mousedown from reaching the tab', () => {
+  const listener = RenderEventListeners.renderEventListeners().find((item) => item.name === DomEventListenerFunctions.HandleCloseButtonMouseDown)
+
+  expect(listener).toEqual({
+    name: DomEventListenerFunctions.HandleCloseButtonMouseDown,
+    params: ['handleCloseButtonMouseDown'],
+    stopPropagation: true,
+  })
+})
+
 test('renderEventListeners should pass the current tab and key to the tab keydown handler', () => {
   const result = RenderEventListeners.renderEventListeners()
   const listener = result.find((listener) => listener.name === DomEventListenerFunctions.HandleTabKeyDown)

@@ -267,6 +267,12 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       readyState = ViewletLifecycle.handleViewletReady(context.getState(), editorUid, renderedTitle)
       await context.updateState(() => readyState)
     }
+    // Earlier visibility commands can run before the final editor DOM is committed.
+    // Request a final scroll without changing the tab DOM or fetching its icon again.
+    await context.updateState((state) => ({
+      ...state,
+      activeTabVisibilityVersion: (state.activeTabVisibilityVersion ?? 0) + 1,
+    }))
   } catch (error) {
     await handleOpenError(context, tabId, editorInput, uri, error)
   }

@@ -54,6 +54,7 @@ export interface TabDropIndicator {
 }
 
 export interface MainAreaState {
+  readonly activeTabVisibilityVersion?: number
   readonly applicationId?: string
   readonly assetDir: string
   readonly disposed?: boolean

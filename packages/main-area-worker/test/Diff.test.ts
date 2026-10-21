@@ -154,3 +154,11 @@ test('diff should ignore uid when comparing', () => {
   const result = Diff.diff(oldState, newState)
   expect(result).toEqual([DiffType.RenderCss])
 })
+
+test('a final active tab visibility refresh scrolls without replacing the tab DOM', () => {
+  const oldState = createDefaultState()
+  const newState = { ...oldState, activeTabVisibilityVersion: 1 }
+
+  expect(Diff.diff(oldState, newState)).toEqual([DiffType.RenderCss, DiffType.RenderActiveTabVisibility])
+  expect(Diff.diff(newState, newState)).toEqual([DiffType.RenderCss])
+})

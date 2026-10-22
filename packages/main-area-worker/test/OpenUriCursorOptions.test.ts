@@ -39,7 +39,7 @@ test.each([true, false])('opens at the requested position with shouldFocus=%s', 
     expect.any(Number),
     expect.any(Object),
     uri,
-    [{ focus: shouldFocus }],
+    [{ deferLoadContentLater: true, focus: shouldFocus }],
   ])
 })
 

@@ -1,4 +1,5 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
 import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
@@ -32,6 +33,14 @@ const renderMainAreaPending = async (uid: number, applicationId?: string): Promi
     await ApplicationRpc.invoke(applicationId, 'Layout.renderMainAreaPending', uid)
   } catch {
     // Older renderer workers render the final state when openInput completes.
+  }
+}
+
+const runLoadContentLater = async (editorUid: number): Promise<void> => {
+  try {
+    await RendererWorker.invoke('Viewlet.runLoadContentLater', editorUid)
+  } catch {
+    // Older renderers start optional providers during creation instead.
   }
 }
 
@@ -79,6 +88,7 @@ const getViewletArgs = (options: OpenInputOptions): readonly unknown[] | undefin
   return [
     {
       ...context,
+      deferLoadContentLater: true,
       focus: options.focus,
       ...(options.editorInput.type === 'editor' && options.editorInput.forceText === true && { forceText: true }),
       ...(options.forceOpen === true && { largeFile: true }),
@@ -273,6 +283,9 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       ...state,
       activeTabVisibilityVersion: (state.activeTabVisibilityVersion ?? 0) + 1,
     }))
+    // Creation renders a detached editor. Start optional providers only once
+    // the ready editor is attached and its selection and focus are restored.
+    void runLoadContentLater(editorUid)
   } catch (error) {
     await handleOpenError(context, tabId, editorInput, uri, error)
   }

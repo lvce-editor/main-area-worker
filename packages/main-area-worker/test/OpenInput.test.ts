@@ -587,8 +587,8 @@ test('initial providers start after attachment and focus without holding the ope
   const provider = Promise.withResolvers<void>()
   let started = false
   using _rpc = RendererWorker.registerMockRpc({
-    'Layout.getModuleId': async () => 'Editor',
     'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
     'Layout.renderMainAreaPending': async () => {
       attached.resolve()
       await attachment.promise

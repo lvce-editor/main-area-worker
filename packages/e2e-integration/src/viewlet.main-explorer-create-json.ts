@@ -5,7 +5,7 @@ export const name = 'viewlet.main-explorer-create-json'
 export const test: Test = async ({ Command, Editor, expect, Explorer, FileSystem, KeyBoard, Locator, Settings, Workspace }) => {
   await Settings.update({ 'editor.diagnostics': true, 'workbench.editor.showTabsWhileLoading': false })
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('Layout.showPanel', 'Problems')
   await Explorer.newFile()
   await Explorer.updateEditingValue('b.json')

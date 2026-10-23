@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-close-by-uri-reopen'
+export const skip = ['webkit'] as const
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'memfs' })

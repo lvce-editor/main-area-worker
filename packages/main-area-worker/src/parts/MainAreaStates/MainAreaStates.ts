@@ -5,7 +5,7 @@ import * as WithActiveEditorChange from '../WithActiveEditorChange/WithActiveEdi
 
 const registry = ViewletRegistry.create<MainAreaState>()
 
-export const { clear, get, getCommandIds, getKeys, registerCommands, set, wrapGetter } = registry
+export const { clear, dispose, get, getCommandIds, getKeys, registerCommands, set, wrapGetter } = registry
 
 export const wrapAsyncCommand = (fn: AsyncCommand<MainAreaState>): WrappedFn => {
   return registry.wrapAsyncCommand(WithActiveEditorChange.withActiveEditorChangeAsync(fn))

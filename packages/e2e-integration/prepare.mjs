@@ -1,11 +1,13 @@
-import { cp, mkdir, readdir, readFile, realpath, rm } from 'node:fs/promises'
+import { cp, mkdir, readdir, readFile, realpath, rm, writeFile } from 'node:fs/promises'
+import { stripTypeScriptTypes } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const owner = resolve(here, '../..')
 if (!process.argv[2]) throw new Error('Pass the path to a disposable LVCE checkout')
 const application = resolve(process.argv[2])
+const testFilter = process.argv[3]?.trim()
 const manifest = JSON.parse(await readFile(join(application, 'package.json'), 'utf8'))
 if (manifest.name !== 'lvce-editor') throw new Error('Expected an LVCE application checkout')
 const config = JSON.parse(await readFile(join(here, 'config.json'), 'utf8'))
@@ -14,7 +16,19 @@ const tests = join(application, 'packages/extension-host-worker-tests')
 for (const name of await readdir(join(tests, 'src'))) {
   if (name !== '_all.js') await rm(join(tests, 'src', name), { recursive: true })
 }
-await cp(join(here, 'src'), join(tests, 'src'), { recursive: true })
+const sourceTests = await readdir(join(here, 'src'))
+const selectedTests = testFilter ? sourceTests.filter((name) => name.includes(testFilter)) : sourceTests
+if (testFilter && selectedTests.length === 0) throw new Error(`No integration tests match filter: ${testFilter}`)
+for (const name of selectedTests) {
+  await cp(join(here, 'src', name), join(tests, 'src', name), { recursive: true })
+}
+// The application's development test URLs resolve to JavaScript modules.
+for (const name of selectedTests) {
+  if (!name.endsWith('.ts')) continue
+  const source = join(tests, 'src', name)
+  await writeFile(source.replace(/\.ts$/, '.js'), stripTypeScriptTypes(await readFile(source, 'utf8')))
+  await rm(source)
+}
 await rm(join(tests, 'fixtures'), { recursive: true, force: true })
 await mkdir(join(tests, 'fixtures'), { recursive: true })
 try {
@@ -33,3 +47,20 @@ for (const [from, to] of config.artifacts) {
   })
   await cp(join(owner, from), target, { recursive: true })
 }
+
+// Source browser runs need the webview configuration normally produced by BuildStatic.
+const extensionRoot = join(application, 'extensions')
+const webViews = []
+for (const name of await readdir(extensionRoot)) {
+  const extensionPath = join(extensionRoot, name)
+  const extension = await readFile(join(extensionPath, 'extension.json'), 'utf8')
+    .then(JSON.parse)
+    .catch((error) => {
+      if (error.code !== 'ENOENT' && error.code !== 'ENOTDIR') throw error
+      return undefined
+    })
+  for (const webView of extension?.webViews || []) {
+    webViews.push({ ...webView, remotePath: `/remote/${pathToFileURL(extensionPath).toString().slice(8)}` })
+  }
+}
+await writeFile(join(application, 'static/config/webViews.json'), JSON.stringify(webViews, null, 2) + '\n')

@@ -232,7 +232,15 @@ test('moveTabToGroup should preserve groups unrelated to a cross-group move', ()
       activeGroupId: 1,
       direction: 1,
       groups: [
-        { activeTabId: 1, direction: 1, id: 1, isEmpty: false, isFocused: true, size: 34, tabs: [createTab(1, 'file1.ts')] },
+        {
+          activeTabId: 1,
+          direction: 1,
+          id: 1,
+          isEmpty: false,
+          isFocused: true,
+          size: 34,
+          tabs: [createTab(1, 'file1.ts'), createTab(4, 'file4.ts')],
+        },
         { activeTabId: 2, direction: 1, id: 2, isEmpty: false, isFocused: false, size: 33, tabs: [createTab(2, 'file2.ts')] },
         { activeTabId: 3, direction: 1, id: 3, isEmpty: false, isFocused: false, size: 33, tabs: [createTab(3, 'file3.ts')] },
       ],
@@ -241,6 +249,7 @@ test('moveTabToGroup should preserve groups unrelated to a cross-group move', ()
 
   const result = MoveTabToGroup.moveTabToGroup(state, 1, 2, 1, 0)
 
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([4])
   expect(result.layout.groups[1].tabs.map((tab) => tab.id)).toEqual([1, 2])
   expect(result.layout.groups[2]).toBe(state.layout.groups[2])
 })
@@ -352,7 +361,7 @@ test('moveTabToGroup should update active tab when moving the active tab', () =>
   expect(result.layout.groups[1].activeTabId).toBe(1)
 })
 
-test('moveTabToGroup should set source group to empty when last tab is moved', () => {
+test('moveTabToGroup should remove the source group when its last tab is moved', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -383,8 +392,57 @@ test('moveTabToGroup should set source group to empty when last tab is moved', (
 
   const result = MoveTabToGroup.moveTabToGroup(state, 1, 2, 1)
 
-  expect(result.layout.groups[0].isEmpty).toBe(true)
-  expect(result.layout.groups[0].activeTabId).toBe(-1)
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].id).toBe(2)
+  expect(result.layout.groups[0].size).toBe(100)
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([2, 1])
+  expect(result.layout.groups[0].activeTabId).toBe(1)
+  expect(result.layout.activeGroupId).toBe(2)
+})
+
+test.each([1, 2] as const)('moveTabToGroup should redistribute group sizes after the last tab moves in direction %s', (direction) => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction,
+      groups: [
+        { activeTabId: 1, direction, id: 1, isEmpty: false, isFocused: true, size: 20, tabs: [createTab(1, 'file1.ts')] },
+        { activeTabId: 2, direction, id: 2, isEmpty: false, isFocused: false, size: 30, tabs: [createTab(2, 'file2.ts')] },
+        { activeTabId: 3, direction, id: 3, isEmpty: false, isFocused: false, size: 50, tabs: [createTab(3, 'file3.ts')] },
+      ],
+    },
+  }
+
+  const result = MoveTabToGroup.moveTabToGroup(state, 1, 2, 1)
+
+  expect(result.layout.groups.map((group) => group.id)).toEqual([2, 3])
+  expect(result.layout.groups.map((group) => group.size)).toEqual([50, 50])
+  expect(result.layout.groups.reduce((size, group) => size + group.size, 0)).toBe(100)
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([2, 1])
+  expect(result.layout.activeGroupId).toBe(2)
+})
+
+test('moveTabToGroup should remove the final group when its last tab moves into the first group', () => {
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 2,
+      direction: 1,
+      groups: [
+        { activeTabId: 1, direction: 1, id: 1, isEmpty: false, isFocused: false, size: 50, tabs: [createTab(1, 'file1.ts')] },
+        { activeTabId: 2, direction: 1, id: 2, isEmpty: false, isFocused: true, size: 50, tabs: [createTab(2, 'file2.ts')] },
+      ],
+    },
+  }
+
+  const result = MoveTabToGroup.moveTabToGroup(state, 2, 1, 2)
+
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].id).toBe(1)
+  expect(result.layout.groups[0].size).toBe(100)
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([1, 2])
+  expect(result.layout.activeGroupId).toBe(1)
 })
 
 test('moveTabToGroup should insert tab at specific index when targetIndex is provided', () => {
@@ -418,9 +476,9 @@ test('moveTabToGroup should insert tab at specific index when targetIndex is pro
 
   const result = MoveTabToGroup.moveTabToGroup(state, 1, 2, 1, 0)
 
-  expect(result.layout.groups[1].tabs[0].id).toBe(1)
-  expect(result.layout.groups[1].tabs[1].id).toBe(2)
-  expect(result.layout.groups[1].tabs[2].id).toBe(3)
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].id).toBe(2)
+  expect(result.layout.groups[0].tabs.map((tab) => tab.id)).toEqual([1, 2, 3])
 })
 
 test('moveTabToGroup should set active tab in target group to moved tab', () => {
@@ -454,5 +512,6 @@ test('moveTabToGroup should set active tab in target group to moved tab', () => 
 
   const result = MoveTabToGroup.moveTabToGroup(state, 1, 2, 1)
 
-  expect(result.layout.groups[1].activeTabId).toBe(1)
+  expect(result.layout.groups).toHaveLength(1)
+  expect(result.layout.groups[0].activeTabId).toBe(1)
 })

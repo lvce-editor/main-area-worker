@@ -54,6 +54,7 @@ export interface TabDropIndicator {
 }
 
 export interface MainAreaState {
+  readonly activeTabVisibilityVersion?: number
   readonly applicationId?: string
   readonly assetDir: string
   readonly disposed?: boolean
@@ -61,6 +62,7 @@ export interface MainAreaState {
   readonly fileIconCache: FileIconCache
   readonly height: number
   readonly homeDirUri?: string
+  readonly iconThemeVersion?: number
   readonly iframes: readonly any[]
   readonly initial: boolean
   readonly layout: MainAreaLayout
@@ -68,6 +70,8 @@ export interface MainAreaState {
   readonly maxOpenEditors: number
   readonly minGroupHeightPx: number
   readonly minGroupWidthPx: number
+  readonly openRequestId?: number
+  readonly pendingRestoreTabIds?: readonly number[]
   pendingViewletUpdate?: {
     readonly disposal: number
     readonly focus?: number

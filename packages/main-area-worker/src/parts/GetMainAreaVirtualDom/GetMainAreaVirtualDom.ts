@@ -77,18 +77,15 @@ const renderSegmentChildren = (
     const nestedDirection = segment.direction
     const nestedChildCount = segment.groups.length + segment.groups.length - 1
     const nestedChildren: VirtualDomNode[] = []
-    let nestedCount = 0
     for (let j = 0; j < segment.groups.length; j++) {
       if (j > 0) {
         const beforeGroupId = segment.groups[j - 1].id
         const afterGroupId = segment.groups[j].id
         const sashId = SashId.create(beforeGroupId, afterGroupId)
         nestedChildren.push(...renderSash(nestedDirection, sashId))
-        nestedCount++
       }
       const group = segment.groups[j]
       nestedChildren.push(...renderEditorGroup(group, segment.startIndex + j, splitButtonEnabled, true, tabDropIndicator))
-      nestedCount++
     }
     children.push({
       childCount: nestedChildCount,
@@ -101,7 +98,6 @@ const renderSegmentChildren = (
     })
     children.push(...nestedChildren)
     childCount++
-    childCount += nestedCount
   }
   return { childCount, children }
 }

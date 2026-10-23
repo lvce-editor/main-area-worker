@@ -462,7 +462,6 @@ test('inserts an internally dragged tab at a specific position in another group'
   await handleDrop(context, 1)
 
   expect(getState().layout.groups.map((group) => group.tabs.map((tab) => tab.uri))).toEqual([
-    [],
     ['file:///workspace/left.txt', 'file:///workspace/right.txt'],
   ])
   expect(getState().layout.activeGroupId).toBe(3)

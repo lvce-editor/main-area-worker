@@ -16,7 +16,7 @@ export const mockCacheStorage = (handlers: {
       const cacheName = (command === 'Cache.setCacheStorageItem' ? args[2] : args[1]) as string | undefined
       const headers = args[3] as Record<string, string> | undefined
       if (['Cache.getCacheStorageItem', 'Cache.setCacheStorageItem', 'Cache.removeCacheStorageItem'].includes(command)) {
-        expect(cacheName).toBe('lvce0main-area-tabs')
+        expect(cacheName).toBe('lvce-main-area-tabs')
       }
       if (command === 'Cache.getCacheStorageItem') {
         const json = handlers.getJson?.(key)

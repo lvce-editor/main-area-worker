@@ -3,7 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeFocusedTab } from '../src/parts/CloseFocusedTab/CloseFocusedTab.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 
-test('closeFocusedTab should close the focused tab', async () => {
+test('closeFocusedTab should close the isFocused tab', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -13,9 +13,9 @@ test('closeFocusedTab should close the focused tab', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -49,9 +49,9 @@ test('closeFocusedTab should close the focused tab', async () => {
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -71,7 +71,7 @@ test('closeFocusedTab should close the focused tab', async () => {
   expect(result).not.toBe(state)
 })
 
-test('closeFocusedTab should return same state when no focused group', async () => {
+test('closeFocusedTab should return same state when no isFocused group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -81,9 +81,9 @@ test('closeFocusedTab should return same state when no focused group', async () 
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -105,7 +105,7 @@ test('closeFocusedTab should return same state when no focused group', async () 
   expect(result).toBe(state)
 })
 
-test('closeFocusedTab should return same state when no active tab in focused group', async () => {
+test('closeFocusedTab should return same state when no active tab in isFocused group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -115,9 +115,9 @@ test('closeFocusedTab should return same state when no active tab in focused gro
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -154,7 +154,7 @@ test('closeFocusedTab should return same state when no groups', async () => {
   expect(result).toBe(state)
 })
 
-test('closeFocusedTab should remove group when closing the last tab in focused group', async () => {
+test('closeFocusedTab should remove group when closing the last tab in isFocused group', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -164,9 +164,9 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -195,7 +195,7 @@ test('closeFocusedTab should remove group when closing the last tab in focused g
   expect(result).not.toBe(state)
 })
 
-test('closeFocusedTab should close tab in focused group when multiple groups exist', async () => {
+test('closeFocusedTab should close tab in isFocused group when multiple groups exist', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -205,9 +205,9 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -223,9 +223,9 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -259,9 +259,9 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -277,9 +277,9 @@ test('closeFocusedTab should close tab in focused group when multiple groups exi
       {
         activeTabId: 3,
         direction: 1,
-        focused: true,
         id: 2,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -309,9 +309,9 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -327,9 +327,9 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -355,9 +355,9 @@ test('closeFocusedTab should remove group when closing last tab with multiple gr
       {
         activeTabId: 2,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 100,
         tabs: [
           {

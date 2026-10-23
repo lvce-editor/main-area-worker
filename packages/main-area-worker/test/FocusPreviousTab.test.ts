@@ -16,9 +16,9 @@ test('focusPreviousTab should select the previous tab in the active group', asyn
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -69,9 +69,9 @@ test('focusPreviousTab should cycle from first tab to last tab', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -120,9 +120,9 @@ test('focusPreviousTab should return state if there is no active group', async (
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -162,9 +162,9 @@ test('focusPreviousTab should return state if active group is empty', async () =
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -187,9 +187,9 @@ test('focusPreviousTab should return state if active tab is not found', async ()
         {
           activeTabId: 999,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -231,9 +231,9 @@ test('focusPreviousTab should move from last tab to second-to-last tab', async (
         {
           activeTabId: 3,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -284,9 +284,9 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -310,9 +310,9 @@ test('focusPreviousTab should work with multiple groups, only affecting active g
         {
           activeTabId: 4,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {

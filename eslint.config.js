@@ -21,7 +21,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['packages/e2e/tsconfig.json'],
+    files: ['packages/{e2e,e2e-integration}/tsconfig.json'],
     rules: {
       'tsconfig/allow-importing-ts-extensions': 'off',
       'tsconfig/dont-skip-lib-check': 'off',
@@ -59,9 +59,37 @@ export default defineConfig([
     },
   },
   {
-    files: ['packages/e2e/**/*.ts'],
+    files: ['packages/{e2e,e2e-integration}/**/*.ts'],
     rules: {
       'virtual-dom/prefer-merge-class-names': 'off',
     },
+  },
+  {
+    // The pinned application supplies its own Node runtime.
+    files: ['.github/workflows/integration.yml'],
+    rules: { 'github-actions/node-version-file': 'off', 'github-actions/on': 'off' },
+  },
+  {
+    // Preserve real DOM input events covered by the migrated application scenarios.
+    files: [
+      'packages/e2e-integration/src/viewlet.main-same-file-undo-redo.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-three-groups-vertical.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-three-groups-horizontal.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-save-from-other-group.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-open-after-unsaved-edit.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-one-hundred-groups.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-one-hundred-groups-vertical.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-multiline-edit.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-mixed-layout.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-many-groups-isolate-other-file.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-many-groups-bidirectional.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-edit-right.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-edit-left.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-edit-bidirectional.ts',
+      'packages/e2e-integration/src/viewlet.main-same-file-close-one-of-many.ts',
+      'packages/e2e-integration/src/viewlet.main-open-not-found-create-file.ts',
+      'packages/e2e-integration/src/viewlet.main-long-tab-title.ts',
+    ],
+    rules: { '@typescript-eslint/no-deprecated': 'off' },
   },
 ])

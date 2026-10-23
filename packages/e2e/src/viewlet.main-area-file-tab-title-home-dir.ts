@@ -6,7 +6,7 @@ export const skip = 1
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const homeDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(homeDir)
+  await Workspace.setUri(homeDir)
   await (Workspace as any).setHomeDir(homeDir)
   const file = `${homeDir}/some/path.md`
 

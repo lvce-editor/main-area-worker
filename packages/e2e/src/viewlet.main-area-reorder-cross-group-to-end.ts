@@ -18,8 +18,14 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const leftTabTitles = names.slice(0, 3).map((_name, index) => Locator(`.MainTab[data-group-index="0"][data-index="${index}"] .TabTitle`))
   const rightTabTitles = names.slice(0, 1).map((_name, index) => Locator(`.MainTab[data-group-index="1"][data-index="${index}"] .TabTitle`))
 
-  await rightTabs.nth(0).dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
-  await leftTabBar.dispatchEvent('dragover', { bubbles: true, clientX: 10_000, clientY: 10 } as any)
+  await Command.execute('TestFrameWork.performAction', rightTabs.nth(0), 'dispatchEvent', {
+    init: { bubbles: true, button: 0 } as any,
+    type: 'mousedown',
+  })
+  await Command.execute('TestFrameWork.performAction', leftTabBar, 'dispatchEvent', {
+    init: { bubbles: true, clientX: 10_000, clientY: 10 } as any,
+    type: 'dragover',
+  })
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDrop', dropId)
 

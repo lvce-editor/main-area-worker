@@ -1,0 +1,22 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
+export const name = 'viewlet.main-open-not-found'
+
+export const test: Test = async ({ expect, FileSystem, Locator, Main, SideBar, Workspace }) => {
+  // arrange
+  await SideBar.hide()
+  const tmpDir = await FileSystem.getTmpDir()
+  await Workspace.setUri(tmpDir)
+
+  // act
+  await Main.openUri(`${tmpDir}/not-found.txt`)
+
+  // assert
+  const errorEditor = Locator('.TextEditorError')
+  await expect(errorEditor).toHaveCSS('flex-grow', '1')
+  const errorMessage = Locator('.TextEditorErrorMessage')
+  await expect(errorMessage).toBeVisible()
+  await expect(errorMessage).toHaveCSS('overflow-x', 'auto')
+  await expect(errorMessage).toHaveCSS('white-space', 'pre')
+  await expect(errorMessage).toHaveText('The editor could not be opened because the file was not found')
+}

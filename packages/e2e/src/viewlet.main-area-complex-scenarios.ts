@@ -76,13 +76,13 @@ export const test: Test = async ({ Command, FileSystem }) => {
   })
 
   const savedState5 = await Command.execute('MainArea.saveState', uid)
-  const focusedGroup = savedState5.layout.groups.find((g) => g.focused)
+  const focusedGroup = savedState5.layout.groups.find((g) => g.isFocused)
   assert(focusedGroup !== undefined, 'Focused group should exist')
   assert(focusedGroup.tabs.length > 0, 'Focused group should have tabs')
 
   await Command.execute('MainArea.selectTab', uid, 1, 0)
   const savedState6 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState6.layout.groups[1].focused === true, 'Second group should be focused')
+  assert(savedState6.layout.groups[1].isFocused === true, 'Second group should be focused')
 
   await Command.execute('MainArea.handleClickCloseTab', uid, '1', '0')
   const savedState7 = await Command.execute('MainArea.saveState', uid)

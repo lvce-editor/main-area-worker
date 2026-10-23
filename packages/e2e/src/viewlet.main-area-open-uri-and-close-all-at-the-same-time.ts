@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-uri-and-close-all-at-the-same-time'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const initialFile = `${tmpDir}/initial.txt`
   const racingFile = `${tmpDir}/racing.txt`
 

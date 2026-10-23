@@ -114,11 +114,11 @@ test('createViewlet should return a title rendered by the provider', async () =>
     'Viewlet.getTitle': async () => 'Atom One Dark Theme',
   })
 
-  const result = await CreateViewlet.createViewlet('ExtensionDetail', 1, 2, null, 'extension-detail://builtin.theme-atom-one-dark')
+  const result = await CreateViewlet.createViewlet('ExtensionDetail', 1, 2, null, 'extension-detail:///builtin.theme-atom-one-dark')
 
   expect(result).toBe('Atom One Dark Theme')
   expect(mockRpc.invocations).toEqual([
-    ['Layout.createViewlet', 'ExtensionDetail', 1, 2, null, 'extension-detail://builtin.theme-atom-one-dark'],
+    ['Layout.createViewlet', 'ExtensionDetail', 1, 2, null, 'extension-detail:///builtin.theme-atom-one-dark'],
     ['Viewlet.getTitle', 1],
   ])
 })

@@ -10,7 +10,7 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
     { content: 'original', uri: original },
     { content: 'dropped', uri: dropped },
   ])
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
   await Main.openUri(original)
   const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: dropped }])
@@ -23,6 +23,8 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const topGroup = groups.nth(0)
   const bottomGroup = groups.nth(1)
   await expect(groups).toHaveCount(2)
-  await expect(topGroup.locator('.MainTab[title$="drop-split-down-original.txt"]')).toBeVisible()
-  await expect(bottomGroup.locator('.MainTab[title$="drop-split-down-dropped.txt"]')).toBeVisible()
+  const topGroupOriginalTab = topGroup.locator('.MainTab[title$="drop-split-down-original.txt"]')
+  await expect(topGroupOriginalTab).toBeVisible()
+  const bottomGroupDroppedTab = bottomGroup.locator('.MainTab[title$="drop-split-down-dropped.txt"]')
+  await expect(bottomGroupDroppedTab).toBeVisible()
 }

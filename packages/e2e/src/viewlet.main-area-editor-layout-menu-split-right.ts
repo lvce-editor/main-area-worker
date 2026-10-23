@@ -28,7 +28,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const secondGroup = groups.nth(1)
   const firstGroupTab = firstGroup.locator('.MainTab[title$="split-right.txt"]')
   const secondGroupTabs = secondGroup.locator('.MainTab')
-  const groupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
+  const groupsContainer = Locator('.EditorGroupsContainer.EditorGroupsVertical')
   const sash = Locator('.Main .SashVertical')
   await expect(groups).toHaveCount(2)
   await expect(firstGroupTab).toBeVisible()

@@ -19,9 +19,9 @@ test('handleIconThemeChange should reload icons for restored tabs', async () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -42,6 +42,7 @@ test('handleIconThemeChange should reload icons for restored tabs', async () => 
   const result = await handleIconThemeChange(state)
 
   expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }]]])
+  expect(result.iconThemeVersion).toBe(1)
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-typescript')
   expect(result.fileIconCache).toEqual({
     '/path/to/script.ts': 'file-icon-typescript',
@@ -65,9 +66,9 @@ test('handleIconThemeChange should ignore stale icon cache and refetch icons', a
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -88,6 +89,7 @@ test('handleIconThemeChange should ignore stale icon cache and refetch icons', a
   const result = await handleIconThemeChange(state)
 
   expect(mockRpc.invocations).toEqual([['IconTheme.getIcons', [{ name: 'script.ts', type: 1 }]]])
+  expect(result.iconThemeVersion).toBe(1)
   expect(result.layout.groups[0].tabs[0].icon).toBe('file-icon-new')
   expect(result.fileIconCache).toEqual({
     '/path/to/script.ts': 'file-icon-new',

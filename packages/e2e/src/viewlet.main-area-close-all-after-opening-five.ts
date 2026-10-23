@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-close-all-after-opening-five'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   for (let i = 1; i <= 5; i++) {
     const file = `${tmpDir}/close-all-five-${i}.ts`

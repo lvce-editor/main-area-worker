@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-diff-nonexistent-files'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   const leftFile = `${tmpDir}/left-does-not-exist.ts`
   const rightFile = `${tmpDir}/right-does-not-exist.ts`

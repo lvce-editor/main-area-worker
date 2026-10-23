@@ -3,7 +3,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { getActiveEditorUid } from '../src/parts/GetActiveEditorUid/GetActiveEditorUid.ts'
 
-const createState = (editorUid: number, focused = true): MainAreaState => ({
+const createState = (editorUid: number, isFocused = true): MainAreaState => ({
   ...createDefaultState(),
   layout: {
     activeGroupId: 1,
@@ -12,9 +12,9 @@ const createState = (editorUid: number, focused = true): MainAreaState => ({
       {
         activeTabId: 2,
         direction: 1,
-        focused,
         id: 1,
         isEmpty: false,
+        isFocused,
         size: 100,
         tabs: [
           {
@@ -35,7 +35,7 @@ test('returns the active editor uid', () => {
   expect(getActiveEditorUid(createState(42))).toBe(42)
 })
 
-test('throws when no editor group is focused', () => {
+test('throws when no editor group is isFocused', () => {
   expect(() => getActiveEditorUid(createState(42, false))).toThrow('no active editor found')
 })
 

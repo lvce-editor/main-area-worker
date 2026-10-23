@@ -60,7 +60,7 @@ test('getMissingIconRequestsForTabs should skip extension detail icons', () => {
       isDirty: false,
       isPreview: false,
       title: 'builtin.theme-ayu',
-      uri: 'extension-detail://builtin.theme-ayu',
+      uri: 'extension-detail:///builtin.theme-ayu',
     },
   ]
 
@@ -80,6 +80,22 @@ test('getMissingIconRequestsForTabs should skip running extensions icons', () =>
       isPreview: false,
       title: 'Running Extensions',
       uri: 'running-extensions://',
+    },
+  ]
+
+  expect(getMissingIconRequestsForTabs(tabs, {})).toEqual([])
+})
+
+test('getMissingIconRequestsForTabs should skip settings icons', () => {
+  const tabs: readonly Tab[] = [
+    {
+      editorUid: -1,
+      icon: '',
+      id: 1,
+      isDirty: false,
+      isPreview: false,
+      title: 'Settings',
+      uri: 'settings://editor/preferences',
     },
   ]
 

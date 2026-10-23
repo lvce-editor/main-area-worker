@@ -5,7 +5,7 @@ export const name = 'viewlet.main-area-editor-type-character'
 export const test: Test = async ({ Editor, FileSystem, Main, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const testFile = `${tmpDir}/new-file.ts`
   await FileSystem.writeFile(testFile, '\n')
   await Main.openUri(testFile)

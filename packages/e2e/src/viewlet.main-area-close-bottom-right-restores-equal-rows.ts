@@ -5,9 +5,9 @@ export const skip = ['webkit'] as const
 
 const clickEventInit = { bubbles: true } as unknown as string
 
-export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
   const topFile = `${tmpDir}/top.ts`
   const bottomFile = `${tmpDir}/bottom.ts`
@@ -21,20 +21,26 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   await Main.openUri(bottomFile)
   await Main.splitRight()
 
+  const { actual: height } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', Locator('.Main'), { key: 'clientHeight' })
   const groups = Locator('.EditorGroup')
   const firstGroup = groups.nth(0)
   const secondGroup = groups.nth(1)
-  const horizontalContainers = Locator('.editor-groups-container.EditorGroupsHorizontal')
-  const verticalContainers = Locator('.editor-groups-container.EditorGroupsVertical')
+  const horizontalContainers = Locator('.EditorGroupsContainer.EditorGroupsHorizontal')
+  const verticalContainers = Locator('.EditorGroupsContainer.EditorGroupsVertical')
   const horizontalSashes = Locator('.Main .SashHorizontal')
   const verticalSashes = Locator('.Main .SashVertical')
   await expect(groups).toHaveCount(3)
-  await groups.nth(2).locator('.EmptyGroupCloseButton').dispatchEvent('click', clickEventInit)
+  await Command.execute('TestFrameWork.performAction', groups.nth(2).locator('.EmptyGroupCloseButton'), 'dispatchEvent', {
+    init: clickEventInit,
+    type: 'click',
+  })
   await Main.handleClickAction('', '')
 
   await expect(groups).toHaveCount(2)
-  await expect(firstGroup).toHaveAttribute('style', 'height: 50%;')
-  await expect(secondGroup).toHaveAttribute('style', 'height: 50%;')
+  await expect(firstGroup).toHaveAttribute('style', null)
+  await expect(firstGroup).toHaveCSS('height', `${height * 0.5}px`)
+  await expect(secondGroup).toHaveAttribute('style', null)
+  await expect(secondGroup).toHaveCSS('height', `${height * 0.5}px`)
   await expect(horizontalContainers).toHaveCount(1)
   await expect(verticalContainers).toHaveCount(0)
   await expect(horizontalSashes).toHaveCount(1)

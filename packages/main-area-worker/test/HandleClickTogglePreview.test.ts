@@ -18,9 +18,9 @@ test('handleClickTogglePreview should return state unchanged', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

@@ -14,9 +14,9 @@ test('renderActiveTabVisibility reveals the active tab', () => {
         {
           activeTabId: 42,
           direction: 1,
-          focused: true,
           id: 12,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -59,9 +59,9 @@ test('renderActiveTabVisibility ignores a missing active tab', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 12,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },

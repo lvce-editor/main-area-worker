@@ -3,7 +3,7 @@ import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 export const getActiveTab = (state: MainAreaState): { tab: Tab; groupId: number } | undefined => {
   const { layout } = state
   const { groups } = layout
-  const activeGroup = groups.find((group) => group.focused)
+  const activeGroup = groups.find((group) => group.isFocused)
   if (!activeGroup || !activeGroup.activeTabId) {
     return undefined
   }

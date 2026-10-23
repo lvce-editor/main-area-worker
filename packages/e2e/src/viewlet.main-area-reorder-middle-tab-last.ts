@@ -14,12 +14,18 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const secondTab = tabs.nth(1)
   const thirdTab = tabs.nth(2)
 
-  await secondTab.dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
-  await thirdTab.dispatchEvent('dragover', { bubbles: true, clientX: 10_000, clientY: 10 } as any)
+  await Command.execute('TestFrameWork.performAction', secondTab, 'dispatchEvent', { init: { bubbles: true, button: 0 } as any, type: 'mousedown' })
+  await Command.execute('TestFrameWork.performAction', thirdTab, 'dispatchEvent', {
+    init: { bubbles: true, clientX: 10_000, clientY: 10 } as any,
+    type: 'dragover',
+  })
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDrop', dropId)
 
-  await expect(firstTab.locator('.TabTitle')).toHaveText('reorder-middle-last-1.txt')
-  await expect(secondTab.locator('.TabTitle')).toHaveText('reorder-middle-last-3.txt')
-  await expect(thirdTab.locator('.TabTitle')).toHaveText('reorder-middle-last-2.txt')
+  const firstTabTitle = firstTab.locator('.TabTitle')
+  await expect(firstTabTitle).toHaveText('reorder-middle-last-1.txt')
+  const secondTabTitle = secondTab.locator('.TabTitle')
+  await expect(secondTabTitle).toHaveText('reorder-middle-last-3.txt')
+  const thirdTabTitle = thirdTab.locator('.TabTitle')
+  await expect(thirdTabTitle).toHaveText('reorder-middle-last-2.txt')
 }

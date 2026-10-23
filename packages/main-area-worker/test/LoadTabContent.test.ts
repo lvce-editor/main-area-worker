@@ -14,9 +14,9 @@ const createStateWithTab = (tabOverrides: Partial<Tab> = {}): MainAreaState => (
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -139,6 +139,30 @@ test('loadTabContentAsync handles error', async () => {
   expect(mockRpc.invocations).toHaveLength(1)
 })
 
+test('loadTabContentAsync renders binary read errors with the binary placeholder', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.readFile': async () => {
+      const error = new Error('The esbuild executable is a binary file and cannot be opened as text')
+      Object.defineProperty(error, 'name', { value: 'BinaryFileError' })
+      throw error
+    },
+  })
+
+  GetNextRequestId.resetRequestIdCounter()
+  const requestId = GetNextRequestId.getNextRequestId()
+  const state = createStateWithTab({
+    editorInput: { type: 'editor', uri: '/test/esbuild' },
+    loadingState: 'loading',
+  })
+  const result = await LoadTabContent.loadTabContentAsync(1, '/test/esbuild', requestId, () => state)
+  const tab = LoadTabContent.findTab(result, 1)
+
+  expect(tab?.loadingState).toBe('binary')
+  expect(tab?.editorInput).toEqual({ type: 'binary', uri: '/test/esbuild' })
+  expect(tab?.errorMessage).toBeUndefined()
+  expect(mockRpc.invocations).toHaveLength(1)
+})
+
 test('loadTabContentAsync normalizes directory read errors', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'FileSystem.readFile': async () => {
@@ -252,9 +276,9 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -270,9 +294,9 @@ test('updateTab updates tab in correct group when multiple groups exist', () => 
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {

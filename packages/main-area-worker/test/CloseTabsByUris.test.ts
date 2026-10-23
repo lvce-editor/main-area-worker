@@ -16,9 +16,9 @@ test('closeTabsByUris waits for inactive matching editors to be disposed', async
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -72,9 +72,9 @@ test('closeTabsByUris should remove empty groups after closing the last tab', as
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

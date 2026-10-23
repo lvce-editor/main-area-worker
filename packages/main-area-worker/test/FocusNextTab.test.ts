@@ -16,9 +16,9 @@ test('focusNextTab should select the next tab in the active group', async () => 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -69,9 +69,9 @@ test('focusNextTab should cycle from last tab to first tab', async () => {
         {
           activeTabId: 3,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -120,9 +120,9 @@ test('focusNextTab should return state if there is no active group', async () =>
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -162,9 +162,9 @@ test('focusNextTab should return state if active group is empty', async () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -187,9 +187,9 @@ test('focusNextTab should return state if active tab is not found', async () => 
         {
           activeTabId: 999,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -231,9 +231,9 @@ test('focusNextTab should move from first tab to second tab', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -276,9 +276,9 @@ test('focusNextTab should cycle from last tab to first tab 2', async () => {
         {
           activeTabId: 3,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

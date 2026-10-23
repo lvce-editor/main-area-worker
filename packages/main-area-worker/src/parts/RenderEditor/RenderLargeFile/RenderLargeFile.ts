@@ -51,7 +51,7 @@ const paragraphNode: VirtualDomNode = {
 }
 
 const actionsNode: VirtualDomNode = {
-  childCount: 4,
+  childCount: 2,
   className: ClassNames.EditorContentLargeFileActions,
   type: VirtualDomElements.Div,
 }

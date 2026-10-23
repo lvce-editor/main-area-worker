@@ -6,7 +6,7 @@ export const skip = 1
 
 export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const testFile = `${tmpDir}/test.ts`
   const testContent = 'export const hello = () => "world"'
   await FileSystem.writeFile(testFile, testContent)

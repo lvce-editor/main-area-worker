@@ -13,6 +13,7 @@ import { copyPath } from '../CopyPath/CopyPath.ts'
 import { copyRelativePath } from '../CopyRelativePath/CopyRelativePath.ts'
 import * as MainArea from '../Create/Create.ts'
 import { diff2 } from '../Diff2/Diff2.ts'
+import { dispose } from '../Dispose/Dispose.ts'
 import { focus } from '../Focus/Focus.ts'
 import { focusNextTab } from '../FocusNextTab/FocusNextTab.ts'
 import { focusPreviousTab } from '../FocusPreviousTab/FocusPreviousTab.ts'
@@ -51,9 +52,12 @@ import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceC
 import { handleWorkspaceRefreshWithContext } from '../HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
 import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
 import { hasDirtyTabs } from '../HasDirtyTabs/HasDirtyTabs.ts'
+import { hasOpenTextEditor } from '../HasOpenTextEditor/HasOpenTextEditor.ts'
 import { configure as configureIds } from '../Id/Id.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
+import { loadContentLater } from '../LoadContent/LoadContentLater.ts'
+import { loadContentShell } from '../LoadContent/LoadContentShell.ts'
 import { get, getCommandIds, set, wrapAsyncCommand, wrapGetter, wrapSerialAsyncCommand, wrapSerialCommand } from '../MainAreaStates/MainAreaStates.ts'
 import { getMenuEntries } from '../MenuEntries/MenuEntries.ts'
 import { moveIntoNewWindow } from '../MoveIntoNewWindow/MoveIntoNewWindow.ts'
@@ -61,7 +65,7 @@ import { newFile } from '../NewFile/NewFile.ts'
 import { newWindow } from '../NewWindow/NewWindow.ts'
 import { openInputWithContext } from '../OpenInput/OpenInput.ts'
 import { openUriWithContext } from '../OpenUri/OpenUri.ts'
-import { openUrisWithContext } from '../OpenUris/OpenUris.ts'
+import { openUrisInThreeColumnsWithContext, openUrisWithContext } from '../OpenUris/OpenUris.ts'
 import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
@@ -69,7 +73,7 @@ import { reopenEditorWith } from '../ReopenEditorWith/ReopenEditorWith.ts'
 import { resetPointerDown } from '../ResetPointerDown/ResetPointerDown.ts'
 import * as Resize from '../Resize/Resize.ts'
 import { restoreClosedTab } from '../RestoreClosedTab/RestoreClosedTab.ts'
-import { save } from '../Save/Save.ts'
+import * as Save from '../Save/Save.ts'
 import { saveState } from '../SaveState/SaveState.ts'
 import { selectTab } from '../SelectTab/SelectTab.ts'
 import { setComponentState } from '../SetComponentState/SetComponentState.ts'
@@ -85,12 +89,19 @@ import {
   setEditorLayoutTwoRowsRight,
 } from '../SetEditorLayout/SetEditorLayout.ts'
 import { splitDown } from '../SplitDown/SplitDown.ts'
+import { splitEditorGroupAndResize } from '../SplitEditorGroupAndResize/SplitEditorGroupAndResize.ts'
 import { splitLeft } from '../SplitLeft/SplitLeft.ts'
 import { splitRight } from '../SplitRight/SplitRight.ts'
 import { splitUp } from '../SplitUp/SplitUp.ts'
+import { handlePanelDrop, handleTerminalExit } from '../TerminalTransfer/TerminalTransfer.ts'
 
 const pendingLoads = new Map<number, Promise<void>>()
 const loadContent = wrapSerialCommand(LoadContent.loadContent)
+
+const splitDownAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitDown, ...args))
+const splitLeftAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitLeft, ...args))
+const splitRightAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitRight, ...args))
+const splitUpAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitUp, ...args))
 
 const loadContentTracked = async (uid: number, ...args: readonly any[]): Promise<void> => {
   const loading = loadContent(uid, ...args)
@@ -143,15 +154,18 @@ export const commandMap = {
   'Main.focusPreviousTab': wrapSerialCommand(focusPreviousTab),
   'Main.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
   'Main.handleTabContextMenu': wrapSerialCommand(handleTabContextMenu),
+  'Main.handleUriChange': wrapAsyncCommand(handleUriChangeWithContext),
   'Main.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
   'Main.hasDirtyTabs': wrapGetter(hasDirtyTabs),
   'Main.openInput': wrapSerialAsyncCommand(openInputWithContext),
   'Main.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'Main.openUris': wrapSerialAsyncCommand(openUrisWithContext),
+  'Main.openUrisInThreeColumns': wrapSerialAsyncCommand(openUrisInThreeColumnsWithContext),
   'Main.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
-  'Main.save': wrapSerialCommand(save),
+  'Main.save': wrapSerialCommand(Save.save),
+  'Main.saveAll': wrapAsyncCommand(Save.saveAll),
   'Main.saveState': wrapGetter(saveState),
-  'Main.splitRight': wrapSerialCommand(splitRight),
+  'Main.splitRight': splitRightAndResize,
   'MainArea.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
   'MainArea.closeAll': wrapSerialCommand(closeAll),
   'MainArea.closeAllEditors': wrapSerialCommand(closeAll),
@@ -167,6 +181,7 @@ export const commandMap = {
   'MainArea.copyRelativePath': wrapSerialCommand(copyRelativePath),
   'MainArea.create': MainArea.create,
   'MainArea.diff2': diff2,
+  'MainArea.dispose': dispose,
   'MainArea.flipEditorLayout': wrapSerialCommand(flipLayout),
   'MainArea.focus': wrapSerialCommand(focus),
   'MainArea.focusNext': wrapSerialCommand(focusNextTab),
@@ -174,16 +189,18 @@ export const commandMap = {
   'MainArea.focusPrevious': wrapSerialCommand(focusPreviousTab),
   'MainArea.focusPreviousTab': wrapSerialCommand(focusPreviousTab),
   'MainArea.getActiveEditorUid': wrapGetter(getActiveEditorUid),
-  'MainArea.getCommandIds': getCommandIds,
+  // Lifecycle hooks require an explicit renderer adapter, not command discovery.
+  'MainArea.getCommandIds': () => getCommandIds().filter((id) => id !== 'loadContentLater'),
   'MainArea.getComponentDom': getComponentDom,
   'MainArea.getComponentState': getComponentState,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
   'MainArea.getMenuIds': getMenuIds,
-  'MainArea.handleClick': wrapSerialCommand(HandleClick.handleClick),
+  'MainArea.handleClick': wrapSerialAsyncCommand(HandleClick.handleClickWithContext),
   'MainArea.handleClickAction': wrapSerialCommand(handleClickAction),
   'MainArea.handleClickCloseTab': wrapSerialCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapSerialCommand(handleClickTab),
   'MainArea.handleClickTogglePreview': wrapSerialCommand(handleClickTogglePreview),
+  'MainArea.handleCloseButtonMouseDown': (state: any) => state,
   'MainArea.handleContextMenu': wrapSerialCommand(handleContextMenu),
   'MainArea.handleDoubleClick': wrapSerialCommand(handleDoubleClick),
   'MainArea.handleDragEnd': wrapSerialCommand(resetPointerDown),
@@ -191,10 +208,12 @@ export const commandMap = {
   'MainArea.handleDragOver': wrapSerialCommand(handleDragOver),
   'MainArea.handleDragStart': wrapSerialCommand(handleDragStart),
   'MainArea.handleDrop': wrapSerialAsyncCommand(handleDrop),
+  'MainArea.handleGroupMouseDown': wrapSerialAsyncCommand(HandleClick.handleGroupMouseDown),
   'MainArea.handleHeaderDoubleClick': wrapSerialCommand(handleHeaderDoubleClick),
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
   'MainArea.handleMessagePort': handleDirectMessagePort,
   'MainArea.handleModifiedStatusChange': wrapAsyncCommand(handleModifiedStatusChangeWithContext),
+  'MainArea.handlePanelDrop': wrapSerialAsyncCommand(handlePanelDrop),
   'MainArea.handleResize': resize,
   'MainArea.handleSashCornerPointerDown': wrapSerialCommand(handleSashCornerPointerDown),
   'MainArea.handleSashCornerPointerMove': wrapSerialCommand(handleSashCornerPointerMove),
@@ -208,28 +227,38 @@ export const commandMap = {
   'MainArea.handleTabMouseUp': wrapSerialCommand(resetPointerDown),
   'MainArea.handleTabsDragOver': wrapSerialCommand(handleTabsDragOver),
   'MainArea.handleTabsWheel': wrapSerialCommand(handleTabsWheel),
+  'MainArea.handleTerminalExit': wrapSerialCommand(handleTerminalExit),
   'MainArea.handleTestWorkerMessagePort': handleTestWorkerMessagePort,
   'MainArea.handleUriChange': wrapAsyncCommand(handleUriChangeWithContext),
   'MainArea.handleWorkspaceChange': wrapSerialCommand(handleWorkspaceChange),
   'MainArea.handleWorkspaceRefresh': wrapAsyncCommand(handleWorkspaceRefreshWithContext),
   'MainArea.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
   'MainArea.hasDirtyTabs': wrapGetter(hasDirtyTabs),
+  'MainArea.hasOpenTextEditor': wrapGetter(hasOpenTextEditor),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': loadContentTracked,
+  'MainArea.loadContentLater': wrapAsyncCommand(loadContentLater),
+  'MainArea.loadContentShell': (uid: number, savedState: unknown): void => {
+    const instance = get(uid)
+    set(uid, instance.oldState, loadContentShell(instance.newState, savedState))
+  },
   'MainArea.moveIntoNewWindow': wrapSerialCommand(moveIntoNewWindow),
   'MainArea.newFile': wrapSerialCommand(newFile),
   'MainArea.newWindow': wrapSerialCommand(newWindow),
   'MainArea.openInput': wrapSerialAsyncCommand(openInputWithContext),
   'MainArea.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'MainArea.openUris': wrapSerialAsyncCommand(openUrisWithContext),
+  'MainArea.openUrisInThreeColumns': wrapSerialAsyncCommand(openUrisInThreeColumnsWithContext),
   'MainArea.refresh': wrapSerialCommand(refresh),
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,
   'MainArea.reopenEditorWith': wrapSerialAsyncCommand(reopenEditorWith),
   'MainArea.resize': resize,
   'MainArea.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
-  'MainArea.save': wrapSerialCommand(save),
+  'MainArea.save': wrapSerialCommand(Save.save),
+  'MainArea.saveAll': wrapAsyncCommand(Save.saveAll),
   'MainArea.saveState': wrapGetter(saveState),
+  'MainArea.saveWithoutFormatting': wrapSerialCommand(Save.saveWithoutFormatting),
   'MainArea.selectTab': wrapSerialCommand(selectTab),
   'MainArea.setComponentState': setComponentState,
   'MainArea.setEditorLayoutGrid': wrapSerialCommand(setEditorLayoutGrid),
@@ -240,9 +269,9 @@ export const commandMap = {
   'MainArea.setEditorLayoutTwoColumnsBottom': wrapSerialCommand(setEditorLayoutTwoColumnsBottom),
   'MainArea.setEditorLayoutTwoRows': wrapSerialCommand(setEditorLayoutTwoRows),
   'MainArea.setEditorLayoutTwoRowsRight': wrapSerialCommand(setEditorLayoutTwoRowsRight),
-  'MainArea.splitDown': wrapSerialCommand(splitDown),
-  'MainArea.splitLeft': wrapSerialCommand(splitLeft),
-  'MainArea.splitRight': wrapSerialCommand(splitRight),
-  'MainArea.splitUp': wrapSerialCommand(splitUp),
+  'MainArea.splitDown': splitDownAndResize,
+  'MainArea.splitLeft': splitLeftAndResize,
+  'MainArea.splitRight': splitRightAndResize,
+  'MainArea.splitUp': splitUpAndResize,
   'MainArea.terminate': terminate,
 }

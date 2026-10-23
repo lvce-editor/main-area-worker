@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-uris-second-already-exists'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/open-uris-second-existing-1.ts`
   const file2 = `${tmpDir}/open-uris-second-existing-2.ts`
 

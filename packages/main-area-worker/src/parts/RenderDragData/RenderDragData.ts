@@ -8,11 +8,22 @@ export const renderDragData = (oldState: MainAreaState, newState: MainAreaState)
   const { layout, pointerDownGroupIndex, pointerDownTabIndex, uid } = newState
   const { groups } = layout
   if (pointerDownGroupIndex === -1 || pointerDownTabIndex === -1) {
-    return []
+    const oldTab = oldState.layout.groups[oldState.pointerDownGroupIndex]?.tabs[oldState.pointerDownTabIndex]
+    return oldTab?.terminal ? ['Viewlet.setDragData', uid, { items: [], label: '' }] : []
   }
   const tab = groups[pointerDownGroupIndex]?.tabs[pointerDownTabIndex]
   if (!tab?.uri) {
     return []
+  }
+  if (tab.terminal) {
+    return [
+      'Viewlet.setDragData',
+      uid,
+      {
+        items: [{ data: `lvce-terminal:${JSON.stringify({ sourceUid: uid, terminalUid: tab.editorUid })}`, type: 'application/x-lvce-terminal' }],
+        label: tab.title,
+      },
+    ]
   }
   const data = ensureUri(tab.uri)
   return [

@@ -9,8 +9,21 @@ export const renderEventListeners = (): readonly DomEventListener[] => {
       params: ['handleClick', EventExpression.TargetName],
     },
     {
+      name: DomEventListenersFunctions.HandleFocus,
+      params: ['handleClick', 'event.target.dataset.groupId'],
+    },
+    {
+      name: DomEventListenersFunctions.HandleGroupMouseDown,
+      params: ['handleGroupMouseDown', 'event.currentTarget.dataset.groupId'],
+    },
+    {
       name: DomEventListenersFunctions.HandleClickClose,
       params: ['handleClickCloseTab', 'event.currentTarget.dataset.groupIndex', 'event.currentTarget.dataset.index'],
+      stopPropagation: true,
+    },
+    {
+      name: DomEventListenersFunctions.HandleCloseButtonMouseDown,
+      params: ['handleCloseButtonMouseDown'],
       stopPropagation: true,
     },
     {

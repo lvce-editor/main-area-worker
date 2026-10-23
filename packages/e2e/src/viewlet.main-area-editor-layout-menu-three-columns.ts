@@ -26,7 +26,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const groups = Locator('.EditorGroup')
   const firstGroup = groups.nth(0)
   const firstGroupTab = firstGroup.locator('.MainTab[title$="three-columns.txt"]')
-  const groupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
+  const groupsContainer = Locator('.EditorGroupsContainer.EditorGroupsVertical')
   const sashes = Locator('.Main .SashVertical')
   await expect(groups).toHaveCount(3)
   await expect(firstGroupTab).toBeVisible()

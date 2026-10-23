@@ -14,13 +14,16 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const secondTab = tabs.nth(1)
   const thirdTab = tabs.nth(2)
 
-  await thirdTab.dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
+  await Command.execute('TestFrameWork.performAction', thirdTab, 'dispatchEvent', { init: { bubbles: true, button: 0 } as any, type: 'mousedown' })
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDragOver', 0, 10, '0', '1', 100, 100, 0)
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDrop', dropId)
 
-  await expect(firstTab.locator('.TabTitle')).toHaveText('a.txt')
-  await expect(secondTab.locator('.TabTitle')).toHaveText('c.txt')
-  await expect(thirdTab.locator('.TabTitle')).toHaveText('b.txt')
+  const firstTabTitle = firstTab.locator('.TabTitle')
+  await expect(firstTabTitle).toHaveText('a.txt')
+  const secondTabTitle = secondTab.locator('.TabTitle')
+  await expect(secondTabTitle).toHaveText('c.txt')
+  const thirdTabTitle = thirdTab.locator('.TabTitle')
+  await expect(thirdTabTitle).toHaveText('b.txt')
 }

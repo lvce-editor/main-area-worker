@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-nested-file-path'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const folder = `${tmpDir}/nested/folder`
   const file = `${tmpDir}/nested/folder/deep-file.ts`
 

@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-close-all-editors-at-the-same-time'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/close-all-1.txt`
   const file2 = `${tmpDir}/close-all-2.txt`
 

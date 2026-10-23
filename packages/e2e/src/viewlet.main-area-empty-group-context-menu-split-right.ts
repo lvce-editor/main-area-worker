@@ -5,7 +5,7 @@ export const skip = ['webkit'] as const
 
 export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   const groups = Locator('.EditorGroup')
   await expect(groups).toHaveCount(0)
@@ -15,7 +15,7 @@ export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Loc
   await expect(menuItem).toBeVisible()
   await ContextMenu.selectItem('Split Right')
 
-  const groupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
+  const groupsContainer = Locator('.EditorGroupsContainer.EditorGroupsVertical')
   const sash = Locator('.Main .SashVertical')
   await expect(groups).toHaveCount(2)
   await expect(groupsContainer).toHaveCount(1)

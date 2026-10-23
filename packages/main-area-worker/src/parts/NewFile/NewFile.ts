@@ -3,6 +3,7 @@ import * as Assert from '../Assert/Assert.ts'
 import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
 import { createViewlet } from '../CreateViewlet/CreateViewlet.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
+import { focus } from '../Focus/Focus.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as Id from '../Id/Id.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
@@ -18,7 +19,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   const { activeGroupId, groups } = layout
 
   // Find the active group
-  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.isFocused) : groups.find((group) => group.id === activeGroupId)
 
   // Prepare initial state
   let newState = state
@@ -83,7 +84,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   let intermediateState = stateWithViewlet
 
   // Switch viewlet (detach old, attach new if ready)
-  const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId)
+  const { newState: switchedState } = await ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId)
   intermediateState = switchedState
 
   set(uid, state, intermediateState)
@@ -107,5 +108,5 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
   const { newState: latestState } = get(uid)
   const readyState = ViewletLifecycle.handleViewletReady(latestState, actualEditorUid, title)
 
-  return readyState
+  return focus(readyState)
 }

@@ -6,11 +6,21 @@ import { renderTabActions } from '../RenderTabActions/RenderTabActions.ts'
 
 const ExtensionDetailScheme = 'extension-detail://'
 const KeyBindingsUri = 'app://keybindings'
+const ProcessExplorerScheme = 'process-explorer://'
 const RunningExtensionsScheme = 'running-extensions://'
 const SearchEditorScheme = 'search-editor://'
+const SettingsScheme = 'settings://'
+const WorkersScheme = 'workers:///'
 
 const tabIconNode: VirtualDomNode = {
   childCount: 1,
+  className: ClassNames.TabIcon,
+  role: AriaRoles.None,
+  type: VirtualDomElements.Div,
+}
+
+const emptyTabIconNode: VirtualDomNode = {
+  childCount: 0,
   className: ClassNames.TabIcon,
   role: AriaRoles.None,
   type: VirtualDomElements.Div,
@@ -37,6 +47,9 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
   if (tab.uri === KeyBindingsUri) {
     return renderMaskIcon(ClassNames.MaskIconRecordKey)
   }
+  if (tab.uri?.startsWith(ProcessExplorerScheme)) {
+    return renderMaskIcon(ClassNames.MaskIconDebugAlt2)
+  }
   if (tab.uri?.startsWith(ExtensionDetailScheme)) {
     return renderMaskIcon(ClassNames.MaskIconExtensions)
   }
@@ -46,8 +59,14 @@ const renderTabIcon = (tab: Tab): readonly VirtualDomNode[] => {
   if (tab.uri?.startsWith(SearchEditorScheme)) {
     return renderMaskIcon(ClassNames.MaskIconSearch)
   }
+  if (tab.uri?.startsWith(SettingsScheme)) {
+    return renderMaskIcon(ClassNames.MaskIconSettingsGear)
+  }
+  if (tab.uri?.startsWith(WorkersScheme)) {
+    return renderMaskIcon(ClassNames.MaskIconDebugAlt2)
+  }
   if (!tab.icon) {
-    return []
+    return [emptyTabIconNode]
   }
   return [
     {
@@ -95,7 +114,7 @@ export const renderTab = (
   return [
     {
       'aria-selected': isActive,
-      childCount: 2 + (tabIconNodes.length > 0 ? 1 : 0),
+      childCount: 3,
       className,
       'data-groupIndex': groupIndex,
       'data-index': tabIndex,

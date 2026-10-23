@@ -19,5 +19,5 @@ export const test: Test = async ({ Command, FileSystem }) => {
   const after = await Command.execute('MainArea.saveState', uid)
 
   assert(after.layout.activeGroupId === before.layout.activeGroupId, 'Expected active group to be preserved')
-  assert(after.layout.groups.filter((group) => group.focused).length === 1, 'Expected one focused group')
+  assert(after.layout.groups.filter((group) => group.isFocused).length === 1, 'Expected one focused group')
 }

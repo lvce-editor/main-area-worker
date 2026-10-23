@@ -8,9 +8,9 @@ test('renderTabBar should return correct structure for single tab', () => {
   const group: EditorGroup = {
     activeTabId: 1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 100,
     tabs: [
       {
@@ -38,7 +38,7 @@ test('renderTabBar should return correct structure for single tab', () => {
     },
     {
       'aria-selected': true,
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -57,6 +57,12 @@ test('renderTabBar should return correct structure for single tab', () => {
       type: VirtualDomElements.Div,
     },
     {
+      childCount: 0,
+      className: 'TabIcon',
+      role: 'none',
+      type: VirtualDomElements.Div,
+    },
+    {
       childCount: 1,
       className: 'TabTitle',
       type: VirtualDomElements.Span,
@@ -69,6 +75,7 @@ test('renderTabBar should return correct structure for single tab', () => {
       'data-groupIndex': 0,
       'data-index': 0,
       onClick: DomEventListenerFunctions.HandleClickClose,
+      onMouseDown: DomEventListenerFunctions.HandleCloseButtonMouseDown,
       type: VirtualDomElements.Button,
     },
     {
@@ -83,9 +90,9 @@ test('renderTabBar should handle multiple tabs', () => {
   const group: EditorGroup = {
     activeTabId: 2,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: false,
+    isFocused: false,
     size: 100,
     tabs: [
       {
@@ -110,7 +117,7 @@ test('renderTabBar should handle multiple tabs', () => {
   }
   const result = renderTabBar(group, 0)
 
-  expect(result).toHaveLength(11) // 1 (MainTabs) + 5*2 (renderTab without icons for each)
+  expect(result).toHaveLength(13) // MainTabs and two tabs, each with an icon slot
   expect(result[0].childCount).toBe(2)
 })
 
@@ -118,9 +125,9 @@ test('renderTabBar should handle empty tabs array', () => {
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 100,
     tabs: [],
   }

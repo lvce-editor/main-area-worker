@@ -16,9 +16,9 @@ test('handleClickTab should return state unchanged when groupIndexRaw is empty',
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -53,9 +53,9 @@ test('handleClickTab should return state unchanged when indexRaw is empty', asyn
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -90,9 +90,9 @@ test('handleClickTab should return state unchanged when both groupIndexRaw and i
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -127,9 +127,9 @@ test('handleClickTab should select tab when valid groupIndex and index are provi
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -183,9 +183,9 @@ test('handleClickTab should select tab from second group', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -201,9 +201,9 @@ test('handleClickTab should select tab from second group', async () => {
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -250,9 +250,9 @@ test('handleClickTab should return state unchanged when groupIndex is out of bou
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -287,9 +287,9 @@ test('handleClickTab should return state unchanged when tab index is out of boun
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -324,9 +324,9 @@ test('handleClickTab should return state unchanged when groupIndex is negative',
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -361,9 +361,9 @@ test('handleClickTab should return state unchanged when tab index is negative', 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -398,9 +398,9 @@ test('handleClickTab should parse string indexes correctly', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -443,9 +443,9 @@ test('handleClickTab should return state unchanged for secondary button clicks',
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

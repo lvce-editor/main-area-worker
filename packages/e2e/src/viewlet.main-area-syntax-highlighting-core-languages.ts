@@ -63,7 +63,7 @@ const syntaxCases: readonly SyntaxCase[] = [
 
 export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   for (const syntaxCase of syntaxCases) {
     const filePath = `${tmpDir}/${syntaxCase.fileName}`

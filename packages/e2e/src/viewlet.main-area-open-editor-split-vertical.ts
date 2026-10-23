@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-split-horizontal'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/file1.ts`
   const file2 = `${tmpDir}/file2.ts`
   const file3 = `${tmpDir}/file3.ts`
@@ -25,6 +25,6 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace 
   await expect(editorGroupHeaders).toHaveCount(1)
   const mainTabs = Locator('.MainTabs')
   await expect(mainTabs).toHaveCount(1)
-  const editorGroupsContainer = Locator('.editor-groups-container.EditorGroupsVertical')
+  const editorGroupsContainer = Locator('.EditorGroupsContainer.EditorGroupsVertical')
   await expect(editorGroupsContainer).toHaveCount(1)
 }

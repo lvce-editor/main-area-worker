@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-multiple-tabs-at-the-same-time'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/file1.txt`
   const file2 = `${tmpDir}/file2.txt`
   const file3 = `${tmpDir}/file3.txt`

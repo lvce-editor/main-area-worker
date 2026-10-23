@@ -15,9 +15,9 @@ const createState = (): MainAreaState => ({
       {
         activeTabId: 7,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {

@@ -22,9 +22,9 @@ test('saving an untitled file can update its uri before the save command finishe
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -49,12 +49,12 @@ test('saving an untitled file can update its uri before the save command finishe
   MainAreaStates.set(uid, state, state)
   using mockRpc = RendererWorker.registerMockRpc({
     'Editor.handleUriChange': async () => {},
-    'Editor.save': async () => {
-      await commandMap['MainArea.handleUriChange'](uid, oldUri, newUri)
-      return { modified: false }
-    },
     'Layout.handleActiveEditorChange': async () => {},
     'Main.handleModifiedStatusChange': async () => {},
+    'Viewlet.save': async () => {
+      await commandMap['Main.handleUriChange'](uid, oldUri, newUri)
+      return { modified: false }
+    },
   })
 
   await commandMap['MainArea.save'](uid)
@@ -67,10 +67,10 @@ test('saving an untitled file can update its uri before the save command finishe
     uri: newUri,
   })
   expect(mockRpc.invocations).toEqual([
-    ['Editor.save', 2],
+    ['Viewlet.save', 2],
     ['Editor.handleUriChange', 2, newUri],
-    ['Layout.handleActiveEditorChange', newUri],
+    ['Layout.handleActiveEditorChange', newUri, true],
     ['Main.handleModifiedStatusChange', oldUri, false],
-    ['Layout.handleActiveEditorChange', newUri],
+    ['Layout.handleActiveEditorChange', newUri, true],
   ])
 })

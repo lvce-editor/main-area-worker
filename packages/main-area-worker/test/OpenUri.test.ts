@@ -10,7 +10,8 @@ const isSetupInvocation = ([command]: readonly unknown[]): boolean =>
   command !== 'FileSystem.getFileSize' &&
   command !== 'Preferences.get' &&
   command !== 'Viewlet.getTitle' &&
-  command !== 'Layout.renderMainAreaPending'
+  command !== 'Layout.renderMainAreaPending' &&
+  command !== 'Viewlet.runLoadContentLater'
 
 // Clear the global state store between tests to prevent interference
 afterEach(() => {
@@ -36,7 +37,7 @@ test('openUri should create a new group and tab when no groups exist', async () 
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
   expect(result.layout.groups[0].tabs[0].title).toBe('file.ts')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[0].id)
-  expect(result.layout.groups[0].focused).toBe(true)
+  expect(result.layout.groups[0].isFocused).toBe(true)
 })
 
 test('openUri should add tab to active group when group exists', async () => {
@@ -49,9 +50,9 @@ test('openUri should add tab to active group when group exists', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -135,7 +136,7 @@ test('openUri should pass editor context to the created viewlet', async () => {
     expect.any(Number),
     { height: -35, width: 0, x: 0, y: 35 },
     'file:///path/to/definition.ts',
-    [editorContext],
+    [{ ...editorContext, deferLoadContentLater: true, focus: true }],
   ])
 })
 
@@ -149,9 +150,9 @@ test('openUri should replace active preview tab instead of adding a new tab', as
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -201,9 +202,9 @@ test('openUri should replace a preview with a new tab identity and matching edit
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -278,9 +279,9 @@ test('openUri should dispose the replaced preview editor and create a new one', 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -315,6 +316,7 @@ test('openUri should dispose the replaced preview editor and create a new one', 
     tab.id,
     { height: -35, width: 0, x: 0, y: 35 },
     'file:///path/to/replacement.ts',
+    [{ deferLoadContentLater: true, focus: true }],
   ])
 })
 
@@ -328,9 +330,9 @@ test('openUri should activate existing tab if URI already exists', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -385,9 +387,9 @@ test('openUri should pin an existing preview tab when opened as non-preview', as
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -426,9 +428,9 @@ test('openUri should activate existing tab in different group', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -448,9 +450,9 @@ test('openUri should activate existing tab in different group', async () => {
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -484,7 +486,7 @@ test('openUri should activate existing tab in different group', async () => {
   expect(result.layout.groups[1].tabs).toHaveLength(1)
   expect(result.layout.activeGroupId).toBe(2)
   expect(result.layout.groups[1].activeTabId).toBe(2)
-  expect(result.layout.groups[1].focused).toBe(true)
+  expect(result.layout.groups[1].isFocused).toBe(true)
 })
 
 test('openUri should create group when activeGroupId points to non-existent group', async () => {
@@ -521,7 +523,7 @@ test('openUri should open extension detail URIs with extension detail editor inp
   const result = await openUri(state, {
     focus: false,
     preview: false,
-    uri: 'extension-detail://chat',
+    uri: 'extension-detail:///chat',
   })
 
   const tab = result.layout.groups[0].tabs[0]
@@ -532,7 +534,7 @@ test('openUri should open extension detail URIs with extension detail editor inp
     type: 'extension-detail-view',
   })
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
-    ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail://chat'],
+    ['Layout.createViewlet', 'ExtensionDetail', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'extension-detail:///chat'],
   ])
 })
 
@@ -606,7 +608,15 @@ test('openUri should calculate bounds with correct TAB_HEIGHT offset', async () 
   expect(result).toBeDefined()
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 565, width: 800, x: 100, y: 235 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: 565, width: 800, x: 100, y: 235 },
+      'file:///path/to/file.ts',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
 })
 
@@ -629,7 +639,15 @@ test('openUri should create viewlet for new tab', async () => {
   expect(result).toBeDefined()
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
 })
 
@@ -674,7 +692,15 @@ test('openUri should assign valid editorUid after viewlet creation', async () =>
   expect(typeof tab.editorUid).toBe('number')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
 })
 
@@ -702,7 +728,15 @@ test('openUri should pass correct parameters to createViewlet', async () => {
 
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/test.js'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 765, width: 1000, x: 50, y: 135 }, 'file:///path/to/test.js'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: 765, width: 1000, x: 50, y: 135 },
+      'file:///path/to/test.js',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
 })
 
@@ -721,9 +755,9 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -756,7 +790,15 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
   expect(result.layout.groups[0].tabs).toHaveLength(2)
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/new.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/new.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/new.ts',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
 })
 
@@ -784,7 +826,15 @@ test('openUri should handle bounds calculation with different main area dimensio
 
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///large-screen.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: 1045, width: 1920, x: 0, y: 35 }, 'file:///large-screen.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: 1045, width: 1920, x: 0, y: 35 },
+      'file:///large-screen.ts',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
 })
 
@@ -812,7 +862,15 @@ test('openUri should use TAB_HEIGHT constant of 35 pixels', async () => {
 
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///document.md'],
-    ['Layout.createViewlet', 'editor.markdown', tab.editorUid, tab.id, { height: 365, width: 500, x: 10, y: 85 }, 'file:///document.md'],
+    [
+      'Layout.createViewlet',
+      'editor.markdown',
+      tab.editorUid,
+      tab.id,
+      { height: 365, width: 500, x: 10, y: 85 },
+      'file:///document.md',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
 })
 test('openUri should load and set file icon for new tab', async () => {
@@ -843,7 +901,15 @@ test('openUri should load and set file icon for new tab', async () => {
   expect(tab.icon).toBe('file-icon-typescript')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
@@ -869,7 +935,15 @@ test('openUri should preserve built-in tab metadata for cookie importer uri', as
   expect(tab.icon).toBe('MaskIconRecordKey')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'cookie-import-view:///'],
-    ['Layout.createViewlet', 'CookieImport', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'cookie-import-view:///'],
+    [
+      'Layout.createViewlet',
+      'CookieImport',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'cookie-import-view:///',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
   expect(mockIconRpc.invocations).toEqual([])
 })
@@ -901,7 +975,15 @@ test('openUri should update fileIconCache with loaded icon', async () => {
   expect(result.fileIconCache['file:///path/to/file.txt']).toBe('file-icon-text')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.txt'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.txt'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.txt',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
@@ -935,7 +1017,15 @@ test('openUri should handle icon loading failure gracefully', async () => {
   expect(result.layout.groups[0].tabs[0].uri).toBe('file:///path/to/file.ts')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'editor.text', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts'],
+    [
+      'Layout.createViewlet',
+      'editor.text',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
 })
@@ -959,6 +1049,7 @@ test('openUri should handle race condition when second call starts while first a
       }
       return deferred.promise
     },
+    'Viewlet.executeViewletCommand': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({
@@ -1007,6 +1098,7 @@ test('openUri should not create duplicate tabs when the same URI is opened simul
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => moduleIdPromise.promise,
+    'Viewlet.executeViewletCommand': async () => {},
     'Viewlet.focusSelector': async () => {},
   })
 
@@ -1043,6 +1135,7 @@ test('openUri should handle race condition when second call starts while first a
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
     'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.executeViewletCommand': async () => {},
     'Viewlet.focusSelector': async () => {},
   })
 
@@ -1118,6 +1211,7 @@ test('openUri should handle multiple simultaneous calls without losing tabs', as
       }
       return deferred.promise
     },
+    'Viewlet.executeViewletCommand': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({
@@ -1190,6 +1284,7 @@ test('openUri should preserve existing tabs when race condition occurs', async (
       }
       return deferred.promise
     },
+    'Viewlet.executeViewletCommand': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({
@@ -1205,9 +1300,9 @@ test('openUri should preserve existing tabs when race condition occurs', async (
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -1280,6 +1375,7 @@ test('openUri should handle race condition with createViewlet delays', async () 
       return deferred.promise
     },
     'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.executeViewletCommand': async () => {},
   })
 
   using _mockIconRpc = IconThemeWorker.registerMockRpc({

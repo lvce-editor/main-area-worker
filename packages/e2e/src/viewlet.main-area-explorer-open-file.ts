@@ -9,7 +9,7 @@ export const test: Test = async ({ expect, Explorer, FileSystem, Locator, Worksp
   const tmpDir = await FileSystem.getTmpDir()
   const testFile = `${tmpDir}/opened-from-explorer.ts`
   await FileSystem.writeFile(testFile, 'export const openedFromExplorer = true')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Explorer.refresh()
 
   const explorerItem = Locator('[role="treeitem"][title$="opened-from-explorer.ts"]')

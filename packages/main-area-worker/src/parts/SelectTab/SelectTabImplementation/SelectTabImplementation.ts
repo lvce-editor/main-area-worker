@@ -1,5 +1,6 @@
 import type { MainAreaState } from '../../MainAreaState/MainAreaState.ts'
 import * as ExecuteViewletCommands from '../../ExecuteViewletCommands/ExecuteViewletCommands.ts'
+import { focus } from '../../Focus/Focus.ts'
 import * as GetNextRequestId from '../../GetNextRequestId/GetNextRequestId.ts'
 import * as MainAreaStates from '../../MainAreaStates/MainAreaStates.ts'
 import { normalizeTabEditorInput } from '../../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
@@ -27,13 +28,14 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
   const { group, groupId, tab, tabId } = selectedTabData
   const normalizedTab = normalizeTabEditorInput(tab)
   const isAlreadyActive = activeGroupId === groupId && group.activeTabId === tabId
+  const needsLoading = shouldLoadContentForTab(normalizedTab)
+  const needsViewlet = normalizedTab.editorUid === -1 && Boolean(normalizedTab.uri)
 
-  if (isAlreadyActive && !shouldLoadContentForTab(normalizedTab)) {
+  if (isAlreadyActive && !needsLoading && !needsViewlet) {
     return state
   }
 
   const previousTabId = getActiveTabId(state)
-  const needsLoading = shouldLoadContentForTab(normalizedTab)
   const requestId = needsLoading ? GetNextRequestId.getNextRequestId() : 0
   const updatedGroups = getUpdatedGroups(groups, groupIndex, needsLoading, tabId)
 
@@ -46,7 +48,7 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     },
   }
 
-  const { commands: switchCommands, newState: stateWithViewlet } = ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
+  const { commands: switchCommands, newState: stateWithViewlet } = await ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
   newState = stateWithViewlet
 
   const maybeCreatedState = await maybeCreateViewletForSelectedTab(
@@ -71,5 +73,8 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     await ExecuteViewletCommands.executeViewletCommands(switchCommands)
   }
 
+  if (!needsLoading) {
+    await focus(newState)
+  }
   return maybeStartLoading(state, newState, tabId, normalizedTab, needsLoading, requestId)
 }

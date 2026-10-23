@@ -1,3 +1,3 @@
 export const getEditorGroupClassName = (groupId: number): string => {
-  return `EditorGroup-${groupId}`
+  return `EditorGroup-${String(groupId).replaceAll('.', '-')}`
 }

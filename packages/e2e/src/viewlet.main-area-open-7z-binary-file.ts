@@ -10,7 +10,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await Main.openUri(file)
 
   const binaryContent = Locator('.EditorContentBinary')
-  await expect(binaryContent).toHaveText('The file is not displayed in the text editor because its contents are binary.Open in Text Editor')
+  await expect(binaryContent).toHaveText('The file is not displayed in the text editor because its contents are binary.Reopen with Text Editor')
   const selectedTab = Locator('.MainTabSelected[title$="archive.7z"]')
   await expect(selectedTab).toBeVisible()
 }

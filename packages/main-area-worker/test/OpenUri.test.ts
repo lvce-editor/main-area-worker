@@ -10,7 +10,8 @@ const isSetupInvocation = ([command]: readonly unknown[]): boolean =>
   command !== 'FileSystem.getFileSize' &&
   command !== 'Preferences.get' &&
   command !== 'Viewlet.getTitle' &&
-  command !== 'Layout.renderMainAreaPending'
+  command !== 'Layout.renderMainAreaPending' &&
+  command !== 'Viewlet.runLoadContentLater'
 
 // Clear the global state store between tests to prevent interference
 afterEach(() => {
@@ -135,7 +136,7 @@ test('openUri should pass editor context to the created viewlet', async () => {
     expect.any(Number),
     { height: -35, width: 0, x: 0, y: 35 },
     'file:///path/to/definition.ts',
-    [{ ...editorContext, focus: true }],
+    [{ ...editorContext, deferLoadContentLater: true, focus: true }],
   ])
 })
 
@@ -315,7 +316,7 @@ test('openUri should dispose the replaced preview editor and create a new one', 
     tab.id,
     { height: -35, width: 0, x: 0, y: 35 },
     'file:///path/to/replacement.ts',
-    [{ focus: true }],
+    [{ deferLoadContentLater: true, focus: true }],
   ])
 })
 
@@ -614,7 +615,7 @@ test('openUri should calculate bounds with correct TAB_HEIGHT offset', async () 
       tab.id,
       { height: 565, width: 800, x: 100, y: 235 },
       'file:///path/to/file.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -645,7 +646,7 @@ test('openUri should create viewlet for new tab', async () => {
       tab.id,
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///path/to/file.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -698,7 +699,7 @@ test('openUri should assign valid editorUid after viewlet creation', async () =>
       tab.id,
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///path/to/file.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -734,7 +735,7 @@ test('openUri should pass correct parameters to createViewlet', async () => {
       tab.id,
       { height: 765, width: 1000, x: 50, y: 135 },
       'file:///path/to/test.js',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -796,7 +797,7 @@ test('openUri should switch viewlet from previous tab to new tab', async () => {
       tab.id,
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///path/to/new.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -832,7 +833,7 @@ test('openUri should handle bounds calculation with different main area dimensio
       tab.id,
       { height: 1045, width: 1920, x: 0, y: 35 },
       'file:///large-screen.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -868,7 +869,7 @@ test('openUri should use TAB_HEIGHT constant of 35 pixels', async () => {
       tab.id,
       { height: 365, width: 500, x: 10, y: 85 },
       'file:///document.md',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -907,7 +908,7 @@ test('openUri should load and set file icon for new tab', async () => {
       tab.id,
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///path/to/file.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
@@ -941,7 +942,7 @@ test('openUri should preserve built-in tab metadata for cookie importer uri', as
       tab.id,
       { height: -35, width: 0, x: 0, y: 35 },
       'cookie-import-view:///',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
   expect(mockIconRpc.invocations).toEqual([])
@@ -981,7 +982,7 @@ test('openUri should update fileIconCache with loaded icon', async () => {
       tab.id,
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///path/to/file.txt',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])
@@ -1023,7 +1024,7 @@ test('openUri should handle icon loading failure gracefully', async () => {
       tab.id,
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///path/to/file.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
   expect(mockIconRpc.invocations).toContainEqual(['IconTheme.getIcons', expect.any(Array)])

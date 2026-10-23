@@ -1,5 +1,6 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import { afterEach, expect, test } from '@jest/globals'
+import { restoreJsonRpcError } from '@lvce-editor/json-rpc'
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -11,7 +12,8 @@ const isSetupInvocation = ([command]: readonly unknown[]): boolean =>
   command !== 'FileSystem.getFileSize' &&
   command !== 'Preferences.get' &&
   command !== 'Viewlet.getTitle' &&
-  command !== 'Layout.renderMainAreaPending'
+  command !== 'Layout.renderMainAreaPending' &&
+  command !== 'Viewlet.runLoadContentLater'
 
 afterEach(() => {
   MainAreaStates.clear()
@@ -47,7 +49,15 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   expect(tab.title).toBe('file.ts')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///path/to/file.ts'],
-    ['Layout.createViewlet', 'Editor', tab.editorUid, tab.id, { height: -35, width: 0, x: 0, y: 35 }, 'file:///path/to/file.ts', [{ focus: false }]],
+    [
+      'Layout.createViewlet',
+      'Editor',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///path/to/file.ts',
+      [{ deferLoadContentLater: true, focus: false }],
+    ],
   ])
 })
 
@@ -78,7 +88,7 @@ test('openInput should focus the opened editor when requested', async () => {
     tab.id,
     { height: -35, width: 0, x: 0, y: 35 },
     'file:///path/to/file.ts',
-    [{ focus: true }],
+    [{ deferLoadContentLater: true, focus: true }],
   ])
 })
 
@@ -185,7 +195,7 @@ test('openInput renders loaded editor content before the title request finishes'
       expect.any(Number),
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///path/to/file.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
     ['Layout.renderMainAreaPending', state.uid],
     ['Viewlet.getTitle', expect.any(Number)],
@@ -230,7 +240,7 @@ test('openInput should add pretty uri title for file under home dir', async () =
       tab.id,
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///home/user/Documents/file.md',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -498,7 +508,7 @@ test('openInput should expose an Error message when resolving the viewlet fails'
       expect.any(Number),
       { height: -35, width: 0, x: 0, y: 35 },
       'file:///failed.ts',
-      [{ focus: false }],
+      [{ deferLoadContentLater: true, focus: false }],
     ],
   ])
 })
@@ -545,5 +555,72 @@ test('confirmation opens the warned document with reduced features', async () =>
   expect(repeated.layout.groups[0].tabs).toHaveLength(1)
   expect(mockRpc.invocations.some(([command]) => command === 'Layout.createViewlet')).toBe(false)
   await openInput(repeated, { ...options, forceOpen: true })
-  expect(mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')?.at(-1)).toEqual([{ focus: false, largeFile: true }])
+  expect(mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')?.at(-1)).toEqual([
+    { deferLoadContentLater: true, focus: false, largeFile: true },
+  ])
+})
+
+test('read-detected binary errors replace the failed viewlet with a reopen placeholder', async () => {
+  const uri = 'file:///node_modules/esbuild/bin/esbuild'
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {
+      throw restoreJsonRpcError({ data: { name: 'BinaryFileError', type: 'Error' }, message: 'Cannot open binary file' })
+    },
+    'Layout.getModuleId': async () => 'Editor',
+    'Viewlet.dispose': async () => {},
+  })
+  const state = createDefaultState()
+  const result = await openInput(state, { editorInput: { type: 'editor', uri }, focus: false, preview: true })
+  const tab = result.layout.groups[0].tabs[0]
+  expect(tab).toMatchObject({ editorInput: { type: 'binary', uri }, editorUid: -1, isPreview: true, loadingState: 'binary', uri })
+  expect(tab.errorMessage).toBeUndefined()
+  expect(result.layout.groups[0].tabs).toHaveLength(1)
+  const createCall = mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')!
+  expect(mockRpc.invocations).toContainEqual(['Viewlet.dispose', createCall[2]])
+})
+
+test('initial providers start after attachment and focus without holding the open request', async () => {
+  const attachment = Promise.withResolvers<void>()
+  const attached = Promise.withResolvers<void>()
+  const focus = Promise.withResolvers<void>()
+  const focusing = Promise.withResolvers<void>()
+  const provider = Promise.withResolvers<void>()
+  let started = false
+  using _rpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+    'Layout.renderMainAreaPending': async () => {
+      attached.resolve()
+      await attachment.promise
+    },
+    'Viewlet.focusSelector': async () => {
+      focusing.resolve()
+      await focus.promise
+    },
+    'Viewlet.runLoadContentLater': async () => {
+      started = true
+      await provider.promise
+    },
+  })
+  const opening = openInput(createDefaultState(), {
+    editorInput: { type: 'editor', uri: 'file:///new.json' },
+    focus: true,
+    preview: false,
+  })
+  try {
+    await attached.promise
+    expect(started).toBe(false)
+    attachment.resolve()
+    await focusing.promise
+    expect(started).toBe(false)
+    focus.resolve()
+    const result = await opening
+    expect(result.layout.groups[0].tabs[0].loadingState).toBe('loaded')
+    expect(started).toBe(true)
+  } finally {
+    attachment.resolve()
+    focus.resolve()
+    provider.resolve()
+    await opening
+  }
 })

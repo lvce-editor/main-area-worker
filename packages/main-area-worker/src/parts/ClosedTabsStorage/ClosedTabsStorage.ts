@@ -1,7 +1,7 @@
 import type { ClosedTabEntry } from '../MainAreaState/MainAreaState.ts'
 import * as CacheStorageClient from '../CacheStorageClient/CacheStorageClient.ts'
 
-const cacheName = 'lvce0main-area-tabs'
+const cacheName = 'lvce-main-area-tabs'
 const cacheDuration = 90 * 24 * 60 * 60 * 1000
 const maxClosedTabs = 20
 const pendingOperations = new Map<number, { readonly id: object; readonly promise: Promise<unknown> }>()

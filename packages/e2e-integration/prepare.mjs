@@ -1,7 +1,7 @@
 import { cp, mkdir, readdir, readFile, realpath, rm, writeFile } from 'node:fs/promises'
 import { stripTypeScriptTypes } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const owner = resolve(here, '../..')
@@ -47,3 +47,20 @@ for (const [from, to] of config.artifacts) {
   })
   await cp(join(owner, from), target, { recursive: true })
 }
+
+// Source browser runs need the webview configuration normally produced by BuildStatic.
+const extensionRoot = join(application, 'extensions')
+const webViews = []
+for (const name of await readdir(extensionRoot)) {
+  const extensionPath = join(extensionRoot, name)
+  const extension = await readFile(join(extensionPath, 'extension.json'), 'utf8')
+    .then(JSON.parse)
+    .catch((error) => {
+      if (error.code !== 'ENOENT' && error.code !== 'ENOTDIR') throw error
+      return undefined
+    })
+  for (const webView of extension?.webViews || []) {
+    webViews.push({ ...webView, remotePath: `/remote/${pathToFileURL(extensionPath).toString().slice(8)}` })
+  }
+}
+await writeFile(join(application, 'static/config/webViews.json'), JSON.stringify(webViews, null, 2) + '\n')

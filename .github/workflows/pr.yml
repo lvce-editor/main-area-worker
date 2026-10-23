@@ -66,3 +66,49 @@ jobs:
         run: npm run measure
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
+
+  electron:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/checkout@v7
+        with:
+          repository: lvce-editor/lvce-editor
+          ref: 6bf8290ca4c13fbab48893cc85442480f97a0593
+          path: .tmp/electron-application
+      - name: Install matching application runtime
+        working-directory: .tmp/electron-application
+        run: npm ci
+      - name: Install Electron
+        working-directory: .tmp/electron-application
+        run: node node_modules/electron/install.js
+      - name: Install Electron system dependencies
+        if: runner.os == 'Linux'
+        working-directory: .tmp/electron-application
+        run: npx playwright install-deps chromium
+      - name: Test moving tabs into Electron windows (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a node packages/e2e-integration/scripts/test-move-to-new-window.mjs .tmp/electron-application
+        env:
+          LVCE_MOVE_EVIDENCE_DIR: .tmp/electron-evidence
+      - name: Test moving tabs into Electron windows
+        if: runner.os != 'Linux'
+        run: node packages/e2e-integration/scripts/test-move-to-new-window.mjs .tmp/electron-application
+        env:
+          LVCE_MOVE_EVIDENCE_DIR: .tmp/electron-evidence
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: electron-move-${{ matrix.os }}
+          path: .tmp/electron-evidence
+          if-no-files-found: warn

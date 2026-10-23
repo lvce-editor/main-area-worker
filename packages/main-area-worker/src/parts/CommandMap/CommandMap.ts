@@ -52,6 +52,7 @@ import { handleWorkspaceChange } from '../HandleWorkspaceChange/HandleWorkspaceC
 import { handleWorkspaceRefreshWithContext } from '../HandleWorkspaceRefresh/HandleWorkspaceRefresh.ts'
 import { hasActiveTextEditor } from '../HasActiveTextEditor/HasActiveTextEditor.ts'
 import { hasDirtyTabs } from '../HasDirtyTabs/HasDirtyTabs.ts'
+import { hasOpenTextEditor } from '../HasOpenTextEditor/HasOpenTextEditor.ts'
 import { configure as configureIds } from '../Id/Id.ts'
 import { initialize } from '../Initialize/Initialize.ts'
 import * as LoadContent from '../LoadContent/LoadContent.ts'
@@ -64,7 +65,7 @@ import { newFile } from '../NewFile/NewFile.ts'
 import { newWindow } from '../NewWindow/NewWindow.ts'
 import { openInputWithContext } from '../OpenInput/OpenInput.ts'
 import { openUriWithContext } from '../OpenUri/OpenUri.ts'
-import { openUrisWithContext } from '../OpenUris/OpenUris.ts'
+import { openUrisInThreeColumnsWithContext, openUrisWithContext } from '../OpenUris/OpenUris.ts'
 import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
@@ -159,6 +160,7 @@ export const commandMap = {
   'Main.openInput': wrapSerialAsyncCommand(openInputWithContext),
   'Main.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'Main.openUris': wrapSerialAsyncCommand(openUrisWithContext),
+  'Main.openUrisInThreeColumns': wrapSerialAsyncCommand(openUrisInThreeColumnsWithContext),
   'Main.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
   'Main.save': wrapSerialCommand(Save.save),
   'Main.saveAll': wrapAsyncCommand(Save.saveAll),
@@ -193,11 +195,12 @@ export const commandMap = {
   'MainArea.getComponentState': getComponentState,
   'MainArea.getMenuEntries': wrapGetter(getMenuEntries),
   'MainArea.getMenuIds': getMenuIds,
-  'MainArea.handleClick': wrapSerialCommand(HandleClick.handleClick),
+  'MainArea.handleClick': wrapSerialAsyncCommand(HandleClick.handleClickWithContext),
   'MainArea.handleClickAction': wrapSerialCommand(handleClickAction),
   'MainArea.handleClickCloseTab': wrapSerialCommand(handleClickCloseTab),
   'MainArea.handleClickTab': wrapSerialCommand(handleClickTab),
   'MainArea.handleClickTogglePreview': wrapSerialCommand(handleClickTogglePreview),
+  'MainArea.handleCloseButtonMouseDown': (state: any) => state,
   'MainArea.handleContextMenu': wrapSerialCommand(handleContextMenu),
   'MainArea.handleDoubleClick': wrapSerialCommand(handleDoubleClick),
   'MainArea.handleDragEnd': wrapSerialCommand(resetPointerDown),
@@ -205,6 +208,7 @@ export const commandMap = {
   'MainArea.handleDragOver': wrapSerialCommand(handleDragOver),
   'MainArea.handleDragStart': wrapSerialCommand(handleDragStart),
   'MainArea.handleDrop': wrapSerialAsyncCommand(handleDrop),
+  'MainArea.handleGroupMouseDown': wrapSerialAsyncCommand(HandleClick.handleGroupMouseDown),
   'MainArea.handleHeaderDoubleClick': wrapSerialCommand(handleHeaderDoubleClick),
   'MainArea.handleIconThemeChange': wrapSerialCommand(handleIconThemeChange),
   'MainArea.handleMessagePort': handleDirectMessagePort,
@@ -230,6 +234,7 @@ export const commandMap = {
   'MainArea.handleWorkspaceRefresh': wrapAsyncCommand(handleWorkspaceRefreshWithContext),
   'MainArea.hasActiveTextEditor': wrapGetter(hasActiveTextEditor),
   'MainArea.hasDirtyTabs': wrapGetter(hasDirtyTabs),
+  'MainArea.hasOpenTextEditor': wrapGetter(hasOpenTextEditor),
   'MainArea.initialize': initialize,
   'MainArea.loadContent': loadContentTracked,
   'MainArea.loadContentLater': wrapAsyncCommand(loadContentLater),
@@ -243,6 +248,7 @@ export const commandMap = {
   'MainArea.openInput': wrapSerialAsyncCommand(openInputWithContext),
   'MainArea.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'MainArea.openUris': wrapSerialAsyncCommand(openUrisWithContext),
+  'MainArea.openUrisInThreeColumns': wrapSerialAsyncCommand(openUrisInThreeColumnsWithContext),
   'MainArea.refresh': wrapSerialCommand(refresh),
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,

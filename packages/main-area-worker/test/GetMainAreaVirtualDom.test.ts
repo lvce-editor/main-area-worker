@@ -47,6 +47,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       childCount: 2,
       className: 'EditorGroup EditorGroup-1',
       'data-groupId': '1',
+      onMouseDown: DomEventListenerFunctions.HandleGroupMouseDown,
       type: VirtualDomElements.Div,
     },
     {
@@ -67,7 +68,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
     },
     {
       'aria-selected': true,
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab MainTabSelected',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -86,6 +87,12 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       type: VirtualDomElements.Div,
     },
     {
+      childCount: 0,
+      className: 'TabIcon',
+      role: 'none',
+      type: VirtualDomElements.Div,
+    },
+    {
       childCount: 1,
       className: 'TabTitle',
       type: VirtualDomElements.Span,
@@ -98,6 +105,7 @@ test('getMainAreaVirtualDom should return correct structure for single group', (
       'data-groupIndex': 0,
       'data-index': 0,
       onClick: DomEventListenerFunctions.HandleClickClose,
+      onMouseDown: DomEventListenerFunctions.HandleCloseButtonMouseDown,
       type: VirtualDomElements.Button,
     },
     {

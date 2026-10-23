@@ -8,6 +8,7 @@ test.each([1, -1])('newFile should create a new empty tab in the active or isFoc
   // @ts-ignore
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.focusSelector': async () => {},
   })
 
   const state: MainAreaState = {
@@ -57,6 +58,7 @@ test.each([1, -1])('newFile should create a new empty tab in the active or isFoc
 test('newFile should create a new group if no active group exists', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.focusSelector': async () => {},
   })
 
   const state: MainAreaState = createDefaultState()
@@ -75,6 +77,7 @@ test('newFile should create a new group if no active group exists', async () => 
 test('newFile should preserve existing tabs when creating new tab', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.focusSelector': async () => {},
   })
 
   const state: MainAreaState = {
@@ -134,6 +137,7 @@ test('newFile should preserve existing tabs when creating new tab', async () => 
 test('newFile should create a new tab with unique ID', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.focusSelector': async () => {},
   })
 
   const state: MainAreaState = {
@@ -177,6 +181,7 @@ test('newFile should create a new tab with unique ID', async () => {
 test('newFile should set active group to the group where tab was created', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.focusSelector': async () => {},
   })
 
   const state: MainAreaState = {
@@ -219,6 +224,7 @@ test('newFile should set active group to the group where tab was created', async
 test('newFile should create a group when existing groups are inactive', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.focusSelector': async () => {},
   })
   const state: MainAreaState = {
     ...createDefaultState(),

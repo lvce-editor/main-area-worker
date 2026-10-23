@@ -1,5 +1,5 @@
-import { afterEach, expect, test } from '@jest/globals'
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
+import { afterEach, expect, test } from '@jest/globals'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'

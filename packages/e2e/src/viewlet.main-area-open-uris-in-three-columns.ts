@@ -18,11 +18,11 @@ export const test: Test = async ({ Command, FileSystem }) => {
     { content: '<html></html>', uri: html },
     { content: 'body {}', uri: css },
   ])
-  await Command.execute('MainArea.create', 85501, '', 0, 0, 900, 600, 0, tmpDir)
+  await Command.execute('MainArea.create', 8550, '', 0, 0, 900, 600, 0, tmpDir)
 
   for (let index = 0; index < 2; index++) {
-    await Command.execute('MainArea.openUrisInThreeColumns', 85501, [html, css, missing])
-    const savedState = await Command.execute('MainArea.saveState', 85501)
+    await Command.execute('MainArea.openUrisInThreeColumns', 8550, [html, css, missing])
+    const savedState = await Command.execute('MainArea.saveState', 8550)
     assert(savedState.layout.groups.length === 3, `Expected three groups, got ${savedState.layout.groups.length}`)
     assert(
       savedState.layout.groups.map((group) => group.tabs[0]?.uri).join(',') === `${html},${css},${missing}`,

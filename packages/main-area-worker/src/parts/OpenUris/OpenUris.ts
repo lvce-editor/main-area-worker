@@ -28,7 +28,7 @@ export const openUrisInThreeColumnsWithContext = async (context: AsyncCommandCon
   }
 
   await context.updateState(setEditorLayoutThreeColumns)
-  const groups = context.getState().layout.groups
+  const { groups } = context.getState().layout
   for (const [index, uri] of uris.entries()) {
     const group = groups[index]
     if (!group) {

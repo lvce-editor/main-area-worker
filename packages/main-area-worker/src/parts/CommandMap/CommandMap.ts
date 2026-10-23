@@ -65,7 +65,7 @@ import { newFile } from '../NewFile/NewFile.ts'
 import { newWindow } from '../NewWindow/NewWindow.ts'
 import { openInputWithContext } from '../OpenInput/OpenInput.ts'
 import { openUriWithContext } from '../OpenUri/OpenUri.ts'
-import { openUrisWithContext } from '../OpenUris/OpenUris.ts'
+import { openUrisInThreeColumnsWithContext, openUrisWithContext } from '../OpenUris/OpenUris.ts'
 import { refresh } from '../Refresh/Refresh.ts'
 import { render2 } from '../Render2/Render2.ts'
 import { renderEventListeners } from '../RenderEventListeners/RenderEventListeners.ts'
@@ -160,6 +160,7 @@ export const commandMap = {
   'Main.openInput': wrapSerialAsyncCommand(openInputWithContext),
   'Main.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'Main.openUris': wrapSerialAsyncCommand(openUrisWithContext),
+  'Main.openUrisInThreeColumns': wrapSerialAsyncCommand(openUrisInThreeColumnsWithContext),
   'Main.restoreClosedTab': wrapSerialCommand(restoreClosedTab),
   'Main.save': wrapSerialCommand(Save.save),
   'Main.saveAll': wrapAsyncCommand(Save.saveAll),
@@ -247,6 +248,7 @@ export const commandMap = {
   'MainArea.openInput': wrapSerialAsyncCommand(openInputWithContext),
   'MainArea.openUri': wrapSerialAsyncCommand(openUriWithContext),
   'MainArea.openUris': wrapSerialAsyncCommand(openUrisWithContext),
+  'MainArea.openUrisInThreeColumns': wrapSerialAsyncCommand(openUrisInThreeColumnsWithContext),
   'MainArea.refresh': wrapSerialCommand(refresh),
   'MainArea.render2': render2,
   'MainArea.renderEventListeners': renderEventListeners,

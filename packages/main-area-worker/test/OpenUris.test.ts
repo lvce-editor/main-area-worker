@@ -1,8 +1,9 @@
 import { afterEach, expect, test } from '@jest/globals'
+import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
-import { openUris } from '../src/parts/OpenUris/OpenUris.ts'
+import { openUris, openUrisInThreeColumnsWithContext } from '../src/parts/OpenUris/OpenUris.ts'
 
 afterEach(() => {
   const defaultState = createDefaultState()
@@ -39,4 +40,19 @@ test('openUris should open each uri and select the last tab', async () => {
   expect(result.layout.groups[0].tabs[1].uri).toBe('file:///path/to/file-b.ts')
   expect(result.layout.groups[0].tabs[2].uri).toBe('file:///path/to/file-c.ts')
   expect(result.layout.groups[0].activeTabId).toBe(result.layout.groups[0].tabs[2].id)
+})
+
+test('openUrisInThreeColumns should reject a URI list with the wrong length before changing state', async () => {
+  let updateCount = 0
+  const context = {
+    getState: () => createDefaultState(),
+    updateState: async () => {
+      updateCount++
+    },
+  }
+
+  await expect(
+    openUrisInThreeColumnsWithContext(context as unknown as AsyncCommandContext<MainAreaState>, ['file:///one.ts', 'file:///two.ts']),
+  ).rejects.toThrow('Expected exactly three URIs')
+  expect(updateCount).toBe(0)
 })

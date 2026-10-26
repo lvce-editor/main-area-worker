@@ -23,6 +23,7 @@ import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEdi
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { prepareTabIcon } from '../PrepareTabIcon/PrepareTabIcon.ts'
+import * as RendererProcess from '../RendererProcess/RendererProcess.ts'
 import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
@@ -270,8 +271,14 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     let readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
 
     await context.updateState(() => readyState)
-    await renderMainAreaPending(state.uid, state.applicationId)
-    await applyInitialCursorPosition(context.getState(), tabId, options.initialCursorPosition)
+    // Focus commits the selected editor before targeting its DOM. Reuse that
+    // commit when no cursor command needs the editor attached beforehand.
+    const renderWithFocus =
+      options.focus && RendererProcess.isConnected() && !options.initialCursorPosition && getActiveTabId(context.getState()) === tabId
+    if (!renderWithFocus) {
+      await renderMainAreaPending(state.uid, state.applicationId)
+      await applyInitialCursorPosition(context.getState(), tabId, options.initialCursorPosition)
+    }
     await focusIfRequested(context.getState(), options.focus)
 
     const renderedTitle = await getViewletTitle(editorUid)

@@ -216,7 +216,10 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     return
   }
 
-  const fileSize = await getLargeFileSize(editorInput, options.forceOpen === true, state.applicationId)
+  const [fileSize, viewletModuleId] = await Promise.all([
+    getLargeFileSize(editorInput, options.forceOpen === true, state.applicationId),
+    getViewletModuleIdForEditorInput(editorInput, state.applicationId),
+  ])
   if (fileSize !== undefined) {
     const latestState = context.getState()
     const largeFileState = updateTab(latestState, tabId, {
@@ -229,7 +232,6 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   }
 
   try {
-    const viewletModuleId = await getViewletModuleIdForEditorInput(editorInput, state.applicationId)
     const stateAfterModuleId = context.getState()
 
     if (!viewletModuleId) {

@@ -61,6 +61,35 @@ test('openInput should open editor input via Layout.getModuleId', async () => {
   ])
 })
 
+test('openInput resolves the file size and viewlet module ID in parallel', async () => {
+  const fileSize = Promise.withResolvers<number>()
+  const moduleIdRequested = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'FileSystem.getFileSize': () => fileSize.promise,
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => {
+      moduleIdRequested.resolve()
+      return 'Editor'
+    },
+  })
+
+  const opening = openInput(createDefaultState(), {
+    editorInput: {
+      type: 'editor',
+      uri: 'file:///path/to/file.ts',
+    },
+    focus: false,
+    preview: false,
+  })
+
+  await moduleIdRequested.promise
+  expect(mockRpc.invocations).toContainEqual(['FileSystem.getFileSize', 'file:///path/to/file.ts'])
+  expect(mockRpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///path/to/file.ts'])
+
+  fileSize.resolve(2)
+  await opening
+})
+
 test('openInput should focus the opened editor when requested', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},

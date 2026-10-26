@@ -47,7 +47,7 @@ jobs:
       - name: Prepare owned integration tests
         shell: bash
         env:
-          TEST_FILTER: ${{ inputs.test_filter }}
+          TEST_FILTER: ${{ inputs.test_filter || (github.event_name == 'pull_request' && 'viewlet.main-editor-cursor-after-split') }}
         run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
       - name: Run owned integration tests
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests

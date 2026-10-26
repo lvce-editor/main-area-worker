@@ -6,6 +6,10 @@ name: Integration
         description: Optional test name filter
         required: false
         type: string
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
 jobs:
   integration:
     strategy:
@@ -43,8 +47,16 @@ jobs:
       - name: Prepare owned integration tests
         shell: bash
         env:
-          TEST_FILTER: ${{ inputs.test_filter }}
+          TEST_FILTER: ${{ inputs.test_filter || (github.event_name == 'pull_request' && 'viewlet.main-editor-cursor-after-split') }}
         run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
       - name: Run owned integration tests
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
         run: npm run e2e:headless --
+      - name: Stage owned split cursor regressions
+        run: node packages/e2e-integration/stage-cursor-tests.mjs .tmp/lvce-integration
+      - name: Test split cursor positioning with published packages
+        working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
+        run: npm run e2e:headless -- --test-name-prefix=viewlet.main-editor-cursor-after-split --browser-test=scripts/test-editor-cursor-splits.mjs
+      - name: Remove staged split cursor regressions
+        if: always()
+        run: node packages/e2e-integration/stage-cursor-tests.mjs .tmp/lvce-integration --clean

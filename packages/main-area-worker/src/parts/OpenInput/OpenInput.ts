@@ -74,6 +74,8 @@ const shouldRetryExistingTab = (
     return false
   }
   return (
+    (existingTab.tab.editorUid === -1 &&
+      (existingTab.tab.loadingState === undefined || existingTab.tab.loadingState === 'idle' || existingTab.tab.loadingState === 'loaded')) ||
     existingTab.tab.loadingState === 'error' ||
     (forceOpen && existingTab.tab.loadingState === 'large') ||
     (editorInput.type === 'editor' && editorInput.forceText === true && existingTab.tab.editorInput?.type === 'binary')
@@ -190,9 +192,10 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     await focusIfRequested(context.getState(), options.focus)
     return
   }
-  const replacedEditorUid = getActivePreviewEditorUid(currentState)
+  const replacedEditorUid = existingTab ? -1 : getActivePreviewEditorUid(currentState)
   const previousTabId = getActiveTabId(currentState)
-  const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetry, uri, preview, title)
+  const stateForOpen = existingTab ? getExistingTabState(currentState, existingTab, preview) : currentState
+  const { stateWithTab, tabId } = getStateWithTab(stateForOpen, editorInput, existingTab, shouldRetry, uri, preview, title)
 
   await context.updateState(() => getStateWithIcon(stateWithTab, tabId, uri, icon))
   await disposePreviewEditor(replacedEditorUid)

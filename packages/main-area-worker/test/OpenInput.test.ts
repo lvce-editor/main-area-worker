@@ -5,8 +5,10 @@ import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as DirentType from '../src/parts/DirentType/DirentType.ts'
+import { loadContentShell } from '../src/parts/LoadContent/LoadContentShell.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { openInput, openInputWithContext } from '../src/parts/OpenInput/OpenInput.ts'
+import { updateTab } from '../src/parts/UpdateTab/UpdateTab.ts'
 
 const isSetupInvocation = ([command]: readonly unknown[]): boolean =>
   command !== 'FileSystem.getFileSize' &&
@@ -653,3 +655,37 @@ test('initial providers start after attachment and focus without holding the ope
     await opening
   }
 })
+
+test.each([undefined, 'idle', 'loaded'] as const)(
+  'openInput loads an inactive restored tab with loading state %s before activating it',
+  async (loadingState) => {
+    using mockRpc = RendererWorker.registerMockRpc({
+      'Layout.createViewlet': async () => {},
+      'Layout.getModuleId': async () => 'Editor',
+    })
+    const first = await openInput(createDefaultState(), { editorInput: { type: 'editor', uri: 'file:///LICENSE' }, focus: false })
+    const second = await openInput(first, { editorInput: { type: 'editor', uri: 'file:///README.md' }, focus: false, preview: true })
+    const shell = loadContentShell(createDefaultState(), { layout: second.layout })
+    const restored = updateTab(shell, shell.layout.groups[0].tabs[0].id, { loadingState })
+    MainAreaStates.set(restored.uid, restored, restored)
+
+    const result = await openInput(restored, { editorInput: { type: 'editor', uri: 'file:///LICENSE' }, focus: false })
+
+    const group = result.layout.groups[0]
+    const tab = group.tabs.find((tab) => tab.uri === 'file:///LICENSE')!
+    expect(group.tabs).toHaveLength(2)
+    expect(group.activeTabId).toBe(tab.id)
+    expect(tab.editorUid).toBeGreaterThanOrEqual(0)
+    expect(tab.loadingState).toBe('loaded')
+    expect(mockRpc.invocations.some(([command]) => command === 'Viewlet.dispose')).toBe(false)
+    expect(mockRpc.invocations).toContainEqual([
+      'Layout.createViewlet',
+      'Editor',
+      tab.editorUid,
+      tab.id,
+      { height: -35, width: 0, x: 0, y: 35 },
+      'file:///LICENSE',
+      [{ deferLoadContentLater: true, focus: false }],
+    ])
+  },
+)

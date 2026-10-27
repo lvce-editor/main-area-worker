@@ -141,15 +141,15 @@ test.each([true, false])('applies a definition range to an existing tab, active=
   })
   const uri = 'file:///workspace/definition.ts'
   let state = await openUri(createDefaultState(), { focus: false, uri })
-  const editorUid = state.layout.groups[0].tabs[0].editorUid
+  const { editorUid } = state.layout.groups[0].tabs[0]
   if (!active) {
     state = await openUri(state, { focus: false, uri: 'file:///workspace/source.ts' })
   }
   const result = await openUri(state, uri, false, {
-    startRowIndex: 0,
-    startColumnIndex: 13,
-    endRowIndex: 0,
     endColumnIndex: 16,
+    endRowIndex: 0,
+    startColumnIndex: 13,
+    startRowIndex: 0,
   })
   expect(rpc.invocations).toContainEqual(['Viewlet.executeViewletCommand', editorUid, 'setSelections', new Uint32Array([0, 13, 0, 16])])
   expect(result.layout.groups[0].tabs).toHaveLength(active ? 1 : 2)
@@ -160,8 +160,8 @@ test.each([
   'unrelated context',
   {},
   { startRowIndex: 1 },
-  { startRowIndex: 1, startColumnIndex: 2 },
-  { startRowIndex: 1, startColumnIndex: 2, endRowIndex: 1 },
+  { startColumnIndex: 2, startRowIndex: 1 },
+  { endRowIndex: 1, startColumnIndex: 2, startRowIndex: 1 },
 ])('preserves a reused selection without a complete destination: %j', async (destination) => {
   using rpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},

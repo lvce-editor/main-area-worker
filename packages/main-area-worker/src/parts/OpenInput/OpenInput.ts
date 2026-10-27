@@ -85,7 +85,7 @@ const applyReusedSelection = async (state: MainAreaState, tabId: number, args?: 
   if (!destination || typeof destination !== 'object') {
     return
   }
-  const { startRowIndex, startColumnIndex, endRowIndex, endColumnIndex } = destination as Record<string, unknown>
+  const { endColumnIndex, endRowIndex, startColumnIndex, startRowIndex } = destination as Record<string, unknown>
   if (
     typeof startRowIndex !== 'number' ||
     typeof startColumnIndex !== 'number' ||

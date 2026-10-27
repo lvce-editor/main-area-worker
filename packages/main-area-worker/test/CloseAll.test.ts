@@ -294,8 +294,54 @@ test('closeAll should dispose editor viewlets', async () => {
 
   await closeAll(state)
 
+  await new Promise((resolve) => setTimeout(resolve, 60))
+
   expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     ['Viewlet.dispose', 101],
     ['Viewlet.dispose', 102],
   ])
+})
+
+test('closeAll should not wait for editor viewlets to be disposed', async () => {
+  const dispose = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.dispose': () => dispose.promise,
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          id: 1,
+          isEmpty: false,
+          isFocused: true,
+          size: 100,
+          tabs: [
+            {
+              editorUid: 101,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              title: 'File 1',
+            },
+          ],
+        },
+      ],
+    },
+  }
+
+  const result = await closeAll(state)
+
+  expect(result.layout.groups).toEqual([])
+  expect(mockRpc.invocations.filter(([command]) => command === 'Viewlet.dispose')).toEqual([])
+
+  await new Promise((resolve) => setTimeout(resolve, 60))
+
+  expect(mockRpc.invocations.filter(([command]) => command === 'Viewlet.dispose')).toEqual([['Viewlet.dispose', 101]])
+  dispose.resolve()
 })

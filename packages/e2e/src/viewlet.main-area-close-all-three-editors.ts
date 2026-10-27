@@ -23,9 +23,11 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   const tab1 = Locator('.MainTab[title$="file1.ts"]')
   const tab2 = Locator('.MainTab[title$="file2.ts"]')
   const tab3 = Locator('.MainTab[title$="file3.ts"]')
+  const editor = Locator('.Editor')
   await expect(tab1).toBeVisible()
   await expect(tab2).toBeVisible()
   await expect(tab3).toBeVisible()
+  await expect(editor).toBeVisible()
 
   await Main.closeAllEditors()
 
@@ -33,4 +35,5 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
   await expect(tab1).toBeHidden()
   await expect(tab2).toBeHidden()
   await expect(tab3).toBeHidden()
+  await expect(editor).toBeHidden()
 }

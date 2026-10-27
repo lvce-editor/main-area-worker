@@ -113,6 +113,9 @@ try {
     await mkdir(evidence, { recursive: true })
     await writeFile(join(evidence, 'console.json'), JSON.stringify(diagnostics, null, 2))
   }
-  await app?.close()
+  if (app) {
+    await app.evaluate(({ app }) => app.exit(0)).catch(() => {})
+    await app.close().catch(() => {})
+  }
   await rm(profile, { recursive: true, force: true })
 }

@@ -294,6 +294,8 @@ test('closeAll should dispose editor viewlets', async () => {
 
   await closeAll(state)
 
+  await new Promise((resolve) => setTimeout(resolve, 60))
+
   expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
     ['Viewlet.dispose', 101],
     ['Viewlet.dispose', 102],
@@ -336,6 +338,10 @@ test('closeAll should not wait for editor viewlets to be disposed', async () => 
   const result = await closeAll(state)
 
   expect(result.layout.groups).toEqual([])
+  expect(mockRpc.invocations.filter(([command]) => command === 'Viewlet.dispose')).toEqual([])
+
+  await new Promise((resolve) => setTimeout(resolve, 60))
+
   expect(mockRpc.invocations.filter(([command]) => command === 'Viewlet.dispose')).toEqual([['Viewlet.dispose', 101]])
   dispose.resolve()
 })

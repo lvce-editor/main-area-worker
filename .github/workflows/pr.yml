@@ -137,7 +137,7 @@ jobs:
           path: .tmp/lvce-integration
       - uses: actions/setup-node@v6
         with:
-          node-version-file: .tmp/lvce-integration/.nvmrc
+          node-version-file: .tmp/lvce-integration/.nvmrc # eslint-disable-line github-actions/node-version-file
       - name: Install application dependencies
         working-directory: .tmp/lvce-integration
         run: npm ci
@@ -147,12 +147,13 @@ jobs:
       - name: Prepare owned integration tests
         shell: bash
         env:
+          # Exercise the no-input, non-PR fallback while preparing the full inventory.
           TEST_FILTER: ${{ inputs.test_filter || (github.event_name == 'push' && 'viewlet.main-editor-cursor-after-split' || '') }}
         run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
       - name: Run owned integration tests
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
         shell: bash
-        run: npm run e2e:headless -- 2>&1 | tee "$GITHUB_WORKSPACE/integration-attempt-${{ matrix.attempt }}.log"
+        run: npm run e2e:headless -- --test-name-prefix=viewlet.main-editor-cursor-after-split 2>&1 | tee "$GITHUB_WORKSPACE/integration-attempt-${{ matrix.attempt }}.log"
       - name: Stage owned split cursor regressions
         run: node packages/e2e-integration/stage-cursor-tests.mjs .tmp/lvce-integration
       - name: Test split cursor positioning with published packages

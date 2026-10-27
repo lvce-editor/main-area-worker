@@ -80,6 +80,33 @@ const shouldRetryExistingTab = (
   )
 }
 
+const applyReusedSelection = async (state: MainAreaState, tabId: number, args?: readonly unknown[]): Promise<void> => {
+  const destination = args?.[0]
+  if (!destination || typeof destination !== 'object') {
+    return
+  }
+  const { endColumnIndex, endRowIndex, startColumnIndex, startRowIndex } = destination as Record<string, unknown>
+  if (
+    typeof startRowIndex !== 'number' ||
+    typeof startColumnIndex !== 'number' ||
+    typeof endRowIndex !== 'number' ||
+    typeof endColumnIndex !== 'number'
+  ) {
+    return
+  }
+  const tab = findTabById(state, tabId)?.tab
+  if (!tab || tab.editorUid < 0 || tab.loadingState !== 'loaded' || tab.editorInput?.type !== 'editor') {
+    return
+  }
+  await ApplicationRpc.invoke(
+    state.applicationId,
+    'Viewlet.executeViewletCommand',
+    tab.editorUid,
+    'setSelections',
+    new Uint32Array([startRowIndex, startColumnIndex, endRowIndex, endColumnIndex]),
+  )
+}
+
 const getViewletArgs = (options: OpenInputOptions): readonly unknown[] | undefined => {
   if (options.editorInput.type !== 'editor') {
     return options.args
@@ -187,6 +214,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
     await applyInitialCursorPosition(switchedState, existingTab.tab.id, options.initialCursorPosition)
+    await applyReusedSelection(context.getState(), existingTab.tab.id, options.args)
     await focusIfRequested(context.getState(), options.focus)
     return
   }

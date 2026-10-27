@@ -131,3 +131,46 @@ test('highlights problems in the exact new or reused tab without focusing it', a
   ])
   expect(rpc.invocations.some(([method]) => method === 'Viewlet.focusSelector')).toBe(false)
 })
+
+test.each([true, false])('applies a definition range to an existing tab, active=%s', async (active) => {
+  using rpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.executeViewletCommand': async () => {},
+    'Viewlet.focusSelector': async () => {},
+  })
+  const uri = 'file:///workspace/definition.ts'
+  let state = await openUri(createDefaultState(), { focus: false, uri })
+  const editorUid = state.layout.groups[0].tabs[0].editorUid
+  if (!active) {
+    state = await openUri(state, { focus: false, uri: 'file:///workspace/source.ts' })
+  }
+  const result = await openUri(state, uri, false, {
+    startRowIndex: 0,
+    startColumnIndex: 13,
+    endRowIndex: 0,
+    endColumnIndex: 16,
+  })
+  expect(rpc.invocations).toContainEqual(['Viewlet.executeViewletCommand', editorUid, 'setSelections', new Uint32Array([0, 13, 0, 16])])
+  expect(result.layout.groups[0].tabs).toHaveLength(active ? 1 : 2)
+})
+
+test.each([
+  undefined,
+  'unrelated context',
+  {},
+  { startRowIndex: 1 },
+  { startRowIndex: 1, startColumnIndex: 2 },
+  { startRowIndex: 1, startColumnIndex: 2, endRowIndex: 1 },
+])('preserves a reused selection without a complete destination: %j', async (destination) => {
+  using rpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.executeViewletCommand': async () => {},
+    'Viewlet.focusSelector': async () => {},
+  })
+  const uri = 'file:///workspace/definition.ts'
+  const state = await openUri(createDefaultState(), { focus: false, uri })
+  await openUri(state, uri, false, destination)
+  expect(rpc.invocations.some(([method]) => method === 'Viewlet.executeViewletCommand')).toBe(false)
+})

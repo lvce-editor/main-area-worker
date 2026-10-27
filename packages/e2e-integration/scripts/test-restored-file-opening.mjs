@@ -94,6 +94,8 @@ try {
       await verify(index)
     }
   }
+  // Pin the preview before opening an additional editor.
+  await execute('Main.openUri', uris[2])
   const mainState = await getMainState()
   await execute('Main.openUri', `live-component-state:///${mainState.uid}.json`)
   await expect(page.locator('.Main .Editor')).toContainText('activeGroupId')

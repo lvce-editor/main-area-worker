@@ -65,6 +65,12 @@ const getActivePreviewEditorUid = (state: MainAreaState): number => {
   return activeTab?.isPreview ? activeTab.editorUid : -1
 }
 
+const getTabOpenState = (state: MainAreaState, existingTab: ReturnType<typeof findTabByUri>, preview: boolean) => ({
+  previousTabId: getActiveTabId(state),
+  replacedEditorUid: existingTab ? -1 : getActivePreviewEditorUid(state),
+  stateForOpen: existingTab ? getExistingTabState(state, existingTab, preview) : state,
+})
+
 const shouldRetryExistingTab = (
   existingTab: ReturnType<typeof findTabByUri>,
   editorInput: OpenInputOptions['editorInput'],
@@ -74,8 +80,7 @@ const shouldRetryExistingTab = (
     return false
   }
   return (
-    (existingTab.tab.editorUid === -1 &&
-      (existingTab.tab.loadingState === undefined || existingTab.tab.loadingState === 'idle' || existingTab.tab.loadingState === 'loaded')) ||
+    (existingTab.tab.editorUid === -1 && [undefined, 'idle', 'loaded'].includes(existingTab.tab.loadingState)) ||
     existingTab.tab.loadingState === 'error' ||
     (forceOpen && existingTab.tab.loadingState === 'large') ||
     (editorInput.type === 'editor' && editorInput.forceText === true && existingTab.tab.editorInput?.type === 'binary')
@@ -192,9 +197,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     await focusIfRequested(context.getState(), options.focus)
     return
   }
-  const replacedEditorUid = existingTab ? -1 : getActivePreviewEditorUid(currentState)
-  const previousTabId = getActiveTabId(currentState)
-  const stateForOpen = existingTab ? getExistingTabState(currentState, existingTab, preview) : currentState
+  const { previousTabId, replacedEditorUid, stateForOpen } = getTabOpenState(currentState, existingTab, preview)
   const { stateWithTab, tabId } = getStateWithTab(stateForOpen, editorInput, existingTab, shouldRetry, uri, preview, title)
 
   await context.updateState(() => getStateWithIcon(stateWithTab, tabId, uri, icon))

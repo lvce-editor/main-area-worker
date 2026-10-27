@@ -14,9 +14,9 @@ export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main }) 
   }
   for (let cycle = 0; cycle < 5; cycle++) {
     for (let index = 0; index < files.length; index++) {
-      const tab = Locator(`.MainTab[title$="${names[index]}"]`)
-      await tab.click()
-      await expect(Locator(`.MainTabSelected[title$="${names[index]}"]`)).toBeVisible()
+      await Main.selectTab(0, index)
+      const selectedTab = Locator(`.MainTabSelected[title$="${names[index]}"]`)
+      await expect(selectedTab).toBeVisible()
       await Editor.shouldHaveText(contents[index])
     }
   }

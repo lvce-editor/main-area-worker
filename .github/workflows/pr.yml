@@ -106,9 +106,25 @@ jobs:
         run: node packages/e2e-integration/scripts/test-move-to-new-window.mjs .tmp/electron-application
         env:
           LVCE_MOVE_EVIDENCE_DIR: .tmp/electron-evidence
+      - name: Test restored file opening (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a node packages/e2e-integration/scripts/test-restored-file-opening.mjs .tmp/electron-application
+        env:
+          LVCE_RESTORE_EVIDENCE_DIR: .tmp/electron-restore-evidence
+      - name: Test restored file opening
+        if: runner.os != 'Linux'
+        run: node packages/e2e-integration/scripts/test-restored-file-opening.mjs .tmp/electron-application
+        env:
+          LVCE_RESTORE_EVIDENCE_DIR: .tmp/electron-restore-evidence
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: electron-move-${{ matrix.os }}
           path: .tmp/electron-evidence
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: electron-restore-${{ matrix.os }}
+          path: .tmp/electron-restore-evidence
           if-no-files-found: warn

@@ -112,3 +112,63 @@ jobs:
           name: electron-move-${{ matrix.os }}
           path: .tmp/electron-evidence
           if-no-files-found: warn
+
+  integration-filter-stress:
+    name: Integration filter attempt ${{ matrix.attempt }}
+    strategy:
+      fail-fast: false
+      matrix:
+        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: 0
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/checkout@v7
+        with:
+          repository: lvce-editor/lvce-editor
+          ref: 0b6a4938baca785ba74969648272e6d720ff46b5
+          path: .tmp/lvce-integration
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .tmp/lvce-integration/.nvmrc # eslint-disable-line github-actions/node-version-file
+      - name: Install application dependencies
+        working-directory: .tmp/lvce-integration
+        run: npm ci
+      - name: Install Chromium
+        working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
+        run: npx playwright install --with-deps chromium
+      - name: Prepare owned integration tests
+        shell: bash
+        env:
+          # Exercise the no-input, non-PR fallback while preparing the full inventory.
+          TEST_FILTER: ${{ inputs.test_filter || (github.event_name == 'push' && 'viewlet.main-editor-cursor-after-split' || '') }}
+        run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
+      - name: Run owned integration tests
+        working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
+        shell: bash
+        run: npm run e2e:headless -- --test-name-prefix=viewlet.main-editor-cursor-after-split 2>&1 | tee "$GITHUB_WORKSPACE/integration-attempt-${{ matrix.attempt }}.log"
+      - name: Stage owned split cursor regressions
+        run: node packages/e2e-integration/stage-cursor-tests.mjs .tmp/lvce-integration
+      - name: Test split cursor positioning with published packages
+        working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
+        run: npm run e2e:headless -- --test-name-prefix=viewlet.main-editor-cursor-after-split --browser-test=scripts/test-editor-cursor-splits.mjs
+      - name: Remove staged split cursor regressions
+        if: always()
+        run: node packages/e2e-integration/stage-cursor-tests.mjs .tmp/lvce-integration --clean
+      - name: Upload integration evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: integration-filter-attempt-${{ matrix.attempt }}
+          path: |
+            integration-attempt-${{ matrix.attempt }}.log
+            .tmp/lvce-integration/packages/extension-host-worker-tests/test-results
+            .tmp/lvce-integration/packages/extension-host-worker-tests/screenshots
+          if-no-files-found: warn

@@ -2,6 +2,7 @@ import { terminate } from '@lvce-editor/viewlet-registry'
 import { closeActiveEditor } from '../CloseActiveEditor/CloseActiveEditor.ts'
 import { closeAll } from '../CloseAll/CloseAll.ts'
 import { closeAllAndSave } from '../CloseAllAndSave/CloseAllAndSave.ts'
+import { closeAllCommand } from '../CloseAllCommand/CloseAllCommand.ts'
 import { closeEditorGroup } from '../CloseEditorGroup/CloseEditorGroup.ts'
 import { closeFocusedTab } from '../CloseFocusedTab/CloseFocusedTab.ts'
 import { closeOtherTabs } from '../CloseOtherTabs/CloseOtherTabs.ts'
@@ -98,6 +99,9 @@ import { handlePanelDrop, handleTerminalExit } from '../TerminalTransfer/Termina
 const pendingLoads = new Map<number, Promise<void>>()
 const loadContent = wrapSerialCommand(LoadContent.loadContent)
 
+const closeAllAndRenderTabs = wrapSerialCommand((state: any, ...args: readonly any[]) => closeAllCommand(closeAll, state, ...args))
+const closeAllAndSaveAndRender = wrapSerialCommand((state: any, ...args: readonly any[]) => closeAllCommand(closeAllAndSave, state, ...args))
+
 const splitDownAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitDown, ...args))
 const splitLeftAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitLeft, ...args))
 const splitRightAndResize = wrapSerialCommand((state: any, ...args: any[]) => splitEditorGroupAndResize(state, splitRight, ...args))
@@ -137,9 +141,9 @@ const handleTestWorkerMessagePort = (port: MessagePort): Promise<void> => Handle
 export const commandMap = {
   'Id.configure': configureIds,
   'Main.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
-  'Main.closeAll': wrapSerialCommand(closeAll),
-  'Main.closeAllEditors': wrapSerialCommand(closeAll),
-  'Main.closeAllEditorsAndSave': wrapSerialCommand(closeAllAndSave),
+  'Main.closeAll': closeAllAndRenderTabs,
+  'Main.closeAllEditors': closeAllAndRenderTabs,
+  'Main.closeAllEditorsAndSave': closeAllAndSaveAndRender,
   'Main.closeFocusedTab': wrapSerialCommand(closeFocusedTab),
   'Main.closeOthers': wrapSerialCommand(closeOtherTabs),
   'Main.closeSaved': wrapSerialCommand(closeSaved),
@@ -167,9 +171,9 @@ export const commandMap = {
   'Main.saveState': wrapGetter(saveState),
   'Main.splitRight': splitRightAndResize,
   'MainArea.closeActiveEditor': wrapSerialCommand(closeActiveEditor),
-  'MainArea.closeAll': wrapSerialCommand(closeAll),
-  'MainArea.closeAllEditors': wrapSerialCommand(closeAll),
-  'MainArea.closeAllEditorsAndSave': wrapSerialCommand(closeAllAndSave),
+  'MainArea.closeAll': closeAllAndRenderTabs,
+  'MainArea.closeAllEditors': closeAllAndRenderTabs,
+  'MainArea.closeAllEditorsAndSave': closeAllAndSaveAndRender,
   'MainArea.closeEditorGroup': wrapSerialCommand(closeEditorGroup),
   'MainArea.closeFocusedTab': wrapSerialCommand(closeFocusedTab),
   'MainArea.closeOthers': wrapSerialCommand(closeOtherTabs),

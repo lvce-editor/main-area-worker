@@ -8,7 +8,7 @@ test('diff should return empty array when states are equal', () => {
   const oldState: MainAreaState = createDefaultState()
   const newState: MainAreaState = oldState
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderCss])
+  expect(result).toEqual([])
 })
 
 test('diff should return RenderItems when left items differ', () => {
@@ -152,13 +152,13 @@ test('diff should ignore uid when comparing', () => {
     uid: 2,
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderCss])
+  expect(result).toEqual([])
 })
 
 test('a final active tab visibility refresh scrolls without replacing the tab DOM', () => {
   const oldState = createDefaultState()
   const newState = { ...oldState, activeTabVisibilityVersion: 1 }
 
-  expect(Diff.diff(oldState, newState)).toEqual([DiffType.RenderCss, DiffType.RenderActiveTabVisibility])
-  expect(Diff.diff(newState, newState)).toEqual([DiffType.RenderCss])
+  expect(Diff.diff(oldState, newState)).toEqual([DiffType.RenderActiveTabVisibility])
+  expect(Diff.diff(newState, newState)).toEqual([])
 })

@@ -10,7 +10,7 @@ test('diff2 - should return empty array when states are equal', () => {
   const state: MainAreaState = createDefaultState()
   MainAreaStates.set(uid, state, state)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderCss])
+  expect(result).toEqual([])
 })
 
 test('diff2 - should return RenderItems when groups differ', () => {
@@ -123,7 +123,7 @@ test('diff2 - should return empty array when only uid differs', () => {
   }
   MainAreaStates.set(uid, oldState, newState)
   const result = Diff2.diff2(uid)
-  expect(result).toEqual([DiffType.RenderCss])
+  expect(result).toEqual([])
 })
 
 test('diff2 - should return RenderItems when active tab changes', () => {

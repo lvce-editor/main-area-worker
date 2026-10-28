@@ -9,7 +9,6 @@ import * as DiffType from '../src/parts/DiffType/DiffType.ts'
 import { ensureActiveGroup } from '../src/parts/EnsureActiveGroup/EnsureActiveGroup.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import * as Render2 from '../src/parts/Render2/Render2.ts'
-import { renderCss } from '../src/parts/RenderCss/RenderCss.ts'
 import * as RendererProcess from '../src/parts/RendererProcess/RendererProcess.ts'
 
 test('render2 returns renderer commands when no direct renderer is connected', () => {
@@ -41,7 +40,7 @@ test('render2 does not repeat a pending viewlet update that was already consumed
   const staleDiff = diff2(uid)
   MainAreaStates.set(uid, oldState, oldState)
 
-  expect(Render2.render2(uid, staleDiff)).toEqual([renderCss(oldState, oldState)])
+  expect(Render2.render2(uid, staleDiff)).toEqual([])
 })
 
 test('render2 queues renderer commands and returns a lightweight commit marker', async () => {
@@ -79,11 +78,21 @@ test('render2 returns focus commands to the renderer worker when rendering direc
 
   const result = await Render2.render2(uid, [DiffType.RenderPendingViewletUpdate])
 
-  expect(queueCommands).toHaveBeenCalledWith(uid, [renderCss(oldState, newState)])
+  expect(queueCommands).toHaveBeenCalledWith(uid, [])
   expect(result).toEqual([
     ['Viewlet.setFocusContext', 5, 12, 0, 5, 'Editor'],
     ['Viewlet.commitPending', uid, 17],
   ])
   await new Promise((resolve) => setTimeout(resolve, 60))
   expect(mockRpc.invocations).toEqual([['Viewlet.dispose', 4]])
+})
+
+test('unchanged active group render does not queue an empty renderer transaction', async () => {
+  const queueCommands = jest.fn(() => 1)
+  RendererProcess.set(createMockRpc({ commandMap: { 'Viewlet.queueCommands': queueCommands } }))
+  const uid = 1001
+  const state = ensureActiveGroup({ ...createDefaultState(), uid }, 'file:///active.txt')
+  MainAreaStates.set(uid, state, state)
+  expect(await Render2.render2(uid, [])).toEqual([])
+  expect(queueCommands).not.toHaveBeenCalled()
 })

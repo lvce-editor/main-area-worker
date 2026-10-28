@@ -11,7 +11,7 @@ export const render2 = (uid: number, _diffResult: readonly number[]): readonly a
   const diffResult = Diff.diff(oldState, newState)
   SourceControlStates.set(uid, newState, newState)
   const commands = ApplyRender.applyRender(oldState, newState, diffResult)
-  if (!RendererProcess.isConnected()) {
+  if (commands.length === 0 || !RendererProcess.isConnected()) {
     return commands
   }
   return renderDirect(uid, commands)

@@ -48,7 +48,8 @@ export const selectTab = async (state: MainAreaState, groupIndex: number, index:
     },
   }
 
-  const { commands: switchCommands, newState: stateWithViewlet } = await ViewletLifecycle.switchViewlet(newState, previousTabId, tabId)
+  // Do not delay the incoming editor render on the outgoing editor's asynchronous blur.
+  const { commands: switchCommands, newState: stateWithViewlet } = await ViewletLifecycle.switchViewlet(newState, previousTabId, tabId, false)
   newState = stateWithViewlet
 
   const maybeCreatedState = await maybeCreateViewletForSelectedTab(

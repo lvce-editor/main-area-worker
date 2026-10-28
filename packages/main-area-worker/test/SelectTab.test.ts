@@ -234,6 +234,66 @@ test('selectTab should switch to different group', async () => {
   expect(result.layout).toEqual(expectedLayout)
 })
 
+test('selectTab switches before the outgoing editor finishes blurring', async () => {
+  const { promise: blurPromise, resolve: resolveBlur } = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.executeViewletCommand': () => blurPromise,
+    'Viewlet.focusSelector'() {},
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          id: 1,
+          isEmpty: false,
+          isFocused: true,
+          size: 100,
+          tabs: [
+            {
+              editorInput: { type: 'editor', uri: '/file1.txt' },
+              editorUid: 42,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'file1.txt',
+              uri: '/file1.txt',
+            },
+            {
+              editorInput: { type: 'editor', uri: '/file2.txt' },
+              editorUid: 43,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 'loaded',
+              title: 'file2.txt',
+              uri: '/file2.txt',
+            },
+          ],
+        },
+      ],
+    },
+  }
+  try {
+    const select = async (): Promise<'selected'> => {
+      await selectTab(state, 0, 1)
+      return 'selected'
+    }
+    const result = await Promise.race([select(), new Promise<'waiting-for-blur'>((resolve) => setTimeout(resolve, 50, 'waiting-for-blur'))])
+    expect(result).toBe('selected')
+    expect(mockRpc.invocations).toContainEqual(['Viewlet.executeViewletCommand', 42, 'handleBlur'])
+  } finally {
+    resolveBlur()
+  }
+})
+
 test('selectTab should return original state for invalid group index', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),

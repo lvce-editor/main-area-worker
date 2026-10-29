@@ -1,6 +1,7 @@
 import type { AsyncCommand, AsyncCommandContext, Fn } from '@lvce-editor/viewlet-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { flushDeferredDisposals } from '../DisposeEditors/DisposeEditors.ts'
+import { registry } from '../MainAreaRegistry/MainAreaRegistry.ts'
 import * as NotifyActiveEditorChange from '../NotifyActiveEditorChange/NotifyActiveEditorChange.ts'
 import * as NotifyMountedViewlets from '../NotifyMountedViewlets/NotifyMountedViewlets.ts'
 
@@ -8,7 +9,7 @@ export const withActiveEditorChange = (fn: Fn<MainAreaState>): Fn<MainAreaState>
   return async (state, ...args) => {
     const newState = await fn(state, ...args)
     await NotifyActiveEditorChange.notifyActiveEditorChange(state, newState)
-    await NotifyMountedViewlets.notifyMountedViewlets(state, newState)
+    await NotifyMountedViewlets.notifyMountedViewlets(state, registry.get(state.uid)?.newState ?? newState)
     await flushDeferredDisposals()
     return newState
   }
@@ -20,7 +21,7 @@ export const withActiveEditorChangeAsync = (fn: AsyncCommand<MainAreaState>): As
     await fn(context, ...args)
     const newState = context.getState()
     await NotifyActiveEditorChange.notifyActiveEditorChange(oldState, newState)
-    await NotifyMountedViewlets.notifyMountedViewlets(oldState, newState)
+    await NotifyMountedViewlets.notifyMountedViewlets(oldState, context.getState())
     await flushDeferredDisposals()
   }
 }

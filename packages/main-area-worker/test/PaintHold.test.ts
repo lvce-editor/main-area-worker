@@ -160,16 +160,13 @@ test('session state excludes retained references and timer tokens', () => {
 })
 
 test('slow command notifications cannot restore a hold after its deadline', async () => {
-  let release: () => void = () => undefined
-  const pending = new Promise<void>((resolve) => {
-    release = resolve
-  })
+  const { promise: pending, resolve: release } = Promise.withResolvers<void>()
   RendererWorker.set(
     createMockRpc({
       commandMap: {
         'Layout.handleActiveEditorChange': () => pending,
-        'Layout.setMountedViewlets': () => undefined,
         'Layout.renderMainAreaPending': () => undefined,
+        'Layout.setMountedViewlets': () => undefined,
       },
     }),
   )
@@ -180,4 +177,20 @@ test('slow command notifications cannot restore a hold after its deadline', asyn
   release()
   await switching
   expect(MainAreaStates.get(1).newState.layout.groups[0].paintHold).toBeUndefined()
+})
+
+test('a command finishing after disposal cannot mutate a recreated component', async () => {
+  const { promise: pending, resolve: release } = Promise.withResolvers<void>()
+  const switchTab = MainAreaStates.wrapCommand(async (state) => {
+    await pending
+    return select(state, 2)
+  })
+  const switching = switchTab(1)
+  MainAreaStates.dispose(1)
+  const fresh = initial()
+  MainAreaStates.set(1, fresh, fresh)
+  release()
+  await switching
+  expect(MainAreaStates.get(1).newState).toBe(fresh)
+  expect(jest.getTimerCount()).toBe(0)
 })

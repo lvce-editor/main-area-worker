@@ -4,29 +4,36 @@ import { registry } from '../MainAreaRegistry/MainAreaRegistry.ts'
 import { updatePresentation, cancelPaintHolds } from '../PaintHold/PaintHold.ts'
 import * as WithActiveEditorChange from '../WithActiveEditorChange/WithActiveEditorChange.ts'
 
+const lifetimes = new Map<number, object>()
+
 export const { get, getCommandIds, getKeys, registerCommands, wrapGetter } = registry
 
 export const set: typeof registry.set = (uid, oldState, newState, scheduledState) => {
-  const presentedState = updatePresentation(registry.get(uid)?.newState ?? oldState, newState)
+  const current = registry.get(uid)
+  if (!current || (oldState === newState && newState !== current.newState)) lifetimes.set(uid, {})
+  const presentedState = updatePresentation(current?.newState ?? oldState, newState)
   registry.set(uid, oldState, presentedState, scheduledState)
 }
 
 export const dispose = (uid: number): void => {
   cancelPaintHolds(uid)
+  lifetimes.delete(uid)
   registry.dispose(uid)
 }
 
 export const clear = (): void => {
   for (const uid of registry.getKeys()) cancelPaintHolds(uid)
   registry.clear()
+  lifetimes.clear()
 }
 
 const presentCommand =
   (fn: Fn<MainAreaState>): Fn<MainAreaState> =>
   async (state, ...args) => {
+    const lifetime = lifetimes.get(state.uid)
     const newState = await fn(state, ...args)
     const instance = registry.get(state.uid)
-    if (!instance) return newState
+    if (!instance || lifetime !== lifetimes.get(state.uid)) return newState
     const presentedState = updatePresentation(instance.newState, newState)
     // Publish before notifications: their RPCs may take longer than the hold.
     registry.set(state.uid, instance.oldState, presentedState)

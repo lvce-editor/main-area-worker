@@ -103,8 +103,56 @@ try {
     await page.locator(`.MainTab[title$="${names[index]}"]`).click()
     await verify(index)
   }
+  // Control readiness through the public component-state API while retaining real
+  // editor viewlets. This makes the slow path deterministic on every CI platform.
+  await execute('Main.openUri', uris[0])
+  const baseline = await getMainState()
+  const group = baseline.layout.groups[0]
+  const outgoing = group.tabs.find((tab) => tab.id === group.activeTabId)
+  const incoming = group.tabs.find((tab) => tab.uri === uris[1])
+  const pending = structuredClone(baseline)
+  pending.layout.groups[0].activeTabId = incoming.id
+  pending.layout.groups[0].tabs.find((tab) => tab.id === incoming.id).loadingState = 'loading'
+  await page.evaluate(() => {
+    const container = document.querySelector('.Main .EditorContainer')
+    globalThis.paintSamples = []
+    globalThis.paintOriginal = container.querySelector('.Editor')
+    const sample = () => {
+      globalThis.paintSamples.push({
+        time: performance.now(),
+        original: container.querySelector('.Editor') === globalThis.paintOriginal,
+        inert: container.inert,
+        loading: Boolean(container.querySelector('.TextEditorLoading')),
+        activeInside: container.contains(document.activeElement),
+      })
+    }
+    globalThis.paintObserver = new MutationObserver(sample)
+    globalThis.paintObserver.observe(container, { attributes: true, childList: true, subtree: true })
+    sample()
+  })
+  await execute('ComponentState.setState', baseline.uid, pending)
+  await expect(page.locator('.Main .TextEditorLoading')).toBeVisible()
+  const samples = await page.evaluate(() => {
+    globalThis.paintObserver.disconnect()
+    return globalThis.paintSamples
+  })
+  const held = samples.find((sample) => sample.original && sample.inert)
+  const spinner = samples.find((sample) => sample.loading)
+  if (!held || !spinner || spinner.time - held.time < 50) {
+    throw new Error(`Expected a visible paint hold before loading: ${JSON.stringify(samples)}`)
+  }
+  if (held.activeInside) throw new Error('Held editor retained keyboard focus')
+  const ready = structuredClone(pending)
+  ready.layout.groups[0].tabs.find((tab) => tab.id === incoming.id).loadingState = 'loaded'
+  await execute('ComponentState.setState', baseline.uid, ready)
+  await verify(1)
+  await expect(page.locator('.Main .EditorContainer')).not.toHaveAttribute('inert')
+  // A normal already-loaded tab switch must commit directly with no spinner.
+  await execute('Main.openUri', uris[0])
+  await verify(0)
+  if (outgoing.editorUid === incoming.editorUid) throw new Error('Expected independent editor viewlets')
   await capture('passed')
-  console.log('PASS restored file opens, repeated tab clicks, and live-state inspector')
+  console.log('PASS restored file opens, repeated tab clicks, live-state inspector, and inert 100 ms paint holding')
 } catch (error) {
   await capture('failed').catch(() => {})
   throw error

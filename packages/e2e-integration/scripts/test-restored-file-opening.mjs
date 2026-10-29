@@ -155,8 +155,8 @@ try {
   if (!input.probe?.inert || !input.probe.original) throw new Error(`Keyboard probe missed the hold: ${JSON.stringify(input)}`)
   if (input.events.length || input.probe.targetInside) throw new Error(`Held editor received keyboard input: ${JSON.stringify(input)}`)
   await expect(page.locator('.Main .TextEditor--loading')).toBeVisible()
-  await expect(page.locator('.Main .TextEditor--loading .AnimationSpin')).toBeVisible()
-  await expect(page.locator('.Main .TextEditor--loading .AnimationSpin')).toHaveCSS('animation-name', 'spin')
+  await expect(page.locator('.Main .TextEditor--loading .EditorLoadingIcon')).toBeVisible()
+  await expect(page.locator('.Main .TextEditor--loading .EditorLoadingIcon')).toHaveCSS('animation-name', 'EditorLoadingSpin')
   const samples = await page.evaluate(() => {
     globalThis.paintObserver.disconnect()
     return globalThis.paintSamples

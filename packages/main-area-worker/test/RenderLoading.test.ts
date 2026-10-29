@@ -19,7 +19,7 @@ test('renderLoading returns loading state virtual dom nodes', () => {
     {
       ariaHidden: true,
       childCount: 0,
-      className: 'MaskIcon MaskIconProgress AnimationSpin',
+      className: 'MaskIcon MaskIconProgress EditorLoadingIcon',
       type: VirtualDomElements.Div,
     },
     text('Loading...'),

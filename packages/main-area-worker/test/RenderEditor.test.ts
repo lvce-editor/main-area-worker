@@ -131,7 +131,7 @@ test('renderEditor should show loading state', () => {
     {
       ariaHidden: true,
       childCount: 0,
-      className: 'MaskIcon MaskIconProgress AnimationSpin',
+      className: 'MaskIcon MaskIconProgress EditorLoadingIcon',
       type: VirtualDomElements.Div,
     },
     text('Loading...'),

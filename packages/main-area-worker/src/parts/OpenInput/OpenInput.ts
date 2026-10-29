@@ -6,7 +6,7 @@ import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { applyInitialCursorPosition } from '../ApplyInitialCursorPosition/ApplyInitialCursorPosition.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewletContent, getViewletTitle } from '../CreateViewlet/CreateViewlet.ts'
-import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
+import { disposeEditors, flushDeferredDisposals } from '../DisposeEditors/DisposeEditors.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focus as focusMainArea } from '../Focus/Focus.ts'
@@ -347,6 +347,10 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
       return Promise.resolve(currentState)
     },
   }
-  await openInputWithContext(context, options)
-  return context.getState()
+  try {
+    await openInputWithContext(context, options)
+    return context.getState()
+  } finally {
+    await flushDeferredDisposals()
+  }
 }

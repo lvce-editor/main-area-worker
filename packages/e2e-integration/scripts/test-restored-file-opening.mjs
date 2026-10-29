@@ -122,7 +122,7 @@ try {
         time: performance.now(),
         original: container.querySelector('.Editor') === globalThis.paintOriginal,
         inert: container.inert,
-        loading: Boolean(container.querySelector('.TextEditorLoading')),
+        loading: Boolean(container.querySelector('.TextEditor--loading')),
         activeInside: container.contains(document.activeElement),
       })
     }
@@ -131,11 +131,12 @@ try {
     sample()
   })
   await execute('ComponentState.setState', baseline.uid, pending)
-  await expect(page.locator('.Main .TextEditorLoading')).toBeVisible()
+  await expect(page.locator('.Main .TextEditor--loading')).toBeVisible()
   const samples = await page.evaluate(() => {
     globalThis.paintObserver.disconnect()
     return globalThis.paintSamples
   })
+  if (evidence) await writeFile(join(evidence, 'paint-samples.json'), JSON.stringify(samples, null, 2))
   const held = samples.find((sample) => sample.original && sample.inert)
   const spinner = samples.find((sample) => sample.loading)
   if (!held || !spinner || spinner.time - held.time < 50) {

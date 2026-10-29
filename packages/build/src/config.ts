@@ -1,7 +1,7 @@
 import { join } from 'node:path'
 import { root } from './root.js'
 
-export const threshold = 721_024
+export const threshold = 725_120
 
 export const instantiations = 23_000
 

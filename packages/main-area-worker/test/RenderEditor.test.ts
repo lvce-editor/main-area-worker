@@ -124,8 +124,14 @@ test('renderEditor should show loading state', () => {
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 1,
+      childCount: 2,
       className: 'EditorContent EditorContent--loading',
+      type: VirtualDomElements.Div,
+    },
+    {
+      ariaHidden: true,
+      childCount: 0,
+      className: 'MaskIcon MaskIconProgress EditorLoadingIcon',
       type: VirtualDomElements.Div,
     },
     text('Loading...'),

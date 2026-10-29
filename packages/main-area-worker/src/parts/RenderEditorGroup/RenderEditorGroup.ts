@@ -37,7 +37,7 @@ export const renderEditorGroup = (
       type: VirtualDomElements.Div,
     },
     ...renderEditorGroupHeader(group, groupIndex, splitButtonEnabled, tabDropIndicator),
-    editorContainerNode,
-    ...renderEditor(activeTab),
+    group.paintHold ? { ...editorContainerNode, inert: true } : editorContainerNode,
+    ...renderEditor(group.paintHold?.tab ?? activeTab),
   ]
 }

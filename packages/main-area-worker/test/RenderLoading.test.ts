@@ -12,8 +12,14 @@ test('renderLoading returns loading state virtual dom nodes', () => {
       type: VirtualDomElements.Div,
     },
     {
-      childCount: 1,
+      childCount: 2,
       className: 'EditorContent EditorContent--loading',
+      type: VirtualDomElements.Div,
+    },
+    {
+      ariaHidden: true,
+      childCount: 0,
+      className: 'MaskIcon MaskIconProgress AnimationSpin',
       type: VirtualDomElements.Div,
     },
     text('Loading...'),

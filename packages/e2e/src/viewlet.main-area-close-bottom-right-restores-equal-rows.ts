@@ -7,7 +7,7 @@ const clickEventInit = { bubbles: true } as unknown as string
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
   const topFile = `${tmpDir}/top.ts`
   const bottomFile = `${tmpDir}/bottom.ts`
@@ -25,12 +25,15 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const groups = Locator('.EditorGroup')
   const firstGroup = groups.nth(0)
   const secondGroup = groups.nth(1)
-  const horizontalContainers = Locator('.editor-groups-container.EditorGroupsHorizontal')
-  const verticalContainers = Locator('.editor-groups-container.EditorGroupsVertical')
+  const horizontalContainers = Locator('.EditorGroupsContainer.EditorGroupsHorizontal')
+  const verticalContainers = Locator('.EditorGroupsContainer.EditorGroupsVertical')
   const horizontalSashes = Locator('.Main .SashHorizontal')
   const verticalSashes = Locator('.Main .SashVertical')
   await expect(groups).toHaveCount(3)
-  await groups.nth(2).locator('.EmptyGroupCloseButton').dispatchEvent('click', clickEventInit)
+  await Command.execute('TestFrameWork.performAction', groups.nth(2).locator('.EmptyGroupCloseButton'), 'dispatchEvent', {
+    init: clickEventInit,
+    type: 'click',
+  })
   await Main.handleClickAction('', '')
 
   await expect(groups).toHaveCount(2)

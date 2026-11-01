@@ -5,7 +5,7 @@ export const name = 'viewlet.main-area-auto-modified-status'
 export const test: Test = async ({ Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const testFile = `${tmpDir}/test.ts`
   const testContent = 'export const hello = () => "world"'
   await FileSystem.writeFile(testFile, testContent)

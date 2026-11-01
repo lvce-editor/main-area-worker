@@ -14,7 +14,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Panel, Wor
     { content: 'first', uri: firstUri },
     { content: 'second', uri: secondUri },
   ])
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(firstUri)
   await Main.openUri(secondUri)
   await Panel.open('Problems')

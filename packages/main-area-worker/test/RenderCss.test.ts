@@ -31,3 +31,16 @@ test('renderCss should use new state uid', () => {
   expect(result[0]).toBe(ViewletCommand.SetCss)
   expect(result[1]).toBe(42)
 })
+
+test('renderCss should use the state tab height as the editor group height', () => {
+  const oldState = createDefaultState()
+  const newState = {
+    ...createDefaultState(),
+    tabHeight: 42,
+    uid: 7,
+  }
+
+  const result = renderCss(oldState, newState)
+
+  expect(result[2]).toContain('--EditorGroupHeight: 42px;')
+})

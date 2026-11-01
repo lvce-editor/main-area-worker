@@ -20,26 +20,36 @@ const getEditorInputUris = (editorInput: EditorInput | undefined): readonly stri
   }
 }
 
-const getChangedEditorUid = (editorUid: number, editorInput: EditorInput | undefined, uri: string | undefined, changedUris: Set<string>) => {
+const getChangedEditorUid = (
+  editorUid: number,
+  editorInput: EditorInput | undefined,
+  uri: string | undefined,
+  changedUris: Set<string>,
+  reloadAll: boolean,
+) => {
   if (editorUid === -1) {
     return undefined
   }
   const uris = getEditorInputUris(editorInput)
-  if (uris.some((editorUri) => changedUris.has(editorUri)) || (uris.length === 0 && uri && changedUris.has(uri))) {
+  if (
+    (reloadAll && (uris.length > 0 || uri)) ||
+    uris.some((editorUri) => changedUris.has(editorUri)) ||
+    (uris.length === 0 && uri && changedUris.has(uri))
+  ) {
     return editorUid
   }
   return undefined
 }
 
-const reloadChangedEditors = async (state: MainAreaState, changed: readonly string[]): Promise<void> => {
-  if (changed.length === 0) {
+const reloadChangedEditors = async (state: MainAreaState, changed: readonly string[], reloadAll: boolean): Promise<void> => {
+  if (changed.length === 0 && !reloadAll) {
     return
   }
   const changedUris = new Set(changed)
   const editorUids = new Set<number>()
   for (const group of state.layout.groups) {
     for (const tab of group.tabs) {
-      const editorUid = getChangedEditorUid(tab.editorUid, tab.editorInput, tab.uri, changedUris)
+      const editorUid = getChangedEditorUid(tab.editorUid, tab.editorInput, tab.uri, changedUris, reloadAll)
       if (editorUid !== undefined) {
         editorUids.add(editorUid)
       }
@@ -51,6 +61,7 @@ const reloadChangedEditors = async (state: MainAreaState, changed: readonly stri
 export const handleWorkspaceRefresh = async (state: MainAreaState, refresh: WorkspaceRefresh = {}): Promise<MainAreaState> => {
   const changes: WorkspaceChanges = Array.isArray(refresh) ? { deleted: refresh } : (refresh as WorkspaceChanges)
   const { changed = [], deleted = [], renamed = [] } = changes
+  const reloadAll = changes.reloadAll === true
   let newState = state
   for (const [oldUri, newUri] of renamed) {
     newState = await handleUriChange(newState, oldUri, newUri)
@@ -63,7 +74,7 @@ export const handleWorkspaceRefresh = async (state: MainAreaState, refresh: Work
       }
     }
   }
-  await reloadChangedEditors(newState, changed)
+  await reloadChangedEditors(newState, changed, reloadAll)
   return newState
 }
 

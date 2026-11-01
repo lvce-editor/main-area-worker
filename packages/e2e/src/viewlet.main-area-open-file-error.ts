@@ -8,7 +8,7 @@ export const test: Test = async ({ expect, Extension, Locator, Main, Workspace }
   const extensionUri = import.meta.resolve('../fixtures/read-file-error')
   await Extension.addWebExtension(extensionUri)
   const prefix = 'extension-host://xyz://'
-  await Workspace.setPath(prefix)
+  await Workspace.setUri(prefix)
   const errorFile = `${prefix}/test.txt`
 
   // act

@@ -1,4 +1,5 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import { closeEditorGroup } from '../CloseEditorGroup/CloseEditorGroup.ts'
 
 export const moveTabToGroup = (
   state: MainAreaState,
@@ -81,7 +82,7 @@ export const moveTabToGroup = (
     return group
   })
 
-  return {
+  const nextState: MainAreaState = {
     ...state,
     layout: {
       ...layout,
@@ -89,4 +90,11 @@ export const moveTabToGroup = (
       groups: updatedGroups,
     },
   }
+
+  const updatedSourceGroup = updatedGroups.find((group) => group.id === sourceGroupId)
+  if (updatedSourceGroup?.tabs.length === 0) {
+    return closeEditorGroup(nextState, sourceGroupId)
+  }
+
+  return nextState
 }

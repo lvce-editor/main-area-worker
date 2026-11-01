@@ -6,7 +6,7 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const tmpDir = await FileSystem.getTmpDir()
   const file = `${tmpDir}/drop-open-file-split-right.txt`
   await FileSystem.writeFile(file, 'content')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
   await Main.openUri(file)
   const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: file }])

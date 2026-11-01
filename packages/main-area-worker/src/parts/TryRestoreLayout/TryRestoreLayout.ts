@@ -54,10 +54,12 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
     direction: layoutDirection,
     groups: rawLayout.groups.map((group: any) => {
       const groupDirection = normalizeGroupDirection(group, layoutDirection)
+      const { focused: legacyIsFocused, ...groupWithoutLegacyFocus } = group ?? {}
       return {
-        ...group,
+        ...groupWithoutLegacyFocus,
         activeTabId: group?.activeTabId === undefined ? -1 : group.activeTabId,
         direction: groupDirection,
+        isFocused: typeof group?.isFocused === 'boolean' ? group.isFocused : legacyIsFocused,
         tabs: Array.isArray(group?.tabs) ? group.tabs.map(normalizeRestoredTab) : [],
       }
     }),

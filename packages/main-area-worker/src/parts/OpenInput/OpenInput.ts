@@ -1,11 +1,12 @@
 import type { AsyncCommandContext } from '@lvce-editor/viewlet-registry'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { OpenInputOptions } from '../OpenInputOptions/OpenInputOptions.ts'
 import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { applyInitialCursorPosition } from '../ApplyInitialCursorPosition/ApplyInitialCursorPosition.ts'
 import * as Assert from '../Assert/Assert.ts'
 import { createViewletContent, getViewletTitle } from '../CreateViewlet/CreateViewlet.ts'
-import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
+import { disposeEditors, flushDeferredDisposals } from '../DisposeEditors/DisposeEditors.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { findTabByUri } from '../FindTabByUri/FindTabByUri.ts'
 import { focus as focusMainArea } from '../Focus/Focus.ts'
@@ -15,15 +16,18 @@ import { getCurrentState } from '../GetCurrentState/GetCurrentState.ts'
 import { getEditorInputTitle } from '../GetEditorInputTitle/GetEditorInputTitle.ts'
 import { getEditorInputUri } from '../GetEditorInputUri/GetEditorInputUri.ts'
 import { getLargeFileSize } from '../GetLargeFileSize/GetLargeFileSize.ts'
+import { getNextRequestId } from '../GetNextRequestId/GetNextRequestId.ts'
 import { getStateWithTab } from '../GetStateWithTab/GetStateWithTab.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
 import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
+import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
+import { prepareTabIcon } from '../PrepareTabIcon/PrepareTabIcon.ts'
+import * as RendererProcess from '../RendererProcess/RendererProcess.ts'
 import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { switchTab } from '../SwitchTab/SwitchTab.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
-import { updateTabIcon } from '../UpdateTabIcon/UpdateTabIcon.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
 const renderMainAreaPending = async (uid: number, applicationId?: string): Promise<void> => {
@@ -31,6 +35,14 @@ const renderMainAreaPending = async (uid: number, applicationId?: string): Promi
     await ApplicationRpc.invoke(applicationId, 'Layout.renderMainAreaPending', uid)
   } catch {
     // Older renderer workers render the final state when openInput completes.
+  }
+}
+
+const runLoadContentLater = async (editorUid: number): Promise<void> => {
+  try {
+    await RendererWorker.invoke('Viewlet.runLoadContentLater', editorUid)
+  } catch {
+    // Older renderers start optional providers during creation instead.
   }
 }
 
@@ -49,10 +61,16 @@ const getExistingTabState = (state: MainAreaState, existingTab: NonNullable<Retu
 const getActivePreviewEditorUid = (state: MainAreaState): number => {
   const { layout } = state
   const { activeGroupId, groups } = layout
-  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.focused) : groups.find((group) => group.id === activeGroupId)
+  const activeGroup = activeGroupId === -1 ? groups.find((group) => group.isFocused) : groups.find((group) => group.id === activeGroupId)
   const activeTab = activeGroup?.tabs.find((tab) => tab.id === activeGroup.activeTabId)
   return activeTab?.isPreview ? activeTab.editorUid : -1
 }
+
+const getTabOpenState = (state: MainAreaState, existingTab: ReturnType<typeof findTabByUri>, preview: boolean) => ({
+  previousTabId: getActiveTabId(state),
+  replacedEditorUid: existingTab ? -1 : getActivePreviewEditorUid(state),
+  stateForOpen: existingTab ? getExistingTabState(state, existingTab, preview) : state,
+})
 
 const shouldRetryExistingTab = (
   existingTab: ReturnType<typeof findTabByUri>,
@@ -63,39 +81,156 @@ const shouldRetryExistingTab = (
     return false
   }
   return (
+    (existingTab.tab.editorUid === -1 && [undefined, LoadingState.Idle, LoadingState.Loaded].includes(existingTab.tab.loadingState)) ||
     existingTab.tab.loadingState === LoadingState.Error ||
     (forceOpen && existingTab.tab.loadingState === LoadingState.Large) ||
     (editorInput.type === 'editor' && editorInput.forceText === true && existingTab.tab.editorInput?.type === 'binary')
   )
 }
 
+const applyReusedSelection = async (state: MainAreaState, tabId: number, args?: readonly unknown[]): Promise<void> => {
+  const destination = args?.[0]
+  if (!destination || typeof destination !== 'object') {
+    return
+  }
+  const { endColumnIndex, endRowIndex, startColumnIndex, startRowIndex } = destination as Record<string, unknown>
+  if (
+    typeof startRowIndex !== 'number' ||
+    typeof startColumnIndex !== 'number' ||
+    typeof endRowIndex !== 'number' ||
+    typeof endColumnIndex !== 'number'
+  ) {
+    return
+  }
+  const tab = findTabById(state, tabId)?.tab
+  if (!tab || tab.editorUid < 0 || tab.loadingState !== LoadingState.Loaded || tab.editorInput?.type !== 'editor') {
+    return
+  }
+  await ApplicationRpc.invoke(
+    state.applicationId,
+    'Viewlet.executeViewletCommand',
+    tab.editorUid,
+    'setSelections',
+    new Uint32Array([startRowIndex, startColumnIndex, endRowIndex, endColumnIndex]),
+  )
+}
+
+const getViewletArgs = (options: OpenInputOptions): readonly unknown[] | undefined => {
+  if (options.editorInput.type !== 'editor') {
+    return options.args
+  }
+  const [viewletContext, ...rest] = options.args || []
+  const context = viewletContext && typeof viewletContext === 'object' ? viewletContext : {}
+  return [
+    {
+      ...context,
+      deferLoadContentLater: true,
+      focus: options.focus,
+      ...(options.editorInput.type === 'editor' && options.editorInput.forceText === true && { forceText: true }),
+      ...(options.forceOpen === true && { largeFile: true }),
+    },
+    ...rest,
+  ]
+}
+
+const handleOpenError = async (
+  context: AsyncCommandContext<MainAreaState>,
+  tabId: number,
+  editorInput: OpenInputOptions['editorInput'],
+  uri: string,
+  error: unknown,
+): Promise<void> => {
+  const latestState = context.getState()
+  if (editorInput.type === 'editor' && error instanceof Error && error.name === 'BinaryFileError') {
+    const editorUid = findTabById(latestState, tabId)?.tab.editorUid ?? -1
+    const binaryState = updateTab(latestState, tabId, {
+      editorInput: { type: 'binary', uri },
+      editorUid: -1,
+      errorMessage: undefined,
+      loadingState: LoadingState.Binary,
+    })
+    await context.updateState(() => binaryState)
+    if (editorUid !== -1) {
+      await disposeEditors([editorUid])
+    }
+    return
+  }
+  const errorMessage = error instanceof Error ? error.message : 'Failed to open URI'
+  const errorState = updateTab(latestState, tabId, {
+    errorMessage,
+    loadingState: LoadingState.Error,
+  })
+  await context.updateState(() => errorState)
+}
+
+const findReusableTab = (state: MainAreaState, options: OpenInputOptions, uri: string): ReturnType<typeof findTabByUri> => {
+  return options.reuseExisting === false ? undefined : findTabByUri(state, uri)
+}
+
+const getStateWithIcon = (state: MainAreaState, tabId: number, uri: string, icon: string): MainAreaState => {
+  const stateWithIcon = updateTab(state, tabId, { icon })
+  return {
+    ...stateWithIcon,
+    fileIconCache: icon && !PathDisplay.getFileIcon(uri) ? { ...stateWithIcon.fileIconCache, [uri]: icon } : stateWithIcon.fileIconCache,
+  }
+}
+
+const disposePreviewEditor = async (editorUid: number): Promise<void> => {
+  if (editorUid !== -1) {
+    await disposeEditors([editorUid])
+  }
+}
+
+const isSupersededPreview = (state: MainAreaState, initialState: MainAreaState, requestId: number, preview: boolean): boolean => {
+  return preview && (state.openRequestId !== requestId || getActiveTabId(state) !== getActiveTabId(initialState))
+}
+
 export const openInputWithContext = async (context: AsyncCommandContext<MainAreaState>, options: OpenInputOptions): Promise<void> => {
-  const state = context.getState()
-  Assert.object(state)
+  Assert.object(context.getState())
   Assert.object(options)
+  const requestId = getNextRequestId()
+  await context.updateState((state) => ({ ...state, openRequestId: requestId }))
+  const state = context.getState()
 
   const { editorInput } = options
   const preview = options.preview ?? false
   const uri = getEditorInputUri(editorInput)
   const title = getEditorInputTitle(editorInput)
-  const currentState = state
-  const existingTab = options.reuseExisting === false ? undefined : findTabByUri(currentState, uri)
-  const shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
+  let currentState = state
+  let existingTab = findReusableTab(currentState, options, uri)
+  let shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
+  let icon = ''
+  let { iconThemeVersion } = state
+  if (!existingTab || shouldRetry) {
+    const {
+      icon: resolvedIcon,
+      state: { iconThemeVersion: resolvedIconThemeVersion },
+    } = await prepareTabIcon(context, uri)
+    icon = resolvedIcon
+    iconThemeVersion = resolvedIconThemeVersion
+    currentState = context.getState()
+    existingTab = findReusableTab(currentState, options, uri)
+    shouldRetry = shouldRetryExistingTab(existingTab, editorInput, options.forceOpen === true)
+  }
+  if (isSupersededPreview(currentState, state, requestId, preview)) {
+    return
+  }
+  if (currentState.iconThemeVersion !== iconThemeVersion) {
+    return openInputWithContext(context, options)
+  }
   if (existingTab && !shouldRetry) {
     const switchedState = getExistingTabState(currentState, existingTab, preview)
     await context.updateState(() => switchedState)
     await applyInitialCursorPosition(switchedState, existingTab.tab.id, options.initialCursorPosition)
+    await applyReusedSelection(context.getState(), existingTab.tab.id, options.args)
     await focusIfRequested(context.getState(), options.focus)
     return
   }
-  const replacedEditorUid = getActivePreviewEditorUid(currentState)
-  const previousTabId = getActiveTabId(currentState)
-  const { stateWithTab, tabId } = getStateWithTab(currentState, editorInput, existingTab, shouldRetry, uri, preview, title)
+  const { previousTabId, replacedEditorUid, stateForOpen } = getTabOpenState(currentState, existingTab, preview)
+  const { stateWithTab, tabId } = getStateWithTab(stateForOpen, editorInput, existingTab, shouldRetry, uri, preview, title)
 
-  await context.updateState(() => stateWithTab)
-  if (replacedEditorUid !== -1) {
-    await disposeEditors([replacedEditorUid])
-  }
+  await context.updateState(() => getStateWithIcon(stateWithTab, tabId, uri, icon))
+  await disposePreviewEditor(replacedEditorUid)
 
   if (await isDirectoryEditorInput(editorInput, state.applicationId)) {
     const latestState = context.getState()
@@ -117,7 +252,10 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     return
   }
 
-  const fileSize = await getLargeFileSize(editorInput, options.forceOpen === true, state.applicationId)
+  const [fileSize, viewletModuleId] = await Promise.all([
+    getLargeFileSize(editorInput, options.forceOpen === true, state.applicationId),
+    getViewletModuleIdForEditorInput(editorInput, state.applicationId),
+  ])
   if (fileSize !== undefined) {
     const latestState = context.getState()
     const largeFileState = updateTab(latestState, tabId, {
@@ -130,7 +268,6 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
   }
 
   try {
-    const viewletModuleId = await getViewletModuleIdForEditorInput(editorInput, state.applicationId)
     const stateAfterModuleId = context.getState()
 
     if (!viewletModuleId) {
@@ -147,7 +284,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     const stateWithViewlet = ViewletLifecycle.createViewletForTab(stateAfterModuleId, tabId, viewletModuleId, bounds)
     let intermediateState = stateWithViewlet
 
-    const { newState: switchedState } = ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId)
+    const { newState: switchedState } = await ViewletLifecycle.switchViewlet(intermediateState, previousTabId, tabId, false)
     intermediateState = switchedState
 
     await context.updateState(() => intermediateState)
@@ -162,14 +299,21 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       throw new Error('invalid editorUid')
     }
 
-    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, options.args, state.applicationId)
+    const args = getViewletArgs(options)
+    await createViewletContent(viewletModuleId, editorUid, tabId, bounds, uri, args, state.applicationId)
 
     const latestState = context.getState()
     let readyState = ViewletLifecycle.handleViewletReady(latestState, editorUid)
 
     await context.updateState(() => readyState)
-    await renderMainAreaPending(state.uid, state.applicationId)
-    await applyInitialCursorPosition(context.getState(), tabId, options.initialCursorPosition)
+    // Focus commits the selected editor before targeting its DOM. Reuse that
+    // commit when no cursor command needs the editor attached beforehand.
+    const renderWithFocus =
+      options.focus && RendererProcess.isConnected() && !options.initialCursorPosition && getActiveTabId(context.getState()) === tabId
+    if (!renderWithFocus) {
+      await renderMainAreaPending(state.uid, state.applicationId)
+      await applyInitialCursorPosition(context.getState(), tabId, options.initialCursorPosition)
+    }
     await focusIfRequested(context.getState(), options.focus)
 
     const renderedTitle = await getViewletTitle(editorUid)
@@ -177,19 +321,17 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
       readyState = ViewletLifecycle.handleViewletReady(context.getState(), editorUid, renderedTitle)
       await context.updateState(() => readyState)
     }
-
-    const stateWithIcon = await updateTabIcon(context, readyState, tabId)
-    if (stateWithIcon) {
-      return
-    }
+    // Earlier visibility commands can run before the final editor DOM is committed.
+    // Request a final scroll without changing the tab DOM or fetching its icon again.
+    await context.updateState((state) => ({
+      ...state,
+      activeTabVisibilityVersion: (state.activeTabVisibilityVersion ?? 0) + 1,
+    }))
+    // Creation renders a detached editor. Start optional providers only once
+    // the ready editor is attached and its selection and focus are restored.
+    void runLoadContentLater(editorUid)
   } catch (error) {
-    const latestState = context.getState()
-    const errorMessage = error instanceof Error ? error.message : 'Failed to open URI'
-    const errorState = updateTab(latestState, tabId, {
-      errorMessage,
-      loadingState: LoadingState.Error,
-    })
-    await context.updateState(() => errorState)
+    await handleOpenError(context, tabId, editorInput, uri, error)
   }
 }
 
@@ -206,6 +348,10 @@ export const openInput = async (state: MainAreaState, options: OpenInputOptions)
       return Promise.resolve(currentState)
     },
   }
-  await openInputWithContext(context, options)
-  return context.getState()
+  try {
+    await openInputWithContext(context, options)
+    return context.getState()
+  } finally {
+    await flushDeferredDisposals()
+  }
 }

@@ -5,20 +5,10 @@ import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.
 import { findTabInState } from '../FindTabInState/FindTabInState.ts'
 import { saveEditor } from '../SaveEditor/SaveEditor.ts'
 
-const confirm = async (message: string, options: Parameters<typeof RendererWorker.confirm>[1]): Promise<boolean> => {
-  try {
-    return await RendererWorker.confirm(message, options)
-  } catch (error) {
-    const errorMessage = String(error)
-    if (!errorMessage.includes('ConfirmPrompt.prompt') || !errorMessage.includes('not found')) {
-      throw error
-    }
-    return DialogWorker.invoke('ConfirmPrompt.prompt', message, options)
-  }
-}
+type SavePromptResult = 'cancel' | 'discard' | 'save'
 
-const promptSave = async (title: string): Promise<string> => {
-  const shouldSave = await confirm(`Do you want to save the changes you made to ${title}?`, {
+const promptLegacy = async (message: string, discardPrompt: string): Promise<SavePromptResult> => {
+  const shouldSave = await RendererWorker.confirm(message, {
     cancelMessage: 'More Options',
     confirmMessage: 'Save',
     title: 'Save Changes',
@@ -26,12 +16,47 @@ const promptSave = async (title: string): Promise<string> => {
   if (shouldSave) {
     return 'save'
   }
-  const shouldDiscard = await confirm(`Discard the changes you made to ${title}?`, {
+  const shouldDiscard = await RendererWorker.confirm(discardPrompt, {
     cancelMessage: 'Cancel',
     confirmMessage: "Don't Save",
     title: 'Save Changes',
   })
   return shouldDiscard ? 'discard' : 'cancel'
+}
+
+const promptSave = async (title: string): Promise<SavePromptResult> => {
+  const message = `Do you want to save the changes you made to ${title}?`
+  const discardPrompt = `Discard the changes you made to ${title}?`
+  const options = {
+    cancelMessage: 'Cancel',
+    confirmMessage: 'Save',
+    discardMessage: "Don't Save",
+    discardPrompt,
+    title: 'Save Changes',
+  }
+  try {
+    const result = await RendererWorker.invoke('ConfirmPrompt.prompt3', message, options)
+    if (['cancel', 'discard', 'save'].includes(result)) {
+      return result
+    }
+  } catch (error) {
+    const errorMessage = String(error)
+    if (!errorMessage.includes('ConfirmPrompt.prompt3') || !errorMessage.includes('not found')) {
+      throw error
+    }
+  }
+  try {
+    const result = await DialogWorker.invoke('ConfirmPrompt.prompt3', message, options)
+    if (['cancel', 'discard', 'save'].includes(result)) {
+      return result
+    }
+  } catch (error) {
+    const errorMessage = String(error)
+    if (!errorMessage.includes('ConfirmPrompt.prompt3') || !errorMessage.includes('not found')) {
+      throw error
+    }
+  }
+  return promptLegacy(message, discardPrompt)
 }
 
 export const canCloseTab = async (tab: Tab): Promise<boolean> => {

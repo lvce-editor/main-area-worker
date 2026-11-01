@@ -22,7 +22,7 @@ test('renderTab should return correct structure for clean tab', () => {
   expect(result).toEqual([
     {
       'aria-selected': false,
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -41,6 +41,12 @@ test('renderTab should return correct structure for clean tab', () => {
       type: VirtualDomElements.Div,
     },
     {
+      childCount: 0,
+      className: 'TabIcon',
+      role: 'none',
+      type: VirtualDomElements.Div,
+    },
+    {
       childCount: 1,
       className: 'TabTitle',
       type: VirtualDomElements.Span,
@@ -53,6 +59,7 @@ test('renderTab should return correct structure for clean tab', () => {
       'data-groupIndex': 0,
       'data-index': 0,
       onClick: DomEventListenerFunctions.HandleClickClose,
+      onMouseDown: DomEventListenerFunctions.HandleCloseButtonMouseDown,
       type: VirtualDomElements.Button,
     },
     {
@@ -63,7 +70,7 @@ test('renderTab should return correct structure for clean tab', () => {
   ])
 })
 
-test('renderTab should not render an empty file icon', () => {
+test('renderTab should reserve the file icon slot before the icon is loaded', () => {
   const tab: Tab = {
     editorUid: -1,
     errorMessage: '',
@@ -79,7 +86,13 @@ test('renderTab should not render an empty file icon', () => {
 
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[0].childCount).toBe(2)
+  expect(result[0].childCount).toBe(3)
+  expect(result[1]).toEqual({
+    childCount: 0,
+    className: 'TabIcon',
+    role: 'none',
+    type: VirtualDomElements.Div,
+  })
   expect(result.some((node) => node.className === 'TabIcon' && node.type === VirtualDomElements.Img)).toBe(false)
 })
 
@@ -144,6 +157,59 @@ test('renderTab should use the extensions mask icon for running extensions', () 
   })
 })
 
+test('renderTab should use the debug mask icon for Process Explorer tabs without a tab icon', () => {
+  const tab: Tab = {
+    editorUid: -1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'Process Explorer',
+    uri: 'process-explorer://main',
+  }
+
+  const result = renderTab(tab, true, 0, 0)
+
+  expect(result[0].childCount).toBe(3)
+  expect(result[1]).toEqual({
+    childCount: 1,
+    className: 'TabIcon',
+    role: 'none',
+    type: VirtualDomElements.Div,
+  })
+  expect(result[2]).toEqual({
+    childCount: 0,
+    className: 'MaskIcon MaskIconDebugAlt2',
+    type: VirtualDomElements.Div,
+  })
+})
+
+test('renderTab should use the debug mask icon for Workers tabs', () => {
+  const tab: Tab = {
+    editorUid: -1,
+    icon: 'MaskIconDebugAlt2',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    title: 'Workers',
+    uri: 'workers:///1',
+  }
+
+  const result = renderTab(tab, true, 0, 0)
+
+  expect(result[1]).toEqual({
+    childCount: 1,
+    className: 'TabIcon',
+    role: 'none',
+    type: VirtualDomElements.Div,
+  })
+  expect(result[2]).toEqual({
+    childCount: 0,
+    className: 'MaskIcon MaskIconDebugAlt2',
+    type: VirtualDomElements.Div,
+  })
+})
+
 test('renderTab should use the search mask icon for search editors', () => {
   const tab: Tab = {
     editorUid: -1,
@@ -188,7 +254,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
   expect(result).toEqual([
     {
       'aria-selected': false,
-      childCount: 2,
+      childCount: 3,
       className: 'MainTab MainTabModified',
       'data-groupIndex': 0,
       'data-index': 0,
@@ -207,6 +273,12 @@ test('renderTab should show dirty indicator for dirty tab', () => {
       type: VirtualDomElements.Div,
     },
     {
+      childCount: 0,
+      className: 'TabIcon',
+      role: 'none',
+      type: VirtualDomElements.Div,
+    },
+    {
       childCount: 1,
       className: 'TabTitle',
       type: VirtualDomElements.Span,
@@ -219,6 +291,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
       'data-groupIndex': 0,
       'data-index': 0,
       onClick: DomEventListenerFunctions.HandleClickClose,
+      onMouseDown: DomEventListenerFunctions.HandleCloseButtonMouseDown,
       type: VirtualDomElements.Button,
     },
     {
@@ -244,7 +317,7 @@ test('renderTab should handle empty title', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[2].text).toBe('')
+  expect(result[3].text).toBe('')
 })
 
 test('renderTab should put the active tab in the keyboard tab sequence', () => {
@@ -274,8 +347,8 @@ test('renderTab should handle dirty tab with empty title', () => {
   }
   const result = renderTab(tab, false, 0, 0)
 
-  expect(result[2].text).toBe('')
-  expect(result[4].className).toBe('MaskIcon MaskIconCircleFilled')
+  expect(result[3].text).toBe('')
+  expect(result[5].className).toBe('MaskIcon MaskIconCircleFilled')
 })
 
 test('renderTab should use title as fallback when path is undefined', () => {
@@ -306,7 +379,7 @@ test('renderTab should prefer uriTitle for the tab tooltip', () => {
   const result = renderTab(tab, false, 0, 0)
 
   expect(result[0].title).toBe('~/file.md')
-  expect(result[2].text).toBe('file.md')
+  expect(result[3].text).toBe('file.md')
 })
 
 test('renderTab should add preview class for preview tabs', () => {

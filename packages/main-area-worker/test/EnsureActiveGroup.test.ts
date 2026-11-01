@@ -13,9 +13,9 @@ test('ensureActiveGroup should add tab to existing active group', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -58,9 +58,9 @@ test('ensureActiveGroup should create new group when no active group exists', ()
       {
         activeTabId: tabId,
         direction: 1,
-        focused: true,
         id: groupId,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -83,7 +83,7 @@ test('ensureActiveGroup should create new group when no active group exists', ()
   expect(editorUid).toBeGreaterThan(0)
 })
 
-test('ensureActiveGroup should use focused group when activeGroupId is -1', () => {
+test('ensureActiveGroup should use isFocused group when activeGroupId is -1', () => {
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -93,18 +93,18 @@ test('ensureActiveGroup should use focused group when activeGroupId is -1', () =
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 50,
           tabs: [],
         },
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 2,
           isEmpty: true,
+          isFocused: true,
           size: 50,
           tabs: [],
         },
@@ -133,9 +133,9 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -168,9 +168,9 @@ test('ensureActiveGroup should preserve existing tabs when adding new tab', () =
       {
         activeTabId: tabId,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -216,9 +216,9 @@ test('ensureActiveGroup should replace the active preview tab', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -263,9 +263,9 @@ test('ensureActiveGroup should keep pinned tabs when opening a preview', () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -299,9 +299,9 @@ test('ensureActiveGroup replaces a text preview with an image input without chan
   const otherGroup = {
     ...activeGroup,
     activeTabId: -1,
-    focused: false,
     id: activeGroup.id + 1,
     isEmpty: true,
+    isFocused: false,
     tabs: [],
   }
   const state = {

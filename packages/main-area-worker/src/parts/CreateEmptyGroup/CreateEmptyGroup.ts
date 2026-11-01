@@ -37,9 +37,9 @@ export const createEmptyGroup = (
   const newGroup: EditorGroup = {
     activeTabId: newTab.id,
     direction,
-    focused: true,
     id: groupId,
     isEmpty: false,
+    isFocused: true,
     size: 100,
     tabs: [newTab],
   }

@@ -16,9 +16,9 @@ const createTab = (id: number): Tab => ({
 const createGroup = (id: number, size: number, tabs: readonly Tab[]): EditorGroup => ({
   activeTabId: tabs[0]?.id ?? -1,
   direction: 1,
-  focused: id === 1,
   id,
   isEmpty: tabs.length === 0,
+  isFocused: id === 1,
   size,
   tabs,
 })

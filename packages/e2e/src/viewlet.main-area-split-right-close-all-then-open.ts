@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-split-right-close-all-then-open'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/split-close-open-1.ts`
   const file2 = `${tmpDir}/split-close-open-2.ts`
 

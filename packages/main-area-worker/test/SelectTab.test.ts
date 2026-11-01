@@ -16,9 +16,9 @@ test('selectTab should update active group and tab with valid indexes', async ()
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -42,9 +42,9 @@ test('selectTab should update active group and tab with valid indexes', async ()
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -72,9 +72,9 @@ test('selectTab should update active group and tab with valid indexes', async ()
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -98,9 +98,9 @@ test('selectTab should update active group and tab with valid indexes', async ()
       {
         activeTabId: 3,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -131,9 +131,9 @@ test('selectTab should switch to different group', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -157,9 +157,9 @@ test('selectTab should switch to different group', async () => {
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -187,9 +187,9 @@ test('selectTab should switch to different group', async () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -213,9 +213,9 @@ test('selectTab should switch to different group', async () => {
       {
         activeTabId: 3,
         direction: 1,
-        focused: true,
         id: 2,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -234,6 +234,66 @@ test('selectTab should switch to different group', async () => {
   expect(result.layout).toEqual(expectedLayout)
 })
 
+test('selectTab switches before the outgoing editor finishes blurring', async () => {
+  const { promise: blurPromise, resolve: resolveBlur } = Promise.withResolvers<void>()
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.executeViewletCommand': () => blurPromise,
+    'Viewlet.focusSelector'() {},
+  })
+  const state: MainAreaState = {
+    ...createDefaultState(),
+    layout: {
+      activeGroupId: 1,
+      direction: 1,
+      groups: [
+        {
+          activeTabId: 1,
+          direction: 1,
+          id: 1,
+          isEmpty: false,
+          isFocused: true,
+          size: 100,
+          tabs: [
+            {
+              editorInput: { type: 'editor', uri: '/file1.txt' },
+              editorUid: 42,
+              icon: '',
+              id: 1,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 3,
+              title: 'file1.txt',
+              uri: '/file1.txt',
+            },
+            {
+              editorInput: { type: 'editor', uri: '/file2.txt' },
+              editorUid: 43,
+              icon: '',
+              id: 2,
+              isDirty: false,
+              isPreview: false,
+              loadingState: 3,
+              title: 'file2.txt',
+              uri: '/file2.txt',
+            },
+          ],
+        },
+      ],
+    },
+  }
+  try {
+    const select = async (): Promise<'selected'> => {
+      await selectTab(state, 0, 1)
+      return 'selected'
+    }
+    const result = await Promise.race([select(), new Promise<'waiting-for-blur'>((resolve) => setTimeout(resolve, 50, 'waiting-for-blur'))])
+    expect(result).toBe('selected')
+    expect(mockRpc.invocations).toContainEqual(['Viewlet.executeViewletCommand', 42, 'handleBlur'])
+  } finally {
+    resolveBlur()
+  }
+})
+
 test('selectTab should return original state for invalid group index', async () => {
   const state: MainAreaState = {
     ...createDefaultState(),
@@ -244,9 +304,9 @@ test('selectTab should return original state for invalid group index', async () 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -270,9 +330,9 @@ test('selectTab should return original state for invalid group index', async () 
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -304,9 +364,9 @@ test('selectTab should return original state for negative group index', async ()
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -330,9 +390,9 @@ test('selectTab should return original state for negative group index', async ()
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -364,9 +424,9 @@ test('selectTab should return original state for invalid tab index', async () =>
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -390,9 +450,9 @@ test('selectTab should return original state for invalid tab index', async () =>
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -424,9 +484,9 @@ test('selectTab should return original state for negative tab index', async () =
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -450,9 +510,9 @@ test('selectTab should return original state for negative tab index', async () =
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -484,9 +544,9 @@ test('selectTab should handle single group with single tab', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -512,9 +572,9 @@ test('selectTab should handle single group with single tab', async () => {
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -559,9 +619,9 @@ test('selectTab should handle group with empty tabs array', async () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },
@@ -586,9 +646,9 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 33,
           tabs: [
             {
@@ -604,9 +664,9 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 3,
           isEmpty: false,
+          isFocused: false,
           size: 33,
           tabs: [
             {
@@ -622,9 +682,9 @@ test('selectTab should preserve other groups state when switching focus', async 
         {
           activeTabId: 4,
           direction: 1,
-          focused: false,
           id: 4,
           isEmpty: false,
+          isFocused: false,
           size: 34,
           tabs: [
             {
@@ -652,9 +712,9 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 33,
         tabs: [
           {
@@ -670,9 +730,9 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 3,
         direction: 1,
-        focused: false,
         id: 3,
         isEmpty: false,
+        isFocused: false,
         size: 33,
         tabs: [
           {
@@ -688,9 +748,9 @@ test('selectTab should preserve other groups state when switching focus', async 
       {
         activeTabId: 4,
         direction: 1,
-        focused: true,
         id: 4,
         isEmpty: false,
+        isFocused: true,
         size: 34,
         tabs: [
           {
@@ -721,9 +781,9 @@ test('selectTab should handle custom editor tabs', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -759,9 +819,9 @@ test('selectTab should handle custom editor tabs', async () => {
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -805,9 +865,9 @@ test('selectTab should normalize stale extension detail tabs before switching', 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -855,6 +915,7 @@ test('selectTab should normalize stale extension detail tabs before switching', 
 test('selectTab should recreate restored process explorer tabs without loading them as files', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.executeViewletCommand'() {},
   })
 
   const state: MainAreaState = {
@@ -866,9 +927,9 @@ test('selectTab should recreate restored process explorer tabs without loading t
         {
           activeTabId: 2,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -909,6 +970,7 @@ test('selectTab should recreate restored process explorer tabs without loading t
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(processExplorerTab.editorUid).not.toBe(-1)
   expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toEqual([
+    ['Viewlet.executeViewletCommand', 42, 'handleBlur'],
     ['Layout.createViewlet', 'ProcessExplorer', processExplorerTab.editorUid, 1, { height: -35, width: 0, x: 0, y: 35 }, 'process-explorer://'],
   ])
 })
@@ -929,9 +991,9 @@ test('selectTab should handle tabs with paths and languages', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -975,9 +1037,9 @@ test('selectTab should handle tabs with paths and languages', async () => {
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -1020,9 +1082,9 @@ test('selectTab should handle vertical layout direction', async () => {
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -1038,9 +1100,9 @@ test('selectTab should handle vertical layout direction', async () => {
         {
           activeTabId: 2,
           direction: 2,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -1066,9 +1128,9 @@ test('selectTab should handle vertical layout direction', async () => {
       {
         activeTabId: 1,
         direction: 2,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -1084,9 +1146,9 @@ test('selectTab should handle vertical layout direction', async () => {
       {
         activeTabId: 2,
         direction: 2,
-        focused: true,
         id: 2,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1115,9 +1177,9 @@ test('selectTab should return same state when clicking same tab that is already 
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -1141,9 +1203,9 @@ test('selectTab should return same state when clicking same tab that is already 
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -1169,9 +1231,9 @@ test('selectTab should return same state when clicking same tab that is already 
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1195,9 +1257,9 @@ test('selectTab should return same state when clicking same tab that is already 
       {
         activeTabId: 3,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -1233,9 +1295,9 @@ test('selectTab should recover already active restored tab when editorUid is mis
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -1277,9 +1339,9 @@ test('selectTab should return new state when clicking different tab in same grou
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -1303,9 +1365,9 @@ test('selectTab should return new state when clicking different tab in same grou
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -1331,9 +1393,9 @@ test('selectTab should return new state when clicking different tab in same grou
       {
         activeTabId: 2,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1357,9 +1419,9 @@ test('selectTab should return new state when clicking different tab in same grou
       {
         activeTabId: 3,
         direction: 1,
-        focused: false,
         id: 2,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -1389,9 +1451,9 @@ test('selectTab should return new state when clicking same tab index in differen
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -1415,9 +1477,9 @@ test('selectTab should return new state when clicking same tab index in differen
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -1443,9 +1505,9 @@ test('selectTab should return new state when clicking same tab index in differen
       {
         activeTabId: 1,
         direction: 1,
-        focused: false,
         id: 1,
         isEmpty: false,
+        isFocused: false,
         size: 50,
         tabs: [
           {
@@ -1469,9 +1531,9 @@ test('selectTab should return new state when clicking same tab index in differen
       {
         activeTabId: 3,
         direction: 1,
-        focused: true,
         id: 2,
         isEmpty: false,
+        isFocused: true,
         size: 50,
         tabs: [
           {
@@ -1501,9 +1563,9 @@ test('selectTab should return same state when activeGroupId is -1', async () => 
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 100,
           tabs: [
             {
@@ -1529,9 +1591,9 @@ test('selectTab should return same state when activeGroupId is -1', async () => 
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {
@@ -1566,9 +1628,9 @@ test('selectTab should not trigger loading when tab is already loading', async (
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -1605,7 +1667,10 @@ test('selectTab should not trigger loading when tab is already loading', async (
   expect(result.layout.groups[0].tabs[1].loadingState).toBe(3)
 })
 
-test('selectTab should not trigger loading when tab is already loaded with content', async () => {
+test('selectTab focuses a loaded tab without reloading its content', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Viewlet.focusSelector'() {},
+  })
   const state: MainAreaState = {
     ...createDefaultState(),
     layout: {
@@ -1615,9 +1680,9 @@ test('selectTab should not trigger loading when tab is already loaded with conte
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -1648,6 +1713,7 @@ test('selectTab should not trigger loading when tab is already loaded with conte
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].tabs[1].loadingState).toBe(3)
+  expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
 })
 
 test('selectTab should recover restored tab when loadingState is loaded but editorUid is missing', async () => {
@@ -1666,9 +1732,9 @@ test('selectTab should recover restored tab when loadingState is loaded but edit
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {

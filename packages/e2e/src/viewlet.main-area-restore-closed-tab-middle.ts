@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-restore-closed-tab-middle'
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file1 = `${tmpDir}/restore-middle-1.ts`
   const file2 = `${tmpDir}/restore-middle-2.ts`
   const file3 = `${tmpDir}/restore-middle-3.ts`

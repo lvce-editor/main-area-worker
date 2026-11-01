@@ -70,5 +70,5 @@ await cp(
   packagePath('drag-and-drop-worker', 'dist', 'dragAndDropWorkerMain.js'),
 )
 
-const testWorkerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/test-worker/package.json'))
-await cp(join(dirname(testWorkerPackagePath), 'dist', 'testWorkerMain.js'), packagePath('test-worker', 'dist', 'testWorkerMain.js'))
+const testWorkerMainPath = fileURLToPath(import.meta.resolve('@lvce-editor/test-worker'))
+await cp(testWorkerMainPath, packagePath('test-worker', 'dist', 'testWorkerMain.js'))

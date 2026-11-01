@@ -10,9 +10,9 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 1,
     isEmpty: true,
+    isFocused: false,
     size: 100,
     tabs: [],
   }
@@ -25,6 +25,7 @@ test('renderEmptyEditorGroup should return empty group and close button', () => 
       className: `${ClassNames.EditorGroupEmpty} EditorGroup-1`,
       'data-groupId': '1',
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+      onFocus: DomEventListenerFunctions.HandleFocus,
       tabIndex: 0,
       type: VirtualDomElements.Div,
     },
@@ -66,9 +67,9 @@ test('renderEmptyEditorGroup should expose a unique group class for CSS targetin
   const group: EditorGroup = {
     activeTabId: -1,
     direction: 1,
-    focused: false,
     id: 2,
     isEmpty: true,
+    isFocused: false,
     size: 50,
     tabs: [],
   }
@@ -80,6 +81,7 @@ test('renderEmptyEditorGroup should expose a unique group class for CSS targetin
     className: `${ClassNames.EditorGroupEmpty} EditorGroup-2`,
     'data-groupId': '2',
     onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+    onFocus: DomEventListenerFunctions.HandleFocus,
     tabIndex: 0,
     type: VirtualDomElements.Div,
   })

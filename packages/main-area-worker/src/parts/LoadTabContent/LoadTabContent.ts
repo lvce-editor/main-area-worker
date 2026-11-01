@@ -33,6 +33,10 @@ const getLoadFileErrorMessage = (error: unknown): string => {
   return error.message
 }
 
+const isBinaryFileError = (error: unknown): boolean => {
+  return error instanceof Error && error.name === 'BinaryFileError'
+}
+
 export const loadTabContentAsync = async (
   tabId: number,
   path: string,
@@ -78,6 +82,13 @@ export const loadTabContentAsync = async (
       return latestState
     }
 
+    if (isBinaryFileError(error)) {
+      return updateTab(latestState, tabId, {
+        editorInput: { type: 'binary', uri: path },
+        errorMessage: undefined,
+        loadingState: LoadingState.Binary,
+      })
+    }
     const errorMessage = getLoadFileErrorMessage(error)
     return updateTab(latestState, tabId, {
       errorMessage,

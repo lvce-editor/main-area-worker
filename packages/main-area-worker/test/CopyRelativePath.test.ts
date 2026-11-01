@@ -96,9 +96,9 @@ test('copyRelativePath should return the same state', async () => {
         {
           activeTabId: 5,
           direction: 2,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 200,
           tabs: [],
         },

@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-close-all-after-reopen'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file = `${tmpDir}/close-all-reopen.ts`
 
   await FileSystem.writeFile(file, 'export const value = 1')

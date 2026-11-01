@@ -1,4 +1,5 @@
 import { expect, test } from '@jest/globals'
+import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { ClosedTabEntry, MainAreaState, Tab } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
@@ -19,9 +20,9 @@ const tab: Tab = {
 const group = {
   activeTabId: 1,
   direction: 1 as const,
-  focused: true,
   id: 1,
   isEmpty: false,
+  isFocused: true,
   size: 100,
   tabs: [tab],
 }
@@ -40,7 +41,7 @@ test('restoreClosedTab returns unchanged state when cache storage is empty', asy
   const state = createDefaultState()
 
   await expect(restoreClosedTab(state)).resolves.toBe(state)
-  expect(mockRpc.invocations).toEqual([['getJson', expect.stringContaining('/closed-tabs/')]])
+  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['Cache.getCacheStorageItem', 'Cache.removeCacheStorageItem'])
 })
 
 test('restoreClosedTab focuses an already open tab returned from cache storage', async () => {
@@ -59,9 +60,52 @@ test('restoreClosedTab focuses an already open tab returned from cache storage',
 
   const result = await restoreClosedTab(state)
 
-  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['getJson', 'setJson'])
+  expect(mockRpc.invocations.map(([command]) => command)).toEqual(['Cache.getCacheStorageItem', 'Cache.removeCacheStorageItem'])
   expect(result.layout.activeGroupId).toBe(1)
   expect(result.layout.groups[0].activeTabId).toBe(1)
+})
+
+test('restoreClosedTab recreates an active process explorer viewlet', async () => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+  })
+  const processExplorerTab: Tab = {
+    editorInput: {
+      type: 'process-explorer',
+    },
+    editorUid: 1,
+    icon: '',
+    id: 1,
+    isDirty: false,
+    isPreview: false,
+    loadingState: 3,
+    title: 'Process Explorer',
+    uri: 'process-explorer://',
+  }
+  const processExplorerGroup = {
+    ...group,
+    tabs: [processExplorerTab],
+  }
+  const entry: ClosedTabEntry = {
+    group: processExplorerGroup,
+    groupIndex: 0,
+    tab: processExplorerTab,
+    tabIndex: 0,
+  }
+  using _mockCacheStorage = mockCacheStorage({
+    getJson: () => [entry],
+    setJson: () => undefined,
+  })
+  const state = createDefaultState()
+
+  const result = await restoreClosedTab(state)
+
+  const restoredTab = result.layout.groups[0].tabs[0]
+  expect(restoredTab.editorUid).not.toBe(-1)
+  expect(mockRpc.invocations).toEqual([
+    ['Layout.createViewlet', 'ProcessExplorer', restoredTab.editorUid, 1, { height: -35, width: 0, x: 0, y: 35 }, 'process-explorer://'],
+    ['Viewlet.getTitle', restoredTab.editorUid],
+  ])
 })
 
 test('restoreClosedTab preserves the rendered state for the next diff', async () => {

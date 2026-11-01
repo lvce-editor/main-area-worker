@@ -11,7 +11,7 @@ export const test: Test = async ({ Dialog, expect, Explorer, FileSystem, Locator
     { content: 'export const deletedFile = true', uri: deletedFile },
     { content: 'export const remainingFile = true', uri: remainingFile },
   ])
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Explorer.refresh()
 
   const deletedExplorerItem = Locator('[role="treeitem"][title$="a-delete-me.ts"]')

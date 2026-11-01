@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-split-right-preserves-open-tab'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file = `${tmpDir}/split-right-preserves.ts`
 
   await FileSystem.writeFile(file, 'export const preserved = true')

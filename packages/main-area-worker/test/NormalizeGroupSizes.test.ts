@@ -7,18 +7,18 @@ test('normalizeGroupSizes should normalize sizes to percentages', () => {
     {
       activeTabId: -1,
       direction: 1,
-      focused: true,
       id: 1,
       isEmpty: true,
+      isFocused: true,
       size: 30,
       tabs: [],
     },
     {
       activeTabId: -1,
       direction: 1,
-      focused: false,
       id: 2,
       isEmpty: true,
+      isFocused: false,
       size: 70,
       tabs: [],
     },
@@ -33,18 +33,18 @@ test('normalizeGroupSizes should normalize when total is not 100', () => {
     {
       activeTabId: -1,
       direction: 1,
-      focused: true,
       id: 1,
       isEmpty: true,
+      isFocused: true,
       size: 20,
       tabs: [],
     },
     {
       activeTabId: -1,
       direction: 1,
-      focused: false,
       id: 2,
       isEmpty: true,
+      isFocused: false,
       size: 30,
       tabs: [],
     },
@@ -59,27 +59,27 @@ test('normalizeGroupSizes should handle zero total by distributing equally', () 
     {
       activeTabId: -1,
       direction: 1,
-      focused: true,
       id: 1,
       isEmpty: true,
+      isFocused: true,
       size: 0,
       tabs: [],
     },
     {
       activeTabId: -1,
       direction: 1,
-      focused: false,
       id: 2,
       isEmpty: true,
+      isFocused: false,
       size: 0,
       tabs: [],
     },
     {
       activeTabId: -1,
       direction: 1,
-      focused: false,
       id: 3,
       isEmpty: true,
+      isFocused: false,
       size: 0,
       tabs: [],
     },
@@ -98,9 +98,9 @@ test('normalizeGroupSizes should preserve other group properties', () => {
     {
       activeTabId: 1,
       direction: 1,
-      focused: true,
       id: 1,
       isEmpty: false,
+      isFocused: true,
       size: 50,
       tabs: [
         {
@@ -116,18 +116,18 @@ test('normalizeGroupSizes should preserve other group properties', () => {
     {
       activeTabId: -1,
       direction: 1,
-      focused: false,
       id: 2,
       isEmpty: true,
+      isFocused: false,
       size: 50,
       tabs: [],
     },
   ]
   const result = normalizeGroupSizes(groups)
   expect(result[0].id).toBe(1)
-  expect(result[0].focused).toBe(true)
+  expect(result[0].isFocused).toBe(true)
   expect(result[0].activeTabId).toBe(1)
   expect(result[0].tabs).toHaveLength(1)
   expect(result[1].id).toBe(2)
-  expect(result[1].focused).toBe(false)
+  expect(result[1].isFocused).toBe(false)
 })

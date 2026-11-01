@@ -13,9 +13,9 @@ const createState = (editorUid: number, loadingState: 3 | 2 = 3): MainAreaState 
       {
         activeTabId: 1,
         direction: 1,
-        focused: true,
         id: 1,
         isEmpty: false,
+        isFocused: true,
         size: 100,
         tabs: [
           {

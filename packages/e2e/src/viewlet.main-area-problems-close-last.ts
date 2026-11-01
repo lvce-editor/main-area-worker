@@ -10,7 +10,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main, Panel, Wor
   const tmpDir = await FileSystem.getTmpDir()
   const fileUri = `${tmpDir}/file.txt`
   await FileSystem.writeFile(fileUri, 'content')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(fileUri)
   await Panel.open('Problems')
 

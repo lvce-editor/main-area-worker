@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-file-with-spaces'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file = `${tmpDir}/file with spaces.ts`
 
   await FileSystem.writeFile(file, 'export const spaced = true')

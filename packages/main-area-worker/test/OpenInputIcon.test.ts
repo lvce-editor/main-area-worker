@@ -77,7 +77,7 @@ test('failed icon resolution still opens a usable tab with a stable icon slot', 
   const { context } = createContext()
   await openInputWithContext(context, options('a'))
   const tab = context.getState().layout.groups[0].tabs[0]
-  expect(tab).toMatchObject({ loadingState: 'binary', title: 'a.py' })
+  expect(tab).toMatchObject({ loadingState: 4, title: 'a.py' })
   expect(renderTab(tab, true, 0, 0)[1]).toMatchObject({ childCount: 0, className: 'TabIcon' })
 })
 

@@ -26,7 +26,7 @@ test('opens a large file without persisting the size-check bypass', async () => 
       type: 'editor',
       uri: 'file:///large.txt',
     },
-    loadingState: 'loaded',
+    loadingState: 3,
   })
   expect(mockRpc.invocations.filter(([command]) => command === 'FileSystem.getFileSize')).toHaveLength(1)
 })

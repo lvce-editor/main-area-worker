@@ -12,7 +12,7 @@ const createTab = (id: number, editorInput: EditorInput, uri: string, editorUid 
   id,
   isDirty: false,
   isPreview: false,
-  loadingState: 'loaded',
+  loadingState: 3,
   title: uri,
   uri,
 })

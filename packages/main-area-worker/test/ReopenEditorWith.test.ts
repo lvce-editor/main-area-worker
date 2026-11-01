@@ -30,7 +30,7 @@ const createState = (): MainAreaState => ({
             id: 7,
             isDirty: false,
             isPreview: false,
-            loadingState: 'loaded',
+            loadingState: 3,
             title: 'image.png',
             uri: 'file:///workspace/image.png',
           },
@@ -148,7 +148,7 @@ test('reopenEditorWith reopens an image preview as a text editor in the same tab
     icon: 'image-icon',
     id: 7,
     isPreview: false,
-    loadingState: 'loaded',
+    loadingState: 3,
     title: 'image.png',
     uri: 'file:///workspace/image.png',
   })
@@ -339,6 +339,6 @@ test('reopenEditorWith does not dispose an editor that has no viewlet', async ()
 
   await reopenEditorWith(context)
 
-  expect(getState().layout.groups[0].tabs[0].loadingState).toBe('loaded')
+  expect(getState().layout.groups[0].tabs[0].loadingState).toBe(3)
   expect(mockRpc.invocations.some(([command]) => command === 'Viewlet.dispose')).toBe(false)
 })

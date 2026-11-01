@@ -29,7 +29,7 @@ const createState = (): MainAreaState => ({
             id: 1,
             isDirty: false,
             isPreview: false,
-            loadingState: 'error',
+            loadingState: 5,
             title: 'old.ts',
             uri: 'file:///home/test/old.ts',
           },
@@ -55,7 +55,7 @@ test('getStateWithTab resets and focuses a failed existing tab', () => {
   expect(result.tabId).toBe(1)
   expect(result.stateWithTab.layout.groups[0].tabs[0]).toMatchObject({
     errorMessage: '',
-    loadingState: 'loading',
+    loadingState: 2,
     uriTitle: '~/old.ts',
   })
 })

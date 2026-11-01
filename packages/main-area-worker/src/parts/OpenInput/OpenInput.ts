@@ -20,6 +20,7 @@ import { getNextRequestId } from '../GetNextRequestId/GetNextRequestId.ts'
 import { getStateWithTab } from '../GetStateWithTab/GetStateWithTab.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { isDirectoryEditorInput } from '../IsDirectoryEditorInput/IsDirectoryEditorInput.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { prepareTabIcon } from '../PrepareTabIcon/PrepareTabIcon.ts'
@@ -80,9 +81,9 @@ const shouldRetryExistingTab = (
     return false
   }
   return (
-    (existingTab.tab.editorUid === -1 && [undefined, 'idle', 'loaded'].includes(existingTab.tab.loadingState)) ||
-    existingTab.tab.loadingState === 'error' ||
-    (forceOpen && existingTab.tab.loadingState === 'large') ||
+    (existingTab.tab.editorUid === -1 && [undefined, LoadingState.Idle, LoadingState.Loaded].includes(existingTab.tab.loadingState)) ||
+    existingTab.tab.loadingState === LoadingState.Error ||
+    (forceOpen && existingTab.tab.loadingState === LoadingState.Large) ||
     (editorInput.type === 'editor' && editorInput.forceText === true && existingTab.tab.editorInput?.type === 'binary')
   )
 }
@@ -102,7 +103,7 @@ const applyReusedSelection = async (state: MainAreaState, tabId: number, args?: 
     return
   }
   const tab = findTabById(state, tabId)?.tab
-  if (!tab || tab.editorUid < 0 || tab.loadingState !== 'loaded' || tab.editorInput?.type !== 'editor') {
+  if (!tab || tab.editorUid < 0 || tab.loadingState !== LoadingState.Loaded || tab.editorInput?.type !== 'editor') {
     return
   }
   await ApplicationRpc.invoke(
@@ -146,7 +147,7 @@ const handleOpenError = async (
       editorInput: { type: 'binary', uri },
       editorUid: -1,
       errorMessage: undefined,
-      loadingState: 'binary',
+      loadingState: LoadingState.Binary,
     })
     await context.updateState(() => binaryState)
     if (editorUid !== -1) {
@@ -157,7 +158,7 @@ const handleOpenError = async (
   const errorMessage = error instanceof Error ? error.message : 'Failed to open URI'
   const errorState = updateTab(latestState, tabId, {
     errorMessage,
-    loadingState: 'error',
+    loadingState: LoadingState.Error,
   })
   await context.updateState(() => errorState)
 }
@@ -235,7 +236,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     const latestState = context.getState()
     const errorState = updateTab(latestState, tabId, {
       errorMessage: 'Expected a file but received a folder',
-      loadingState: 'error',
+      loadingState: LoadingState.Error,
     })
     await context.updateState(() => errorState)
     return
@@ -245,7 +246,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     const latestState = context.getState()
     const binaryState = updateTab(latestState, tabId, {
       editorUid: -1,
-      loadingState: 'binary',
+      loadingState: LoadingState.Binary,
     })
     await context.updateState(() => binaryState)
     return
@@ -260,7 +261,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     const largeFileState = updateTab(latestState, tabId, {
       editorUid: -1,
       fileSize,
-      loadingState: 'large',
+      loadingState: LoadingState.Large,
     })
     await context.updateState(() => largeFileState)
     return
@@ -272,7 +273,7 @@ export const openInputWithContext = async (context: AsyncCommandContext<MainArea
     if (!viewletModuleId) {
       const unsupportedState = updateTab(stateAfterModuleId, tabId, {
         errorMessage: 'Could not determine editor type for this URI',
-        loadingState: 'error',
+        loadingState: LoadingState.Error,
       })
       await context.updateState(() => unsupportedState)
       return

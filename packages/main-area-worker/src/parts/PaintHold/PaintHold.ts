@@ -1,6 +1,7 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as ApplicationRpc from '../ApplicationRpc/ApplicationRpc.ts'
 import { flushDeferredDisposals } from '../DisposeEditors/DisposeEditors.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { registry } from '../MainAreaRegistry/MainAreaRegistry.ts'
 import { notifyMountedViewlets } from '../NotifyMountedViewlets/NotifyMountedViewlets.ts'
 
@@ -38,13 +39,13 @@ export const updatePresentation = (oldState: MainAreaState, state: MainAreaState
     const previous = oldState.layout.groups.find((item) => item.id === group.id)
     const active = group.tabs.find((tab) => tab.id === group.activeTabId)
     let paintHold = group.paintHold && timers.has(group.paintHold.token) ? group.paintHold : undefined
-    if (active?.loadingState !== 'loading') {
+    if (active?.loadingState !== LoadingState.Loading) {
       paintHold = undefined
     } else if (!paintHold && previous && previous.activeTabId !== group.activeTabId) {
       const outgoing = previous.paintHold?.tab ?? previous.tabs.find((tab) => tab.id === previous.activeTabId)
       if (previous.paintHold && timers.has(previous.paintHold.token)) {
         ;({ paintHold } = previous)
-      } else if (outgoing?.loadingState === 'loaded' && outgoing.editorUid >= 0) {
+      } else if (outgoing?.loadingState === LoadingState.Loaded && outgoing.editorUid >= 0) {
         paintHold = { tab: outgoing, token: {} }
         const { token } = paintHold
         const timer = setTimeout(() => {

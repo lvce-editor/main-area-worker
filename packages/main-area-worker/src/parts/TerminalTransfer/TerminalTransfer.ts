@@ -8,6 +8,7 @@ import { findTabById } from '../FindTabById/FindTabById.ts'
 import { focus } from '../Focus/Focus.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
@@ -54,7 +55,7 @@ export const receiveTerminal = async (context: AsyncCommandContext<MainAreaState
     state = updateTab(state, tabId, {
       editorUid: drag.terminalUid,
       icon: descriptor.icon,
-      loadingState: 'loaded',
+      loadingState: LoadingState.Loaded,
       terminal: true,
     })
     const location = findTabById(state, tabId)!

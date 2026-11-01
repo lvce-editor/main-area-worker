@@ -13,7 +13,7 @@ test('renderTab should return correct structure for clean tab', () => {
     isDirty: false,
     isPreview: false,
     language: '',
-    loadingState: 'idle',
+    loadingState: 1,
     title: 'Test File',
     uri: '/path/to/Test File',
   }
@@ -79,7 +79,7 @@ test('renderTab should reserve the file icon slot before the icon is loaded', ()
     isDirty: false,
     isPreview: false,
     language: '',
-    loadingState: 'idle',
+    loadingState: 1,
     title: 'Test File',
     uri: '/path/to/Test File',
   }
@@ -137,7 +137,7 @@ test('renderTab should use the extensions mask icon for running extensions', () 
     isDirty: false,
     isPreview: false,
     language: '',
-    loadingState: 'idle',
+    loadingState: 1,
     title: 'Running Extensions',
     uri: 'running-extensions://',
   }
@@ -245,7 +245,7 @@ test('renderTab should show dirty indicator for dirty tab', () => {
     isDirty: true,
     isPreview: false,
     language: '',
-    loadingState: 'idle',
+    loadingState: 1,
     title: 'Test File',
     uri: '/path/to/Test File',
   }
@@ -311,7 +311,7 @@ test('renderTab should handle empty title', () => {
     isDirty: false,
     isPreview: false,
     language: '',
-    loadingState: 'idle',
+    loadingState: 1,
     title: '',
     uri: '/path/to/file',
   }

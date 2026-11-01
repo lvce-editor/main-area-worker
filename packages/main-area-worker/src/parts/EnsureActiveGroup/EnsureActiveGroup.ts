@@ -3,6 +3,7 @@ import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import { createEmptyGroup } from '../CreateEmptyGroup/CreateEmptyGroup.ts'
 import * as GetNextRequestId from '../GetNextRequestId/GetNextRequestId.ts'
 import * as Id from '../Id/Id.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import * as PathDisplay from '../PathDisplay/PathDisplay.ts'
 import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
@@ -47,7 +48,7 @@ export const ensureActiveGroup = (
             isDirty: false,
             isPreview: preview,
             language: '',
-            loadingState: 'loading',
+            loadingState: LoadingState.Loading,
             title,
             uri,
             uriTitle: getUriTitle(uri, homeDirUri || ''),
@@ -81,7 +82,7 @@ export const ensureActiveGroup = (
       isDirty: false,
       isPreview: preview,
       language: '',
-      loadingState: 'loading',
+      loadingState: LoadingState.Loading,
       title,
       uri: uri,
       uriTitle: getUriTitle(uri, homeDirUri || ''),

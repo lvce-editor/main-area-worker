@@ -33,7 +33,7 @@ test('renderEditor should return custom editor structure', () => {
   }
   const result = renderEditor(tab)
 
-  // Custom editors without loadingState='loaded' render as text content
+  // Custom editors without a loaded loading state render as text content
   expect(result).toEqual([
     {
       childCount: 1,
@@ -112,7 +112,7 @@ test('renderEditor should show loading state', () => {
     id: 1,
     isDirty: false,
     isPreview: false,
-    loadingState: 'loading',
+    loadingState: 2,
     title: 'Loading File',
   }
   const result = renderEditor(tab)
@@ -145,7 +145,7 @@ test('renderEditor should show a binary file placeholder', () => {
     id: 1,
     isDirty: false,
     isPreview: false,
-    loadingState: 'binary',
+    loadingState: 4,
     title: 'archive.zip',
   }
 
@@ -185,7 +185,7 @@ test('renderEditor should show a large file warning', () => {
     id: 1,
     isDirty: false,
     isPreview: false,
-    loadingState: 'large',
+    loadingState: 6,
     title: 'large.txt',
   }
 
@@ -207,7 +207,7 @@ test('renderEditor should show error state', () => {
     id: 1,
     isDirty: false,
     isPreview: false,
-    loadingState: 'error',
+    loadingState: 5,
     title: 'Error File',
   }
   const result = renderEditor(tab)
@@ -247,7 +247,7 @@ test('renderEditor should show content when loadingState is loaded', () => {
     id: 1,
     isDirty: false,
     isPreview: false,
-    loadingState: 'loaded',
+    loadingState: 3,
     title: 'Loaded File',
   }
   const result = renderEditor(tab)
@@ -274,7 +274,7 @@ test('renderEditor should show content when loadingState is idle', () => {
     id: 1,
     isDirty: false,
     isPreview: false,
-    loadingState: 'idle',
+    loadingState: 1,
     title: 'Idle File',
   }
   const result = renderEditor(tab)
@@ -302,7 +302,7 @@ test('renderEditor should show error state even when content exists', () => {
     id: 1,
     isDirty: false,
     isPreview: false,
-    loadingState: 'error',
+    loadingState: 5,
     title: 'Error File',
   }
   const result = renderEditor(tab)

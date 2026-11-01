@@ -7,6 +7,7 @@ import { disposeEditors } from '../DisposeEditors/DisposeEditors.ts'
 import { findTabById } from '../FindTabById/FindTabById.ts'
 import { getViewletModuleIdForEditorInput } from '../GetViewletModuleIdForEditorInput/GetViewletModuleIdForEditorInput.ts'
 import { loadHomeDirUri } from '../LoadHomeDirUri/LoadHomeDirUri.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { get } from '../MainAreaStates/MainAreaStates.ts'
 import { notifyActiveEditorChange } from '../NotifyActiveEditorChange/NotifyActiveEditorChange.ts'
 import { notifyMountedViewlets } from '../NotifyMountedViewlets/NotifyMountedViewlets.ts'
@@ -32,7 +33,7 @@ const renderPending = async (context: AsyncCommandContext<MainAreaState>): Promi
 const loadRestoredTab = async (context: AsyncCommandContext<MainAreaState>, tab: Tab): Promise<void> => {
   const isPending = (): boolean => {
     const latestTab = findTabById(context.getState(), tab.id)?.tab
-    return isCurrent(context) && latestTab?.editorUid === tab.editorUid && latestTab.loadingState === 'loading'
+    return isCurrent(context) && latestTab?.editorUid === tab.editorUid && latestTab.loadingState === LoadingState.Loading
   }
   try {
     const state = context.getState()
@@ -74,7 +75,7 @@ const loadRestoredTab = async (context: AsyncCommandContext<MainAreaState>, tab:
       updateTab(current, tab.id, {
         editorUid: -1,
         errorMessage: error instanceof Error ? error.message : 'Failed to restore editor',
-        loadingState: 'error',
+        loadingState: LoadingState.Error,
       }),
     )
     await renderPending(context)
@@ -123,7 +124,7 @@ export const loadContentLater = async (context: AsyncCommandContext<MainAreaStat
     return
   }
   const pendingIds = new Set(state.pendingRestoreTabIds)
-  const tabs = state.layout.groups.flatMap((group) => group.tabs.filter((tab) => pendingIds.has(tab.id) && tab.loadingState === 'loading'))
+  const tabs = state.layout.groups.flatMap((group) => group.tabs.filter((tab) => pendingIds.has(tab.id) && tab.loadingState === LoadingState.Loading))
   await context.updateState((current) => ({ ...current, pendingRestoreTabIds: [] }))
   await Promise.all([loadHomeDir(context), loadIcons(context), ...tabs.map((tab) => loadRestoredTab(context, tab))])
 }

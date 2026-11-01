@@ -142,7 +142,7 @@ test('openInput should show a binary file placeholder without creating a viewlet
       uri: 'file:///path/to/archive.zip',
     },
     editorUid: -1,
-    loadingState: 'binary',
+    loadingState: 4,
     title: 'archive.zip',
     uri: 'file:///path/to/archive.zip',
   })
@@ -168,7 +168,7 @@ test('openInput should show a large file placeholder without creating a viewlet'
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
     editorUid: -1,
     fileSize: 2 * 1024 * 1024,
-    loadingState: 'large',
+    loadingState: 6,
   })
   expect(mockRpc.invocations).not.toContainEqual(expect.arrayContaining(['Layout.createViewlet']))
 })
@@ -190,7 +190,7 @@ test('openInput renders loaded editor content before the title request finishes'
     'Layout.getModuleId': async () => 'Editor',
     'Layout.renderMainAreaPending': async () => {
       const tab = state.layout.groups[0].tabs[0]
-      expect(tab.loadingState).toBe('loaded')
+      expect(tab.loadingState).toBe(3)
       rendered.resolve()
     },
     'Viewlet.getTitle': async () => {
@@ -374,7 +374,7 @@ test('openInput should activate and focus an existing diff editor tab when reque
               isDirty: false,
               isPreview: false,
               language: '',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'left.ts - right.ts',
               uri: 'diff://?left=file%3A%2F%2F%2Fpath%2Fto%2Fleft.ts&right=file%3A%2F%2F%2Fpath%2Fto%2Fright.ts',
             },
@@ -417,7 +417,7 @@ test('openInput should show an error when opening a folder path', async () => {
 
   const tab = result.layout.groups[0].tabs[0]
 
-  expect(tab.loadingState).toBe('error')
+  expect(tab.loadingState).toBe(5)
   expect(tab.errorMessage).toBe('Expected a file but received a folder')
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([['FileSystem.stat', '/tmp/folder-to-open']])
 })
@@ -452,7 +452,7 @@ test('openInput should activate an existing stored tab when the call-site state 
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file.ts',
               uri: 'file:///path/to/file.ts',
             },
@@ -499,7 +499,7 @@ test('openInput should use default options and initialize missing stored state',
 
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
     isPreview: false,
-    loadingState: 'loaded',
+    loadingState: 3,
     uri: 'file:///new.ts',
   })
   expect(mockRpc.invocations.filter(isSetupInvocation)).toHaveLength(2)
@@ -528,7 +528,7 @@ test('openInput should expose an Error message when resolving the viewlet fails'
 
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
     errorMessage: 'module lookup failed',
-    loadingState: 'error',
+    loadingState: 5,
   })
   expect(mockRpc.invocations.filter(isSetupInvocation)).toEqual([
     ['Layout.getModuleId', 'file:///failed.ts'],
@@ -567,7 +567,7 @@ test('openInput should use a generic message for non-Error failures', async () =
 
   expect(result.layout.groups[0].tabs[0]).toMatchObject({
     errorMessage: 'Failed to open URI',
-    loadingState: 'error',
+    loadingState: 5,
   })
 })
 
@@ -580,7 +580,7 @@ test('confirmation opens the warned document with reduced features', async () =>
   })
   const options = { editorInput: { type: 'editor' as const, uri: '/tmp/snapshot.heapsnapshot' }, focus: false }
   const warned = await openInput(createDefaultState(), options)
-  expect(warned.layout.groups[0].tabs[0].loadingState).toBe('large')
+  expect(warned.layout.groups[0].tabs[0].loadingState).toBe(6)
   expect(mockRpc.invocations.some(([command]) => command === 'Layout.createViewlet')).toBe(false)
   const repeated = await openInput(warned, options)
   expect(repeated.layout.groups[0].tabs).toHaveLength(1)
@@ -603,7 +603,7 @@ test('read-detected binary errors replace the failed viewlet with a reopen place
   const state = createDefaultState()
   const result = await openInput(state, { editorInput: { type: 'editor', uri }, focus: false, preview: true })
   const tab = result.layout.groups[0].tabs[0]
-  expect(tab).toMatchObject({ editorInput: { type: 'binary', uri }, editorUid: -1, isPreview: true, loadingState: 'binary', uri })
+  expect(tab).toMatchObject({ editorInput: { type: 'binary', uri }, editorUid: -1, isPreview: true, loadingState: 4, uri })
   expect(tab.errorMessage).toBeUndefined()
   expect(result.layout.groups[0].tabs).toHaveLength(1)
   const createCall = mockRpc.invocations.find(([command]) => command === 'Layout.createViewlet')!
@@ -646,7 +646,7 @@ test('initial providers start after attachment and focus without holding the ope
     expect(started).toBe(false)
     focus.resolve()
     const result = await opening
-    expect(result.layout.groups[0].tabs[0].loadingState).toBe('loaded')
+    expect(result.layout.groups[0].tabs[0].loadingState).toBe(3)
     expect(started).toBe(true)
   } finally {
     attachment.resolve()
@@ -656,36 +656,33 @@ test('initial providers start after attachment and focus without holding the ope
   }
 })
 
-test.each([undefined, 'idle', 'loaded'] as const)(
-  'openInput loads an inactive restored tab with loading state %s before activating it',
-  async (loadingState) => {
-    using mockRpc = RendererWorker.registerMockRpc({
-      'Layout.createViewlet': async () => {},
-      'Layout.getModuleId': async () => 'Editor',
-    })
-    const first = await openInput(createDefaultState(), { editorInput: { type: 'editor', uri: 'file:///LICENSE' }, focus: false })
-    const second = await openInput(first, { editorInput: { type: 'editor', uri: 'file:///README.md' }, focus: false, preview: true })
-    const shell = loadContentShell(createDefaultState(), { layout: second.layout })
-    const restored = updateTab(shell, shell.layout.groups[0].tabs[0].id, { loadingState })
-    MainAreaStates.set(restored.uid, restored, restored)
+test.each([undefined, 1, 3] as const)('openInput loads an inactive restored tab with loading state %s before activating it', async (loadingState) => {
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'Editor',
+  })
+  const first = await openInput(createDefaultState(), { editorInput: { type: 'editor', uri: 'file:///LICENSE' }, focus: false })
+  const second = await openInput(first, { editorInput: { type: 'editor', uri: 'file:///README.md' }, focus: false, preview: true })
+  const shell = loadContentShell(createDefaultState(), { layout: second.layout })
+  const restored = updateTab(shell, shell.layout.groups[0].tabs[0].id, { loadingState })
+  MainAreaStates.set(restored.uid, restored, restored)
 
-    const result = await openInput(restored, { editorInput: { type: 'editor', uri: 'file:///LICENSE' }, focus: false })
+  const result = await openInput(restored, { editorInput: { type: 'editor', uri: 'file:///LICENSE' }, focus: false })
 
-    const group = result.layout.groups[0]
-    const tab = group.tabs.find((tab) => tab.uri === 'file:///LICENSE')!
-    expect(group.tabs).toHaveLength(2)
-    expect(group.activeTabId).toBe(tab.id)
-    expect(tab.editorUid).toBeGreaterThanOrEqual(0)
-    expect(tab.loadingState).toBe('loaded')
-    expect(mockRpc.invocations.some(([command]) => command === 'Viewlet.dispose')).toBe(false)
-    expect(mockRpc.invocations).toContainEqual([
-      'Layout.createViewlet',
-      'Editor',
-      tab.editorUid,
-      tab.id,
-      { height: -35, width: 0, x: 0, y: 35 },
-      'file:///LICENSE',
-      [{ deferLoadContentLater: true, focus: false }],
-    ])
-  },
-)
+  const group = result.layout.groups[0]
+  const tab = group.tabs.find((tab) => tab.uri === 'file:///LICENSE')!
+  expect(group.tabs).toHaveLength(2)
+  expect(group.activeTabId).toBe(tab.id)
+  expect(tab.editorUid).toBeGreaterThanOrEqual(0)
+  expect(tab.loadingState).toBe(3)
+  expect(mockRpc.invocations.some(([command]) => command === 'Viewlet.dispose')).toBe(false)
+  expect(mockRpc.invocations).toContainEqual([
+    'Layout.createViewlet',
+    'Editor',
+    tab.editorUid,
+    tab.id,
+    { height: -35, width: 0, x: 0, y: 35 },
+    'file:///LICENSE',
+    [{ deferLoadContentLater: true, focus: false }],
+  ])
+})

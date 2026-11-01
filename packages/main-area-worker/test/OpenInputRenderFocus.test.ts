@@ -43,7 +43,7 @@ test.each([
     preview: true,
   })
   expect(events).toEqual(expected)
-  expect(result.layout.groups[0].tabs[0]).toMatchObject({ isPreview: true, loadingState: 'loaded', uri: 'file:///hello.txt' })
+  expect(result.layout.groups[0].tabs[0]).toMatchObject({ isPreview: true, loadingState: 3, uri: 'file:///hello.txt' })
   MainAreaStates.clear()
 })
 
@@ -77,5 +77,5 @@ test('open still commits a ready editor when its tab loses selection during load
   )
   await openInputWithContext(context, { editorInput: { type: 'editor', uri: 'file:///hello.txt' }, focus: true })
   expect(events).toEqual(['render'])
-  expect(state.layout.groups[0].tabs[0].loadingState).toBe('loaded')
+  expect(state.layout.groups[0].tabs[0].loadingState).toBe(3)
 })

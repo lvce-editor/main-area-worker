@@ -1,6 +1,7 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState, Tab } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 
 export { updateTab } from '../UpdateTab/UpdateTab.ts'
@@ -55,7 +56,7 @@ export const loadTabContentAsync = async (
     }
 
     // If the tab is no longer in loading state, discard this result (newer request started)
-    if (latestTab.loadingState !== 'loading') {
+    if (latestTab.loadingState !== LoadingState.Loading) {
       return latestState
     }
 
@@ -65,7 +66,7 @@ export const loadTabContentAsync = async (
     return updateTab(latestState, tabId, {
       editorUid,
       errorMessage: undefined,
-      loadingState: 'loaded',
+      loadingState: LoadingState.Loaded,
     })
   } catch (error) {
     // Check for race condition before updating with error
@@ -77,7 +78,7 @@ export const loadTabContentAsync = async (
     }
 
     // If the tab is no longer in loading state, discard this result (newer request started)
-    if (latestTab.loadingState !== 'loading') {
+    if (latestTab.loadingState !== LoadingState.Loading) {
       return latestState
     }
 
@@ -85,13 +86,13 @@ export const loadTabContentAsync = async (
       return updateTab(latestState, tabId, {
         editorInput: { type: 'binary', uri: path },
         errorMessage: undefined,
-        loadingState: 'binary',
+        loadingState: LoadingState.Binary,
       })
     }
     const errorMessage = getLoadFileErrorMessage(error)
     return updateTab(latestState, tabId, {
       errorMessage,
-      loadingState: 'error',
+      loadingState: LoadingState.Error,
     })
   }
 }

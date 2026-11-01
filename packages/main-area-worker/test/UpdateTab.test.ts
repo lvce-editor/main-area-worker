@@ -123,12 +123,12 @@ test('updateTab updates multiple properties', () => {
   const result = updateTab(state, 1, {
     isDirty: true,
     isPreview: false,
-    loadingState: 'loaded',
+    loadingState: 3,
   })
 
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
   expect(tab?.isDirty).toBe(true)
-  expect(tab?.loadingState).toBe('loaded')
+  expect(tab?.loadingState).toBe(3)
 })
 
 test('updateTab returns unchanged state when tab not found', () => {
@@ -180,20 +180,20 @@ test('updateTab handles errorMessage property', () => {
   const state = createStateWithTabs()
   const result = updateTab(state, 1, {
     errorMessage: 'File not found',
-    loadingState: 'error',
+    loadingState: 5,
   })
 
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
   expect(tab?.errorMessage).toBe('File not found')
-  expect(tab?.loadingState).toBe('error')
+  expect(tab?.loadingState).toBe(5)
 })
 
 test('updateTab handles loadRequestId property', () => {
   const state = createStateWithTabs()
-  const result = updateTab(state, 1, { loadingState: 'loading' })
+  const result = updateTab(state, 1, { loadingState: 2 })
 
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
-  expect(tab?.loadingState).toBe('loading')
+  expect(tab?.loadingState).toBe(2)
 })
 
 test('updateTab does not mutate original state', () => {
@@ -206,13 +206,13 @@ test('updateTab does not mutate original state', () => {
 })
 
 test('updateTab clears errorMessage when content is loaded', () => {
-  const state = createStateWithTabs([{ errorMessage: 'Previous error', loadingState: 'error' }])
+  const state = createStateWithTabs([{ errorMessage: 'Previous error', loadingState: 5 }])
   const result = updateTab(state, 1, {
     errorMessage: undefined,
-    loadingState: 'loaded',
+    loadingState: 3,
   })
 
   const tab = result.layout.groups[0].tabs.find((t) => t.id === 1)
   expect(tab?.errorMessage).toBeUndefined()
-  expect(tab?.loadingState).toBe('loaded')
+  expect(tab?.loadingState).toBe(3)
 })

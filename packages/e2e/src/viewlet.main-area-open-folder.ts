@@ -15,7 +15,7 @@ export const test: Test = async ({ Command, FileSystem, Workspace }) => {
   const uid = 101
 
   await FileSystem.mkdir(folderPath)
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('MainArea.create', uid, '', 0, 0, 800, 600, 0, tmpDir)
   await Command.execute('MainArea.openUri', uid, {
     focus: false,

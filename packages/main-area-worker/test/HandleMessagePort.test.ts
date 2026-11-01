@@ -81,3 +81,28 @@ test('connects a secondary direct view rpc', async () => {
   await RendererWorker.dispose()
   await rendererProcessRpc.dispose()
 })
+
+test('direct text-editor reads return the getter value without requesting a render', async () => {
+  const { port1, port2 } = new MessageChannel()
+  const client = await PlainMessagePortRpcParent.create({ commandMap: {}, messagePort: port1 })
+  const getter = jest.fn((uid: number) => uid === 42)
+  await handleMessagePort(port2, { 'MainArea.hasOpenTextEditor': getter }, false)
+  try {
+    await expect(client.invoke('MainArea.hasOpenTextEditor', 42)).resolves.toBe(true)
+    await expect(client.invoke('MainArea.hasOpenTextEditor', 43)).resolves.toBe(false)
+    expect(getter.mock.calls).toEqual([[42], [43]])
+  } finally {
+    await client.dispose()
+  }
+})
+
+test('direct text-editor reads reject an unavailable getter', async () => {
+  const { port1, port2 } = new MessageChannel()
+  const client = await PlainMessagePortRpcParent.create({ commandMap: {}, messagePort: port1 })
+  await handleMessagePort(port2, {}, false)
+  try {
+    await expect(client.invoke('MainArea.hasOpenTextEditor', 42)).rejects.toThrow('Viewlet getter not found: hasOpenTextEditor')
+  } finally {
+    await client.dispose()
+  }
+})

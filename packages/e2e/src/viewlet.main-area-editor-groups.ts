@@ -57,7 +57,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   })
 
   const savedState3 = await Command.execute('MainArea.saveState', uid)
-  const focusedGroup = savedState3.layout.groups.find((g) => g.focused)
+  const focusedGroup = savedState3.layout.groups.find((g) => g.isFocused)
   assert(focusedGroup !== undefined, 'Focused group should exist')
   assert(
     focusedGroup.tabs.some((t) => t.path === file3),
@@ -66,13 +66,13 @@ export const test: Test = async ({ Command, FileSystem }) => {
 
   await Command.execute('MainArea.selectTab', uid, 0, 0)
   const savedState4 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState4.layout.groups[0].focused === true, 'First group should be focused')
-  assert(savedState4.layout.groups[1].focused === false, 'Second group should not be focused')
+  assert(savedState4.layout.groups[0].isFocused === true, 'First group should be focused')
+  assert(savedState4.layout.groups[1].isFocused === false, 'Second group should not be focused')
 
   await Command.execute('MainArea.selectTab', uid, 1, 0)
   const savedState5 = await Command.execute('MainArea.saveState', uid)
-  assert(savedState5.layout.groups[1].focused === true, 'Second group should be focused')
-  assert(savedState5.layout.groups[0].focused === false, 'First group should not be focused')
+  assert(savedState5.layout.groups[1].isFocused === true, 'Second group should be focused')
+  assert(savedState5.layout.groups[0].isFocused === false, 'First group should not be focused')
 
   await Command.execute('MainArea.openUri', uid, {
     focus: false,
@@ -81,7 +81,7 @@ export const test: Test = async ({ Command, FileSystem }) => {
   })
 
   const savedState6 = await Command.execute('MainArea.saveState', uid)
-  const focusedGroup2 = savedState6.layout.groups.find((g) => g.focused)
+  const focusedGroup2 = savedState6.layout.groups.find((g) => g.isFocused)
   assert(focusedGroup2 !== undefined, 'Focused group should exist')
   assert(
     focusedGroup2.tabs.some((t) => t.path === file4),

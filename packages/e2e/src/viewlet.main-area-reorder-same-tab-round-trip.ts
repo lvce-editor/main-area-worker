@@ -14,8 +14,11 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const tabBar = Locator('.MainTabs')
   const firstDropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: files[0] }])
 
-  await tabs.nth(0).dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
-  await tabBar.dispatchEvent('dragover', { bubbles: true, clientX: 10_000, clientY: 10 } as any)
+  await Command.execute('TestFrameWork.performAction', tabs.nth(0), 'dispatchEvent', { init: { bubbles: true, button: 0 } as any, type: 'mousedown' })
+  await Command.execute('TestFrameWork.performAction', tabBar, 'dispatchEvent', {
+    init: { bubbles: true, clientX: 10_000, clientY: 10 } as any,
+    type: 'dragover',
+  })
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDrop', firstDropId)
   await expect(tabTitles[0]).toHaveText('round-trip-b.txt')
@@ -24,7 +27,7 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   await expect(tabTitles[3]).toHaveText('round-trip-a.txt')
 
   const secondDropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: files[0] }])
-  await tabs.nth(3).dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
+  await Command.execute('TestFrameWork.performAction', tabs.nth(3), 'dispatchEvent', { init: { bubbles: true, button: 0 } as any, type: 'mousedown' })
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDragOver', 0, 10, '0', '0', 0, 100, 0)
   await Main.handleClickAction('', '')

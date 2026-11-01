@@ -7,7 +7,7 @@ const clickEventInit = { bubbles: true } as unknown as string
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, TitleBarMenuBar, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
 
   await TitleBarMenuBar.focus()
@@ -28,7 +28,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, T
   const lowerGroupCloseButton = editorGroups.nth(1).locator('.EmptyGroupCloseButton')
   await expect(editorGroups).toHaveCount(2)
   await expect(closeButtons).toHaveCount(2)
-  await lowerGroupCloseButton.dispatchEvent('click', clickEventInit)
+  await Command.execute('TestFrameWork.performAction', lowerGroupCloseButton, 'dispatchEvent', { init: clickEventInit, type: 'click' })
   await Main.handleClickAction('', '')
 
   await expect(editorGroups).toHaveCount(1)

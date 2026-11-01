@@ -2,6 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-drop-explorer-folder'
 
+const windowsDrivePrefix = /^\/(?=[a-zA-Z]:\/)/
+
 const assert = (condition: boolean, message: string): void => {
   if (!condition) {
     throw new Error(message)
@@ -11,10 +13,10 @@ const assert = (condition: boolean, message: string): void => {
 export const test: Test = async ({ Command, DragAndDrop, FileSystem, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const folderPath = `${tmpDir}/explorer-folder`
-  const expectedWorkspacePath = folderPath.slice('file://'.length)
+  const expectedWorkspacePath = decodeURIComponent(new URL(folderPath).pathname).replace(windowsDrivePrefix, '')
 
   await FileSystem.mkdir(folderPath)
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: folderPath }])
 
   await Command.execute('Main.handleDrop', dropId)

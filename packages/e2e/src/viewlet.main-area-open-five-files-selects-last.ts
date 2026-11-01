@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-five-files-selects-last'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   for (let i = 1; i <= 5; i++) {
     const file = `${tmpDir}/open-five-${i}.ts`

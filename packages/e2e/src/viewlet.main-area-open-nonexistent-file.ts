@@ -6,7 +6,7 @@ export const skip = 1
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const nonExistentFile = `${tmpDir}/does-not-exist.ts`
 
   await Main.openUri(nonExistentFile)

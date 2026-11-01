@@ -6,7 +6,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const tmpDir = await FileSystem.getTmpDir()
   const file = `${tmpDir}/restored.beam`
   await FileSystem.writeFile(file, 'FOR1BEAMAtU8C')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(file)
 
   await Main.closeActiveEditor()
@@ -15,5 +15,5 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const restoredTab = Locator('.MainTabSelected[title$="restored.beam"]')
   await expect(restoredTab).toBeVisible()
   const binaryContent = Locator('.EditorContentBinary')
-  await expect(binaryContent).toHaveText('The file is not displayed in the text editor because its contents are binary.Open in Text Editor')
+  await expect(binaryContent).toHaveText('The file is not displayed in the text editor because its contents are binary.Reopen with Text Editor')
 }

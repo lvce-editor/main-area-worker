@@ -36,12 +36,18 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
   })
 
   await Command.execute('PointerCapture.mock')
-  await border.dispatchEvent('pointerdown', pointerDown as any)
+  await Command.execute('TestFrameWork.performAction', border, 'dispatchEvent', { init: pointerDown as any, type: 'pointerdown' })
   await waitForNextFrame()
-  await border.dispatchEvent('pointermove', { ...pointerDown, clientY: 600 } as any)
+  await Command.execute('TestFrameWork.performAction', border, 'dispatchEvent', {
+    init: { ...pointerDown, clientY: 600 } as any,
+    type: 'pointermove',
+  })
   await waitForNextFrame()
-  await border.dispatchEvent('pointerup', { ...pointerDown, buttons: 0, clientY: 600 } as any)
-  await border.dispatchEvent('lostpointercapture', {} as any)
+  await Command.execute('TestFrameWork.performAction', border, 'dispatchEvent', {
+    init: { ...pointerDown, buttons: 0, clientY: 600 } as any,
+    type: 'pointerup',
+  })
+  await Command.execute('TestFrameWork.performAction', border, 'dispatchEvent', { init: {} as any, type: 'lostpointercapture' })
   await waitForNextFrame()
 
   const { actual: resizedFirstGroupHeight } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', firstGroup, {
@@ -56,12 +62,18 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main })
     )
   }
 
-  await border.dispatchEvent('pointerdown', { ...pointerDown, clientY: 600 } as any)
+  await Command.execute('TestFrameWork.performAction', border, 'dispatchEvent', {
+    init: { ...pointerDown, clientY: 600 } as any,
+    type: 'pointerdown',
+  })
   await waitForNextFrame()
-  await border.dispatchEvent('pointermove', { ...pointerDown, clientY: 1 } as any)
+  await Command.execute('TestFrameWork.performAction', border, 'dispatchEvent', { init: { ...pointerDown, clientY: 1 } as any, type: 'pointermove' })
   await waitForNextFrame()
-  await border.dispatchEvent('pointerup', { ...pointerDown, buttons: 0, clientY: 1 } as any)
-  await border.dispatchEvent('lostpointercapture', {} as any)
+  await Command.execute('TestFrameWork.performAction', border, 'dispatchEvent', {
+    init: { ...pointerDown, buttons: 0, clientY: 1 } as any,
+    type: 'pointerup',
+  })
+  await Command.execute('TestFrameWork.performAction', border, 'dispatchEvent', { init: {} as any, type: 'lostpointercapture' })
   await waitForNextFrame()
 
   const { actual: restoredFirstGroupHeight } = await Command.execute('TestFrameWork.checkConditionError', 'toHaveJSProperty', firstGroup, {

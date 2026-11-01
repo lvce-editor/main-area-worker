@@ -1,12 +1,16 @@
-import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
+import type { MainAreaLayout, MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import type { Tab } from '../Tab/Tab.ts'
 import { createViewlets } from '../CreateViewlets/CreateViewlets.ts'
 import { getViewletModuleIds } from '../GetViewletModuleIds/GetViewletModuleIds.ts'
+import * as Id from '../Id/Id.ts'
 import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
 import { updateTabs } from '../UpdateTabs/UpdateTabs.ts'
 import * as ViewletLifecycle from '../ViewletLifecycle/ViewletLifecycle.ts'
 
-export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayout: any): Promise<MainAreaState> => {
+export const restoreAndCreateEditors = async (state: MainAreaState, restoredLayout: MainAreaLayout): Promise<MainAreaState> => {
+  // Saved tab/group IDs can overlap the range assigned to a fresh renderer.
+  // Reserve them before creating editors or opening any additional tabs.
+  Id.reserve(restoredLayout.groups.flatMap((group) => [group.id, ...group.tabs.map((tab) => tab.id)]))
   let newState: MainAreaState = {
     ...state,
     layout: restoredLayout,

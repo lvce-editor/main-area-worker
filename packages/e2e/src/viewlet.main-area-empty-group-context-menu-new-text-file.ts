@@ -2,9 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'viewlet.main-area-empty-group-context-menu-new-text-file'
 
-export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Locator, Workspace }) => {
+export const test: Test = async ({ Command, ContextMenu, Editor, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
 
@@ -14,4 +14,9 @@ export const test: Test = async ({ Command, ContextMenu, expect, FileSystem, Loc
 
   const untitledTab = Locator('.MainTab[title^="untitled:///"]')
   await expect(untitledTab).toHaveClass('MainTabSelected')
+
+  const editor = Locator('[name="editor"]')
+  await expect(editor).toBeFocused()
+  await Editor.type('new file')
+  await Editor.shouldHaveText('new file')
 }

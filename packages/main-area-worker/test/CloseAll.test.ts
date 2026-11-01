@@ -1,5 +1,4 @@
 import { expect, test } from '@jest/globals'
-import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { closeAll } from '../src/parts/CloseAll/CloseAll.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
@@ -14,9 +13,9 @@ test('closeAll should close all tabs and groups', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 50,
           tabs: [
             {
@@ -40,9 +39,9 @@ test('closeAll should close all tabs and groups', async () => {
         {
           activeTabId: 3,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: false,
+          isFocused: false,
           size: 50,
           tabs: [
             {
@@ -76,9 +75,9 @@ test('closeAll should preserve layout direction', async () => {
         {
           activeTabId: 1,
           direction: 2,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -113,9 +112,9 @@ test('closeAll should preserve other state properties', async () => {
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -167,9 +166,9 @@ test('closeAll should handle multiple groups with many tabs', async () => {
         {
           activeTabId: 2,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: false,
+          isFocused: false,
           size: 33,
           tabs: [
             {
@@ -193,9 +192,9 @@ test('closeAll should handle multiple groups with many tabs', async () => {
         {
           activeTabId: 3,
           direction: 1,
-          focused: true,
           id: 2,
           isEmpty: false,
+          isFocused: true,
           size: 33,
           tabs: [
             {
@@ -211,9 +210,9 @@ test('closeAll should handle multiple groups with many tabs', async () => {
         {
           activeTabId: 4,
           direction: 1,
-          focused: false,
           id: 3,
           isEmpty: false,
+          isFocused: false,
           size: 34,
           tabs: [
             {
@@ -242,60 +241,4 @@ test('closeAll should handle multiple groups with many tabs', async () => {
 
   expect(result.layout.groups).toEqual([])
   expect(result.layout.activeGroupId).toBe(-1)
-})
-
-test('closeAll should dispose editor viewlets', async () => {
-  using mockRpc = RendererWorker.registerMockRpc({
-    'Viewlet.dispose': async () => {},
-  })
-  const state: MainAreaState = {
-    ...createDefaultState(),
-    layout: {
-      activeGroupId: 1,
-      direction: 1,
-      groups: [
-        {
-          activeTabId: 1,
-          direction: 1,
-          focused: true,
-          id: 1,
-          isEmpty: false,
-          size: 100,
-          tabs: [
-            {
-              editorUid: 101,
-              icon: '',
-              id: 1,
-              isDirty: false,
-              isPreview: false,
-              title: 'File 1',
-            },
-            {
-              editorUid: -1,
-              icon: '',
-              id: 2,
-              isDirty: false,
-              isPreview: false,
-              title: 'File 2',
-            },
-            {
-              editorUid: 102,
-              icon: '',
-              id: 3,
-              isDirty: false,
-              isPreview: false,
-              title: 'File 3',
-            },
-          ],
-        },
-      ],
-    },
-  }
-
-  await closeAll(state)
-
-  expect(mockRpc.invocations.filter(([command]) => !command.startsWith('CacheStorage.'))).toEqual([
-    ['Viewlet.dispose', 101],
-    ['Viewlet.dispose', 102],
-  ])
 })

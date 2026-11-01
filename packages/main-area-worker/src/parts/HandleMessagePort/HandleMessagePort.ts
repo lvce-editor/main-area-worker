@@ -18,6 +18,13 @@ export const handleMessagePort = async (
 
   const rpc = await PlainMessagePortRpc.create({
     commandMap: {
+      'MainArea.hasOpenTextEditor': async (uid: number): Promise<boolean> => {
+        const fn = viewletCommandMap['MainArea.hasOpenTextEditor']
+        if (typeof fn !== 'function') {
+          throw new TypeError('Viewlet getter not found: hasOpenTextEditor')
+        }
+        return fn(uid)
+      },
       'Viewlet.executeViewletCommand': executeViewletCommand,
     },
     messagePort: port,

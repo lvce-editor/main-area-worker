@@ -8,7 +8,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
   const testFile = `${tmpDir}/context-menu-open-file.ts`
 
   await FileSystem.writeFile(testFile, 'export const value = 1')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   await Command.execute('Main.handleContextMenu', '', 10, 10)
   await Command.execute('Viewlet.openWidget', 'QuickPick', 'file')

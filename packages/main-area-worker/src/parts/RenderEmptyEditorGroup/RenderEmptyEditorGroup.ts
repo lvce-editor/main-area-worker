@@ -15,6 +15,7 @@ export const renderEmptyEditorGroup = (group: EditorGroup, groupIndex: number, c
       className: mergeClassNames(ClassNames.EditorGroupEmpty, getEditorGroupClassName(group.id)),
       'data-groupId': String(group.id),
       onContextMenu: DomEventListenerFunctions.HandleContextMenu,
+      onFocus: DomEventListenerFunctions.HandleFocus,
       tabIndex: TabIndex.Focusable,
       type: VirtualDomElements.Div,
     },

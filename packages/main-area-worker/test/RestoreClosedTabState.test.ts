@@ -13,12 +13,12 @@ const createTab = (id: number, title: string, uri: string): Tab => ({
   uri,
 })
 
-const createGroup = (id: number, tabs: readonly Tab[], activeTabId = tabs[0]?.id ?? -1, focused = true, size = 100): EditorGroup => ({
+const createGroup = (id: number, tabs: readonly Tab[], activeTabId = tabs[0]?.id ?? -1, isFocused = true, size = 100): EditorGroup => ({
   activeTabId,
   direction: 1,
-  focused,
   id,
   isEmpty: tabs.length === 0,
+  isFocused,
   size,
   tabs,
 })
@@ -136,7 +136,7 @@ test('restoreClosedTabState should focus a duplicate tab and unfocus other group
   const result = restoreClosedTabState(state, createEntry(createGroup(1, [cachedTab]), cachedTab))
 
   expect(result?.newState.layout.activeGroupId).toBe(2)
-  expect(result?.newState.layout.groups.map((group) => group.focused)).toEqual([false, true])
+  expect(result?.newState.layout.groups.map((group) => group.isFocused)).toEqual([false, true])
 })
 
 test('restoreClosedTabState should restore a tab without a uri into its existing group', () => {
@@ -153,9 +153,9 @@ test('restoreClosedTabState should restore a tab without a uri into its existing
 
   const result = restoreClosedTabState(state, createEntry(originalGroup, tab, 1))
 
-  expect(result?.newState.layout.groups[0].focused).toBe(false)
+  expect(result?.newState.layout.groups[0].isFocused).toBe(false)
   expect(result?.newState.layout.groups[1].tabs).toHaveLength(1)
-  expect(result?.newState.layout.groups[1].focused).toBe(true)
+  expect(result?.newState.layout.groups[1].isFocused).toBe(true)
 })
 
 test('restoreClosedTabState should recreate the only group', () => {

@@ -77,6 +77,9 @@ export const getFileIcon = (uri: string): string => {
   if (uri.startsWith('process-explorer://')) {
     return `MaskIconDebugAlt2`
   }
+  if (uri.startsWith('workers:///')) {
+    return `MaskIconDebugAlt2`
+  }
   if (uri.startsWith('running-extensions://')) {
     return `MaskIconExtensions`
   }
@@ -85,6 +88,9 @@ export const getFileIcon = (uri: string): string => {
   }
   if (uri.startsWith('search-editor://')) {
     return `MaskIconSearch`
+  }
+  if (uri.startsWith('settings://')) {
+    return `MaskIconSettingsGear`
   }
   return ''
 }

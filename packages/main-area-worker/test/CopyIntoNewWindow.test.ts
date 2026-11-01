@@ -18,9 +18,9 @@ test('copyIntoNewWindow should open active tab in new window and keep it open', 
         {
           activeTabId: 1,
           direction: LayoutDirection.Horizontal,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -57,9 +57,9 @@ test('copyIntoNewWindow should do nothing when active tab has no uri', async () 
         {
           activeTabId: 1,
           direction: LayoutDirection.Horizontal,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -103,9 +103,9 @@ test('copyIntoNewWindow should do nothing without an active tab', async () => {
         {
           activeTabId: -1,
           direction: LayoutDirection.Horizontal,
-          focused: true,
           id: 1,
           isEmpty: true,
+          isFocused: true,
           size: 100,
           tabs: [],
         },

@@ -31,8 +31,16 @@ test.each([true, false])('opens at the requested position with shouldFocus=%s', 
   const cursorIndex = rpc.invocations.findIndex(([method]) => method === 'Viewlet.executeViewletCommand')
   const focusIndex = rpc.invocations.findIndex(([method]) => method === 'Viewlet.focusSelector')
   expect(focusIndex > cursorIndex).toBe(shouldFocus)
-  // Navigation options belong to the main area, not the viewlet's load context.
-  expect(rpc.invocations.find(([method]) => method === 'Layout.createViewlet')).toHaveLength(6)
+  // Cursor navigation options stay in the main area, while focus reaches the viewlet load context.
+  expect(rpc.invocations.find(([method]) => method === 'Layout.createViewlet')).toEqual([
+    'Layout.createViewlet',
+    'editor.text',
+    expect.any(Number),
+    expect.any(Number),
+    expect.any(Object),
+    uri,
+    [{ deferLoadContentLater: true, focus: shouldFocus }],
+  ])
 })
 
 test('moves the cursor in a reused tab without creating another editor', async () => {
@@ -118,7 +126,51 @@ test('highlights problems in the exact new or reused tab without focusing it', a
   expect(result.layout.groups[0].activeTabId).toBe(tab.id)
   expect(rpc.invocations.filter(([method]) => method === 'Viewlet.executeViewletCommand')).toEqual([
     ['Viewlet.executeViewletCommand', tab.editorUid, 'revealProblem', 4, 2],
+    ['Viewlet.executeViewletCommand', tab.editorUid, 'handleBlur'],
     ['Viewlet.executeViewletCommand', tab.editorUid, 'revealProblem', 4, 2],
   ])
   expect(rpc.invocations.some(([method]) => method === 'Viewlet.focusSelector')).toBe(false)
+})
+
+test.each([true, false])('applies a definition range to an existing tab, active=%s', async (active) => {
+  using rpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.executeViewletCommand': async () => {},
+    'Viewlet.focusSelector': async () => {},
+  })
+  const uri = 'file:///workspace/definition.ts'
+  let state = await openUri(createDefaultState(), { focus: false, uri })
+  const { editorUid } = state.layout.groups[0].tabs[0]
+  if (!active) {
+    state = await openUri(state, { focus: false, uri: 'file:///workspace/source.ts' })
+  }
+  const result = await openUri(state, uri, false, {
+    endColumnIndex: 16,
+    endRowIndex: 0,
+    startColumnIndex: 13,
+    startRowIndex: 0,
+  })
+  expect(rpc.invocations).toContainEqual(['Viewlet.executeViewletCommand', editorUid, 'setSelections', new Uint32Array([0, 13, 0, 16])])
+  expect(result.layout.groups[0].tabs).toHaveLength(active ? 1 : 2)
+})
+
+test.each([
+  undefined,
+  'unrelated context',
+  {},
+  { startRowIndex: 1 },
+  { startColumnIndex: 2, startRowIndex: 1 },
+  { endRowIndex: 1, startColumnIndex: 2, startRowIndex: 1 },
+])('preserves a reused selection without a complete destination: %j', async (destination) => {
+  using rpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'editor.text',
+    'Viewlet.executeViewletCommand': async () => {},
+    'Viewlet.focusSelector': async () => {},
+  })
+  const uri = 'file:///workspace/definition.ts'
+  const state = await openUri(createDefaultState(), { focus: false, uri })
+  await openUri(state, uri, false, destination)
+  expect(rpc.invocations.some(([method]) => method === 'Viewlet.executeViewletCommand')).toBe(false)
 })

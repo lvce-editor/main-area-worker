@@ -47,7 +47,7 @@ export const tryRestoreLayout = (savedState: unknown): MainAreaLayout | undefine
   }
 
   // Normalize all tabs to have editorUid: -1 so SelectTab will create viewlets
-  // Mark all restored tabs as not dirty
+  // Preserve dirty flags only when restoring after a hot reload.
   const normalizedLayout = {
     ...rawLayout,
     activeGroupId: rawLayout.activeGroupId === undefined ? -1 : rawLayout.activeGroupId,

@@ -40,7 +40,7 @@ const serverRendererProcessPath = join(
 const workerPath = join(root, '.tmp/dist/dist/mainAreaWorkerMain.js')
 // The exported configuration selects this repository's worker through InitData IPC.
 const indexHtml = await readFile(join(root, 'dist', 'index.html'), 'utf8')
-const configMatch = indexHtml.match(/<script id="Config" type="application\/json">(.*?)<\/script>/)
+const configMatch = indexHtml.match(/<script id="Config" type="application\/json">([\s\S]*?)<\/script>/)
 if (!configMatch) {
   throw new Error('exported runtime configuration not found')
 }

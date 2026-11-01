@@ -12,7 +12,7 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
     { content: 'first', uri: first },
     { content: 'second', uri: second },
   ])
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
   await Main.openUri(original)
   const firstDropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: first }])

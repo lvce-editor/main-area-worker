@@ -10,14 +10,14 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
     { content: 'first', uri: first },
     { content: 'second', uri: second },
   ])
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.closeAllEditors()
   await Main.openUri(first)
   await Main.openUri(second)
   const dropId = await DragAndDrop.createDropSession([{ kind: 'string', type: 'text/uri-list', value: first }])
 
   const firstTab = Locator('.MainTab[title$="drag-tab-split-right-first.txt"]')
-  await firstTab.dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
+  await Command.execute('TestFrameWork.performAction', firstTab, 'dispatchEvent', { init: { bubbles: true, button: 0 } as any, type: 'mousedown' })
   await Command.execute('Main.handleDragOver', 10_000, 300)
   await Command.execute('Main.handleDrop', dropId)
 

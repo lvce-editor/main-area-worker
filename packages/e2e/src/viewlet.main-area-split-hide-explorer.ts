@@ -7,7 +7,7 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const tmpDir = await FileSystem.getTmpDir()
   const uri = `${tmpDir}/eslint.config.js`
   await FileSystem.writeFile(uri, 'export default []')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('Layout.moveSideBarRight')
   await Command.execute('Layout.showSideBar')
   await Command.execute('Layout.handleSashSideBarPointerDown')

@@ -14,8 +14,11 @@ export const test: Test = async ({ Command, DragAndDrop, expect, FileSystem, Loc
   const secondTab = tabs.nth(1)
   const thirdTab = tabs.nth(2)
 
-  await secondTab.dispatchEvent('mousedown', { bubbles: true, button: 0 } as any)
-  await thirdTab.dispatchEvent('dragover', { bubbles: true, clientX: 10_000, clientY: 10 } as any)
+  await Command.execute('TestFrameWork.performAction', secondTab, 'dispatchEvent', { init: { bubbles: true, button: 0 } as any, type: 'mousedown' })
+  await Command.execute('TestFrameWork.performAction', thirdTab, 'dispatchEvent', {
+    init: { bubbles: true, clientX: 10_000, clientY: 10 } as any,
+    type: 'dragover',
+  })
   await Main.handleClickAction('', '')
   await Command.execute('Main.handleDrop', dropId)
 

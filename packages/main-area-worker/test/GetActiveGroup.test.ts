@@ -7,9 +7,9 @@ test('GetActiveGroup should return group when found by ID', () => {
     {
       activeTabId: 1,
       direction: 1,
-      focused: false,
       id: 1,
       isEmpty: false,
+      isFocused: false,
       size: 50,
       tabs: [
         {
@@ -25,9 +25,9 @@ test('GetActiveGroup should return group when found by ID', () => {
     {
       activeTabId: 2,
       direction: 1,
-      focused: true,
       id: 2,
       isEmpty: false,
+      isFocused: true,
       size: 50,
       tabs: [
         {
@@ -45,7 +45,7 @@ test('GetActiveGroup should return group when found by ID', () => {
   const result = getActiveGroup(groups, 2)
   expect(result).toBeDefined()
   expect(result?.id).toBe(2)
-  expect(result?.focused).toBe(true)
+  expect(result?.isFocused).toBe(true)
 })
 
 test('GetActiveGroup should return undefined when group not found', () => {
@@ -53,9 +53,9 @@ test('GetActiveGroup should return undefined when group not found', () => {
     {
       activeTabId: 1,
       direction: 1,
-      focused: true,
       id: 1,
       isEmpty: false,
+      isFocused: true,
       size: 100,
       tabs: [
         {
@@ -79,9 +79,9 @@ test('GetActiveGroup should return first matching group by ID', () => {
     {
       activeTabId: 1,
       direction: 1,
-      focused: false,
       id: 1,
       isEmpty: false,
+      isFocused: false,
       size: 50,
       tabs: [
         {
@@ -97,9 +97,9 @@ test('GetActiveGroup should return first matching group by ID', () => {
     {
       activeTabId: 3,
       direction: 1,
-      focused: false,
       id: 3,
       isEmpty: false,
+      isFocused: false,
       size: 50,
       tabs: [
         {
@@ -131,9 +131,9 @@ test('GetActiveGroup should return group with zero ID', () => {
     {
       activeTabId: -1,
       direction: 1,
-      focused: true,
       id: 0,
       isEmpty: true,
+      isFocused: true,
       size: 100,
       tabs: [],
     },
@@ -149,9 +149,9 @@ test('GetActiveGroup should return group from array with multiple tabs', () => {
     {
       activeTabId: 2,
       direction: 1,
-      focused: false,
       id: 1,
       isEmpty: false,
+      isFocused: false,
       size: 100,
       tabs: [
         {

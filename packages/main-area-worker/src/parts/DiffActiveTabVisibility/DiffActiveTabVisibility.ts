@@ -1,5 +1,9 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 
 export const isEqual = (oldState: MainAreaState, newState: MainAreaState): boolean => {
-  return oldState.layout === newState.layout && oldState.width === newState.width
+  return (
+    oldState.layout === newState.layout &&
+    oldState.width === newState.width &&
+    oldState.activeTabVisibilityVersion === newState.activeTabVisibilityVersion
+  )
 }

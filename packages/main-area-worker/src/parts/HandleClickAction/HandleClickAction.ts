@@ -41,7 +41,7 @@ export const handleClickAction = async (state: MainAreaState, action: string, ra
       return closeEditorGroup(state, groupId)
     }
     case InputName.ConfigureLargeFileLimit:
-      return openUri(state, 'settings://')
+      return openUri(state, 'settings:///')
     case InputName.OpenInTextEditor:
       return openBinaryAsText(state)
     case InputName.OpenLargeFile:

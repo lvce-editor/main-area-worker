@@ -7,7 +7,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const readme = `${tmpDir}/README.md`
   const openedInFocusedGroup = `${tmpDir}/opened-in-focused-group.ts`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await FileSystem.setFiles([
     { content: '# README', uri: readme },
     { content: 'export const value = true', uri: openedInFocusedGroup },
@@ -20,7 +20,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const groups = Locator('.EditorGroup')
   const leftGroup = groups.nth(0)
   await expect(leftGroup).toBeVisible()
-  await leftGroup.dispatchEvent('focus', {} as any)
+  await Command.execute('TestFrameWork.performAction', leftGroup, 'dispatchEvent', { init: {} as any, type: 'focus' })
 
   await Main.openUri(openedInFocusedGroup)
 

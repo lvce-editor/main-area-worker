@@ -35,7 +35,7 @@ export const skip = 1
 
 export const test: Test = async ({ Command, FileSystem, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fileLeft = `${tmpDir}/file-left.ts`
   const fileRight = `${tmpDir}/file-right.ts`
 

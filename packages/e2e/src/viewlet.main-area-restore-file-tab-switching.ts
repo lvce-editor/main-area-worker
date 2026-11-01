@@ -6,7 +6,7 @@ export const skip = 1
 
 export const test: Test = async ({ Command, Editor, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const firstFile = `${tmpDir}/restore-switch-first.ts`
   const secondFile = `${tmpDir}/restore-switch-second.ts`
   await FileSystem.setFiles([

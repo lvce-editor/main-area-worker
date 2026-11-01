@@ -16,7 +16,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
       type: 'editor',
       uri: firstFile,
     },
-    focu: true,
+    focus: true,
     preview: true,
   })
 
@@ -27,7 +27,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, Main }) => {
       type: 'editor',
       uri: secondFile,
     },
-    focu: true,
+    focus: true,
     preview: true,
   })
 

@@ -19,6 +19,11 @@
     },
     "packages/server": {
       "project": ["src/**/*.js"]
+    },
+    "packages/e2e-integration": {
+      "entry": ["src/**/*.{ts,js}", "scripts/*.mjs", "stage-cursor-tests.mjs"],
+      "project": ["src/**/*.{ts,js}", "fixtures/*.js", "scripts/*.mjs", "stage-cursor-tests.mjs"],
+      "ignoreDependencies": ["@lvce-editor/test-with-playwright"]
     }
   }
 }

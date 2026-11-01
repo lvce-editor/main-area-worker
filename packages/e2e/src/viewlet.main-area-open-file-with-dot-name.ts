@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-file-with-dot-name'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const file = `${tmpDir}/config.test.env`
 
   await FileSystem.writeFile(file, 'VALUE=1')

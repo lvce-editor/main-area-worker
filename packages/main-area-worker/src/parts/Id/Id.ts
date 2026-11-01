@@ -2,6 +2,15 @@ const state = {
   configured: false,
   lastId: -1,
   nextId: 0,
+  reservedIds: new Set<number>(),
+}
+
+export const reserve = (ids: readonly number[]): void => {
+  for (const id of ids) {
+    if (id >= state.nextId && id <= state.lastId) {
+      state.reservedIds.add(id)
+    }
+  }
 }
 
 export const configure = (start: number, end: number): void => {
@@ -18,12 +27,15 @@ export const configure = (start: number, end: number): void => {
 }
 
 export const create = (): number => {
-  const { configured, lastId, nextId } = state
+  const { configured, lastId, reservedIds } = state
   if (!configured) {
     // Compatibility with renderer versions that do not assign worker id ranges.
     return Math.random()
   }
-  if (nextId > lastId) {
+  while (reservedIds.delete(state.nextId)) {
+    state.nextId++
+  }
+  if (state.nextId > lastId) {
     throw new Error('Component id range exhausted')
   }
   return state.nextId++

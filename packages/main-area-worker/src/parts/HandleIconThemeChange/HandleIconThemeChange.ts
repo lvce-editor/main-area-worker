@@ -10,6 +10,7 @@ export const handleIconThemeChange = async (state: MainAreaState): Promise<MainA
   return {
     ...state,
     fileIconCache,
+    iconThemeVersion: (state.iconThemeVersion ?? 0) + 1,
     layout: updatedLayout,
   }
 }

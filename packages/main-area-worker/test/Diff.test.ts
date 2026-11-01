@@ -8,7 +8,7 @@ test('diff should return empty array when states are equal', () => {
   const oldState: MainAreaState = createDefaultState()
   const newState: MainAreaState = oldState
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderCss])
+  expect(result).toEqual([])
 })
 
 test('diff should return RenderItems when left items differ', () => {
@@ -21,9 +21,9 @@ test('diff should return RenderItems when left items differ', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -44,9 +44,9 @@ test('diff should return RenderItems when right items differ', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -66,9 +66,9 @@ test('diff should return RenderItems when both left and right items differ', () 
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -83,9 +83,9 @@ test('diff should return RenderItems when both left and right items differ', () 
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 2,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -106,9 +106,9 @@ test('diff should return RenderItems when left array length differs', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -129,9 +129,9 @@ test('diff should return RenderItems when right array length differs', () => {
         {
           activeTabId: -1,
           direction: 1,
-          focused: false,
           id: 1,
           isEmpty: true,
+          isFocused: false,
           size: 100,
           tabs: [],
         },
@@ -152,5 +152,13 @@ test('diff should ignore uid when comparing', () => {
     uid: 2,
   }
   const result = Diff.diff(oldState, newState)
-  expect(result).toEqual([DiffType.RenderCss])
+  expect(result).toEqual([])
+})
+
+test('a final active tab visibility refresh scrolls without replacing the tab DOM', () => {
+  const oldState = createDefaultState()
+  const newState = { ...oldState, activeTabVisibilityVersion: 1 }
+
+  expect(Diff.diff(oldState, newState)).toEqual([DiffType.RenderActiveTabVisibility])
+  expect(Diff.diff(newState, newState)).toEqual([])
 })

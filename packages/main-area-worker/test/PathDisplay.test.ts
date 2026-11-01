@@ -98,6 +98,10 @@ test('getLabel should return Running Extensions for running-extensions:// uri', 
   expect(PathDisplay.getLabel('running-extensions://')).toBe('Running Extensions')
 })
 
+test('getFileIcon should return the debug icon for Workers view', () => {
+  expect(PathDisplay.getFileIcon('workers:///1')).toBe('MaskIconDebugAlt2')
+})
+
 test('getLabel should return Import Firefox Cookies for cookie-import-view:// uri', () => {
   expect(PathDisplay.getLabel('cookie-import-view:///')).toBe('Import Firefox Cookies')
 })
@@ -196,10 +200,12 @@ test('getFileIcon should return empty string for other protocol schemes', () => 
   expect(result).toBe('')
 })
 
-test('getFileIcon should return empty string for settings:// uri', () => {
-  const uri: string = 'settings://general'
-  const result: ReturnType<typeof PathDisplay.getFileIcon> = PathDisplay.getFileIcon(uri)
-  expect(result).toBe('')
+test('getFileIcon should return MaskIconSettingsGear for settings:// uri', () => {
+  expect(PathDisplay.getFileIcon('settings://general')).toBe('MaskIconSettingsGear')
+})
+
+test('getFileIcon should return MaskIconSettingsGear for settings:// uri with path', () => {
+  expect(PathDisplay.getFileIcon('settings://editor/preferences')).toBe('MaskIconSettingsGear')
 })
 
 test('getFileIcon should return empty string for simple-browser:// uri', () => {

@@ -8,7 +8,7 @@ export const test: Test = async ({ ClipBoard, expect, FileSystem, Locator, Main,
   // arrange
   await ClipBoard.enableMemoryClipBoard()
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const testFile = `${tmpDir}/test-copy-relative-path.ts`
   const testContent = 'export const test = () => "hello"'
   await FileSystem.writeFile(testFile, testContent)

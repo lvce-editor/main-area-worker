@@ -8,7 +8,7 @@ export const test: Test = async ({ Command, Editor, expect, Extension, Locator, 
   const extensionUri = import.meta.resolve('../fixtures/read-file-error')
   await Extension.addWebExtension(extensionUri)
   const prefix = 'extension-host://xyz://'
-  await Workspace.setPath(prefix)
+  await Workspace.setUri(prefix)
   await Main.openUri(`${prefix}/test.txt`)
   const tab = Locator('.MainTab[title$="test.txt"]')
   await expect(tab).toBeVisible()

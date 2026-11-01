@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-open-json-and-text-tabs'
 
 export const test: Test = async ({ expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const jsonFile = `${tmpDir}/data.json`
   const textFile = `${tmpDir}/notes.txt`
 

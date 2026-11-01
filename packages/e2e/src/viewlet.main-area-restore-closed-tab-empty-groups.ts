@@ -10,7 +10,7 @@ const assert = (condition: boolean, message: string): void => {
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   await Command.execute('Main.setEditorLayoutSingle')
   await Main.splitRight()

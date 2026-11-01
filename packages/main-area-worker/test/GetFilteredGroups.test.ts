@@ -7,9 +7,9 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
     {
       activeTabId: 1,
       direction: 1,
-      focused: true,
       id: 1,
       isEmpty: false,
+      isFocused: true,
       size: 50,
       tabs: [
         {
@@ -36,9 +36,9 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
     {
       activeTabId: 3,
       direction: 1,
-      focused: false,
       id: 2,
       isEmpty: false,
+      isFocused: false,
       size: 50,
       tabs: [
         {
@@ -60,9 +60,9 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
     {
       activeTabId: 2,
       direction: 1,
-      focused: true,
       id: 1,
       isEmpty: false,
+      isFocused: true,
       size: 50,
       tabs: [
         {
@@ -80,9 +80,9 @@ test('getFilteredGroups should remove untitled tabs and preserve empty groups', 
     {
       activeTabId: -1,
       direction: 1,
-      focused: false,
       id: 2,
       isEmpty: true,
+      isFocused: false,
       size: 50,
       tabs: [],
     },

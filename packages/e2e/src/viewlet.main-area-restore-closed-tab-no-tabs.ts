@@ -4,7 +4,7 @@ export const name = 'viewlet.main-area-restore-closed-tab-no-tabs'
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   await Command.execute('Main.handleClickAction', 'restore-closed-tab')
 

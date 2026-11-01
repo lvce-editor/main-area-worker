@@ -82,7 +82,7 @@ test('saving an application editor scopes dirty-state notifications to its own m
     async 'Application.execute'(_applicationId: string, command: string) {
       return command === 'Layout.getModuleId' ? 'Editor' : undefined
     },
-    'Editor.save': async () => ({ modified: false }),
+    'Viewlet.save': async () => ({ modified: false }),
   })
   const state = { ...createDefaultState(), applicationId: 'source', uid: 10 }
   const opened = await openInput(state, { editorInput: { type: 'editor', uri: 'memfs:///main.ts' }, focus: false })

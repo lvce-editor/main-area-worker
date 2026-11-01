@@ -16,9 +16,9 @@ test('handleHeaderDoubleClick should return state unchanged when groupIndexRaw i
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -44,6 +44,7 @@ test('handleHeaderDoubleClick should return state unchanged when groupIndexRaw i
 test('handleHeaderDoubleClick should create a new untitled file when valid groupIndex is provided', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.focusSelector': async () => {},
   })
 
   const state: MainAreaState = {
@@ -55,9 +56,9 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -78,13 +79,19 @@ test('handleHeaderDoubleClick should create a new untitled file when valid group
 
   expect(result).not.toBe(state)
   expect(result.layout.groups[0].tabs.length).toBeGreaterThan(1)
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toHaveLength(1)
+  expect(
+    mockRpc.invocations.filter(
+      ([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending' && command !== 'Viewlet.focusSelector',
+    ),
+  ).toHaveLength(1)
   expect(mockRpc.invocations[0][0]).toBe('Layout.createViewlet')
+  expect(mockRpc.invocations).toContainEqual(['Viewlet.focusSelector', result.layout.groups[0].tabs[1].editorUid, '[name="editor"]'])
 })
 
 test('handleHeaderDoubleClick should add untitled tab to the active group', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.createViewlet': async () => {},
+    'Viewlet.focusSelector': async () => {},
   })
 
   const state: MainAreaState = {
@@ -96,9 +103,9 @@ test('handleHeaderDoubleClick should add untitled tab to the active group', asyn
         {
           activeTabId: 1,
           direction: 1,
-          focused: true,
           id: 1,
           isEmpty: false,
+          isFocused: true,
           size: 100,
           tabs: [
             {
@@ -122,6 +129,11 @@ test('handleHeaderDoubleClick should add untitled tab to the active group', asyn
 
   expect(untitledTab).toBeDefined()
   expect(untitledTab?.uri).toContain('untitled://')
-  expect(mockRpc.invocations.filter(([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending')).toHaveLength(1)
+  expect(
+    mockRpc.invocations.filter(
+      ([command]) => command !== 'Viewlet.getTitle' && command !== 'Layout.renderMainAreaPending' && command !== 'Viewlet.focusSelector',
+    ),
+  ).toHaveLength(1)
   expect(mockRpc.invocations[0][0]).toBe('Layout.createViewlet')
+  expect(mockRpc.invocations).toContainEqual(['Viewlet.focusSelector', untitledTab?.editorUid, '[name="editor"]'])
 })

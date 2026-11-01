@@ -1,7 +1,8 @@
 import { RendererWorker } from '@lvce-editor/rpc-registry'
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
-import { closeTabAndSave } from '../CloseTabAndSave/CloseTabAndSave.ts'
+import { closeTabWithViewlet } from '../CloseTabWithViewlet/CloseTabWithViewlet.ts'
 import { findGroupById } from '../FindGroupById/FindGroupById.ts'
+import { normalizeTabEditorInput } from '../NormalizeTabEditorInput/NormalizeTabEditorInput.ts'
 
 export const moveIntoNewWindow = async (state: MainAreaState): Promise<MainAreaState> => {
   const { layout } = state
@@ -15,9 +16,13 @@ export const moveIntoNewWindow = async (state: MainAreaState): Promise<MainAreaS
     return state
   }
   const tab = group.tabs.find((tab) => tab.id === activeTabId)
-  if (!tab?.uri) {
+  if (!tab || tab.terminal) {
     return state
   }
-  await RendererWorker.invoke('ElectronWindow.openNewWithUri', tab.uri)
-  return closeTabAndSave(state, group.id, activeTabId)
+  const editorInput = tab.editorInput ?? normalizeTabEditorInput(tab).editorInput
+  if (!editorInput) {
+    return state
+  }
+  await RendererWorker.invoke('ElectronWindow.openNewWithEditorInput', editorInput, tab.editorUid, tab.isDirty)
+  return closeTabWithViewlet(state, group.id, activeTabId)
 }

@@ -6,7 +6,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Main, W
   const tmpDir = await FileSystem.getTmpDir()
   const file = `${tmpDir}/restore-once.ts`
   await FileSystem.writeFile(file, 'restore once')
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Main.openUri(file)
   await Main.closeActiveEditor()
 

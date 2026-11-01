@@ -14,6 +14,8 @@ const evidence = process.env.LVCE_RESTORE_EVIDENCE_DIR
 const workspace = join(profile, 'workspace')
 const names = ['LICENSE', 'README.md', 'GetInspectorProcessId.test.ts']
 const contents = ['license content', '# Readme content', 'export const testValue = 42']
+// Keep these values in sync with packages/main-area-worker/src/parts/LoadingState/LoadingState.ts.
+const LoadingState = { Loading: 2, Loaded: 3 }
 const diagnostics = []
 const env = {
   ...process.env,
@@ -112,7 +114,7 @@ try {
   const incoming = group.tabs.find((tab) => tab.uri === uris[1])
   const pending = structuredClone(baseline)
   pending.layout.groups[0].activeTabId = incoming.id
-  pending.layout.groups[0].tabs.find((tab) => tab.id === incoming.id).loadingState = 'loading'
+  pending.layout.groups[0].tabs.find((tab) => tab.id === incoming.id).loadingState = LoadingState.Loading
   await page.evaluate(() => {
     const container = document.querySelector('.Main .EditorContainer')
     globalThis.paintSamples = []
@@ -169,7 +171,7 @@ try {
   }
   // Reattaching the outgoing editor below must preserve its original text, too.
   const ready = structuredClone(pending)
-  ready.layout.groups[0].tabs.find((tab) => tab.id === incoming.id).loadingState = 'loaded'
+  ready.layout.groups[0].tabs.find((tab) => tab.id === incoming.id).loadingState = LoadingState.Loaded
   await execute('ComponentState.setState', baseline.uid, ready)
   await verify(1)
   await expect(page.locator('.Main .EditorContainer')).not.toHaveAttribute('inert')

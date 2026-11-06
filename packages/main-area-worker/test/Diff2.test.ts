@@ -61,7 +61,7 @@ test('diff2 - should return RenderItems when tabs differ', () => {
               isDirty: false,
               isPreview: false,
               language: 'typescript',
-              loadingState: 'idle',
+              loadingState: 1,
               title: 'file1.txt',
               uri: '/test/file1.txt',
             },

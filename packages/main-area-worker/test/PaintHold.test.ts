@@ -10,7 +10,7 @@ import * as MainAreaStates from '../src/parts/MainAreaStates/MainAreaStates.ts'
 import { renderEditorGroup } from '../src/parts/RenderEditorGroup/RenderEditorGroup.ts'
 
 const invoke = jest.fn((..._args: readonly unknown[]) => undefined)
-const tab = (id: number, loadingState: Tab['loadingState'] = 'loaded'): Tab => ({
+const tab = (id: number, loadingState: Tab['loadingState'] = 3): Tab => ({
   editorUid: id + 100,
   icon: 'file.svg',
   id,
@@ -26,8 +26,8 @@ const initial = (): MainAreaState => ({
     activeGroupId: 1,
     direction: 1,
     groups: [
-      { activeTabId: 1, direction: 1, id: 1, isEmpty: false, isFocused: true, size: 50, tabs: [tab(1), tab(2, 'loading'), tab(3, 'loading')] },
-      { activeTabId: 4, direction: 1, id: 2, isEmpty: false, isFocused: false, size: 50, tabs: [tab(4), tab(5, 'loading')] },
+      { activeTabId: 1, direction: 1, id: 1, isEmpty: false, isFocused: true, size: 50, tabs: [tab(1), tab(2, 2), tab(3, 2)] },
+      { activeTabId: 4, direction: 1, id: 2, isEmpty: false, isFocused: false, size: 50, tabs: [tab(4), tab(5, 2)] },
     ],
   },
   uid: 1,
@@ -81,7 +81,7 @@ test('holds the outgoing reference, makes its container inert, and preserves the
   expect(invoke).toHaveBeenCalledWith('render', 1)
 })
 
-test.each(['loaded', 'error', 'binary', 'large'] as const)('finishes immediately on %s without a delayed spinner', async (loadingState) => {
+test.each([3, 5, 4, 6] as const)('finishes immediately on %s without a delayed spinner', async (loadingState) => {
   const held = commit(select(initial(), 2))
   const ready = commit({
     ...held,

@@ -3,6 +3,7 @@ import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import { ensureActiveGroup } from '../EnsureActiveGroup/EnsureActiveGroup.ts'
 import { focusEditorGroup } from '../FocusEditorGroup/FocusEditorGroup.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { updateTab } from '../UpdateTab/UpdateTab.ts'
 import { getUriTitle } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 
@@ -22,7 +23,7 @@ export const getStateWithTab = (
         editorInput,
         errorMessage: '',
         fileSize: undefined,
-        loadingState: 'loading',
+        loadingState: LoadingState.Loading,
         title,
         uri,
         uriTitle: getUriTitle(uri, currentState.homeDirUri || ''),

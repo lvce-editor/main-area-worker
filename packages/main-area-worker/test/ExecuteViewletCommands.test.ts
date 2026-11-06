@@ -58,7 +58,7 @@ test('executeViewletCommands creates a viewlet and marks its tab ready', async (
               id: 1,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loading',
+              loadingState: 2,
               title: 'Loading',
               uri: '/test.ts',
             },
@@ -77,7 +77,7 @@ test('executeViewletCommands creates a viewlet and marks its tab ready', async (
     ['Viewlet.getTitle', 7],
   ])
   expect(MainAreaStates.get(0).newState.layout.groups[0].tabs[0]).toMatchObject({
-    loadingState: 'loaded',
+    loadingState: 3,
     title: 'Rendered title',
   })
 })

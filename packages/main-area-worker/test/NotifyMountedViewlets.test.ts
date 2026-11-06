@@ -4,7 +4,7 @@ import type { MainAreaState } from '../src/parts/MainAreaState/MainAreaState.ts'
 import { createDefaultState } from '../src/parts/CreateDefaultState/CreateDefaultState.ts'
 import { notifyMountedViewlets } from '../src/parts/NotifyMountedViewlets/NotifyMountedViewlets.ts'
 
-const createState = (editorUid: number, loadingState: 'loaded' | 'loading' = 'loaded'): MainAreaState => ({
+const createState = (editorUid: number, loadingState: 3 | 2 = 3): MainAreaState => ({
   ...createDefaultState(),
   layout: {
     activeGroupId: 1,
@@ -46,7 +46,7 @@ test('publishes initial restoration and loading transitions', async () => {
   using mockRpc = RendererWorker.registerMockRpc({
     'Layout.setMountedViewlets': () => undefined,
   })
-  await notifyMountedViewlets(createState(101, 'loading'), createState(101, 'loaded'))
+  await notifyMountedViewlets(createState(101, 2), createState(101, 3))
   expect(mockRpc.invocations).toEqual([['Layout.setMountedViewlets', createDefaultState().uid, [101]]])
 })
 

@@ -261,7 +261,7 @@ test('selectTab switches before the outgoing editor finishes blurring', async ()
               id: 1,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'file1.txt',
               uri: '/file1.txt',
             },
@@ -272,7 +272,7 @@ test('selectTab switches before the outgoing editor finishes blurring', async ()
               id: 2,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'file2.txt',
               uri: '/file2.txt',
             },
@@ -954,7 +954,7 @@ test('selectTab should recreate restored process explorer tabs without loading t
               id: 2,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'file.txt',
               uri: '/path/to/file.txt',
             },
@@ -1060,7 +1060,7 @@ test('selectTab should handle tabs with paths and languages', async () => {
             isDirty: false,
             isPreview: false,
             language: 'html',
-            loadingState: 'loaded',
+            loadingState: 3,
             title: 'index.html',
             uri: '/path/to/index.html',
           },
@@ -1306,7 +1306,7 @@ test('selectTab should recover already active restored tab when editorUid is mis
               id: 1,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'File 1',
               uri: '/path/to/file-1.ts',
             },
@@ -1326,7 +1326,7 @@ test('selectTab should recover already active restored tab when editorUid is mis
   expect(result).not.toBe(state)
   expect(result.layout.groups[0].activeTabId).toBe(1)
   expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
-  expect(result.layout.groups[0].tabs[0].loadingState).toBe('loaded')
+  expect(result.layout.groups[0].tabs[0].loadingState).toBe(3)
 })
 
 test('selectTab should return new state when clicking different tab in same group', async () => {
@@ -1647,7 +1647,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
               id: 2,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loading',
+              loadingState: 2,
               title: 'File 2',
               uri: '/path/to/file.ts',
             },
@@ -1664,7 +1664,7 @@ test('selectTab should not trigger loading when tab is already loading', async (
     ['Layout.createViewlet', 'Editor', expect.any(Number), 2, expect.any(Object), '/path/to/file.ts'],
   ])
   expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
+  expect(result.layout.groups[0].tabs[1].loadingState).toBe(3)
 })
 
 test('selectTab focuses a loaded tab without reloading its content', async () => {
@@ -1699,7 +1699,7 @@ test('selectTab focuses a loaded tab without reloading its content', async () =>
               id: 2,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'File 2',
               uri: '/path/to/file.ts',
             },
@@ -1712,7 +1712,7 @@ test('selectTab focuses a loaded tab without reloading its content', async () =>
   const result = await selectTab(state, 0, 1)
 
   expect(result.layout.groups[0].activeTabId).toBe(2)
-  expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
+  expect(result.layout.groups[0].tabs[1].loadingState).toBe(3)
   expect(mockRpc.invocations).toEqual([['Viewlet.focusSelector', 42, '[name="editor"]']])
 })
 
@@ -1743,7 +1743,7 @@ test('selectTab should recover restored tab when loadingState is loaded but edit
               id: 1,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'File 1',
               uri: '/path/to/file-1.ts',
             },
@@ -1753,7 +1753,7 @@ test('selectTab should recover restored tab when loadingState is loaded but edit
               id: 2,
               isDirty: false,
               isPreview: false,
-              loadingState: 'loaded',
+              loadingState: 3,
               title: 'File 2',
               uri: '/path/to/file-2.ts',
             },
@@ -1772,5 +1772,5 @@ test('selectTab should recover restored tab when loadingState is loaded but edit
   ])
   expect(result.layout.groups[0].activeTabId).toBe(2)
   expect(result.layout.groups[0].tabs[1].editorUid).not.toBe(-1)
-  expect(result.layout.groups[0].tabs[1].loadingState).toBe('loaded')
+  expect(result.layout.groups[0].tabs[1].loadingState).toBe(3)
 })

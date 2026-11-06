@@ -1,4 +1,5 @@
 import type { MainAreaState, Tab } from '../../MainAreaState/MainAreaState.ts'
+import * as LoadingState from '../../LoadingState/LoadingState.ts'
 
 export const getUpdatedGroups = (
   groups: readonly MainAreaState['layout']['groups'][number][],
@@ -22,7 +23,7 @@ export const getUpdatedGroups = (
           return {
             ...tab,
             errorMessage: '',
-            loadingState: 'loading',
+            loadingState: LoadingState.Loading,
           }
         })
       : group.tabs

@@ -12,7 +12,7 @@ const tab: Tab = {
   id: 1,
   isDirty: false,
   isPreview: false,
-  loadingState: 'loaded',
+  loadingState: 3,
   title: 'file.ts',
   uri: '/file.ts',
 }
@@ -78,7 +78,7 @@ test('restoreClosedTab recreates an active process explorer viewlet', async () =
     id: 1,
     isDirty: false,
     isPreview: false,
-    loadingState: 'loaded',
+    loadingState: 3,
     title: 'Process Explorer',
     uri: 'process-explorer://',
   }

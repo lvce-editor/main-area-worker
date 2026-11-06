@@ -58,7 +58,7 @@ test('adopts the live uid and releases it without creating or disposing a shell'
   await receiveTerminal(context, drag)
   const state = context.getState()
   const tab = state.layout.groups[0].tabs[0]
-  expect(tab).toMatchObject({ editorUid: 300, isPreview: false, loadingState: 'loaded', terminal: true, title: 'bash' })
+  expect(tab).toMatchObject({ editorUid: 300, isPreview: false, loadingState: 3, terminal: true, title: 'bash' })
   expect(saveState(state).layout.groups[0].tabs).toEqual([])
   const commands = renderDragData(state, { ...state, pointerDownGroupIndex: 0, pointerDownTabIndex: 0 })
   expect(commands[2].items).toEqual([{ data: 'lvce-terminal:{"sourceUid":100,"terminalUid":300}', type: 'application/x-lvce-terminal' }])

@@ -6,6 +6,7 @@ import { findTabById } from '../FindTabById/FindTabById.ts'
 import { focus } from '../Focus/Focus.ts'
 import { getActiveTabId } from '../GetActiveTabId/GetActiveTabId.ts'
 import * as Id from '../Id/Id.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { get, set } from '../MainAreaStates/MainAreaStates.ts'
 import { openTab } from '../OpenTab/OpenTab.ts'
 import { getSelectedTabBounds } from '../SelectTab/GetSelectedTabBounds/GetSelectedTabBounds.ts'
@@ -70,7 +71,7 @@ export const newFile = async (state: MainAreaState): Promise<MainAreaState> => {
     isDirty: false,
     isPreview: false,
     language: 'plaintext',
-    loadingState: 'loading',
+    loadingState: LoadingState.Loading,
     title: 'Untitled',
     uri: 'untitled:///1',
   }

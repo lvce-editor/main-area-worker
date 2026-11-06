@@ -1,6 +1,7 @@
 import type { MainAreaState } from '../MainAreaState/MainAreaState.ts'
 import * as Id from '../Id/Id.ts'
 import * as LayoutDirection from '../LayoutDirection/LayoutDirection.ts'
+import * as LoadingState from '../LoadingState/LoadingState.ts'
 import { tryRestoreLayout } from '../TryRestoreLayout/TryRestoreLayout.ts'
 import { updateTabUriTitles } from '../UpdateTabUriTitles/UpdateTabUriTitles.ts'
 
@@ -17,15 +18,15 @@ export const loadContentShell = (state: MainAreaState, savedState: unknown): Mai
       groups: groups.map((group) => ({
         ...group,
         tabs: group.tabs.map((tab) => {
-          if (tab.id !== group.activeTabId || !tab.uri || tab.loadingState === 'binary') {
+          if (tab.id !== group.activeTabId || !tab.uri || tab.loadingState === LoadingState.Binary) {
             return tab
           }
-          return { ...tab, editorUid: Id.create(), loadingState: 'loading' }
+          return { ...tab, editorUid: Id.create(), loadingState: LoadingState.Loading }
         }),
       })),
     },
     pendingRestoreTabIds: groups.flatMap((group) =>
-      group.tabs.filter((tab) => tab.id === group.activeTabId && tab.uri && tab.loadingState !== 'binary').map((tab) => tab.id),
+      group.tabs.filter((tab) => tab.id === group.activeTabId && tab.uri && tab.loadingState !== LoadingState.Binary).map((tab) => tab.id),
     ),
   })
 }

@@ -38,7 +38,7 @@ test('restored tabs and loading content are ready without waiting for editor con
   })
   const result = loadContent(createDefaultState(), savedState)
   expect(result.layout.groups[0].tabs[0].title).toBe('slow.txt')
-  expect(result.layout.groups[0].tabs[0].loadingState).toBe('loading')
+  expect(result.layout.groups[0].tabs[0].loadingState).toBe(2)
   expect(rpc.invocations).toEqual([])
 })
 
@@ -104,7 +104,7 @@ test('opening another file while restoration is pending retains the new selectio
   const group = get(91).newState.layout.groups[0]
   expect(group.activeTabId).toBe(selectedTabId)
   expect(group.tabs.map((tab) => tab.uri)).toEqual(['file:///slow.txt', 'file:///new.txt'])
-  expect(group.tabs[0].loadingState).toBe('loaded')
+  expect(group.tabs[0].loadingState).toBe(3)
 })
 
 test('closing a pending restored tab disposes its late completion without resurrecting it', async () => {
@@ -138,11 +138,11 @@ test('a rejected restored editor displays its error and can be retried by openin
   })
   createShell()
   await commandMap['MainArea.loadContentLater'](91)
-  expect(get(91).newState.layout.groups[0].tabs[0]).toMatchObject({ errorMessage: 'File is unavailable', loadingState: 'error' })
+  expect(get(91).newState.layout.groups[0].tabs[0]).toMatchObject({ errorMessage: 'File is unavailable', loadingState: 5 })
   expect(rpc.invocations).toContainEqual(['Layout.getModuleId', 'file:///slow.txt'])
   rejectRestore = false
   await commandMap['MainArea.openUri'](91, 'file:///slow.txt', false)
-  expect(get(91).newState.layout.groups[0].tabs[0].loadingState).toBe('loaded')
+  expect(get(91).newState.layout.groups[0].tabs[0].loadingState).toBe(3)
 })
 
 test('a disposed registry instance is not recreated by delayed restoration', async () => {
@@ -210,11 +210,11 @@ test('split groups restore independently while an optional workspace lookup is p
     },
   })
   const restoration = commandMap['MainArea.loadContentLater'](91)
-  for (let i = 0; i < 100 && get(91).newState.layout.groups[1].tabs[0].loadingState !== 'loaded'; i++) {
+  for (let i = 0; i < 100 && get(91).newState.layout.groups[1].tabs[0].loadingState !== 3; i++) {
     await Promise.resolve()
   }
-  expect(get(91).newState.layout.groups[1].tabs[0].loadingState).toBe('loaded')
-  expect(get(91).newState.layout.groups[0].tabs[0].loadingState).toBe('loading')
+  expect(get(91).newState.layout.groups[1].tabs[0].loadingState).toBe(3)
+  expect(get(91).newState.layout.groups[0].tabs[0].loadingState).toBe(2)
   homeDir.resolve('/home/user')
   slowContent.resolve()
   await restoration
@@ -228,7 +228,7 @@ test('unsupported restored editor types leave an error instead of permanently lo
   using rpc = RendererWorker.registerMockRpc({ ...rpcCommands, 'Layout.getModuleId': async () => undefined })
   createShell()
   await commandMap['MainArea.loadContentLater'](91)
-  expect(get(91).newState.layout.groups[0].tabs[0]).toMatchObject({ editorUid: -1, loadingState: 'error' })
+  expect(get(91).newState.layout.groups[0].tabs[0]).toMatchObject({ editorUid: -1, loadingState: 5 })
   expect(rpc.invocations.some(([command]) => command === 'Layout.createViewlet')).toBe(false)
 })
 
@@ -259,7 +259,7 @@ test('the shell preserves inactive and binary tabs without starting editors for 
       ],
     },
   })
-  expect(state.layout.groups[0].tabs[0]).toMatchObject({ editorUid: -1, loadingState: 'binary' })
+  expect(state.layout.groups[0].tabs[0]).toMatchObject({ editorUid: -1, loadingState: 4 })
   expect(state.layout.groups[0].tabs[1].editorUid).toBe(-1)
   expect(loadContent(createDefaultState(), undefined).layout.groups).toEqual([])
 })
@@ -300,7 +300,7 @@ test('late title lookup cannot restore a closed tab', async () => {
   for (let i = 0; i < 100 && rpc.invocations.every(([command]) => command !== 'Viewlet.getTitle'); i++) {
     await Promise.resolve()
   }
-  expect(get(91).newState.layout.groups[0].tabs[0].loadingState).toBe('loaded')
+  expect(get(91).newState.layout.groups[0].tabs[0].loadingState).toBe(3)
   await commandMap['MainArea.closeAll'](91)
   title.resolve('obsolete title')
   await restoration
@@ -374,7 +374,7 @@ test('opening a file before deferred restoration starts still loads the restored
   await commandMap['MainArea.loadContentLater'](91)
   const group = get(91).newState.layout.groups[0]
   expect(group.activeTabId).toBe(selectedId)
-  expect(group.tabs[0].loadingState).toBe('loaded')
+  expect(group.tabs[0].loadingState).toBe(3)
   expect(rpc.invocations.filter((invocation) => invocation[0] === 'Layout.createViewlet' && invocation[5] === 'file:///slow.txt')).toHaveLength(1)
 })
 

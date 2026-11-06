@@ -84,7 +84,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: lvce-editor/lvce-editor
-          ref: ca2a9b0203c3fbd10cbdc762f09d2f2cbfb67c67
+          ref: c97b9e509450980769dd6e25756dcf69cf17d508
           path: .tmp/electron-application
       - name: Install matching application runtime
         working-directory: .tmp/electron-application

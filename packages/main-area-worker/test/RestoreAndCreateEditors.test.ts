@@ -420,3 +420,48 @@ test('restoreAndCreateEditors should restore diff editor inputs without Layout.g
   ])
   expect(result.layout.groups[0].tabs[0].editorUid).not.toBe(-1)
 })
+
+test('hot reload recreates inactive drafts in every group without changing selection', async () => {
+  const tabs = ['file:///saved.txt', 'untitled://1'].map((uri, index) => ({
+    editorUid: -1,
+    icon: '',
+    id: index + 10,
+    isDirty: true,
+    isPreview: false,
+    title: uri,
+    uri,
+  }))
+  const layout: MainAreaLayout = {
+    activeGroupId: 2,
+    direction: 1,
+    groups: [
+      { activeTabId: 10, direction: 1, id: 1, isEmpty: false, isFocused: false, size: 50, tabs },
+      {
+        activeTabId: 30,
+        direction: 1,
+        id: 2,
+        isEmpty: false,
+        isFocused: true,
+        size: 50,
+        tabs: [{ editorUid: -1, icon: '', id: 30, isDirty: false, isPreview: false, title: 'file:///other.txt', uri: 'file:///other.txt' }],
+      },
+    ],
+  }
+  using mockRpc = RendererWorker.registerMockRpc({
+    'Layout.createViewlet': async () => {},
+    'Layout.getModuleId': async () => 'EditorText',
+    'Viewlet.getTitle': async () => 'Draft',
+  })
+  const restored = await restoreAndCreateEditors(createDefaultState(), layout, true)
+  expect(restored.layout.groups.flatMap((group) => group.tabs.map((tab) => tab.editorUid))).toEqual([
+    expect.any(Number),
+    expect.any(Number),
+    expect.any(Number),
+  ])
+  expect(restored.layout.activeGroupId).toBe(2)
+  expect(restored.layout.groups.map((group) => group.activeTabId)).toEqual([10, 30])
+  expect(mockRpc.invocations.filter((call) => call[0] === 'Layout.createViewlet').map((call) => call[5])).toEqual([
+    ...tabs.map((tab) => tab.uri),
+    'file:///other.txt',
+  ])
+})

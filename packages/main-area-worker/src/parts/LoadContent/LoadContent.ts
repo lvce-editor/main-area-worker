@@ -15,7 +15,7 @@ export const loadContent = async (state: MainAreaState, savedState: unknown): Pr
   const restoredLayout = tryRestoreLayout(savedState)
   if (restoredLayout) {
     // Restore and create editors
-    const editorState = await restoreAndCreateEditors(stateWithHomeDir, restoredLayout)
+    const editorState = await restoreAndCreateEditors(stateWithHomeDir, restoredLayout, (savedState as { hotReload?: boolean }).hotReload === true)
 
     // Load file icons with the updated editor state
     const { fileIconCache, updatedLayout } = await loadFileIcons(editorState)

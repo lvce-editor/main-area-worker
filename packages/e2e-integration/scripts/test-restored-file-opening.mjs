@@ -180,8 +180,47 @@ try {
   await verify(0)
   if ((await execute('GetActiveEditor.getTextDocument')).text !== contents[0]) throw new Error('Keyboard probe edited outgoing content')
   if (outgoing.editorUid === incoming.editorUid) throw new Error('Expected independent editor viewlets')
+  const draftContents = new Map([
+    [uris[0], 'unsaved inactive file'],
+    [uris[1], 'unsaved saved file'],
+  ])
+  await execute('Main.openUri', 'untitled://1')
+  const untitledState = await getMainState()
+  const untitledGroup = untitledState.layout.groups.find((group) => group.id === untitledState.layout.activeGroupId)
+  const untitledTab = untitledGroup?.tabs.find((tab) => tab.uri.startsWith('untitled:'))
+  if (!untitledTab || untitledGroup.activeTabId !== untitledTab.id) throw new Error('Could not select the untitled draft tab')
+  draftContents.set(untitledTab.uri, 'unsaved untitled file')
+  for (const [uri, text] of draftContents) {
+    await execute('Main.openUri', uri)
+    await execute('Viewlet.executeViewletCommand', await execute('GetActiveEditor.getActiveEditorId'), 'setText', text)
+  }
+  const beforeHotReload = await getMainState()
+  const mainViewlet = await execute('Viewlet.getAllStates').then((states) => Object.values(states).find(({ moduleId }) => moduleId === 'Main'))
+  await execute('Viewlet.executeViewletCommand', mainViewlet.uid, 'hotReload')
+  const afterHotReload = await getMainState()
+  if (afterHotReload.layout.activeGroupId !== beforeHotReload.layout.activeGroupId) throw new Error('Hot reload changed the selected editor group')
+  const groupBefore = beforeHotReload.layout.groups.find((group) => group.id === beforeHotReload.layout.activeGroupId)
+  const groupAfter = afterHotReload.layout.groups.find((group) => group.id === afterHotReload.layout.activeGroupId)
+  if (groupAfter?.activeTabId !== groupBefore?.activeTabId) {
+    throw new Error(`Hot reload changed the selected tab: before=${JSON.stringify(groupBefore)} after=${JSON.stringify(groupAfter)}`)
+  }
+  if (!afterHotReload.layout.groups.flatMap((group) => group.tabs).every((tab) => !draftContents.has(tab.uri) || tab.isDirty)) {
+    throw new Error('Hot reload did not preserve dirty flags')
+  }
+  for (const [uri, text] of draftContents) {
+    await execute('Main.openUri', uri)
+    await expect(page.locator('.MainTabSelected')).toBeVisible()
+    await expect(page.locator('.Main .Editor')).toContainText(text)
+    const textDocument = await execute('GetActiveEditor.getTextDocument')
+    if (textDocument.text !== text) {
+      throw new Error(
+        `Hot reload did not preserve draft content for ${uri}: document=${JSON.stringify(textDocument)} layout=${JSON.stringify(afterHotReload.layout)}`,
+      )
+    }
+  }
+  await expect(page.locator('.MainTabModified')).toHaveCount(3)
   await capture('passed')
-  console.log('PASS restored file opens, repeated tab clicks, live-state inspector, and inert 100 ms paint holding')
+  console.log('PASS restored file opens, hot reload preserves saved and untitled drafts, repeated tab clicks, and inert 100 ms paint holding')
 } catch (error) {
   await capture('failed').catch(() => {})
   throw error

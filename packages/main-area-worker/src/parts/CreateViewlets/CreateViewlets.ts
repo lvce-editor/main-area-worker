@@ -9,15 +9,19 @@ interface CreatedViewlets {
   readonly titles: Record<string, string>
 }
 
-export const createViewlets = async (state: MainAreaState, viewletModuleIds: Record<string, string>): Promise<CreatedViewlets> => {
+export const createViewlets = async (
+  state: MainAreaState,
+  viewletModuleIds: Record<string, string>,
+  restoreAll = false,
+): Promise<CreatedViewlets> => {
   const { layout } = state
   const { groups } = layout
   const editorUids: Record<string, number> = {}
   const titles: Record<string, string> = {}
 
   for (const group of groups) {
-    const activeTab = group.tabs.find((tab: Tab) => tab.id === group.activeTabId)
-    if (activeTab && viewletModuleIds[activeTab.id]) {
+    const selectedTabs = group.tabs.filter((tab: Tab) => (restoreAll || tab.id === group.activeTabId) && viewletModuleIds[tab.id])
+    for (const activeTab of selectedTabs) {
       const editorUid = activeTab.editorUid === -1 ? Id.create() : activeTab.editorUid
       editorUids[activeTab.id] = editorUid
 

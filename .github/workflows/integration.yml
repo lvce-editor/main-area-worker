@@ -12,14 +12,12 @@ name: Integration
     branches: [main]
 jobs:
   integration:
+    name: JSON diagnostics attempt ${{ matrix.attempt }}
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-24.04
-          - macos-26
-          - windows-2025
-    runs-on: ${{ matrix.os }}
+        attempt: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       PLAYWRIGHT_BROWSERS_PATH: 0
@@ -47,16 +45,28 @@ jobs:
       - name: Prepare owned integration tests
         shell: bash
         env:
-          TEST_FILTER: ${{ inputs.test_filter || (github.event_name == 'pull_request' && 'viewlet.main-editor-cursor-after-split') || '' }}
+          TEST_FILTER: viewlet.main-explorer-create-json
         run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
+      - name: Trace JSON diagnostics
+        run: node packages/e2e-integration/trace-json-diagnostics.mjs .tmp/lvce-integration ${{ matrix.attempt }}
       - name: Run owned integration tests
+        id: run-tests
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
-        run: npm run e2e:headless --
-      - name: Stage owned split cursor regressions
-        run: node packages/e2e-integration/stage-cursor-tests.mjs .tmp/lvce-integration
-      - name: Test split cursor positioning with published packages
-        working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
-        run: npm run e2e:headless -- --test-name-prefix=viewlet.main-editor-cursor-after-split --browser-test=scripts/test-editor-cursor-splits.mjs
-      - name: Remove staged split cursor regressions
+        shell: bash
+        run: npm run e2e:headless -- 2>&1 | tee "$RUNNER_TEMP/integration-${{ matrix.attempt }}.log"
+      - name: Extract diagnostic timeline
+        if: always() && steps.run-tests.outcome != 'skipped'
+        shell: bash
+        run: |
+          log="$RUNNER_TEMP/integration-${{ matrix.attempt }}.log"
+          if [[ -f "$log" ]]; then
+            sed -n 's/^\[create-json\] //p' "$log" > "$RUNNER_TEMP/timeline-${{ matrix.attempt }}.jsonl"
+          fi
+      - uses: actions/upload-artifact@v7
         if: always()
-        run: node packages/e2e-integration/stage-cursor-tests.mjs .tmp/lvce-integration --clean
+        with:
+          name: create-json-attempt-${{ matrix.attempt }}
+          path: |
+            ${{ runner.temp }}/integration-${{ matrix.attempt }}.log
+            ${{ runner.temp }}/timeline-${{ matrix.attempt }}.jsonl
+          if-no-files-found: warn

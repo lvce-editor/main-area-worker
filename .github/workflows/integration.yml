@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        attempt: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
@@ -45,15 +45,28 @@ jobs:
       - name: Prepare owned integration tests
         shell: bash
         env:
-          TEST_FILTER: ${{ inputs.test_filter || '' }}
+          TEST_FILTER: viewlet.main-explorer-create-json
         run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
+      - name: Trace JSON diagnostics
+        run: node packages/e2e-integration/trace-json-diagnostics.mjs .tmp/lvce-integration ${{ matrix.attempt }}
       - name: Run owned integration tests
+        id: run-tests
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
         shell: bash
         run: npm run e2e:headless -- 2>&1 | tee "$RUNNER_TEMP/integration-${{ matrix.attempt }}.log"
+      - name: Extract diagnostic timeline
+        if: always() && steps.run-tests.outcome != 'skipped'
+        shell: bash
+        run: |
+          log="$RUNNER_TEMP/integration-${{ matrix.attempt }}.log"
+          if [[ -f "$log" ]]; then
+            sed -n 's/^\[create-json\] //p' "$log" > "$RUNNER_TEMP/timeline-${{ matrix.attempt }}.jsonl"
+          fi
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: create-json-attempt-${{ matrix.attempt }}
-          path: ${{ runner.temp }}/integration-${{ matrix.attempt }}.log
+          path: |
+            ${{ runner.temp }}/integration-${{ matrix.attempt }}.log
+            ${{ runner.temp }}/timeline-${{ matrix.attempt }}.jsonl
           if-no-files-found: warn

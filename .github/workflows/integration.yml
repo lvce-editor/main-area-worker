@@ -47,11 +47,18 @@ jobs:
       - name: Prepare owned integration tests
         shell: bash
         env:
-          TEST_FILTER: ${{ inputs.test_filter || (github.event_name == 'pull_request' && 'viewlet.main-editor-cursor-after-split') || '' }}
+          TEST_FILTER: ${{ inputs.test_filter || '' }}
         run: node packages/e2e-integration/prepare.mjs .tmp/lvce-integration "$TEST_FILTER"
       - name: Run owned integration tests
         working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
-        run: npm run e2e:headless --
+        shell: bash
+        env:
+          TEST_NAME_PREFIX: ${{ github.event_name == 'pull_request' && 'viewlet.main-editor-cursor-after-split' || '' }}
+        run: npm run e2e:headless -- "--test-name-prefix=$TEST_NAME_PREFIX"
+      - name: Test JSON diagnostics after creating a file
+        if: github.event_name == 'pull_request'
+        working-directory: .tmp/lvce-integration/packages/extension-host-worker-tests
+        run: npm run e2e:headless -- --test-name-prefix=viewlet.main-explorer-create-json
       - name: Stage owned split cursor regressions
         run: node packages/e2e-integration/stage-cursor-tests.mjs .tmp/lvce-integration
       - name: Test split cursor positioning with published packages

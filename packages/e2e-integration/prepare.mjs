@@ -48,8 +48,9 @@ for (const [from, to] of config.artifacts) {
   await cp(join(owner, from), target, { recursive: true })
 }
 
-// Source browser runs need the webview configuration normally produced by BuildStatic.
+// Source browser runs need the extension and webview metadata normally produced by BuildStatic.
 const extensionRoot = join(application, 'extensions')
+const extensions = []
 const webViews = []
 for (const name of await readdir(extensionRoot)) {
   const extensionPath = join(extensionRoot, name)
@@ -59,8 +60,14 @@ for (const name of await readdir(extensionRoot)) {
       if (error.code !== 'ENOENT' && error.code !== 'ENOTDIR') throw error
       return undefined
     })
-  for (const webView of extension?.webViews || []) {
-    webViews.push({ ...webView, remotePath: `/remote/${pathToFileURL(extensionPath).toString().slice(8)}` })
+  if (!extension) continue
+  const remotePath = `/remote${pathToFileURL(extensionPath).pathname}`
+  if (extension.compatibility?.web !== false) {
+    extensions.push({ ...extension, builtin: true, path: remotePath })
+  }
+  for (const webView of extension.webViews || []) {
+    webViews.push({ ...webView, remotePath })
   }
 }
+await writeFile(join(application, 'static/config/extensions.json'), JSON.stringify(extensions, null, 2) + '\n')
 await writeFile(join(application, 'static/config/webViews.json'), JSON.stringify(webViews, null, 2) + '\n')
